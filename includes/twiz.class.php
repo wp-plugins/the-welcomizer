@@ -585,6 +585,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 .twiz-caption{
 	height:30px;
 	text-align:left;
+	font-size:12px;
 }
 .twiz-td-left{
 	width:190px;
@@ -598,7 +599,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	text-align:left;
 }
 .twiz-td-small-left{
-	width:30px;
+	width:40px;
 	font-size:12px;
 }								
 .twiz-td-save{
@@ -629,6 +630,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 }
 a.twiz-more-options:hover{
 	cursor:pointer;
+}
+.twiz-more-options{
+	font-size:12px;
 }
 .twiz-td-e-g{
 line-height:15px;
