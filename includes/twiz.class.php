@@ -105,7 +105,9 @@ class Twiz{
 	color:#777777;
 	text-shadow:2px 2px 6px #666666;
 	border:1px solid #D1D1D1;
-	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
 	display:table-cell;
 	width:350px;
 	padding:5px 0 0 5px;
@@ -144,6 +146,8 @@ class Twiz{
 	text-shadow:2px 2px 6px #666666;
 	border:1px solid #D1D1D1;
 	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
 	display:table-cell;
 	width:350px;
 	padding:5px;
@@ -333,9 +337,13 @@ var bind_Number_Restriction = function() {
 }	
 .twiz-table-list-tr-h{
 	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
 }	
 .twiz-table-list tr:hover{
 	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
 }	
 .twiz-table-list img:hover{
 	cursor:pointer;
