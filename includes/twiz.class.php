@@ -111,6 +111,10 @@ class Twiz{
 	padding:5px 0 0 5px;
 	-moz-border-radius-topleft:6px;
 	-moz-border-radius-topright:6px;
+	-webkit-border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-khtml-border-radius-topleft:6px;
+	-khtml-border-radius-topright:6px;
 }
 #twiz_header img{
 	width:80px;
@@ -145,6 +149,11 @@ class Twiz{
 	padding:5px;
 	-moz-border-radius-bottomleft:6px;
 	-moz-border-radius-bottomright:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-khtml-border-radius-bottomleft:6px;
+	-khtml-border-radius-bottomright:6px;
+	
 }
 #twiz_footer a{text-decoration:none;}
 #twiz_footer a:hover{text-decoration:underline;}
