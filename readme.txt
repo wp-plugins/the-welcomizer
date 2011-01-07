@@ -15,6 +15,8 @@ Currently triggered on the home page, this plugin helps you to easily add 'Smart
 
 Take a look at the results -> http://www.sebastien-laframboise.com
 
+or this one -> http://www.sebastien-laframboise.com/go-green/
+
 More information can be found at http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/
 
 Enjoy!
