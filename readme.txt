@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, welcomizeur, animation, animate, welcome, div, opacity, effects
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 
 This plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element.
