@@ -43,7 +43,7 @@ Enjoy!
 
 == Screenshots ==
 
-1. List panel ordered by Delay. screenshot-1.png 
+1. List panel ordered by Delay.
 2. Panel when adding a new movement. 
 3. Panel when editing an existing movement .
 
