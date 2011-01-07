@@ -13,7 +13,7 @@ This plugin helps you to easily add 'Smart' moves and jQuery effects to almost a
 
 Currently triggered on the home page, this plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element that have an ID attribute(e.g. div id="sidebar").  
 
-My Welcomizer effects on my home page -> http://www.sebastien-laframboise.com
+Take a look at the results -> http://www.sebastien-laframboise.com
 
 More information can be found at http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/ (in French)
 
