@@ -51,7 +51,7 @@ class Twiz{
 		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.0';
+		$this->version 	   = 'v1.1';
 		$this->dbversion   = 'v1.0';
 		$this->logoUrl 	   = '/images/twiz-logo.png';
 	}

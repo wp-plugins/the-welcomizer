@@ -1,7 +1,7 @@
 <?
 /*
 Plugin Name: The Welcomizer
-Version: 1.0
+Version: 1.1
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: Currently triggered on the home page, this plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element that have an ID attribute(e.g. div id="sidebar"). Enjoy!
 Author: Sebastien Laframboise
