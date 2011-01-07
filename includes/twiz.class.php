@@ -740,7 +740,7 @@ line-height:15px;
 			</select><input class="twiz-input twiz-input-small" id="twiz_move_left_position_a" name="twiz_move_left_position_a" type="text" value="'.$data['move_left_pos_a'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
 			<table class="twiz-table-more-options">
 				<tr><td colspan="2"><hr></td></tr>
-				<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_a" name="twiz_options_a" type="text" >'.$data['options_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').'<br>
+				<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_a" name="twiz_options_a" type="text" >'.$data['options_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').' <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a><br>
 				width:"200px"<br>
 				opacity:0.5</small>
 				</td></tr>		
@@ -764,9 +764,10 @@ line-height:15px;
 		</table>
 		<table class="twiz-table-more-options">
 			<tr><td colspan="2"><hr></td></tr>
-			<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_b" name="twiz_options_b" type="text">'.$data['options_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').'<br> 
+			<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_b" name="twiz_options_b" type="text">'.$data['options_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').' <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a><br> 
 				width:"100px"<br>
-				opacity:1</small></td></tr>		
+				opacity:1</small>
+				</td></tr>		
 			<tr><td colspan="2"><hr></td></tr>
 			<tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data['extra_js_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').'<br>$(this).css({<br>position:"static"});</small></td></tr>
 		</table>
