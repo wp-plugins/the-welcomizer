@@ -31,7 +31,7 @@ Enjoy!
 * Optional css position: nothing, relative(by default), absolute
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional second move on the same editing panel. (Usefull to make an easy back and forth.)
-* Optional custom options textbox, for more custom options.( Google -> jquery animate )
+* Optional custom options textbox, for more custom options.
 * Optional custom JavaScript textbox, triggered after each move.
 * Unlimited number of movements(More than 3 movements at the same time delay is not recommended)
 * Clean uninstallation, means all the data is erased on plugin deactivation.
