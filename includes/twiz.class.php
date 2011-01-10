@@ -427,7 +427,7 @@ var bind_Number_Restriction = function() {
 	
 		global $wpdb;
 		
-		if($id!=""){ // add new
+		if($id!=""){ 
 		 
 			$sql = "DELETE from ".$this->table." where id='".$id."';";
 

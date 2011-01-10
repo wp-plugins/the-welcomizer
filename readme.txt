@@ -85,4 +85,4 @@ This is the first release.
 The Welcomizer is currently available in the following languages:
 
 * English
-* FranÃ§ais 
+* Français 
