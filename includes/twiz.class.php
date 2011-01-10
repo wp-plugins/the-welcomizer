@@ -33,14 +33,16 @@ class Twiz{
 	const ACTION_EDIT 	= 'edit';
 	const ACTION_DELETE	= 'delete';
 	const ACTION_STATUS	= 'status';
+	const ACTION_ID_LIST = 'idlist';
 	
 	/* action type array */
-	var $actiontypes = array('ACTION_SAVE'   => self::ACTION_SAVE 	// form action
-							,'ACTION_CANCEL' => self::ACTION_CANCEL // form action
-							,'ACTION_NEW'    => self::ACTION_NEW	// list action
-							,'ACTION_EDIT'   => self::ACTION_EDIT	// list action
-							,'ACTION_DELETE' => self::ACTION_DELETE // list action
-							,'ACTION_STATUS' => self::ACTION_STATUS // list action
+	var $actiontypes = array('ACTION_SAVE'    => self::ACTION_SAVE 	// form action
+							,'ACTION_CANCEL'  => self::ACTION_CANCEL // form action
+							,'ACTION_ID_LIST' => self::ACTION_ID_LIST // form action
+							,'ACTION_NEW'     => self::ACTION_NEW	// list action
+							,'ACTION_EDIT'    => self::ACTION_EDIT	// list action
+							,'ACTION_DELETE'  => self::ACTION_DELETE // list action
+							,'ACTION_STATUS'  => self::ACTION_STATUS // list action
 							);
 	
 	function __construct(){
@@ -51,7 +53,7 @@ class Twiz{
 		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.1';
+		$this->version 	   = 'v1.2';
 		$this->dbversion   = 'v1.0';
 		$this->logoUrl 	   = '/images/twiz-logo.png';
 	}
@@ -184,7 +186,7 @@ class Twiz{
 	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "new"}, function(data) {
 			$("#twiz_container").html(data);
 			$("#twiz_container").fadeIn("fast");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();
+			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 		});
     });
   }
@@ -219,7 +221,7 @@ class Twiz{
 			$("img[name^=twiz_status]").unbind("click");
 			$("img[name^=twiz_edit]").unbind("click");
 			$("img[name^=twiz_save]").unbind("click");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();
+			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 		});
     });
    }
@@ -249,7 +251,7 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();
+		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 	});
    });
   }
@@ -286,7 +288,7 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();
+		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 		setTimeout(function(){
 		$("#twiz_messagebox").hide("slow");
 		}, hide_MessageDelay);	
@@ -319,9 +321,25 @@ var bind_Number_Restriction = function() {
 		$(".twiz-more-options").click(function(){
 			$(".twiz-table-more-options").toggle();
 		});
+
 	}
+	
+	var bind_Choose_FromId = function() {
+		$("#twiz_choose_fromId").click(function(){
+			$("#twiz_td_full_right").html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
+			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "idlist"}, function(data) {
+			$("#twiz_td_full_right").html(data);
+			bind_Select_Id();
+		});
+		});
+	}	
+	var bind_Select_Id = function() {
+		$("#twiz_slc_id").change(function(){
+				$("#twiz_layer_id").attr({value: $(this).val()});
+		});
+	}	
 	$("#twiz_container").show("slow");
-	bind_More_Options();bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();
+	bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
  });
  //]]>
 </script>';
@@ -387,13 +405,13 @@ var bind_Number_Restriction = function() {
 		
 		$htmllist = $csscript.$opendiv.'<table class="twiz-table-list" cellspacing="0">';
 		
-		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Layer ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Delay', 'the-welcomizer').' <b>&#8681;</b></td><td class="twiz-table-list-td-h twiz-td-right">'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Action', 'the-welcomizer').'</td></tr>';
+		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Delay', 'the-welcomizer').' <b>&#8681;</b></td><td class="twiz-table-list-td-h twiz-td-right">'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Action', 'the-welcomizer').'</td></tr>';
 		
 		 foreach($listarray as $key=>$value){
 			
 			$rowcolor= ($rowcolor=='twiz-row-color-1')?'twiz-row-color-2':'twiz-row-color-1';
 			
-			$statushtmlimg = ($value['status']=='1')? $this->getHtmlimgStatus($value['id'], 'active'):$this->getHtmlimgStatus($value['id'], 'inactive');
+			$statushtmlimg = ($value['status']=='1')? $this->getHtmlImgStatus($value['id'], 'active'):$this->getHtmlImgStatus($value['id'], 'inactive');
 		
 			$htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-right">'.$value['start_delay'].'</td><td class="twiz-td-right">'.$value['duration'].'</td><td class="twiz-td-right twiz-td-action"><img  src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->plugin_url.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->plugin_url.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
 		 
@@ -541,45 +559,6 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	}
 
 	
-	private function getListArray($where){ 
-	
-		global $wpdb;
-
-		$sql = "SELECT * from ".$this->table.$where." order by start_delay";
-		$rows = $wpdb->get_results($sql, ARRAY_A);
-		
-		return $rows;
-	}
-	
-	
-	private function getRow($id){ 
-	
-		global $wpdb;
-		
-		if($id==''){return false;}
-	
-		$sql = "SELECT * from ".$this->table." where id='".$id."'";
-		$row = $wpdb->get_row($sql, ARRAY_A);
-		
-		return $row;
-	}
-
-	
-	function getHtmlList(){ 
-		
-		
-		$listarray = $this->getListArray(); // get all the data
-		
-		if(count($listarray)==0){ // if, display the default new form
-			
-			return $this->getHtmlForm(); 
-			
-		}else{ // else display the list
-		
-			return $this->createHtmlList($listarray); // private
-		}
-		
-	}
 
 	function getHtmlForm($id){ 
 		
@@ -588,7 +567,6 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		}
 		 
 		$csscript = '<style type="text/css">
-	
 .twiz-table-form{
 	margin-bottom:15px;
 	margin-top:10px;
@@ -614,6 +592,15 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	padding:2px;
 	font-size:12px;
 	text-align:left;
+}
+#twiz_td_full_right{
+	text-align:right;
+	font-size:12px;
+	padding:2px 10px 2px 2px;
+	height:30px;
+}
+#twiz_td_full_right a:hover{
+		cursor:pointer;
 }
 .twiz-td-small-left{
 	width:40px;
@@ -693,7 +680,8 @@ line-height:15px;
 		$htmlform = $csscript.$opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-td-left">'.__('Status', 'the-welcomizer').':</td>
 <td class="twiz-td-right"><input type="checkbox" id="twiz_status" name="twiz_status" '.$twiz_status.'></td></tr>
-<tr><td class="twiz-td-left">'.__('Layer ID', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data['layer_id'].'" maxlength="50"></td></tr>
+<tr><td class="twiz-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data['layer_id'].'" maxlength="50"></td></tr>
+<tr><td colspan="2" id="twiz_td_full_right"><a id="twiz_choose_fromId" name="twiz_choose_fromId">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
 <tr><td class="twiz-td-left">'.__('Start delay', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_start_delay" name="twiz_start_delay" type="text" value="'.$data['start_delay'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td class="twiz-td-left">'.__('Duration', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_duration" name="twiz_duration" type="text" value="'.$data['duration'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -778,13 +766,60 @@ line-height:15px;
 	
 		return $htmlform;
 	}
+
 	
+	private function getListArray($where){ 
 	
-	private function getHtmlimgStatus($id, $status){
+		global $wpdb;
+
+		$sql = "SELECT * from ".$this->table.$where." order by start_delay";
+		$rows = $wpdb->get_results($sql, ARRAY_A);
+		
+		return $rows;
+	}
+	
+
+	function getHtmlList(){ 
+		
+		
+		$listarray = $this->getListArray(); // get all the data
+		
+		if(count($listarray)==0){ // if, display the default new form
+			
+			return $this->getHtmlForm(); 
+			
+		}else{ // else display the list
+		
+			return $this->createHtmlList($listarray); // private
+		}
+		
+	}
+	
+		
+	private function getHtmlImgStatus($id, $status){
 	
 		return '<img src="'.$this->plugin_url.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'"><img src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
 	}
+	
+	
+    function getHtmlIdList(){
+	
+			$html = file_get_html(get_option('siteurl'));
+		
+			$select = '<select name="twiz_slc_id" id="twiz_slc_id">';
+			
+			$select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
+			
+			foreach ($html->find('[id]') as $element){
+					
+					$select .= '<option value="'.$element->id.'">'.$element->id.'</option>';
+			}
+			
+			$select .= '</select>';
+			
+			return $select;
+	}	
 	
 	
 	function getHtmlSuccess($id, $message){
@@ -809,6 +844,19 @@ line-height:15px;
 	}
 		
 		
+	private function getRow($id){ 
+	
+		global $wpdb;
+		
+		if($id==''){return false;}
+	
+		$sql = "SELECT * from ".$this->table." where id='".$id."'";
+		$row = $wpdb->get_row($sql, ARRAY_A);
+		
+		return $row;
+	}
+
+	
 	private function replaceNumericEntities($value){
 			
 		/* entities array */
@@ -953,9 +1001,9 @@ line-height:15px;
 		$code = $wpdb->query($sql);
 		
 		if($code){
-			$htmlstatus = ($newstatus=='1')? $this->getHtmlimgStatus($id,'active'):$this->getHtmlimgStatus($id,'inactive');
+			$htmlstatus = ($newstatus=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
 		}else{ 
-			$htmlstatus = ($row['status']=='1')? $this->getHtmlimgStatus($id,'active'):$this->getHtmlimgStatus($id,'inactive');
+			$htmlstatus = ($row['status']=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
 		}
 		
 		return $htmlstatus;

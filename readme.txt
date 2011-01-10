@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, welcomizeur, animation, animate, welcome, div, opacity, effects
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2
 
 This plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element.
@@ -24,7 +24,7 @@ Enjoy!
 == Features ==
 
 * Multilingual Ready
-* Coded 100% AJAX via the POST method
+* Pick an Id from a List of element ids.
 * Activate or deactivate a movement on the fly.
 * Delay and duration of a movement are in milliseconds.
 * Optional starting position: Top, Left.
@@ -41,7 +41,7 @@ Enjoy!
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Find the plugin under the menu 'Appearance'
-4. Configure your first movement.
+4. Configure and save your first movement.
 
 == Screenshots ==
 
@@ -50,6 +50,10 @@ Enjoy!
 3. Panel when editing an existing movement .
 
 == Changelog ==
+
+= 1.2 =
+
+* Now you can easily choose an element Id from a pick list. 100% AJAX
 
 = 1.1 =
 
@@ -67,6 +71,9 @@ An answer.
 
 == Upgrade Notice ==
 
+= 1.2 =
+Now you can easily choose an element Id from a pick list.
+
 = 1.1 =
 Minor fixes
 
@@ -78,4 +85,4 @@ This is the first release.
 The Welcomizer is currently available in the following languages:
 
 * English
-* French 
+* Français 
