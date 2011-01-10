@@ -1,4 +1,4 @@
-=== The Welcomizer ===
+﻿=== The Welcomizer ===
 Contributors: sebwordpress
 Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, welcomizeur, animation, animate, welcome, div, opacity, effects
@@ -85,4 +85,4 @@ This is the first release.
 The Welcomizer is currently available in the following languages:
 
 * English
-* Fran�ais 
+* Français 
