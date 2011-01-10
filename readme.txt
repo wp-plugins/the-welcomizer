@@ -23,8 +23,9 @@ Enjoy!
  
 == Features ==
 
-++++
-The first and the second move are optional, and also a "x2" will be added next to the delay value if a second move is filled. (in the next update)
++++++
+
++ The first and the second move are optional, and also a "x2" will be added next to the delay + value if a second move is filled. (in the next update)
 +++++
 
 
