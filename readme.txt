@@ -23,6 +23,11 @@ Enjoy!
  
 == Features ==
 
+++++
+The second move is optional, and a "x2" will be added next to the delay column if a second move is filled. (in the next update)
++++++
+
+
 * Multilingual Ready
 * Pick an Id from a List of element ids.
 * Activate or deactivate a movement on the fly.
