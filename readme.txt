@@ -35,7 +35,7 @@ The first and the second move are optional, and also a "x2" will be added next t
 * Optional starting position: Top, Left.
 * Optional css position: nothing, relative(by default), absolute
 * Flexible and easy movement to config (+ or -) Top and Left.
-* Optional second move on the same editing panel. (Usefull to make an easy back and forth.)
+* Optional second move on the same editing panel. (Useful to make an easy back and forth.)
 * Optional custom options textbox, for more custom options.
 * Optional custom JavaScript textbox, triggered after each move.
 * Unlimited number of movements(More than 3 movements at the same time delay is not recommended)
