@@ -54,7 +54,7 @@ Enjoy!
 
 = 1.2.1 =
 
-* In the listing panel, a `2x` in green is now displayed next to the `duration` value only when the second move has been configured.
+* In the listing panel, a `x2` in green is now displayed next to the `duration` value only when the second move has been configured.
 * Added Italian translation by [Gianni Diurno](http://gidibao.net/).
 
 = 1.2 =
