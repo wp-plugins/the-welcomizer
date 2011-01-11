@@ -4,14 +4,14 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, welcomizeur, animation, animate, welcome, div, opacity, effects
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2
 
 This plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element.
 
 == Description ==
 
-Currently triggered on the home page, this plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element that have an ID attribute(e.g. div id="sidebar").  
+Currently triggered on the Homepage, this plugin helps you to easily add 'Smart' moves and inject jQuery effects for almost any HTML element that have an ID attribute(e.g. div id="sidebar").  
 
 Take a look at the results -> http://www.sebastien-laframboise.com
 
@@ -23,22 +23,18 @@ Enjoy!
  
 == Features ==
 
-
-The first and the second move are optional, and also a "x2" will be added next to the duration value if a second move is filled. (in the next update)
-
-
-
 * Multilingual Ready
 * Pick an Id from a List of element ids.
 * Activate or deactivate a movement on the fly.
 * Delay and duration of a movement are in milliseconds.
 * Optional starting position: Top, Left.
 * Optional css position: nothing, relative(by default), absolute
+* Optional First and Second move.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional second move on the same editing panel. (Useful to make an easy back and forth.)
 * Optional custom options textbox, for more custom options.
 * Optional custom JavaScript textbox, triggered after each move.
-* Unlimited number of movements(More than 3 movements at the same time delay is not recommended)
+* Unlimited number of movements, take it easy!
 * Clean uninstallation, means all the data is erased on plugin deactivation.
 
 == Installation ==
@@ -56,6 +52,11 @@ The first and the second move are optional, and also a "x2" will be added next t
 
 == Changelog ==
 
+= 1.2.1 =
+
+* In the listing panel, a `2x` in green is now displayed next to the `duration` value only when the second move has been configured.
+* Added Italian translation by [Gianni Diurno](http://gidibao.net/).
+
 = 1.2 =
 
 * Now you can easily choose an element Id from a pick list. 100% AJAX
@@ -70,11 +71,14 @@ The first and the second move are optional, and also a "x2" will be added next t
 
 == Frequently Asked Questions == 
 
-= A question =
+= I've translated your awesome plugin in `MyLanguage`. Could I send you the ".po" and "mo" files? =
 
-An answer.
+Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Italian language added + minor adjustements + Thanks for your support!
 
 = 1.2 =
 Now you can easily choose an element Id from a pick list.
@@ -91,3 +95,4 @@ The Welcomizer is currently available in the following languages:
 
 * English
 * Français 
+* Italiano [by Gianni Diurno](http://gidibao.net/)

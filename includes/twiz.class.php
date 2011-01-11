@@ -53,7 +53,7 @@ class Twiz{
 		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.2';
+		$this->version 	   = 'v1.2.1';
 		$this->dbversion   = 'v1.0';
 		$this->logoUrl 	   = '/images/twiz-logo.png';
 	}
@@ -390,10 +390,17 @@ var bind_Number_Restriction = function() {
 	background-color:#F7F7F7;
 }
 .twiz-td-action{
-	width:68px;
+	min-width:50px;
 }
 .twiz-td-action img{
 	margin:2px;
+}
+.twiz-td-duration{
+	min-width:50px;
+}
+.twiz-xx{
+	font-size:8px;
+	color:green;
 }
 </style>';
 		
@@ -405,15 +412,19 @@ var bind_Number_Restriction = function() {
 		
 		$htmllist = $csscript.$opendiv.'<table class="twiz-table-list" cellspacing="0">';
 		
-		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Delay', 'the-welcomizer').' <b>&#8681;</b></td><td class="twiz-table-list-td-h twiz-td-right">'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right">'.__('Action', 'the-welcomizer').'</td></tr>';
+		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right" nowrap>'.__('Delay', 'the-welcomizer').' <b>&#8681;</b></td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
 		
 		 foreach($listarray as $key=>$value){
 			
 			$rowcolor= ($rowcolor=='twiz-row-color-1')?'twiz-row-color-2':'twiz-row-color-1';
 			
 			$statushtmlimg = ($value['status']=='1')? $this->getHtmlImgStatus($value['id'], 'active'):$this->getHtmlImgStatus($value['id'], 'inactive');
-		
-			$htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-right">'.$value['start_delay'].'</td><td class="twiz-td-right">'.$value['duration'].'</td><td class="twiz-td-right twiz-td-action"><img  src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->plugin_url.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->plugin_url.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
+			
+			/* add a '2x' to the duration if necessary */
+			$duration = (($value['move_top_pos_b'] !='' ) or( $value['move_left_pos_b'] !='' ) or( $value['options_b'] !='' ) or( $value['extra_js_b'] !='' ))?$value['duration'].'<b class="twiz-xx"> x2</b>':$value['duration'];
+
+			/* the table row */
+			$htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-right">'.$value['start_delay'].'</td><td class="twiz-td-right" nowrap>'.$duration.'</td><td class="twiz-td-right" nowrap><img  src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->plugin_url.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->plugin_url.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
 		 
 		 }
 		 
@@ -897,8 +908,13 @@ line-height:15px;
 		$twiz_start_top_position 	= ($twiz_start_top_position=='')?'NULL':$twiz_start_top_position;
 		$twiz_start_left_position 	= ($twiz_start_left_position=='')?'NULL':$twiz_start_left_position;
 		
+		/* user syntax auto correction */ 
 		$twiz_options_a = str_replace("=", ":" , attribute_escape(trim($_POST['twiz_options_a'])));
 		$twiz_options_b = str_replace("=", ":" , attribute_escape(trim($_POST['twiz_options_b'])));
+		$twiz_options_a = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_options_a'])));	
+		$twiz_options_b = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_options_b'])));
+		$twiz_extra_js_a = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_extra_js_a'])));	
+		$twiz_extra_js_b = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_extra_js_b'])));
 		
 		if($id==""){ // add new
 
