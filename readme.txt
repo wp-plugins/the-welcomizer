@@ -95,4 +95,4 @@ The Welcomizer is currently available in the following languages:
 
 * English
 * Français 
-* Italiano [by Gianni Diurno](http://gidibao.net/)
+* Italiano ([by Gianni Diurno](http://gidibao.net/))
