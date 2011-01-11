@@ -71,7 +71,7 @@ Enjoy!
 
 == Frequently Asked Questions == 
 
-= I've translated your awesome plugin in `MyLanguage`. Could I send you the ".po" and "mo" files? =
+= I've translated your awesome plugin in `MyLanguage`. Could I send you the `.po` and `.mo` files? =
 
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
