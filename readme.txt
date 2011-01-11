@@ -7,11 +7,11 @@ Tested up to: 3.0.4
 Stable tag: 1.2.1
 License: GPLv2
 
-This plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element.
+This plugin allows you to easily add 'Smart' moves and jQuery effects for virtually any HTML element.
 
 == Description ==
 
-Currently triggered on the Homepage, this plugin helps you to easily add 'Smart' moves and inject jQuery effects for almost any HTML element that have an ID attribute(e.g. div id="sidebar").  
+Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and inject jQuery effects for virtually any HTML element that has an attribute ID.(e.g. div id="sidebar").  
 
 Take a look at the results -> http://www.sebastien-laframboise.com
 
