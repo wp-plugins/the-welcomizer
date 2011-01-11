@@ -78,7 +78,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 == Upgrade Notice ==
 
 = 1.2.1 =
-Italian language added + minor adjustements + Thanks for your support!
+Added Italian translation + minor adjustements + Thanks for your support!
 
 = 1.2 =
 Now you can easily choose an element Id from a pick list.
