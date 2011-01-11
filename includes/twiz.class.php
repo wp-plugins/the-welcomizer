@@ -909,12 +909,19 @@ line-height:15px;
 		$twiz_start_left_position 	= ($twiz_start_left_position=='')?'NULL':$twiz_start_left_position;
 		
 		/* user syntax auto correction */ 
-		$twiz_options_a = str_replace("=", ":" , attribute_escape(trim($_POST['twiz_options_a'])));
-		$twiz_options_b = str_replace("=", ":" , attribute_escape(trim($_POST['twiz_options_b'])));
-		$twiz_options_a = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_options_a'])));	
-		$twiz_options_b = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_options_b'])));
-		$twiz_extra_js_a = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_extra_js_a'])));	
-		$twiz_extra_js_b = str_replace("'", "\"" , attribute_escape(trim($_POST['twiz_extra_js_b'])));
+		$twiz_options_a = str_replace("'", "\"" , $_POST['twiz_options_a']);	
+		$twiz_options_b = str_replace("'", "\"" , $_POST['twiz_options_b']);
+		$twiz_options_a = attribute_escape(trim($twiz_options_a));
+		$twiz_options_b = attribute_escape(trim($twiz_options_b));
+		$twiz_options_a = str_replace("=", ":" , $twiz_options_a );
+		$twiz_options_b = str_replace("=", ":" , $twiz_options_b );
+
+		$twiz_extra_js_a = str_replace("'", "\"" , $_POST['twiz_extra_js_a']);	
+		$twiz_extra_js_b = str_replace("'", "\"" , $_POST['twiz_extra_js_b']);
+		$twiz_extra_js_a = attribute_escape(trim($twiz_extra_js_a));	
+		$twiz_extra_js_b = attribute_escape(trim($twiz_extra_js_b));
+		
+
 		
 		if($id==""){ // add new
 
@@ -959,8 +966,8 @@ line-height:15px;
 				 ,".$twiz_move_left_position_b."
 				 ,'".$twiz_options_a."'							 
 				 ,'".$twiz_options_b."'
-				 ,'".attribute_escape(trim($_POST['twiz_extra_js_a']))."'							 
-				 ,'".attribute_escape(trim($_POST['twiz_extra_js_b']))."'				 
+				 ,'".$twiz_extra_js_a."'							 
+				 ,'".$twiz_extra_js_b."'				 
 				 );";
 			
 			$code = $wpdb->query($sql);
@@ -987,10 +994,10 @@ line-height:15px;
 				 ,move_top_pos_b = ".$twiz_move_top_position_b."
 				 ,move_left_pos_sign_b = '".attribute_escape(trim($_POST['twiz_move_left_pos_sign_b']))."'
 				 ,move_left_pos_b = ".$twiz_move_left_position_b."
-				 ,options_a = '".attribute_escape(trim($_POST['twiz_options_a']))."'
-				 ,options_b = '".attribute_escape(trim($_POST['twiz_options_b']))."'
-				 ,extra_js_a = '".attribute_escape(trim($_POST['twiz_extra_js_a']))."'
-				 ,extra_js_b = '".attribute_escape(trim($_POST['twiz_extra_js_b']))."'				 
+				 ,options_a = '".$twiz_options_a."'
+				 ,options_b = '".$twiz_options_b."'
+				 ,extra_js_a = '".$twiz_extra_js_a."'
+				 ,extra_js_b = '".$twiz_extra_js_b."'				 
 				  WHERE id='".$id."';";
 					
 			$code = $wpdb->query($sql);
