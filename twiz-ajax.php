@@ -1,5 +1,5 @@
 <?
-/*  Copyright 2010  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -14,6 +14,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
 	/* Require wp-config */
 	require_once(dirname(__FILE__).'/../../../wp-config.php');
 

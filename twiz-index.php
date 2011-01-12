@@ -1,15 +1,15 @@
 <?
 /*
 Plugin Name: The Welcomizer
-Version: 1.2.1
+Version: 1.2.2
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
-Description: Currently triggered on the home page, this plugin helps you to easily add 'Smart' moves and jQuery effects to almost any HTML element that have an ID attribute(e.g. div id="sidebar"). Enjoy!
+Description: Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and inject jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). Enjoy!
 Author: Sebastien Laframboise
 Author URI: http://www.sebastien-laframboise.com
 License: GPL2
 */
 
-/*  Copyright 2010  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -24,8 +24,6 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-
 
 	/******************
 	* --- The Class ---
@@ -54,7 +52,7 @@ License: GPL2
 	/* Add a menu link under theme menu. */
 	function twizMenu() {
 	
-		add_theme_page(__('The Welcomizer', 'the-welcomizer'),__('The Welcomizer', 'the-welcomizer'), 6, 'the-welcomizer', 'twizMainPage');
+		add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), 6, 'the-welcomizer', 'twizMainPage');
 	}
 		
 	/* Admin page */

@@ -1,6 +1,6 @@
 <?
 
-/*  Copyright 2010  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -27,22 +27,22 @@ class Twiz{
 	var $logoUrl;
 	
 	/* class constants */ 
-	const ACTION_SAVE 	= 'save';
-	const ACTION_CANCEL = 'cancel';
-	const ACTION_NEW	= 'new';
-	const ACTION_EDIT 	= 'edit';
-	const ACTION_DELETE	= 'delete';
-	const ACTION_STATUS	= 'status';
+	const ACTION_SAVE 	 = 'save';
+	const ACTION_CANCEL  = 'cancel';
 	const ACTION_ID_LIST = 'idlist';
+	const ACTION_NEW	 = 'new';
+	const ACTION_EDIT 	 = 'edit';
+	const ACTION_DELETE	 = 'delete';
+	const ACTION_STATUS	 = 'status';
 	
 	/* action type array */
-	var $actiontypes = array('ACTION_SAVE'    => self::ACTION_SAVE 	// form action
-							,'ACTION_CANCEL'  => self::ACTION_CANCEL // form action
-							,'ACTION_ID_LIST' => self::ACTION_ID_LIST // form action
-							,'ACTION_NEW'     => self::ACTION_NEW	// list action
-							,'ACTION_EDIT'    => self::ACTION_EDIT	// list action
-							,'ACTION_DELETE'  => self::ACTION_DELETE // list action
-							,'ACTION_STATUS'  => self::ACTION_STATUS // list action
+	var $actiontypes = array('ACTION_SAVE'    => self::ACTION_SAVE 		// form action
+							,'ACTION_CANCEL'  => self::ACTION_CANCEL 	// form action
+							,'ACTION_ID_LIST' => self::ACTION_ID_LIST 	// form action
+							,'ACTION_NEW'     => self::ACTION_NEW		// list action
+							,'ACTION_EDIT'    => self::ACTION_EDIT		// list action
+							,'ACTION_DELETE'  => self::ACTION_DELETE 	// list action
+							,'ACTION_STATUS'  => self::ACTION_STATUS 	// list action
 							);
 	
 	function __construct(){
@@ -53,7 +53,7 @@ class Twiz{
 		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.2.1';
+		$this->version 	   = 'v1.2.2';
 		$this->dbversion   = 'v1.0';
 		$this->logoUrl 	   = '/images/twiz-logo.png';
 	}
@@ -178,7 +178,6 @@ class Twiz{
  //<![CDATA[
  jQuery(document).ready(function($) {
  var hide_MessageDelay = 1111;
-  
  var bind_New = function() {
 	$("#twiz_new").click(function(){
 	 $(this).fadeOut("fast");
@@ -189,9 +188,7 @@ class Twiz{
 			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 		});
     });
-  }
-   
-      
+ }
  var bind_Status = function() {
     $("img[name^=twiz_status]").click(function(){
 		var thethis = this;
@@ -205,9 +202,7 @@ class Twiz{
 			bind_Status();
 		});
     });
-   }
-	
-	
+ }
  var bind_Edit = function() {
     $("img[name^=twiz_edit]").click(function(){
 		var textid = $(this).attr("name");
@@ -224,8 +219,7 @@ class Twiz{
 			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 		});
     });
-   }
-	
+ }
  var bind_Delete = function() {
 	$("img[name^=twiz_delete]").click(function(){
 		if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
@@ -239,8 +233,7 @@ class Twiz{
 			});
 		}
    });
-  }
-  
+ }
  var bind_Cancel = function() {
 	$("#twiz_cancel").click(function(){
 	$("#twiz_new").fadeIn("slow");
@@ -254,8 +247,7 @@ class Twiz{
 		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
 	});
    });
-  }
-  
+ }
  var bind_Save = function() {
     $("#twiz_save").click(function(){
     $("#twiz_save_img").fadeIn("slow");
@@ -295,8 +287,7 @@ class Twiz{
 	});
    });
   }
-  
-var bind_Number_Restriction = function() {
+  var bind_Number_Restriction = function() {
 	$("#twiz_start_delay").keypress(function (e){
 	if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
 	{return false;}}); 
@@ -315,31 +306,28 @@ var bind_Number_Restriction = function() {
 	$("#twiz_end_left_position").keypress(function (e)
 	{if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
 	{return false;}});
-	}
-	
-	 var bind_More_Options = function() {
-		$(".twiz-more-options").click(function(){
-			$(".twiz-table-more-options").toggle();
+  }
+  var bind_More_Options = function() {
+	$(".twiz-more-options").click(function(){
+		$(".twiz-table-more-options").toggle();
+	});
+  }
+  var bind_Choose_FromId = function() {
+	$("#twiz_choose_fromId").click(function(){
+		$("#twiz_td_full_right").html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
+		$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "idlist"}, function(data) {
+		$("#twiz_td_full_right").html(data);
+		bind_Select_Id();
 		});
-
-	}
-	
-	var bind_Choose_FromId = function() {
-		$("#twiz_choose_fromId").click(function(){
-			$("#twiz_td_full_right").html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
-			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "idlist"}, function(data) {
-			$("#twiz_td_full_right").html(data);
-			bind_Select_Id();
-		});
-		});
-	}	
-	var bind_Select_Id = function() {
-		$("#twiz_slc_id").change(function(){
-				$("#twiz_layer_id").attr({value: $(this).val()});
-		});
-	}	
-	$("#twiz_container").show("slow");
-	bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+	});
+  }	
+  var bind_Select_Id = function() {
+	$("#twiz_slc_id").change(function(){
+		$("#twiz_layer_id").attr({value: $(this).val()});
+	});
+  }	
+  $("#twiz_container").show("slow");
+  bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
  });
  //]]>
 </script>';
@@ -576,7 +564,16 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		if($id!=''){
 			if(!$data = $this->getRow($id)){return false;}
 		}
-		 
+		
+		/* Toggle More Options */
+		$jsscript_moreoptions = '<script>
+ //<![CDATA[
+ jQuery(document).ready(function($) {
+  $(".twiz-table-more-options").toggle();
+  });
+ //]]>
+</script>';
+ 
 		$csscript = '<style type="text/css">
 .twiz-table-form{
 	margin-bottom:15px;
@@ -661,6 +658,14 @@ line-height:15px;
 		if(!in_array($_POST['action'], $this->actiontypes)){
 			 $opendiv = '<div id="twiz_container">';
 			 $closediv = '</div>';
+		}
+		
+		/* toggle more options by default if we have values */
+		if(($data['options_a']!='')or($data['extra_js_a']!='')
+		 or($data['options_b']!='')or($data['extra_js_b']!='')){
+			$toggleoptions = $jsscript_moreoptions;
+		}else{
+			$toggleoptions = '';
 		}
 	
 		/* checked */
@@ -773,7 +778,7 @@ line-height:15px;
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td class="twiz-td-save" colspan="2"><img src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_id" id="twiz_id" value="'.$id.'"></td></tr>
-</table>'.$closediv;
+</table>'.$closediv.$toggleoptions;
 	
 		return $htmlform;
 	}
@@ -791,7 +796,6 @@ line-height:15px;
 	
 
 	function getHtmlList(){ 
-		
 		
 		$listarray = $this->getListArray(); // get all the data
 		
@@ -816,20 +820,20 @@ line-height:15px;
 	
     function getHtmlIdList(){
 	
-			$html = file_get_html(get_option('siteurl'));
+		$html = file_get_html(get_option('siteurl'));
 		
-			$select = '<select name="twiz_slc_id" id="twiz_slc_id">';
+		$select = '<select name="twiz_slc_id" id="twiz_slc_id">';
 			
-			$select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
+		$select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
 			
-			foreach ($html->find('[id]') as $element){
+		foreach ($html->find('[id]') as $element){
 					
-					$select .= '<option value="'.$element->id.'">'.$element->id.'</option>';
-			}
+			$select .= '<option value="'.$element->id.'">'.$element->id.'</option>';
+		}
 			
-			$select .= '</select>';
+		$select .= '</select>';
 			
-			return $select;
+		return $select;
 	}	
 	
 	
@@ -920,8 +924,6 @@ line-height:15px;
 		$twiz_extra_js_b = str_replace("'", "\"" , $_POST['twiz_extra_js_b']);
 		$twiz_extra_js_a = attribute_escape(trim($twiz_extra_js_a));	
 		$twiz_extra_js_b = attribute_escape(trim($twiz_extra_js_b));
-		
-
 		
 		if($id==""){ // add new
 
