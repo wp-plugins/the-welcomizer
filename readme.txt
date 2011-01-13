@@ -1,7 +1,7 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
 Donate link: http://www.sebastien-laframboise.com/
-Tags: jquery, move, movement, simple, le welcomizeur, welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage
+Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage
 Requires at least: 3.0
 Tested up to: 3.0.4
 Stable tag: 1.2.2
