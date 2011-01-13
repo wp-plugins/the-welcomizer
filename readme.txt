@@ -19,7 +19,7 @@ or the result of screenshots ----> [Go Green.](http://www.sebastien-laframboise.
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
 
-Enjoy your life! 
+Enjoy! 
 
 And share with others...
 
