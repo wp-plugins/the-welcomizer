@@ -60,7 +60,7 @@ And share with others...
 = 1.2.1 =
 
 * In the listing panel, a `x2` in green is now displayed next to the `duration` value only when the second move has been configured.
-* Added Italian translation by [Gianni Diurno](http://gidibao.net/).
+* Added Italian translation.
 
 = 1.2 =
 
