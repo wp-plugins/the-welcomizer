@@ -7,15 +7,11 @@ Tested up to: 3.0.4
 Stable tag: 1.2.2
 License: GPLv2
 
-Activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. 100% AJAX
+This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. 100% AJAX
 
 == Description ==
 
 Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and  jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
-
-Take a look at -------------------> [My Homepage](http://www.sebastien-laframboise.com/) 
-
-or the result of screenshots ----> [Go Green.](http://www.sebastien-laframboise.com/go-green/)
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
 
