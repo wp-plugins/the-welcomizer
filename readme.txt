@@ -7,7 +7,7 @@ Tested up to: 3.0.4
 Stable tag: 1.2.2
 License: GPLv2
 
-Activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element.
+Activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. 100% AJAX
 
 == Description ==
 
