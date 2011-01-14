@@ -15,7 +15,7 @@ Currently activated on the Homepage, this plugin allows you to easily add 'Smart
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
-Thanks for your support and your feedback!
+Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
 
