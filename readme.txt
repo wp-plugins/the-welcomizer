@@ -4,30 +4,34 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
 
 == Description ==
 
-Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and  jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
+Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
-Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
+Thanks for your support and your feedback!
+
+Stay tuned, and do your updates...
 
 Enjoy! 
 
-And share with others...
+
+Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
 
 == Features ==
 
-* 100% AJAX.
 * Multilingual Ready.
-* Pick an Id from a List of element Ids.
+* 100% AJAX, check it out!
 * Activate or deactivate a movement on the fly.
-* Delay and duration of a movement are in milliseconds.
+* Pick an Id from a List of element Ids.
+* Pick an Option from a List of jQuery .animate() properties.
+* Delay and duration of movements are in milliseconds.
 * Optional starting position: Top, Left.
 * Optional css position: nothing, relative(by default), absolute.
 * Optional First and Second move.
@@ -52,6 +56,12 @@ And share with others...
 3. Panel when editing an existing movement .
 
 == Changelog ==
+
+= 1.2.3 =
+
+* Added 2 New `Easy Pick List` under `Personalized Options`.
+* Auto-size textarea(in height).
+* Some minor, and major layout adjustements.
 
 = 1.2.2 =
 
@@ -84,6 +94,9 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.2.3 =
+Major update 1-2-3, new features, minor fixes.
+
 = 1.2.2 =
 `More options` are now visible, if they aren't empty + minor adjustments.
 
@@ -97,7 +110,7 @@ Now you can easily choose an element Id from a pick list.
 Minor fixes.
 
 = 1.0 =
-This is the first release.
+First release!
 
 == Languages ==
 

@@ -79,7 +79,16 @@
 			$myTwiz  = new Twiz();
 			$htmlresponse = $myTwiz->getHtmlIdList();
 			
-			break;			 
+			break;		
+					
+		case Twiz::ACTION_OPTIONS:
+		
+			$twiz_charid = attribute_escape(trim($_POST['twiz_charid']));
+			
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->getHtmlOptionList($twiz_charid);
+			
+			break;	
 	}
 	
 	echo($htmlresponse); // output the result

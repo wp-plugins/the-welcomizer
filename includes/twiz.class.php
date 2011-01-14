@@ -26,25 +26,47 @@ class Twiz{
 	var $dbversion;
 	var $logoUrl;
 	
-	/* class constants */ 
+	/* class action constants */ 
 	const ACTION_SAVE 	 = 'save';
 	const ACTION_CANCEL  = 'cancel';
 	const ACTION_ID_LIST = 'idlist';
+	const ACTION_OPTIONS = 'options';
 	const ACTION_NEW	 = 'new';
 	const ACTION_EDIT 	 = 'edit';
 	const ACTION_DELETE	 = 'delete';
 	const ACTION_STATUS	 = 'status';
 	
+	/* class jquery common options constants */ 
+	const JQUERY_HEIGHT		 = 'height';
+	const JQUERY_WITDH		 = 'width';
+	const JQUERY_OPACITY	 = 'opacity';
+	const JQUERY_MARGINLEFT	 = 'marginLeft';
+	const JQUERY_FONTSIZE	 = 'fontSize';
+	const JQUERY_BORDERWIDTH = 'borderWidth';
+	const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
+	const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
+
 	/* action type array */
 	var $actiontypes = array('ACTION_SAVE'    => self::ACTION_SAVE 		// form action
 							,'ACTION_CANCEL'  => self::ACTION_CANCEL 	// form action
 							,'ACTION_ID_LIST' => self::ACTION_ID_LIST 	// form action
+							,'ACTION_OPTIONS' => self::ACTION_OPTIONS 	// form action
 							,'ACTION_NEW'     => self::ACTION_NEW		// list action
 							,'ACTION_EDIT'    => self::ACTION_EDIT		// list action
 							,'ACTION_DELETE'  => self::ACTION_DELETE 	// list action
 							,'ACTION_STATUS'  => self::ACTION_STATUS 	// list action
 							);
-	
+							
+	/* jQuery common options array */
+	var $jQueryoptions = array('JQUERY_HEIGHT'    	    => self::JQUERY_HEIGHT
+							  ,'JQUERY_WITDH'  		    => self::JQUERY_WITDH	
+							  ,'JQUERY_OPACITY' 	    => self::JQUERY_OPACITY
+							  ,'JQUERY_MARGINLEFT' 	    => self::JQUERY_MARGINLEFT
+							  ,'JQUERY_FONTSIZE'        => self::JQUERY_FONTSIZE
+							  ,'JQUERY_BORDERWIDTH'     => self::JQUERY_BORDERIGHTWIDTH
+							  ,'JQUERY_BORDERIGHTWIDTH' => self::JQUERY_BORDERIGHTWIDTH
+							  );
+		
 	function __construct(){
 	
 		global $wpdb;
@@ -53,28 +75,27 @@ class Twiz{
 		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.2.2';
+		$this->version 	   = 'v1.2.3';
 		$this->dbversion   = 'v1.0';
 		$this->logoUrl 	   = '/images/twiz-logo.png';
 	}
 	
-	
 	function twizIt(){
 	
 		$csscript = '<style type="text/css">
-	#twiz_master{
-		width:350px;
-		margin:15px 0 15px 15px;
-	}
-	#twiz_container{
-		width:350px;
-		display:none;
-	}
-	.twiz-loading-gif{
-		display:none;
-		height:20px;
-		padding:1px;
-	}	
+#twiz_master{
+	width:350px;
+	margin:15px 0 15px 15px;
+}
+#twiz_container{
+	width:350px;
+	display:none;
+}
+.twiz-loading-gif{
+	display:none;
+	height:20px;
+	padding:1px;
+}	
 </style>';
 
 		$html = $csscript.'<div id="twiz_master">';
@@ -86,7 +107,6 @@ class Twiz{
 		
 		return $html;
 	}
-	
 	
 	private function getHtmlHeader(){
 	
@@ -137,7 +157,6 @@ class Twiz{
 		return $header;
 	}
 	
-	
 	private function getHtmlFooter(){
 	
 		$csscript = '<style type="text/css">
@@ -171,7 +190,6 @@ class Twiz{
 		return $header;
 	}	
 	
-	
 	private function getAjaxHeader(){
 	
 		$header = '<script>
@@ -182,21 +200,20 @@ class Twiz{
 	$("#twiz_new").click(function(){
 	 $(this).fadeOut("fast");
 	 $("#twiz_container").fadeOut("slow");
-	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "new"}, function(data) {
+	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_NEW.'"}, function(data) {
 			$("#twiz_container").html(data);
 			$("#twiz_container").fadeIn("fast");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		});
     });
  }
  var bind_Status = function() {
     $("img[name^=twiz_status]").click(function(){
-		var thethis = this;
 		var textid = $(this).attr("name");
 		var numid = textid.substring(12,textid.length);
 		$(this).hide();
 		$("#twiz_img_status_" + numid).fadeIn("slow");		
-	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "status","twiz_id": numid}, function(data) {
+	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_STATUS.'","twiz_id": numid}, function(data) {
 			$("#twiz_td_status_" + numid).html(data);
 			$("img[name^=twiz_status]").unbind("click");
 			bind_Status();
@@ -210,13 +227,13 @@ class Twiz{
 		$(this).hide();
 		$("#twiz_img_edit_" + numid).fadeIn("slow");	
 		$("#twiz_new").fadeOut("slow");
-	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "edit","twiz_id": numid}, function(data) {
+	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_EDIT.'","twiz_id": numid}, function(data) {
 			$("#twiz_container").html(data);
 			$("#twiz_container").show("fast");
 			$("img[name^=twiz_status]").unbind("click");
 			$("img[name^=twiz_edit]").unbind("click");
 			$("img[name^=twiz_save]").unbind("click");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		});
     });
  }
@@ -227,7 +244,7 @@ class Twiz{
 			var numid = textid.substring(12,textid.length);	
 			$(this).hide();
 			$("#twiz_img_delete_" + numid).fadeIn("slow");
-			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "delete",
+			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_DELETE.'",
 				 "twiz_id": numid }, function(data) {		
 				 $("#twiz_list_tr_" + numid).fadeOut();
 			});
@@ -238,13 +255,13 @@ class Twiz{
 	$("#twiz_cancel").click(function(){
 	$("#twiz_new").fadeIn("slow");
 	$("#twiz_container").fadeOut("slow");
-    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", {"action": "cancel"}, function(data) {
+    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", {"action": "'.self::ACTION_CANCEL.'"}, function(data) {
 		$("#twiz_container").fadeIn("fast");
 		$("#twiz_container").html(data);
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 	});
    });
  }
@@ -252,7 +269,7 @@ class Twiz{
     $("#twiz_save").click(function(){
     $("#twiz_save_img").fadeIn("slow");
 	$("#twiz_new").fadeIn("slow");
-    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "save",
+    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_SAVE.'",
 		 "twiz_id": $("#twiz_id").val(),
 		 "twiz_status": $("#twiz_status").is(":checked"),
 		 "twiz_layer_id": $("#twiz_layer_id").val(),
@@ -280,7 +297,7 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();b
 		setTimeout(function(){
 		$("#twiz_messagebox").hide("slow");
 		}, hide_MessageDelay);	
@@ -314,9 +331,9 @@ class Twiz{
   }
   var bind_Choose_FromId = function() {
 	$("#twiz_choose_fromId").click(function(){
-		$("#twiz_td_full_right").html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
-		$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "idlist"}, function(data) {
-		$("#twiz_td_full_right").html(data);
+		$("#twiz_td_full_chooseid").html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
+		$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_ID_LIST.'"}, function(data) {
+		$("#twiz_td_full_chooseid").html(data);
 		bind_Select_Id();
 		});
 	});
@@ -326,14 +343,34 @@ class Twiz{
 		$("#twiz_layer_id").attr({value: $(this).val()});
 	});
   }	
+  var bind_Choose_Options = function() {
+	$("a[name^=twiz_choose_options]").click(function(){
+		var textid = $(this).attr("name");
+		var charid = textid.substring(20,textid.length);
+		$("#twiz_td_full_option_" + charid).html(\'<img src="'.$this->plugin_url.'/images/twiz-loading.gif">\');
+		$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_OPTIONS.'","twiz_charid": charid}, function(data) {
+		$("#twiz_td_full_option_" + charid).html(data);
+		bind_Select_Options(charid);
+		});
+	});
+  }	
+  var bind_Select_Options = function(charid) {
+		$("#twiz_slc_options_" + charid).change(function(){
+			var curval = $("#twiz_options_" + charid).val();
+			if($(this).val()!=""){
+				if(curval!=""){ var curval = curval + "\n";}
+				var optionstring =  $(this).val() + ":\"\"";
+				$("#twiz_options_" + charid).attr({value: curval + optionstring}) 
+			}
+		});	
+  }	
   $("#twiz_container").show("slow");
-  bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Select_Id();
+  bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
  });
  //]]>
 </script>';
 	   return $header;
 	}
-	 
 	 
 	private function createHtmlList($listarray){ 
 	
@@ -437,7 +474,6 @@ class Twiz{
 		}else{return false;}
 	}		
 	
-	
 	function install(){ 
 	
 	  global $wpdb;
@@ -477,7 +513,6 @@ class Twiz{
 		update_option('twiz_db_version', $this->dbversion);
 	  }
 	}
-	  
 	  
 	function getFrontEnd(){
 	
@@ -557,8 +592,6 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		return $generatedscript;
 	}
 
-	
-
 	function getHtmlForm($id){ 
 		
 		if($id!=''){
@@ -573,17 +606,30 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
   });
  //]]>
 </script>';
- 
+
+		/* Text Area auto expand */
+		$jsscript_autoexpand = '<script language="JavaScript" type="text/javascript">
+ //<![CDATA[
+  jQuery(document).ready(function($) {
+	textarea = new Object();
+	textarea.expand = function(input){
+		input.style.height = "50px";
+		input.style.height = (input.scrollHeight + 10) + "px";
+	} 
+  });
+ //]]>
+</script>';
+		/* inline css style */
 		$csscript = '<style type="text/css">
 .twiz-table-form{
 	margin-bottom:15px;
 	margin-top:10px;
 }
 .twiz-table-form hr{
-		margin:15px 0 15px 0;
-		background-color:#ebebeb;
-		border:0px;
-		height:5px;
+	margin:15px 0 15px 0;
+	background-color:#ebebeb;
+	border:0px;
+	height:5px;
 }
 .twiz-caption{
 	height:30px;
@@ -601,14 +647,14 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	font-size:12px;
 	text-align:left;
 }
-#twiz_td_full_right{
+.twiz-td-picklist{
 	text-align:right;
 	font-size:12px;
-	padding:2px 10px 2px 2px;
+	padding:2px 0 2px 0;
 	height:30px;
 }
-#twiz_td_full_right a:hover{
-		cursor:pointer;
+.twiz-td-picklist a:hover{
+	cursor:pointer;
 }
 .twiz-td-small-left{
 	width:40px;
@@ -620,14 +666,14 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	height:30px;
 }
 .twiz-td-save a:hover{
-		cursor:pointer;
+	cursor:pointer;
 }
-.twiz-input input{
-	width:200px;
+.twiz-input{
+	width:158px;
 }
 .twiz-input[type=text]:focus{
-		background-color: lightyellow;
-		border:#E6DB55 1px solid;
+	background-color: lightyellow;
+	border:#E6DB55 1px solid;
 }
 .twiz-input-small{
 	width:50px;
@@ -636,6 +682,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 .twiz-input-large{
 	width:150px;
 	text-align:left;
+}
+.twiz-slc-options{
+	width:100%;
 }
 .twiz-table-more-options{
 	display:none;
@@ -647,7 +696,8 @@ a.twiz-more-options:hover{
 	font-size:12px;
 }
 .twiz-td-e-g{
-line-height:15px;
+	line-height:15px;
+	font-size:10px;
 }
 .twiz-loading-gif-save{
 	height:15px;
@@ -697,7 +747,7 @@ line-height:15px;
 <tr><td class="twiz-td-left">'.__('Status', 'the-welcomizer').':</td>
 <td class="twiz-td-right"><input type="checkbox" id="twiz_status" name="twiz_status" '.$twiz_status.'></td></tr>
 <tr><td class="twiz-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data['layer_id'].'" maxlength="50"></td></tr>
-<tr><td colspan="2" id="twiz_td_full_right"><a id="twiz_choose_fromId" name="twiz_choose_fromId">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
+<tr><td colspan="2" id="twiz_td_full_chooseid" class="twiz-td-picklist"><a id="twiz_choose_fromId" name="twiz_choose_fromId">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
 <tr><td class="twiz-td-left">'.__('Start delay', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_start_delay" name="twiz_start_delay" type="text" value="'.$data['start_delay'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td class="twiz-td-left">'.__('Duration', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_duration" name="twiz_duration" type="text" value="'.$data['duration'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -729,7 +779,7 @@ line-height:15px;
 	</td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
-<tr><td>
+<tr><td valign="top">
 		<table>
 			<tr><td class="twiz-caption" colspan="2"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
 			<tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
@@ -744,15 +794,18 @@ line-height:15px;
 			</select><input class="twiz-input twiz-input-small" id="twiz_move_left_position_a" name="twiz_move_left_position_a" type="text" value="'.$data['move_left_pos_a'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
 			<table class="twiz-table-more-options">
 				<tr><td colspan="2"><hr></td></tr>
-				<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_a" name="twiz_options_a" type="text" >'.$data['options_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').' <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a><br>
+				<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_options_a" name="twiz_options_a" type="text" >'.$data['options_a'].'</textarea></td></tr>
+				<tr><td colspan="2" id="twiz_td_full_option_a" class="twiz-td-picklist"><a id="twiz_choose_options_a" name="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
+				<tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br>
+				opacity:0.5<br>
 				width:"200px"<br>
-				opacity:0.5</small>
+				<a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
 				</td></tr>		
 				<tr><td colspan="2"><hr></td></tr>		
-				<tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_extra_js_a" name="twiz_extra_js_a" type="text">'.$data['extra_js_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");<br><br></small></td></tr>
+				<tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_a" name="twiz_extra_js_a" type="text">'.$data['extra_js_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");<br><br></td></tr>
 		</table>
 </td>
-<td>	
+<td valign="top">	
 	<table>
 		<tr><td class="twiz-caption" colspan="2"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
 		<tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
@@ -768,22 +821,23 @@ line-height:15px;
 		</table>
 		<table class="twiz-table-more-options">
 			<tr><td colspan="2"><hr></td></tr>
-			<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_options_b" name="twiz_options_b" type="text">'.$data['options_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').' <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a><br> 
-				width:"100px"<br>
-				opacity:1</small>
+			<tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_options_b" name="twiz_options_b" type="text">'.$data['options_b'].'</textarea></td></tr>
+			<tr><td colspan="2" id="twiz_td_full_option_b" class="twiz-td-picklist"><a id="twiz_choose_options_b" name="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
+			<tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br> 
+				opacity:1<br>
+				width:"100px"<br><a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
 				</td></tr>		
 			<tr><td colspan="2"><hr></td></tr>
-			<tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data['extra_js_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g"><small>'.__('e.g.', 'the-welcomizer').'<br>$(this).css({<br>position:"static"});</small></td></tr>
+			<tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data['extra_js_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({<br>position:"static"});</td></tr>
 		</table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td class="twiz-td-save" colspan="2"><img src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_id" id="twiz_id" value="'.$id.'"></td></tr>
-</table>'.$closediv.$toggleoptions;
+</table>'.$closediv.$toggleoptions.$jsscript_autoexpand;
 	
 		return $htmlform;
 	}
 
-	
 	private function getListArray($where){ 
 	
 		global $wpdb;
@@ -793,7 +847,6 @@ line-height:15px;
 		
 		return $rows;
 	}
-	
 
 	function getHtmlList(){ 
 		
@@ -810,13 +863,11 @@ line-height:15px;
 		
 	}
 	
-		
 	private function getHtmlImgStatus($id, $status){
 	
 		return '<img src="'.$this->plugin_url.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'"><img src="'.$this->plugin_url.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
 	}
-	
 	
     function getHtmlIdList(){
 	
@@ -836,6 +887,21 @@ line-height:15px;
 		return $select;
 	}	
 	
+	function getHtmlOptionList($id){
+		
+		$select = '<select class="twiz-slc-options" name="twiz_slc_options_'.$id.'" id="twiz_slc_options_'.$id.'">';
+			
+		$select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
+			
+		foreach ($this->jQueryoptions as $key => $value){
+					
+			$select .= '<option value="'.$value.'">'.$value.'</option>';
+		}
+			
+		$select .= '</select>';
+			
+		return $select;
+	}	
 	
 	function getHtmlSuccess($id, $message){
 		
@@ -858,7 +924,6 @@ line-height:15px;
 		return $htmlmessage;
 	}
 		
-		
 	private function getRow($id){ 
 	
 		global $wpdb;
@@ -871,7 +936,6 @@ line-height:15px;
 		return $row;
 	}
 
-	
 	private function replaceNumericEntities($value){
 			
 		/* entities array */
@@ -886,7 +950,6 @@ line-height:15px;
 		return $newvalue;
 				
 	}
-	
 	
 	function save($id){
 	
@@ -1008,7 +1071,6 @@ line-height:15px;
 		}
 	}
 	
-	
 	function switchStatus($id){ 
 	
 		global $wpdb;
@@ -1033,7 +1095,6 @@ line-height:15px;
 		
 		return $htmlstatus;
 	}
-	
 	
 	function uninstall(){
 	
