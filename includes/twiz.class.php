@@ -102,6 +102,8 @@ class Twiz{
 .twiz-loading-gif{
 	display:none;
 	height:20px;
+	width:20px;
+	margin:0px 1px;
 }
 #twiz_background {
 	z-index:-1;
@@ -476,7 +478,7 @@ class Twiz{
 	min-width:50px;
 }
 .twiz-td-action img{
-	margin:2px;
+	padding:2px;
 }
 .twiz-td-duration{
 	min-width:50px;
@@ -762,6 +764,7 @@ a.twiz-more-options:hover{
 }
 .twiz-loading-gif-save{
 	height:15px;
+	width:15px;
 }
 </style>';
 
