@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -28,13 +28,14 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 * Multilingual Ready.
 * 100% AJAX, check it out!
-* Activate or deactivate a movement on the fly.
-* Pick an Id from a List of element Ids.
-* Pick an Option from a List of jQuery .animate() properties.
-* Delay and duration of movements are in milliseconds.
-* Optional starting position: Top, Left.
-* Optional css position: nothing, relative(by default), absolute.
+* Pick an HTML element Id.
+* Pick an Option properties.
+* Global Online/Offline status.
 * Optional First and Second move.
+* Optional starting position: Top, Left.
+* Optional css position: nothing, relative, absolute.
+* Activate or deactivate one or more movements.
+* Delay and duration of movements are in milliseconds.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional second move on the same editing panel. (Useful for back and forth).
 * Optional custom options textbox, for more custom options.
@@ -56,6 +57,12 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 3. Panel when editing an existing movement .
 
 == Changelog ==
+
+= 1.2.4 =
+
+* Added a Global Online/Offline status over the top.
+* Added a big background logo.
+* Some minor changes.
 
 = 1.2.3 =
 
@@ -93,6 +100,9 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.2.4 =
+Added a Global Online/Offline status over the top.
 
 = 1.2.3 =
 Major update 1-2-3, new features, minor fixes.

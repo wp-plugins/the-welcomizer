@@ -25,26 +25,16 @@
 			
 	/* Switch action.. */
 	switch($_POST['action']){
-	
-		case Twiz::ACTION_NEW:
+		case Twiz::ACTION_SAVE:
 		
 			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->getHtmlForm();		
-			break;
-			
-		case Twiz::ACTION_DELETE:
-		
-			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->delete($postid);
-	
-			break;
-			
-		case Twiz::ACTION_EDIT:
-		
-			$myTwiz  = new Twiz();
-			if($htmlresponse = $myTwiz->getHtmlForm($postid)){}else{
-				//$htmlresponse = $myTwiz->getHtmlEror($postid, __('Error!', 'the-welcomizer');
-				$htmlresponse = $myTwiz->getHtmlList();
+			if(($saved = $myTwiz->save($postid)) // insert or update
+			or($saved=='0')){ // success, but no differences
+				$htmlresponse = $myTwiz->getHtmlSuccess($postid,  __('Saved!', 'the-welcomizer'));
+				$htmlresponse.= $myTwiz->getHtmlList();		
+			}else{
+				// $htmlresponse = $myTwiz->getHtmlError($postid,__('Error!', 'the-welcomizer'));
+				$htmlresponse = $myTwiz->getHtmlForm();
 			}
 			break;
 			
@@ -54,39 +44,55 @@
 			$htmlresponse = $myTwiz->getHtmlList();		
 			break;
 			
-		case Twiz::ACTION_SAVE:
-		
-			$myTwiz  = new Twiz();
-			if(($saved = $myTwiz->save($postid)) // insert or update
-			or($saved=='0')){ // success, but no differences
-				$htmlresponse = $myTwiz->getHtmlSuccess($postid,  __('Saved!', 'the-welcomizer'));
-				$htmlresponse.= $myTwiz->getHtmlList();		
-			}else{
-				//$htmlresponse = $myTwiz->getHtmlError($postid,__('Error!', 'the-welcomizer'));
-				$htmlresponse = $myTwiz->getHtmlForm();
-			}
-			break;
-			
-		case Twiz::ACTION_STATUS:
-		
-			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->switchStatus($postid);	
-			
-			break;	
-			
 		case Twiz::ACTION_ID_LIST:
 		
 			$myTwiz  = new Twiz();
 			$htmlresponse = $myTwiz->getHtmlIdList();
 			
-			break;		
-					
+			break;	
+			
 		case Twiz::ACTION_OPTIONS:
 		
 			$twiz_charid = attribute_escape(trim($_POST['twiz_charid']));
 			
 			$myTwiz  = new Twiz();
 			$htmlresponse = $myTwiz->getHtmlOptionList($twiz_charid);
+			
+			break;						
+			
+		case Twiz::ACTION_NEW:
+		
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->getHtmlForm();		
+			break;
+
+		case Twiz::ACTION_EDIT:
+		
+			$myTwiz  = new Twiz();
+			if($htmlresponse = $myTwiz->getHtmlForm($postid)){}else{
+				// $htmlresponse = $myTwiz->getHtmlEror($postid, __('Error!', 'the-welcomizer');
+				$htmlresponse = $myTwiz->getHtmlList();
+			}
+			break;
+			
+		case Twiz::ACTION_DELETE:
+		
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->delete($postid);
+	
+			break;
+
+		case Twiz::ACTION_STATUS:
+		
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->switchStatus($postid);	
+			
+			break;	
+
+		case Twiz::ACTION_GLOBAL_STATUS:
+		
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->switchGlobalStatus();	
 			
 			break;	
 	}

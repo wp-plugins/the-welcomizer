@@ -25,46 +25,49 @@ class Twiz{
 	var $version;
 	var $dbversion;
 	var $logoUrl;
+	var $logobigUrl;
 	
 	/* class action constants */ 
-	const ACTION_SAVE 	 = 'save';
-	const ACTION_CANCEL  = 'cancel';
-	const ACTION_ID_LIST = 'idlist';
-	const ACTION_OPTIONS = 'options';
-	const ACTION_NEW	 = 'new';
-	const ACTION_EDIT 	 = 'edit';
-	const ACTION_DELETE	 = 'delete';
-	const ACTION_STATUS	 = 'status';
+	const ACTION_SAVE		= 'save';
+	const ACTION_CANCEL		= 'cancel';
+	const ACTION_ID_LIST	= 'idlist';
+	const ACTION_OPTIONS	= 'options';
+	const ACTION_NEW		= 'new';
+	const ACTION_EDIT		= 'edit';
+	const ACTION_DELETE		= 'delete';
+	const ACTION_STATUS		= 'status';
+	const ACTION_GLOBAL_STATUS = 'gstatus';
 	
 	/* class jquery common options constants */ 
-	const JQUERY_HEIGHT		 = 'height';
-	const JQUERY_WITDH		 = 'width';
-	const JQUERY_OPACITY	 = 'opacity';
-	const JQUERY_MARGINLEFT	 = 'marginLeft';
-	const JQUERY_FONTSIZE	 = 'fontSize';
-	const JQUERY_BORDERWIDTH = 'borderWidth';
+	const JQUERY_HEIGHT			= 'height';
+	const JQUERY_WITDH			= 'width';
+	const JQUERY_OPACITY		= 'opacity';
+	const JQUERY_MARGINLEFT		= 'marginLeft';
+	const JQUERY_FONTSIZE		= 'fontSize';
+	const JQUERY_BORDERWIDTH	= 'borderWidth';
 	const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
 	const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
 
 	/* action type array */
-	var $actiontypes = array('ACTION_SAVE'    => self::ACTION_SAVE 		// form action
-							,'ACTION_CANCEL'  => self::ACTION_CANCEL 	// form action
-							,'ACTION_ID_LIST' => self::ACTION_ID_LIST 	// form action
-							,'ACTION_OPTIONS' => self::ACTION_OPTIONS 	// form action
-							,'ACTION_NEW'     => self::ACTION_NEW		// list action
-							,'ACTION_EDIT'    => self::ACTION_EDIT		// list action
-							,'ACTION_DELETE'  => self::ACTION_DELETE 	// list action
-							,'ACTION_STATUS'  => self::ACTION_STATUS 	// list action
+	var $actiontypes = array('ACTION_SAVE'		=> self::ACTION_SAVE		// form action
+							,'ACTION_CANCEL'	=> self::ACTION_CANCEL		// form action
+							,'ACTION_ID_LIST'	=> self::ACTION_ID_LIST		// form action
+							,'ACTION_OPTIONS'	=> self::ACTION_OPTIONS		// form action
+							,'ACTION_NEW'		=> self::ACTION_NEW			// list action
+							,'ACTION_EDIT'		=> self::ACTION_EDIT		// list action
+							,'ACTION_DELETE'	=> self::ACTION_DELETE		// list action
+							,'ACTION_STATUS'	=> self::ACTION_STATUS		// list action
+							,'ACTION_GLOBAL_STATUS'	=> self::ACTION_GLOBAL_STATUS	// list action
 							);
 							
 	/* jQuery common options array */
-	var $jQueryoptions = array('JQUERY_HEIGHT'    	    => self::JQUERY_HEIGHT
-							  ,'JQUERY_WITDH'  		    => self::JQUERY_WITDH	
-							  ,'JQUERY_OPACITY' 	    => self::JQUERY_OPACITY
-							  ,'JQUERY_MARGINLEFT' 	    => self::JQUERY_MARGINLEFT
-							  ,'JQUERY_FONTSIZE'        => self::JQUERY_FONTSIZE
-							  ,'JQUERY_BORDERWIDTH'     => self::JQUERY_BORDERIGHTWIDTH
-							  ,'JQUERY_BORDERIGHTWIDTH' => self::JQUERY_BORDERIGHTWIDTH
+	var $jQueryoptions = array('JQUERY_HEIGHT'			=> self::JQUERY_HEIGHT
+							  ,'JQUERY_WITDH'			=> self::JQUERY_WITDH	
+							  ,'JQUERY_OPACITY'			=> self::JQUERY_OPACITY
+							  ,'JQUERY_MARGINLEFT'		=> self::JQUERY_MARGINLEFT
+							  ,'JQUERY_FONTSIZE'		=> self::JQUERY_FONTSIZE
+							  ,'JQUERY_BORDERWIDTH'		=> self::JQUERY_BORDERIGHTWIDTH
+							  ,'JQUERY_BORDERIGHTWIDTH'	=> self::JQUERY_BORDERIGHTWIDTH
 							  );
 		
 	function __construct(){
@@ -72,20 +75,25 @@ class Twiz{
 		global $wpdb;
 		
 		/* Twiz variable configuration */
-		$this->plugin_name = __('The Welcomizer', 'the-welcomizer');
-		$this->plugin_url  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
-		$this->table 	   = $wpdb->prefix .'the_welcomizer';
-		$this->version 	   = 'v1.2.3';
-		$this->dbversion   = 'v1.0';
-		$this->logoUrl 	   = '/images/twiz-logo.png';
+		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
+		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
+		$this->table		= $wpdb->prefix .'the_welcomizer';
+		$this->version		= 'v1.2.4';
+		$this->dbversion	= 'v1.0';
+		$this->logoUrl		= '/images/twiz-logo.png';
+		$this->logobigUrl	= '/images/twiz-logo-big.png';
 	}
 	
 	function twizIt(){
-	
 		$csscript = '<style type="text/css">
+#twiz_plugin{
+	width:100%;
+}
 #twiz_master{
 	width:350px;
-	margin:15px 0 15px 15px;
+	margin-left:15px;
+	margin-bottom:15px;
+	float:left;
 }
 #twiz_container{
 	width:350px;
@@ -94,16 +102,49 @@ class Twiz{
 .twiz-loading-gif{
 	display:none;
 	height:20px;
-	padding:1px;
-}	
+}
+#twiz_background {
+	z-index:-1;
+	position:absolute;
+	width:80%;
+	min-height:2000px;
+	opacity:0.15;	
+	background: url("'.$this->plugin_url.$this->logobigUrl.'") top right no-repeat;	
+}
+#twiz_global_status{
+	margin:5px 0 0 176px;
+	width:25px;
+	height:25px;
+	border:1px solid #D1D1D1;
+	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));	
+	-moz-border-radius-topright:6px;
+	-moz-border-radius-topleft:6px;
+	-webkit-border-top-right-radius:6px;
+	-webkit-border-top-left-radius:6px;	
+	-khtml-border-radius-topright:6px;	
+	-khtml-border-radius-topleft:6px;		
+}
+#twiz_global_status img{
+	margin:3px;
+}
+#twiz_global_status img:hover{
+	cursor:pointer;
+}
+
 </style>';
 
-		$html = $csscript.'<div id="twiz_master">';
+		$html = $csscript.'<div id="twiz_plugin">';
+		$html.= '<div id="twiz_background"></div>';
+		$html.= '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>'; 
+		$html.= '<div id="twiz_master">';
 		$html.= $this->getAjaxHeader(); // private 
 		$html.= $this->getHtmlHeader(); // private 
 		$html.= $this->getHtmlList();
 		$html.= $this->getHtmlFooter(); // private 
-		$html.= '</div>';	
+		$html.= '</div>';
+		$html.= '</div>'; 
 		
 		return $html;
 	}
@@ -134,11 +175,11 @@ class Twiz{
 	width:350px;
 	padding:5px 0 0 5px;
 	-moz-border-radius-topleft:6px;
-	-moz-border-radius-topright:6px;
 	-webkit-border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
 	-khtml-border-radius-topleft:6px;
-	-khtml-border-radius-topright:6px;
+	-moz-border-radius-topright:6px;
+	-webkit-border-top-right-radius:6px;
+	-khtml-border-radius-topright:6px;	
 }
 #twiz_header img{
 	width:80px;
@@ -178,7 +219,6 @@ class Twiz{
 	-webkit-border-bottom-right-radius:6px;
 	-khtml-border-radius-bottomleft:6px;
 	-khtml-border-radius-bottomright:6px;
-	
 }
 #twiz_footer a{text-decoration:none;}
 #twiz_footer a:hover{text-decoration:underline;}
@@ -195,7 +235,7 @@ class Twiz{
 		$header = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
- var hide_MessageDelay = 1111;
+ var hide_MessageDelay = 1234;
  var bind_New = function() {
 	$("#twiz_new").click(function(){
 	 $(this).fadeOut("fast");
@@ -203,7 +243,8 @@ class Twiz{
 	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_NEW.'"}, function(data) {
 			$("#twiz_container").html(data);
 			$("#twiz_container").fadeIn("fast");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+			bind_Cancel();bind_Save();bind_Number_Restriction();
+			bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		});
     });
  }
@@ -211,15 +252,26 @@ class Twiz{
     $("img[name^=twiz_status]").click(function(){
 		var textid = $(this).attr("name");
 		var numid = textid.substring(12,textid.length);
-		$(this).hide();
-		$("#twiz_img_status_" + numid).fadeIn("slow");		
-	    $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_STATUS.'","twiz_id": numid}, function(data) {
-			$("#twiz_td_status_" + numid).html(data);
-			$("img[name^=twiz_status]").unbind("click");
-			bind_Status();
-		});
+		if(numid!="global"){
+			$(this).hide();
+			$("#twiz_img_status_" + numid).fadeIn("slow");		
+			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_STATUS.'","twiz_id": numid}, function(data) {
+				$("#twiz_td_status_" + numid).html(data);
+				$("img[name^=twiz_status]").unbind("click");
+				bind_Status();
+			});
+		}else{
+			$(this).hide();
+			$("#twiz_img_status_global").fadeIn("slow");		
+			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_GLOBAL_STATUS.'"}, function(data) {
+				$("#twiz_global_status").html(data);
+				$("img[name^=twiz_status]").unbind("click");
+				bind_Status();
+			});
+		}
     });
  }
+
  var bind_Edit = function() {
     $("img[name^=twiz_edit]").click(function(){
 		var textid = $(this).attr("name");
@@ -233,7 +285,8 @@ class Twiz{
 			$("img[name^=twiz_status]").unbind("click");
 			$("img[name^=twiz_edit]").unbind("click");
 			$("img[name^=twiz_save]").unbind("click");
-			bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+			bind_Cancel();bind_Save();bind_Number_Restriction();
+			bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		});
     });
  }
@@ -261,7 +314,8 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+		bind_Cancel();bind_Save();bind_Number_Restriction();
+		bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 	});
    });
  }
@@ -297,7 +351,8 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+		bind_Cancel();bind_Save();bind_Number_Restriction();
+		bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		setTimeout(function(){
 		$("#twiz_messagebox").hide("slow");
 		}, hide_MessageDelay);	
@@ -365,7 +420,11 @@ class Twiz{
 		});	
   }	
   $("#twiz_container").show("slow");
-  bind_Status();bind_Delete();bind_New();bind_Edit();bind_Cancel();bind_Save();bind_Number_Restriction();bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+  $("#twiz_background").animate({opacity:0.08}, 500);
+  $("#twiz_background").animate({opacity:0.15}, 500);
+  bind_Status();bind_Delete();bind_New();bind_Edit();
+  bind_Cancel();bind_Save();bind_Number_Restriction();
+  bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
  });
  //]]>
 </script>';
@@ -424,7 +483,7 @@ class Twiz{
 	min-width:50px;
 }
 .twiz-xx{
-	font-size:8px;
+	font-size:10px;
 	color:green;
 }
 </style>';
@@ -437,7 +496,7 @@ class Twiz{
 		
 		$htmllist = $csscript.$opendiv.'<table class="twiz-table-list" cellspacing="0">';
 		
-		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right" nowrap>'.__('Delay', 'the-welcomizer').' <b>&#8681;</b></td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
+		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right" nowrap><b>&#8681;</b> '.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
 		
 		 foreach($listarray as $key=>$value){
 			
@@ -476,49 +535,52 @@ class Twiz{
 	
 	function install(){ 
 	
-	  global $wpdb;
+		global $wpdb;
 
-	  if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
+		if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
 	  
-		$sql = "CREATE TABLE ".$this->table." (".
-			 "id int NOT NULL AUTO_INCREMENT, ".
-			 "status tinyint(3) NOT NULL default 0, ".
-			 "layer_id varchar(50) NOT NULL default '', ".
-			 "start_delay int(5) NOT NULL default 0, ".
-			 "duration int(5) NOT NULL default 0, ".
-			 "start_top_pos_sign varchar(1) NOT NULL default '', ".
-			 "start_top_pos int(5) default NULL, ".
-			 "start_left_pos_sign varchar(1) NOT NULL default '', ".
-			 "start_left_pos int(5) default NULL, ".
-			 "position varchar(8) NOT NULL default '', ".			 
-			 "move_top_pos_sign_a varchar(1) NOT NULL default '', ".
-			 "move_top_pos_a int(5) default NULL, ".
-			 "move_left_pos_sign_a varchar(1) NOT NULL default '', ".
-			 "move_left_pos_a int(5) default NULL, ".		
-			 "move_top_pos_sign_b varchar(1) NOT NULL default '', ".
-			 "move_top_pos_b int(5) default NULL, ".
-			 "move_left_pos_sign_b varchar(1) NOT NULL default '', ".
-			 "move_left_pos_b int(5) default NULL, ".	
-			 "options_a text NOT NULL default '', ".	
-			 "options_b text NOT NULL default '', ".	
-			 "extra_js_a text NOT NULL default '', ".	
-			 "extra_js_b text NOT NULL default '', ".				 
-			 "PRIMARY KEY (id) ".
-			 ");";
+			$sql = "CREATE TABLE ".$this->table." (".
+				"id int NOT NULL AUTO_INCREMENT, ".
+				"status tinyint(3) NOT NULL default 0, ".
+				"layer_id varchar(50) NOT NULL default '', ".
+				"start_delay int(5) NOT NULL default 0, ".
+				"duration int(5) NOT NULL default 0, ".
+				"start_top_pos_sign varchar(1) NOT NULL default '', ".
+				"start_top_pos int(5) default NULL, ".
+				"start_left_pos_sign varchar(1) NOT NULL default '', ".
+				"start_left_pos int(5) default NULL, ".
+				"position varchar(8) NOT NULL default '', ".			 
+				"move_top_pos_sign_a varchar(1) NOT NULL default '', ".
+				"move_top_pos_a int(5) default NULL, ".
+				"move_left_pos_sign_a varchar(1) NOT NULL default '', ".
+				"move_left_pos_a int(5) default NULL, ".		
+				"move_top_pos_sign_b varchar(1) NOT NULL default '', ".
+				"move_top_pos_b int(5) default NULL, ".
+				"move_left_pos_sign_b varchar(1) NOT NULL default '', ".
+				"move_left_pos_b int(5) default NULL, ".	
+				"options_a text NOT NULL default '', ".	
+				"options_b text NOT NULL default '', ".	
+				"extra_js_a text NOT NULL default '', ".	
+				"extra_js_b text NOT NULL default '', ".				 
+				"PRIMARY KEY (id) ".
+				");";
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		
-		dbDelta($sql);
+			dbDelta($sql);
 		
-		update_option('twiz_db_version', $this->dbversion);
-	  }
+			update_option('twiz_db_version', $this->dbversion);
+			update_option('twiz_global_status', '1');
+			
+		}else{}
 	}
 	  
 	function getFrontEnd(){
 	
 		wp_reset_query(); // fix the corrupted is_home() due to a custom query.
 		
-		if(is_home()) { 
+		if((is_home())
+		and(get_option('twiz_global_status')=='1')){
 		
 			// get the active data list array
 			$listarray = $this->getListArray(' where status=1 '); 
@@ -1071,6 +1133,24 @@ a.twiz-more-options:hover{
 		}
 	}
 	
+	function switchGlobalStatus(){ 
+
+		$newglobalstatus = (get_option('twiz_global_status')=='0')? '1' : '0'; // swicth the status value
+				
+		update_option('twiz_global_status', $newglobalstatus);
+	
+		$htmlstatus = ($newglobalstatus=='1')? $this->getHtmlImgStatus('global','active'):$this->getHtmlImgStatus('global','inactive');
+
+		return $htmlstatus;
+	}
+	
+	private function getImgGlobalStatus(){ 
+
+		$htmlstatus = (get_option('twiz_global_status')=='1')? $this->getHtmlImgStatus('global','active'):$this->getHtmlImgStatus('global','inactive');
+
+		return $htmlstatus;
+	}
+	
 	function switchStatus($id){ 
 	
 		global $wpdb;
@@ -1106,6 +1186,7 @@ a.twiz-more-options:hover{
 		}
 		
 		delete_option('twiz_db_version');
+		delete_option('twiz_global_status');
 		
 		return true;
 	}	
