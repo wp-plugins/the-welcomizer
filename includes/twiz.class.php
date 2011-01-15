@@ -314,8 +314,6 @@ class Twiz{
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
-		bind_Cancel();bind_Save();bind_Number_Restriction();
-		bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 	});
    });
  }
