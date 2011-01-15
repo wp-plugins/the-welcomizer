@@ -284,8 +284,7 @@ class Twiz{
 			$("#twiz_container").show("fast");
 			$("img[name^=twiz_status]").unbind("click");
 			$("img[name^=twiz_edit]").unbind("click");
-			$("img[name^=twiz_save]").unbind("click");
-			bind_Cancel();bind_Save();bind_Number_Restriction();
+			bind_Status();bind_Save();bind_Cancel();bind_Number_Restriction();
 			bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
 		});
     });
@@ -311,6 +310,7 @@ class Twiz{
     $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", {"action": "'.self::ACTION_CANCEL.'"}, function(data) {
 		$("#twiz_container").fadeIn("fast");
 		$("#twiz_container").html(data);
+		$("img[name^=twiz_status]").unbind("click");
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
@@ -348,6 +348,7 @@ class Twiz{
 		 "twiz_position": $("#twiz_position").val()
 		}, function(data) {
 		$("#twiz_container").html(data);
+		$("img[name^=twiz_status]").unbind("click");
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
 		bind_Status();bind_Delete();bind_Edit();
