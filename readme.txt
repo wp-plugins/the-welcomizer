@@ -54,7 +54,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 1. List panel ordered by Delay. 
 2. Panel when adding a new movement. 
-3. Panel when editing an existing movement .
+3. Panel when editing an existing movement.
 
 == Changelog ==
 
