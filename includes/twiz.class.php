@@ -66,8 +66,9 @@ class Twiz{
 							  ,'JQUERY_OPACITY'			=> self::JQUERY_OPACITY
 							  ,'JQUERY_MARGINLEFT'		=> self::JQUERY_MARGINLEFT
 							  ,'JQUERY_FONTSIZE'		=> self::JQUERY_FONTSIZE
-							  ,'JQUERY_BORDERWIDTH'		=> self::JQUERY_BORDERIGHTWIDTH
+							  ,'JQUERY_BORDERWIDTH'		=> self::JQUERY_BORDERWIDTH
 							  ,'JQUERY_BORDERIGHTWIDTH'	=> self::JQUERY_BORDERIGHTWIDTH
+							  ,'JQUERY_BORDERLEFTWIDTH'	=> self::JQUERY_BORDERLEFTWIDTH
 							  );
 		
 	function __construct(){
@@ -78,7 +79,7 @@ class Twiz{
 		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table		= $wpdb->prefix .'the_welcomizer';
-		$this->version		= 'v1.2.4';
+		$this->version		= 'v1.2.5';
 		$this->dbversion	= 'v1.0';
 		$this->logoUrl		= '/images/twiz-logo.png';
 		$this->logobigUrl	= '/images/twiz-logo-big.png';
@@ -109,7 +110,7 @@ class Twiz{
 	z-index:-1;
 	position:absolute;
 	width:80%;
-	min-height:2000px;
+	min-height:500px;
 	opacity:0.15;	
 	background: url("'.$this->plugin_url.$this->logobigUrl.'") top right no-repeat;	
 }
@@ -685,8 +686,11 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		/* inline css style */
 		$csscript = '<style type="text/css">
 .twiz-table-form{
-	margin-bottom:15px;
-	margin-top:10px;
+	padding-bottom:15px;
+	padding-top:10px;
+	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
 }
 .twiz-table-form hr{
 	margin:15px 0 15px 0;
@@ -765,6 +769,12 @@ a.twiz-more-options:hover{
 .twiz-loading-gif-save{
 	height:15px;
 	width:15px;
+}
+#twiz_td_full_chooseid img{
+	margin-right:5px;
+}
+#twiz_td_full_chooseid a{
+	margin-right:5px;
 }
 </style>';
 
