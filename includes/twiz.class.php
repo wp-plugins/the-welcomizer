@@ -1155,7 +1155,7 @@ a.twiz-more-options:hover{
 	font-size:12px;
 	font-weight:bold;
 	color:#098809;
-	width:364px;
+	width:363px;
 }
 </style>';
 	
