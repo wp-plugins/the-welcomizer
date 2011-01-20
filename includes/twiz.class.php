@@ -377,6 +377,7 @@ align:center;
     $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", {"action": "'.self::ACTION_CANCEL.'"}, function(data) {
 		$("#twiz_container").fadeIn("fast");
 		$("#twiz_container").html(data);
+		view_id = "";
 		$("img[name^=twiz_status]").unbind("click");
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
