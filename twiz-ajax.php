@@ -60,6 +60,13 @@
 			
 			break;						
 			
+		case Twiz::ACTION_VIEW:
+		
+			$myTwiz  = new Twiz();
+			$htmlresponse = $myTwiz->getHtmlView($postid);	
+			
+			break;
+			
 		case Twiz::ACTION_NEW:
 		
 			$myTwiz  = new Twiz();

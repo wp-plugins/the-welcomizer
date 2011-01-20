@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -52,11 +52,16 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Screenshots ==
 
-1. List panel ordered by Delay. 
-2. Panel when adding a new movement. 
-3. Panel when editing an existing movement.
+1. List panel ordered by Delay. (Full size, right click - view image)
+2. Panel when adding a new movement. (Full size, right click - view image)
+3. Panel when editing an existing movement. (Full size, right click - view image)
 
 == Changelog ==
+
+= 1.2.6 =
+
+* Added a new DataPreview Panel.
+* Layout adjustments, larger panel, larger textbox, other minor changes.
 
 = 1.2.5 =
 
@@ -107,6 +112,9 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.2.6 =
+New DataPreview Panel, larger layout.
 
 = 1.2.5 =
 Major fixes, and adjustements.
