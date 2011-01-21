@@ -83,7 +83,7 @@ class Twiz{
 		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table		= $wpdb->prefix .'the_welcomizer';
-		$this->version		= 'v1.2.6';
+		$this->version		= 'v1.2.7';
 		$this->dbversion	= 'v1.0';
 		$this->logoUrl		= '/images/twiz-logo.png';
 		$this->logobigUrl	= '/images/twiz-logo-big.png';
@@ -285,6 +285,7 @@ class Twiz{
  jQuery(document).ready(function($) {
  var hide_MessageDelay = 1234;
  var view_id = null;
+ var array_view_id = new Array();
  var bind_New = function() {
 	$("#twiz_new").click(function(){
 	 $(this).fadeOut("fast");
@@ -328,10 +329,15 @@ class Twiz{
 		if((view_id != numid)&&(view_id!="edit")){
 			view_id = numid;
 			$("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
-			$("#twiz_right_panel").fadeIn("slow");		
-			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
-				$("#twiz_right_panel").html(data);
-			});
+			$("#twiz_right_panel").fadeIn("slow");	
+			if(array_view_id[numid]==undefined){
+				$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
+					$("#twiz_right_panel").html(data);
+					array_view_id[numid] = data;
+				});	
+			}else{
+				$("#twiz_right_panel").html(array_view_id[numid]);
+			}
 		}
     });   
     $("img[name^=twiz_edit]").click(function(){
@@ -360,10 +366,15 @@ class Twiz{
 		if((view_id != numid)&&(view_id!="edit")){
 			view_id = numid;		
 			$("#twiz_right_panel").html("<div style=\"width:350px;height:200px;padding-top:120px;text-align:center;\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
-			$("#twiz_right_panel").fadeIn("slow");		
-			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
-				$("#twiz_right_panel").html(data);
-			});
+			$("#twiz_right_panel").fadeIn("slow");	
+			if(array_view_id[numid]==undefined){
+				$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
+					$("#twiz_right_panel").html(data);
+					array_view_id[numid] = data;
+				});	
+			}else{
+				$("#twiz_right_panel").html(array_view_id[numid]);
+			}
 		}
     });  
 	$("img[name^=twiz_delete]").click(function(){
@@ -376,6 +387,7 @@ class Twiz{
 			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_DELETE.'",
 				 "twiz_id": numid }, function(data) {		
 				 $("#twiz_list_tr_" + numid).fadeOut();
+				 array_view_id[numid] = undefined;
 			});
 		}
    });
@@ -399,8 +411,9 @@ class Twiz{
     $("#twiz_save").click(function(){
     $("#twiz_save_img").fadeIn("slow");
 	$("#twiz_new").fadeIn("slow");
+	var numid = $("#twiz_id").val();
     $.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_SAVE.'",
-		 "twiz_id": $("#twiz_id").val(),
+		 "twiz_id": numid,
 		 "twiz_status": $("#twiz_status").is(":checked"),
 		 "twiz_layer_id": $("#twiz_layer_id").val(),
 		 "twiz_start_delay": $("#twiz_start_delay").val(),
@@ -427,10 +440,10 @@ class Twiz{
 		$("img[name^=twiz_status]").unbind("click");
 		$("img[name^=twiz_cancel]").unbind("click");
 		$("img[name^=twiz_save]").unbind("click");
+		array_view_id[numid] = undefined;
 		bind_Status();bind_Delete();bind_Edit();
 		bind_Cancel();bind_Save();bind_Number_Restriction();
 		bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
-		
 		setTimeout(function(){
 		$("#twiz_messagebox").hide("slow");
 		}, hide_MessageDelay);	
