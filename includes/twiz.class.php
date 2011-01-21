@@ -166,7 +166,17 @@ class Twiz{
 	-khtml-border-radius-bottomright:6px;		
 }
 #twiz_right_panel img{
-align:center;
+	align:center;
+}
+.twiz-clear{
+	height:0px;
+	clear:both;
+}
+.twiz-panel-loading{
+	width:350px;
+	height:200px;
+	padding-top:120px;
+	text-align:center;
 }
 </style>';
 
@@ -231,7 +241,7 @@ align:center;
 	<span id="twiz_head_version">'.$this->version.'</span> 
 	<span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span> 
 </div>
-<div style="height:0px;clear:both;"></div>';
+<div class="twiz-clear"></div>';
 		
 		return $header;
 	}
@@ -317,7 +327,7 @@ align:center;
 		var numid = textid.substring(10,textid.length);
 		if((view_id != numid)&&(view_id!="edit")){
 			view_id = numid;
-			$("#twiz_right_panel").html("<div style=\"width:350px;height:200px;padding-top:120px;text-align:center;\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
+			$("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
 			$("#twiz_right_panel").fadeIn("slow");		
 			$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
 				$("#twiz_right_panel").html(data);
@@ -488,8 +498,6 @@ align:center;
 		});	
   }	
   $("#twiz_container").show("slow");
-  $("#twiz_background").animate({opacity:0.08}, 500);
-  $("#twiz_background").animate({opacity:0.15}, 500);
   bind_Status();bind_Delete();bind_New();bind_Edit();
   bind_Cancel();bind_Save();bind_Number_Restriction();
   bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
@@ -1030,15 +1038,21 @@ a.twiz-more-options:hover{
 }
 </style>';
 
-
+		$start_top_pos = ($data['start_top_pos']!='')? $data['start_top_pos_sign'].$data['start_top_pos'].' '.__('px', 'the-welcomizer'):'';
+		$start_left_pos = ($data['start_left_pos']!='')? $data['start_left_pos_sign'].$data['start_left_pos'].' '.__('px', 'the-welcomizer'):'';
+		$move_top_pos_a = ($data['move_top_pos_a']!='')? $data['move_top_pos_sign_a'].$data['move_top_pos_a'].' '.__('px', 'the-welcomizer'):'';
+		$move_left_pos_a = ($data['move_left_pos_a']!='')? $data['move_left_pos_sign_a'].$data['move_left_pos_a'].' '.__('px', 'the-welcomizer'):'';
+		$move_top_pos_b = ($data['move_top_pos_b']!='')? $data['move_top_pos_sign_b'].$data['move_top_pos_b'].' '.__('px', 'the-welcomizer'):'';
+		$move_left_pos_b = ($data['move_left_pos_b']!='')? $data['move_left_pos_sign_b'].$data['move_left_pos_b'].' '.__('px', 'the-welcomizer'):'';
+		
 		/* creates the view */
 		$htmlview = $csscript.'<table class="twiz-table-view" cellspacing="0" cellpadding="0">
 		<tr><td class="twiz-view-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-view-td-right twiz-bold">'.$data['layer_id'].'</td></tr>
 <tr><td colspan="2"><hr></td></tr>
 	<td>
 		<table>
-			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td>'.$data['start_top_pos_sign'].$data['start_top_pos'].' '.__('px', 'the-welcomizer').'</td></tr>
-			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>'.$data['start_left_pos_sign'].$data['start_left_pos'].' '.__('px', 'the-welcomizer').'</td></tr>
+			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
+			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
 		</table>
 	</td>
 	<td>
@@ -1051,8 +1065,8 @@ a.twiz-more-options:hover{
 <tr><td valign="top">
 		<table>
 			<tr><td class="twiz-caption" colspan="2" nowrap><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
-			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$data['move_top_pos_sign_a'].$data['move_top_pos_a'].' '.__('px', 'the-welcomizer').'</td></tr>
-			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$data['move_left_pos_sign_a'].$data['move_left_pos_a'].' '.__('px', 'the-welcomizer').'</td></tr></table>
+			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$move_top_pos_a .'</td></tr>
+			<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$move_left_pos_a .'</td></tr></table>
 			<table class="twiz-view-table-more-options">
 				<tr><td colspan="2"><hr></td></tr>
 				<tr><td colspan="2">'.str_replace("\n", "<br>",$data['options_a']).'</td></tr>	
@@ -1063,8 +1077,8 @@ a.twiz-more-options:hover{
 <td valign="top">	
 	<table>
 		<tr><td class="twiz-caption" colspan="2" nowrap><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
-		<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$data['move_top_pos_sign_b'].$data['move_top_pos_b'].' '.__('px', 'the-welcomizer').'</td></tr>
-		<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$data['move_left_pos_sign_b'].$data['move_left_pos_b'].' '.__('px', 'the-welcomizer').'</td></tr>
+		<tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$move_top_pos_b.'</td></tr>
+		<tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$move_left_pos_b .'</td></tr>
 		</table>
 		<table class="twiz-view-table-more-options">
 			<tr><td colspan="2"><hr></td></tr>
