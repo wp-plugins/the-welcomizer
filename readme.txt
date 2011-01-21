@@ -53,16 +53,16 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Screenshots ==
 
-1. List panel ordered by Delay. (Full size, right click - view image)
-2. Panel when adding a new movement. (Full size, right click - view image)
-3. Panel when editing an existing movement. (Full size, right click - view image)
+1. List panel ordered by Delay. (Right click - View image)
+2. Panel when adding a new movement. (Right click - View image)
+3. Panel when editing an existing movement. (Right click - View image)
 
 == Changelog ==
 
 = 1.2.7 =
 
 * Added a full advanced caching feature for the DataPreview results.
-* Fixed empty Labels in the DataPreview.(has already been pushed).
+* Fixed empty Labels in the DataPreview.(has already been pushed)
 
 = 1.2.6 =
 
@@ -120,33 +120,43 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 == Upgrade Notice ==
 
 = 1.2.7 =
+
 Added a full advanced caching feature for the DataPreview results.
 
 = 1.2.6 =
+
 New DataPreview Panel, larger layout.
 
 = 1.2.5 =
+
 Major fixes, and adjustements.
 
 = 1.2.4 =
+
 Added a Global Online/Offline status over the top.
 
 = 1.2.3 =
+
 Major update 1-2-3, new features, minor fixes.
 
 = 1.2.2 =
+
 `More options` are now visible, if they aren't empty + minor adjustments.
 
 = 1.2.1 =
+
 Added Italian translation + minor adjustments + Thanks for your support!
 
 = 1.2 =
+
 Now you can easily choose an element Id from a pick list.
 
 = 1.1 =
+
 Minor fixes.
 
 = 1.0 =
+
 First release!
 
 == Languages ==
