@@ -83,104 +83,15 @@ class Twiz{
 		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table		= $wpdb->prefix .'the_welcomizer';
-		$this->version		= 'v1.2.7';
+		$this->version		= 'v1.2.8';
 		$this->dbversion	= 'v1.0';
 		$this->logoUrl		= '/images/twiz-logo.png';
 		$this->logobigUrl	= '/images/twiz-logo-big.png';
 	}
 	
 	function twizIt(){
-		$csscript = '<style type="text/css">
-#twiz_plugin{
-	width:100%;
-	margin-top:45px;
-	margin-left:15px;
-	margin-bottom:15px;
-}
-#twiz_master{
-	width:400px;
-	float:left;
-}
-#twiz_container{
-	width:400px;
-	display:none;
-}
-.twiz-loading-gif{
-	display:none;
-	height:20px;
-	width:20px;
-	margin:0px 1px;
-}
-#twiz_background {
-	z-index:-1;
-	position:absolute;
-	width:80%;
-	min-height:500px;
-	opacity:0.15;	
-	background: url("'.$this->plugin_url.$this->logobigUrl.'") top right no-repeat;	
-}
-#twiz_global_status{
-	margin:0 0 0 184px;
-	width:25px;
-	height:25px;
-	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));	
-	-moz-border-radius-topright:6px;
-	-moz-border-radius-topleft:6px;
-	-webkit-border-top-right-radius:6px;
-	-webkit-border-top-left-radius:6px;	
-	-khtml-border-radius-topright:6px;	
-	-khtml-border-radius-topleft:6px;		
-}
-#twiz_global_status img{
-	margin:3px;
-}
-#twiz_global_status img:hover{
-	cursor:pointer;
-}
-#twiz_right_panel {
-	float:left;
-	color:#464646;
-	min-height:200px;
-	display:none;
-	min-width:350px;
-	margin:27px 0 0 25px;
-	padding:10px;	
-	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
-	-moz-border-radius-topleft:6px;
-	-moz-border-radius-topright:6px;
-	-moz-border-radius-bottomleft:6px;
-	-moz-border-radius-bottomright:6px;
-	-webkit-border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
-	-webkit-border-bottom-left-radius:6px;
-	-webkit-border-bottom-right-radius:6px;
-	-khtml-border-radius-topleft:6px;
-	-khtml-border-radius-topright:6px;	
-	-khtml-border-radius-bottomleft:6px;
-	-khtml-border-radius-bottomright:6px;		
-}
-#twiz_right_panel img{
-	align:center;
-}
-.twiz-clear{
-	height:0px;
-	clear:both;
-}
-.twiz-panel-loading{
-	width:350px;
-	height:200px;
-	padding-top:120px;
-	text-align:center;
-}
-</style>';
 
-		$html = $csscript.'<div id="twiz_plugin">';
+		$html = '<div id="twiz_plugin">';
 		
 		$html.= '<div id="twiz_background"></div>';
 		$html.= '<div id="twiz_master">';
@@ -199,43 +110,7 @@ class Twiz{
 	
 	private function getHtmlHeader(){
 	
-		$csscript = '<style type="text/css">
-#twiz_head_title{
-	font-size:22px;
-	line-height:35px;
-	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-}
-#twiz_head_version{
-	font-size:8px;
-}
-#twiz_head_addnew{
-	float:right;
-	margin-right:15px;
-}
-#twiz_header {
-	color:#464646;
-	text-shadow:2px 2px 6px #666666;
-	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-	display:table-cell;
-	width:400px;
-	padding:5px 0 0 5px;
-	-moz-border-radius-topleft:6px;
-	-moz-border-radius-topright:6px;
-	-webkit-border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
-	-khtml-border-radius-topleft:6px;
-	-khtml-border-radius-topright:6px;	
-}
-#twiz_header img{
-	width:80px;
-	padding-right:3px;
-	display:inline;
-}</style>';
-
-		$header = $csscript.'<div id="twiz_header">
+		$header = '<div id="twiz_header">
 	<img src="'.$this->plugin_url.$this->logoUrl.'" align="left"/>
 	<span id="twiz_head_title">'.$this->plugin_name.'</span><br>
 	<span id="twiz_head_version">'.$this->version.'</span> 
@@ -247,32 +122,8 @@ class Twiz{
 	}
 	
 	private function getHtmlFooter(){
-	
-		$csscript = '<style type="text/css">
-#twiz_footer {
-	text-align:center;
-	font-size:8px;
-	color:#464646;
-	text-shadow:2px 2px 6px #666666;
-	border:1px solid #D1D1D1;
-	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-	display:table-cell;
-	width:400px;
-	padding:5px;
-	-moz-border-radius-bottomleft:6px;
-	-moz-border-radius-bottomright:6px;
-	-webkit-border-bottom-left-radius:6px;
-	-webkit-border-bottom-right-radius:6px;
-	-khtml-border-radius-bottomleft:6px;
-	-khtml-border-radius-bottomright:6px;
-}
-#twiz_footer a{text-decoration:none;}
-#twiz_footer a:hover{text-decoration:underline;}
-}</style>';
 
-		$header = $csscript.'<div id="twiz_footer">
+		$header = '<div id="twiz_footer">
 '.__('Developed by', 'the-welcomizer').' <a href="http://www.sebastien-laframboise.com" target="_blank">'.utf8_encode('Sébastien Laframboise').'</a>. '.__('Licensed under the GPL version 2.0', 'the-welcomizer').'</div>';
 		
 		return $header;
@@ -365,7 +216,7 @@ class Twiz{
 		var numid = textid.substring(12,textid.length);
 		if((view_id != numid)&&(view_id!="edit")){
 			view_id = numid;		
-			$("#twiz_right_panel").html("<div style=\"width:350px;height:200px;padding-top:120px;text-align:center;\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
+			$("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->plugin_url.'/images/twiz-big-loading.gif\"></div>");
 			$("#twiz_right_panel").fadeIn("slow");	
 			if(array_view_id[numid]==undefined){
 				$.post("'.$this->plugin_url.'/twiz-ajax.php'.'", { "action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
@@ -522,68 +373,13 @@ class Twiz{
 	 
 	private function createHtmlList($listarray){ 
 	
-		$csscript = '<style type="text/css">
-.twiz-table-list{
-	width:400px;
-}	
-.twiz-table-list-tr-h{
-	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-}	
-.twiz-table-list tr:hover{
-	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-}	
-.twiz-table-list img:hover{
-	cursor:pointer;
-}
-.twiz-table-list-td-h{
-	font-size:11px;
-	padding:4px;
-}
-.twiz-table-list-td{
-	padding:2px;
-	font-size:12px;
-}
-.twiz-td-center{
-	text-align:center;
-}
-.twiz-td-left{
-	text-align:left;
-}
-.twiz-td-right{
-	text-align:right;
-}
-.twiz-row-color-1{
-	background-color:#F3F3F3;
-}
-.twiz-row-color-2{
-	background-color:#F7F7F7;
-}
-.twiz-td-action{
-	min-width:50px;
-}
-.twiz-td-action img{
-	padding:2px;
-}
-.twiz-td-duration{
-	min-width:50px;
-}
-.twiz-xx{
-	font-size:10px;
-	color:green;
-}
-</style>';
-		
 		/* ajax container */ 
 		if(!in_array($_POST['action'], $this->actiontypes)){
 			$opendiv = '<div id="twiz_container">';
 			$closediv = '</div>';
 		}
 		
-		$htmllist = $csscript.$opendiv.'<table class="twiz-table-list" cellspacing="0">';
+		$htmllist = $opendiv.'<table class="twiz-table-list" cellspacing="0">';
 		
 		$htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td id="twiz_table_td_delay" class="twiz-table-list-td-h twiz-td-right" nowrap><b>&#8681;</b> '.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
 		
@@ -772,100 +568,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
   });
  //]]>
 </script>';
-		/* inline css style */
-		$csscript = '<style type="text/css">
-.twiz-table-form{
-	padding-bottom:15px;
-	padding-top:10px;
-	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
-}
-.twiz-table-form hr{
-	margin:15px 0 15px 0;
-	background-color:#ebebeb;
-	border:0px;
-	height:5px;
-}
-.twiz-caption{
-	height:30px;
-	text-align:left;
-	font-size:12px;
-}
-.twiz-td-left{
-	width:210px;
-	padding:2px;
-	font-size:12px;
-}
-.twiz-td-right{
-	width:180px;
-	padding:2px;
-	font-size:12px;
-	text-align:left;
-}
-.twiz-td-picklist{
-	text-align:right;
-	font-size:12px;
-	padding:2px 0 2px 0;
-	height:30px;
-}
-.twiz-td-picklist a:hover{
-	cursor:pointer;
-}
-.twiz-td-small-left{
-	width:40px;
-	font-size:12px;
-}								
-.twiz-td-save{
-	text-align:right;
-	font-size:12px;
-	height:30px;
-}
-.twiz-td-save a:hover{
-	cursor:pointer;
-}
-.twiz-input{
-	width:180px;
-}
-.twiz-input[type=text]:focus{
-	background-color: lightyellow;
-	border:#E6DB55 1px solid;
-}
-.twiz-input-small{
-	width:50px;
-	text-align:right;
-}
-.twiz-input-large{
-	width:180px;
-	text-align:left;
-}
-.twiz-slc-options{
-	width:100%;
-}
-.twiz-table-more-options{
-	display:none;
-}
-a.twiz-more-options:hover{
-	cursor:pointer;
-}
-.twiz-more-options{
-	font-size:12px;
-}
-.twiz-td-e-g{
-	line-height:15px;
-	font-size:10px;
-}
-.twiz-loading-gif-save{
-	height:15px;
-	width:15px;
-}
-#twiz_td_full_chooseid img{
-	margin-right:5px;
-}
-#twiz_td_full_chooseid a{
-	margin-right:5px;
-}
-</style>';
+
 
 		/* ajax container */ 
 		if(!in_array($_POST['action'], $this->actiontypes)){
@@ -906,13 +609,13 @@ a.twiz-more-options:hover{
 
 
 		/* creates the form */
-		$htmlform = $csscript.$opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
-<tr><td class="twiz-td-left">'.__('Status', 'the-welcomizer').':</td>
-<td class="twiz-td-right"><input type="checkbox" id="twiz_status" name="twiz_status" '.$twiz_status.'></td></tr>
-<tr><td class="twiz-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data['layer_id'].'" maxlength="50"></td></tr>
+		$htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
+<tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').':</td>
+<td class="twiz-form-td-right"><input type="checkbox" id="twiz_status" name="twiz_status" '.$twiz_status.'></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-form-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data['layer_id'].'" maxlength="50"></td></tr>
 <tr><td colspan="2" id="twiz_td_full_chooseid" class="twiz-td-picklist"><a id="twiz_choose_fromId" name="twiz_choose_fromId">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
-<tr><td class="twiz-td-left">'.__('Start delay', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_start_delay" name="twiz_start_delay" type="text" value="'.$data['start_delay'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
-<tr><td class="twiz-td-left">'.__('Duration', 'the-welcomizer').':</td><td class="twiz-td-right"><input class="twiz-input twiz-input-small" id="twiz_duration" name="twiz_duration" type="text" value="'.$data['duration'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Start delay', 'the-welcomizer').':</td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_start_delay" name="twiz_start_delay" type="text" value="'.$data['start_delay'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').':</td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_duration" name="twiz_duration" type="text" value="'.$data['duration'].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td colspan="2"><hr></td></tr>
  <tr><td colspan="2" class="twiz-caption">'.__('Starting position', 'the-welcomizer').' <b>'.__('(optional)', 'the-welcomizer').'</b></tr>
 <tr>
@@ -1006,50 +709,6 @@ a.twiz-more-options:hover{
 		if($id!=''){
 			if(!$data = $this->getRow($id)){return false;}
 		}
-
-		/* inline css style */
-		$csscript = '<style type="text/css">
-.twiz-table-view{
-	padding-bottom:15px;
-	padding-top:10px;
-	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
-	width:350px;
-}
-.twiz-table-view hr{
-	margin:15px 0 15px 0;
-	background-color:#ebebeb;
-	border:0px;
-	height:5px;
-}
-.twiz-caption{
-	height:30px;
-	text-align:left;
-	font-size:12px;
-}
-.twiz-view-td-left{
-	width:190px;
-	padding:2px;
-	font-size:12px;
-}
-.twiz-view-td-right{
-	width:160px;
-	padding:2px;
-	font-size:12px;
-	text-align:left;
-}
-.twiz-view-td-small-left{
-	width:40px;
-	font-size:12px;
-}				
-.twiz-bold{
-	font-weight:bold;
-}
-.twiz-view-table-more-options{
-	min-width:160px;
-}
-</style>';
 
 		$start_top_pos = ($data['start_top_pos']!='')? $data['start_top_pos_sign'].$data['start_top_pos'].' '.__('px', 'the-welcomizer'):'';
 		$start_left_pos = ($data['start_left_pos']!='')? $data['start_left_pos_sign'].$data['start_left_pos'].' '.__('px', 'the-welcomizer'):'';
@@ -1172,20 +831,7 @@ a.twiz-more-options:hover{
 	}	
 	
 	function getHtmlSuccess($id, $message){
-		
-		$csscript = '<style type="text/css">
-#twiz_messagebox{
-	background:url('.$this->plugin_url.'/images/twiz-success.gif) no-repeat 10px 50% #F0FFF0;
-	border:1px solid #00FF00;
-	height:25px;
-	padding:7px 0 0 35px;
-	font-size:12px;
-	font-weight:bold;
-	color:#098809;
-	width:363px;
-}
-</style>';
-	
+
 		$htmlmessage = $csscript.'<p id="twiz_messagebox">'.$message.'</p>';
 		
 		return $htmlmessage;
