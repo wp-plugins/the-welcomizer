@@ -11,7 +11,7 @@ This plugin allows you to easily add 'Smart' moves and jQuery effects to virtual
 
 == Description ==
 
-Last Updated: 2011-1-22
+****************** Last Updated: 2011-1-22 ******v1.2.8******
 
 Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
 
