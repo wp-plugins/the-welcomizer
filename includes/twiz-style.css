@@ -24,16 +24,16 @@
 	width:80%;
 	min-height:500px;
 	opacity:0.15;	
-	background: url(../images/twiz-logo-big.png) top right no-repeat;	
+	background:url(../images/twiz-logo-big.png) top right no-repeat;	
 }
 #twiz_global_status{
 	margin:0 0 0 184px;
 	width:25px;
 	height:25px;
 	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));	
+	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background:-khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));	
 	-moz-border-radius-topright:6px;
 	-moz-border-radius-topleft:6px;
 	-webkit-border-top-right-radius:6px;
@@ -56,9 +56,9 @@
 	margin:27px 0 0 25px;
 	padding:10px;	
 	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
+	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
+    background:-khtml-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
 	-moz-border-radius-topleft:6px;
 	-moz-border-radius-topright:6px;
 	-moz-border-radius-bottomleft:6px;
@@ -85,13 +85,11 @@
 	padding-top:120px;
 	text-align:center;
 }
-
 /***********/
-
 #twiz_head_title{
 	font-size:22px;
 	line-height:35px;
-	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 }
 #twiz_head_version{
 	font-size:8px;
@@ -100,68 +98,51 @@
 	float:right;
 	margin-right:15px;
 }
-#twiz_header {
-	color:#464646;
-	text-shadow:2px 2px 6px #666666;
-	border:1px solid #D1D1D1;
-	background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-	display:table-cell;
-	width:400px;
-	padding:5px 0 0 5px;
+#twiz_header{
 	-moz-border-radius-topleft:6px;
 	-moz-border-radius-topright:6px;
 	-webkit-border-top-left-radius:6px;
 	-webkit-border-top-right-radius:6px;
 	-khtml-border-radius-topleft:6px;
-	-khtml-border-radius-topright:6px;	
+	-khtml-border-radius-topright:6px
+}
+#twiz_header, #twiz_footer{
+	color:#464646;
+	text-shadow:2px 2px 6px #666666;
+	border:1px solid #D1D1D1;
+	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+	background:-webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background:-khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+	display:table-cell;
+	width:400px;
+	padding:5px;
 }
 #twiz_header img{
 	width:80px;
 	padding-right:3px;
 	display:inline;
 }
-
 /***********/
-
 #twiz_footer {
 	text-align:center;
 	font-size:8px;
-	color:#464646;
-	text-shadow:2px 2px 6px #666666;
-	border:1px solid #D1D1D1;
-	background:-moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-	display:table-cell;
-	width:400px;
-	padding:5px;
 	-moz-border-radius-bottomleft:6px;
 	-moz-border-radius-bottomright:6px;
 	-webkit-border-bottom-left-radius:6px;
 	-webkit-border-bottom-right-radius:6px;
 	-khtml-border-radius-bottomleft:6px;
-	-khtml-border-radius-bottomright:6px;
+	-khtml-border-radius-bottomright:6px;	
 }
 #twiz_footer a{text-decoration:none;}
 #twiz_footer a:hover{text-decoration:underline;}
-
-
 /**************/
-
 .twiz-table-list{
 	width:400px;
 }	
-.twiz-table-list-tr-h{
+.twiz-table-list-tr-h, .twiz-table-list tr:hover{
 	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-}	
-.twiz-table-list tr:hover{
-	background:-moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+	background:-webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background:-khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
 }	
 .twiz-table-list img:hover{
 	cursor:pointer;
@@ -202,21 +183,31 @@
 	font-size:10px;
 	color:green;
 }
-
 /******************/
-
-.twiz-table-form{
+.twiz-table-form, .twiz-table-view{
 	padding-bottom:15px;
 	padding-top:10px;
 	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
+	background:-webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
+    background:-khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
 }
-.twiz-table-form hr{
+.twiz-table-form hr, .twiz-table-view hr{
 	margin:15px 0 15px 0;
 	background-color:#ebebeb;
 	border:0px;
 	height:5px;
+	-moz-border-radius-topleft:2px;
+	-moz-border-radius-topright:2px;
+	-moz-border-radius-bottomleft:2px;
+	-moz-border-radius-bottomright:2px;
+	-webkit-border-top-left-radius:2px;
+	-webkit-border-top-right-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
+	-webkit-border-bottom-right-radius:2px;
+	-khtml-border-radius-topleft:2px;
+	-khtml-border-radius-topright:2px;	
+	-khtml-border-radius-bottomleft:2px;
+	-khtml-border-radius-bottomright:2px;		
 }
 .twiz-caption{
 	height:30px;
@@ -243,7 +234,7 @@
 .twiz-td-picklist a:hover{
 	cursor:pointer;
 }
-.twiz-td-small-left{
+.twiz-td-small-left, .twiz-view-td-small-left{
 	width:40px;
 	font-size:12px;
 }								
@@ -259,7 +250,7 @@
 	width:180px;
 }
 .twiz-input[type=text]:focus{
-	background-color: lightyellow;
+	background-color:lightyellow;
 	border:#E6DB55 1px solid;
 }
 .twiz-input-small{
@@ -296,23 +287,7 @@ a.twiz-more-options:hover{
 #twiz_td_full_chooseid a{
 	margin-right:5px;
 }
-
 /*******************/
-
-.twiz-table-view{
-	padding-bottom:15px;
-	padding-top:10px;
-	background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-	background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));	
-	width:350px;
-}
-.twiz-table-view hr{
-	margin:15px 0 15px 0;
-	background-color:#ebebeb;
-	border:0px;
-	height:5px;
-}
 .twiz-view-td-left{
 	width:190px;
 	padding:2px;
@@ -323,20 +298,14 @@ a.twiz-more-options:hover{
 	padding:2px;
 	font-size:12px;
 	text-align:left;
-}
-.twiz-view-td-small-left{
-	width:40px;
-	font-size:12px;
-}				
+}			
 .twiz-bold{
 	font-weight:bold;
 }
 .twiz-view-table-more-options{
 	min-width:160px;
 }
-
 /******************/
-
 #twiz_messagebox{
 	background:url(../images/twiz-success.gif) no-repeat 10px 50% #F0FFF0;
 	border:1px solid #00FF00;

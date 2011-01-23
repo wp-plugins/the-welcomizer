@@ -83,7 +83,7 @@ class Twiz{
 		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table		= $wpdb->prefix .'the_welcomizer';
-		$this->version		= 'v1.2.8';
+		$this->version		= 'v1.2.9';
 		$this->dbversion	= 'v1.0';
 		$this->logoUrl		= '/images/twiz-logo.png';
 		$this->logobigUrl	= '/images/twiz-logo-big.png';
@@ -832,7 +832,19 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	
 	function getHtmlSuccess($id, $message){
 
-		$htmlmessage = $csscript.'<p id="twiz_messagebox">'.$message.'</p>';
+			/* flashing tr */
+		$jsscript = '<script>
+ //<![CDATA[
+ jQuery(document).ready(function($) {
+  $("#twiz_list_tr_'.$id.'").animate({ opacity: 0 }, 320);
+  $("#twiz_list_tr_'.$id.'").animate({ opacity: 1 }, 320);
+  $("#twiz_list_tr_'.$id.'").animate({ opacity: 0 }, 300);
+  $("#twiz_list_tr_'.$id.'").animate({ opacity: 1 }, 300);
+  });
+ //]]>
+</script>';
+
+		$htmlmessage = '<p id="twiz_messagebox">'.$message.'</p>'.$jsscript;
 		
 		return $htmlmessage;
 	}
