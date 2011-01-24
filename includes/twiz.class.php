@@ -155,6 +155,7 @@ class Twiz{
  var array_view_id = new Array();
  var bind_New = function() {
 	$("#twiz_new").click(function(){
+	 view_id = "edit";
 	 $(this).fadeOut("fast");
 	 $("#twiz_container").fadeOut("slow");
 	 $("#twiz_right_panel").fadeOut("slow");
