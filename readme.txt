@@ -137,7 +137,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
-= 1.3 =
+= 1.3.0 =
 
 * Major fixes. More options. Critical update.
 
