@@ -63,7 +63,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 = 1.3.0 =
 
-* Enqueued Stylesheet only in admin panel, fixed.
+* Fixed enqueued Stylesheet(only in admin panel).
 * Added more options.
 * Minor changes.
 
@@ -137,7 +137,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
-= 1.3 =
+= 1.3.0 =
 
 * Major fixes. More options. Critical update.
 
