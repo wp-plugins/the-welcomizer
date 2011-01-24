@@ -28,8 +28,6 @@ class Twiz{
 	var $logobigUrl;
 	
 	/* class action constants */ 
-	
-	
 	const ACTION_SAVE		= 'save';
 	const ACTION_CANCEL		= 'cancel';
 	const ACTION_ID_LIST	= 'idlist';
@@ -45,12 +43,21 @@ class Twiz{
 	const JQUERY_HEIGHT			= 'height';
 	const JQUERY_WITDH			= 'width';
 	const JQUERY_OPACITY		= 'opacity';
+	const JQUERY_FONTSIZE		= 'fontSize';	
+	const JQUERY_MARGINTOP		= 'marginTop';
+	const JQUERY_MARGINBOTTOM	= 'marginBottom';
 	const JQUERY_MARGINLEFT		= 'marginLeft';
-	const JQUERY_FONTSIZE		= 'fontSize';
+	const JQUERY_MARGINRIGHT	= 'marginRight';
+	const JQUERY_PADDINGTOP		= 'paddingTop';
+	const JQUERY_PADDINGBOTTOM	= 'paddingBottom';	
+	const JQUERY_PADDINGLEFT	= 'paddingLeft';
+	const JQUERY_PADDINGRIGHT	= 'paddingRight';
 	const JQUERY_BORDERWIDTH	= 'borderWidth';
+	const JQUERY_BORDERTOPWIDTH	= 'borderTopWidth';
+	const JQUERY_BORDERBOTTOMWIDTH	= 'borderBottomWidth';		
 	const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
 	const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
-
+	
 	/* action type array */
 	var $actiontypes = array('ACTION_SAVE'		=> self::ACTION_SAVE		// form action
 							,'ACTION_CANCEL'	=> self::ACTION_CANCEL		// form action
@@ -66,14 +73,23 @@ class Twiz{
 							
 	/* jQuery common options array */
 	var $jQueryoptions = array('JQUERY_HEIGHT'			=> self::JQUERY_HEIGHT
-							  ,'JQUERY_WITDH'			=> self::JQUERY_WITDH	
-							  ,'JQUERY_OPACITY'			=> self::JQUERY_OPACITY
-							  ,'JQUERY_MARGINLEFT'		=> self::JQUERY_MARGINLEFT
-							  ,'JQUERY_FONTSIZE'		=> self::JQUERY_FONTSIZE
-							  ,'JQUERY_BORDERWIDTH'		=> self::JQUERY_BORDERWIDTH
-							  ,'JQUERY_BORDERIGHTWIDTH'	=> self::JQUERY_BORDERIGHTWIDTH
-							  ,'JQUERY_BORDERLEFTWIDTH'	=> self::JQUERY_BORDERLEFTWIDTH
-							  );
+								,'JQUERY_WITDH'			=> self::JQUERY_WITDH
+								,'JQUERY_OPACITY'		=> self::JQUERY_OPACITY
+								,'JQUERY_FONTSIZE'		=> self::JQUERY_FONTSIZE
+								,'JQUERY_MARGINTOP'		=> self::JQUERY_MARGINTOP
+								,'JQUERY_MARGINBOTTOM'	=> self::JQUERY_MARGINBOTTOM
+								,'JQUERY_MARGINLEFT'	=> self::JQUERY_MARGINLEFT
+								,'JQUERY_MARGINRIGHT'	=> self::JQUERY_MARGINRIGHT
+								,'JQUERY_PADDINGTOP'	=> self::JQUERY_PADDINGTOP
+								,'JQUERY_PADDINGBOTTOM'	=> self::JQUERY_PADDINGBOTTOM
+								,'JQUERY_PADDINGLEFT'	=> self::JQUERY_PADDINGLEFT
+								,'JQUERY_PADDINGRIGHT'	=> self::JQUERY_PADDINGRIGHT
+								,'JQUERY_BORDERWIDTH'	=> self::JQUERY_BORDERWIDTH
+								,'JQUERY_BORDERTOPWIDTH'	=> self::JQUERY_BORDERTOPWIDTH
+								,'JQUERY_BORDERBOTTOMWIDTH' => self::JQUERY_BORDERBOTTOMWIDTH
+								,'JQUERY_BORDERIGHTWIDTH'	=> self::JQUERY_BORDERIGHTWIDTH
+								,'JQUERY_BORDERLEFTWIDTH'	=> self::JQUERY_BORDERLEFTWIDTH
+								);
 		
 	function __construct(){
 	
@@ -83,7 +99,7 @@ class Twiz{
 		$this->plugin_name	= __('The Welcomizer', 'the-welcomizer');
 		$this->plugin_url	= get_option('siteurl').'/wp-content/plugins/the-welcomizer';
 		$this->table		= $wpdb->prefix .'the_welcomizer';
-		$this->version		= 'v1.2.9';
+		$this->version		= 'v1.3.0';
 		$this->dbversion	= 'v1.0';
 		$this->logoUrl		= '/images/twiz-logo.png';
 		$this->logobigUrl	= '/images/twiz-logo-big.png';
@@ -295,6 +311,10 @@ class Twiz{
 		bind_Status();bind_Delete();bind_Edit();
 		bind_Cancel();bind_Save();bind_Number_Restriction();
 		bind_More_Options();bind_Choose_FromId();bind_Choose_Options();
+		$("#twiz_list_tr_" + numid).animate({ opacity: 0 }, 320); // needs a rebind for add new
+		$("#twiz_list_tr_" + numid).animate({ opacity: 1 }, 320); // needs a rebind for add new
+		$("#twiz_list_tr_" + numid).animate({ opacity: 0 }, 300); // needs a rebind for add new
+		$("#twiz_list_tr_" + numid).animate({ opacity: 1 }, 300); // needs a rebind for add new
 		setTimeout(function(){
 		$("#twiz_messagebox").hide("slow");
 		}, hide_MessageDelay);	
@@ -401,7 +421,6 @@ class Twiz{
 		 
 		 return $htmllist;
 	}
-	
 	
 	function delete($id){
 	
@@ -763,7 +782,6 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 	
 		return $htmlview;
 	}
-
 	
 	private function getListArray($where){ 
 	
@@ -830,21 +848,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		return $select;
 	}	
 	
-	function getHtmlSuccess($id, $message){
-
-			/* flashing tr */
-		$jsscript = '<script>
- //<![CDATA[
- jQuery(document).ready(function($) {
-  $("#twiz_list_tr_'.$id.'").animate({ opacity: 0 }, 320);
-  $("#twiz_list_tr_'.$id.'").animate({ opacity: 1 }, 320);
-  $("#twiz_list_tr_'.$id.'").animate({ opacity: 0 }, 300);
-  $("#twiz_list_tr_'.$id.'").animate({ opacity: 1 }, 300);
-  });
- //]]>
-</script>';
-
-		$htmlmessage = '<p id="twiz_messagebox">'.$message.'</p>'.$jsscript;
+	function getHtmlSuccess($message){
+	
+		$htmlmessage = '<p id="twiz_messagebox">'.$message.'</p>';
 		
 		return $htmlmessage;
 	}
@@ -961,7 +967,8 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 				 );";
 			
 			$code = $wpdb->query($sql);
-	
+			
+			if($code){return $wpdb->insert_id;}
 			return $code;
 
 		}else{ // update

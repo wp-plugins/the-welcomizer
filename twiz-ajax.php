@@ -29,11 +29,11 @@
 		
 			$myTwiz  = new Twiz();
 			if(($saved = $myTwiz->save($postid)) // insert or update
-			or($saved=='0')){ // success, but no differences
-				$htmlresponse = $myTwiz->getHtmlSuccess($postid,  __('Saved!', 'the-welcomizer'));
+			or($saved=='0')){ // success, but no differences\
+				$htmlresponse = $myTwiz->getHtmlSuccess(__('Saved!', 'the-welcomizer'));
 				$htmlresponse.= $myTwiz->getHtmlList();		
 			}else{
-				// $htmlresponse = $myTwiz->getHtmlError($postid,__('Error!', 'the-welcomizer'));
+				// $htmlresponse = $myTwiz->getHtmlError(__('Error!', 'the-welcomizer'));
 				$htmlresponse = $myTwiz->getHtmlForm();
 			}
 			break;
@@ -77,7 +77,7 @@
 		
 			$myTwiz  = new Twiz();
 			if($htmlresponse = $myTwiz->getHtmlForm($postid)){}else{
-				// $htmlresponse = $myTwiz->getHtmlEror($postid, __('Error!', 'the-welcomizer');
+				// $htmlresponse = $myTwiz->getHtmlEror(__('Error!', 'the-welcomizer');
 				$htmlresponse = $myTwiz->getHtmlList();
 			}
 			break;
