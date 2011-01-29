@@ -63,7 +63,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 = 1.3.0 =
 
-* Fixed enqueued Stylesheet(only in admin panel).
+* Fixed enqueued Stylesheet.
 * Added more personalized options.
 * Minor changes.
 

@@ -738,7 +738,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 		$move_left_pos_b = ($data['move_left_pos_b']!='')? $data['move_left_pos_sign_b'].$data['move_left_pos_b'].' '.__('px', 'the-welcomizer'):'';
 		
 		/* creates the view */
-		$htmlview = $csscript.'<table class="twiz-table-view" cellspacing="0" cellpadding="0">
+		$htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
 		<tr><td class="twiz-view-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-view-td-right twiz-bold">'.$data['layer_id'].'</td></tr>
 <tr><td colspan="2"><hr></td></tr>
 	<td>
