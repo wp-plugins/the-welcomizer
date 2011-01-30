@@ -1,6 +1,6 @@
 #twiz_plugin{
 	width:98%;
-	margin-top:45px;
+	margin-top:40px;
 	margin-left:15px;
 	margin-bottom:15px;
 }
@@ -179,9 +179,15 @@
 .twiz-td-duration{
 	min-width:50px;
 }
+.twiz-td-delay input{
+	width:50px;
+}
 .twiz-xx{
 	font-size:10px;
 	color:green;
+}
+.twiz_ajax_td_edit{
+	display:none;
 }
 /******************/
 .twiz-table-form, .twiz-table-view{
@@ -304,6 +310,14 @@ a.twiz-more-options:hover{
 }
 .twiz-view-table-more-options{
 	min-width:160px;
+}
+.twiz-green{
+	color:green;
+	font-size:14px;
+}
+.twiz-red{
+	color:red;
+	font-size:14px;
 }
 /******************/
 #twiz_messagebox{

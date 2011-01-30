@@ -20,16 +20,16 @@
 
 	/* Require Twiz Class */
 	require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
-	
-	$postid = attribute_escape(trim($_POST['twiz_id']));
 			
 	/* Switch action.. */
-	switch($_POST['action']){
+	switch(attribute_escape(trim($_POST['twiz_action']))){
 		case Twiz::ACTION_SAVE:
 		
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+			
 			$myTwiz  = new Twiz();
-			if(($saved = $myTwiz->save($postid)) // insert or update
-			or($saved=='0')){ // success, but no differences\
+			if(($saved = $myTwiz->save($twiz_id)) // insert or update
+			or($saved=='0')){ // success, but no differences
 				$htmlresponse = $myTwiz->getHtmlSuccess(__('Saved!', 'the-welcomizer'));
 				$htmlresponse.= $myTwiz->getHtmlList();		
 			}else{
@@ -62,8 +62,10 @@
 			
 		case Twiz::ACTION_VIEW:
 		
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+			
 			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->getHtmlView($postid);	
+			$htmlresponse = $myTwiz->getHtmlView($twiz_id);	
 			
 			break;
 			
@@ -74,25 +76,45 @@
 			break;
 
 		case Twiz::ACTION_EDIT:
-		
+			
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+			
 			$myTwiz  = new Twiz();
-			if($htmlresponse = $myTwiz->getHtmlForm($postid)){}else{
+			if($htmlresponse = $myTwiz->getHtmlForm($twiz_id)){}else{
 				// $htmlresponse = $myTwiz->getHtmlEror(__('Error!', 'the-welcomizer');
 				$htmlresponse = $myTwiz->getHtmlList();
 			}
 			break;
 			
+		case Twiz::ACTION_EDIT_TD:
+		
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+			$twiz_value = attribute_escape(trim($_POST['twiz_value']));
+			$twiz_column = attribute_escape(trim($_POST['twiz_column']));
+			
+			$myTwiz  = new Twiz();
+			if(($saved = $myTwiz->saveValue($twiz_id, $twiz_column, $twiz_value)) // insert or update
+			or($saved=='0')){ // success, but no differences\
+				$htmlresponse = $twiz_value;
+			}
+		
+			break;
+			
 		case Twiz::ACTION_DELETE:
 		
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+		
 			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->delete($postid);
+			$htmlresponse = $myTwiz->delete($twiz_id);
 	
 			break;
 
 		case Twiz::ACTION_STATUS:
 		
+			$twiz_id = attribute_escape(trim($_POST['twiz_id']));
+		
 			$myTwiz  = new Twiz();
-			$htmlresponse = $myTwiz->switchStatus($postid);	
+			$htmlresponse = $myTwiz->switchStatus($twiz_id);	
 			
 			break;	
 
