@@ -202,8 +202,6 @@ class Twiz{
 				twiz_view_id = null;
 				if((twiz_view_id != numid)&&(twiz_view_id!="edit")){
 					twiz_view_id = numid;
-					$("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
-					$("#twiz_right_panel").fadeIn("slow");	
 					if(twiz_array_view_id[numid]==undefined){
 						$.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", { "twiz_action": "'.self::ACTION_VIEW.'","twiz_id": numid}, function(data) {
 							$("#twiz_right_panel").html(data);
