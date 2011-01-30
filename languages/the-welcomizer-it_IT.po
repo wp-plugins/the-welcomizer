@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer in italiano\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-11 06:28-0500\n"
-"PO-Revision-Date: 2011-01-11 06:28-0500\n"
+"PO-Revision-Date: 2011-01-30 13:43-0500\n"
 "Last-Translator: seb <seb_temp2002@yahoo.ca>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,6 @@ msgstr ""
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: C:\\Users\\Sébastien\\Downloads\\Clients\\seb\\ plugins\\the-welcomizer\\trunk\n"
 
 #: C:\Users\Sébastien\Downloads\Clients\seb#:
 #: plugins\the-welcomizer\trunk/twiz-ajax.php:61
