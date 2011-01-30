@@ -175,7 +175,7 @@ class Twiz{
 	$("img[name^=twiz_status]").mouseover(function(){
 		var textid = $(this).attr("name");
 		var numid = textid.substring(12,textid.length);
-		if((twiz_view_id != numid)&&(twiz_view_id!="edit")){
+		if((twiz_view_id != numid)&&(twiz_view_id!="edit")&&(numid!="global")){
 			twiz_view_id = numid;
 			$("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
 			$("#twiz_right_panel").fadeIn("slow");	
