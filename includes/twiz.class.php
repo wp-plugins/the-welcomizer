@@ -100,7 +100,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.1.2';
+        $this->version    = 'v1.3.1.3';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -165,6 +165,7 @@ class Twiz{
             $("#twiz_container").html(data);
             $("#twiz_container").fadeIn("fast");
             twiz_lastajaxtdnumid = null;
+            twiz_view_id = null;
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
         });
