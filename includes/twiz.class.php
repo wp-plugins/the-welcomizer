@@ -69,7 +69,7 @@ class Twiz{
                             ,'ACTION_EDIT_TD'  => self::ACTION_EDIT_TD // list action
                             ,'ACTION_DELETE'   => self::ACTION_DELETE  // list action
                             ,'ACTION_STATUS'   => self::ACTION_STATUS  // list action
-                            ,'ACTION_GLOBAL_STATUS' => self::ACTION_GLOBAL_STATUS    // list action
+                            ,'ACTION_GLOBAL_STATUS' => self::ACTION_GLOBAL_STATUS 
                             );
                             
     /* jQuery common options array */
