@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.1.1
+Stable tag: 1.3.1.2
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -67,6 +67,11 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 -> [The result](http://www.sebastien-laframboise.com/go-green/)
 
 == Changelog ==
+
+= 1.3.1.2 =
+
+* Replaced tabs by spaces, everywhere in all the source code.
+* Disabled submit button on form submit.
 
 = 1.3.1.1 =
 
@@ -156,6 +161,10 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.3.1.2 =
+
+* Disabled submit button on form submit. Minor fixes.
 
 = 1.3.1.1 =
 
