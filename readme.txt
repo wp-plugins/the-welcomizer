@@ -55,12 +55,12 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Screenshots ==
 
-1. List panel ordered by Delay. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
-2. Panel when adding a new movement. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
-3. Panel when editing an existing movement. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
-4. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
-5. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
-6. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+1. List panel ordered by Delay. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+2. Panel when adding a new movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+3. Panel when editing an existing movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+4. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+5. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+6. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
 
 == Changelog ==
 
