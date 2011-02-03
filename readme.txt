@@ -29,7 +29,7 @@ style="position:absolute;opacity:0;"
 3. Adjust the Top and Left of the first move.(e.g. Top: + 800 px ), reverse it for the second move.(optional)
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.(optional)
 
-Note: (Advanced) Mind that you can add more - $(this).animate({},xx); - inside the two Extra Javascript textboxes.
+Note: (Advanced) Mind that you can add more - $(this).animate({},xx); - inside the two Extra JavaScript textboxes.
 
 ------------
 
