@@ -728,22 +728,22 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         $twiz_status = (($data['status']==1)or($id==''))? ' checked="checked"':'';
         
         /* selected */
-        $twiz_position['absolute']     = ($data['position']=='absolute')? ' selected="selected"':'';
-        $twiz_position['relative']     = (($data['position']=='relative')or($id==''))? ' selected="selected"':'';
-        $twiz_position['static']     = ($data['position']=='static')? ' selected="selected"':'';
+        $twiz_position['absolute'] = ($data['position']=='absolute')? ' selected="selected"':'';
+        $twiz_position['relative'] = (($data['position']=='relative')or($id==''))? ' selected="selected"':'';
+        $twiz_position['static']   = ($data['position']=='static')? ' selected="selected"':'';
 
-        $twiz_start_top_pos_sign['nothing'] = ($data['start_top_pos_sign']=='')? ' selected="selected"':'';
-        $twiz_start_top_pos_sign['-']         = ($data['start_top_pos_sign']=='-')? ' selected="selected"':'';
-        $twiz_start_left_pos_sign['nothing']= ($data['start_left_pos_sign']=='')? ' selected="selected"':'';
-        $twiz_start_left_pos_sign['-']        = ($data['start_left_pos_sign']=='-')? ' selected="selected"':'';
+        $twiz_start_top_pos_sign['nothing']  = ($data['start_top_pos_sign']=='')? ' selected="selected"':'';
+        $twiz_start_top_pos_sign['-']        = ($data['start_top_pos_sign']=='-')? ' selected="selected"':'';
+        $twiz_start_left_pos_sign['nothing'] = ($data['start_left_pos_sign']=='')? ' selected="selected"':'';
+        $twiz_start_left_pos_sign['-']       = ($data['start_left_pos_sign']=='-')? ' selected="selected"':'';
         
-        $twiz_move_top_pos_sign_a['+']     = ($data['move_top_pos_sign_a']=='+')? ' selected="selected"':'';
-        $twiz_move_top_pos_sign_a['-']     = ($data['move_top_pos_sign_a']=='-')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_a['+']  = ($data['move_top_pos_sign_a']=='+')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_a['-']  = ($data['move_top_pos_sign_a']=='-')? ' selected="selected"':'';
         $twiz_move_left_pos_sign_a['+'] = ($data['move_left_pos_sign_a']=='+')? ' selected="selected"':'';
         $twiz_move_left_pos_sign_a['-'] = ($data['move_left_pos_sign_a']=='-')? ' selected="selected"':'';
 
-        $twiz_move_top_pos_sign_b['+']     = ($data['move_top_pos_sign_b']=='+')? ' selected="selected"':'';
-        $twiz_move_top_pos_sign_b['-']     = ($data['move_top_pos_sign_b']=='-')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_b['+']  = ($data['move_top_pos_sign_b']=='+')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_b['-']  = ($data['move_top_pos_sign_b']=='-')? ' selected="selected"':'';
         $twiz_move_left_pos_sign_b['+'] = ($data['move_left_pos_sign_b']=='+')? ' selected="selected"':'';
         $twiz_move_left_pos_sign_b['-'] = ($data['move_left_pos_sign_b']=='-')? ' selected="selected"':'';
 
