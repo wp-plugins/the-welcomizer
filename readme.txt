@@ -13,27 +13,9 @@ This plugin allows you to easily add 'Smart' moves and jQuery effects to virtual
 
 Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
 
------------- 
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
------------- 
-
-** If you want it to come from outside the screen with an opacity effect **
- 
-1. Add this style below to your HTML element: 
-
-   style="position:absolute;opacity:0;"
-
-2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute)
-
-3. Adjust the Top of the first move. (e.g. Top: + 800 px), reverse it for the second move.
-
-4. Add the option 'opacity:1' for the first move, reverse it for the second move.
-
-Note: (Advanced) Mind that you can add more - $(this).animate({},xx); - inside the two Extra JavaScript textboxes.
-
-------------
 
 Thanks for your feedback and support!
 
@@ -184,6 +166,21 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 = I've translated your awesome plugin in MyLanguage. Could I send you the .po and .mo files? =
 
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
+
+= I want my element to come from outside the screen with an opacity effect. =
+ 
+1. Add this style below to your HTML element: 
+
+   style="position:absolute;opacity:0;"
+
+2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute)
+
+3. Adjust the Top of the first move. (e.g. Top: + 800 px), reverse it for the second move.
+
+4. Add the option 'opacity:1' for the first move, reverse it for the second move.
+
+Note: (Advanced) Mind that you can add more - $(this).animate({},xx); - inside the two Extra JavaScript textboxes.
+
 
 == Upgrade Notice ==
 
