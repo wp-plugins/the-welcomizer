@@ -167,7 +167,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
-= I want my element to come from outside the screen with an opacity effect. =
+= How to bring my element from outside the screen with an opacity effect? =
  
 1. Add this style below to your HTML element: 
 
