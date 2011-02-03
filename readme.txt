@@ -25,9 +25,9 @@ Currently activated on the Homepage, this plugin allows you to easily add 'Smart
 
    style="position:absolute;opacity:0;"
 
-2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute )
+2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute)
 
-3. Adjust the Top of the first move. (e.g. Top: + 800 px ), reverse it for the second move.
+3. Adjust the Top of the first move. (e.g. Top: + 800 px), reverse it for the second move.
 
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
