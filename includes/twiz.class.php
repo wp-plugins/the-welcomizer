@@ -100,7 +100,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.1.3';
+        $this->version    = 'v1.3.1.4';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -308,7 +308,7 @@ class Twiz{
         $("img[name^=twiz_cancel]").unbind("click");
         $("img[name^=twiz_save]").unbind("click");
         bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
-        bind_twiz_Ajax_TD();bind_twiz_TR_View();
+        bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Number_Restriction();
     });
    });
  }
@@ -861,7 +861,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-view-td-right twiz-bold '.$titleclass.'">'.$data['layer_id'].'</td></tr>
+        <tr><td class="twiz-view-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-view-td-right twiz-bold '.$titleclass.'" nowrap="nowrap">'.$data['layer_id'].'</td></tr>
 <tr><td colspan="2"><hr></td></tr>
     <td>
         <table>

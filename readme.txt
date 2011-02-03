@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.1.3
+Stable tag: 1.3.1.4
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -55,18 +55,19 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Screenshots ==
 
--> [The result](http://www.sebastien-laframboise.com/go-green/)
-
-1. List panel ordered by Delay. (Right click - View image)
-2. Panel when adding a new movement. (Right click - View image)
-3. Panel when editing an existing movement. (Right click - View image)
-4. Panel when viewing data. (Right click - View image)
-5. Panel when viewing data. (Right click - View image)
-6. Panel when viewing data. (Right click - View image)
-
--> [The result](http://www.sebastien-laframboise.com/go-green/)
+1. List panel ordered by Delay. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+2. Panel when adding a new movement. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+3. Panel when editing an existing movement. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+4. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+5. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
+6. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/)
 
 == Changelog ==
+
+= 1.3.1.4 =
+
+* Fixed the validation for the delay textbox.(after cancel)
+* Added a nowrap on the title cell from the right panel.
 
 = 1.3.1.3 =
 
@@ -165,6 +166,10 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.3.1.4 =
+
+* Fixed the validation for the delay textbox.(after cancel), minor fixes.
 
 = 1.3.1.3 =
 
