@@ -18,6 +18,12 @@
     /* Require wp-config */
     require_once(dirname(__FILE__).'/../../../wp-config.php');
 
+    /* Nonce security (number used once) */
+    $nonce = $_POST['twiz_nonce'];
+    if (! wp_verify_nonce($nonce, 'twiz-nonce') ){
+        die("0101001101100101011000110111010101110010011010010111010001111001001000000110001101101000011001010110001101101011"); 
+    }
+
     /* Require Twiz Class */
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
             
@@ -94,7 +100,7 @@
             
             $myTwiz  = new Twiz();
             if(($saved = $myTwiz->saveValue($twiz_id, $twiz_column, $twiz_value)) // insert or update
-            or($saved=='0')){ // success, but no differences\
+            or($saved=='0')){ // success, but no differences
                 $htmlresponse = $twiz_value;
             }
         
