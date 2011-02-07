@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.1.7
+Stable tag: 1.3.1.8
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -33,20 +33,20 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * 100% AJAX, check it out!
 * Pick an HTML element Id.
 * Pick an Option properties.
-* Ajax editable 'Delay' column.
 * Global Online/Offline status.
 * Optional First and Second move.
 * Optional starting position: Top, Left.
-* Optional css position: nothing, relative, absolute.
+* Ajax editable 'Delay' & 'Duration' column.
 * Activate or deactivate one or more movements.
+* Unlimited number of movements, take it eazzzy! 
+* Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
-* Flexible and easy movement to config (+ or -) Top and Left.
-* Optional second move on the same editing panel. (Useful for back and forth).
 * Optional custom options textbox, for more custom options.
+* Flexible and easy movement to config (+ or -) Top and Left.
 * Optional custom JavaScript textbox, triggered after each move.
 * Preview your data without editing them, with an advanced caching feature.
-* Unlimited number of movements, take it eazzzy! 
 * Clean uninstallation, means all the data are erased on plugin deactivation.
+* Optional second move on the same editing panel. (Useful for back and forth).
 
 == Installation ==
 
@@ -65,6 +65,11 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 6. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
 
 == Changelog ==
+
+= 1.3.1.8 =
+
+* Added Ajax editable 'Duration' column.
+* Improved Ajax editable 'Delay' column.
 
 = 1.3.1.7 =
 
@@ -195,6 +200,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.1.8 =
+
+* Added Ajax editable 'Duration' column. Layout adjustments, improvements.
 
 = 1.3.1.7 =
 

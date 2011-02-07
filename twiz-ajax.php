@@ -101,7 +101,12 @@
             $myTwiz  = new Twiz();
             if(($saved = $myTwiz->saveValue($twiz_id, $twiz_column, $twiz_value)) // insert or update
             or($saved=='0')){ // success, but no differences
-                $htmlresponse = $twiz_value;
+            
+                if($twiz_column=="duration"){
+                   $htmlresponse = $myTwiz->formatDuration($twiz_id);
+                }else{
+                   $htmlresponse = $myTwiz->getValue($twiz_id, $twiz_column);
+                }
             }
         
             break;

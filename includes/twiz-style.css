@@ -177,7 +177,13 @@
     padding:2px;
 }
 .twiz-td-duration{
-    min-width:50px;
+    min-width:60px;
+}
+.twiz-td-duration input{
+    width:50px;
+}
+.twiz-td-delay{
+    min-width:60px;
 }
 .twiz-td-delay input{
     width:50px;

@@ -101,7 +101,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.1.7';
+        $this->version    = 'v1.3.1.8';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -472,70 +472,88 @@ class Twiz{
         });    
   }    
   var bind_twiz_Ajax_TD = function() {
-    $("div[name^=twiz_ajax_td_val_delay]").mouseover(function(){
+    $("div[name^=twiz_ajax_td_val]").mouseover(function(){
             $(this).attr({title:"'.__('Edit', 'the-welcomizer').'"});
             $(this).css({cursor:"pointer"});
-    });  
-    $("input[name^=twiz_input_delay]").blur(function (e){
+    });      
+    $("input[name^=twiz_input]").blur(function (e){
         var textid = $(this).attr("name");
         var columnName = textid.substring(11,16);
-        if(columnName=="delay"){
-            var numid = textid.substring(17,textid.length);
-            var txtval = $("#twiz_ajax_td_val_delay_" + numid).html();
-            $("#twiz_ajax_td_edit_delay_" + numid).hide();
-            $("#twiz_input_delay_" + numid).attr({value:txtval});
-            $("#twiz_ajax_td_val_delay_" + numid).fadeIn("fast");
+        switch(columnName){
+            case "delay":        
+                var numid = textid.substring(17,textid.length);
+                break;
+            case "durat": 
+                columnName = "duration";
+                var numid = textid.substring(20,textid.length);         
+                break;  
         }
+        var txtval = $("#twiz_ajax_td_val_" + columnName + "_" + numid).html();
+        $("#twiz_ajax_td_edit_" + columnName + "_" + numid).hide();
+        $("#twiz_input_duration" + columnName + "_" + numid).attr({value:txtval});
+        $("#twiz_ajax_td_val_" + columnName + "_" + numid).fadeIn("fast");   
     });
-    $("input[name^=twiz_input_delay]").keypress(function (e){
+    $("input[name^=twiz_input]").keypress(function (e){
         var textid = $(this).attr("name");
         var columnName = textid.substring(11,16);
-        if(columnName=="delay"){
-            var numid = textid.substring(17,textid.length);
-            switch(e.keyCode){
-                case 27:
-                        $("#twiz_ajax_td_edit_delay_" + numid).hide();
-                        $("#twiz_ajax_td_val_delay_" + numid).fadeIn("fast");
+        switch(columnName){
+            case "delay": 
+                var numid = textid.substring(17,textid.length);
                 break;
-                case 13:
-                    var txtval = $("#twiz_input_delay_" + numid).val();
-                     $("#twiz_ajax_td_edit_delay_" + numid).hide();
-                     $("#twiz_ajax_td_loading_delay_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
-                    $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", { 
-                    "twiz_nonce": "'.$this->nonce.'", 
-                    "twiz_action": "'.self::ACTION_EDIT_TD.'",
-                    "twiz_id": numid, 
-                    "twiz_column": columnName, 
-                    "twiz_value": txtval
-                    }, function(data) {
-                        $("#twiz_ajax_td_loading_delay_" + numid).html("");
-                        $("#twiz_ajax_td_val_delay_" + numid).fadeIn("fast");
-                        $("#twiz_ajax_td_val_delay_" + numid).html(data);
-                        $("#twiz_ajax_td_val_delay_" + numid).css({color:"green"});
-                        twiz_lastajaxtdnumid = null;
-                        $("input[name^=twiz_input_delay]").unbind("keypress");
-                        $("div[name^=twiz_ajax_td_val]").unbind("click");
-                        $("input[name^=twiz_input_delay]").unbind("blur");
-                        $("div[name^=twiz_ajax_td_val_delay]").unbind("mouseover");
-                        bind_twiz_Ajax_TD();bind_twiz_TR_View();
-                    });
+            case "durat":
+                columnName = "duration";
+                var numid = textid.substring(20,textid.length);
                 break;
-            }
         }
+        switch(e.keyCode){
+            case 27:
+                $("#twiz_ajax_td_edit_" + columnName + "_" + numid).hide();
+                $("#twiz_ajax_td_val_" + columnName + "_" + numid).fadeIn("fast");
+            break;
+            case 13:
+                var txtval = $("#twiz_input_" + columnName + "_" + numid).val();
+                 $("#twiz_ajax_td_edit_" + columnName + "_" + numid).hide();
+                 $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+                $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", { 
+                "twiz_nonce": "'.$this->nonce.'", 
+                "twiz_action": "'.self::ACTION_EDIT_TD.'",
+                "twiz_id": numid, 
+                "twiz_column": columnName, 
+                "twiz_value": txtval
+                }, function(data) {
+                    $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html("");
+                    $("#twiz_ajax_td_val_" + columnName + "_" + numid).fadeIn("fast");
+                    $("#twiz_ajax_td_val_" + columnName + "_" + numid).html(data);
+                    $("#twiz_ajax_td_val_" + columnName + "_" + numid).css({color:"green"});
+                    twiz_lastajaxtdnumid = null;
+                    $("input[name^=twiz_input_delay]").unbind("keypress");
+                    $("div[name^=twiz_ajax_td_val]").unbind("click");
+                    $("input[name^=twiz_input_delay]").unbind("blur");
+                    $("div[name^=twiz_ajax_td_val_delay]").unbind("mouseover");
+                    bind_twiz_Ajax_TD();bind_twiz_TR_View();
+                });
+            break;
+        }            
+        
     });
     $("div[name^=twiz_ajax_td_val]").click(function(){
         var textid = $(this).attr("name");
         var columnName = textid.substring(17,22);
-        if(columnName=="delay"){
-            var numid = textid.substring(23,textid.length);
-            twiz_lastajaxtdnumid = numid;
-            $("#twiz_ajax_td_val_delay_" + numid).hide();
-            $("#twiz_ajax_td_edit_delay_" + numid).fadeIn("fast");
-            $("#twiz_input_delay_" + numid).focus();
-        }
+        switch(columnName){
+            case "delay": 
+                var numid = textid.substring(23,textid.length);
+                break;
+            case "durat":
+                columnName = "duration";            
+                var numid = textid.substring(26,textid.length);
+                break;
+        }        
+        twiz_lastajaxtdnumid = numid;
+        $("#twiz_ajax_td_val_" + columnName + "_" + numid).hide();
+        $("#twiz_ajax_td_edit_" + columnName + "_" + numid).fadeIn("fast");
+        $("#twiz_input_" + columnName + "_" + numid).focus();
     });
   }
-  
   var bind_twiz_TR_View = function() {
        $("tr[name^=twiz_list_tr]").mouseover(function(){
         var textid = $(this).attr("name");
@@ -580,7 +598,7 @@ class Twiz{
         
         $htmllist = $opendiv.'<table class="twiz-table-list" cellspacing="0">';
         
-        $htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right" nowrap><b>&#8681;</b> '.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
+        $htmllist.= '<tr class="twiz-table-list-tr-h twiz-td-center"><td class="twiz-table-list-td-h">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element ID', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-delay" nowrap><b>&#8681;</b> '.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
         
          foreach($listarray as $key=>$value){
             
@@ -589,10 +607,10 @@ class Twiz{
             $statushtmlimg = ($value['status']=='1')? $this->getHtmlImgStatus($value['id'], 'active'):$this->getHtmlImgStatus($value['id'], 'inactive');
             
             /* add a '2x' to the duration if necessary */
-            $duration = (($value['move_top_pos_b'] !='' ) or( $value['move_left_pos_b'] !='' ) or( $value['options_b'] !='' ) or( $value['extra_js_b'] !='' ))?$value['duration'].'<b class="twiz-xx"> x2</b>':$value['duration'];
+            $duration = $this->formatDuration($value['id'], $value);
 
             /* the table row */
-            $htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value['id'].'" name="twiz_ajax_td_val_delay_'.$value['id'].'">'.$value['start_delay'].'</div><div id="twiz_ajax_td_loading_delay_'.$value['id'].'" name="twiz_ajax_td_loading_delay_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_delay_'.$value['id'].'" name="twiz_ajax_td_edit_delay_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value['id'].'" id="twiz_input_delay_'.$value['id'].'" value="'.$value['start_delay'].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value['id'].'" id="twiz_ajax_td_duration_'.$value['id'].'"  class="twiz-td-right" nowrap>'.$duration.'</td><td class="twiz-td-right" nowrap><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
+            $htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value['id'].'" name="twiz_ajax_td_val_delay_'.$value['id'].'">'.$value['start_delay'].'</div><div id="twiz_ajax_td_loading_delay_'.$value['id'].'" name="twiz_ajax_td_loading_delay_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_delay_'.$value['id'].'" name="twiz_ajax_td_edit_delay_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value['id'].'" id="twiz_input_delay_'.$value['id'].'" value="'.$value['start_delay'].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value['id'].'" id="twiz_ajax_td_duration_'.$value['id'].'"  class="twiz-td-right twiz-td-duration" nowrap><div id="twiz_ajax_td_val_duration_'.$value['id'].'" name="twiz_ajax_td_val_duration_'.$value['id'].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value['id'].'" name="twiz_ajax_td_loading_duration_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_duration_'.$value['id'].'" name="twiz_ajax_td_edit_duration_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value['id'].'" id="twiz_input_duration_'.$value['id'].'" value="'.$value['duration'].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
          
          }
          
@@ -658,7 +676,18 @@ class Twiz{
         
         return true;
     }
-      
+    
+    function formatDuration($id, $data=null){
+       
+        if($id==''){return false;}
+       
+        $data = ($data==null) ? $this->getRow($id):$data;
+        
+        $duration = (($data['move_top_pos_b'] !='' ) or( $data['move_left_pos_b'] !='' ) or( $data['options_b'] !='' ) or( $data['extra_js_b'] !='' ))?$data['duration'].'<b class="twiz-xx"> x2</b>':$data['duration'];
+        
+        return $duration;
+    }
+    
     function getFrontEnd(){
     
         wp_reset_query(); // fix the corrupted is_home() due to a custom query.
@@ -865,7 +894,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
                 <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
                 </td></tr>        
                 <tr><td colspan="2"><hr></td></tr>        
-                <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_a" name="twiz_extra_js_a" type="text">'.$data['extra_js_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");<br><br></td></tr>
+                <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_a" name="twiz_extra_js_a" type="text">'.$data['extra_js_a'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -891,7 +920,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
                 width:"100px"<br><a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
                 </td></tr>        
             <tr><td colspan="2"><hr></td></tr>
-            <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data['extra_js_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({<br>position:"static"});</td></tr>
+            <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data['extra_js_b'].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:"static"});</td></tr>
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -1047,6 +1076,22 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $row;
     }
 
+    function getValue($id, $column){ 
+    
+        global $wpdb;
+        
+        if($id==''){return false;}
+        if($column==''){return false;}
+        $column = ($column=="delay")? "start_delay" : $column;
+    
+        $sql = "SELECT ".$column." from ".$this->table." where id='".$id."'";
+        $row = $wpdb->get_row($sql, ARRAY_A);
+      
+        $value = $row[$column];
+  
+        return $value;
+    }
+    
     private function replaceNumericEntities($value){
             
         /* entities array */
@@ -1220,10 +1265,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         
         if($id==''){return false;}
     
-        $sql = "SELECT status from ".$this->table." where id='".$id."'";
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $value = $this->getValue($id, 'status');
         
-        $newstatus = ($row['status']=='1')? '0' : '1'; // swicth the status value
+        $newstatus = ($value['status']=='1')? '0' : '1'; // swicth the status value
         
         $sql = "UPDATE ".$this->table." 
                 SET status = '".$newstatus."'
@@ -1233,7 +1277,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         if($code){
             $htmlstatus = ($newstatus=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
         }else{ 
-            $htmlstatus = ($row['status']=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
+            $htmlstatus = ($value['status']=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
         }
         
         return $htmlstatus;
