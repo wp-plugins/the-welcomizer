@@ -299,6 +299,7 @@ a.twiz-more-options:hover{
 .twiz-table-view{
     width:415px;
     padding:10px;
+    margin:1px;
 }
 .twiz-view-td-left{
     width:242px;
