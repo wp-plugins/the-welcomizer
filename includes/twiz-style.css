@@ -53,8 +53,7 @@
     min-height:200px;
     display:none;
     min-width:415px;
-    margin:27px 0 0 25px;
-    padding:10px;    
+    margin:27px 0 0 25px;   
     border:1px solid #D1D1D1;
     background:-moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
     background:-webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
@@ -299,6 +298,7 @@ a.twiz-more-options:hover{
 /*******************/
 .twiz-table-view{
     width:415px;
+    padding:10px;
 }
 .twiz-view-td-left{
     width:242px;
