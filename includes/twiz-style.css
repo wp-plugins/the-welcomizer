@@ -314,7 +314,7 @@ a.twiz-more-options:hover{
     font-weight:bold;
 }
 .twiz-view-table-more-options{
-    min-width:200px;
+    width:200px;
 }
 .twiz-green{
     color:green;
