@@ -402,7 +402,7 @@ class Twiz{
    });
   }
   var bind_twiz_Number_Restriction = function() {
-      $("input[name^=twiz_input_delay]").keypress(function (e){
+      $("input[name^=twiz_input]").keypress(function (e){
     if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}}); 
     $("#twiz_start_delay").keypress(function (e){
