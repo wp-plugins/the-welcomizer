@@ -291,6 +291,9 @@ a.twiz-more-options:hover{
     margin-right:5px;
 }
 /*******************/
+.twiz-table-view{
+    width:450px
+}
 .twiz-view-td-left{
     width:242px;
     padding:2px;
