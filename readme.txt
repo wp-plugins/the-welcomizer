@@ -44,8 +44,8 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Optional custom options textbox, for more custom options.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional custom JavaScript textbox, triggered after each move.
-* Preview your data without editing them, with an advanced caching feature.
 * Clean uninstallation, means all the data are erased on plugin deactivation.
+* Preview your data without editing them, with an advanced caching feature.
 * Optional second move on the same editing panel. (Useful for back and forth).
 
 == Installation ==
