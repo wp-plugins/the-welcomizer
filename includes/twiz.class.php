@@ -101,7 +101,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.1.8';
+        $this->version    = 'v1.3.1.9';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -111,7 +111,6 @@ class Twiz{
     function twizIt(){
 
         $html = '<div id="twiz_plugin">';
-        
         $html.= '<div id="twiz_background"></div>';
         $html.= '<div id="twiz_master">';
         $html.= '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>'; 
@@ -121,7 +120,6 @@ class Twiz{
         $html.= $this->getHtmlFooter(); // private 
         $html.= '</div>';
         $html.= '<div id="twiz_right_panel"></div>';
-        
         $html.= '</div>'; 
         
         return $html;
@@ -767,7 +765,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $generatedscript;
     }
 
-    function getHtmlForm($id){ 
+    function getHtmlForm($id=''){ 
         
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
@@ -992,7 +990,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $htmlview;
     }
     
-    private function getListArray($where){ 
+    private function getListArray($where=''){ 
     
         global $wpdb;
 
