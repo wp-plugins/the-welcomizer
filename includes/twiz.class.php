@@ -677,7 +677,7 @@ class Twiz{
     }
 	
     private function fileGetHtml() {
-		$dom = new simple_html_dom;
+		$dom = new twiz_simple_html_dom;
 		$args = func_get_args();
 		$dom->load(call_user_func_array('file_get_contents', $args), true);
 		return $dom;
