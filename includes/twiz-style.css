@@ -84,7 +84,7 @@
     padding-top:120px;
     text-align:center;
 }
-/***********/
+/**************/
 #twiz_head_title{
     font-size:22px;
     line-height:35px;
@@ -121,7 +121,7 @@
     padding-right:3px;
     display:inline;
 }
-/***********/
+/**************/
 #twiz_footer {
     text-align:center;
     font-size:8px;
@@ -194,7 +194,7 @@
 .twiz_ajax_td_edit{
     display:none;
 }
-/******************/
+/****************/
 .twiz-table-form, .twiz-table-view{
     padding-bottom:15px;
     padding-top:10px;
@@ -267,8 +267,6 @@
     width:50px;
     text-align:right;
 }
-.twiz-input-large{
-}
 .twiz-slc-options{
     width:100%;
 }
@@ -295,7 +293,7 @@ a.twiz-more-options:hover{
 #twiz_td_full_chooseid a{
     margin-right:5px;
 }
-/*******************/ 
+/*****************/ 
 .twiz-table-view{
     width:415px;
     padding:10px;

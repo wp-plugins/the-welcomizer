@@ -102,7 +102,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2';
+        $this->version    = 'v1.3.2.1';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -589,6 +589,10 @@ class Twiz{
      
     private function createHtmlList($listarray){ 
     
+		$opendiv = '';
+        $closediv = '';
+		$rowcolor = '';
+		
         /* ajax container */ 
         if(!in_array($_POST['twiz_action'], $this->actiontypes)){
             $opendiv = '<div id="twiz_container">';
@@ -684,7 +688,9 @@ class Twiz{
 	}
 	
     function formatDuration($id, $data=null){
-       
+		
+		$data = '';
+		
         if($id==''){return false;}
        
         $data = ($data==null) ? $this->getRow($id):$data;
@@ -774,7 +780,11 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     }
 
     function getHtmlForm($id=''){ 
-        
+	
+        $data = '';		
+		$opendiv = '';
+        $closediv = '';
+			 
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
         }
@@ -808,7 +818,40 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
              $closediv = '</div>';
         }
         
-        /* toggle more options by default if we have values */
+		if( !isset($data['options_a']) ) $data['options_a'] = '' ;
+		if( !isset($data['options_b']) ) $data['options_b'] = '' ;
+		if( !isset($data['extra_js_a']) ) $data['extra_js_a'] = '' ;
+		if( !isset($data['extra_js_b']) ) $data['extra_js_b'] = '' ;
+		if( !isset($data['status']) ) $data['status'] = '' ;
+		if( !isset($data['position']) ) $data['position'] = '' ;
+		if( !isset($data['start_top_pos_sign']) ) $data['start_top_pos_sign'] = '' ;
+		if( !isset($data['start_left_pos_sign']) ) $data['start_left_pos_sign'] = '' ;
+		if( !isset($data['move_top_pos_sign_a']) ) $data['move_top_pos_sign_a'] = '' ;
+		if( !isset($data['move_top_pos_sign_b']) ) $data['move_top_pos_sign_b'] = '' ;
+		if( !isset($data['move_left_pos_sign_a']) ) $data['move_left_pos_sign_a'] = '' ;
+		if( !isset($data['move_left_pos_sign_b']) ) $data['move_left_pos_sign_b'] = '' ;
+		if( !isset($data['layer_id']) ) $data['layer_id'] = '' ;
+		if( !isset($data['start_delay']) ) $data['start_delay'] = '' ;
+		if( !isset($data['duration']) ) $data['duration'] = '' ;
+		if( !isset($data['start_top_pos']) ) $data['start_top_pos'] = '' ;
+		if( !isset($data['start_left_pos']) ) $data['start_left_pos'] = '' ;
+		if( !isset($data['move_top_pos_a']) ) $data['move_top_pos_a'] = '' ;
+		if( !isset($data['move_top_pos_b']) ) $data['move_top_pos_b'] = '' ;
+		if( !isset($data['move_left_pos_a']) ) $data['move_left_pos_a'] = '' ;
+		if( !isset($data['move_left_pos_b']) ) $data['move_left_pos_b'] = '' ;
+		if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute']  = '' ;
+		if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '' ;
+		if( !isset($twiz_position['static']) ) $twiz_position['static'] = '' ;
+		if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing']  = '' ;
+		if( !isset($twiz_start_top_pos_sign['-']) ) $twiz_start_top_pos_sign['-'] = '' ;
+		if( !isset($twiz_start_left_pos_sign['nothing'] ) ) $twiz_start_left_pos_sign['nothing']  = '' ;
+		if( !isset($twiz_start_left_pos_sign['-']) ) $twiz_start_left_pos_sign['-'] = '' ;		
+		if( !isset($twiz_move_top_pos_sign_a['+'] ) ) $twiz_move_top_pos_sign_a['+']  = '' ;
+		if( !isset($twiz_move_top_pos_sign_a['-'] ) ) $twiz_move_top_pos_sign_a['-']  = '' ;
+		if( !isset($twiz_move_top_pos_sign_b['+']) ) $twiz_move_top_pos_sign_b['+'] = '' ;
+		if( !isset($twiz_move_top_pos_sign_b['-']) ) $twiz_move_top_pos_sign_b['-'] = '' ;		
+		
+        /* toggle more options by default if we have values */		
         if(($data['options_a']!='')or($data['extra_js_a']!='')
          or($data['options_b']!='')or($data['extra_js_b']!='')){
             $toggleoptions = $jsscript_moreoptions;
@@ -938,6 +981,8 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 
     function getHtmlView($id){ 
         
+		$data = '';
+		
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
         }

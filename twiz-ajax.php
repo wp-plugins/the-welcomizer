@@ -21,7 +21,7 @@
     /* Nonce security (number used once) */
     $nonce = $_POST['twiz_nonce'];
     if (! wp_verify_nonce($nonce, 'twiz-nonce') ){
-        die("0101001101100101011000110111010101110010011010010111010001111001001000000110001101101000011001010110001101101011"); 
+        die("Security check"); 
     }
 
     /* Require Twiz Class */
