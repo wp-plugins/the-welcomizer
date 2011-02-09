@@ -25,11 +25,12 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-    /******************
-    * --- The Class ---
-    *******************/
+    /*******************
+    * --- The Classes ---
+    ********************/
     
-    require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
+    require_once(dirname(__FILE__).'/includes/twiz-shd.class.php'); 
+	require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
     
     /******************
     * --- Functions ---

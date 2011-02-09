@@ -59,6 +59,7 @@ class Twiz{
     const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
     const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
     
+	
     /* action type array */
     var $actiontypes = array('ACTION_SAVE'     => self::ACTION_SAVE    // form action
                             ,'ACTION_CANCEL'   => self::ACTION_CANCEL  // form action
@@ -101,7 +102,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.1.9';
+        $this->version    = 'v1.3.2';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -674,7 +675,14 @@ class Twiz{
         
         return true;
     }
-    
+	
+    private function fileGetHtml() {
+		$dom = new simple_html_dom;
+		$args = func_get_args();
+		$dom->load(call_user_func_array('file_get_contents', $args), true);
+		return $dom;
+	}
+	
     function formatDuration($id, $data=null){
        
         if($id==''){return false;}
@@ -1023,7 +1031,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     
     function getHtmlIdList(){
     
-        $html = file_get_html(get_option('siteurl'));
+        $html = $this->fileGetHtml(get_option('siteurl'));
         
         $select = '<select name="twiz_slc_id" id="twiz_slc_id">';
             
