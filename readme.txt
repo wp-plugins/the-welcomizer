@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.2.1
+Stable tag: 1.3.2.2
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -53,14 +53,22 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Screenshots ==
 
-1. List panel ordered by Delay. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-2. Panel when adding a new movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-3. Panel when editing an existing movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-4. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-5. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-6. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+1. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+2. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+3. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+4. Panel when adding a new movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+5. Panel when editing an existing movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+
 
 == Changelog ==
+
+= 1.3.2.2 =
+
+* Linked the plugin version label to the plugin page on wordpress.org
+* Replaced short PHP tags by full PHP tags.
+* Applied some CSS Coding standards.
+* Updated screenshots.
+* Minor fixes.
 
 = 1.3.2.1 =
 
@@ -209,6 +217,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.2.2 =
+
+* Minor fixes and adjustments.
 
 = 1.3.2.1 =
 

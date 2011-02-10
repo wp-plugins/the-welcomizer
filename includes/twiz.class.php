@@ -1,4 +1,4 @@
-<?
+<?php
 /*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -59,7 +59,7 @@ class Twiz{
     const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
     const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
     
-	
+    
     /* action type array */
     var $actiontypes = array('ACTION_SAVE'     => self::ACTION_SAVE    // form action
                             ,'ACTION_CANCEL'   => self::ACTION_CANCEL  // form action
@@ -75,24 +75,24 @@ class Twiz{
                             );
                             
     /* jQuery common options array */
-    var $jQueryoptions = array('JQUERY_HEIGHT'      => self::JQUERY_HEIGHT
-                            ,'JQUERY_WITDH'         => self::JQUERY_WITDH
-                            ,'JQUERY_OPACITY'       => self::JQUERY_OPACITY
-                            ,'JQUERY_FONTSIZE'      => self::JQUERY_FONTSIZE
-                            ,'JQUERY_MARGINTOP'     => self::JQUERY_MARGINTOP
-                            ,'JQUERY_MARGINBOTTOM'  => self::JQUERY_MARGINBOTTOM
-                            ,'JQUERY_MARGINLEFT'    => self::JQUERY_MARGINLEFT
-                            ,'JQUERY_MARGINRIGHT'   => self::JQUERY_MARGINRIGHT
-                            ,'JQUERY_PADDINGTOP'    => self::JQUERY_PADDINGTOP
-                            ,'JQUERY_PADDINGBOTTOM' => self::JQUERY_PADDINGBOTTOM
-                            ,'JQUERY_PADDINGLEFT'   => self::JQUERY_PADDINGLEFT
-                            ,'JQUERY_PADDINGRIGHT'  => self::JQUERY_PADDINGRIGHT
-                            ,'JQUERY_BORDERWIDTH'   => self::JQUERY_BORDERWIDTH
-                            ,'JQUERY_BORDERTOPWIDTH'    => self::JQUERY_BORDERTOPWIDTH
-                            ,'JQUERY_BORDERBOTTOMWIDTH' => self::JQUERY_BORDERBOTTOMWIDTH
-                            ,'JQUERY_BORDERIGHTWIDTH'   => self::JQUERY_BORDERIGHTWIDTH
-                            ,'JQUERY_BORDERLEFTWIDTH'   => self::JQUERY_BORDERLEFTWIDTH
-                            );
+    var $jQueryoptions = array('JQUERY_HEIGHT'        => self::JQUERY_HEIGHT
+                              ,'JQUERY_WITDH'         => self::JQUERY_WITDH
+                              ,'JQUERY_OPACITY'       => self::JQUERY_OPACITY
+                              ,'JQUERY_FONTSIZE'      => self::JQUERY_FONTSIZE
+                              ,'JQUERY_MARGINTOP'     => self::JQUERY_MARGINTOP
+                              ,'JQUERY_MARGINBOTTOM'  => self::JQUERY_MARGINBOTTOM
+                              ,'JQUERY_MARGINLEFT'    => self::JQUERY_MARGINLEFT
+                              ,'JQUERY_MARGINRIGHT'   => self::JQUERY_MARGINRIGHT
+                              ,'JQUERY_PADDINGTOP'    => self::JQUERY_PADDINGTOP
+                              ,'JQUERY_PADDINGBOTTOM' => self::JQUERY_PADDINGBOTTOM
+                              ,'JQUERY_PADDINGLEFT'   => self::JQUERY_PADDINGLEFT
+                              ,'JQUERY_PADDINGRIGHT'  => self::JQUERY_PADDINGRIGHT
+                              ,'JQUERY_BORDERWIDTH'   => self::JQUERY_BORDERWIDTH
+                              ,'JQUERY_BORDERTOPWIDTH'    => self::JQUERY_BORDERTOPWIDTH
+                              ,'JQUERY_BORDERBOTTOMWIDTH' => self::JQUERY_BORDERBOTTOMWIDTH
+                              ,'JQUERY_BORDERIGHTWIDTH'   => self::JQUERY_BORDERIGHTWIDTH
+                              ,'JQUERY_BORDERLEFTWIDTH'   => self::JQUERY_BORDERLEFTWIDTH
+                              );
         
     function __construct(){
     
@@ -102,7 +102,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.1';
+        $this->version    = 'v1.3.2.2';
         $this->dbVersion  = 'v1.0';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -129,19 +129,19 @@ class Twiz{
     private function getHtmlHeader(){
     
         $header = '<div id="twiz_header">
-    <img src="'.$this->pluginUrl.$this->logoUrl.'" align="left"/>
-    <span id="twiz_head_title">'.$this->pluginName.'</span><br>
-    <span id="twiz_head_version">'.$this->version.'</span> 
-    <span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span> 
-</div>
-<div class="twiz-clear"></div>';
+<img src="'.$this->pluginUrl.$this->logoUrl.'" align="left"/>
+<span id="twiz_head_title">'.$this->pluginName.'</span><br>
+<span id="twiz_head_version"><a href="http://wordpress.org/extend/plugins/the-welcomizer/" target="_blank">'.$this->version.'</a></span> 
+<span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span></div><div class="twiz-clear"></div>
+    ';
         
         return $header;
     }
     
     private function getHtmlFooter(){
 
-        $header = '<div id="twiz_footer">
+        $header = '
+<div id="twiz_footer">
 '.__('Developed by', 'the-welcomizer').' <a href="http://www.sebastien-laframboise.com" target="_blank">'.utf8_encode('Sébastien Laframboise').'</a>. '.__('Licensed under the GPL version 2.0', 'the-welcomizer').'</div>';
         
         return $header;
@@ -587,12 +587,12 @@ class Twiz{
        return $header;
     }
      
-    private function createHtmlList($listarray){ 
+    private function createHtmlList( $listarray ){ 
     
-		$opendiv = '';
+        $opendiv = '';
         $closediv = '';
-		$rowcolor = '';
-		
+        $rowcolor = '';
+        
         /* ajax container */ 
         if(!in_array($_POST['twiz_action'], $this->actiontypes)){
             $opendiv = '<div id="twiz_container">';
@@ -605,15 +605,16 @@ class Twiz{
         
          foreach($listarray as $key=>$value){
             
-            $rowcolor= ($rowcolor=='twiz-row-color-1')?'twiz-row-color-2':'twiz-row-color-1';
+            $rowcolor= ($rowcolor=='twiz-row-color-1') ?'twiz-row-color-2' : 'twiz-row-color-1';
             
-            $statushtmlimg = ($value['status']=='1')? $this->getHtmlImgStatus($value['id'], 'active'):$this->getHtmlImgStatus($value['id'], 'inactive');
+            $statushtmlimg = ($value['status']=='1') ? $this->getHtmlImgStatus($value['id'], 'active') : $this->getHtmlImgStatus($value['id'], 'inactive');
             
             /* add a '2x' to the duration if necessary */
             $duration = $this->formatDuration($value['id'], $value);
 
             /* the table row */
-            $htmllist.= '<tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value['id'].'" name="twiz_ajax_td_val_delay_'.$value['id'].'">'.$value['start_delay'].'</div><div id="twiz_ajax_td_loading_delay_'.$value['id'].'" name="twiz_ajax_td_loading_delay_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_delay_'.$value['id'].'" name="twiz_ajax_td_edit_delay_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value['id'].'" id="twiz_input_delay_'.$value['id'].'" value="'.$value['start_delay'].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value['id'].'" id="twiz_ajax_td_duration_'.$value['id'].'"  class="twiz-td-right twiz-td-duration" nowrap><div id="twiz_ajax_td_val_duration_'.$value['id'].'" name="twiz_ajax_td_val_duration_'.$value['id'].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value['id'].'" name="twiz_ajax_td_loading_duration_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_duration_'.$value['id'].'" name="twiz_ajax_td_edit_duration_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value['id'].'" id="twiz_input_duration_'.$value['id'].'" value="'.$value['duration'].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
+            $htmllist.= '
+    <tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value['id'].'" id="twiz_list_tr_'.$value['id'].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value['id'].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value['layer_id'].'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value['id'].'" name="twiz_ajax_td_val_delay_'.$value['id'].'">'.$value['start_delay'].'</div><div id="twiz_ajax_td_loading_delay_'.$value['id'].'" name="twiz_ajax_td_loading_delay_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_delay_'.$value['id'].'" name="twiz_ajax_td_edit_delay_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value['id'].'" id="twiz_input_delay_'.$value['id'].'" value="'.$value['start_delay'].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value['id'].'" id="twiz_ajax_td_duration_'.$value['id'].'"  class="twiz-td-right twiz-td-duration" nowrap><div id="twiz_ajax_td_val_duration_'.$value['id'].'" name="twiz_ajax_td_val_duration_'.$value['id'].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value['id'].'" name="twiz_ajax_td_loading_duration_'.$value['id'].'"></div><div id="twiz_ajax_td_edit_duration_'.$value['id'].'" name="twiz_ajax_td_edit_duration_'.$value['id'].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value['id'].'" id="twiz_input_duration_'.$value['id'].'" value="'.$value['duration'].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value['id'].'" name="twiz_img_edit_'.$value['id'].'" class="twiz-loading-gif"><img id="twiz_edit_'.$value['id'].'" name="twiz_edit_'.$value['id'].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value['id'].'" name="twiz_delete_'.$value['id'].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value['id'].'" name="twiz_img_delete_'.$value['id'].'"></td></tr>';
          
          }
          
@@ -622,7 +623,7 @@ class Twiz{
          return $htmllist;
     }
     
-    function delete($id){
+    function delete( $id ){
     
         global $wpdb;
         
@@ -679,23 +680,27 @@ class Twiz{
         
         return true;
     }
-	
+    
     private function fileGetHtml() {
-		$dom = new twiz_simple_html_dom;
-		$args = func_get_args();
-		$dom->load(call_user_func_array('file_get_contents', $args), true);
-		return $dom;
-	}
-	
-    function formatDuration($id, $data=null){
-		
-		$data = '';
-		
+    
+        $dom = new twiz_simple_html_dom;
+        
+        $args = func_get_args();
+        
+        $dom->load(call_user_func_array('file_get_contents', $args), true);
+        
+        return $dom;
+    }
+    
+    function formatDuration( $id, $data = null ){
+        
+        $data = '';
+        
         if($id==''){return false;}
        
-        $data = ($data==null) ? $this->getRow($id):$data;
+        $data = ($data==null) ? $this->getRow($id) : $data;
         
-        $duration = (($data['move_top_pos_b'] !='' ) or( $data['move_left_pos_b'] !='' ) or( $data['options_b'] !='' ) or( $data['extra_js_b'] !='' ))?$data['duration'].'<b class="twiz-xx"> x2</b>':$data['duration'];
+        $duration = (($data['move_top_pos_b'] !='' ) or( $data['move_left_pos_b'] !='' ) or( $data['options_b'] !='' ) or( $data['extra_js_b'] !='' )) ?$data['duration'].'<b class="twiz-xx"> x2</b>' : $data['duration'];
         
         return $duration;
     }
@@ -723,14 +728,14 @@ jQuery(document).ready(function($) {';
 setTimeout(function(){'; 
             
                 /* css position */ 
-                $generatedscript .= ($value['position']!='')?'
-$("#'.$value['layer_id'].'").css("position", "'.$value['position'].'");':''; 
+                $generatedscript .= ($value['position']!='') ?'
+$("#'.$value['layer_id'].'").css("position", "'.$value['position'].'");' : ''; 
                 
                 /* starting positions */ 
-                $generatedscript .=($value['start_left_pos']!='')? '$("#'.$value['layer_id'].'").css("left", "'.$value['start_left_pos_sign'].$value['start_left_pos'].'px");':'';
-                $generatedscript .=($value['start_top_pos']!='')? '$("#'.$value['layer_id'].'").css("top", "'.$value['start_top_pos_sign'].$value['start_top_pos'].'px");':'';
+                $generatedscript .=($value['start_left_pos']!='') ? '$("#'.$value['layer_id'].'").css("left", "'.$value['start_left_pos_sign'].$value['start_left_pos'].'px");' : '';
+                $generatedscript .=($value['start_top_pos']!='') ? '$("#'.$value['layer_id'].'").css("top", "'.$value['start_top_pos_sign'].$value['start_top_pos'].'px");' : '';
                 
-                $value['options_a'] = ($value['options_a']!='')? ','.$value['options_a']:'';
+                $value['options_a'] = ($value['options_a']!='') ? ','.$value['options_a'] : '';
                 $value['options_a'] = str_replace("\n", "," , $value['options_a']);
             
                 /* replace numeric entities */    
@@ -738,18 +743,18 @@ $("#'.$value['layer_id'].'").css("position", "'.$value['position'].'");':'';
 
                 /* animate jquery a */ 
                 $generatedscript .='
-$("#'.$value['layer_id'].'").animate({left: "'.$value['move_left_pos_sign_a'].'='.$value['move_left_pos_a'].'", top:"'.$value['move_top_pos_sign_a'].'='.$value['move_top_pos_a'].'" '.$value['options_a'].'}, '.$value['duration'].', function() {';
+$("#'.$value['layer_id'].'").animate({left:  "'.$value['move_left_pos_sign_a'].'='.$value['move_left_pos_a'].'", top:"'.$value['move_top_pos_sign_a'].'='.$value['move_top_pos_a'].'" '.$value['options_a'].'}, '.$value['duration'].', function() {';
         
                 /* replace numeric entities */
                 $value['extra_js_a'] = $this->replaceNumericEntities($value['extra_js_a']);
     
                 /* extra js a */    
-                $generatedscript .= ($value['extra_js_a']!='')? $value['extra_js_a']:'';
+                $generatedscript .= ($value['extra_js_a']!='') ? $value['extra_js_a'] : '';
                 
                 /* ************************* */
                 
                 /* add a coma between each options */ 
-                $value['options_b'] = ($value['options_b']!='')? ','.$value['options_b']:'';
+                $value['options_b'] = ($value['options_b']!='') ? ','.$value['options_b'] : '';
                 $value['options_b'] = str_replace("\n", "," , $value['options_b']);
                 
                 /* replace numeric entities */                
@@ -763,7 +768,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
                 $value['extra_js_b'] = $this->replaceNumericEntities($value['extra_js_b']);
     
                 /* extra js b */    
-                $generatedscript .= ($value['extra_js_b']!='')? $value['extra_js_b']:'';
+                $generatedscript .= ($value['extra_js_b']!='') ? $value['extra_js_b'] : '';
                 
                 /* closing functions */
                 $generatedscript .= '});';
@@ -779,12 +784,12 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $generatedscript;
     }
 
-    function getHtmlForm($id=''){ 
-	
-        $data = '';		
-		$opendiv = '';
+    function getHtmlForm( $id = '' ){ 
+    
+        $data = '';        
+        $opendiv = '';
         $closediv = '';
-			 
+             
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
         }
@@ -818,40 +823,40 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
              $closediv = '</div>';
         }
         
-		if( !isset($data['options_a']) ) $data['options_a'] = '' ;
-		if( !isset($data['options_b']) ) $data['options_b'] = '' ;
-		if( !isset($data['extra_js_a']) ) $data['extra_js_a'] = '' ;
-		if( !isset($data['extra_js_b']) ) $data['extra_js_b'] = '' ;
-		if( !isset($data['status']) ) $data['status'] = '' ;
-		if( !isset($data['position']) ) $data['position'] = '' ;
-		if( !isset($data['start_top_pos_sign']) ) $data['start_top_pos_sign'] = '' ;
-		if( !isset($data['start_left_pos_sign']) ) $data['start_left_pos_sign'] = '' ;
-		if( !isset($data['move_top_pos_sign_a']) ) $data['move_top_pos_sign_a'] = '' ;
-		if( !isset($data['move_top_pos_sign_b']) ) $data['move_top_pos_sign_b'] = '' ;
-		if( !isset($data['move_left_pos_sign_a']) ) $data['move_left_pos_sign_a'] = '' ;
-		if( !isset($data['move_left_pos_sign_b']) ) $data['move_left_pos_sign_b'] = '' ;
-		if( !isset($data['layer_id']) ) $data['layer_id'] = '' ;
-		if( !isset($data['start_delay']) ) $data['start_delay'] = '' ;
-		if( !isset($data['duration']) ) $data['duration'] = '' ;
-		if( !isset($data['start_top_pos']) ) $data['start_top_pos'] = '' ;
-		if( !isset($data['start_left_pos']) ) $data['start_left_pos'] = '' ;
-		if( !isset($data['move_top_pos_a']) ) $data['move_top_pos_a'] = '' ;
-		if( !isset($data['move_top_pos_b']) ) $data['move_top_pos_b'] = '' ;
-		if( !isset($data['move_left_pos_a']) ) $data['move_left_pos_a'] = '' ;
-		if( !isset($data['move_left_pos_b']) ) $data['move_left_pos_b'] = '' ;
-		if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute']  = '' ;
-		if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '' ;
-		if( !isset($twiz_position['static']) ) $twiz_position['static'] = '' ;
-		if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing']  = '' ;
-		if( !isset($twiz_start_top_pos_sign['-']) ) $twiz_start_top_pos_sign['-'] = '' ;
-		if( !isset($twiz_start_left_pos_sign['nothing'] ) ) $twiz_start_left_pos_sign['nothing']  = '' ;
-		if( !isset($twiz_start_left_pos_sign['-']) ) $twiz_start_left_pos_sign['-'] = '' ;		
-		if( !isset($twiz_move_top_pos_sign_a['+'] ) ) $twiz_move_top_pos_sign_a['+']  = '' ;
-		if( !isset($twiz_move_top_pos_sign_a['-'] ) ) $twiz_move_top_pos_sign_a['-']  = '' ;
-		if( !isset($twiz_move_top_pos_sign_b['+']) ) $twiz_move_top_pos_sign_b['+'] = '' ;
-		if( !isset($twiz_move_top_pos_sign_b['-']) ) $twiz_move_top_pos_sign_b['-'] = '' ;		
-		
-        /* toggle more options by default if we have values */		
+        if( !isset($data['options_a']) ) $data['options_a'] = '' ;
+        if( !isset($data['options_b']) ) $data['options_b'] = '' ;
+        if( !isset($data['extra_js_a']) ) $data['extra_js_a'] = '' ;
+        if( !isset($data['extra_js_b']) ) $data['extra_js_b'] = '' ;
+        if( !isset($data['status']) ) $data['status'] = '' ;
+        if( !isset($data['position']) ) $data['position'] = '' ;
+        if( !isset($data['start_top_pos_sign']) ) $data['start_top_pos_sign'] = '' ;
+        if( !isset($data['start_left_pos_sign']) ) $data['start_left_pos_sign'] = '' ;
+        if( !isset($data['move_top_pos_sign_a']) ) $data['move_top_pos_sign_a'] = '' ;
+        if( !isset($data['move_top_pos_sign_b']) ) $data['move_top_pos_sign_b'] = '' ;
+        if( !isset($data['move_left_pos_sign_a']) ) $data['move_left_pos_sign_a'] = '' ;
+        if( !isset($data['move_left_pos_sign_b']) ) $data['move_left_pos_sign_b'] = '' ;
+        if( !isset($data['layer_id']) ) $data['layer_id'] = '' ;
+        if( !isset($data['start_delay']) ) $data['start_delay'] = '' ;
+        if( !isset($data['duration']) ) $data['duration'] = '' ;
+        if( !isset($data['start_top_pos']) ) $data['start_top_pos'] = '' ;
+        if( !isset($data['start_left_pos']) ) $data['start_left_pos'] = '' ;
+        if( !isset($data['move_top_pos_a']) ) $data['move_top_pos_a'] = '' ;
+        if( !isset($data['move_top_pos_b']) ) $data['move_top_pos_b'] = '' ;
+        if( !isset($data['move_left_pos_a']) ) $data['move_left_pos_a'] = '' ;
+        if( !isset($data['move_left_pos_b']) ) $data['move_left_pos_b'] = '' ;
+        if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute']  = '' ;
+        if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '' ;
+        if( !isset($twiz_position['static']) ) $twiz_position['static'] = '' ;
+        if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing']  = '' ;
+        if( !isset($twiz_start_top_pos_sign['-']) ) $twiz_start_top_pos_sign['-'] = '' ;
+        if( !isset($twiz_start_left_pos_sign['nothing'] ) ) $twiz_start_left_pos_sign['nothing']  = '' ;
+        if( !isset($twiz_start_left_pos_sign['-']) ) $twiz_start_left_pos_sign['-'] = '' ;        
+        if( !isset($twiz_move_top_pos_sign_a['+'] ) ) $twiz_move_top_pos_sign_a['+']  = '' ;
+        if( !isset($twiz_move_top_pos_sign_a['-'] ) ) $twiz_move_top_pos_sign_a['-']  = '' ;
+        if( !isset($twiz_move_top_pos_sign_b['+']) ) $twiz_move_top_pos_sign_b['+'] = '' ;
+        if( !isset($twiz_move_top_pos_sign_b['-']) ) $twiz_move_top_pos_sign_b['-'] = '' ;        
+        
+        /* toggle more options by default if we have values */        
         if(($data['options_a']!='')or($data['extra_js_a']!='')
          or($data['options_b']!='')or($data['extra_js_b']!='')){
             $toggleoptions = $jsscript_moreoptions;
@@ -860,27 +865,27 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         }
     
         /* checked */
-        $twiz_status = (($data['status']==1)or($id==''))? ' checked="checked"':'';
+        $twiz_status = (($data['status']==1)or($id=='')) ? ' checked="checked"' : '';
         
         /* selected */
-        $twiz_position['absolute'] = ($data['position']=='absolute')? ' selected="selected"':'';
-        $twiz_position['relative'] = (($data['position']=='relative')or($id==''))? ' selected="selected"':'';
-        $twiz_position['static']   = ($data['position']=='static')? ' selected="selected"':'';
+        $twiz_position['absolute'] = ($data['position']=='absolute') ? ' selected="selected"' : '';
+        $twiz_position['relative'] = (($data['position']=='relative')or($id=='')) ? ' selected="selected"' : '';
+        $twiz_position['static']   = ($data['position']=='static') ? ' selected="selected"' : '';
 
-        $twiz_start_top_pos_sign['nothing']  = ($data['start_top_pos_sign']=='')? ' selected="selected"':'';
-        $twiz_start_top_pos_sign['-']        = ($data['start_top_pos_sign']=='-')? ' selected="selected"':'';
-        $twiz_start_left_pos_sign['nothing'] = ($data['start_left_pos_sign']=='')? ' selected="selected"':'';
-        $twiz_start_left_pos_sign['-']       = ($data['start_left_pos_sign']=='-')? ' selected="selected"':'';
+        $twiz_start_top_pos_sign['nothing']  = ($data['start_top_pos_sign']=='') ? ' selected="selected"' : '';
+        $twiz_start_top_pos_sign['-']        = ($data['start_top_pos_sign']=='-') ? ' selected="selected"' : '';
+        $twiz_start_left_pos_sign['nothing'] = ($data['start_left_pos_sign']=='') ? ' selected="selected"' : '';
+        $twiz_start_left_pos_sign['-']       = ($data['start_left_pos_sign']=='-') ? ' selected="selected"' : '';
         
-        $twiz_move_top_pos_sign_a['+']  = ($data['move_top_pos_sign_a']=='+')? ' selected="selected"':'';
-        $twiz_move_top_pos_sign_a['-']  = ($data['move_top_pos_sign_a']=='-')? ' selected="selected"':'';
-        $twiz_move_left_pos_sign_a['+'] = ($data['move_left_pos_sign_a']=='+')? ' selected="selected"':'';
-        $twiz_move_left_pos_sign_a['-'] = ($data['move_left_pos_sign_a']=='-')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_a['+']  = ($data['move_top_pos_sign_a']=='+') ? ' selected="selected"' : '';
+        $twiz_move_top_pos_sign_a['-']  = ($data['move_top_pos_sign_a']=='-') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_a['+'] = ($data['move_left_pos_sign_a']=='+') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_a['-'] = ($data['move_left_pos_sign_a']=='-') ? ' selected="selected"' : '';
 
-        $twiz_move_top_pos_sign_b['+']  = ($data['move_top_pos_sign_b']=='+')? ' selected="selected"':'';
-        $twiz_move_top_pos_sign_b['-']  = ($data['move_top_pos_sign_b']=='-')? ' selected="selected"':'';
-        $twiz_move_left_pos_sign_b['+'] = ($data['move_left_pos_sign_b']=='+')? ' selected="selected"':'';
-        $twiz_move_left_pos_sign_b['-'] = ($data['move_left_pos_sign_b']=='-')? ' selected="selected"':'';
+        $twiz_move_top_pos_sign_b['+']  = ($data['move_top_pos_sign_b']=='+') ? ' selected="selected"' : '';
+        $twiz_move_top_pos_sign_b['-']  = ($data['move_top_pos_sign_b']=='-') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_b['+'] = ($data['move_left_pos_sign_b']=='+') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_b['-'] = ($data['move_left_pos_sign_b']=='-') ? ' selected="selected"' : '';
 
 
         /* creates the form */
@@ -979,22 +984,22 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $htmlform;
     }
 
-    function getHtmlView($id){ 
+    function getHtmlView( $id ){ 
         
-		$data = '';
-		
+        $data = '';
+        
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
         }
 
-        $start_top_pos = ($data['start_top_pos']!='')? $data['start_top_pos_sign'].$data['start_top_pos'].' '.__('px', 'the-welcomizer'):'';
-        $start_left_pos = ($data['start_left_pos']!='')? $data['start_left_pos_sign'].$data['start_left_pos'].' '.__('px', 'the-welcomizer'):'';
-        $move_top_pos_a = ($data['move_top_pos_a']!='')? $data['move_top_pos_sign_a'].$data['move_top_pos_a'].' '.__('px', 'the-welcomizer'):'';
-        $move_left_pos_a = ($data['move_left_pos_a']!='')? $data['move_left_pos_sign_a'].$data['move_left_pos_a'].' '.__('px', 'the-welcomizer'):'';
-        $move_top_pos_b = ($data['move_top_pos_b']!='')? $data['move_top_pos_sign_b'].$data['move_top_pos_b'].' '.__('px', 'the-welcomizer'):'';
-        $move_left_pos_b = ($data['move_left_pos_b']!='')? $data['move_left_pos_sign_b'].$data['move_left_pos_b'].' '.__('px', 'the-welcomizer'):'';
+        $start_top_pos = ($data['start_top_pos']!='') ? $data['start_top_pos_sign'].$data['start_top_pos'].' '.__('px', 'the-welcomizer') : '';
+        $start_left_pos = ($data['start_left_pos']!='') ? $data['start_left_pos_sign'].$data['start_left_pos'].' '.__('px', 'the-welcomizer') : '';
+        $move_top_pos_a = ($data['move_top_pos_a']!='') ? $data['move_top_pos_sign_a'].$data['move_top_pos_a'].' '.__('px', 'the-welcomizer') : '';
+        $move_left_pos_a = ($data['move_left_pos_a']!='') ? $data['move_left_pos_sign_a'].$data['move_left_pos_a'].' '.__('px', 'the-welcomizer') : '';
+        $move_top_pos_b = ($data['move_top_pos_b']!='') ? $data['move_top_pos_sign_b'].$data['move_top_pos_b'].' '.__('px', 'the-welcomizer') : '';
+        $move_left_pos_b = ($data['move_left_pos_b']!='') ? $data['move_left_pos_sign_b'].$data['move_left_pos_b'].' '.__('px', 'the-welcomizer') : '';
         
-        $titleclass = ($data['status']=='1')?'twiz-green':'twiz-red';
+        $titleclass = ($data['status']=='1') ?'twiz-green' : 'twiz-red';
         
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
@@ -1043,7 +1048,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $htmlview;
     }
     
-    private function getListArray($where=''){ 
+    private function getListArray( $where = '' ){ 
     
         global $wpdb;
 
@@ -1068,7 +1073,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         
     }
     
-    private function getHtmlImgStatus($id, $status){
+    private function getHtmlImgStatus( $id, $status ){
     
         return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
@@ -1076,7 +1081,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     
     function getHtmlIdList(){
     
-        $html = $this->fileGetHtml(get_option('siteurl'));
+        $html = $this->fileGetHtml(get_option('siteurl')); // private
         
         $select = '<select name="twiz_slc_id" id="twiz_slc_id">';
             
@@ -1092,7 +1097,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $select;
     }    
     
-    function getHtmlOptionList($id){
+    function getHtmlOptionList( $id ){
         
         $select = '<select class="twiz-slc-options" name="twiz_slc_options_'.$id.'" id="twiz_slc_options_'.$id.'">';
             
@@ -1108,14 +1113,14 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $select;
     }    
     
-    function getHtmlSuccess($message){
+    function getHtmlSuccess( $message ){
     
         $htmlmessage = '<p id="twiz_messagebox">'.$message.'</p>';
         
         return $htmlmessage;
     }
         
-    private function getRow($id){ 
+    private function getRow( $id ){ 
     
         global $wpdb;
         
@@ -1127,13 +1132,13 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $row;
     }
 
-    function getValue($id, $column){ 
+    function getValue( $id, $column ){ 
     
         global $wpdb;
         
         if($id==''){return false;}
         if($column==''){return false;}
-        $column = ($column=="delay")? "start_delay" : $column;
+        $column = ($column=="delay") ? "start_delay" : $column;
     
         $sql = "SELECT ".$column." from ".$this->table." where id='".$id."'";
         $row = $wpdb->get_row($sql, ARRAY_A);
@@ -1143,7 +1148,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $value;
     }
     
-    private function replaceNumericEntities($value){
+    private function replaceNumericEntities( $value ){
             
         /* entities array */
         $trans_tbl = get_html_translation_table(HTML_ENTITIES);
@@ -1157,15 +1162,15 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         return $newvalue;
     }
     
-    function save($id){
+    function save( $id ){
     
         global $wpdb;
 
         $twiz_status = attribute_escape(trim($_POST['twiz_status']));
-        $twiz_status = ($twiz_status=='true')?1:0;
+        $twiz_status = ($twiz_status=='true') ?1 : 0;
     
         $twiz_layer_id = attribute_escape(trim($_POST['twiz_layer_id']));
-        $twiz_layer_id = ($twiz_layer_id=='')? '*'.__('Delay', 'the-welcomizer'):$twiz_layer_id;
+        $twiz_layer_id = ($twiz_layer_id=='') ? '*'.__('Delay', 'the-welcomizer') : $twiz_layer_id;
         
         $twiz_move_top_position_a  = attribute_escape(trim($_POST['twiz_move_top_position_a']));
         $twiz_move_left_position_a = attribute_escape(trim($_POST['twiz_move_left_position_a']));
@@ -1174,12 +1179,12 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         $twiz_start_top_position   = attribute_escape(trim($_POST['twiz_start_top_position']));
         $twiz_start_left_position  = attribute_escape(trim($_POST['twiz_start_left_position']));
         
-        $twiz_move_top_position_a  = ($twiz_move_top_position_a=='')?'NULL':$twiz_move_top_position_a;
-        $twiz_move_left_position_a = ($twiz_move_left_position_a=='')?'NULL':$twiz_move_left_position_a;
-        $twiz_move_top_position_b  = ($twiz_move_top_position_b=='')?'NULL':$twiz_move_top_position_b;
-        $twiz_move_left_position_b = ($twiz_move_left_position_b=='')?'NULL':$twiz_move_left_position_b;
-        $twiz_start_top_position   = ($twiz_start_top_position=='')?'NULL':$twiz_start_top_position;
-        $twiz_start_left_position  = ($twiz_start_left_position=='')?'NULL':$twiz_start_left_position;
+        $twiz_move_top_position_a  = ($twiz_move_top_position_a=='') ?'NULL' : $twiz_move_top_position_a;
+        $twiz_move_left_position_a = ($twiz_move_left_position_a=='') ?'NULL' : $twiz_move_left_position_a;
+        $twiz_move_top_position_b  = ($twiz_move_top_position_b=='') ?'NULL' : $twiz_move_top_position_b;
+        $twiz_move_left_position_b = ($twiz_move_left_position_b=='') ?'NULL' : $twiz_move_left_position_b;
+        $twiz_start_top_position   = ($twiz_start_top_position=='') ?'NULL' : $twiz_start_top_position;
+        $twiz_start_left_position  = ($twiz_start_left_position=='') ?'NULL' : $twiz_start_left_position;
         
         /* user syntax auto correction */ 
         $twiz_options_a = str_replace("'", "\"" , $_POST['twiz_options_a']);    
@@ -1278,11 +1283,11 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         }
     }
     
-    function saveValue($id, $column, $value){ 
+    function saveValue( $id, $column, $value ){ 
         
         global $wpdb;
             
-            $column = ($column=="delay")? "start_delay" : $column;
+            $column = ($column=="delay") ? "start_delay" : $column;
             
             $sql = "UPDATE ".$this->table." 
                     SET ".$column." = '".$value."'                 
@@ -1294,23 +1299,23 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     
     function switchGlobalStatus(){ 
 
-        $newglobalstatus = (get_option('twiz_global_status')=='0')? '1' : '0'; // swicth the status value
+        $newglobalstatus = (get_option('twiz_global_status')=='0') ? '1' : '0'; // swicth the status value
                 
         update_option('twiz_global_status', $newglobalstatus);
     
-        $htmlstatus = ($newglobalstatus=='1')? $this->getHtmlImgStatus('global','active'):$this->getHtmlImgStatus('global','inactive');
+        $htmlstatus = ($newglobalstatus=='1') ? $this->getHtmlImgStatus('global','active') : $this->getHtmlImgStatus('global','inactive');
 
         return $htmlstatus;
     }
     
     private function getImgGlobalStatus(){ 
 
-        $htmlstatus = (get_option('twiz_global_status')=='1')? $this->getHtmlImgStatus('global','active'):$this->getHtmlImgStatus('global','inactive');
+        $htmlstatus = (get_option('twiz_global_status')=='1') ? $this->getHtmlImgStatus('global','active') : $this->getHtmlImgStatus('global','inactive');
 
         return $htmlstatus;
     }
     
-    function switchStatus($id){ 
+    function switchStatus( $id ){ 
     
         global $wpdb;
         
@@ -1318,7 +1323,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     
         $value = $this->getValue($id, 'status');
         
-        $newstatus = ($value['status']=='1')? '0' : '1'; // swicth the status value
+        $newstatus = ($value['status']=='1') ? '0' : '1'; // swicth the status value
         
         $sql = "UPDATE ".$this->table." 
                 SET status = '".$newstatus."'
@@ -1326,9 +1331,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         $code = $wpdb->query($sql);
         
         if($code){
-            $htmlstatus = ($newstatus=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
+            $htmlstatus = ($newstatus=='1') ? $this->getHtmlImgStatus($id,'active') : $this->getHtmlImgStatus($id, 'inactive');
         }else{ 
-            $htmlstatus = ($value['status']=='1')? $this->getHtmlImgStatus($id,'active'):$this->getHtmlImgStatus($id,'inactive');
+            $htmlstatus = ($value['status']=='1') ? $this->getHtmlImgStatus($id,'active') : $this->getHtmlImgStatus($id,'inactive');
         }
         
         return $htmlstatus;

@@ -1,4 +1,4 @@
-<?
+<?php
 /*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
