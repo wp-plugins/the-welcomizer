@@ -859,7 +859,8 @@ class Twiz{
                 
                 case 'v1.0'; 
                 
-                    $sql = "ALTER TABLE ".$this->table." ADD section_id varchar(22) NOT NULL default 'home' AFTER id ;";
+                    $sql = "ALTER TABLE ".$this->table." ADD section_id VARCHAR(22) NOT NULL DEFAULT 'home' AFTER id ;";
+                    
                     
                     $code = $wpdb->query($sql);
                     
