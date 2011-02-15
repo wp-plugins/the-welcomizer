@@ -11,6 +11,8 @@ This plugin allows you to easily add 'Smart' moves and jQuery effects to virtual
 
 == Description ==
 
+*********************** Last updated: 2011-2-15 
+
 Note: This is the update we've all been waiting for, and even more to come.
 
 Webmasters, Programmers, Marketing Consultants, Internet noobs --> Go for it, downnload this plugin right now, and talk about it!
