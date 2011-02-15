@@ -4,20 +4,26 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.2.2
+Stable tag: 1.3.2.3
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
 
 == Description ==
 
-Currently activated on the Homepage, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar"). 
+Note: This is the update we've all been waiting for, and even more to come.
+
+Webmasters, Programmers, Marketing Consultants, Internet noobs --> Go for it, downnload this plugin right now, and talk about it!
+
+Activated on the Homepage, Categories or Pages, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
-Thanks for your feedback and support!
+-> [Screenshots](http://wordpress.org/extend/plugins/the-welcomizer/screenshots/)
 
-Stay tuned, and do your updates...
+Thanks for your feedback and your precious support!
+
+Stay tuned, and do your updates...∞
 
 Enjoy!
 
@@ -25,22 +31,25 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Features ==
 
+* Note: This is the update we've all been waiting for. Go for it!
+
+* 100% AJAX.
 * Multilingual Ready.
-* 100% AJAX, check it out!
 * Pick an HTML element Id.
 * Pick an Option properties.
 * Global Online/Offline status.
 * Optional First and Second move.
+* Activate or deactivate movements.
 * Optional starting position: Top, Left.
 * Ajax editable 'Delay' & 'Duration' column.
-* Activate or deactivate one or more movements.
+* Build lists for Homepage, Category or Page.
 * Unlimited number of movements, take it eazzzy! 
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional custom JavaScript textbox, triggered after each move.
-* Clean uninstallation, means all the data are erased on plugin deactivation.
+* Clean uninstallation, all the data are erased on plugin deactivation.
 * Preview your data without editing them, with an advanced caching feature.
 * Optional second move on the same editing panel. (Useful for back and forth).
 
@@ -61,6 +70,19 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 
 == Changelog ==
+
+= 1.3.2.3 =
+
+* Note: This is the update we've all been waiting for. Go for it!
+
+* Added feature to build lists for Categories and also Pages.
+* Modified stylesheet, navigation effects, and layout.
+* Modified database, and installation code.
+* Modified front-end generated code.
+* Added a 2x label on the edition panel.
+* Updated screenshots.
+* Minor fixes.
+* Enjoy!
 
 = 1.3.2.2 =
 
@@ -129,8 +151,8 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 = 1.3.0 =
 
-* Fixed enqueued Stylesheet.
 * Added more personalized options.
+* Fixed enqueued Stylesheet.
 * Minor changes.
 
 = 1.2.9 =
@@ -150,15 +172,15 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 = 1.2.6 =
 
-* Added a new DataPreview Panel.
 * Layout adjustments, larger panel, larger textbox, other minor changes.
+* Added a new DataPreview Panel.
 
 = 1.2.5 =
 
-* Fixed Plugin Height.
-* Fixed Edition panel background color.
-* Fixed Pick List link, and image right space.
 * Fixed Pick List Options choices(duplicated).
+* Fixed Pick List link, and image right space.
+* Fixed Edition panel background color.
+* Fixed Plugin Height.
 
 = 1.2.4 =
 
@@ -169,14 +191,14 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 = 1.2.3 =
 
 * Added 2 New `Easy Pick List` under `Personalized Options`.
-* Auto-size textarea(in height).
 * Some minor, and major layout adjustements.
+* Auto-size textarea(in height).
 
 = 1.2.2 =
 
 * When editing an existing movement, `More Options` are now visible by default, if they aren't empty.
-* readme.txt has been updated.
 * Empty lines has been removed.
+* readme.txt has been updated.
 
 = 1.2.1 =
 
@@ -217,6 +239,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.2.3 =
+
+* This is the update we've all been waiting for. Go for it!
 
 = 1.3.2.2 =
 

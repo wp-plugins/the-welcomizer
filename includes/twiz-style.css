@@ -1,6 +1,6 @@
 #twiz_plugin {
     width: 98%;
-    margin-top: 40px;
+    margin-top: 17px;
     margin-bottom: 15px;
     margin-left: 15px;
 }
@@ -88,6 +88,17 @@
     font-size: 22px;
     line-height: 35px;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    text-shadow: 2px 2px 5px #9b9b9b;
+}
+#twiz_head_logo {
+    width: 85px;
+    float: left;
+    display: block;
+    padding-right: 3px;
+}
+#twiz_head_logo img {
+    width: 85px;
+    display: inline;
 }
 #twiz_head_version {
     font-size: 12px;
@@ -107,22 +118,75 @@
     -khtml-border-radius-topleft: 6px;
     -khtml-border-radius-topright: 6px
 }
+#twiz_menu,
 #twiz_header, 
 #twiz_footer {
+    width: 500px;
+    color: #464646;
+    display: table-cell;
+}
+#twiz_header, 
+#twiz_footer,
+#twiz_menu,
+#twiz_add_menu,
+.twiz-menu {
     background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
     background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    border: 1px solid #D1D1D1;
-    width: 500px;
-    color: #464646;
-    padding: 5px;
-    display: table-cell;
-    text-shadow: 2px 2px 6px #666666;
 }
-#twiz_header img {
-    width: 80px;
-    padding-right: 3px;
-    display: inline;
+#twiz_header, 
+#twiz_footer {
+    border: 1px solid #D1D1D1;
+}
+.twiz-menu {
+    border-bottom: 1px solid #D1D1D1;
+}
+#twiz_add_menu{
+    border-left: 1px solid #D1D1D1;
+    border-right: 1px solid #D1D1D1;
+    width: 20px;
+    color: #a7a7a7;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center    
+}
+#twiz_header, 
+#twiz_footer,
+#twiz_add_menu,
+.twiz-menu {
+    padding: 5px;
+}
+.twiz-menu {
+    min-width: 90px;
+    font-size: 12px; 
+    text-align: center;
+}
+.twiz-menu:hover,
+#twiz_add_menu:hover {
+    cursor: pointer;
+    color: #464646;
+    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+}
+.twiz-menu-selected {
+    font-weight:bold; 
+    font-size: 12px; 
+    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));    
+}
+#twiz_add_menu,
+.twiz-menu {
+    float: left;
+}
+#twiz_add_sections {
+    margin: 2px 0px 0px 2px;
+    float:left;
+    display:none;
+}
+#twiz_add_sections a:hover {
+    cursor: pointer;
 }
 #twiz_footer {
     -moz-border-radius-bottomleft: 6px;
@@ -132,7 +196,7 @@
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;    
     text-align: center;
-    font-size: 8px;
+    font-size: 9px;
 }
 #twiz_footer a {
     text-decoration: none;
@@ -339,4 +403,7 @@ a.twiz-more-options:hover {
     font-size: 12px;
     font-weight: bold;
     padding: 7px 0 0 35px;
+}
+.twiz-float-right {
+    float: right;
 }
