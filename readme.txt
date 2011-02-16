@@ -11,19 +11,15 @@ This plugin allows you to easily add 'Smart' moves and jQuery effects to virtual
 
 == Description ==
 
-Note: This is the update we've all been waiting for, and even more to come.
-
-Webmasters, Programmers, Marketing Consultants, Internet noobs --> Go for it, downnload this plugin right now, and talk about it!
-
 Activated on the Homepage, Categories or Pages, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
 -> [Screenshots](http://wordpress.org/extend/plugins/the-welcomizer/screenshots/)
 
-Thanks for your feedback and your precious support!
+Thanks for your feedback and your support!
 
-Stay tuned, and do your updates...∞
+Stay tuned, and do your updates... ∞
 
 Enjoy!
 
