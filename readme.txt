@@ -71,7 +71,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 = 1.3.2.6 =
 
-* Fixed unresolved sections.
+* Fixed unresolved sections. 
 
 = 1.3.2.5 =
 
