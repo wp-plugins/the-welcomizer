@@ -97,7 +97,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.5';
+        $this->version    = 'v1.3.2.6';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -1658,7 +1658,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
     
     private function updateSectionMenuKey($keyid, $newid){
            
-        if($newid!=''){
+        if(($newid!='')and($newid!='c_')and($newid!='p_')){
             
             $sections = get_option('twiz_sections');
             
@@ -1669,7 +1669,7 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
             
         }
         
-        return $key;
+        return $keyid;
     }
 }
 ?>
