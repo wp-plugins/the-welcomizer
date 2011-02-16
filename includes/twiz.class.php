@@ -97,8 +97,8 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.4';
-        $this->dbVersion  = 'v1.1';
+        $this->version    = 'v1.3.2.5';
+        $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
         $this->nonce      = wp_create_nonce('twiz-nonce');
@@ -514,6 +514,18 @@ class Twiz{
     $("#twiz_end_left_position").keypress(function (e)
     {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}});
+    $("#twiz_move_top_position_a").keypress(function (e)
+    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    {return false;}});
+    $("#twiz_move_left_position_a").keypress(function (e)
+    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    {return false;}});
+    $("#twiz_move_top_position_b").keypress(function (e)
+    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    {return false;}});
+    $("#twiz_move_left_position_b").keypress(function (e)
+    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    {return false;}});
   }
   var bind_twiz_More_Options = function() {
     $(".twiz-more-options").click(function(){
@@ -817,9 +829,7 @@ class Twiz{
     
         global $wpdb;
 
-        if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
-      
-            $sql = "CREATE TABLE ".$this->table." (".
+        $sql = "CREATE TABLE ".$this->table." (".
                 "id int NOT NULL AUTO_INCREMENT, ".
                 "section_id varchar(22) NOT NULL default 'home', ".
                 "status tinyint(3) NOT NULL default 0, ".
@@ -845,6 +855,8 @@ class Twiz{
                 "extra_js_b text NOT NULL default '', ".                 
                 "PRIMARY KEY (id) ".
                 ");";
+                
+        if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         
@@ -855,18 +867,13 @@ class Twiz{
             
         }else{
             
-            switch(get_option('twiz_db_version')){
+            if( get_option('twiz_db_version') != $this->dbVersion ){
+            
+                require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            
+                dbDelta($sql);
                 
-                case 'v1.0'; 
-                
-                    $sql = "ALTER TABLE ".$this->table." ADD section_id VARCHAR(22) NOT NULL DEFAULT 'home' AFTER id ;";
-                    
-                    
-                    $code = $wpdb->query($sql);
-                    
-                    update_option('twiz_db_version', $this->dbVersion);
-                
-                break;
+                update_option('twiz_db_version', $this->dbVersion);
             }
         }
         
