@@ -31,8 +31,6 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Features ==
 
-* Note: This is the update we've all been waiting for. Go for it!
-
 * 100% AJAX.
 * Multilingual Ready.
 * Pick an HTML element Id.
@@ -81,8 +79,6 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Fixed Installation.
 
 = 1.3.2.3 =
-
-* Note: This is the update we've all been waiting for. Go for it!
 
 * Added feature to build lists for Categories and also Pages.
 * Modified stylesheet, navigation effects, and layout.
@@ -259,7 +255,7 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 = 1.3.2.3 =
 
-* This is the update we've all been waiting for. Go for it!
+* This is the update we've all been waiting for.
 
 = 1.3.2.2 =
 
