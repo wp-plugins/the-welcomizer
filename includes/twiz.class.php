@@ -61,6 +61,16 @@ class Twiz{
     const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
     const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
     
+    /* class directional image suffix constants */ 
+    const DIMAGE_N  = 'n';
+    const DIMAGE_NE = 'ne';
+    const DIMAGE_E  = 'e';
+    const DIMAGE_SE = 'se';
+    const DIMAGE_S  = 's';
+    const DIMAGE_SW = 'sw';
+    const DIMAGE_W  = 'w';
+    const DIMAGE_NW = 'nw';
+        
     /* action array used to exclude ajax container */
     var $actiontypes = array('ACTION_MENU'     => self::ACTION_MENU    // form and list action
                             ,'ACTION_SAVE'     => self::ACTION_SAVE    // form action
@@ -97,7 +107,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.6';
+        $this->version    = 'v1.3.2.7';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -248,7 +258,6 @@ class Twiz{
  var twiz_view_id = null;
  var twiz_current_section_id = "home";
  var twiz_array_view_id = new Array();
- var twiz_lastajaxtdnumid = null;
  var bind_twiz_New = function() {
     $("#twiz_new").click(function(){
      twiz_view_id = "edit";
@@ -260,7 +269,6 @@ class Twiz{
         }, function(data) {
             $("#twiz_container").html(data);
             $("#twiz_container").fadeIn("fast");
-            twiz_lastajaxtdnumid = null;
             twiz_view_id = null;
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
@@ -370,7 +378,6 @@ class Twiz{
         }, function(data) {
             $("#twiz_container").html(data);
             twiz_view_id = null;
-            twiz_lastajaxtdnumid = null;
             $("#twiz_container").show("fast");
             $("img[name^=twiz_status]").unbind("click");
             $("img[name^=twiz_edit]").unbind("click");
@@ -628,7 +635,6 @@ class Twiz{
                     $("#twiz_ajax_td_val_" + columnName + "_" + numid).fadeIn("fast");
                     $("#twiz_ajax_td_val_" + columnName + "_" + numid).html(data);
                     $("#twiz_ajax_td_val_" + columnName + "_" + numid).css({color:"green"});
-                    twiz_lastajaxtdnumid = null;
                     $("input[name^=twiz_input_delay]").unbind("keypress");
                     $("div[id^=twiz_ajax_td_val]").unbind("click");
                     $("input[name^=twiz_input_delay]").unbind("blur");
@@ -650,7 +656,6 @@ class Twiz{
                 var numid = textid.substring(26,textid.length);
                 break;
         }        
-        twiz_lastajaxtdnumid = numid;
         $("#twiz_ajax_td_val_" + columnName + "_" + numid).hide();
         $("#twiz_ajax_td_edit_" + columnName + "_" + numid).fadeIn("fast");
         $("#twiz_input_" + columnName + "_" + numid).focus();
@@ -687,6 +692,7 @@ class Twiz{
        $("#twiz_add_sections").slideToggle("fast");  
        $("#twiz_right_panel").fadeOut("slow");
         $("input[id=twiz_save_section]").removeAttr("disabled");
+        twiz_view_id = null;
     });
     $("div[id^=twiz_menu_]").click(function(){
         var textid = $(this).attr("id");
@@ -703,7 +709,6 @@ class Twiz{
                 $("#twiz_container").html(data);
                 $("#twiz_container").slideToggle("slow");  
                 twiz_view_id = null;
-                twiz_lastajaxtdnumid = null;
                 twiz_array_view_id = new Array();
                 $("img[name^=twiz_status]").unbind("click");
                 $("img[name^=twiz_cancel]").unbind("click");
@@ -1021,6 +1026,91 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         }
         return $generatedscript;
     }
+    
+    private function getDirectionalImage( $data, $ab ){
+    
+        /* true super fast logical switch */
+        switch(true){
+        
+            case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '-') 
+                 and ($data['move_left_pos_'.$ab]== '') ): // N
+                 
+                 $direction = self::DIMAGE_N;
+                 
+                break;
+                
+            case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '-') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
+                 
+                $direction = self::DIMAGE_NE;
+            
+                break;       
+                
+            case (($data['move_top_pos_'.$ab]== '') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
+                 
+                $direction = self::DIMAGE_E;
+            
+                break;    
+                
+            case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '+') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
+                 
+                $direction = self::DIMAGE_SE;
+            
+                break;  
+                
+           case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '+') 
+                 and ($data['move_left_pos_'.$ab]== '') ): // S
+                 
+                $direction = self::DIMAGE_S;                 
+            
+                break;  
+                
+           case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '+') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
+                 
+                 $direction = self::DIMAGE_SW;
+            
+                break; 
+                
+           case (($data['move_top_pos_'.$ab]== '') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
+                 
+                 $direction = self::DIMAGE_W;
+            
+                break;      
+                
+           case (($data['move_top_pos_'.$ab]!= '') 
+                 and ($data['move_top_pos_sign_'.$ab] == '-') 
+                 and ($data['move_left_pos_'.$ab]!= '') 
+                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
+                 
+                $direction = self::DIMAGE_NW;
+            
+                break;     
+        }
+        
+        if($direction!=''){ 
+           
+            return '<img src="'.$this->pluginUrl.'/images/twiz-arrow-'.$direction.'.png">';
+            
+        }else{
+        
+            return '';
+            
+        }
+    }
 
     function getHtmlForm( $id = '' ){ 
     
@@ -1252,6 +1342,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         
         $titleclass = ($data['status']=='1') ?'twiz-green' : 'twiz-red';
         
+        $imagemove_a = $this->getDirectionalImage($data, 'a');
+        $imagemove_b = $this->getDirectionalImage($data, 'b');
+        
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
         <tr><td class="twiz-view-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-view-td-right twiz-bold '.$titleclass.'" nowrap="nowrap">'.$data['layer_id'].'</td></tr>
@@ -1271,9 +1364,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 <tr><td colspan="2"><hr></td></tr>
 <tr><td valign="top">
         <table>
-            <tr><td class="twiz-caption" colspan="2" nowrap><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
-            <tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$move_top_pos_a .'</td></tr>
-            <tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$move_left_pos_a .'</td></tr></table>
+            <tr><td class="twiz-caption" colspan="3" nowrap><b>'.__('First Move', 'the-welcomizer').'</b></td><td rowspan="3">'.$imagemove_a.'</td></tr>
+            <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap>'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_top_pos_a .'</td></tr>
+            <tr><td class="twiz-view-td-small-left"  nowrap valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_left_pos_a .'</td></tr></table>
             <table class="twiz-view-table-more-options">
                 <tr><td colspan="2"><hr></td></tr>
                 <tr><td colspan="2">'.str_replace("\n", "<br>",$data['options_a']).'</td></tr>    
@@ -1283,9 +1376,9 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 </td>
 <td valign="top">    
     <table>
-        <tr><td class="twiz-caption" colspan="2" nowrap><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
-        <tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>'.$move_top_pos_b.'</td></tr>
-        <tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>'.$move_left_pos_b .'</td></tr>
+        <tr><td class="twiz-caption" colspan="3" nowrap><b>'.__('Second Move', 'the-welcomizer').'</b></td><td rowspan="3">'.$imagemove_b.'</td></tr>
+        <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap>'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_top_pos_b.'</td></tr>
+        <tr><td class="twiz-view-td-small-left" nowrap valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_left_pos_b .'</td></tr>
         </table>
         <table class="twiz-view-table-more-options">
             <tr><td colspan="2"><hr></td></tr>
