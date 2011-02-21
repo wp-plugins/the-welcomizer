@@ -27,6 +27,16 @@ class Twiz{
     var $logoUrl;
     var $nonce;    
     
+    /* class directional image suffix constants */ 
+    const DIMAGE_N  = 'n';
+    const DIMAGE_NE = 'ne';
+    const DIMAGE_E  = 'e';
+    const DIMAGE_SE = 'se';
+    const DIMAGE_S  = 's';
+    const DIMAGE_SW = 'sw';
+    const DIMAGE_W  = 'w';
+    const DIMAGE_NW = 'nw';
+    
     /* class action constants */ 
     const ACTION_MENU    = 'menu';
     const ACTION_SAVE    = 'save';
@@ -61,15 +71,6 @@ class Twiz{
     const JQUERY_BORDERIGHTWIDTH = 'borderRightWidth';
     const JQUERY_BORDERLEFTWIDTH = 'borderLeftWidth';
     
-    /* class directional image suffix constants */ 
-    const DIMAGE_N  = 'n';
-    const DIMAGE_NE = 'ne';
-    const DIMAGE_E  = 'e';
-    const DIMAGE_SE = 'se';
-    const DIMAGE_S  = 's';
-    const DIMAGE_SW = 'sw';
-    const DIMAGE_W  = 'w';
-    const DIMAGE_NW = 'nw';
         
     /* action array used to exclude ajax container */
     var $actiontypes = array('ACTION_MENU'     => self::ACTION_MENU    // form and list action
@@ -107,7 +108,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.8';
+        $this->version    = 'v1.3.2.9';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -272,6 +273,7 @@ class Twiz{
             twiz_view_id = null;
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
+            bind_twiz_DynArrows();
         });
     });
  }
@@ -384,6 +386,7 @@ class Twiz{
             $("img[name^=twiz_edit]").unbind("mouseover");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
+            bind_twiz_DynArrows();
         });
     });
  }
@@ -441,7 +444,7 @@ class Twiz{
         $("img[name^=twiz_status]").unbind("click");
         $("img[name^=twiz_cancel]").unbind("click");
         $("img[name^=twiz_save]").unbind("click");
-        bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
+        bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
         bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_TR_View();
@@ -488,7 +491,7 @@ class Twiz{
         bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
         bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
-        bind_twiz_Ajax_TD();bind_twiz_TR_View();
+        bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_DynArrows();
         $("#twiz_list_tr_" + numid).animate({opacity:0}, 320); // needs a rebind for add new
         $("#twiz_list_tr_" + numid).animate({opacity:1}, 320); // needs a rebind for add new
         $("#twiz_list_tr_" + numid).animate({opacity:0}, 300); // needs a rebind for add new
@@ -716,7 +719,7 @@ class Twiz{
                 bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
                 bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
                 bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
-                bind_twiz_Ajax_TD();bind_twiz_TR_View();  
+                bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_DynArrows();
                 twiz_current_section_id = sectionid;                
             });
     });
@@ -751,7 +754,7 @@ class Twiz{
                         bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
                         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
                         bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
-                        bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Menu();
+                        bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_DynArrows();bind_twiz_Menu();
                         $("div[id^=twiz_menu_]").attr({class: "twiz-menu"});
                         $("#twiz_menu_" + sectionid).attr({class: "twiz-menu twiz-menu-selected"});
                     });  
@@ -759,11 +762,60 @@ class Twiz{
         }
     });
   }  
-  $("#twiz_container").slideToggle("slow");
+  var bind_twiz_DynArrows = function() {
+   $("select[id^=twiz_move_left_pos_sign_a]").change(function(){changeDirectionImage("a");});  
+   $("select[id^=twiz_move_top_pos_sign_a]").change(function(){changeDirectionImage("a");});   
+   $("input[name^=twiz_move_top_position_a]").blur(function(){changeDirectionImage("a");});
+   $("input[name^=twiz_move_left_position_a]").blur(function(){changeDirectionImage("a");}); 
+   $("select[id^=twiz_move_left_pos_sign_b]").change(function(){changeDirectionImage("b");});
+   $("select[id^=twiz_move_top_pos_sign_b]").change(function(){changeDirectionImage("b");});
+   $("input[name^=twiz_move_top_position_b]").blur(function(){changeDirectionImage("b");});
+   $("input[name^=twiz_move_left_position_b]").blur(function(){changeDirectionImage("b");});    
+   function changeDirectionImage(ab) {
+      var top_sign  = $("#twiz_move_top_pos_sign_" + ab).val();
+      var top_val   = $("#twiz_move_top_position_" + ab).val();
+      var left_sign = $("#twiz_move_left_pos_sign_" + ab).val();
+      var left_val  = $("#twiz_move_left_position_" + ab).val();
+      var direction = "";
+      var htmlimage = "";
+      switch(true){
+         case ((top_val!="")&&(top_sign=="-")&&(left_val=="")): 
+            direction = "'.self::DIMAGE_N.'";
+            break;
+         case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="+")):
+            direction = "'.self::DIMAGE_NE.'";
+            break;        
+         case ((top_val=="")&&(left_val!="")&&(left_sign=="+")): 
+            direction = "'.self::DIMAGE_E.'";
+            break;         
+         case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="+")): 
+            direction = "'.self::DIMAGE_SE.'";    
+            break;     
+         case ((top_val!="")&&(top_sign=="+")&&(left_val=="")): 
+            direction = "'.self::DIMAGE_S.'";    
+            break; 
+         case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="-")): 
+            direction = "'.self::DIMAGE_SW.'";    
+            break;    
+         case ((top_val=="")&&(left_val!="")&&(left_sign=="-")): 
+            direction = "'.self::DIMAGE_W.'";    
+            break;          
+         case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="-")): 
+            direction = "'.self::DIMAGE_NW.'";    
+            break;           
+      }
+      if(direction!=""){ 
+          htmlimage = "<img width=\"45\" height=\"45\" src=\"'.$this->pluginUrl.'/images/twiz-arrow-" + direction + ".png\">";
+      }
+      $("#twiz_td_arrow_" + ab).html(htmlimage);
+    }
+  }
   bind_twiz_Status();bind_twiz_Delete();bind_twiz_New();bind_twiz_Edit();
   bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
   bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
   bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Menu();bind_twiz_Save_Section();
+  bind_twiz_DynArrows();
+  $("#twiz_container").slideToggle("slow");
  });
  //]]>
 </script>';
@@ -1228,6 +1280,8 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
         $twiz_move_left_pos_sign_b['+'] = ($data['move_left_pos_sign_b']=='+') ? ' selected="selected"' : '';
         $twiz_move_left_pos_sign_b['-'] = ($data['move_left_pos_sign_b']=='-') ? ' selected="selected"' : '';
 
+        $imagemove_a = $this->getDirectionalImage($data, 'a');
+        $imagemove_b = $this->getDirectionalImage($data, 'b');
 
         /* creates the form */
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
@@ -1268,12 +1322,12 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 <tr><td colspan="2"><hr></td></tr>
 <tr><td valign="top">
         <table>
-            <tr><td class="twiz-caption" colspan="2"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
+            <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
             <select name="" id="twiz_move_top_pos_sign_a">
             <option value="+" '.$twiz_move_top_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_top_pos_sign_a['-'].'>-</option>
-            </select><input class="twiz-input twiz-input-small" id="twiz_move_top_position_a" name="twiz_move_top_position_a" type="text" value="'.$data['move_top_pos_a'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
+            </select><input class="twiz-input twiz-input-small" id="twiz_move_top_position_a" name="twiz_move_top_position_a" type="text" value="'.$data['move_top_pos_a'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_a">'.$imagemove_a.'</td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
             <select name="twiz_move_left_pos_sign_a" id="twiz_move_left_pos_sign_a">
             <option value="+" '.$twiz_move_left_pos_sign_a['+'].'>+</option>
@@ -1294,12 +1348,12 @@ $("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='
 </td>
 <td valign="top">    
     <table>
-        <tr><td class="twiz-caption" colspan="2"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
+        <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
         <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
         <select name="twiz_move_top_pos_sign_b" id="twiz_move_top_pos_sign_b">
         <option value="-" '.$twiz_move_top_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_top_pos_sign_b['+'].'>+</option>
-        </select><input class="twiz-input twiz-input-small" id="twiz_move_top_position_b" name="twiz_move_top_position_b" type="text" value="'.$data['move_top_pos_b'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
+        </select><input class="twiz-input twiz-input-small" id="twiz_move_top_position_b" name="twiz_move_top_position_b" type="text" value="'.$data['move_top_pos_b'].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_b">'.$imagemove_b.'</td></tr>
         <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
         <select name="twiz_move_left_pos_sign_b" id="twiz_move_left_pos_sign_b">
         <option value="-" '.$twiz_move_left_pos_sign_b['-'].'>-</option>
