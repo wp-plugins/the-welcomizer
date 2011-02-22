@@ -108,7 +108,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.2.9';
+        $this->version    = 'v1.3.3';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -1030,15 +1030,23 @@ $("#'.$value['layer_id'].'").css("position", "'.$value['position'].'");' : '';
                 $generatedscript .=($value['start_left_pos']!='') ? '$("#'.$value['layer_id'].'").css("left", "'.$value['start_left_pos_sign'].$value['start_left_pos'].'px");' : '';
                 $generatedscript .=($value['start_top_pos']!='') ? '$("#'.$value['layer_id'].'").css("top", "'.$value['start_top_pos_sign'].$value['start_top_pos'].'px");' : '';
                 
-                $value['options_a'] = ($value['options_a']!='') ? ','.$value['options_a'] : '';
+                $value['options_a'] = (($value['options_a']!='') and (($value['move_left_pos_a']!="") or ($value['move_top_pos_a']!=""))) ? ','.$value['options_a'] :  $value['options_a'];
                 $value['options_a'] = str_replace("\n", "," , $value['options_a']);
             
                 /* replace numeric entities */    
                 $value['options_a'] = $this->replaceNumericEntities($value['options_a']);
 
                 /* animate jquery a */ 
-                $generatedscript .='
-$("#'.$value['layer_id'].'").animate({left:  "'.$value['move_left_pos_sign_a'].'='.$value['move_left_pos_a'].'", top:"'.$value['move_top_pos_sign_a'].'='.$value['move_top_pos_a'].'" '.$value['options_a'].'}, '.$value['duration'].', function() {';
+                $generatedscript .= '
+$("#'.$value['layer_id'].'").animate({';
+
+                $generatedscript .= ($value['move_left_pos_a']!="") ? 'left:  "'.$value['move_left_pos_sign_a'].'='.$value['move_left_pos_a'].'"' : '';
+                $generatedscript .= (($value['move_left_pos_a']!="") and ($value['move_top_pos_a']!="")) ? ',' : '';
+                $generatedscript .= ($value['move_top_pos_a']!="") ? 'top:  "'.$value['move_top_pos_sign_a'].'='.$value['move_top_pos_a'].'"' : '';
+                $generatedscript .= $value['options_a'];
+                
+                $generatedscript .= '
+}, '.$value['duration'].', function() {';
         
                 /* replace numeric entities */
                 $value['extra_js_a'] = $this->replaceNumericEntities($value['extra_js_a']);
@@ -1049,7 +1057,7 @@ $("#'.$value['layer_id'].'").animate({left:  "'.$value['move_left_pos_sign_a'].'
                 /* ************************* */
                 
                 /* add a coma between each options */ 
-                $value['options_b'] = ($value['options_b']!='') ? ','.$value['options_b'] : '';
+                $value['options_b'] = (($value['options_b']!='') and ((($value['move_left_pos_b']!="") or ($value['move_top_pos_b']!="")))) ? ','.$value['options_b'] :  $value['options_b'];
                 $value['options_b'] = str_replace("\n", "," , $value['options_b']);
                 
                 /* replace numeric entities */                
@@ -1057,7 +1065,15 @@ $("#'.$value['layer_id'].'").animate({left:  "'.$value['move_left_pos_sign_a'].'
                 
                 /* animate jquery b */ 
                 $generatedscript .= '
-$("#'.$value['layer_id'].'").animate({left:"'.$value['move_left_pos_sign_b'].'='.$value['move_left_pos_b'].'", top:"'.$value['move_top_pos_sign_b'].'='.$value['move_top_pos_b'].'" '.$value['options_b'].'}, '.$value['duration'].', function() {';
+$("#'.$value['layer_id'].'").animate({';
+
+                $generatedscript .= ($value['move_left_pos_b']!="") ? 'left:  "'.$value['move_left_pos_sign_b'].'='.$value['move_left_pos_b'].'"' : '';
+                $generatedscript .= (($value['move_left_pos_b']!="") and ($value['move_top_pos_b']!="")) ? ',' : '';
+                $generatedscript .= ($value['move_top_pos_b']!="") ? 'top:  "'.$value['move_top_pos_sign_b'].'='.$value['move_top_pos_b'].'"' : '';
+                $generatedscript .=  $value['options_b'];
+                
+                $generatedscript .= '
+}, '.$value['duration'].', function() {';
                     
                 /* replace numeric entities */
                 $value['extra_js_b'] = $this->replaceNumericEntities($value['extra_js_b']);
