@@ -256,7 +256,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
  
 1. Add this style below to your HTML element: 
 
-   style="position:absolute;opacity:0;"
+   style="position: absolute; opacity: 0; filter: alpha(opacity=0); z-index: 1;"
 
 2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute)
 
