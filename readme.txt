@@ -15,8 +15,6 @@ Activated on the Homepage, Categories or Pages, this plugin allows you to easily
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
--> [Screenshots](http://wordpress.org/extend/plugins/the-welcomizer/screenshots/)
-
 Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
@@ -26,6 +24,7 @@ Enjoy!
 ∞
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
+
 
 == Features ==
 
