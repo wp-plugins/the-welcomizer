@@ -15,6 +15,14 @@ Activated on the Homepage, Categories or Pages, this plugin allows you to easily
 
 -> [My Homepage](http://www.sebastien-laframboise.com/)
 
+
+Useful extra jQuery plugins : 
+
+[Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/)
+...
+...
+...
+
 Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
