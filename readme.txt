@@ -55,7 +55,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 3. Find the plugin under the menu 'Appearance'
 4. Configure and save your first movement.
 
-Useful extra jQuery plugins:  
+Useful extra jQuery plugins (Advanced):   
 - 
 - [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
 - [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) - [Download page](https://github.com/zachstronaut/rotate3Di)  
