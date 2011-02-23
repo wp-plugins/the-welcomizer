@@ -58,7 +58,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 Useful extra jQuery plugins:  
 - 
 - [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
-- [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) 
+- [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) - [Download page](https://github.com/zachstronaut/rotate3Di)  
 
 
 == Screenshots ==
