@@ -13,9 +13,11 @@ This plugin allows you to easily add 'Smart' moves and jQuery effects to virtual
 
 Activated on the Homepage, Categories or Pages, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
--> [My Homepage](http://www.sebastien-laframboise.com/)
+-> [Take a look at my homepage!](http://www.sebastien-laframboise.com/)
 
 Useful extra jQuery plugin:  
+- 
+- [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
 - [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) 
 
 Thanks for your feedback and your support!
