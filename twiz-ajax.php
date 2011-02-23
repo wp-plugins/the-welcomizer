@@ -66,7 +66,6 @@
                 
             }else{
             
-                // $htmlresponse = $myTwiz->getHtmlError(__('Error!', 'the-welcomizer'));
                 $htmlresponse = $myTwiz->getHtmlForm();
                 
             }
@@ -126,7 +125,6 @@
             $myTwiz  = new Twiz();
             
             if($htmlresponse = $myTwiz->getHtmlForm($twiz_id)){}else{
-                // $htmlresponse = $myTwiz->getHtmlEror(__('Error!', 'the-welcomizer');
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
             }
             
