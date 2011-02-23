@@ -15,11 +15,6 @@ Activated on the Homepage, Categories or Pages, this plugin allows you to easily
 
 -> [Take a look at my homepage!](http://www.sebastien-laframboise.com/)
 
-Useful extra jQuery plugin:  
-- 
-- [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
-- [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) 
-
 Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
@@ -59,6 +54,12 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Find the plugin under the menu 'Appearance'
 4. Configure and save your first movement.
+
+Useful extra jQuery plugins:  
+- 
+- [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
+- [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) 
+
 
 == Screenshots ==
 
