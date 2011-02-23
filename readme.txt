@@ -67,7 +67,7 @@ Useful extra jQuery plugins (Advanced):
 2. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
 3. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
 4. Panel when viewing data. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
-5. Panel when editing an existing movement. (Right click - View image) - *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
+5. Panel when editing an existing movement. *** [The result](http://www.sebastien-laframboise.com/go-green/) ***
 
 
 == Changelog ==
@@ -424,4 +424,4 @@ The Welcomizer is currently available in the following languages:
 * English
 * Français 
 * Italiano ([by Gianni Diurno](http://gidibao.net/))
-* Español (By Mya)
+* Español (by Mya)
