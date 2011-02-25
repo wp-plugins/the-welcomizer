@@ -4,16 +4,18 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.3.1
+Stable tag: 1.3.3.2
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
 
 == Description ==
 
-Activated on the Homepage, Categories or Pages, this plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
+Activated on the homepage, categories or pages, this plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
--> [Take a look at my homepage!](http://www.sebastien-laframboise.com/)
+Designed for webmasters, marketing consultants, programmers and bloggers.
+
+-> [Take a look at my homepage.](http://www.sebastien-laframboise.com/)
 
 Thanks for your feedback and your support!
 
@@ -29,16 +31,17 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 == Features ==
 
 * 100% AJAX.
+* Export a list. 
 * Multilingual Ready.
-* Pick an HTML element Id.
+* Pick an HTML element ID.
 * Pick an Option properties.
 * Global Online/Offline status.
 * Optional First and Second move.
 * Activate or deactivate movements.
 * Optional starting position: Top, Left.
 * Ajax editable 'Delay' & 'Duration' column.
-* Build lists for Homepage, Category or Page.
-* Unlimited number of movements, take it eazzzy! 
+* Unlimited number of movements, take it easy! 
+* Build lists for homepage, categories or pages.
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
@@ -71,6 +74,12 @@ Useful extra jQuery plugins (Advanced):
 
 
 == Changelog ==
+
+= 1.3.3.2 =
+
+* Added a new feature to export a list. 'Backup and Share lists with friends.'
+* Added Layout for the Import feature, it will be available in the next version.
+* Some adjustments.
 
 = 1.3.3.1 =
 
@@ -277,6 +286,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 == Upgrade Notice ==
 
+= 1.3.3.2 =
+
+* Added a new feature to export a list. 
+
 = 1.3.3.1 =
 
 * Added Spanish translation. Minor changes.
@@ -425,3 +438,4 @@ The Welcomizer is currently available in the following languages:
 * Français 
 * Italiano ([by Gianni Diurno](http://gidibao.net/))
 * Español (by Mya)
+* ...?

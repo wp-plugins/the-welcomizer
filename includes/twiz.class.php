@@ -49,6 +49,8 @@ class Twiz{
     const ACTION_EDIT_TD = 'tdedit';
     const ACTION_DELETE  = 'delete';
     const ACTION_STATUS  = 'status';
+    const ACTION_IMPORT  = 'import';
+    const ACTION_EXPORT  = 'export';
     const ACTION_GLOBAL_STATUS = 'gstatus';
     const ACTION_ADD_SECTION   = 'addsection';
     
@@ -99,6 +101,31 @@ class Twiz{
                               ,'JQUERY_BORDERIGHTWIDTH'   => self::JQUERY_BORDERIGHTWIDTH
                               ,'JQUERY_BORDERLEFTWIDTH'   => self::JQUERY_BORDERLEFTWIDTH
                               );
+                              
+    /* xml MULTI-VERSION mapping values */
+    var $twzmappingvalues = array('section_id'  => 'AA' 
+                                 ,'status'      => 'BB'
+                                 ,'layer_id'    => 'CC'    
+                                 ,'start_delay' => 'DD'
+                                 ,'duration'    => 'EE'
+                                 ,'start_top_pos_sign'   => 'FF'
+                                 ,'start_top_pos'        => 'GG'    
+                                 ,'start_left_pos_sign'  => 'HH'
+                                 ,'start_left_pos'       => 'II'
+                                 ,'position'             => 'JJ'
+                                 ,'move_top_pos_sign_a'  => 'KK'    
+                                 ,'move_top_pos_a'       => 'LL'
+                                 ,'move_left_pos_sign_a' => 'MM'
+                                 ,'move_left_pos_a'      => 'OO'
+                                 ,'move_top_pos_sign_b'  => 'PP'    
+                                 ,'move_top_pos_b'       => 'KK'
+                                 ,'move_left_pos_sign_b' => 'RR'
+                                 ,'move_left_pos_b'      => 'SS'
+                                 ,'options_a'  => 'TT'
+                                 ,'options_b'  => 'UU'
+                                 ,'extra_js_a' => 'VV'
+                                 ,'extra_js_b' => 'WW'
+                                 );
         
     function __construct(){
     
@@ -108,7 +135,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.3.1';
+        $this->version    = 'v1.3.3.2';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -120,12 +147,13 @@ class Twiz{
         $html = '<div id="twiz_plugin">';
         $html.= '<div id="twiz_background"></div>';
         $html.= '<div id="twiz_master">';
-        $html.= '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>'; 
-        $html.= $this->getAjaxHeader(); // private 
-        $html.= $this->getHtmlHeader(); // private 
-        $html.= $this->getHtmlMenu();   // private 
+        $html.= $this->getHtmlGlobalstatus(); // private 
+        $html.= $this->getAjaxHeader();       // private 
+        $html.= $this->getHtmlHeader();       // private 
+        $html.= $this->getHtmlMenu();         // private 
         $html.= $this->getHtmlList();
-        $html.= $this->getHtmlFooter(); // private 
+        $html.= $this->getHtmlFooter();       // private 
+        $html.= $this->getHtmlImportExport(); // private 
         $html.= '</div>';
         $html.= '<div id="twiz_right_panel"></div>';
         $html.= '</div>'; 
@@ -199,6 +227,11 @@ class Twiz{
         return $addsection;
     }
     
+    private function getHtmlGlobalstatus(){
+    
+        return '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>';
+    }
+    
     private function getHtmlHeader(){
     
         $header = '<div id="twiz_header">
@@ -209,6 +242,17 @@ class Twiz{
     ';
         
         return $header;
+    }
+    
+    private function getHtmlImportExport(){
+    
+      $import = '<div id="twiz_import">'.__('Import').'</div>';
+      $export = '<div id="twiz_export">'.__('Export').'</div>';
+      
+      $html = '<div id="twiz_import_export">'.$import.$export.'</div>';
+      
+      return $html;
+      
     }
     
     private function getHtmlFooter(){
@@ -692,8 +736,7 @@ class Twiz{
         $("#twiz_add_sections").slideToggle("fast");  
     });
     $("#twiz_add_menu").click(function(){    
-       $("#twiz_add_sections").slideToggle("fast");  
-       $("#twiz_right_panel").fadeOut("slow");
+        $("#twiz_add_sections").slideToggle("fast");  
         $("input[id=twiz_save_section]").removeAttr("disabled");
         twiz_view_id = null;
     });
@@ -701,7 +744,6 @@ class Twiz{
         var textid = $(this).attr("id");
         var sectionid = textid.substring(10,textid.length);
         $("#twiz_container").slideToggle("fast");    
-        $("#twiz_right_panel").fadeOut("slow");
         $("div[id^=twiz_menu_]").attr({class: "twiz-menu"});
         $("#twiz_menu_" + sectionid).attr({class: "twiz-menu twiz-menu-selected"});
         $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
@@ -730,7 +772,6 @@ class Twiz{
         if((sectionid != "")&&(sectionid != "+++ +++ +++")){
             $("input[id=twiz_save_section]").attr({disabled: "true"});
             $("#twiz_add_sections").hide();
-            $("#twiz_right_panel").fadeOut("slow");                           
             $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
                  "twiz_nonce": "'.$this->nonce.'", 
                  "twiz_action": "'.self::ACTION_ADD_SECTION.'",
@@ -810,11 +851,42 @@ class Twiz{
       $("#twiz_td_arrow_" + ab).html(htmlimage);
     }
   }
+  var bind_twiz_ImportExport = function() {
+    $("#twiz_export").click(function(){
+          var sectionid = $("#twiz_slc_sections").val();
+          var superiframe = document.createElement("iframe");
+          superiframe.src = "'.$this->pluginUrl.'/twiz-ajax.php?twiz_nonce='.$this->nonce.'&twiz_action='.self::ACTION_EXPORT.'&twiz_section_id=" + twiz_current_section_id;
+          superiframe.style.display = "none";
+          document.body.appendChild(superiframe); 
+    });  
+     $("#twiz_import").click(function(){
+            alert("This feature will be available in the next version.");
+    });  
+  }  
+  $("#twiz_import_export").mouseover(function(){
+     $("#twiz_add_sections").hide();
+     $("#twiz_right_panel").fadeOut("fast");   
+     twiz_view_id = null;
+  });    
+  $("#twiz_footer").mouseover(function(){
+     $("#twiz_add_sections").hide();
+     $("#twiz_right_panel").fadeOut("fast");   
+     twiz_view_id = null;
+  });  
+  $("#twiz_header").mouseover(function(){
+     $("#twiz_add_sections").hide();
+     $("#twiz_right_panel").fadeOut("fast");   
+     twiz_view_id = null;
+  });    
+  $("#twiz_menu").mouseover(function(){   
+     $("#twiz_right_panel").fadeOut("fast");   
+     twiz_view_id = null;
+  });     
   bind_twiz_Status();bind_twiz_Delete();bind_twiz_New();bind_twiz_Edit();
   bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
   bind_twiz_More_Options();bind_twiz_Choose_FromId();bind_twiz_Choose_Options();
   bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Menu();bind_twiz_Save_Section();
-  bind_twiz_DynArrows();
+  bind_twiz_DynArrows();bind_twiz_ImportExport();
   $("#twiz_container").slideToggle("slow");
  });
  //]]>
@@ -840,6 +912,7 @@ class Twiz{
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeIn("slow");
         $("#twiz_add_menu").fadeIn("slow");
+        $("#twiz_import_export").fadeIn("slow");
   });
  //]]>
 </script>';
@@ -866,6 +939,76 @@ class Twiz{
          $htmllist.= '</table>'.$closediv.$jsscript_show;
          
          return $htmllist;
+    }
+    
+    function export( $section_id = '' ){
+    
+        $where = ($section_id != '') ? " where section_id = '".$section_id."'" : " where section_id = 'home'";
+      
+        $listarray = $this->getListArray( $where ); // get all the data
+        
+        $filedata = '<?xml version="1.0" encoding="utf-8"?>'."\n";
+        
+        $filedata .= '<TWIZ>'."\n";
+
+        foreach($listarray as $value){
+     
+              if ($sectionname == '') {
+                  $sectionname = sanitize_title_with_dashes($this->getSectionName($value['section_id']));
+              }
+     
+              $filedata .= '<'.$this->twzmappingvalues['status'].'>'.$value['status'].'</'.$this->twzmappingvalues['status'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['layer_id'].'>'.$value['layer_id'].'</'.$this->twzmappingvalues['layer_id'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['start_delay'].'>'.$value['start_delay'].'</'.$this->twzmappingvalues['start_delay'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['duration'].'>'.$value['duration'].'</'.$this->twzmappingvalues['duration'].'>'."\n";;
+              $filedata .= '<'.$this->twzmappingvalues['start_top_pos_sign'].'>'.$value['start_top_pos_sign'].'</'.$this->twzmappingvalues['start_top_pos_sign'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['start_top_pos'].'>'.$value['start_top_pos'].'</'.$this->twzmappingvalues['start_top_pos'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['start_left_pos_sign'].'>'.$value['start_left_pos_sign'].'</'.$this->twzmappingvalues['start_left_pos_sign'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['start_left_pos'].'>'.$value['start_left_pos'].'</'.$this->twzmappingvalues['start_left_pos'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['position'].'>'.$value['position'].'</'.$this->twzmappingvalues['position'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_top_pos_sign_a'].'>'.$value['move_top_pos_sign_a'].'</'.$this->twzmappingvalues['move_top_pos_sign_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_top_pos_a'].'>'.$value['move_top_pos_a'].'</'.$this->twzmappingvalues['move_top_pos_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_left_pos_sign_a'].'>'.$value['move_left_pos_sign_a'].'</'.$this->twzmappingvalues['move_left_pos_sign_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_left_pos_a'].'>'.$value['move_left_pos_a'].'</'.$this->twzmappingvalues['move_left_pos_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_top_pos_sign_b'].'>'.$value['move_top_pos_sign_b'].'</'.$this->twzmappingvalues['move_top_pos_sign_b'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_top_pos_b'].'>'.$value['move_top_pos_b'].'</'.$this->twzmappingvalues['move_top_pos_b'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_left_pos_sign_b'].'>'.$value['move_left_pos_sign_b'].'</'.$this->twzmappingvalues['move_left_pos_sign_b'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['move_left_pos_b'].'>'.$value['move_left_pos_b'].'</'.$this->twzmappingvalues['move_left_pos_b'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['options_a'].'>'.$value['options_a'].'</'.$this->twzmappingvalues['options_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['options_b'].'>'.$value['options_b'].'</'.$this->twzmappingvalues['options_b'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['extra_js_a'].'>'.$value['extra_js_a'].'</'.$this->twzmappingvalues['extra_js_a'].'>'."\n";
+              $filedata .= '<'.$this->twzmappingvalues['extra_js_b'].'>'.$value['extra_js_b'].'</'.$this->twzmappingvalues['extra_js_b'].'>'."\n";
+        }
+
+        $filedata .= '</TWIZ>'."\n";
+        
+        $sectionname = ($sectionname == '') ? $sectionname = 'home' : $sectionname;
+        
+        header("Content-Type: text/twz;\n"); 
+        header("Content-Transfer-Encoding: binary\n");
+        header('Content-length: '.$this->utf8_strlen($filedata));
+        header("Content-Disposition: attachment; filename=\"".$sectionname.".twz\"\n");
+        header("Content-Description: The Welcomizer generated data: ".date('Y-m-d H:i:s')."\n");
+        header("Expires: 0");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: no-cache"); 
+        
+        return $filedata;
+    }
+    
+    private function utf8_strlen( $string ) {
+    
+        $char = strlen($string); 
+        $l = 0;
+        
+        for ($i = 0; $i < $char; ++$i){
+            
+            if ( ( ord($string[$i]) & 0xC0 ) != 0x80 ){ 
+                ++$l;
+            }
+        }
+        
+        return $l;
     }
     
     function delete( $id ){
@@ -1207,6 +1350,7 @@ $("#'.$value['layer_id'].'").animate({';
         $("#twiz_add_menu").fadeOut("slow");
         $("#twiz_add_sections").fadeOut("slow"); 
         $("#twiz_right_panel").fadeOut("slow");
+        $("#twiz_import_export").fadeOut("slow");
   });
  //]]>
 </script>';
@@ -1821,7 +1965,7 @@ $("#'.$value['layer_id'].'").animate({';
     
     private function updateSectionMenuKey($keyid, $newid){
            
-        if(($newid!='')and($newid!='c_')and($newid!='p_')){
+        if(($keyid!='')and($newid!='c_')and($newid!='p_')){
             
             $sections = get_option('twiz_sections');
             

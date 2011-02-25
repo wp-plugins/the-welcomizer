@@ -20,16 +20,20 @@
     require_once(dirname(__FILE__).'/../../../wp-config.php');
 
     /* Nonce security (number used once) */
-    $nonce = $_POST['twiz_nonce'];
-    if (! wp_verify_nonce($nonce, 'twiz-nonce') ){
+    $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
+    
+    if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
+    
         die("Security check"); 
     }
 
     /* Require Twiz Class */
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
-            
-    /* Switch ajax actions */
-    switch(esc_attr(trim($_POST['twiz_action']))){ 
+
+    /* actions */
+    $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
+    
+    switch(esc_attr(trim($action))){ 
     
         case Twiz::ACTION_MENU:
         
@@ -178,6 +182,19 @@
             $htmlresponse = $myTwiz->switchGlobalStatus();    
             
             break;    
+            
+        case Twiz::ACTION_EXPORT:
+        
+            $twiz_section_id = esc_attr(trim($_GET['twiz_section_id']));
+        
+            $myTwiz  = new Twiz();
+            $htmlresponse = $myTwiz->export($twiz_section_id);    
+            
+            break;      
+            
+        case Twiz::ACTION_IMPORT:
+        
+            break;             
     }
     
     echo($htmlresponse); // output the result
