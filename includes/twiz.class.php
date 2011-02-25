@@ -949,13 +949,13 @@ class Twiz{
         
         $filedata = '<?xml version="1.0" encoding="utf-8"?>'."\n";
         
-        $filedata .= '<TWIZ>'."\n";
-
         foreach($listarray as $value){
      
               if ($sectionname == '') {
                   $sectionname = sanitize_title_with_dashes($this->getSectionName($value['section_id']));
               }
+              
+              $filedata .= '<TWIZ>'."\n";
      
               $filedata .= '<'.$this->twzmappingvalues['status'].'>'.$value['status'].'</'.$this->twzmappingvalues['status'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['layer_id'].'>'.$value['layer_id'].'</'.$this->twzmappingvalues['layer_id'].'>'."\n";
@@ -978,9 +978,10 @@ class Twiz{
               $filedata .= '<'.$this->twzmappingvalues['options_b'].'>'.$value['options_b'].'</'.$this->twzmappingvalues['options_b'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['extra_js_a'].'>'.$value['extra_js_a'].'</'.$this->twzmappingvalues['extra_js_a'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['extra_js_b'].'>'.$value['extra_js_b'].'</'.$this->twzmappingvalues['extra_js_b'].'>'."\n";
+              
+              $filedata .= '</TWIZ>'."\n";
         }
 
-        $filedata .= '</TWIZ>'."\n";
         
         $sectionname = ($sectionname == '') ? $sectionname = 'home' : $sectionname;
         
