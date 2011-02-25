@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3.3.2
+Stable tag: 1.3.3.3
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -74,6 +74,10 @@ Useful extra jQuery plugins (Advanced):
 
 
 == Changelog ==
+
+= 1.3.3.3 =
+
+* Fixed export file.
 
 = 1.3.3.2 =
 
@@ -285,6 +289,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.3.3 =
+
+* Fixed export file.
 
 = 1.3.3.2 =
 

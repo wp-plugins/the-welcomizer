@@ -135,7 +135,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.3.2';
+        $this->version    = 'v1.3.3.3';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -956,7 +956,9 @@ class Twiz{
               if ($sectionname == '') {
                   $sectionname = sanitize_title_with_dashes($this->getSectionName($value['section_id']));
               }
-     
+              
+              $filedata .= '<ROW>'."\n";
+              
               $filedata .= '<'.$this->twzmappingvalues['status'].'>'.$value['status'].'</'.$this->twzmappingvalues['status'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['layer_id'].'>'.$value['layer_id'].'</'.$this->twzmappingvalues['layer_id'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['start_delay'].'>'.$value['start_delay'].'</'.$this->twzmappingvalues['start_delay'].'>'."\n";
@@ -978,6 +980,9 @@ class Twiz{
               $filedata .= '<'.$this->twzmappingvalues['options_b'].'>'.$value['options_b'].'</'.$this->twzmappingvalues['options_b'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['extra_js_a'].'>'.$value['extra_js_a'].'</'.$this->twzmappingvalues['extra_js_a'].'>'."\n";
               $filedata .= '<'.$this->twzmappingvalues['extra_js_b'].'>'.$value['extra_js_b'].'</'.$this->twzmappingvalues['extra_js_b'].'>'."\n";
+        
+              $filedata .= '</ROW>'."\n";
+        
         }
 
         $filedata .= '</TWIZ>'."\n";
