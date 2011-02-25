@@ -135,7 +135,7 @@ class Twiz{
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->pluginUrl  = get_option('siteurl').'/wp-content/plugins/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.3.3';
+        $this->version    = 'v1.3.3.4';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -864,17 +864,14 @@ class Twiz{
     });  
   }  
   $("#twiz_import_export").mouseover(function(){
-     $("#twiz_add_sections").hide();
      $("#twiz_right_panel").fadeOut("fast");   
      twiz_view_id = null;
   });    
   $("#twiz_footer").mouseover(function(){
-     $("#twiz_add_sections").hide();
      $("#twiz_right_panel").fadeOut("fast");   
      twiz_view_id = null;
   });  
   $("#twiz_header").mouseover(function(){
-     $("#twiz_add_sections").hide();
      $("#twiz_right_panel").fadeOut("fast");   
      twiz_view_id = null;
   });    
