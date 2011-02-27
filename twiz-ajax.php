@@ -194,6 +194,11 @@
             
         case Twiz::ACTION_IMPORT:
         
+            $twiz_section_id = esc_attr(trim($_GET['twiz_section_id']));
+        
+            $myTwiz  = new Twiz();
+            $htmlresponse = $myTwiz->import($twiz_section_id);  
+            
             break;             
     }
     

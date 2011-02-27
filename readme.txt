@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.3.4
+Stable tag: 1.3.3.5
 License: GPLv2
 
 This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -40,8 +40,8 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Activate or deactivate movements.
 * Optional starting position: Top, Left.
 * Ajax editable 'Delay' & 'Duration' column.
-* Unlimited number of movements, take it easy! 
 * Build lists for homepage, categories or pages.
+* Unlimited number of movements, take it easy! 
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
@@ -74,6 +74,10 @@ Useful extra jQuery plugins (Advanced):
 
 
 == Changelog ==
+
+= 1.3.3.5 =
+
+* Added compatibility with IE8...
 
 = 1.3.3.4 =
 
@@ -293,6 +297,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.3.5 =
+
+* Added compatibility with IE8...
 
 = 1.3.3.4 =
 
