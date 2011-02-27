@@ -423,7 +423,7 @@ a.twiz-more-options:hover {
     -webkit-border-bottom-left-radius: 6px;    
     -khtml-border-radius-bottomright: 6px;    
     -khtml-border-radius-bottomleft: 6px;   
-    background: #E4E4E4;    
+    background: #D7D7D7;    
     background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
     background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
@@ -436,7 +436,7 @@ a.twiz-more-options:hover {
 #twiz_import:hover,
 #twiz_export:hover {
     color: #000000;
-    background: #D7D7D7;
+    background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
