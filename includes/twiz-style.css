@@ -171,6 +171,7 @@
 #twiz_add_menu:hover {
     cursor: pointer;
     color: #000000;
+    background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
