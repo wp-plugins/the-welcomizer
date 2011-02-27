@@ -217,6 +217,7 @@
 }    
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
+    background: #ebebeb;
     background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
     background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
