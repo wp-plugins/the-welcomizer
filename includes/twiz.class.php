@@ -140,7 +140,7 @@ class Twiz{
         $this->pluginUrl  = WP_PLUGIN_URL.'/the-welcomizer';
         $this->pluginDir  = WP_PLUGIN_DIR.'/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.3.6';
+        $this->version    = 'v1.3.3.7';
         $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -300,7 +300,6 @@ class Twiz{
     private function getAjaxHeader(){
     
         $header = '
-<link href="'.$this->pluginUrl.'/includes/import/client/fileuploader.css" rel="stylesheet" type="text/css">	
 <script src="'.$this->pluginUrl.'/includes/import/client/fileuploader.js" type="text/javascript"></script>
 <script>
  //<![CDATA[
