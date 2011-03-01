@@ -14,10 +14,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-
     /* Require wp-config */
     require_once(dirname(__FILE__).'/../../../wp-config.php');
+    
+    /* Require Twiz Class */
+    require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
 
     /* Nonce security (number used once) */
     $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
@@ -26,9 +27,6 @@
     
         die("Security check"); 
     }
-
-    /* Require Twiz Class */
-    require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
 
     /* actions */
     $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
@@ -189,15 +187,6 @@
         
             $myTwiz  = new Twiz();
             $htmlresponse = $myTwiz->export($twiz_section_id);    
-            
-            break;      
-            
-        case Twiz::ACTION_IMPORT:
-        
-            $twiz_section_id = esc_attr(trim($_GET['twiz_section_id']));
-        
-            $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->import($twiz_section_id);  
             
             break;             
     }

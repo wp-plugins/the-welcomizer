@@ -417,7 +417,8 @@ a.twiz-more-options:hover {
 .twiz-float-right {
     float: right;
 }
-#twiz_import_export div {
+#twiz_import,
+#twiz_export {
     -moz-border-radius-bottomright: 6px;
     -moz-border-radius-bottomleft: 6px;
     -webkit-border-bottom-right-radius: 6px;

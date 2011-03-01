@@ -4,20 +4,23 @@ Donate link: http://www.sebastien-laframboise.com/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.3.5
+Stable tag: 1.3.3.6
 License: GPLv2
 
-This plugin allows you to easily add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
+This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
 
 == Description ==
 
 Activated on the homepage, categories or pages, this plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
-Designed for webmasters, marketing consultants, programmers and bloggers.
+Designed for webmasters, marketing consultants, programmers, bloggers and me.
 
 -> [Take a look at my homepage.](http://www.sebastien-laframboise.com/)
 
 Thanks for your feedback and your support!
+
+What's next?
+Maybe a Demo section, sample *.twz files. A 'Learn by example' style.
 
 Stay tuned, and do your updates...
 
@@ -32,6 +35,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 * 100% AJAX.
 * Export a list. 
+* Import a list.
 * Multilingual Ready.
 * Pick an HTML element ID.
 * Pick an Option properties.
@@ -55,8 +59,11 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Find the plugin under the menu 'Appearance'
-4. Configure and save your first movement.
+4. Find the plugin under the menu 'Appearance'
+5. Configure and save your first movement, or Import a *.twz file.
+
+To Import *.twz files, make this directory writable. (If you don't need this, you don't have to):
+'plugins/the-welcomizer/includes/import/server/uploads/'
 
 Useful extra jQuery plugins (Advanced):   
 - 
@@ -74,6 +81,11 @@ Useful extra jQuery plugins (Advanced):
 
 
 == Changelog ==
+
+= 1.3.3.6 =
+
+* Added Import file(*.twz) feature. `Share lists and collaborate with Friends!` 
+* Major changes.
 
 = 1.3.3.5 =
 
@@ -297,6 +309,10 @@ Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - 
 
 
 == Upgrade Notice ==
+
+= 1.3.3.6 =
+
+* Added Import file feature. Major changes.
 
 = 1.3.3.5 =
 
