@@ -13,14 +13,11 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 
 Activated on the homepage, categories or pages, this plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
-Designed for webmasters, marketing consultants, programmers, bloggers and me.
+Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Take a look at my homepage.](http://www.sebastien-laframboise.com/)
 
 Thanks for your feedback and your support!
-
-What's next?
-Maybe a Demo section, sample *.twz files. A 'Learn by example' style.
 
 Stay tuned, and do your updates...
 
