@@ -9,7 +9,7 @@ $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce']
 $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
 
 /* Nonce security (number used once) + action import security check */
-if ((! wp_verify_nonce($nonce, 'twiz-nonce') )or($action != Twiz::ACTION_IMPORT)) {
+if ((! wp_verify_nonce($nonce, 'twiz-nonce') )and($action != Twiz::ACTION_IMPORT)) {
 
     die("Security check"); 
 }
