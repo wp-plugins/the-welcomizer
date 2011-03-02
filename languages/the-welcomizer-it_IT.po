@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer in italiano\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-11 06:28-0500\n"
-"PO-Revision-Date: 2011-01-30 13:43-0500\n"
-"Last-Translator: seb <seb_temp2002@yahoo.ca>\n"
+"POT-Creation-Date: 2011-03-02 00:54+0100\n"
+"PO-Revision-Date: 2011-03-02 00:54+0100\n"
+"Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,202 +12,203 @@ msgstr ""
 "X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/twiz-ajax.php:61
+#: twiz-ajax.php:66
 msgid "Saved!"
 msgstr "Salvato!"
 
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/twiz-index.php:57
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:53
+#: twiz-index.php:56
+#: includes/twiz.class.php:139
 msgid "The Welcomizer"
 msgstr "The Welcomizer"
 
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:133
-msgid "Add New"
-msgstr "Aggiungi nuovo"
+#: includes/twiz.class.php:197
+#: includes/twiz.class.php:1839
+#: includes/twiz.class.php:1857
+msgid "Choose"
+msgstr "Scegli"
 
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:169
-msgid "Developed by"
-msgstr "Sviluppato da"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:169
-msgid "Licensed under the GPL version 2.0"
-msgstr "Sotto Licenza GPL versione 2.0"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:231
-msgid "Are you sure to delete?"
-msgstr "Sei certo di volere cancellare?"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:415
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:692
-msgid "Status"
-msgstr "Stato"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:415
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:694
-msgid "Element ID"
-msgstr "ID elemento"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:415
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:895
-msgid "Delay"
-msgstr "Ritardo"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:415
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:697
-msgid "Duration"
-msgstr "Durata"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:415
-msgid "Action"
-msgstr "Azione"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:427
-msgid "Edit"
-msgstr "Modifica"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:427
-msgid "Delete"
-msgstr "Cancella"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:695
-msgid "Pick from List"
-msgstr "Prendi dalla lista"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:696
-msgid "Start delay"
-msgstr "Inizio ritardo"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:696
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:697
-msgid "sec"
-msgstr "sec"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:699
-msgid "Starting position"
-msgstr "Posizione inizio"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:699
-msgid "(optional)"
-msgstr "(facoltativo)"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:703
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:730
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:753
-msgid "Top"
-msgstr "Cima"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:707
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:712
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:734
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:739
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:757
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:762
-msgid "px"
-msgstr "px"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:708
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:735
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:758
-msgid "Left"
-msgstr "Sinistra"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:717
-msgid "Position"
-msgstr "Posizione"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:719
-msgid "absolute"
-msgstr "assoluta"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:720
-msgid "relative"
-msgstr "relativa"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:729
-msgid "First Move"
-msgstr "Primo movimento"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:739
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:762
-msgid "More Options"
-msgstr "Altre opzioni"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:742
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:766
-msgid "Personalized options"
-msgstr "Opzioni personalizzate"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:742
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:747
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:766
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:771
-msgid "e.g."
-msgstr "es."
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:742
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:766
-msgid "Learn more about jQuery .animate() properties"
-msgstr "Info su proprietà jQuery .animate()"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:747
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:771
-msgid "Extra JavaScript"
-msgstr "JavaScript extra"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:747
-msgid "Welcome!"
-msgstr "Benvenuto!"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:752
-msgid "Second Move"
-msgstr "Secondo movimento"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:775
-msgid "Cancel"
-msgstr "Annulla"
-
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:775
+#: includes/twiz.class.php:226
+#: includes/twiz.class.php:1722
 msgid "Save"
 msgstr "Salva"
 
-#: C:\Users\Sébastien\Downloads\Clients\seb#:
-#: plugins\the-welcomizer\trunk/includes/twiz.class.php:823
-msgid "Choose"
-msgstr "Scegli"
+#: includes/twiz.class.php:226
+#: includes/twiz.class.php:1722
+msgid "Cancel"
+msgstr "Annulla"
+
+#: includes/twiz.class.php:244
+msgid "Add New"
+msgstr "Aggiungi nuovo"
+
+#: includes/twiz.class.php:252
+msgid "Import"
+msgstr "Importa"
+
+#: includes/twiz.class.php:253
+msgid "Export"
+msgstr "Esporta"
+
+#: includes/twiz.class.php:265
+msgid "Developed by"
+msgstr "Sviluppato da"
+
+#: includes/twiz.class.php:265
+msgid "Licensed under the GPL version 2.0"
+msgstr "Sotto Licenza GPL versione 2.0"
+
+#: includes/twiz.class.php:279
+msgid "Home"
+msgstr "Home"
+
+#: includes/twiz.class.php:475
+msgid "Are you sure to delete?"
+msgstr "Sei certo di volere cancellare?"
+
+#: includes/twiz.class.php:648
+#: includes/twiz.class.php:953
+msgid "Edit"
+msgstr "Modifica"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1634
+msgid "Status"
+msgstr "Stato"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1636
+#: includes/twiz.class.php:1750
+msgid "Element ID"
+msgstr "ID elemento"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1976
+msgid "Delay"
+msgstr "Ritardo"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1639
+msgid "Duration"
+msgstr "Durata"
+
+#: includes/twiz.class.php:940
+msgid "Action"
+msgstr "Azione"
+
+#: includes/twiz.class.php:953
+msgid "Delete"
+msgstr "Cancella"
+
+#: includes/twiz.class.php:1637
+#: includes/twiz.class.php:1685
+#: includes/twiz.class.php:1712
+msgid "Pick from List"
+msgstr "Prendi dalla lista"
+
+#: includes/twiz.class.php:1638
+msgid "Start delay"
+msgstr "Inizio ritardo"
+
+#: includes/twiz.class.php:1638
+#: includes/twiz.class.php:1639
+msgid "sec"
+msgstr "sec"
+
+#: includes/twiz.class.php:1641
+msgid "Starting position"
+msgstr "Posizione inizio"
+
+#: includes/twiz.class.php:1641
+msgid "(optional)"
+msgstr "(facoltativo)"
+
+#: includes/twiz.class.php:1645
+#: includes/twiz.class.php:1672
+#: includes/twiz.class.php:1698
+#: includes/twiz.class.php:1754
+#: includes/twiz.class.php:1768
+#: includes/twiz.class.php:1780
+msgid "Top"
+msgstr "Cima"
+
+#: includes/twiz.class.php:1649
+#: includes/twiz.class.php:1654
+#: includes/twiz.class.php:1676
+#: includes/twiz.class.php:1681
+#: includes/twiz.class.php:1702
+#: includes/twiz.class.php:1707
+#: includes/twiz.class.php:1736
+#: includes/twiz.class.php:1737
+#: includes/twiz.class.php:1738
+#: includes/twiz.class.php:1739
+#: includes/twiz.class.php:1740
+#: includes/twiz.class.php:1741
+msgid "px"
+msgstr "px"
+
+#: includes/twiz.class.php:1650
+#: includes/twiz.class.php:1677
+#: includes/twiz.class.php:1703
+#: includes/twiz.class.php:1755
+#: includes/twiz.class.php:1769
+#: includes/twiz.class.php:1781
+msgid "Left"
+msgstr "Sinistra"
+
+#: includes/twiz.class.php:1659
+#: includes/twiz.class.php:1760
+msgid "Position"
+msgstr "Posizione"
+
+#: includes/twiz.class.php:1661
+msgid "absolute"
+msgstr "assoluta"
+
+#: includes/twiz.class.php:1662
+msgid "relative"
+msgstr "relativa"
+
+#: includes/twiz.class.php:1671
+#: includes/twiz.class.php:1767
+msgid "First Move"
+msgstr "Primo movimento"
+
+#: includes/twiz.class.php:1681
+#: includes/twiz.class.php:1707
+msgid "More Options"
+msgstr "Altre opzioni"
+
+#: includes/twiz.class.php:1684
+#: includes/twiz.class.php:1711
+msgid "Personalized options"
+msgstr "Opzioni personalizzate"
+
+#: includes/twiz.class.php:1686
+#: includes/twiz.class.php:1692
+#: includes/twiz.class.php:1713
+#: includes/twiz.class.php:1718
+msgid "e.g."
+msgstr "es."
+
+#: includes/twiz.class.php:1689
+#: includes/twiz.class.php:1715
+msgid "Learn more about jQuery .animate() properties"
+msgstr "Info su proprietà jQuery .animate()"
+
+#: includes/twiz.class.php:1692
+#: includes/twiz.class.php:1718
+msgid "Extra JavaScript"
+msgstr "JavaScript extra"
+
+#: includes/twiz.class.php:1692
+msgid "Welcome!"
+msgstr "Benvenuto!"
+
+#: includes/twiz.class.php:1697
+#: includes/twiz.class.php:1779
+msgid "Second Move"
+msgstr "Secondo movimento"
 
