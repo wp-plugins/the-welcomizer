@@ -101,7 +101,7 @@ class qqFileUploader {
         
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';             
-            die("{'error':'php.ini increase post_max_size(".$postSize."bytes) and upload_max_filesize(".$postSize."bytes) to $size'}");    
+            die("{'error':'php.ini increase post_max_size and upload_max_filesize to $size'}");    
         }      
     }
     
@@ -185,7 +185,7 @@ class qqFileUploader {
 // list of valid extensions, ex. array("jpeg", "xml", "bmp")
 $allowedExtensions = array();
 // max file size in bytes
-$sizeLimit = 8 * 1024 * 1024;
+$sizeLimit = 2 * 1024 * 1024;
 
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 $result = $uploader->handleUpload('uploads/');
