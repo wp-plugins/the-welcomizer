@@ -82,6 +82,7 @@ Useful extra jQuery plugins (Advanced):
 = 1.3.3.7 =
 
 * Enqueued fileuploader stylesheet.
+* Updated Italian translation.
 
 = 1.3.3.6 =
 
