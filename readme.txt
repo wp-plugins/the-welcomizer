@@ -17,11 +17,11 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Take a look at my homepage.](http://www.sebastien-laframboise.com/)
 
+The Welcomizer has Spirit!
+
 Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
-
-The Welcomizer has Spirit!
 
 Enjoy!
 
