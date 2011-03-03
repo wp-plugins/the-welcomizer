@@ -22,7 +22,7 @@ Thanks for your feedback and your support!
 Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
-
+ 
 Enjoy!
 
 ∞
