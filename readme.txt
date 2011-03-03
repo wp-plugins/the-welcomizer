@@ -21,7 +21,7 @@ Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
 
-This plugin has Spirit!
+The Welcomizer has Spirit!
 
 Enjoy!
 
