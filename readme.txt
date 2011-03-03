@@ -21,6 +21,8 @@ Thanks for your feedback and your support!
 
 Stay tuned, and do your updates...
 
+This plugin has Spirit!
+
 Enjoy!
 
 ∞
