@@ -13,6 +13,8 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 
 Activated on the homepage, categories or pages, this plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). 
 
+Share lists and collaborate with friends!
+
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Take a look at my homepage.](http://www.sebastien-laframboise.com/)
@@ -22,7 +24,7 @@ Thanks for your feedback and your support!
 Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
- 
+
 Enjoy!
 
 ∞
@@ -92,7 +94,7 @@ Useful extra jQuery plugins (Advanced):
 
 = 1.3.3.6 =
 
-* Added Import file(*.twz) feature. `Share lists and collaborate with Friends!` 
+* Added Import file(*.twz) feature. `Share lists and collaborate with friends!` 
 * Major changes.
 
 = 1.3.3.5 =
