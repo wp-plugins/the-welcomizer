@@ -75,10 +75,10 @@ Useful extra jQuery plugins (Advanced):
 == Screenshots ==
 
 1. Panel when adding a new movement. (Right click - View image) 
-2. Panel when viewing data. (Right click - View image) - * [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
-3. Panel when viewing data. (Right click - View image) - * [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
-4. Panel when viewing data. (Right click - View image) - * [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
-5. Panel when editing an existing movement. * [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
+2. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
+3. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
+4. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
+5. Panel when editing an existing movement. - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
 
 
 == Changelog ==
