@@ -84,8 +84,8 @@ Useful extra jQuery plugins (Advanced):
 = 1.3.3.9 =
 
 * Optimized code, new constants.
-* Renamed elements.
-* Fixed Import-Export bug. (Missing value in action)
+* Renamed elements. 
+* Fixed Import-Export bug, missing value in action.
 
 = 1.3.3.8 =
 
