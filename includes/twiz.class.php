@@ -168,7 +168,7 @@ class Twiz{
         $this->pluginDir  = WP_PLUGIN_DIR.'/the-welcomizer';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->version    = 'v1.3.3.9';
-        $this->dbVersion  = 'v1.1.2';
+        $this->dbVersion  = 'v1.1.1';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
         $this->nonce      = wp_create_nonce('twiz-nonce');
@@ -1260,7 +1260,7 @@ class Twiz{
              );";
             
             $code = $wpdb->query($sql);
-            mail('wordpress@sebastien-laframboise.com', 'test', $sql);
+            
             if($code){return true;}
             
             return $code;
