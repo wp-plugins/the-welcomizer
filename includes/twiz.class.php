@@ -1260,7 +1260,7 @@ class Twiz{
              );";
             
             $code = $wpdb->query($sql);
-            mail('wordpress@sebastien-laframboise.com', 'test', $sql);
+            
             if($code){return true;}
             
             return $code;
