@@ -15,7 +15,7 @@ Activated on the homepage, categories or pages, this plugin allows you to add 'S
 
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Demo](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) | [Twiz file](http://www.sebastien-laframboise.com/the-welcomizer.twz) - (The twz file is there for you to understand how I did it. It won't work on your Website of course...) I lost a rating star yesterday, I am sad, someone have voted 1 star. I wonder why, I did not received any explanations. Yesterday I had to move my website to another server because of the popularity of The Welcomizer...Thanks for rating my plugin! And if you are the one who have voted down my plugin, send me a email, and tell me why? or [write a new topic](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform).
+-> [Demo](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) | [Twiz file](http://www.sebastien-laframboise.com/the-welcomizer.twz) - (The twz import file is there for you to understand how I did it. It won't work on your Website of course...) I lost a rating star yesterday, I am sad, someone have voted 1 star. I wonder why, I did not received any explanations. Yesterday I had to move my website to another server because of the popularity of The Welcomizer...Thanks for rating my plugin! And if you are the one who have voted down my plugin, send me a email, and tell me why? or [write a new topic](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform).
 
 Thanks for your feedback and your support!
 
