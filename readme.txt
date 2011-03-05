@@ -15,9 +15,7 @@ Activated on the homepage, categories or pages, this plugin allows you to add 'S
 
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Demo](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/)
-
-Any questions? [write a new topic](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform).
+-> [Take a look at my homepage.](http://www.sebastien-laframboise.com/) Any questions? [write a new topic](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform).
 
 Thanks for your feedback and your support!
 
