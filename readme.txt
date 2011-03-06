@@ -11,7 +11,7 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 
 == Description ==
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar"). Welcomize your visitors also on categories and/or pages!
+Welcomize your visitors also on categories and/or pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar")
 
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
