@@ -21,7 +21,7 @@ Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
 
-[The Welcomizer has Spirit!](http://www.cafepress.ca/the_welcomizer)
+The Welcomizer has Spirit!
 
 Enjoy!
 
