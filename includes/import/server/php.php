@@ -121,7 +121,7 @@ class qqFileUploader {
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
         if (!is_writable($uploadDirectory)){
-            return array('error' => "Server error. Upload directory isn't writable: '".Twiz::IMPORT_PATH."'");
+            return array('error' => "Server error. Upload directory isn't writable: 'plugins/the-welcomizer".Twiz::IMPORT_PATH."'");
         }
         
         if (!$this->file){
