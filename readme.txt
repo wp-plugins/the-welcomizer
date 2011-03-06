@@ -11,11 +11,11 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 
 == Description ==
 
-Welcomize your visitors also on categories and/or pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (e.g. div id="sidebar")
+Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.(e.g. div id="sidebar")
 
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Take a look at my homepage.](http://www.sebastien-laframboise.com/) Any questions? [Write a new topic](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform).
+-> [Take a look at my homepage.](http://www.sebastien-laframboise.com/) Any questions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
 
 Thanks for your feedback and support!
 
