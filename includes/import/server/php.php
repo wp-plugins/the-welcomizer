@@ -73,12 +73,15 @@ class qqUploadedFileForm {
     }
 }
 
-class qqFileUploader {
+class qqFileUploader extends Twiz{
     private $allowedExtensions = array();
     private $sizeLimit = 8388608;
     private $file;
 
     function __construct(array $allowedExtensions = array(), $sizeLimit = 8388608){        
+        
+        parent::__construct();
+        
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
             
         $this->allowedExtensions = $allowedExtensions;        
@@ -120,8 +123,10 @@ class qqFileUploader {
      * Returns array('success'=>true) or array('error'=>'error message')
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
+            
+        /* twiz class */
         if (!is_writable($uploadDirectory)){
-            return array('error' => "Server error. Upload directory isn't writable: 'wp-content/plugins/the-welcomizer".Twiz::IMPORT_PATH."'");
+            return array('error' => "Server error. Upload directory isn't writable: '".$this->import_path_message."'");
         }
         
         if (!$this->file){
@@ -159,12 +164,9 @@ class qqFileUploader {
              
              /* get section id */
              $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
-        
-             /* twiz class */
-             $myTwiz  = new Twiz();
 
             /* import list data */
-            if(! $code = $myTwiz->import($sectionid)){
+            if(! $code = $this->import($sectionid)){
 
                 return array('error' => 'File is corrupted and unreadable, the import was cancelled.');
             }

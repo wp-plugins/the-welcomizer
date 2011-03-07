@@ -27,11 +27,16 @@ class Twiz{
     private $logobigUrl;
     private $logoUrl;
     private $nonce;    
+    protected $import_path_message;
     
-     /* class default section constant */ 
-    const SECTION_DEFAULT  = 'home';
+     /* default section constant */ 
+    const DEFAULT_SECTION  = 'home';
     
-    /* class directional image suffix constants */ 
+    /* status contants*/
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+    
+    /* directional image suffix constants */ 
     const DIMAGE_N  = 'n';
     const DIMAGE_NE = 'ne';
     const DIMAGE_E  = 'e';
@@ -41,7 +46,7 @@ class Twiz{
     const DIMAGE_W  = 'w';
     const DIMAGE_NW = 'nw';
     
-    /* class action constants */ 
+    /* action constants */ 
     const ACTION_MENU          = 'menu';
     const ACTION_SAVE          = 'save';
     const ACTION_CANCEL        = 'cancel';
@@ -58,26 +63,26 @@ class Twiz{
     const ACTION_GLOBAL_STATUS = 'gstatus';
     const ACTION_ADD_SECTION   = 'addsection';
     
-    /* class jquery common options constants */ 
-    const JQUERY_HEIGHT            = 'height';
-    const JQUERY_WITDH             = 'width';
-    const JQUERY_OPACITY           = 'opacity';
-    const JQUERY_FONTSIZE          = 'fontSize';    
-    const JQUERY_MARGINTOP         = 'marginTop';
-    const JQUERY_MARGINBOTTOM      = 'marginBottom';
-    const JQUERY_MARGINLEFT        = 'marginLeft';
-    const JQUERY_MARGINRIGHT       = 'marginRight';
-    const JQUERY_PADDINGTOP        = 'paddingTop';
-    const JQUERY_PADDINGBOTTOM     = 'paddingBottom';    
-    const JQUERY_PADDINGLEFT       = 'paddingLeft';
-    const JQUERY_PADDINGRIGHT      = 'paddingRight';
-    const JQUERY_BORDERWIDTH       = 'borderWidth';
-    const JQUERY_BORDERTOPWIDTH    = 'borderTopWidth';
-    const JQUERY_BORDERBOTTOMWIDTH = 'borderBottomWidth';        
-    const JQUERY_BORDERIGHTWIDTH   = 'borderRightWidth';
-    const JQUERY_BORDERLEFTWIDTH   = 'borderLeftWidth';
+    /* jquery common options constants */ 
+    const JQ_HEIGHT            = 'height';
+    const JQ_WITDH             = 'width';
+    const JQ_OPACITY           = 'opacity';
+    const JQ_FONTSIZE          = 'fontSize';    
+    const JQ_MARGINTOP         = 'marginTop';
+    const JQ_MARGINBOTTOM      = 'marginBottom';
+    const JQ_MARGINLEFT        = 'marginLeft';
+    const JQ_MARGINRIGHT       = 'marginRight';
+    const JQ_PADDINGTOP        = 'paddingTop';
+    const JQ_PADDINGBOTTOM     = 'paddingBottom';    
+    const JQ_PADDINGLEFT       = 'paddingLeft';
+    const JQ_PADDINGRIGHT      = 'paddingRight';
+    const JQ_BORDERWIDTH       = 'borderWidth';
+    const JQ_BORDERTOPWIDTH    = 'borderTopWidth';
+    const JQ_BORDERBOTTOMWIDTH = 'borderBottomWidth';        
+    const JQ_BORDERIGHTWIDTH   = 'borderRightWidth';
+    const JQ_BORDERLEFTWIDTH   = 'borderLeftWidth';
     
-    /* class table field constants */ 
+    /* table field constants */ 
     const F_ID                   = 'id';   
     const F_SECTION_ID           = 'section_id';    
     const F_STATUS               = 'status';  
@@ -103,78 +108,112 @@ class Twiz{
     const F_EXTRA_JS_B           = 'extra_js_b';     
     
     /* action array used to exclude ajax container */
-    var $actiontypes = array('ACTION_MENU'   => self::ACTION_MENU    // form and list action
-                            ,'ACTION_SAVE'   => self::ACTION_SAVE    // form action
-                            ,'ACTION_CANCEL' => self::ACTION_CANCEL  // form action
-                            ,'ACTION_NEW'    => self::ACTION_NEW     // list action
-                            ,'ACTION_EDIT'   => self::ACTION_EDIT    // list action
-                            );
+    var $array_action_excluded = array(self::ACTION_MENU    // form and list action
+                                      ,self::ACTION_SAVE    // form action
+                                      ,self::ACTION_CANCEL  // form action
+                                      ,self::ACTION_NEW     // list action
+                                      ,self::ACTION_EDIT    // list action
+                                      );
                             
     /* jQuery common options array */
-    var $jQueryoptions = array('JQUERY_HEIGHT'            => self::JQUERY_HEIGHT
-                              ,'JQUERY_WITDH'             => self::JQUERY_WITDH
-                              ,'JQUERY_OPACITY'           => self::JQUERY_OPACITY
-                              ,'JQUERY_FONTSIZE'          => self::JQUERY_FONTSIZE
-                              ,'JQUERY_MARGINTOP'         => self::JQUERY_MARGINTOP
-                              ,'JQUERY_MARGINBOTTOM'      => self::JQUERY_MARGINBOTTOM
-                              ,'JQUERY_MARGINLEFT'        => self::JQUERY_MARGINLEFT
-                              ,'JQUERY_MARGINRIGHT'       => self::JQUERY_MARGINRIGHT
-                              ,'JQUERY_PADDINGTOP'        => self::JQUERY_PADDINGTOP
-                              ,'JQUERY_PADDINGBOTTOM'     => self::JQUERY_PADDINGBOTTOM
-                              ,'JQUERY_PADDINGLEFT'       => self::JQUERY_PADDINGLEFT
-                              ,'JQUERY_PADDINGRIGHT'      => self::JQUERY_PADDINGRIGHT
-                              ,'JQUERY_BORDERWIDTH'       => self::JQUERY_BORDERWIDTH
-                              ,'JQUERY_BORDERTOPWIDTH'    => self::JQUERY_BORDERTOPWIDTH
-                              ,'JQUERY_BORDERBOTTOMWIDTH' => self::JQUERY_BORDERBOTTOMWIDTH
-                              ,'JQUERY_BORDERIGHTWIDTH'   => self::JQUERY_BORDERIGHTWIDTH
-                              ,'JQUERY_BORDERLEFTWIDTH'   => self::JQUERY_BORDERLEFTWIDTH
-                              );
+    var $array_jQuery_options = array(self::JQ_HEIGHT
+                                     ,self::JQ_WITDH
+                                     ,self::JQ_OPACITY
+                                     ,self::JQ_FONTSIZE
+                                     ,self::JQ_MARGINTOP
+                                     ,self::JQ_MARGINBOTTOM
+                                     ,self::JQ_MARGINLEFT
+                                     ,self::JQ_MARGINRIGHT
+                                     ,self::JQ_PADDINGTOP
+                                     ,self::JQ_PADDINGBOTTOM
+                                     ,self::JQ_PADDINGLEFT
+                                     ,self::JQ_PADDINGRIGHT
+                                     ,self::JQ_BORDERWIDTH
+                                     ,self::JQ_BORDERTOPWIDTH
+                                     ,self::JQ_BORDERBOTTOMWIDTH
+                                     ,self::JQ_BORDERIGHTWIDTH
+                                     ,self::JQ_BORDERLEFTWIDTH
+                                     );
                 
     /* XML MULTI-VERSION mapping values */
-    var $twzmappingvalues = array(self::F_SECTION_ID           => 'AA' 
-                                 ,self::F_STATUS               => 'BB'
-                                 ,self::F_LAYER_ID             => 'CC'    
-                                 ,self::F_START_DELAY          => 'DD'
-                                 ,self::F_DURATION             => 'EE'
-                                 ,self::F_START_TOP_POS_SIGN   => 'FF'
-                                 ,self::F_START_TOP_POS        => 'GG'    
-                                 ,self::F_START_LEFT_POS_SIGN  => 'HH'
-                                 ,self::F_START_LEFT_POS       => 'II'
-                                 ,self::F_POSITION             => 'JJ'
-                                 ,self::F_MOVE_TOP_POS_SIGN_A  => 'KK'    
-                                 ,self::F_MOVE_TOP_POS_A       => 'LL'
-                                 ,self::F_MOVE_LEFT_POS_SIGN_A => 'MM'
-                                 ,self::F_MOVE_LEFT_POS_A      => 'OO'
-                                 ,self::F_MOVE_TOP_POS_SIGN_B  => 'PP'    
-                                 ,self::F_MOVE_TOP_POS_B       => 'QQ'
-                                 ,self::F_MOVE_LEFT_POS_SIGN_B => 'RR'
-                                 ,self::F_MOVE_LEFT_POS_B      => 'SS'
-                                 ,self::F_OPTIONS_A            => 'TT'
-                                 ,self::F_OPTIONS_B            => 'UU'
-                                 ,self::F_EXTRA_JS_A           => 'VV'
-                                 ,self::F_EXTRA_JS_B           => 'WW'
-                                 );
+    var $array_twz_mapping = array(self::F_SECTION_ID           => 'AA' 
+                                  ,self::F_STATUS               => 'BB'
+                                  ,self::F_LAYER_ID             => 'CC'    
+                                  ,self::F_START_DELAY          => 'DD'
+                                  ,self::F_DURATION             => 'EE'
+                                  ,self::F_START_TOP_POS_SIGN   => 'FF'
+                                  ,self::F_START_TOP_POS        => 'GG'    
+                                  ,self::F_START_LEFT_POS_SIGN  => 'HH'
+                                  ,self::F_START_LEFT_POS       => 'II'
+                                  ,self::F_POSITION             => 'JJ'
+                                  ,self::F_MOVE_TOP_POS_SIGN_A  => 'KK'    
+                                  ,self::F_MOVE_TOP_POS_A       => 'LL'
+                                  ,self::F_MOVE_LEFT_POS_SIGN_A => 'MM'
+                                  ,self::F_MOVE_LEFT_POS_A      => 'OO'
+                                  ,self::F_MOVE_TOP_POS_SIGN_B  => 'PP'    
+                                  ,self::F_MOVE_TOP_POS_B       => 'QQ'
+                                  ,self::F_MOVE_LEFT_POS_SIGN_B => 'RR'
+                                  ,self::F_MOVE_LEFT_POS_B      => 'SS'
+                                  ,self::F_OPTIONS_A            => 'TT'
+                                  ,self::F_OPTIONS_B            => 'UU'
+                                  ,self::F_EXTRA_JS_A           => 'VV'
+                                  ,self::F_EXTRA_JS_B           => 'WW'
+                                  );
+
+    var $array_fields = array(self::F_ID          
+                             ,self::F_SECTION_ID          
+                             ,self::F_STATUS              
+                             ,self::F_LAYER_ID               
+                             ,self::F_START_DELAY          
+                             ,self::F_DURATION            
+                             ,self::F_START_TOP_POS_SIGN 
+                             ,self::F_START_TOP_POS           
+                             ,self::F_START_LEFT_POS_SIGN  
+                             ,self::F_START_LEFT_POS      
+                             ,self::F_POSITION             
+                             ,self::F_MOVE_TOP_POS_SIGN_A      
+                             ,self::F_MOVE_TOP_POS_A      
+                             ,self::F_MOVE_LEFT_POS_SIGN_A 
+                             ,self::F_MOVE_LEFT_POS_A      
+                             ,self::F_MOVE_TOP_POS_SIGN_B     
+                             ,self::F_MOVE_TOP_POS_B      
+                             ,self::F_MOVE_LEFT_POS_SIGN_B 
+                             ,self::F_MOVE_LEFT_POS_B     
+                             ,self::F_OPTIONS_A           
+                             ,self::F_OPTIONS_B            
+                             ,self::F_EXTRA_JS_A          
+                             ,self::F_EXTRA_JS_B           
+                             );                                 
                                  
-    /* class upload import path constant*/
+    /* upload import path constant*/
     const IMPORT_PATH = '/includes/import/server/uploads/';       
-    
-    /* class import max file size constant */ 
+  
+    /* import max file size constant */ 
     const IMPORT_MAX_SIZE = '2097152';
     
     function __construct(){
     
         global $wpdb;
         
+        /* PLUGIN URL */
+        $pluginUrl = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+        $pluginUrl = str_replace('/includes/','',$pluginUrl);
+        
+        /* PLUGIN DIR */
+        $pluginDir = WP_PLUGIN_DIR.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+        $pluginDir = str_replace('/includes/','',$pluginDir);
+
         /* Twiz variable configuration */
+        $this->pluginUrl  = $pluginUrl;
+        $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->pluginUrl  = WP_PLUGIN_URL.'/the-welcomizer';
-        $this->pluginDir  = WP_PLUGIN_DIR.'/the-welcomizer';
-        $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->version    = 'v1.3.4';
+        $this->version    = 'v1.3.4.1';
         $this->dbVersion  = 'v1.1.1';
+        $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
         $this->nonce      = wp_create_nonce('twiz-nonce');
+        $this->import_path_message = str_replace('/includes/', '', 'wp-content/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))).self::IMPORT_PATH;
     }
     
     function twizIt(){
@@ -547,31 +586,38 @@ class Twiz{
     var numid = $("#twiz_id").val();
     $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
          "twiz_nonce": "'.$this->nonce.'", 
-         "twiz_action": "'.self::ACTION_SAVE.'",
-         "twiz_section_id": twiz_current_section_id, 
-         "twiz_id": numid,
-         "twiz_status": $("#twiz_status").is(":checked"),
-         "twiz_layer_id": $("#twiz_layer_id").val(),
-         "twiz_start_delay": $("#twiz_start_delay").val(),
-         "twiz_duration": $("#twiz_duration").val(),
-         "twiz_move_top_pos_sign_a": $("#twiz_move_top_pos_sign_a").val(),
-         "twiz_move_top_pos_a": $("#twiz_move_top_pos_a").val(),
-         "twiz_move_left_pos_sign_a": $("#twiz_move_left_pos_sign_a").val(),
-         "twiz_move_left_pos_a": $("#twiz_move_left_pos_a").val(),
-         "twiz_move_top_pos_sign_b": $("#twiz_move_top_pos_sign_b").val(),
-         "twiz_move_top_pos_b": $("#twiz_move_top_pos_b").val(),
-         "twiz_move_left_pos_sign_b": $("#twiz_move_left_pos_sign_b").val(),         
-         "twiz_move_left_pos_b": $("#twiz_move_left_pos_b").val(),         
-         "twiz_options_a": $("#twiz_options_a").val(),
-         "twiz_options_b": $("#twiz_options_b").val(),
-         "twiz_extra_js_a": $("#twiz_extra_js_a").val(),
-         "twiz_extra_js_b": $("#twiz_extra_js_b").val(),         
-         "twiz_start_top_pos_sign": $("#twiz_start_top_pos_sign").val(),
-         "twiz_start_top_pos": $("#twiz_start_top_pos").val(),
-         "twiz_start_left_pos_sign": $("#twiz_start_left_pos_sign").val(),         
-         "twiz_start_left_pos": $("#twiz_start_left_pos").val(),         
-         "twiz_position": $("#twiz_position").val()
-        }, function(data) {
+         "twiz_action": "'.self::ACTION_SAVE.'", ';
+         
+         $i=0;
+         $count_array = count($this->array_fields);
+         
+         foreach($this->array_fields as $value){
+         
+             $comma = ( $count_array != $i ) ? ','."\n" : '';
+          
+             switch($value){
+                    
+                 case self::F_SECTION_ID:
+                    $header.= '"twiz_'.$value.'": twiz_current_section_id'.$comma;
+                    break;  
+                                   
+                 case self::F_ID:
+                 
+                    $header.= '"twiz_'.$value.'": numid'.$comma;
+                    break;
+                 case self::F_STATUS:
+                 
+                    $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
+                    break;
+                    
+                 default:
+                    $header.= ' "twiz_'.$value.'": $("#twiz_'.$value.'").val()'.$comma;
+             }
+             
+             $i++;
+         }
+         
+        $header.= '}, function(data) {
         $("#twiz_container").html(data);
         $("img[name^=twiz_status]").unbind("click");
         $("img[name^=twiz_cancel]").unbind("click");
@@ -947,7 +993,7 @@ class Twiz{
         $rowcolor = '';
         
         /* ajax container */ 
-        if(!in_array($_POST['twiz_action'], $this->actiontypes)){
+        if(!in_array($_POST['twiz_action'], $this->array_action_excluded)){
         
             $opendiv = '<div id="twiz_container">';
             $closediv = '</div>';
@@ -973,7 +1019,7 @@ class Twiz{
             
             $rowcolor= ($rowcolor=='twiz-row-color-1') ?'twiz-row-color-2' : 'twiz-row-color-1';
             
-            $statushtmlimg = ($value[self::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[self::F_ID], 'active') : $this->getHtmlImgStatus($value[self::F_ID], 'inactive');
+            $statushtmlimg = ($value[self::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[self::F_ID], self::STATUS_ACTIVE) : $this->getHtmlImgStatus($value[self::F_ID], self::STATUS_INACTIVE);
             
             /* add a '2x' to the duration if necessary */
             $duration = $this->formatDuration($value[self::F_ID], $value);
@@ -991,7 +1037,7 @@ class Twiz{
     
     function export( $section_id = '' ){
     
-        $where = ($section_id != '') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".self::SECTION_DEFAULT."'";
+        $where = ($section_id != '') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION."'";
       
         $listarray = $this->getListArray( $where ); // get all the data
         
@@ -1008,35 +1054,23 @@ class Twiz{
               
               $filedata .= '<ROW>'."\n";
               
-              $filedata .= '<'.$this->twzmappingvalues[self::F_STATUS].'>'.$value[self::F_STATUS].'</'.$this->twzmappingvalues[self::F_STATUS].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_LAYER_ID].'>'.$value[self::F_LAYER_ID].'</'.$this->twzmappingvalues[self::F_LAYER_ID].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_START_DELAY].'>'.$value[self::F_START_DELAY].'</'.$this->twzmappingvalues[self::F_START_DELAY].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_DURATION].'>'.$value[self::F_DURATION].'</'.$this->twzmappingvalues[self::F_DURATION].'>'."\n";;
-              $filedata .= '<'.$this->twzmappingvalues[self::F_START_TOP_POS_SIGN].'>'.$value[self::F_START_TOP_POS_SIGN].'</'.$this->twzmappingvalues[self::F_START_TOP_POS_SIGN].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_START_TOP_POS].'>'.$value[self::F_START_TOP_POS].'</'.$this->twzmappingvalues[self::F_START_TOP_POS].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_START_LEFT_POS_SIGN].'>'.$value[self::F_START_LEFT_POS_SIGN].'</'.$this->twzmappingvalues[self::F_START_LEFT_POS_SIGN].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_START_LEFT_POS].'>'.$value[self::F_START_LEFT_POS].'</'.$this->twzmappingvalues[self::F_START_LEFT_POS].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_POSITION].'>'.$value[self::F_POSITION].'</'.$this->twzmappingvalues[self::F_POSITION].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_SIGN_A].'>'.$value[self::F_MOVE_TOP_POS_SIGN_A].'</'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_SIGN_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_A].'>'.$value[self::F_MOVE_TOP_POS_A].'</'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_SIGN_A].'>'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'</'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_SIGN_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_A].'>'.$value[self::F_MOVE_LEFT_POS_A].'</'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_SIGN_B].'>'.$value[self::F_MOVE_TOP_POS_SIGN_B].'</'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_SIGN_B].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_B].'>'.$value[self::F_MOVE_TOP_POS_B].'</'.$this->twzmappingvalues[self::F_MOVE_TOP_POS_B].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_SIGN_B].'>'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'</'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_SIGN_B].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_B].'>'.$value[self::F_MOVE_LEFT_POS_B].'</'.$this->twzmappingvalues[self::F_MOVE_LEFT_POS_B].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_OPTIONS_A].'>'.$value[self::F_OPTIONS_A].'</'.$this->twzmappingvalues[self::F_OPTIONS_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_OPTIONS_B].'>'.$value[self::F_OPTIONS_B].'</'.$this->twzmappingvalues[self::F_OPTIONS_B].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_EXTRA_JS_A].'>'.$value[self::F_EXTRA_JS_A].'</'.$this->twzmappingvalues[self::F_EXTRA_JS_A].'>'."\n";
-              $filedata .= '<'.$this->twzmappingvalues[self::F_EXTRA_JS_B].'>'.$value[self::F_EXTRA_JS_B].'</'.$this->twzmappingvalues[self::F_EXTRA_JS_B].'>'."\n";
-        
+              $count_array = count($this->array_fields);
+                    
+              /* loop fields array */
+              foreach($this->array_fields as $key){
+              
+                  if(($key != self::F_ID) and ($key != self::F_SECTION_ID)){
+             
+                     $filedata .= '<'.$this->array_twz_mapping[$key].'>'.$value[$key].'</'.$this->array_twz_mapping[$key].'>'."\n";
+                  }
+              }
+                
               $filedata .= '</ROW>'."\n";
-        
         }
 
         $filedata .= '</TWIZ>'."\n";
         
-        $sectionname = ($sectionname == '') ? $sectionname = self::SECTION_DEFAULT : $sectionname;
+        $sectionname = ($sectionname == '') ? $sectionname = self::DEFAULT_SECTION : $sectionname;
         
         header("Content-Type: text/twz;\n"); 
         header("Content-Transfer-Encoding: binary\n");
@@ -1084,7 +1118,7 @@ class Twiz{
                  
         $sql = "CREATE TABLE ".$this->table." (". 
                 self::F_ID . " int NOT NULL AUTO_INCREMENT, ". 
-                self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::SECTION_DEFAULT."', ". 
+                self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION."', ". 
                 self::F_STATUS . " tinyint(3) NOT NULL default 0, ". 
                 self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
                 self::F_START_DELAY . " int(5) NOT NULL default 0, ". 
@@ -1132,7 +1166,7 @@ class Twiz{
         return true;
     }
     
-    function import( $sectionid = self::SECTION_DEFAULT ){
+    protected function import( $sectionid = self::DEFAULT_SECTION ){
     
         $filearray = $this->getImportDirectory();
         
@@ -1147,7 +1181,7 @@ class Twiz{
         return true;
     }
     
-    private function importData( $filename = '', $sectionid = self::SECTION_DEFAULT ){
+    private function importData( $filename = '', $sectionid = self::DEFAULT_SECTION ){
  
         /* full file path */
         $file = $this->pluginDir.self::IMPORT_PATH.$filename;
@@ -1157,7 +1191,7 @@ class Twiz{
             if($twz = simplexml_load_file($file)){
 
                /* flip array mapping value to match*/
-               $reverse_twzmappingvalues = array_flip($this->twzmappingvalues);
+               $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
                
                 /* loop xml entities */              
                 foreach($twz->children() as $twzrow)
@@ -1170,7 +1204,7 @@ class Twiz{
                         $fieldname = '';
                         $fieldvalue = '';
                         
-                        $fieldname = strtr($twzfield->getName(), $reverse_twzmappingvalues);
+                        $fieldname = strtr($twzfield->getName(), $reverse_array_twz_mapping);
 
                         if($fieldname != "") {                        
 
@@ -1325,7 +1359,7 @@ class Twiz{
             case is_home():
                 
                 // get the active data list array
-                $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::SECTION_DEFAULT."' "); 
+                $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION."' "); 
             
                 break;
                 
@@ -1564,6 +1598,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $("#twiz_add_sections").fadeOut("slow"); 
         $("#twiz_right_panel").fadeOut("slow");
         $("#twiz_export").fadeOut("slow");
+        $("#qq_upload_list li").remove(); 
         '.$hideimport .'
   });
  //]]>
@@ -1585,7 +1620,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
 
 
         /* ajax container */ 
-        if(!in_array($_POST['twiz_action'], $this->actiontypes)){
+        if(!in_array($_POST['twiz_action'], $this->array_action_excluded)){
              $opendiv = '<div id="twiz_container">';
              $closediv = '</div>';
         }
@@ -1660,11 +1695,11 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         /* creates the form */
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').':</td>
-<td class="twiz-form-td-right"><input type="checkbox" id="twiz_status" name="twiz_status" '.$twiz_status.'></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-form-td-right"><input class="twiz-input" id="twiz_layer_id" name="twiz_layer_id" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
+<td class="twiz-form-td-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Element ID', 'the-welcomizer').':</td><td class="twiz-form-td-right"><input class="twiz-input" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
 <tr><td colspan="2" id="twiz_td_full_chooseid" class="twiz-td-picklist"><a id="twiz_choose_fromId" name="twiz_choose_fromId">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Start delay', 'the-welcomizer').': </td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_start_delay" name="twiz_start_delay" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-xx twiz-float-right">2x</div></td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_duration" name="twiz_duration" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Start delay', 'the-welcomizer').': </td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-xx twiz-float-right">2x</div></td><td class="twiz-form-td-right"><input class="twiz-input twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"> <small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></td></tr>
 <tr><td colspan="2"><hr></td></tr>
  <tr><td colspan="2" class="twiz-caption">'.__('Starting position', 'the-welcomizer').' <b>'.__('(optional)', 'the-welcomizer').'</b></tr>
 <tr>
@@ -1674,18 +1709,18 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             <select name="twiz_start_top_pos_sign" id="twiz_start_top_pos_sign">
                 <option value="" '.$twiz_start_top_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_top_pos_sign['-'].'>-</option>
-                </select><input class="twiz-input twiz-input-small" id="twiz_start_top_pos" name="twiz_start_top_pos" type="text" value="'.$data[self::F_START_TOP_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
+                </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_START_TOP_POS.'" name="twiz_'.self::F_START_TOP_POS.'" type="text" value="'.$data[self::F_START_TOP_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>
             <select name="twiz_start_left_pos_sign" id="twiz_start_left_pos_sign">
                 <option value="" '.$twiz_start_left_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_left_pos_sign['-'].'>-</option>
-                </select><input class="twiz-input twiz-input-small" id="twiz_start_left_pos" name="twiz_start_left_pos" type="text" value="'.$data[self::F_START_LEFT_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
+                </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_START_LEFT_POS.'" name="twiz_'.self::F_START_LEFT_POS.'" type="text" value="'.$data[self::F_START_LEFT_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
         </table>
     </td>
     <td>
         <table>
             <tr><td rowspan="2">'.__('Position', 'the-welcomizer').':</td><td>
-            <select name="twiz_position" id="twiz_position"><option value="" > </option>
+            <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="" > </option>
             <option value="absolute" '.$twiz_position['absolute'].'>'.__('absolute', 'the-welcomizer').'</option>
             <option value="relative" '.$twiz_position['relative'].'>'.__('relative', 'the-welcomizer').'</option>
             </select>
@@ -1698,18 +1733,18 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         <table>
             <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
-            <select name="" id="twiz_move_top_pos_sign_a">
+            <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'">
             <option value="+" '.$twiz_move_top_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_top_pos_sign_a['-'].'>-</option>
             </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_a" name="twiz_move_top_pos_a" type="text" value="'.$data[self::F_MOVE_TOP_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_a">'.$imagemove_a.'</td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
-            <select name="twiz_move_left_pos_sign_a" id="twiz_move_left_pos_sign_a">
+            <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'">
             <option value="+" '.$twiz_move_left_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_left_pos_sign_a['-'].'>-</option>
-            </select><input class="twiz-input twiz-input-small" id="twiz_move_left_pos_a" name="twiz_move_left_pos_a" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
+            </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
             <table class="twiz-table-more-options">
                 <tr><td colspan="2"><hr></td></tr>
-                <tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_options_a" name="twiz_options_a" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
+                <tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
                 <tr><td colspan="2" id="twiz_td_full_option_a" class="twiz-td-picklist"><a id="twiz_choose_options_a" name="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
                 <tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br>
                 opacity:0.5<br>
@@ -1717,37 +1752,37 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 <a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
                 </td></tr>        
                 <tr><td colspan="2"><hr></td></tr>        
-                <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_a" name="twiz_extra_js_a" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");</td></tr>
+                <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>alert("'.__('Welcome!', 'the-welcomizer').'");</td></tr>
         </table>
 </td>
 <td valign="top">    
     <table>
         <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
         <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
-        <select name="twiz_move_top_pos_sign_b" id="twiz_move_top_pos_sign_b">
+        <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'">
         <option value="-" '.$twiz_move_top_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_top_pos_sign_b['+'].'>+</option>
         </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_b" name="twiz_move_top_pos_b" type="text" value="'.$data[self::F_MOVE_TOP_POS_B].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_b">'.$imagemove_b.'</td></tr>
         <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
-        <select name="twiz_move_left_pos_sign_b" id="twiz_move_left_pos_sign_b">
+        <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'">
         <option value="-" '.$twiz_move_left_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_left_pos_sign_b['+'].'>+</option>
-        </select><input class="twiz-input twiz-input-small" id="twiz_move_left_pos_b" name="twiz_move_left_pos_b" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_b" id="twiz_more_options_b" class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr>
+        </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_B.'" name="twiz_'.self::F_MOVE_LEFT_POS_B.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_b" id="twiz_more_options_b" class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr>
         </table>
         <table class="twiz-table-more-options">
             <tr><td colspan="2"><hr></td></tr>
-            <tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_options_b" name="twiz_options_b" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
+            <tr><td colspan="2" class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
             <tr><td colspan="2" id="twiz_td_full_option_b" class="twiz-td-picklist"><a id="twiz_choose_options_b" name="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
             <tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br> 
                 opacity:1<br>
                 width:"100px"<br><a href="http://api.jquery.com/animate/" alt="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" title="'.__('Learn more about jQuery .animate() properties', 'the-welcomizer').'" target="_blank">jQuery .animate()</a>
                 </td></tr>        
             <tr><td colspan="2"><hr></td></tr>
-            <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_extra_js_b" name="twiz_extra_js_b" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:"static"});</td></tr>
+            <tr><td colspan="2" class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td colspan="2"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td colspan="2" class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:"static"});</td></tr>
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
-<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_id" id="twiz_id" value="'.$id.'"></td></tr>
+<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
 </table>'.$closediv.$toggleoptions.$jsscript_autoexpand.$jsscript_hide;
     
         return $htmlform;
@@ -1757,7 +1792,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         
         $data = '';
         
-        if($id!=''){
+        if($id != ''){
             if(!$data = $this->getRow($id)){return false;}
         }
 
@@ -1834,7 +1869,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     function getHtmlList( $section_id = '' ){ 
        
         /* from the menu */ 
-        $where = ($section_id!='') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".self::SECTION_DEFAULT."'";
+        $where = ($section_id!='') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION."'";
       
         $listarray = $this->getListArray( $where ); // get all the data
         
@@ -1851,8 +1886,8 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
     private function getHtmlImgStatus( $id = '', $status = ''){
     
-        if($id==''){return '';}
-        if($status==''){return '';}
+        if($id==''){ return ''; }
+        if($status==''){ return ''; }
     
         return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
@@ -1878,13 +1913,13 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
     function getHtmlOptionList( $id = '' ){
         
-        if($id==''){return '';}
+        if($id==''){ return ''; }
         
         $select = '<select class="twiz-slc-options" name="twiz_slc_options_'.$id.'" id="twiz_slc_options_'.$id.'">';
             
         $select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
             
-        foreach ($this->jQueryoptions as $value){
+        foreach ($this->array_jQuery_options as $value){
                     
             $select .= '<option value="'.$value.'">'.$value.'</option>';
         }
@@ -1896,8 +1931,8 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
     private function getHtmlSectionMenu( $section_id = '', $section_name = ''){
     
-       if($section_id==''){return '';}
-       if($section_name==''){return '';}
+       if($section_id==''){ return ''; }
+       if($section_name==''){ return ''; }
     
        $html = '<div id="twiz_menu_'.$section_id.'" class="twiz-menu">'.$section_name.'</div>';
             
@@ -1906,7 +1941,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
     function getHtmlSuccess( $message = '' ){
         
-        if($message==''){return '';}
+        if($message==''){ return ''; }
     
         $htmlmessage = '<p id="twiz_messagebox">'.$message.'</p>';
         
@@ -1917,7 +1952,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
         global $wpdb;
         
-        if($id==''){return false;}
+        if($id==''){ return false; }
     
         $sql = "SELECT * from ".$this->table." where ".self::F_ID." = '".$id."'";
         $row = $wpdb->get_row($sql, ARRAY_A);
@@ -2033,55 +2068,58 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         if($id==""){ // add new
 
             $sql = "INSERT INTO ".$this->table." 
-                 (".self::F_SECTION_ID."
-                 ,".self::F_STATUS."
-                 ,".self::F_LAYER_ID."
-                 ,".self::F_START_DELAY."
-                 ,".self::F_DURATION."
-                 ,".self::F_START_TOP_POS_SIGN."
-                 ,".self::F_START_TOP_POS."
-                 ,".self::F_START_LEFT_POS_SIGN."
-                 ,".self::F_START_LEFT_POS."    
-                 ,".self::F_POSITION."    
-                 ,".self::F_MOVE_TOP_POS_SIGN_A."
-                 ,".self::F_MOVE_TOP_POS_A."
-                 ,".self::F_MOVE_LEFT_POS_SIGN_A."
-                 ,".self::F_MOVE_LEFT_POS_A."
-                 ,".self::F_MOVE_TOP_POS_SIGN_B."
-                 ,".self::F_MOVE_TOP_POS_B."
-                 ,".self::F_MOVE_LEFT_POS_SIGN_B."
-                 ,".self::F_MOVE_LEFT_POS_B."
-                 ,".self::F_OPTIONS_A."
-                 ,".self::F_OPTIONS_B."
-                 ,".self::F_EXTRA_JS_A."
-                 ,".self::F_EXTRA_JS_B."         
-                 )values('".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
-                 ,'".$twiz_status."'
-                 ,'".$twiz_layer_id."'
-                 ,'0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
-                 ,'0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'    
-                 ,".$twiz_start_top_pos."
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_START_LEFT_POS_SIGN]))."'    
-                 ,".$twiz_start_left_pos."
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_POSITION]))."'                     
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A]))."'    
-                 ,".$twiz_move_top_pos_a."
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_A]))."'    
-                 ,".$twiz_move_left_pos_a."
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B]))."'                     
-                 ,".$twiz_move_top_pos_b."
-                 ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_B]))."'    
-                 ,".$twiz_move_left_pos_b."
-                 ,'".$twiz_options_a."'                             
-                 ,'".$twiz_options_b."'
-                 ,'".$twiz_extra_js_a."'                             
-                 ,'".$twiz_extra_js_b."'                 
-                 );";
+                  (".self::F_SECTION_ID."
+                  ,".self::F_STATUS."
+                  ,".self::F_LAYER_ID."
+                  ,".self::F_START_DELAY."
+                  ,".self::F_DURATION."
+                  ,".self::F_START_TOP_POS_SIGN."
+                  ,".self::F_START_TOP_POS."
+                  ,".self::F_START_LEFT_POS_SIGN."
+                  ,".self::F_START_LEFT_POS."    
+                  ,".self::F_POSITION."    
+                  ,".self::F_MOVE_TOP_POS_SIGN_A."
+                  ,".self::F_MOVE_TOP_POS_A."
+                  ,".self::F_MOVE_LEFT_POS_SIGN_A."
+                  ,".self::F_MOVE_LEFT_POS_A."
+                  ,".self::F_MOVE_TOP_POS_SIGN_B."
+                  ,".self::F_MOVE_TOP_POS_B."
+                  ,".self::F_MOVE_LEFT_POS_SIGN_B."
+                  ,".self::F_MOVE_LEFT_POS_B."
+                  ,".self::F_OPTIONS_A."
+                  ,".self::F_OPTIONS_B."
+                  ,".self::F_EXTRA_JS_A."
+                  ,".self::F_EXTRA_JS_B."         
+                  )values('".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
+                  ,'".$twiz_status."'
+                  ,'".$twiz_layer_id."'
+                  ,'0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
+                  ,'0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'    
+                  ,".$twiz_start_top_pos."
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_START_LEFT_POS_SIGN]))."'    
+                  ,".$twiz_start_left_pos."
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_POSITION]))."'                     
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A]))."'    
+                  ,".$twiz_move_top_pos_a."
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_A]))."'    
+                  ,".$twiz_move_left_pos_a."
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B]))."'                     
+                  ,".$twiz_move_top_pos_b."
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_B]))."'    
+                  ,".$twiz_move_left_pos_b."
+                  ,'".$twiz_options_a."'                             
+                  ,'".$twiz_options_b."'
+                  ,'".$twiz_extra_js_a."'                             
+                  ,'".$twiz_extra_js_b."'                 
+                  );";
             
             $code = $wpdb->query($sql);
              
-            if($code){return $wpdb->insert_id;}
+            if($code){ 
+            
+                return $wpdb->insert_id;
+            }
             
             return $code;
 
@@ -2129,7 +2167,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             
             $sql = "UPDATE ".$this->table." 
                     SET ".$column." = '".$value."'                 
-                    WHERE id='".$id."';";
+                    WHERE ".self::F_ID." = '".$id."';";
             $code = $wpdb->query($sql);
                         
             return $code;
@@ -2141,14 +2179,14 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 
         update_option('twiz_global_status', $newglobalstatus);
     
-        $htmlstatus = ($newglobalstatus=='1') ? $this->getHtmlImgStatus('global','active') : $this->getHtmlImgStatus('global','inactive');
+        $htmlstatus = ($newglobalstatus=='1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
 
         return $htmlstatus;
     }
     
     private function getImgGlobalStatus(){ 
 
-        $htmlstatus = (get_option('twiz_global_status')=='1') ? $this->getHtmlImgStatus('global','active') : $this->getHtmlImgStatus('global','inactive');
+        $htmlstatus = (get_option('twiz_global_status')=='1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
 
         return $htmlstatus;
     }
@@ -2164,14 +2202,17 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $newstatus = ($value[self::F_STATUS]=='1') ? '0' : '1'; // swicth the status value
         
         $sql = "UPDATE ".$this->table." 
-                SET status = '".$newstatus."'
-                WHERE id = '".$id."'";
+                SET ".self::F_STATUS." = '".$newstatus."'
+                WHERE ".self::F_ID." = '".$id."'";
+
         $code = $wpdb->query($sql);
         
         if($code){
-            $htmlstatus = ($newstatus=='1') ? $this->getHtmlImgStatus($id,'active') : $this->getHtmlImgStatus($id, 'inactive');
+        
+            $htmlstatus = ($newstatus=='1') ? $this->getHtmlImgStatus($id, self::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
         }else{ 
-            $htmlstatus = ($value[self::F_STATUS]=='1') ? $this->getHtmlImgStatus($id,'active') : $this->getHtmlImgStatus($id,'inactive');
+        
+            $htmlstatus = ($value[self::F_STATUS]=='1') ? $this->getHtmlImgStatus($id, self::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
         }
         
         return $htmlstatus;
@@ -2182,6 +2223,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         global $wpdb;
 
         if ($wpdb->get_var( "show tables like '".$this->table."'" ) == $this->table) {
+        
             $sql = "DROP TABLE ". $this->table;
             $wpdb->query($sql);
         }
@@ -2203,7 +2245,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             $sections[$keyid] = $newid;
         
             update_option('twiz_sections', $sections);
-            
         }
         
         return $keyid;
