@@ -79,7 +79,7 @@ License: GPL2
     register_deactivation_hook( __FILE__,  'twizUninstall' );    
 
     /* Set the multi-language file, english is the standard. */
-    load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'languages/' ); 
+    load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
     
     /* Enqueue style in admin */
     if(is_admin()){
