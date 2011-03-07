@@ -1,0 +1,214 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Welcomizer in italiano\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-02 00:54+0100\n"
+"PO-Revision-Date: 2011-03-02 00:54+0100\n"
+"Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
+"Language-Team: Gianni Diurno | gidibao.net\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: twiz-ajax.php:66
+msgid "Saved!"
+msgstr "Salvato!"
+
+#: twiz-index.php:56
+#: includes/twiz.class.php:139
+msgid "The Welcomizer"
+msgstr "The Welcomizer"
+
+#: includes/twiz.class.php:197
+#: includes/twiz.class.php:1839
+#: includes/twiz.class.php:1857
+msgid "Choose"
+msgstr "Scegli"
+
+#: includes/twiz.class.php:226
+#: includes/twiz.class.php:1722
+msgid "Save"
+msgstr "Salva"
+
+#: includes/twiz.class.php:226
+#: includes/twiz.class.php:1722
+msgid "Cancel"
+msgstr "Annulla"
+
+#: includes/twiz.class.php:244
+msgid "Add New"
+msgstr "Aggiungi nuovo"
+
+#: includes/twiz.class.php:252
+msgid "Import"
+msgstr "Importa"
+
+#: includes/twiz.class.php:253
+msgid "Export"
+msgstr "Esporta"
+
+#: includes/twiz.class.php:265
+msgid "Developed by"
+msgstr "Sviluppato da"
+
+#: includes/twiz.class.php:265
+msgid "Licensed under the GPL version 2.0"
+msgstr "Sotto Licenza GPL versione 2.0"
+
+#: includes/twiz.class.php:279
+msgid "Home"
+msgstr "Home"
+
+#: includes/twiz.class.php:475
+msgid "Are you sure to delete?"
+msgstr "Sei certo di volere cancellare?"
+
+#: includes/twiz.class.php:648
+#: includes/twiz.class.php:953
+msgid "Edit"
+msgstr "Modifica"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1634
+msgid "Status"
+msgstr "Stato"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1636
+#: includes/twiz.class.php:1750
+msgid "Element ID"
+msgstr "ID elemento"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1976
+msgid "Delay"
+msgstr "Ritardo"
+
+#: includes/twiz.class.php:940
+#: includes/twiz.class.php:1639
+msgid "Duration"
+msgstr "Durata"
+
+#: includes/twiz.class.php:940
+msgid "Action"
+msgstr "Azione"
+
+#: includes/twiz.class.php:953
+msgid "Delete"
+msgstr "Cancella"
+
+#: includes/twiz.class.php:1637
+#: includes/twiz.class.php:1685
+#: includes/twiz.class.php:1712
+msgid "Pick from List"
+msgstr "Prendi dalla lista"
+
+#: includes/twiz.class.php:1638
+msgid "Start delay"
+msgstr "Inizio ritardo"
+
+#: includes/twiz.class.php:1638
+#: includes/twiz.class.php:1639
+msgid "sec"
+msgstr "sec"
+
+#: includes/twiz.class.php:1641
+msgid "Starting position"
+msgstr "Posizione inizio"
+
+#: includes/twiz.class.php:1641
+msgid "(optional)"
+msgstr "(facoltativo)"
+
+#: includes/twiz.class.php:1645
+#: includes/twiz.class.php:1672
+#: includes/twiz.class.php:1698
+#: includes/twiz.class.php:1754
+#: includes/twiz.class.php:1768
+#: includes/twiz.class.php:1780
+msgid "Top"
+msgstr "Cima"
+
+#: includes/twiz.class.php:1649
+#: includes/twiz.class.php:1654
+#: includes/twiz.class.php:1676
+#: includes/twiz.class.php:1681
+#: includes/twiz.class.php:1702
+#: includes/twiz.class.php:1707
+#: includes/twiz.class.php:1736
+#: includes/twiz.class.php:1737
+#: includes/twiz.class.php:1738
+#: includes/twiz.class.php:1739
+#: includes/twiz.class.php:1740
+#: includes/twiz.class.php:1741
+msgid "px"
+msgstr "px"
+
+#: includes/twiz.class.php:1650
+#: includes/twiz.class.php:1677
+#: includes/twiz.class.php:1703
+#: includes/twiz.class.php:1755
+#: includes/twiz.class.php:1769
+#: includes/twiz.class.php:1781
+msgid "Left"
+msgstr "Sinistra"
+
+#: includes/twiz.class.php:1659
+#: includes/twiz.class.php:1760
+msgid "Position"
+msgstr "Posizione"
+
+#: includes/twiz.class.php:1661
+msgid "absolute"
+msgstr "assoluta"
+
+#: includes/twiz.class.php:1662
+msgid "relative"
+msgstr "relativa"
+
+#: includes/twiz.class.php:1671
+#: includes/twiz.class.php:1767
+msgid "First Move"
+msgstr "Primo movimento"
+
+#: includes/twiz.class.php:1681
+#: includes/twiz.class.php:1707
+msgid "More Options"
+msgstr "Altre opzioni"
+
+#: includes/twiz.class.php:1684
+#: includes/twiz.class.php:1711
+msgid "Personalized options"
+msgstr "Opzioni personalizzate"
+
+#: includes/twiz.class.php:1686
+#: includes/twiz.class.php:1692
+#: includes/twiz.class.php:1713
+#: includes/twiz.class.php:1718
+msgid "e.g."
+msgstr "es."
+
+#: includes/twiz.class.php:1689
+#: includes/twiz.class.php:1715
+msgid "Learn more about jQuery .animate() properties"
+msgstr "Info su proprietà jQuery .animate()"
+
+#: includes/twiz.class.php:1692
+#: includes/twiz.class.php:1718
+msgid "Extra JavaScript"
+msgstr "JavaScript extra"
+
+#: includes/twiz.class.php:1692
+msgid "Welcome!"
+msgstr "Benvenuto!"
+
+#: includes/twiz.class.php:1697
+#: includes/twiz.class.php:1779
+msgid "Second Move"
+msgstr "Secondo movimento"
+
