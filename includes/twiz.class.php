@@ -1322,7 +1322,7 @@ class Twiz{
             case is_home():
                 
                 // get the active data list array
-                $listarray = $this->getListArray(" where ".self::STATUS." = 1 and ".self::SECTION_ID." = '".self::SECTION_DEFAULT."' "); 
+                $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::SECTION_DEFAULT."' "); 
             
                 break;
                 
@@ -1331,7 +1331,7 @@ class Twiz{
                 $category_id = 'c_'.get_query_var('cat');
                 
                 // get the active data list array
-                $listarray = $this->getListArray(" where ".self::STATUS." = 1 and ".self::SECTION_ID." = '".$category_id."' "); 
+                $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$category_id."' "); 
                 
                 break;
                 
@@ -1340,7 +1340,7 @@ class Twiz{
                 $page_id = 'p_'.$post->ID;
                 
                 // get the active data list array
-                $listarray = $this->getListArray(" where ".self::STATUS." = 1 and ".self::SECTION_ID." = '".$page_id."' ");             
+                $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$page_id."' ");             
                 break;
                 
             case is_single():
