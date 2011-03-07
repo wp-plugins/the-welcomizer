@@ -155,9 +155,12 @@ class Twiz{
                                  ,self::F_EXTRA_JS_B           => 'WW'
                                  );
                                  
-    /* class upload import path constants*/
-    const IMPORT_PATH = '/includes/import/server/uploads/';
-        
+    /* class upload import path constant*/
+    const IMPORT_PATH = '/includes/import/server/uploads/';       
+    
+    /* class import max file size constant */ 
+    const IMPORT_MAX_SIZE = '2097152';
+    
     function __construct(){
     
         global $wpdb;
@@ -340,7 +343,7 @@ class Twiz{
         action: "'.$this->pluginUrl.'/includes/import/server/php.php",
         debug: false,
         allowedExtensions: ["twz"],
-        sizeLimit: 8388608, // max size   
+        sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
         onSubmit: function (){ uploader.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
         onComplete: function (){postMenu();}
