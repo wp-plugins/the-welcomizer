@@ -61,8 +61,8 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 4. Find the plugin under the menu 'Appearance'
 5. Configure and save your first movement, or Import a *.twz file.
 
-To Import *.twz files, make this directory writable. (If you don't need this, you don't have to):
-'plugins/the-welcomizer/includes/import/server/uploads/'
+Make this directory writable if your need to import *.twz files:
+'wp-content/plugins/the-welcomizer/includes/import/server/uploads/'
 
 Useful extra jQuery plugins (Advanced):   
 - 
