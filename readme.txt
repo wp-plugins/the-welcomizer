@@ -17,6 +17,10 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Take a look at my homepage.](http://www.sebastien-laframboise.com/) Any questions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
 
+Known issues: 
+* The export 'file name' is not multilingual ready.
+* The file uploader plugin is not ready for translation.
+
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
