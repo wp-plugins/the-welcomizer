@@ -183,9 +183,9 @@ class qqFileUploader {
 }
 
 // list of valid extensions, ex. array("jpeg", "xml", "bmp")
-$allowedExtensions = array();
+$allowedExtensions = array("twz");
 // max file size in bytes
-$sizeLimit = 2 * 1024 * 1024;
+$sizeLimit = Twiz::IMPORT_MAX_SIZE;
 
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 $result = $uploader->handleUpload('uploads/');
