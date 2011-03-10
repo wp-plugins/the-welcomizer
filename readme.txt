@@ -89,7 +89,7 @@ Useful extra jQuery plugins (Advanced):
 == Changelog ==
 
 = 1.3.4.2 =
-
+ 
 * Fully compatible with Internet Explorer 9.
 * Minor fixes.
 
@@ -343,7 +343,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 = 1.3.4.2 =
 
-* Fully compatible with IE9. Minor Fixes.
+* Fully compatible with IE9, Minor Fixes.
 
 = 1.3.4.1 =
 
