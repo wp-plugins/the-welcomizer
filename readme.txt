@@ -334,9 +334,6 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
-Note: (Advanced) Keep in mind that you can add more - $(this).animate({},xx); - inside the two Extra JavaScript textboxes.
-
-
 == Upgrade Notice ==
 
 = 1.3.4.1 =
