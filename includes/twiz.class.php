@@ -207,7 +207,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.1';
+        $this->version    = 'v1.3.4.2';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1706,12 +1706,12 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     <td>
         <table>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td>
-            <select name="twiz_start_top_pos_sign" id="twiz_start_top_pos_sign">
+            <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
                 <option value="" '.$twiz_start_top_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_top_pos_sign['-'].'>-</option>
                 </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_START_TOP_POS.'" name="twiz_'.self::F_START_TOP_POS.'" type="text" value="'.$data[self::F_START_TOP_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
             <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>
-            <select name="twiz_start_left_pos_sign" id="twiz_start_left_pos_sign">
+            <select name="twiz_'.self::F_START_LEFT_POS_SIGN.'" id="twiz_'.self::F_START_LEFT_POS_SIGN.'">
                 <option value="" '.$twiz_start_left_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_left_pos_sign['-'].'>-</option>
                 </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_START_LEFT_POS.'" name="twiz_'.self::F_START_LEFT_POS.'" type="text" value="'.$data[self::F_START_LEFT_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>

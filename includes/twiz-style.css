@@ -29,6 +29,7 @@
     z-index: -1;
 }
 #twiz_global_status {
+    border-radius: 6px 6px 0px 0px;
     -moz-border-radius-topright: 6px;
     -moz-border-radius-topleft: 6px;
     -webkit-border-top-right-radius: 6px;
@@ -52,6 +53,7 @@
     cursor: pointer;
 }
 #twiz_right_panel {
+    border-radius: 6px 6px 6px 6px;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
     -moz-border-radius-bottomleft: 6px;
@@ -115,6 +117,7 @@
     margin-right: 15px;
 }
 #twiz_header {
+    border-radius: 6px 6px 0px 0px;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
     -webkit-border-top-left-radius: 6px;
@@ -197,6 +200,7 @@
     cursor: pointer;
 }
 #twiz_footer {
+    border-radius: 0px 0px 6px 6px;
     -moz-border-radius-bottomleft: 6px;
     -moz-border-radius-bottomright: 6px;
     -webkit-border-bottom-left-radius: 6px;
@@ -284,6 +288,7 @@
 }
 .twiz-table-form hr, 
 .twiz-table-view hr {
+    border-radius: 2px 2px 2px 2px;
     -moz-border-radius-topleft: 2px;
     -moz-border-radius-topright: 2px;
     -moz-border-radius-bottomleft: 2px;
@@ -419,6 +424,7 @@ a.twiz-more-options:hover {
 }
 #twiz_import,
 #twiz_export {
+    border-radius: 0px 0px 6px 6px;
     -moz-border-radius-bottomright: 6px;
     -moz-border-radius-bottomleft: 6px;
     -webkit-border-bottom-right-radius: 6px;
