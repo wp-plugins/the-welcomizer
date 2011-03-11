@@ -90,7 +90,7 @@ Useful extra jQuery plugins (Advanced):
 
 = 1.3.4.3 =
  
-* Single and double quotes are now allowed.
+* Single and double quotes are now allowed. 
 
 = 1.3.4.2 =
  
