@@ -207,7 +207,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.2';
+        $this->version    = 'v1.3.4.3';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1249,6 +1249,9 @@ class Twiz{
         $twiz_start_top_pos   = ($twiz_start_top_pos=='') ? 'NULL' : $twiz_start_top_pos;
         $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;
       
+      $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_A]);
+      $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_B]);
+      
         $sql = "INSERT INTO ".$this->table." 
              (".self::F_SECTION_ID."
              ,".self::F_STATUS."
@@ -1292,8 +1295,8 @@ class Twiz{
              ,".$twiz_move_left_pos_b."
              ,'".esc_attr(trim($data[self::F_OPTIONS_A]))."'                             
              ,'".esc_attr(trim($data[self::F_OPTIONS_B]))."'
-             ,'".esc_attr(trim($data[self::F_EXTRA_JS_A]))."'                             
-             ,'".esc_attr(trim($data[self::F_EXTRA_JS_B]))."'                 
+             ,'".esc_attr($twiz_extra_js_a)."'                             
+             ,'".esc_attr($twiz_extra_js_b)."'                 
              );";
             
             $code = $wpdb->query($sql);
@@ -2053,17 +2056,13 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;
         
         /* user syntax auto correction */
-        $twiz_options_a = str_replace("'", "\"" , $_POST['twiz_'.self::F_OPTIONS_A]);    
-        $twiz_options_b = str_replace("'", "\"" , $_POST['twiz_'.self::F_OPTIONS_B]);
-        $twiz_options_a = esc_attr(trim($twiz_options_a));
-        $twiz_options_b = esc_attr(trim($twiz_options_b));
+        $twiz_options_a = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_A]));
+        $twiz_options_b = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_B]));
         $twiz_options_a = str_replace("=", ":" , $twiz_options_a );
         $twiz_options_b = str_replace("=", ":" , $twiz_options_b );
 
-        $twiz_extra_js_a = str_replace("'", "\"" , $_POST['twiz_'.self::F_EXTRA_JS_A]);    
-        $twiz_extra_js_b = str_replace("'", "\"" , $_POST['twiz_'.self::F_EXTRA_JS_B]);
-        $twiz_extra_js_a = esc_attr(trim($twiz_extra_js_a));    
-        $twiz_extra_js_b = esc_attr(trim($twiz_extra_js_b));
+        $twiz_extra_js_a = esc_attr(trim( $_POST['twiz_'.self::F_EXTRA_JS_A]));    
+        $twiz_extra_js_b = esc_attr(trim($_POST['twiz_'.self::F_EXTRA_JS_B]));
         
         if($id==""){ // add new
 
