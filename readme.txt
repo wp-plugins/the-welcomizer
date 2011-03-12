@@ -4,7 +4,7 @@ Donate link: http://www.printfection.com/the_welcomizer
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.4.3
+Stable tag: 1.3.4.4
 License: GPLv2
 
 This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -35,6 +35,12 @@ Enjoy!
 ∞
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
+
+Have you done something cool with The Welcomizer and would like to share it with the World? 
+
+Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
+
+----Your-Link----
 
 
 == Features ==
