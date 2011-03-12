@@ -24,6 +24,12 @@ Known issues:
 - The export 'file name' is not multilingual ready.
 - The file uploader plugin is not ready for translation.
 
+Have you done something cool with The Welcomizer and would like to share it with others? 
+
+Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
+
+----Your-Link----
+
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
@@ -35,13 +41,6 @@ Enjoy!
 ∞
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
-
-Have you done something cool with The Welcomizer and would like to share it with others? 
-
-Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
-
-----Your-Link----
-
 
 == Features ==
 
