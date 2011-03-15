@@ -140,6 +140,7 @@
 #twiz_footer,
 #twiz_menu,
 #twiz_add_menu,
+#twiz_delete_menu,
 .twiz-menu  {
     background: #D7D7D7;
     background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
@@ -150,18 +151,20 @@
 #twiz_footer {
     border: 1px solid #D1D1D1;
 }
-#twiz_add_menu{
+#twiz_add_menu,
+#twiz_delete_menu {
     border-left: 1px solid #D1D1D1;
     border-right: 1px solid #D1D1D1;
     width: 20px;
     color: #a7a7a7;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: normal;
     text-align: center    
 }
 #twiz_header, 
 #twiz_footer,
 #twiz_add_menu,
+#twiz_delete_menu,
 .twiz-menu {
     padding: 5px;
 }
@@ -170,10 +173,21 @@
     font-size: 12px; 
     text-align: center;
 }
-.twiz-menu:hover,
-#twiz_add_menu:hover {
-    cursor: pointer;
+.twiz-menu:hover {
     color: #000000;
+}
+#twiz_add_menu:hover {
+    color: green;
+    font-weight:bold; 
+}
+#twiz_delete_menu:hover {
+    color: red;
+    font-weight:bold; 
+}
+.twiz-menu:hover,
+#twiz_add_menu:hover,
+#twiz_delete_menu:hover {
+    cursor: pointer;
     background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
@@ -188,6 +202,7 @@
     background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));    
 }
 #twiz_add_menu,
+#twiz_delete_menu,
 .twiz-menu {
     float: left;
 }

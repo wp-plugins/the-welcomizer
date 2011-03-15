@@ -52,6 +52,16 @@
             $htmlresponse = $myTwiz->addSectionMenu($twiz_section_id);
             
             break;
+
+        case Twiz::ACTION_DELETE_SECTION:
+        
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+        
+            $myTwiz  = new Twiz();
+            
+            $htmlresponse = $myTwiz->deleteSectionMenu($twiz_section_id);
+            
+            break;
             
         case Twiz::ACTION_SAVE:
         

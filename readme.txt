@@ -4,7 +4,7 @@ Donate link: http://www.printfection.com/the_welcomizer
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.4.3
+Stable tag: 1.3.4.4
 License: GPLv2
 
 This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
@@ -21,8 +21,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Known issues: 
 -
-- The export 'file name' is not multilingual ready.
-- The file uploader plugin is not ready for translation.
+- The file uploader plugin is in english only and the code is not yet ready for translation.
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
 
@@ -92,6 +91,12 @@ Useful extra jQuery plugins (Advanced):
 
 
 == Changelog ==
+
+= 1.3.4.4 =
+ 
+* Added a `Delete section` button.
+* Fixed export multilingual filename.
+* Other minor fixes.
 
 = 1.3.4.3 =
  
@@ -349,6 +354,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.4.4 =
+
+* Added a delete section button. Fixed export multilingual filename.
 
 = 1.3.4.3 =
  

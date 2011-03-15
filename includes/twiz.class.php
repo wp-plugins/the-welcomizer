@@ -62,6 +62,7 @@ class Twiz{
     const ACTION_EXPORT        = 'export';
     const ACTION_GLOBAL_STATUS = 'gstatus';
     const ACTION_ADD_SECTION   = 'addsection';
+    const ACTION_DELETE_SECTION = 'deletesection';
     
     /* jquery common options constants */ 
     const JQ_HEIGHT            = 'height';
@@ -207,7 +208,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.3';
+        $this->version    = 'v1.3.4.4';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -354,7 +355,9 @@ class Twiz{
                 
                 $menu .= $this->getHtmlSectionMenu( $value, $name );
            }
-           
+
+           $menu .= '<div id="twiz_delete_menu">x</div>';
+
            $menu .= '<div id="twiz_add_menu">+</div>';
  
            $menu .= $this->getHtmlAddSection(); // private
@@ -375,7 +378,8 @@ class Twiz{
  jQuery(document).ready(function($) {
  var twiz_hide_MessageDelay = 1234;
  var twiz_view_id = null;
- var twiz_current_section_id = "home";
+ var twiz_current_section_id = "'.self::DEFAULT_SECTION.'";
+ var twiz_default_section_id = "'.self::DEFAULT_SECTION.'";
  var twiz_array_view_id = new Array();
  var uploader = new qq.FileUploader({
         element: document.getElementById("twiz_import_container"),
@@ -385,7 +389,7 @@ class Twiz{
         sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
         onSubmit: function (){ uploader.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
-        onComplete: function (){postMenu();}
+        onComplete: function (){postMenu(twiz_current_section_id);}
  });    
  var bind_twiz_New = function() {
     $("#twiz_new").click(function(){
@@ -833,21 +837,48 @@ class Twiz{
         $("input[id=twiz_save_section]").removeAttr("disabled");
         twiz_view_id = null;
     });
+    $("#twiz_delete_menu").click(function(){  
+        if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
+            if(twiz_current_section_id!=twiz_default_section_id){
+                $("#twiz_menu_" + twiz_current_section_id).fadeOut("slow");
+            }
+            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
+            "twiz_nonce": "'.$this->nonce.'", 
+            "twiz_action": "'.self::ACTION_DELETE_SECTION.'",
+            "twiz_section_id": twiz_current_section_id
+            }, function(data) {                
+            if(twiz_current_section_id!=twiz_default_section_id){
+                var options = $("#twiz_slc_sections").attr("options");
+                options[options.length] = new Option($("#twiz_menu_" + twiz_current_section_id).html(), twiz_current_section_id, false, false);
+                $("#twiz_menu_" + twiz_current_section_id).remove();
+                $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
+                $("#twiz_menu_" + twiz_default_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});           
+                $("div[id^=twiz_menu_]").unbind("click");
+                $("#twiz_add_menu").unbind("click");
+                $("#twiz_delete_menu").unbind("click");
+                $("#twiz_cancel_section").unbind("click");
+                bind_twiz_Menu();            
+            }
+             $("#qq_upload_list li").remove(); 
+            postMenu(twiz_default_section_id);
+            });
+        }
+   });    
     $("div[id^=twiz_menu_]").click(function(){
         var textid = $(this).attr("id");
         twiz_current_section_id = textid.substring(10,textid.length);
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
         $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
         $("#qq_upload_list li").remove(); 
-       postMenu();
+       postMenu(twiz_current_section_id);
     });
   }    
-  function postMenu(){
+  function postMenu(section_id){
    $("#twiz_container").slideToggle("fast"); 
    $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
             "twiz_nonce": "'.$this->nonce.'", 
             "twiz_action": "'.self::ACTION_MENU.'",
-            "twiz_section_id": twiz_current_section_id
+            "twiz_section_id": section_id
             }, function(data) {
                 $("#twiz_container").html(data);
                 $("#twiz_container").slideToggle("slow");  
@@ -873,7 +904,7 @@ class Twiz{
                  "twiz_action": "'.self::ACTION_ADD_SECTION.'",
                  "twiz_section_id": sectionid
                 }, function(data) {
-                    $("#twiz_add_menu").before(data);
+                    $("#twiz_delete_menu").before(data);
                     $("#twiz_container").fadeOut("slow");   
                     $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
                     "twiz_nonce": "'.$this->nonce.'", 
@@ -887,6 +918,7 @@ class Twiz{
                         $("#twiz_container").slideToggle("slow");  
                         $("div[id^=twiz_menu_]").unbind("click");
                         $("#twiz_add_menu").unbind("click");
+                        $("#twiz_delete_menu").unbind("click");
                         $("#twiz_cancel_section").unbind("click");
                         bind_twiz_Status();bind_twiz_Delete();bind_twiz_Edit();
                         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
@@ -1005,6 +1037,7 @@ class Twiz{
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeIn("slow");
         $("#twiz_add_menu").fadeIn("slow");
+        $("#twiz_delete_menu").fadeIn("slow");
         $("#twiz_import").fadeIn("slow");
         $("#twiz_export").fadeIn("slow");
   });
@@ -1074,8 +1107,8 @@ class Twiz{
         
         header("Content-Type: text/twz;\n"); 
         header("Content-Transfer-Encoding: binary\n");
-        header('Content-length: '.$this->utf8_strlen($filedata));
-        header("Content-Disposition: attachment; filename=\"".$sectionname.".twz\"\n");
+        header("Content-length: ".$this->utf8_strlen($filedata)."\n");
+        header("Content-Disposition: attachment; filename=\"".urldecode($sectionname).".twz\"\n");
         header("Content-Description: The Welcomizer generated data: ".date('Y-m-d H:i:s')."\n");
         header("Expires: 0");
         header("Cache-Control: no-cache, must-revalidate");
@@ -1083,7 +1116,7 @@ class Twiz{
         
         return $filedata;
     }
-    
+   
     private function utf8_strlen( $string = '' ) {
     
         $char = strlen($string); 
@@ -1111,6 +1144,29 @@ class Twiz{
         return $code;
 
     }        
+    
+    function deleteSectionMenu( $section_id = '' ){
+    
+        global $wpdb;
+        
+        if($section_id==''){return false;}
+         
+        $sql = "DELETE from ".$this->table." where ".self::F_SECTION_ID." = '".$section_id."';";
+        $code = $wpdb->query($sql);
+  
+
+        if($section_id!=self::DEFAULT_SECTION){
+            
+            $sections = get_option('twiz_sections');
+            $section_name = $this->getSectionName($section_id);
+            unset($sections[$section_name]);
+            update_option('twiz_sections', $sections);
+            
+            return true;
+        }
+
+        return $code;
+    } 
     
     function install(){ 
     
@@ -1598,6 +1654,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeOut("slow");
         $("#twiz_add_menu").fadeOut("slow");
+        $("#twiz_delete_menu").fadeOut("slow");
         $("#twiz_add_sections").fadeOut("slow"); 
         $("#twiz_right_panel").fadeOut("slow");
         $("#twiz_export").fadeOut("slow");
