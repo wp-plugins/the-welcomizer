@@ -259,6 +259,8 @@ class Twiz{
         global $wpdb;
  
         $sections = get_option('twiz_sections');
+        
+        if(!is_array($sections)){$sections = array();}
   
         $addsection = '<div id="twiz_add_sections">';
         
