@@ -12,19 +12,19 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 == Description ==
 
 Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.
-
+    
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) - Useful Tips *** New! ***
 
 -> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
-
+    
 Known issues: 
 -
 - The file uploader plugin is not yet ready for translation. 
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
-
+   
 Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
 
 ----Your-Link----
