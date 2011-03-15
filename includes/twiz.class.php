@@ -208,7 +208,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.4';
+        $this->version    = 'v1.3.4.5';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -857,9 +857,10 @@ class Twiz{
                 $("#twiz_add_menu").unbind("click");
                 $("#twiz_delete_menu").unbind("click");
                 $("#twiz_cancel_section").unbind("click");
+                twiz_current_section_id = twiz_default_section_id;
                 bind_twiz_Menu();            
             }
-             $("#qq_upload_list li").remove(); 
+             $("#qq_upload_list li").remove();
             postMenu(twiz_default_section_id);
             });
         }
