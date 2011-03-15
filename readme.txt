@@ -21,7 +21,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Known issues: 
 -
-- The file uploader plugin is in english only and the code is not yet ready for translation.
+- The file uploader plugin is not yet ready for translation.
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
 
