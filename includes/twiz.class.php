@@ -341,7 +341,9 @@ class Twiz{
     
            /* retrieve stored sections */
            $sections = get_option('twiz_sections');
-    
+           
+           if(!is_array($sections)){$sections = array();}
+           
            $menu = '
 <div id="twiz_menu">';
            
