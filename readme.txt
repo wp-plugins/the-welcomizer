@@ -11,7 +11,7 @@ This plugin allows you to add 'Smart' moves and jQuery effects to virtually any 
 
 == Description ==
 
-Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID.
+Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an id attribute.
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
