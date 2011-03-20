@@ -21,6 +21,8 @@
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
 
     /* Nonce security (number used once) */
+    $_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
+    $_GET['twiz_nonce'] = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
     $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
     
     if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
@@ -29,6 +31,8 @@
     }
 
     /* actions */
+    $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
+    $_GET['twiz_action'] = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action'];    
     $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
     
     $htmlresponse = '';
