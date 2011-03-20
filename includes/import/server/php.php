@@ -5,6 +5,12 @@ require_once(dirname(__FILE__).'/../../../../../../wp-config.php');
 /* Require Twiz Class */
 require_once(dirname(__FILE__).'/../../twiz.class.php'); 
 
+$_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
+$_GET['twiz_nonce'] = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
+$_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
+$_GET['twiz_action'] = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action']; 
+$_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
+$_GET['twiz_section_id'] = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id']; 
 $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
 $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
 
