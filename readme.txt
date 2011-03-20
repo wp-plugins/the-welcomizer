@@ -25,10 +25,6 @@ What's coming in the next version of The Welcomizer?
 - Many bug fixes, many bug fixes.
 - The file uploader will be ready for translation.
 
-Known issues: 
--
-- The file uploader plugin is not yet ready for translation. 
-
 Have you done something cool with The Welcomizer and would like to share it with others? 
    
 Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
