@@ -514,7 +514,8 @@ class Twiz{
         $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
         "twiz_nonce": "'.$this->nonce.'", 
         "twiz_action": "'.self::ACTION_EDIT.'",
-        "twiz_id": numid
+        "twiz_id": numid,
+        "twiz_section_id": twiz_current_section_id
         }, function(data) {
             $("#twiz_container").html(data);
             twiz_view_id = null;
@@ -1551,7 +1552,8 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
         if($data==''){return '';}
         if($ab==''){return '';}
-    
+        $direction = '';
+        
         /* true super fast logical switch */
         switch(true){
         
