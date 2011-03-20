@@ -19,6 +19,12 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
     
+What's coming in the next version of The Welcomizer?
+-
+- A very useful `jQuery Library Manager`.
+- Many bug fixes, many bug fixes.
+- The file uploader will be ready for translation.
+
 Known issues: 
 -
 - The file uploader plugin is not yet ready for translation. 
