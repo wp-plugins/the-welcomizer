@@ -21,7 +21,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
     
 What's coming in the next version of The Welcomizer?
 -
-- A very useful `jQuery Plugin Manager`.
+- A `JavaScript Library Manager`.
 - The file uploader will be ready for translation.
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
