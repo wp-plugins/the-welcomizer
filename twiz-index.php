@@ -29,7 +29,6 @@ License: GPL2
     * --- The Classes ---
     *********************/
     
-    require_once(dirname(__FILE__).'/includes/twiz-shd.class.php'); 
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
     
     /******************
