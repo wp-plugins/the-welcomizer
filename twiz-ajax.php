@@ -31,6 +31,8 @@
     /* actions */
     $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
     
+    $htmlresponse = '';
+        
     switch(esc_attr(trim($action))){ 
     
         case Twiz::ACTION_MENU:
