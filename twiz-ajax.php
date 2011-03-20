@@ -18,6 +18,7 @@
     require_once(dirname(__FILE__).'/../../../wp-config.php');
     
     /* Require Twiz Class */
+    require_once(dirname(__FILE__).'/includes/twiz-shd.class.php');
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
 
     /* Nonce security (number used once) */
