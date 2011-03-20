@@ -1642,7 +1642,8 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $data = '';        
         $opendiv = '';
         $closediv = '';
-             
+        $hideimport = '';
+        
         if($id!=''){
             if(!$data = $this->getRow($id)){return false;}
             $hideimport = '$("#twiz_import").fadeOut("slow");';
