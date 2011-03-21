@@ -82,8 +82,8 @@ License: GPL2
     
     /* Enqueue style in admin */
     if(is_admin()){
-        wp_enqueue_style('twiz-style', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)).'includes/twiz-style.css');
-        wp_enqueue_style('twiz-style-b', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)).'includes/import/client/fileuploader.css');
+       wp_enqueue_style('twiz-style', plugins_url('includes/twiz-style.css', __FILE__ ));
+       wp_enqueue_style('twiz-style-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
     }
     
     /* Add the menu link */
