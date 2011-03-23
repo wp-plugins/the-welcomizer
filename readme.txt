@@ -79,7 +79,7 @@ Useful jQuery plugins to upload into your library.
 
 == Screenshots ==
 
-1. Panel when adding a new movement. (Right click - View image) 
+1. Panel when adding a new movement.
 2. Panel when viewing data. (Right click - View image) 
 5. Panel when editing an existing movement. - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
 
