@@ -24,7 +24,7 @@ What's coming in the `next version` of The Welcomizer?
 - A `JavaScript File Manager`. (90%)
 - The file uploader will be ready for translation. (5%)
 - Preloading directional images. (100%)
-- The Upload directory will be `/wp-content/twiz/` (90%)
+- The Upload path will be `/wp-content/twiz/` (90%)
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
    
