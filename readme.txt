@@ -79,7 +79,7 @@ Useful jQuery plugins to upload through the Library.
 
 == Screenshots ==
 
-1. Panel when adding a new movement.
+1. Panel when adding a new movement. 
 2. Panel when viewing data. (Right click - View image) 
 5. Panel when editing an existing movement. - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
 
@@ -88,7 +88,7 @@ Useful jQuery plugins to upload through the Library.
 
 = 1.3.4.6 =
  
-* Added a New `JavaScript File Manager`. ( Batteries not included. )
+* Added a New `JavaScript File Manager`. 
 * Added a preloader for directional images.
 * Moved and renamed the upload directory to `/wp-content/twiz/`.
 * Removed the `Saved!` message for faster editing and better focusing. 
