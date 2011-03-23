@@ -15,10 +15,8 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) - Useful Tips *** READ THIS! ***
+* READ THIS! -> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Useful Tips
 
--> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
-    
 What's coming in the `next version` of The Welcomizer?
 -
 - A `JavaScript File Manager`. (95%)
@@ -29,9 +27,10 @@ What's coming in the `next version` of The Welcomizer?
 Have you done something cool with The Welcomizer and would like to share it with others? 
    
 Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
-
-----Your-Link----
-
+-
+- http://www.sebastien-laframboise.com
+- Your link.
+ 
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
