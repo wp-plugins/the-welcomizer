@@ -40,8 +40,8 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Export a list. 
 * Import a list.
 * Multilingual Ready.
-* Pick an HTML element ID.
 * Include JavaScript files.
+* Pick an HTML element ID.
 * Pick an Option properties.
 * Global Online/Offline status.
 * Optional First and Second move.
