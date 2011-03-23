@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2011  Sebastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -14,13 +14,17 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
     /* Require wp-config */
     require_once(dirname(__FILE__).'/../../../wp-config.php');
     
     /* Require Twiz Class */
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
+    require_once(dirname(__FILE__).'/includes/twiz.library.class.php'); 
 
     /* Nonce security (number used once) */
+    $_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
+    $_GET['twiz_nonce'] = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
     $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
     
     if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
@@ -29,8 +33,12 @@
     }
 
     /* actions */
+    $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
+    $_GET['twiz_action'] = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action'];    
     $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
     
+    $htmlresponse = '';
+     
     switch(esc_attr(trim($action))){ 
     
         case Twiz::ACTION_MENU:
@@ -73,7 +81,7 @@
             if(($saved = $myTwiz->save($twiz_id)) // insert or update
             or($saved=='0')){ // success, but no differences
             
-                $htmlresponse = $myTwiz->getHtmlSuccess(__('Saved!', 'the-welcomizer'));
+               // $htmlresponse = $myTwiz->getHtmlSuccess(__('Saved!', 'the-welcomizer'));
                 $htmlresponse.= $myTwiz->getHtmlList($twiz_section_id);        
                 
             }else{
@@ -199,6 +207,31 @@
             $htmlresponse = $myTwiz->export($twiz_section_id);    
             
             break;             
+            
+        case Twiz::ACTION_LIBRARY:
+
+            $myTwizLibrary  = new TwizLibrary();
+            $htmlresponse = $myTwizLibrary->getHtmlLibrary();    
+            
+            break;    
+            
+        case Twiz::ACTION_LIBRARY_STATUS:
+            
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            
+            $myTwizLibrary  = new TwizLibrary();
+            $htmlresponse = $myTwizLibrary->switchLibraryStatus($twiz_id);    
+            
+            break;   
+            
+       case Twiz::ACTION_DELETE_LIBRARY:
+            
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            
+            $myTwizLibrary  = new TwizLibrary();
+            $htmlresponse = $myTwizLibrary->deleteLibrary($twiz_id);    
+            
+            break; 
     }
     
     echo($htmlresponse); // output the result

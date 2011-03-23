@@ -6,8 +6,15 @@
 }
 #twiz_master {
     width: 500px;
-    width: 500px;
     float: left;
+}
+#twiz_library_master {
+    width: 500px;
+    display:block;
+    background: #ebebeb;
+    background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));    
 }
 #twiz_container {
     width: 500px;
@@ -18,6 +25,9 @@
     height: 20px;
     display: none;
     margin: 0px 1px;
+}
+.twiz-clear {
+    clear: both;
 }
 #twiz_background {
     width: 84%;
@@ -267,20 +277,23 @@
 .twiz-row-color-2 {
     background-color: #F7F7F7;
 }
+.twiz-td-status {
+    width: 50px;
+}
 .twiz-td-action {
-    min-width: 50px;
+    width: 70px;
 }
 .twiz-td-action img {
     padding: 2px;
 }
 .twiz-td-duration {
-    min-width: 60px;
+    width: 60px;
 }
 .twiz-td-duration input {
     width: 50px;
 }
 .twiz-td-delay {
-    min-width: 60px;
+    width: 60px;
 }
 .twiz-td-delay input {
     width: 50px;
@@ -347,7 +360,7 @@
 }
 .twiz-td-small-left, 
 .twiz-view-td-small-left {
-    width: 30px;
+    width: 38px;
     font-size: 12px;
 }                                
 .twiz-td-save {
@@ -438,7 +451,9 @@ a.twiz-more-options:hover {
     float: right;
 }
 #twiz_import,
-#twiz_export {
+#twiz_export,
+#twiz_library , 
+#twiz_library_upload {
     border-radius: 0px 0px 6px 6px;
     -moz-border-radius-bottomright: 6px;
     -moz-border-radius-bottomleft: 6px;
@@ -451,17 +466,34 @@ a.twiz-more-options:hover {
     background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
     background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
     border: 1px solid #D1D1D1;
-    float: left;
     padding: 0 3px 0 3px;
-    margin-left: 8px;
     font-size: 10px;
 }
 #twiz_import:hover,
-#twiz_export:hover {
+#twiz_export:hover,
+#twiz_library:hover, 
+#twiz_library_upload:hover  {
     color: #000000;
     background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     cursor: pointer;
+}
+#twiz_import,
+#twiz_export  {
+    float: left;
+    margin-left: 8px;
+}
+#twiz_library {
+    float: right;
+    margin-right: 8px;
+}
+#twiz_library_upload {
+    display: none;
+    float: right;
+    margin-right: 8px;
+}
+.twiz-preload-images {
+    display:none;
 }

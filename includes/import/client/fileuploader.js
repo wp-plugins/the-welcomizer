@@ -484,9 +484,9 @@ qq.FileUploader = function(o){
         // if set, will be used instead of qq-upload-list in template
         listElement: null,
                 
-        template: '<div id="twiz_import" class="qq-uploader">' + 
+        template: '<div id="' + this._options.id + '" class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button">Import</div>' +
+                '<div class="qq-upload-button">' + this._options.label + '</div>' +
                 '<ul id="qq_upload_list" class="qq-upload-list"></ul>' + '</div>',
 
         // template for one item in file list

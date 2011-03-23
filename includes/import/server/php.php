@@ -1,15 +1,27 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 /* Require wp-config */
 require_once(dirname(__FILE__).'/../../../../../../wp-config.php');
 
 /* Require Twiz Class */
 require_once(dirname(__FILE__).'/../../twiz.class.php'); 
+require_once(dirname(__FILE__).'/../../twiz.library.class.php'); 
 
-$nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
-$action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
+$_POST['twiz_nonce']      = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
+$_GET['twiz_nonce']       = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
+$_POST['twiz_action']     = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
+$_GET['twiz_action']      = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action']; 
+$_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
+$_GET['twiz_section_id']  = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id']; 
 
-/* Nonce security (number used once) + action import security check */
-if ((! wp_verify_nonce($nonce, 'twiz-nonce') )or($action != Twiz::ACTION_IMPORT)) {
+$nonce = ($_POST['twiz_nonce'] == '') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
+$action = ($_POST['twiz_action'] == '') ? $_GET['twiz_action'] : $_POST['twiz_action'];
+
+/* Nonce security import security check */
+if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
 
     die("Security check"); 
 }
@@ -46,7 +58,7 @@ class qqUploadedFileXhr {
         if (isset($_SERVER["CONTENT_LENGTH"])){
             return (int)$_SERVER["CONTENT_LENGTH"];            
         } else {
-            throw new Exception('Getting content length is not supported.');
+            throw new Exception( __('Getting content length is not supported.', 'the-welcomizer'));
         }      
     }   
 }
@@ -73,12 +85,13 @@ class qqUploadedFileForm {
     }
 }
 
-class qqFileUploader extends Twiz{
+class qqFileUploader extends TwizLibrary{
     private $allowedExtensions = array();
     private $sizeLimit = 8388608;
     private $file;
-
-    function __construct(array $allowedExtensions = array(), $sizeLimit = 8388608){        
+    private $action;
+    
+    function __construct(array $allowedExtensions = array(), $sizeLimit = 8388608, $action=''){        
         
         parent::__construct();
         
@@ -86,7 +99,7 @@ class qqFileUploader extends Twiz{
             
         $this->allowedExtensions = $allowedExtensions;        
         $this->sizeLimit = $sizeLimit;
-        
+        $this->action = $action;
         $this->checkServerSettings();       
 
         if (isset($_GET['qqfile'])) {
@@ -104,7 +117,7 @@ class qqFileUploader extends Twiz{
         
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';             
-            die("{'error':'php.ini increase post_max_size and upload_max_filesize to $size'}");    
+            die("{'error':'".__('php.ini increase post_max_size and upload_max_filesize to ').$size."'}");    
         }      
     }
     
@@ -123,74 +136,123 @@ class qqFileUploader extends Twiz{
      * Returns array('success'=>true) or array('error'=>'error message')
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
-            
+                           
         /* twiz class */
         if (!is_writable($uploadDirectory)){
-            return array('error' => "Server error. Upload directory isn't writable: '".$this->import_path_message."'");
+            return array('error' => __("Server error. Upload directory isn't writable: ", 'the-welcomizer')."'".$this->import_path_message."'");
         }
         
         if (!$this->file){
-            return array('error' => 'No files were uploaded.');
+            return array('error' => __('No files were uploaded.', 'the-welcomizer'));
         }
         
         $size = $this->file->getSize();
         
         if ($size == 0) {
-            return array('error' => 'File is empty');
+            return array('error' => __('File is empty', 'the-welcomizer') );
         }
         
         if ($size > $this->sizeLimit) {
-            return array('error' => 'File is too large');
+            return array('error' => __('File is too large', 'the-welcomizer'));
         }
         
         $pathinfo = pathinfo($this->file->getName());
-        $filename = $pathinfo['filename'];
-        //$filename = md5(uniqid());
+        $filename = $this->file->getName(); 
+        
         $ext = $pathinfo['extension'];
 
         if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
             $these = implode(', ', $this->allowedExtensions);
-            return array('error' => 'File has an invalid extension, it should be one of '. $these . '.');
+            return array('error' => __('File has an invalid extension, it should be one of ', 'the-welcomizer'). $these . '.');
         }
         
         if(!$replaceOldFile){
             /// don't overwrite previous files that were uploaded
-            while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
-                $filename .= rand(10, 99);
+            while (file_exists($uploadDirectory . $filename )){
+                $filename = rand(10, 99).$filename;
             }
         }
         
-        if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-             
-             /* get section id */
-             $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
+        if ($this->file->save($uploadDirectory . $filename )){
+                 
+            switch($this->action){
+            
+                case parent::ACTION_UPLOAD_LIBRARY:
+                
+                    $library = array(parent::F_ID => '',
+                                      parent::F_STATUS => 0, 
+                                      parent::KEY_FILENAME => $filename);
+                                      
+                    if(! $code = $this->addLibrary($library)){
 
-            /* import list data */
-            if(! $code = $this->import($sectionid)){
+                        return array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
+                    }
 
-                return array('error' => 'File is corrupted and unreadable, the import was cancelled.');
-            }
-            
-            /* delete file */
-            unlink($uploadDirectory . $filename . '.' . $ext);
-            
-            return array('success'=>true);
-            
-        } else {
-            return array('error'=> 'Could not save uploaded file.' .
-                'The upload was cancelled, or server error encountered');
+                    return array('success' => true);
+                     
+                    break;
+                    
+                case parent::ACTION_IMPORT:
+                
+                    $return_array = 'w';
+                    
+                     /* get section id */
+                     $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
+
+                    /* import list data */
+                    if( !$code = $this->import($sectionid)){
+                    
+                        $return_array = array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
+                    }
+                    
+                    if(file_exists($uploadDirectory . $filename)) {
+                    
+                        unlink($uploadDirectory . $filename );
+                        
+                        $return_array = array('success' => true);
+                    }      
+                    
+                    return $return_array;
+                    
+                    break;
+            } 
         }
         
+        /* delete file */
+        if(file_exists($uploadDirectory . $filename)) {
+        
+            unlink($uploadDirectory . $filename );
+        }
+        
+        return array('error'=> __('Could not save uploaded file. The upload was cancelled, or server error encountered', 'the-welcomizer'));
     }    
 }
 
 // list of valid extensions, ex. array("jpeg", "xml", "bmp")
-$allowedExtensions = array("twz");
+switch($action){
+
+    case Twiz::ACTION_UPLOAD_LIBRARY:
+    
+        $allowedExtensions = array("js");
+        
+        break;
+        
+    case Twiz::ACTION_IMPORT:
+    
+        $allowedExtensions = array("twz");
+        
+        break;
+        
+   default:
+   
+        die("Security check");
+}
+
 // max file size in bytes
 $sizeLimit = Twiz::IMPORT_MAX_SIZE;
 
-$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-$result = $uploader->handleUpload('uploads/');
+$uploader = new qqFileUploader($allowedExtensions, $sizeLimit, $action);
+$result = $uploader->handleUpload(WP_CONTENT_DIR.Twiz::IMPORT_PATH);
 
 // to pass data through iframe you will need to encode all html tags
 echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);

@@ -4,10 +4,10 @@ Donate link: http://www.printfection.com/the_welcomizer
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.4.5
+Stable tag: 1.3.4.6
 License: GPLv2
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX)
+This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. 100% AJAX + JS Includer.
 
 == Description ==
 
@@ -15,27 +15,20 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) - Useful Tips *** New! ***
-
--> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
-    
-Known issues: 
--
-- The file uploader plugin is not yet ready for translation. 
+* READ THIS! -> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Useful Tips
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
    
 Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
-
-----Your-Link----
+-
+- http://www.sebastien-laframboise.com
+- Your link.
 
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
-
-Enjoy!
 
 ∞
 
@@ -48,6 +41,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Import a list.
 * Multilingual Ready.
 * Pick an HTML element ID.
+* Include JavaScript files.
 * Pick an Option properties.
 * Global Online/Offline status.
 * Optional First and Second move.
@@ -68,14 +62,16 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 == Installation ==
 
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-4. Find the plugin under the menu 'Appearance'
+2. Activate the plugin through the Plugins menu in WordPress.
+4. Find the plugin under the menu Appearance
 5. Configure and save your first movement, or Import a *.twz file.
 
-Make this directory writable if your need to import *.twz files:
-'wp-content/plugins/the-welcomizer/includes/import/server/uploads/'
+6. Upload `*.js` files with the `JavaScript File Manager` included in The Welcomizer.
 
-Useful extra jQuery plugins (Advanced):   
+* Create and make this directory writable :
+'wp-content/twiz/'
+
+Useful jQuery plugins to upload into your library.
 - 
 - [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
 - [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) - [Download page](https://github.com/zachstronaut/rotate3Di)  
@@ -84,13 +80,22 @@ Useful extra jQuery plugins (Advanced):
 == Screenshots ==
 
 1. Panel when adding a new movement. (Right click - View image) 
-2. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
-3. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
-4. Panel when viewing data. (Right click - View image) - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
+2. Panel when viewing data. (Right click - View image) 
 5. Panel when editing an existing movement. - [The result](http://www.sebastien-laframboise.com/go-green/) * [The Twiz file](http://www.sebastien-laframboise.com/go-green/home.twz) *
 
 
 == Changelog ==
+
+= 1.3.4.6 =
+ 
+* Added a New `JavaScript File Manager`. ( Batteries not included. )
+* Added a preloader for directional images.
+* Moved and renamed the upload directory to `/wp-content/twiz/`.
+* Removed the `Saved!` message for faster editing and better focusing. 
+* Optimized the auto-resizing of the textarea for better editing.
+* The file uploader is ready for translation.
+* Major and minor bug fixes.
+* Adjustments.
 
 = 1.3.4.5 =
  
@@ -359,6 +364,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.3.4.6 =
+ 
+* Added a JavaScript File Manager. Bug fixes. Adjustments.
+
 = 1.3.4.5 =
  
 * Fixed table reinitialization.
@@ -560,7 +569,7 @@ First release!
 The Welcomizer is currently available in the following languages:
 
 * English
-* Français 
-* Italiano ([by Gianni Diurno](http://gidibao.net/))
-* Español (by Mya)
-* ...?
+* Français - 100%
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 95%
+* Español (by Mya) - 95%
+* ...
