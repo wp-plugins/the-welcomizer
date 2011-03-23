@@ -2034,8 +2034,15 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
     
     private function getSectionName( $value = '', $key = null ){
     
+        if( $value == self::DEFAULT_SECTION ){ 
+        
+            return $value; 
+        }
+        
         list($type, $id) = split('_', $value);
                 
+        $name = '';
+                 
         switch($type){
         
             case 'c': // is category
