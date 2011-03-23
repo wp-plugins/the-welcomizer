@@ -31,10 +31,10 @@ Stay tuned, and do your updates...
 The Welcomizer has Spirit!
 
 [Donate and buy yourself a gift!](http://www.printfection.com/the_welcomizer)
-
-Coupon Code: NowOpen$5 
-Discount: $5 off a subtotal of $25+ 
-Today, March 23rd through March 27th
+- 
+- Coupon Code: NowOpen$5 
+- Discount: $5 off a subtotal of $25+ 
+- Today, March 23rd through March 27th
 
 Disclaimer: 
 Please enter coupon code NowOpen$5 before completing checkout. Discount is applied to the subtotal and does not include shipping, taxes, or additional charges. Email us(printfection not me...) if you have questions. This offer may not be combined or substituted with any other promotion. Coupons valid from 3/23/2011 to 3/27/2011 11:59 pm Mountain Time.
