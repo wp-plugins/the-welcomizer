@@ -19,11 +19,12 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
     
-What's coming in the next version of The Welcomizer?
+What's coming in the `next version` of The Welcomizer?
 -
 - A `JavaScript File Manager`. (90%)
 - The file uploader will be ready for translation. (5%)
 - Preloading directional images. (100%)
+- The Upload directory will be `/wp-content/twiz/` (90%)
 
 Have you done something cool with The Welcomizer and would like to share it with others? 
    
