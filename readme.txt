@@ -37,8 +37,6 @@ Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
-Enjoy!
-
 ∞
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
