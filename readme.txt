@@ -71,7 +71,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Create and make this directory writable :
 'wp-content/twiz/'
 
-Useful jQuery plugins to upload into your library.
+Useful jQuery plugins to upload through the Library.
 - 
 - [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
 - [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) - [Download page](https://github.com/zachstronaut/rotate3Di)  
