@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 /* Require wp-config */
 require_once(dirname(__FILE__).'/../../../../../../wp-config.php');
 
