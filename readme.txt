@@ -88,7 +88,7 @@ Useful jQuery plugins to upload through the Library.
 
 = 1.3.4.6 =
  
-* Added a New `JavaScript File Manager`. ( Batteries not included. )
+* Added a New `JavaScript File Manager`. 
 * Added a preloader for directional images.
 * Moved and renamed the upload directory to `/wp-content/twiz/`.
 * Removed the `Saved!` message for faster editing and better focusing. 
