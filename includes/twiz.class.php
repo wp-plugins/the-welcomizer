@@ -381,9 +381,12 @@ class Twiz{
            /* generate the section menu */
            foreach($sections as $key => $value){
            
-                $name = $this->getSectionName($value, $key);
+                if( $value != self::DEFAULT_SECTION ){
                 
-                $menu .= $this->getHtmlSectionMenu( $value, $name );
+                    $name = $this->getSectionName($value, $key);
+                
+                    $menu .= $this->getHtmlSectionMenu( $value, $name );
+                }
            }
 
            $menu .= '<div id="twiz_delete_menu">x</div>';
