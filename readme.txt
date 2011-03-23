@@ -22,7 +22,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 What's coming in the `next version` of The Welcomizer?
 -
 - A `JavaScript File Manager`. (90%)
-- The file uploader will be ready for translation. (70%)
+- The file uploader will be ready for translation. (100%)
 - Preloading directional images. (100%)
 - The Upload path will be `/wp-content/twiz/` (95%)
 
