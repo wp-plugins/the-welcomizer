@@ -1254,7 +1254,7 @@ class Twiz{
 
         if (file_exists($file)) {
         
-            if($twz = simplexml_load_file($file)){
+            if($twz = @simplexml_load_file($file)){
 
                /* flip array mapping value to match*/
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
