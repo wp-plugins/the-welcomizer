@@ -15,7 +15,7 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) - Useful Tips *** New! ***
+-> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) - Useful Tips *** READ THIS! ***
 
 -> [My homepage](http://www.sebastien-laframboise.com/) -> Any suggestions? [Write a new topic.](http://wordpress.org/tags/the-welcomizer?forum_id=10#postform)
     
