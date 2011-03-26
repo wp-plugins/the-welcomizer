@@ -1016,7 +1016,7 @@ class Twiz{
    $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.']").change(function(){changeDirectionImage("a");});  
    $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_A.']").change(function(){changeDirectionImage("a");});   
    $("input[name^=twiz_'.self::F_MOVE_TOP_POS_A.']").blur(function(){changeDirectionImage("a");});
-   $("input[name^='.self::F_MOVE_LEFT_POS_A.']").blur(function(){changeDirectionImage("a");}); 
+   $("input[name^=twiz_'.self::F_MOVE_LEFT_POS_A.']").blur(function(){changeDirectionImage("a");}); 
    $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.']").change(function(){changeDirectionImage("b");});
    $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_B.']").change(function(){changeDirectionImage("b");});
    $("input[name^=twiz_'.self::F_MOVE_TOP_POS_B.']").blur(function(){changeDirectionImage("b");});
