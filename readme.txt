@@ -70,8 +70,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 6. Upload `*.js` files with the `JavaScript File Manager` included in The Welcomizer.
 
-* Create and make this directory writable :
-'wp-content/twiz/'
+* Create and make this directory writable: 'wp-content/twiz/'
 
 Useful jQuery plugins to upload through the Library.
 - 
