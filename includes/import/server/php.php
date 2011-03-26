@@ -252,4 +252,5 @@ $uploader = new qqFileUploader($allowedExtensions, $sizeLimit, $action);
 $result = $uploader->handleUpload(WP_CONTENT_DIR.Twiz::IMPORT_PATH);
 
 // to pass data through iframe you will need to encode all html tags
-echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+echo htmlspecialchars(json_encode($result), ENT_NOQUOTES); 
+?>

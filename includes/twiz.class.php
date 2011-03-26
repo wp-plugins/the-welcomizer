@@ -230,7 +230,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.6';
+        $this->version    = 'v1.3.4.7';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1016,7 +1016,7 @@ class Twiz{
    $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.']").change(function(){changeDirectionImage("a");});  
    $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_A.']").change(function(){changeDirectionImage("a");});   
    $("input[name^=twiz_'.self::F_MOVE_TOP_POS_A.']").blur(function(){changeDirectionImage("a");});
-   $("input[name^='.self::F_MOVE_LEFT_POS_A.']").blur(function(){changeDirectionImage("a");}); 
+   $("input[name^=twiz_'.self::F_MOVE_LEFT_POS_A.']").blur(function(){changeDirectionImage("a");}); 
    $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.']").change(function(){changeDirectionImage("b");});
    $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_B.']").change(function(){changeDirectionImage("b");});
    $("input[name^=twiz_'.self::F_MOVE_TOP_POS_B.']").blur(function(){changeDirectionImage("b");});
