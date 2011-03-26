@@ -17,13 +17,6 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Useful Tips
 
-Have you done something cool with The Welcomizer and would like to share it with others? 
-   
-Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
--
-- http://www.sebastien-laframboise.com
-- Your link.
-
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
@@ -85,6 +78,10 @@ Useful jQuery plugins to upload through the Library.
 
 
 == Changelog ==
+
+= 1.3.4.7 =
+
+* Bug fixes.
 
 = 1.3.4.6 =
  
@@ -363,6 +360,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.4.7 =
+
+* Bug fixes.
 
 = 1.3.4.6 =
  
