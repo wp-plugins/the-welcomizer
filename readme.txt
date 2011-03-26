@@ -7,7 +7,7 @@ Tested up to: 3.1
 Stable tag: 1.3.4.7
 License: GPLv2
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. 100% AJAX + JS Includer.
+This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS Includer.
 
 == Description ==
 
@@ -19,7 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-Stay tuned, and do your updates...
+Stay tuned, and do your updates.
 
 The Welcomizer has Spirit!
 
