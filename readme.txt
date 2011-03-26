@@ -23,6 +23,15 @@ Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
+[Donate and buy a gift!](http://www.printfection.com/the_welcomizer)
+- 
+- Coupon Code: NowOpen$5 
+- Discount: $5 off a subtotal of $25+ 
+- Today, March 23rd through March 27th
+
+Disclaimer: 
+Please enter coupon code NowOpen$5 before completing checkout. Discount is applied to the subtotal and does not include shipping, taxes, or additional charges. Email us(printfection not me...) if you have questions. This offer may not be combined or substituted with any other promotion. Coupons valid from 3/23/2011 to 3/27/2011 11:59 pm Mountain Time.
+
 ∞
 
 Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F)
