@@ -17,13 +17,6 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 -> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Useful Tips
 
-Have you done something cool with The Welcomizer and would like to share it with others? 
-   
-Send me your link at `wordpress [at] sebastien-laframboise [dot] com` and I will add it right here for all to see:
--
-- http://www.sebastien-laframboise.com
-- Your link.
-
 Thanks for your feedback and support!
 
 Stay tuned, and do your updates...
