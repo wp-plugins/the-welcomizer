@@ -76,6 +76,10 @@ Useful jQuery plugins to upload through the Library.
 
 == Changelog ==
 
+= 1.3.4.8 = 
+
+* Replay the animation with `$(document).twizPlay();`
+
 = 1.3.4.7 =
 
 * Bug fixes.
@@ -357,6 +361,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.4.8 =
+
+* Added Replay function.
 
 = 1.3.4.7 =
 

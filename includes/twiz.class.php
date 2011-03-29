@@ -230,7 +230,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.7';
+        $this->version    = 'v1.3.4.8';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1569,6 +1569,9 @@ class Twiz{
             $generatedscript.= '<script type="text/javascript">
 jQuery(document).ready(function($) {';
              
+             $generatedscript .= '
+$.fn.twizPlay = function(){ ';
+             
              /* generates the code */
             foreach($listarray as $value){
             
@@ -1642,7 +1645,9 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             }
             
             /* script footer */
-            $generatedscript.= '});';
+            $generatedscript.= '}
+            $(document).twizPlay();
+            });';
             $generatedscript.= '
 </script>';
         }
