@@ -78,7 +78,7 @@ Useful jQuery plugins to upload through the Library.
 
 = 1.3.4.8 = 
 
-* Replay the animation with `$(document).twizPlay();`
+* Replay the animation with `jQuery(document).twizPlay();`
 
 = 1.3.4.7 =
 
