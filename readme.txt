@@ -19,6 +19,14 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
+
+What’s coming in the next version?
+
+v1.3.4.8
+
+    * The possibility to replay the animation with jQuery(document).twizPlay();
+    * Automatic recognition of the js files under the directory that you have created /wp-content/twiz/
+    
 Stay tuned, and do your updates.
 
 The Welcomizer has Spirit!
