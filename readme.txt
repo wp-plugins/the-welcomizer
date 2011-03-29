@@ -19,8 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-
-What’s coming in the next version?
+What's coming in the next version?
 
 v1.3.4.8:
 -
