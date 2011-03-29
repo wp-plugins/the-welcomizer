@@ -1567,7 +1567,7 @@ class Twiz{
             /* script header */
             $generatedscript.="<!-- ".$this->pluginName." ".$this->version." -->\n";
             $generatedscript.= '<script type="text/javascript">
-jQuery(document).ready(function($) {';
+jQuery(document).ready(function($){';
              
              $generatedscript .= '
 $.fn.twizPlay = function(){ ';
@@ -1577,7 +1577,8 @@ $.fn.twizPlay = function(){ ';
             
                 /* start delay */ 
                 $generatedscript .= '
-setTimeout(function(){'; 
+setTimeout(function(){
+'; 
             
                 /* css position */ 
                 $generatedscript .= ($value[self::F_POSITION]!='') ?'
