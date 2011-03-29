@@ -23,9 +23,8 @@ What's coming in the next version?
 
 v1.3.4.8:
 -
-- The possibility to replay the animation with jQuery(document).twizPlay(); (100% - Trunk updated )
-- Automatic recognition of the js files under the directory that you have created /wp-content/twiz/ (0%)
-- ...(0%)
+- The possibility to replay the animation with jQuery(document).twizPlay();
+- Automatic recognition of the js files under the directory that you have created /wp-content/twiz/ 
     
 Stay tuned, and do your updates.
 
