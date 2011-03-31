@@ -1143,6 +1143,7 @@ class Twiz{
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
+        $("#twiz_library").fadeIn("fast");
   });
  //]]>
 </script>';
@@ -1776,6 +1777,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $("#twiz_add_sections").fadeOut("fast"); 
         $("#twiz_right_panel").fadeOut("fast");
         $("#twiz_export").fadeOut("fast");
+        $("#twiz_library").fadeOut("fast");
         $("#qq_upload_list li").remove(); 
         '.$hideimport .'
   });
