@@ -1569,7 +1569,7 @@ class Twiz{
 jQuery(document).ready(function($){';
              
              $generatedscript .= '
-$.fn.twizPlay = function(){ ';
+$.fn.twizReplay = function(){ ';
              
              /* generates the code */
             foreach($listarray as $value){
@@ -1646,7 +1646,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             
             /* script footer */
             $generatedscript.= '}
-            $(document).twizPlay();
+            $(document).twizReplay();
             });';
             $generatedscript.= '
 </script>';
