@@ -477,7 +477,7 @@ a.twiz-more-options:hover {
 #twiz_import:hover,
 #twiz_export:hover,
 #twiz_library:hover, 
-#twiz_library_upload:hover  {
+#twiz_library_upload:hover {
     color: #000000;
     background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
@@ -487,7 +487,7 @@ a.twiz-more-options:hover {
 }
 #twiz_import,
 #twiz_export,
-#twiz_library_upload  {
+#twiz_library_upload {
     float: left;
     margin-left: 8px;
 }
@@ -495,7 +495,7 @@ a.twiz-more-options:hover {
     float: right;
     margin-right: 8px;
 }
-#twiz_library_upload  {
+#twiz_library_upload {
     display: none;
 }
 .twiz-preload-images {
