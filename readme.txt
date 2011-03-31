@@ -26,6 +26,7 @@ v.1.3.4.8-9:
 - Replay the animation with `jQuery(document).twizReplay();`.
 - When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
 - Automatic recognition of the js files under `/wp-content/twiz/`.
+- Fixed notice and warning messages.
 - Minor fixes and adjustments.
 
 Stay tuned, and do your updates.
