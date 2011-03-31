@@ -19,6 +19,15 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
+What's new?
+
+v.1.3.4.8-9:
+-
+- Replay the animation with `jQuery(document).twizReplay();`.
+- When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
+- Automatic recognition of the js files under `/wp-content/twiz/`.
+- Minor fixes and adjustments.
+
 Stay tuned, and do your updates.
 
 The Welcomizer has Spirit!
