@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.4.9
+Stable tag: 1.3.4.8
 License: GPLv2
 
 This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS Includer.
