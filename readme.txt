@@ -45,11 +45,11 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Unlimited number of movements, take it easy! 
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
+* Replay the animation with `jQuery(document).twizReplay();`.
+* Automatic recognition of the js files under `/wp-content/twiz/`.
 * Optional custom options textbox, for more custom options.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional custom JavaScript textbox, triggered after each move.
-* Replay the animation with `jQuery(document).twizReplay();`.
-* Automatic recognition of the js files under `/wp-content/twiz/`.
 * Clean uninstallation, all the data are erased on plugin deactivation.
 * Preview your data without editing them, with an advanced caching feature.
 * Optional second move on the same editing panel. (Useful for back and forth).
