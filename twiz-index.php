@@ -87,7 +87,7 @@ License: GPL2
                     
                     if( file_exists( WP_CONTENT_DIR.$file ) ) {
                     
-                        /* Enqueue js and css files */
+                        /* Enqueue js files, maybe css in the future */
                         wp_deregister_script( 'the-welcomizer'.$key );
                         wp_register_script( 'the-welcomizer'.$key, WP_CONTENT_URL.$file);
                         wp_enqueue_script( 'the-welcomizer'.$key );

@@ -10,7 +10,7 @@
 }
 #twiz_library_master {
     width: 500px;
-    display:block;
+    display: block;
     background: #ebebeb;
     background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
     background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
@@ -88,7 +88,8 @@
     float: left;
 }
 #twiz_right_panel img {
-    align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 .twiz-clear {
     height: 0px;
@@ -105,6 +106,10 @@
     line-height: 35px;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     text-shadow: 2px 2px 5px #9b9b9b;
+}
+#twiz_head_title a {
+    color: #464646;
+    text-decoration: none;
 }
 #twiz_head_logo {
     width: 85px;
@@ -481,7 +486,8 @@ a.twiz-more-options:hover {
     cursor: pointer;
 }
 #twiz_import,
-#twiz_export  {
+#twiz_export,
+#twiz_library_upload  {
     float: left;
     margin-left: 8px;
 }
@@ -489,10 +495,8 @@ a.twiz-more-options:hover {
     float: right;
     margin-right: 8px;
 }
-#twiz_library_upload {
+#twiz_library_upload  {
     display: none;
-    float: right;
-    margin-right: 8px;
 }
 .twiz-preload-images {
     display:none;

@@ -335,8 +335,8 @@ class Twiz{
     
         $header = '<div id="twiz_header">
 <div id="twiz_head_logo"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></div>
-<span id="twiz_head_title">'.$this->pluginName.'</span><br>
-<span id="twiz_head_version"><a href="http://wordpress.org/extend/plugins/the-welcomizer/" target="_blank">'.$this->version.'</a></span> 
+<span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><br>
+<span id="twiz_head_version"><a href="http://wordpress.org/extend/plugins/the-welcomizer/changelog/" target="_blank">'.$this->version.'</a></span> 
 <span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span></div><div class="twiz-clear"></div>
     ';
         
@@ -1070,7 +1070,6 @@ class Twiz{
     });   
     $("#twiz_library").click(function(){
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"}); 
-        $("#twiz_library").fadeOut("fast");
         $("#twiz_export").fadeOut("fast");
         $("#twiz_import").fadeOut("fast");
         postLibrary();
@@ -1144,7 +1143,6 @@ class Twiz{
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
-        $("#twiz_library").fadeIn("fast");
   });
  //]]>
 </script>';
@@ -1332,7 +1330,7 @@ class Twiz{
     
     protected function import( $sectionid = self::DEFAULT_SECTION ){
     
-        $filearray = $this->getImportDirectory();
+        $filearray = $this->getImportDirectory('.twz');
         
         foreach( $filearray as $filename ){
             
@@ -1494,13 +1492,13 @@ class Twiz{
         return $duration;
     }
     
-    private function getImportDirectory(){
+    protected function getImportDirectory( $extension = '.twz' ){
         
-        if ($handle = opendir(WP_CONTENT_DIR.self::IMPORT_PATH)) {
+        if ( $handle = opendir(WP_CONTENT_DIR.self::IMPORT_PATH ) ) {
         
-            while (false !== ($file = readdir($handle))) {
+            while ( false !== ( $file = readdir($handle) ) ) {
             
-                if ($file != "." && $file != "..") {
+                if ( ( $file != "." && $file != ".." ) && ( stripos($file, $extension) ) ) {
                 
                     $filearray[] = $file;
                 }
@@ -1509,7 +1507,7 @@ class Twiz{
             closedir($handle);
         }
         
-        if(!is_array($filearray)){ $filearray = array();}
+        if( !is_array($filearray) ){ $filearray = array(); }
          
         return $filearray;
     }
@@ -1523,7 +1521,7 @@ class Twiz{
         /* true super logical swicth */
         switch( true ){
         
-            case is_home():
+            case ( is_home() || is_front_page() ):
                 
                 // get the active data list array
                 $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION."' "); 
@@ -1547,17 +1545,18 @@ class Twiz{
                 $listarray = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$page_id."' ");             
                 break;
                 
-            case is_single():
+            case is_single(): 
                 return '';
                 break;
                 
-            case is_feed():
+            case is_feed(): // Dream on.
                 return '';
                 break;                
         }
         
         /* no data, no output */
         if( count($listarray) == 0 ){
+        
             return '';
         }
         
@@ -1612,7 +1611,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 /* extra js a */    
                 $generatedscript .= ($value[self::F_EXTRA_JS_A]!='') ? $value[self::F_EXTRA_JS_A] : '';
                 
-                /* ************************* */
+                /* b */
                 
                 /* add a coma between each options */ 
                 $value[self::F_OPTIONS_B] = (($value[self::F_OPTIONS_B]!='') and ((($value[self::F_MOVE_LEFT_POS_B]!="") or ($value[self::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[self::F_OPTIONS_B] :  $value[self::F_OPTIONS_B];
@@ -1775,7 +1774,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $("#twiz_add_sections").fadeOut("fast"); 
         $("#twiz_right_panel").fadeOut("fast");
         $("#twiz_export").fadeOut("fast");
-        $("#twiz_library").fadeOut("fast");
         $("#qq_upload_list li").remove(); 
         '.$hideimport .'
   });
@@ -2422,7 +2420,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
             $wpdb->query($sql);
         }
         
-        @rmdir(WP_CONTENT_DIR . self::IMPORT_PATH);
+        // @rmdir(WP_CONTENT_DIR . self::IMPORT_PATH);
         
         delete_option('twiz_db_version');
         delete_option('twiz_global_status');

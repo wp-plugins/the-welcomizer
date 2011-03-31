@@ -23,14 +23,8 @@ class TwizLibrary extends Twiz{
     function __construct(){
     
         parent::__construct();
-         
-        /* load library */
-        $this->array_library = get_option('twiz_library');
-        
-        if( !is_array($this->array_library) ){
-        
-            $this->array_library = array();
-        }
+                 
+        $this->loadLibrary();
     }
 
     function getHtmlLibrary(){
@@ -100,26 +94,6 @@ jQuery(document).ready(function($) {
         
     }
     
-    private function libraryExists( $filename = '', $id='' ){
-    
-        if( $filename=='' ){return false;}
-        if( $id=='' ){return false;}
-        
-        $file = WP_CONTENT_DIR.parent::IMPORT_PATH.$filename;
-        
-        if( file_exists( $file ) ){
-            
-            return true;
-           
-        }else{
-            
-            if( $this->deleteLibrary($id) ){
-            
-                return false;
-            }
-        }
-    }
-    
     protected function addLibrary( $lib = array() ){
         
         if( count($lib)==0 ){return false;}
@@ -162,14 +136,23 @@ jQuery(document).ready(function($) {
         return true;
     }
     
-    function getLibraryValue( $id = '', $field ) {
+    private function getLibraryArrayKey($keyneeded){
+    
+        foreach( $this->array_library as $value ){
+            
+            $result[] = $value[$keyneeded];
+        }
+        
+        return $result;
+    }
+    
+    private function getLibraryValue( $id = '', $field ) {
 
-        foreach( $this->array_library as $key => $value ){
+        foreach( $this->array_library as $value ){
         
             if( $value[parent::F_ID] == $id ){
        
                 return $value[$field];
-                
             }
         }
         
@@ -178,7 +161,7 @@ jQuery(document).ready(function($) {
     
     private function getMaxId(){
     
-        foreach( $this->array_library as $key => $value ){
+        foreach( $this->array_library as $value ){
 
             $id[] = $value[parent::F_ID];
         }
@@ -186,6 +169,56 @@ jQuery(document).ready(function($) {
         $max = max($id);
 
         return $max;
+    }
+    
+    private function loadLibrary(){
+    
+        $this->array_library = get_option('twiz_library');
+            
+        /* get loaded library */
+        if( !is_array($this->array_library) ){
+        
+            $this->array_library = array();
+        }
+        
+        /* get libray filename array */
+        $array_filename = $this->getLibraryArrayKey(parent::KEY_FILENAME);
+        
+        /* synchronize js files from /wp-content/twiz/ */
+        $filearray = $this->getImportDirectory('.js');
+        
+        foreach( $filearray as $filename ){
+            
+            /* synchronize new js files */
+            if(!in_array($filename, $array_filename)){
+            
+                $library = array(parent::F_ID => $this->getMaxId() + 1,
+                                parent::F_STATUS => 0, 
+                                parent::KEY_FILENAME => $filename);
+                                      
+                $code = $this->addLibrary($library);
+            }
+        }
+    }
+    
+    private function libraryExists( $filename = '', $id = '' ){
+    
+        if( $filename=='' ){return false;}
+        if( $id=='' ){return false;}
+        
+        $file = WP_CONTENT_DIR.parent::IMPORT_PATH.$filename;
+        
+        if( file_exists( $file ) ){
+            
+            return true;
+           
+        }else{
+            
+            if( $this->deleteLibrary($id) ){
+            
+                return false;
+            }
+        }
     }
     
     function switchLibraryStatus( $id = '' ){ 
