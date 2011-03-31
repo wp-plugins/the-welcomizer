@@ -137,6 +137,8 @@ jQuery(document).ready(function($) {
     }
     
     private function getLibraryArrayKey($keyneeded){
+        
+        $result = '';
     
         foreach( $this->array_library as $value ){
             
@@ -160,12 +162,19 @@ jQuery(document).ready(function($) {
     }
     
     private function getMaxId(){
-    
+        
+        $id = '';
+        
         foreach( $this->array_library as $value ){
 
             $id[] = $value[parent::F_ID];
         }
 
+        if( !is_array($id) ){
+        
+            $id = array();
+        }
+        
         $max = max($id);
 
         return $max;

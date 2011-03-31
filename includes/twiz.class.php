@@ -230,7 +230,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.8';
+        $this->version    = 'v1.3.4.9';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1493,6 +1493,8 @@ class Twiz{
     }
     
     protected function getImportDirectory( $extension = '.twz' ){
+        
+        $filearray = '';
         
         if ( $handle = opendir(WP_CONTENT_DIR.self::IMPORT_PATH ) ) {
         
