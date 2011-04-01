@@ -23,7 +23,7 @@ What's new?
 
 v.1.3.4.8-9:
 -
-- Replay the animation with `jQuery(document).twizReplay();`.
+- Replay all the animation with `jQuery(document).twizReplay();`.
 - When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
 - Automatic recognition of the js files under `/wp-content/twiz/`.
 - Minor fixes and adjustments.
@@ -55,7 +55,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
-* Replay the animation with `jQuery(document).twizReplay();`.
+* Replay all the animation with `jQuery(document).twizReplay();`.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Optional custom JavaScript textbox, triggered after each move.
