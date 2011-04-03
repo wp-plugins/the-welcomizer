@@ -15,17 +15,9 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Useful Tips
+-> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
 Thanks for your feedback and support!
-
-What's new?
-
-v.1.3.4.8-9:
-- 
-- Replay all the animation with `jQuery(document).twizReplay();`. Read the Useful Tips on my [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/).
-- When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
-- Automatic recognition of the js files under `/wp-content/twiz/`.
 
 Stay tuned, and do your updates.
 
