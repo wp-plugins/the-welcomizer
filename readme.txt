@@ -21,6 +21,16 @@ Thanks for your feedback and support!
 
 Stay tuned, and do your updates.
 
+What's coming in the next version?
+
+Those useful options will be added when creating a new section:
+-
+- All 
+- All Pages
+- All Categories
+- All Articles
+
+
 The Welcomizer has Spirit!
 
 ∞
