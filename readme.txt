@@ -30,7 +30,6 @@ Those useful options will be added when creating a new section:
 - All Categories
 - All Articles
 
-
 The Welcomizer has Spirit!
 
 ∞
