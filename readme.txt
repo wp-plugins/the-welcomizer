@@ -67,8 +67,9 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 Useful jQuery plugins to upload through the Library.
 - 
-- [jQuery UI/Effects](http://docs.jquery.com/UI/Effects) - [Download page](http://jqueryui.com/download)
-- [Rotate3Di](http://www.zachstronaut.com/projects/rotate3di/) - [Download page](https://github.com/zachstronaut/rotate3Di)  
+- jQuery UI/Effects - [Download page](http://jqueryui.com/download)
+- Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) - [Author page](http://www.zachstronaut.com)
+- jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale) - [Author page](http://www.zachstronaut.com)
 
 
 == Screenshots ==
