@@ -230,7 +230,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.4.9';
+        $this->version    = 'v1.3.5';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1264,14 +1264,21 @@ class Twiz{
         if( $section_id != self::DEFAULT_SECTION ){
             
             $sections = get_option('twiz_sections');
-            $section_name = $this->getSectionName($section_id);
-            unset($sections[$section_name]);
-            update_option('twiz_sections', $sections);
-            
-            return true;
+			   
+			if( !is_array($sections) ){ $sections = array(); }
+			   
+			foreach( $sections as $key => $value ){
+        
+				if(( $value == $section_id ) and ($key != "")){
+		   
+					$sections[$key] = '';
+					unset($sections[$key]);
+					update_option('twiz_sections', $sections);
+				}
+			}
         }
 
-        return $code;
+        return true;
     } 
     
     function install(){ 
