@@ -19,7 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-Stay tuned, and do your updates.
+Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
