@@ -185,7 +185,6 @@ jQuery(document).ready(function($) {
     
         $this->array_library = get_option('twiz_library');
             
-        /* get loaded library */
         if( !is_array($this->array_library) ){
         
             $this->array_library = array();

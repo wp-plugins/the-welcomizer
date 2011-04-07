@@ -214,7 +214,6 @@ class TwizMenu extends Twiz{
     
         $this->array_sections = get_option('twiz_sections');
             
-        /* get loaded library */
         if( !is_array($this->array_sections) ){
         
             $this->array_sections = array();
