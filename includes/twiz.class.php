@@ -36,8 +36,8 @@ class Twiz{
     const DEFAULT_SECTION    = 'home';
     
     /* section options constants */ 
-    const SECTION_ALL           = 'all';
-    const SECTION_PAGES       = 'pages';
+    const SECTION_ALL        = 'all';
+    const SECTION_PAGES      = 'pages';
     const SECTION_CATEGORIES = 'categories';
     const SECTION_ARTICLES   = 'articles';
 
