@@ -19,7 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-Stay tuned, and do your updates.
+Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
@@ -82,7 +82,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.5.1 =
 
 * Transferred methods into the new TwizMenu class.
-* Major and minor fixes.
+* Major and minor fixes...
 
 = 1.3.5 =
 
@@ -383,7 +383,7 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 = 1.3.5.1 =
 
-* Major and minor fixes.
+* Major and minor fixes...
 
 = 1.3.5 = 
 
