@@ -29,7 +29,7 @@ class TwizMenu extends Twiz{
 
     function addSectionMenu( $section_id = '' ){
         
-        if($section_id==''){return '';}
+        if( $section_id == '' ){return '';}
             
         $sections = $this->array_sections;
         
