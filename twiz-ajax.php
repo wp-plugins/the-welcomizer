@@ -55,7 +55,7 @@
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
         
-			$myTwizMenu  = new TwizMenu();
+            $myTwizMenu  = new TwizMenu();
             
             $htmlresponse = $myTwizMenu->addSectionMenu($twiz_section_id);
             
