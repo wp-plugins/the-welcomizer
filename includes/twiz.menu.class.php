@@ -58,18 +58,16 @@ class TwizMenu extends Twiz{
             
             $sections = $this->array_sections;
                
-            if( !is_array($sections) ){ $sections = array(); }
-               
-            foreach( $sections as $key => $value ){
+            foreach( $this->array_sections as $key => $value ){
         
                 if(( $value == $section_id ) and ($key != "")){
            
                     $sections[$key] = '';
                     unset($sections[$key]);
-                    update_option('twiz_sections', $sections);
                 }
             }
             
+            update_option('twiz_sections', $sections);
         }
 
         return true;
