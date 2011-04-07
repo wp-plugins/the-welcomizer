@@ -35,6 +35,7 @@ class Twiz{
     /* section constants */ 
     const DEFAULT_SECTION    = 'home';
 	
+	/* section options constants */ 
 	const SECTION_ALL  		 = 'all';
 	const SECTION_PAGES  	 = 'pages';
 	const SECTION_CATEGORIES = 'categories';
@@ -257,14 +258,18 @@ class Twiz{
         $html = '<div id="twiz_plugin">';
         $html.= '<div id="twiz_background"></div>';
         $html.= '<div id="twiz_master">';
-        $html.= $this->getHtmlGlobalstatus();
+        
+		$html.= $this->getHtmlGlobalstatus();
         $html.= $this->getAjaxHeader();
         $html.= $this->getHtmlHeader();
+		
 		$myTwizMenu  = new TwizMenu(); 
 		$html.= $myTwizMenu->getHtmlMenu();
+		
         $html.= $this->getHtmlList();
         $html.= $this->getHtmlFooter();
         $html.= $this->getHtmlFooterMenu();
+		
         $html.= '</div>';
         $html.= '<div id="twiz_right_panel"></div>';
         $html.= $this->preloadImages();
