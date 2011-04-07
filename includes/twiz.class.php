@@ -2262,8 +2262,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         /* user syntax auto correction */
         $twiz_options_a = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_A]));
         $twiz_options_b = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_B]));
-        $twiz_options_a = str_replace("=", ":" , $twiz_options_a );
-        $twiz_options_b = str_replace("=", ":" , $twiz_options_b );
 
         $twiz_extra_js_a = esc_attr(trim( $_POST['twiz_'.self::F_EXTRA_JS_A]));    
         $twiz_extra_js_b = esc_attr(trim($_POST['twiz_'.self::F_EXTRA_JS_B]));
