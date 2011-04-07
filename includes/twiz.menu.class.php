@@ -119,7 +119,7 @@ class TwizMenu extends Twiz{
         return $addsection;
     }
 
-    function getHtmlMenu(){
+    protected function getHtmlMenu(){
     
            /* retrieve stored sections */
            $sections = $this->array_sections;
@@ -163,7 +163,7 @@ class TwizMenu extends Twiz{
        return $html;
     }
 
-    private function getSectionName( $value = '', $key = null ){
+    protected function getSectionName( $value = '', $key = null ){
     
         if( $value == parent::DEFAULT_SECTION ){ 
         

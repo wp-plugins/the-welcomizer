@@ -1091,19 +1091,19 @@ class Twiz{
     }
     
     function export( $section_id = '' ){
-    
+  
         $sectionname = '';
     
         $where = ($section_id != '') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION."'";
-      
+     
         $listarray = $this->getListArray( $where ); // get all the data
-        
+
         $filedata = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         
         $filedata .= '<TWIZ>'."\n";
 
         foreach( $listarray as $value ){
-     
+
               if ( $sectionname == '' ) {
               
                   $myTwizMenu  = new TwizMenu(); 
