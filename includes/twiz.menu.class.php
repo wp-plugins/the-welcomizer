@@ -54,7 +54,6 @@ class TwizMenu extends Twiz{
         $sql = "DELETE from ".$this->table." where ".parent::F_SECTION_ID." = '".$section_id."';";
         $code = $wpdb->query($sql);
   
-
         if( $section_id != parent::DEFAULT_SECTION ){
             
             $sections = $this->array_sections;
@@ -67,10 +66,10 @@ class TwizMenu extends Twiz{
            
                     $sections[$key] = '';
                     unset($sections[$key]);
+                    update_option('twiz_sections', $sections);
                 }
             }
             
-            update_option('twiz_sections', $sections);
         }
 
         return true;

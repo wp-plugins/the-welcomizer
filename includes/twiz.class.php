@@ -21,7 +21,7 @@ require_once(dirname(__FILE__).'/twiz.menu.class.php');
 class Twiz{
     
     /* variable declaration */
-    private $table;
+    protected $table;
     private $version;
     private $dbVersion;
     public $pluginUrl;
@@ -1106,7 +1106,8 @@ class Twiz{
      
               if ( $sectionname == '' ) {
               
-                  $sectionname = sanitize_title_with_dashes($this->getSectionName($value[self::F_SECTION_ID]));
+                  $myTwizMenu  = new TwizMenu(); 
+                  $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($value[self::F_SECTION_ID]));
               }
               
               $filedata .= '<ROW>'."\n";
