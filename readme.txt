@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.5
+Stable tag: 1.3.5.1
 License: GPLv2
 
 This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS Includer.
@@ -82,6 +82,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.5.1 =
 
 * Transferred methods into the new TwizMenu class.
+* Major and minor fixes.
 
 = 1.3.5 =
 
@@ -379,6 +380,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.1 =
+
+* Major and minor fixes.
 
 = 1.3.5 = 
 
