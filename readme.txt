@@ -82,7 +82,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.5.1 =
 
 * Transferred methods into the new TwizMenu class.
-* Major and minor fixes.
+* Major and minor fixes...
 
 = 1.3.5 =
 
