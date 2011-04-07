@@ -16,6 +16,7 @@
 */
 
 require_once(dirname(__FILE__).'/twiz-shd.class.php'); 
+require_once(dirname(__FILE__).'/twiz.menu.class.php'); 
     
 class Twiz{
     
@@ -31,10 +32,15 @@ class Twiz{
     private $nonce;    
     protected $import_path_message;
     
-     /* default section constant */ 
-    const DEFAULT_SECTION  = 'home';
-    
-    /* status contants*/
+    /* section constants */ 
+    const DEFAULT_SECTION    = 'home';
+	
+	const SECTION_ALL  		 = 'all';
+	const SECTION_PAGES  	 = 'pages';
+	const SECTION_CATEGORIES = 'categories';
+	const SECTION_ARTICLES   = 'articles';
+
+    /* status constants*/
     const STATUS_ACTIVE   = 'active';
     const STATUS_INACTIVE = 'inactive';
     
@@ -49,19 +55,19 @@ class Twiz{
     const DIMAGE_NW = 'nw';
     
     /* action constants */ 
-    const ACTION_MENU          = 'menu';
-    const ACTION_SAVE          = 'save';
-    const ACTION_CANCEL        = 'cancel';
-    const ACTION_ID_LIST       = 'idlist';
-    const ACTION_OPTIONS       = 'options';
-    const ACTION_VIEW          = 'view';
-    const ACTION_NEW           = 'new';
-    const ACTION_EDIT          = 'edit';
-    const ACTION_EDIT_TD       = 'tdedit';
-    const ACTION_DELETE        = 'delete';
-    const ACTION_STATUS        = 'status';
-    const ACTION_IMPORT        = 'import';
-    const ACTION_EXPORT        = 'export';
+    const ACTION_MENU           = 'menu';
+    const ACTION_SAVE           = 'save';
+    const ACTION_CANCEL         = 'cancel';
+    const ACTION_ID_LIST        = 'idlist';
+    const ACTION_OPTIONS        = 'options';
+    const ACTION_VIEW           = 'view';
+    const ACTION_NEW            = 'new';
+    const ACTION_EDIT           = 'edit';
+    const ACTION_EDIT_TD        = 'tdedit';
+    const ACTION_DELETE         = 'delete';
+    const ACTION_STATUS         = 'status';
+    const ACTION_IMPORT         = 'import';
+    const ACTION_EXPORT         = 'export';
     const ACTION_LIBRARY        = 'library';
     const ACTION_LIBRARY_STATUS = 'libstatus';
     const ACTION_UPLOAD_LIBRARY = 'uploadlib';
@@ -114,10 +120,17 @@ class Twiz{
     const F_OPTIONS_B            = 'options_b'; 
     const F_EXTRA_JS_A           = 'extra_js_a'; 
     const F_EXTRA_JS_B           = 'extra_js_b';     
+ 
+    /* key field constant */
+    const KEY_FILENAME 		     = 'filename';  
     
-    /* field constant */
-    const KEY_FILENAME = 'filename';   
-    
+	/* section options array */ 
+    var $array_section_options = array(self::SECTION_ALL
+									  ,self::SECTION_PAGES
+									  ,self::SECTION_CATEGORIES
+									  ,self::SECTION_ARTICLES
+									  );
+							 
     /* directional array image suffix */ 
     var $array_arrows = array(self::DIMAGE_N   
                              ,self::DIMAGE_NE    
@@ -230,7 +243,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.5';
+        $this->version    = 'v1.3.5.1';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -247,7 +260,8 @@ class Twiz{
         $html.= $this->getHtmlGlobalstatus();
         $html.= $this->getAjaxHeader();
         $html.= $this->getHtmlHeader();
-        $html.= $this->getHtmlMenu();
+		$myTwizMenu  = new TwizMenu(); 
+		$html.= $myTwizMenu->getHtmlMenu();
         $html.= $this->getHtmlList();
         $html.= $this->getHtmlFooter();
         $html.= $this->getHtmlFooterMenu();
@@ -258,74 +272,7 @@ class Twiz{
         
         return $html;
     }
-    
-    function addSectionMenu( $section_id = '' ){
-        
-        if($section_id==''){return '';}
-            
-        $sections = get_option('twiz_sections');
-        if(!is_array($sections)){ $sections = array();}
-        
-        $section_name = $this->getSectionName($section_id);
-        
-        $sections[$section_name] = '';
-        $sections[$section_name] = $section_id;
-    
-        update_option('twiz_sections', $sections);
-        
-        $html = $this->getHtmlSectionMenu($section_id, $section_name);
-        
-        return $html;
-    }    
-    
-    private function getHtmlAddSection(){
-    
-        global $wpdb;
- 
-        $sections = get_option('twiz_sections');
-        
-        if(!is_array($sections)){$sections = array();}
-  
-        $addsection = '<div id="twiz_add_sections">';
-        
-        $select = '<select name="twiz_slc_sections" id="twiz_slc_sections">';
-        
-        $select .= '<option value="" selected="selected">'.__('Choose', 'the-welcomizer').'</option>';
-        
-        /* get categories */
-        $categories = get_categories('sort_order=asc'); 
- 
-        foreach($categories as $value){
-        
-            if(!in_array('c_'.$value->cat_ID, $sections)){
-            
-                $select_cat .= '<option value="c_'.$value->cat_ID.'">'.$value->cat_name.'</option>';
-            }
-        }
-        
-        /* get pages */
-        $pages = get_pages('sort_order=asc'); 
-        
-        foreach($pages as $value){
-        
-            if(!in_array('p_'.$value->ID, $sections)){
-            
-                $separator = '<option value="+++ +++ +++">+++ +++ +++</option>';
-               
-                $select_page .= '<option value="p_'.$value->ID.'">'.$value->post_title.'</option>';
-            }
-        }
-        
-        /* close select */
-        $addsection .=  $select.$select_cat.$separator.$select_page.'</select>';
-
-        $addsection .= '<input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /> <a name="twiz_cancel_section" id="twiz_cancel_section">'.__('Cancel', 'the-welcomizer').'</a>';
-        
-        $addsection .='</div>';
-        
-        return $addsection;
-    }
-    
+      
     private function getHtmlGlobalstatus(){
     
         return '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>';
@@ -364,43 +311,6 @@ class Twiz{
         
         return $footer;
     }    
-    
-    private function getHtmlMenu(){
-    
-           /* retrieve stored sections */
-           $sections = get_option('twiz_sections');
-           
-           if(!is_array($sections)){$sections = array();}
-           
-           $menu = '
-<div id="twiz_menu">';
-           
-           /* default home section */
-           $menu .= '<div id="twiz_menu_home" class="twiz-menu twiz-menu-selected">'.__('Home').'</div>';
-           
-           /* generate the section menu */
-           foreach($sections as $key => $value){
-           
-                if( $value != self::DEFAULT_SECTION ){
-                
-                    $name = $this->getSectionName($value, $key);
-                
-                    $menu .= $this->getHtmlSectionMenu( $value, $name );
-                }
-           }
-
-           $menu .= '<div id="twiz_delete_menu">x</div>';
-
-           $menu .= '<div id="twiz_add_menu">+</div>';
- 
-           $menu .= $this->getHtmlAddSection(); // private
- 
-           $menu .= '
-</div><div class="twiz-clear"></div>';
-        
-        return $menu;
-        
-    }
 
     private function getAjaxHeader(){
     
@@ -676,6 +586,7 @@ class Twiz{
              switch($value){
                     
                  case self::F_SECTION_ID:
+				 
                     $header.= '"twiz_'.$value.'": twiz_current_section_id'.$comma;
                     break;  
                                    
@@ -683,12 +594,14 @@ class Twiz{
                  
                     $header.= '"twiz_'.$value.'": numid'.$comma;
                     break;
+					
                  case self::F_STATUS:
                  
                     $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
                     break;
                     
                  default:
+				 
                     $header.= ' "twiz_'.$value.'": $("#twiz_'.$value.'").val()'.$comma;
              }
              
@@ -1251,36 +1164,6 @@ class Twiz{
 
     }        
     
-    function deleteSectionMenu( $section_id = '' ){
-    
-        global $wpdb;
-        
-        if( $section_id == '' ){return false;}
-         
-        $sql = "DELETE from ".$this->table." where ".self::F_SECTION_ID." = '".$section_id."';";
-        $code = $wpdb->query($sql);
-  
-
-        if( $section_id != self::DEFAULT_SECTION ){
-            
-            $sections = get_option('twiz_sections');
-			   
-			if( !is_array($sections) ){ $sections = array(); }
-			   
-			foreach( $sections as $key => $value ){
-        
-				if(( $value == $section_id ) and ($key != "")){
-		   
-					$sections[$key] = '';
-					unset($sections[$key]);
-					update_option('twiz_sections', $sections);
-				}
-			}
-        }
-
-        return true;
-    } 
-    
     function install(){ 
     
         global $wpdb;
@@ -1586,11 +1469,10 @@ $.fn.twizReplay = function(){ ';
             
                 /* start delay */ 
                 $generatedscript .= '
-setTimeout(function(){
-'; 
+setTimeout(function(){'; 
             
                 /* css position */ 
-                $generatedscript .= ($value[self::F_POSITION]!='') ?'
+                $generatedscript .= ($value[self::F_POSITION]!='') ? '
 $("#'.$value[self::F_LAYER_ID].'").css("position", "'.$value[self::F_POSITION].'");' : ''; 
                 
                 /* starting positions */ 
@@ -1619,7 +1501,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $value[self::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_A]);
     
                 /* extra js a */    
-                $generatedscript .= ($value[self::F_EXTRA_JS_A]!='') ? $value[self::F_EXTRA_JS_A] : '';
+                $generatedscript .= $value[self::F_EXTRA_JS_A];
                 
                 /* b */
                 
@@ -1646,7 +1528,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
     
                 /* extra js b */    
-                $generatedscript .= ($value[self::F_EXTRA_JS_B]!='') ? $value[self::F_EXTRA_JS_B] : '';
+                $generatedscript .= $value[self::F_EXTRA_JS_B];
                 
                 /* closing functions */
                 $generatedscript .= '});';
@@ -2118,16 +2000,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         return $select;
     }    
     
-    private function getHtmlSectionMenu( $section_id = '', $section_name = ''){
-    
-       if($section_id==''){ return ''; }
-       if($section_name==''){ return ''; }
-    
-       $html = '<div id="twiz_menu_'.$section_id.'" class="twiz-menu">'.$section_name.'</div>';
-            
-       return $html;
-    }
-    
     function getHtmlSuccess( $message = '' ){
         
         if($message==''){ return ''; }
@@ -2147,49 +2019,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         $row = $wpdb->get_row($sql, ARRAY_A);
         
         return $row;
-    }
-    
-    private function getSectionName( $value = '', $key = null ){
-    
-        if( $value == self::DEFAULT_SECTION ){ 
-            return $value; 
-        }
-        
-        list($type, $id) = split('_', $value);
-                
-        $name = '';
-        
-        switch($type){
-        
-            case 'c': // is category
-            
-                $name = get_cat_name($id);
-                
-                /* User deleted category */
-                if ($name==""){
-                    
-                    /*  Give the key instead if empty, and update the key if possible */
-                    return $this->updateSectionMenuKey($key, $type.'_'.get_cat_id($key));
-                }
-                break;
-                
-            case 'p': // is page
-            
-                $page = get_page( $id ) ;
-                $name = $page->post_title;
-                
-                /* User deleted page */
-                if ($name==""){
-                
-                    $page = get_page_by_title($key);
-                    
-                    /*  Give the key instead if empty, and update the key if possible */
-                    return $this->updateSectionMenuKey($key, $type.'_'.$page->ID); // private
-                }
-                break;
-        }
-        
-        return $name;
     }
     
     function getValue( $id = '', $column = '' ){ 
@@ -2440,20 +2269,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         
         return true;
     }
-    
-    private function updateSectionMenuKey( $keyid = '', $newid = '' ){
-           
-        if(($keyid!='')and($newid!='c_')and($newid!='p_')){
-            
-            $sections = get_option('twiz_sections');
-            
-            $sections[$keyid] = '';
-            $sections[$keyid] = $newid;
-        
-            update_option('twiz_sections', $sections);
-        }
-        
-        return $keyid;
-    }
+	
 }
 ?>

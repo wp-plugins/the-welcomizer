@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.5
+Version: 1.3.5.1
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. The Welcomizer has Spirit!
 Author: S&#233;bastien Laframboise
@@ -50,26 +50,26 @@ License: GPL2
     }
 
     /* Add a menu link under theme menu. */
-    function twizMenu() {
+    function twizAddLinkAdminMenu() {
     
-        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), 6, 'the-welcomizer', 'twizMainPage');
+        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), 6, 'the-welcomizer', 'twizDisplayMainPage');
     }
         
     /* Admin page */
-    function twizMainPage() {     
+    function twizDisplayMainPage() {     
     
         $myTwiz = new Twiz();
         echo($myTwiz->twizIt());
     }
     
     /* Frontend code */
-    function twizFrontEnd() {
+    function twizDisplayFrontEnd() {
     
         $myTwiz  = new Twiz();
         echo($myTwiz->getFrontEnd());
     }
 
-    function twizEnqueueJS(){
+    function twizEnqueueJavaScriptFiles(){
      
         if (( !is_admin() ) and ( get_option('twiz_global_status') == '1' )) {
         
@@ -116,11 +116,11 @@ License: GPL2
     }
     
     /* Add init action */
-    add_action('init', 'twizEnqueueJS');
+    add_action('init', 'twizEnqueueJavaScriptFiles');
     
     /* Add the menu link */
-    add_action('admin_menu', 'twizMenu');
+    add_action('admin_menu', 'twizAddLinkAdminMenu');
     
     /* add the Frontend generated code */    
-    add_filter('wp_footer', 'twizFrontEnd');
+    add_filter('wp_footer', 'twizDisplayFrontEnd');
 ?>

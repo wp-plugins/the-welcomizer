@@ -79,6 +79,10 @@ Useful jQuery plugins to upload through the Library:
 
 == Changelog ==
 
+= 1.3.5.1 =
+
+* Transferred methods into the new TwizMenu class.
+
 = 1.3.5 =
 
 * Fixed delete section menu.

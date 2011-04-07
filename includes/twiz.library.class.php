@@ -16,10 +16,11 @@
 */
 
 class TwizLibrary extends Twiz{
-
+	
     /* variable declaration */
     private $array_library;
-   
+	
+	
     function __construct(){
     
         parent::__construct();

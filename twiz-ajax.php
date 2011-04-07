@@ -55,9 +55,9 @@
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
         
-            $myTwiz  = new Twiz();
+			$myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwiz->addSectionMenu($twiz_section_id);
+            $htmlresponse = $myTwizMenu->addSectionMenu($twiz_section_id);
             
             break;
 
@@ -65,9 +65,9 @@
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
         
-            $myTwiz  = new Twiz();
+            $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwiz->deleteSectionMenu($twiz_section_id);
+            $htmlresponse = $myTwizMenu->deleteSectionMenu($twiz_section_id);
             
             break;
             
