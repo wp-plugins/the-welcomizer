@@ -3,7 +3,7 @@ Contributors: sebwordpress
 Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
 Requires at least: 3.0
-Tested up to: 3.1
+Tested up to: 3.1.1
 Stable tag: 1.3.5.1
 License: GPLv2
 
@@ -82,7 +82,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.5.1 =
 
 * Transferred methods into the new TwizMenu class.
-* Major and minor fixes...
+* Major and minor fixes.
 
 = 1.3.5 =
 
