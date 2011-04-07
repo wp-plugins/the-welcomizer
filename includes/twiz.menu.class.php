@@ -19,7 +19,7 @@ class TwizMenu extends Twiz{
         
     /* variable declaration */
     private $array_sections;
-	
+    
     function __construct(){
     
         parent::__construct();
@@ -27,7 +27,7 @@ class TwizMenu extends Twiz{
         $this->loadSections();
     }
 
-	function addSectionMenu( $section_id = '' ){
+    function addSectionMenu( $section_id = '' ){
         
         if($section_id==''){return '';}
             
@@ -44,7 +44,7 @@ class TwizMenu extends Twiz{
         
         return $html;
     }    
-	
+    
     function deleteSectionMenu( $section_id = '' ){
     
         global $wpdb;
@@ -58,24 +58,24 @@ class TwizMenu extends Twiz{
         if( $section_id != parent::DEFAULT_SECTION ){
             
             $sections = $this->array_sections;
-			   
-			if( !is_array($sections) ){ $sections = array(); }
-			   
-			foreach( $sections as $key => $value ){
+               
+            if( !is_array($sections) ){ $sections = array(); }
+               
+            foreach( $sections as $key => $value ){
         
-				if(( $value == $section_id ) and ($key != "")){
-		   
-					$sections[$key] = '';
-					unset($sections[$key]);
-				}
-			}
-			
-			update_option('twiz_sections', $sections);
+                if(( $value == $section_id ) and ($key != "")){
+           
+                    $sections[$key] = '';
+                    unset($sections[$key]);
+                }
+            }
+            
+            update_option('twiz_sections', $sections);
         }
 
         return true;
-    } 	
-	
+    }     
+    
     private function getHtmlAddSection(){
     
         global $wpdb;
@@ -122,7 +122,7 @@ class TwizMenu extends Twiz{
         return $addsection;
     }
 
-	function getHtmlMenu(){
+    function getHtmlMenu(){
     
            /* retrieve stored sections */
            $sections = $this->array_sections;
@@ -155,7 +155,7 @@ class TwizMenu extends Twiz{
         
         return $menu;
     }
-	
+    
     private function getHtmlSectionMenu( $section_id = '', $section_name = '' ){
     
        if( $section_id == '' ){return '';}
@@ -166,10 +166,10 @@ class TwizMenu extends Twiz{
        return $html;
     }
 
-	private function getSectionName( $value = '', $key = null ){
+    private function getSectionName( $value = '', $key = null ){
     
         if( $value == parent::DEFAULT_SECTION ){ 
-		
+        
             return $value; 
         }
         
@@ -209,8 +209,8 @@ class TwizMenu extends Twiz{
         
         return $name;
     }
-	
-	private function loadSections(){
+    
+    private function loadSections(){
     
         $this->array_sections = get_option('twiz_sections');
             
@@ -219,8 +219,8 @@ class TwizMenu extends Twiz{
         
             $this->array_sections = array();
         }
-	}
-	
+    }
+    
     private function updateSectionMenuKey( $keyid = '', $newid = '' ){
            
         if(( $keyid != '' ) and ( $newid != 'c_' ) and ( $newid != 'p_' )){
@@ -234,6 +234,6 @@ class TwizMenu extends Twiz{
         }
         
         return $keyid;
-    }	
+    }    
 }
 ?>

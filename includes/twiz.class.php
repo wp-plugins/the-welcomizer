@@ -34,12 +34,12 @@ class Twiz{
     
     /* section constants */ 
     const DEFAULT_SECTION    = 'home';
-	
-	/* section options constants */ 
-	const SECTION_ALL  		 = 'all';
-	const SECTION_PAGES  	 = 'pages';
-	const SECTION_CATEGORIES = 'categories';
-	const SECTION_ARTICLES   = 'articles';
+    
+    /* section options constants */ 
+    const SECTION_ALL           = 'all';
+    const SECTION_PAGES       = 'pages';
+    const SECTION_CATEGORIES = 'categories';
+    const SECTION_ARTICLES   = 'articles';
 
     /* status constants*/
     const STATUS_ACTIVE   = 'active';
@@ -123,15 +123,15 @@ class Twiz{
     const F_EXTRA_JS_B           = 'extra_js_b';     
  
     /* key field constant */
-    const KEY_FILENAME 		     = 'filename';  
+    const KEY_FILENAME           = 'filename';  
     
-	/* section options array */ 
+    /* section options array */ 
     var $array_section_options = array(self::SECTION_ALL
-									  ,self::SECTION_PAGES
-									  ,self::SECTION_CATEGORIES
-									  ,self::SECTION_ARTICLES
-									  );
-							 
+                                      ,self::SECTION_PAGES
+                                      ,self::SECTION_CATEGORIES
+                                      ,self::SECTION_ARTICLES
+                                      );
+                             
     /* directional array image suffix */ 
     var $array_arrows = array(self::DIMAGE_N   
                              ,self::DIMAGE_NE    
@@ -259,17 +259,17 @@ class Twiz{
         $html.= '<div id="twiz_background"></div>';
         $html.= '<div id="twiz_master">';
         
-		$html.= $this->getHtmlGlobalstatus();
+        $html.= $this->getHtmlGlobalstatus();
         $html.= $this->getAjaxHeader();
         $html.= $this->getHtmlHeader();
-		
-		$myTwizMenu  = new TwizMenu(); 
-		$html.= $myTwizMenu->getHtmlMenu();
-		
+        
+        $myTwizMenu  = new TwizMenu(); 
+        $html.= $myTwizMenu->getHtmlMenu();
+        
         $html.= $this->getHtmlList();
         $html.= $this->getHtmlFooter();
         $html.= $this->getHtmlFooterMenu();
-		
+        
         $html.= '</div>';
         $html.= '<div id="twiz_right_panel"></div>';
         $html.= $this->preloadImages();
@@ -591,7 +591,7 @@ class Twiz{
              switch($value){
                     
                  case self::F_SECTION_ID:
-				 
+                 
                     $header.= '"twiz_'.$value.'": twiz_current_section_id'.$comma;
                     break;  
                                    
@@ -599,14 +599,14 @@ class Twiz{
                  
                     $header.= '"twiz_'.$value.'": numid'.$comma;
                     break;
-					
+                    
                  case self::F_STATUS:
                  
                     $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
                     break;
                     
                  default:
-				 
+                 
                     $header.= ' "twiz_'.$value.'": $("#twiz_'.$value.'").val()'.$comma;
              }
              
@@ -2274,6 +2274,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
         
         return true;
     }
-	
+    
 }
 ?>
