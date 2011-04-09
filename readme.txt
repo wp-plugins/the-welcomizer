@@ -25,7 +25,7 @@ Some of my favorite examples are:
 - [Example 15](http://www.sebastien-laframboise.com/the-welcomizer-example-15/)
 - [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/)
 - [Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/)
-- [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/)
+- >>> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <<<
 
 Thanks for your feedback and support!
 
@@ -92,7 +92,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.5.1 =
 
 * Transferred methods into the new TwizMenu class.
-* Major and minor fixes...
+* Major and minor fixes.
 
 = 1.3.5 =
 
