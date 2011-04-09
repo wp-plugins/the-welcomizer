@@ -24,6 +24,7 @@ Some of my favorite examples are:
 - [Example 13](http://www.sebastien-laframboise.com/the-welcomizer-example-13/)
 - [Example 15](http://www.sebastien-laframboise.com/the-welcomizer-example-15/)
 - [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/)
+- [Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/)
 - [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/)
 
 Thanks for your feedback and support!
