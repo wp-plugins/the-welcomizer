@@ -19,11 +19,11 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Some of my favorite examples are:
 -
-- [Example 4](http://www.sebastien-laframboise.com/the-welcomizer-example-4/)
 - [Example 8](http://www.sebastien-laframboise.com/the-welcomizer-example-8/)
 - [Example 13](http://www.sebastien-laframboise.com/the-welcomizer-example-13/)
-- [Example 15](http://www.sebastien-laframboise.com/the-welcomizer-example-15/)
+- [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/)
 - [Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/)
+- [Example 20](http://www.sebastien-laframboise.com/the-welcomizer-example-20/)
 - [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <<< I like
 
 Thanks for your feedback and support!
