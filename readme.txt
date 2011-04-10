@@ -19,7 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Some of my favorite examples are:
 -
-- [Example 8](http://www.sebastien-laframboise.com/the-welcomizer-example-8/)
+- [Example 9](http://www.sebastien-laframboise.com/the-welcomizer-example-9/)
 - [Example 13](http://www.sebastien-laframboise.com/the-welcomizer-example-13/)
 - [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/)
 - [Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/)
