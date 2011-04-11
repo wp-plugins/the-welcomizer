@@ -22,10 +22,6 @@ Thanks for your feedback and support!
 * Repeat one animation with `$(document).twizRepeat();` <<< New!
 * Replay all the animation with `$(document).twizReplay();` 
 
--> This lead to even more possibilities. 
-
-Note: I am discovering this plugin while I'm using it. 
-
 Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
