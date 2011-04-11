@@ -103,7 +103,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.4.8 = 
 
-* Replay all the animation with `jQuery(document).twizReplay();`.
+* Replay all the animation with `$(document).twizReplay();`.
 * When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Minor fixes and adjustments.
