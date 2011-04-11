@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog
 Requires at least: 3.0
 Tested up to: 3.1.1
-Stable tag: 1.3.5.1
+Stable tag: 1.3.5.2
 License: GPLv2
 
 This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS Includer.
@@ -18,6 +18,11 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
 Thanks for your feedback and support!
+
+* Repeat one animation with `$(document).twizRepeat();` 
+* Replay all the animation with `$(document).twizReplay();` 
+
+-> This lead to even more possibilities, I really need to update my examples. 
 
 Stay tuned, and do your updates...
 
@@ -46,6 +51,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
+* Repeat one animation with `jQuery(document).twizRepeat();`.
 * Replay all the animation with `jQuery(document).twizReplay();`.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Flexible and easy movement to config (+ or -) Top and Left.
@@ -82,7 +88,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.5.2 = 
 
-* Repeat one animation by adding `$(document).twizRepeat();` inside the Extra JavaScript textbox.
+* Repeat one animation with `$(document).twizRepeat();` inside the Extra JavaScript textbox.
 
 = 1.3.5.1 =
 
