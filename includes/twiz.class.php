@@ -1469,11 +1469,11 @@ jQuery(document).ready(function($){';
              
              $generatedscript .= '
 $.fn.twizReplay = function(){ ';
-            $i = 1;
+           
              /* generates the code */
             foreach($listarray as $value){
             
-            $repeatname = str_replace("-","_",$value[self::F_LAYER_ID])."_".$i;
+            $repeatname = str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
             
             /* repeat animation function */
              $generatedscript .= '
@@ -1548,7 +1548,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $generatedscript .= '},'.$value[self::F_START_DELAY].');
 };';
     $generatedscript .= '$(document).twizRepeat_'.$repeatname.'();';
-            $i++;
+            
             }
             
             /* script footer */
