@@ -1,7 +1,7 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
 Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F
-Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category
+Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog
 Requires at least: 3.0
 Tested up to: 3.1.1
 Stable tag: 1.3.5.1
@@ -15,11 +15,11 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
--> [Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
+[Plugin page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
 Thanks for your feedback and support!
 
-Stay tuned, and do your updates.
+Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
@@ -61,9 +61,10 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 4. Find the plugin under the menu Appearance
 5. Configure and save your first movement, or Import a *.twz file.
 
-6. Upload `*.js` files with the `JavaScript File Manager` included in The Welcomizer.
-
 * Create and make this directory writable: 'wp-content/twiz/'
+
+Upload `*.js` files with the `JavaScript File Manager` included in The Welcomizer.
+
 
 Useful jQuery plugins to upload through the Library:
 - 
@@ -78,6 +79,10 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.2 = 
+
+* Repeat one animation by adding `$(document).twizRepeat();` inside the Extra Javascript textbox.
 
 = 1.3.5.1 =
 
@@ -94,7 +99,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.4.8 = 
 
-* Replay the animation with `jQuery(document).twizReplay();`.
+* Replay all the animation with `jQuery(document).twizReplay();`.
 * When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Minor fixes and adjustments.
@@ -381,9 +386,13 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.3.5.2 = 
+
+* Added Repeat function.
+
 = 1.3.5.1 =
 
-* Major and minor fixes.
+* Major and minor fixes...
 
 = 1.3.5 = 
 

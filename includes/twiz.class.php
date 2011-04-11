@@ -244,7 +244,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.5.1';
+        $this->version    = 'v1.3.5.2';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1469,9 +1469,15 @@ jQuery(document).ready(function($){';
              
              $generatedscript .= '
 $.fn.twizReplay = function(){ ';
-             
+            $i = 1;
              /* generates the code */
             foreach($listarray as $value){
+            
+            $repeatname = str_replace("-","_",$value[self::F_LAYER_ID]);
+            
+            /* repeat animation function */
+             $generatedscript .= '
+$.fn.twizRepeat_'.$repeatname.' = function(){ ';
             
                 /* start delay */ 
                 $generatedscript .= '
@@ -1507,7 +1513,7 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $value[self::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_A]);
     
                 /* extra js a */    
-                $generatedscript .= $value[self::F_EXTRA_JS_A];
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_A]);
                 
                 /* b */
                 
@@ -1534,18 +1540,21 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
     
                 /* extra js b */    
-                $generatedscript .= $value[self::F_EXTRA_JS_B];
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_B]);
                 
                 /* closing functions */
                 $generatedscript .= '});';
                 $generatedscript .= '});';
-                $generatedscript .= '},'.$value[self::F_START_DELAY].');';
+                $generatedscript .= '},'.$value[self::F_START_DELAY].');
+};';
+    $generatedscript .= '$(document).twizRepeat_'.$repeatname.'();';
+            $i++;
             }
             
             /* script footer */
             $generatedscript.= '}
-            $(document).twizReplay();
-            });';
+$(document).twizReplay();
+});';
             $generatedscript.= '
 </script>';
         }
