@@ -82,7 +82,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.5.2 = 
 
-* Repeat one animation by adding `$(document).twizRepeat();` inside the Extra Javascript textbox.
+* Repeat one animation by adding `$(document).twizRepeat();` inside the Extra JavaScript textbox.
 
 = 1.3.5.1 =
 
