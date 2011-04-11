@@ -1473,7 +1473,7 @@ $.fn.twizReplay = function(){ ';
              /* generates the code */
             foreach($listarray as $value){
             
-            $repeatname = str_replace("-","_",$value[self::F_LAYER_ID]);
+            $repeatname = str_replace("-","_",$value[self::F_LAYER_ID])."_".$i;
             
             /* repeat animation function */
              $generatedscript .= '
