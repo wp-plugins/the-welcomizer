@@ -19,12 +19,12 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-* Repeat one animation with `$(document).twizRepeat();` 
+* Repeat one animation with `$(document).twizRepeat();` <<< New!
 * Replay all the animation with `$(document).twizReplay();` 
 
--> This lead to even more possibilities, I really need to update my examples. 
+-> This lead to even more possibilities. 
 
-Note: I am discovering this plugin while I'm working on it. 
+Note: I am discovering this plugin while I'm using it. 
 
 Stay tuned, and do your updates...
 
