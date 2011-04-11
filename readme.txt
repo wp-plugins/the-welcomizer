@@ -19,8 +19,8 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-* Repeat one animation with `$(document).twizRepeat();` <<< New!
-* Replay all the animation with `$(document).twizReplay();` 
+* Repeat one animation with `$(document).twizRepeat();` <<< New! 
+* Replay all the animation with `$(document).twizReplay();`  
 
 Stay tuned, and do your updates...
 
