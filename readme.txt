@@ -17,6 +17,27 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
+[Example 1](http://www.sebastien-laframboise.com/the-welcomizer-example-1/)
+[Example 2](http://www.sebastien-laframboise.com/the-welcomizer-example-2/)
+[Example 3](http://www.sebastien-laframboise.com/the-welcomizer-example-3/)
+[Example 4](http://www.sebastien-laframboise.com/the-welcomizer-example-4/)
+[Example 5](http://www.sebastien-laframboise.com/the-welcomizer-example-5/)
+[Example 6](http://www.sebastien-laframboise.com/the-welcomizer-example-6/)
+[Example 7](http://www.sebastien-laframboise.com/the-welcomizer-example-7/)
+[Example 8](http://www.sebastien-laframboise.com/the-welcomizer-example-8/)
+[Example 9](http://www.sebastien-laframboise.com/the-welcomizer-example-9/)
+[Example 10](http://www.sebastien-laframboise.com/the-welcomizer-example-10/)
+[Example 11](http://www.sebastien-laframboise.com/the-welcomizer-example-11/)
+[Example 12](http://www.sebastien-laframboise.com/the-welcomizer-example-12/)
+[Example 13](http://www.sebastien-laframboise.com/the-welcomizer-example-13/)
+[Example 14](http://www.sebastien-laframboise.com/the-welcomizer-example-14/)
+[Example 15](http://www.sebastien-laframboise.com/the-welcomizer-example-15/)
+[Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/)
+[Example 17](http://www.sebastien-laframboise.com/the-welcomizer-example-17/)
+[Example 18](http://www.sebastien-laframboise.com/the-welcomizer-example-18/)
+[Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/)
+[Example 20](http://www.sebastien-laframboise.com/the-welcomizer-example-20/)
+
 Thanks for your feedback and support!
 
 * Repeat one animation with `$(document).twizRepeat();` <<< New! 
