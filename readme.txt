@@ -19,7 +19,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 [Example 1](http://www.sebastien-laframboise.com/the-welcomizer-example-1/)
 [Example 2](http://www.sebastien-laframboise.com/the-welcomizer-example-2/)
-[Example 3](http://www.sebastien-laframboise.com/the-welcomizer-example-3/)
+[Example 3](http://www.sebastien-laframboise.com/the-welcomizer-example-3/) 
 [Example 4](http://www.sebastien-laframboise.com/the-welcomizer-example-4/)
 [Example 5](http://www.sebastien-laframboise.com/the-welcomizer-example-5/)
 [Example 6](http://www.sebastien-laframboise.com/the-welcomizer-example-6/)
