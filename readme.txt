@@ -40,7 +40,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 
 Thanks for your feedback and support!
 
-* Repeat one animation with `$(document).twizRepeat();` <<< New! 
+* Repeat an animation with `$(document).twizRepeat();` <<< New! 
 * Replay all the animation with `$(document).twizReplay();`  
 
 Stay tuned, and do your updates...
@@ -70,7 +70,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
-* Repeat one animation with `$(document).twizRepeat();`.
+* Repeat an animation with `$(document).twizRepeat();`.
 * Replay all the animation with `$(document).twizReplay();`.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Flexible and easy movement to config (+ or -) Top and Left.
