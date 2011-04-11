@@ -24,6 +24,8 @@ Thanks for your feedback and support!
 
 -> This lead to even more possibilities, I really need to update my examples. 
 
+Note: I am discovering this plugin while I'm working on it. 
+
 Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
