@@ -96,7 +96,7 @@ Useful jQuery plugins to upload through the Library:
 - jQuery UI/Effects - [Download page](http://jqueryui.com/download) - [More info](http://docs.jquery.com/UI/Effects)
 - Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) - [Author page](http://www.zachstronaut.com/projects/rotate3di/)
 - jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale) - [Author page](http://www.zachstronaut.com)
-
+- transform  - [Download page](https://github.com/heygrady/transform/) - [Author page](https://github.com/heygrady/)
 
 == Screenshots ==
 
