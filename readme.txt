@@ -15,7 +15,7 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
-[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips 
+[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
 [Example 1](http://www.sebastien-laframboise.com/the-welcomizer-example-1/) |
 [Example 2](http://www.sebastien-laframboise.com/the-welcomizer-example-2/) |
@@ -96,7 +96,7 @@ Useful jQuery plugins to upload through the Library:
 - jQuery UI/Effects - [Download page](http://jqueryui.com/download) - [More info](http://docs.jquery.com/UI/Effects)
 - Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) - [Author page](http://www.zachstronaut.com/projects/rotate3di/)
 - jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale) - [Author page](http://www.zachstronaut.com)
-
+- transform  - [Download page](https://github.com/heygrady/transform/) - [Author page](https://github.com/heygrady/)
 
 == Screenshots ==
 
