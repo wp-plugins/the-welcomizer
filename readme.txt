@@ -35,7 +35,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/) |
 [Example 17](http://www.sebastien-laframboise.com/the-welcomizer-example-17/) |
 [Example 18](http://www.sebastien-laframboise.com/the-welcomizer-example-18/) |
-[Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/) - A Clock |
+[Example 19 - A Clock](http://www.sebastien-laframboise.com/the-welcomizer-example-19/) |
 [Example 20](http://www.sebastien-laframboise.com/the-welcomizer-example-20/)
 
 Thanks for your feedback and support!
@@ -88,7 +88,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 * Create and make this directory writable: 'wp-content/twiz/'
 
-Upload `.js` and/or `.css` files into the `Library`.
+Upload `.js` and/or `.css` files into the Library.
 
 Useful jQuery plugins to upload through the Library:
 - 
