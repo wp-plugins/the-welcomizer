@@ -288,6 +288,10 @@
 .twiz-td-action {
     width: 70px;
 }
+.twiz-td-lib-action,
+.twiz-td-lib-order {
+    width: 50px;
+}
 .twiz-td-action img {
     padding: 2px;
 }

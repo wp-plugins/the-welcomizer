@@ -38,7 +38,7 @@ class TwizMenu extends Twiz{
         $sections[$section_name] = '';
         $sections[$section_name] = $section_id;
     
-        update_option('twiz_sections', $sections);
+        $code = update_option('twiz_sections', $sections);
         
         $html = $this->getHtmlSectionMenu($section_id, $section_name);
         
@@ -67,7 +67,7 @@ class TwizMenu extends Twiz{
                 }
             }
             
-            update_option('twiz_sections', $sections);
+           $code = update_option('twiz_sections', $sections);
         }
 
         return true;
@@ -215,6 +215,8 @@ class TwizMenu extends Twiz{
         
             $this->array_sections = array();
         }
+        
+        ksort($this->array_sections);
     }
     
     private function updateSectionMenuKey( $keyid = '', $newid = '' ){
@@ -226,7 +228,7 @@ class TwizMenu extends Twiz{
             $sections[$keyid] = '';
             $sections[$keyid] = $newid;
         
-            update_option('twiz_sections', $sections);
+            $code = update_option('twiz_sections', $sections);
         }
         
         return $keyid;

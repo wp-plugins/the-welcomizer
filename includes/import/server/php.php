@@ -175,11 +175,15 @@ class qqFileUploader extends TwizLibrary{
             switch($this->action){
             
                 case parent::ACTION_UPLOAD_LIBRARY:
-                
-                    $library = array(parent::F_ID => '',
-                                      parent::F_STATUS => 0, 
-                                      parent::KEY_FILENAME => $filename);
-                                      
+                    
+                    $maxorder = $this->getMax(parent::KEY_ORDER) + 1;
+                    $maxid = $this->getMax(parent::F_ID) + 1;
+                    
+                    $library = array(parent::F_ID         => $maxid,
+                                     parent::F_STATUS     => 0, 
+                                     parent::KEY_ORDER    => $maxorder,  
+                                     parent::KEY_FILENAME => $filename);
+                                     
                     if(! $code = $this->addLibrary($library)){
 
                         return array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
@@ -230,13 +234,13 @@ switch($action){
 
     case Twiz::ACTION_UPLOAD_LIBRARY:
     
-        $allowedExtensions = array("js");
+        $allowedExtensions = array(Twiz::EXT_JS, Twiz::EXT_CSS);
         
         break;
         
     case Twiz::ACTION_IMPORT:
     
-        $allowedExtensions = array("twz");
+        $allowedExtensions = array(Twiz::EXT_TWZ);
         
         break;
         

@@ -14,8 +14,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-
+    error_reporting(E_ALL);
+ini_set('display_errors', '1');
     /* Require wp-config */
     require_once(dirname(__FILE__).'/../../../wp-config.php');
     
@@ -233,6 +233,19 @@
             $htmlresponse = $myTwizLibrary->deleteLibrary($twiz_id);    
             
             break; 
+            
+       case Twiz::ACTION_ORDER_LIBRARY:
+            
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_order = esc_attr(trim($_POST['twiz_order']));
+            
+            $myTwizLibrary  = new TwizLibrary();
+            
+            if( $updated =  $myTwizLibrary->updateLibraryOrder($twiz_id, $twiz_order) ) {
+                $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
+            }
+            
+            break;             
     }
     
     echo($htmlresponse); // output the result

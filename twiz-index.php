@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.5.2
+Version: 1.3.5.3
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
-Description: Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. The Welcomizer has Spirit!
+Description: Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (100% AJAX) + JS/CSS Includer.
 Author: S&#233;bastien Laframboise
 Author URI: http://www.sebastien-laframboise.com
 License: GPL2
@@ -25,10 +25,11 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
     /***********************
     * --- The Twiz Class ---
     ***********************/
-    
+
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
     
     /******************
@@ -69,7 +70,7 @@ License: GPL2
         echo($myTwiz->getFrontEnd());
     }
 
-    function twizEnqueueJavaScriptFiles(){
+    function twizEnqueueLibrary(){
      
         if (( !is_admin() ) and ( get_option('twiz_global_status') == '1' )) {
         
@@ -87,10 +88,26 @@ License: GPL2
                     
                     if( file_exists( WP_CONTENT_DIR.$file ) ) {
                     
-                        /* Enqueue js files, maybe css in the future */
-                        wp_deregister_script( 'the-welcomizer'.$key );
-                        wp_register_script( 'the-welcomizer'.$key, WP_CONTENT_URL.$file);
-                        wp_enqueue_script( 'the-welcomizer'.$key );
+                        $fileinfo = pathinfo(WP_CONTENT_URL.$file);
+                        
+                        switch($fileinfo['extension']){
+                        
+                             /* Enqueue js files */
+                            case Twiz::EXT_JS: 
+                            
+                                wp_deregister_script( 'the-welcomizer'.$key );
+                                wp_register_script( 'the-welcomizer'.$key, WP_CONTENT_URL.$file);
+                                wp_enqueue_script( 'the-welcomizer'.$key );
+                            
+                                break;
+                                
+                            /* Enqueue css files */
+                            case Twiz::EXT_CSS:
+                            
+                                wp_enqueue_style('twiz-css-'.str_replace('.'.Twiz::EXT_CSS, '', $value[Twiz::KEY_FILENAME] ), WP_CONTENT_URL.$file , __FILE__ );
+                                
+                                break;
+                        }
                     }
                 }
             }
@@ -111,12 +128,12 @@ License: GPL2
     /* Enqueue style in admin */
     if( is_admin() ){
     
-        wp_enqueue_style('twiz-style-a', plugins_url('includes/twiz-style.css', __FILE__ ));
-        wp_enqueue_style('twiz-style-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+        wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
     }
     
     /* Add init action */
-    add_action('init', 'twizEnqueueJavaScriptFiles');
+    add_action('init', 'twizEnqueueLibrary');
     
     /* Add the menu link */
     add_action('admin_menu', 'twizAddLinkAdminMenu');

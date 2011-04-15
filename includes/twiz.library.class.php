@@ -59,37 +59,36 @@ jQuery(document).ready(function($) {
 //]]>
 </script>';
 
-        /* ajax container */ 
-        if( !in_array($_POST['twiz_action'], $this->array_action_excluded) ){
-        
-            $opendiv = '<div id="twiz_container">';
-            $closediv = '</div>';
-        }
 
-        $html = $opendiv.'<table class="twiz-table-list" cellspacing="0">';
+        $html = '<table class="twiz-table-list" cellspacing="0">';
         
         $html.= '<tr class="twiz-table-list-tr-h">
 <td class="twiz-table-list-td-h twiz-td-center twiz-td-status">'.__('Status', 'the-welcomizer').'</td>
 <td class="twiz-table-list-td-h twiz-td-left">'.__('Filename', 'the-welcomizer').'</td>
-<td class="twiz-table-list-td-h twiz-td-action twiz-td-right">'.__('Action', 'the-welcomizer').'</td></tr>';
+<td class="twiz-table-list-td-h twiz-td-lib-order twiz-td-center">'.__('Order', 'the-welcomizer').'</td>
+<td class="twiz-table-list-td-h twiz-td-lib-action twiz-td-right">'.__('Action', 'the-welcomizer').'</td>
+</tr>';
       
         
         foreach( $this->array_library as $value ){
              
             if( $this->libraryExists($value[parent::KEY_FILENAME], $value[parent::F_ID]) ) {
             
+            if(!isset($value[parent::KEY_ORDER])) $value[parent::KEY_ORDER] = '0';
+
                 $rowcolor = ($rowcolor=='twiz-row-color-1') ? 'twiz-row-color-2' : 'twiz-row-color-1';
             
                 $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE) : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE);
                         
                 $html.= '
-    <tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value[parent::F_ID].'" id="twiz_list_tr_'.$value[parent::F_ID].'" ><td class="twiz-td-status twiz-td-center" id="twiz_td_status_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
+    <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-td-center" id="twiz_td_status_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
     <td class="twiz-table-list-td"><a href="'.WP_CONTENT_URL.parent::IMPORT_PATH.$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
+     <td class="twiz-table-list-td twiz-td-center" id="twiz_list_td_'.$value[parent::F_ID].'"><img name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'" width="25" height="25" src="'.$this->pluginUrl.'/images/twiz-arrow-n.png"><img name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"  width="25" height="25" src="'.$this->pluginUrl.'/images/twiz-arrow-s.png"></td>
     <td class="twiz-table-list-td twiz-td-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[parent::F_ID].'" name="twiz_img_delete_'.$value[parent::F_ID].'"></td></tr>';
             }
         }
         
-        $html.= '</table>'.$closediv.$jquery;
+        $html.= '</table>'.$jquery;
                  
         return $html;
         
@@ -98,14 +97,13 @@ jQuery(document).ready(function($) {
     protected function addLibrary( $lib = array() ){
         
         if( count($lib)==0 ){return false;}
-        
-        $lib[parent::F_ID] = '';
-        $lib[parent::F_ID] = $this->getMaxId() + 1;
-        
+                
         $this->array_library[] = $lib;
-        update_option('twiz_library', $this->array_library);
         
-        return true;
+        $code = update_option('twiz_library', $this->array_library);
+        
+        return $code;
+
     }
     
     function deleteLibrary( $id = '' ){
@@ -127,10 +125,10 @@ jQuery(document).ready(function($) {
                 
                 unset($this->array_library[$key]);
                 
-                update_option('twiz_library', $this->array_library);
+                $code = update_option('twiz_library', $this->array_library);
                 
-                return true;
-                
+                return $code;
+
             }
         }
         
@@ -140,11 +138,16 @@ jQuery(document).ready(function($) {
     private function getLibraryArrayKey($keyneeded){
         
         $result = '';
-    
+        $i = 1;
         foreach( $this->array_library as $value ){
+        
+            if(!isset($value[$keyneeded])) $value[$keyneeded] = $i;
             
             $result[] = $value[$keyneeded];
+            $i++;
         }
+        
+        if(!is_array($result)){ $result = array();}
         
         return $result;
     }
@@ -162,22 +165,32 @@ jQuery(document).ready(function($) {
         return '';
     }
     
-    private function getMaxId(){
+    protected function getMax($key){
         
         $id = '';
+        $i = 0;
         
         foreach( $this->array_library as $value ){
+           
+            if(!isset($value[$key])) $value[$key] = $i;
 
-            $id[] = $value[parent::F_ID];
+            $id[] = $value[$key];
+            $i++;
         }
 
         if( !is_array($id) ){
         
-            $id = array();
+            $id = array($i);
+        }
+        if( $key == parent::KEY_ORDER ){
+            $max = max($id);
+            $max = ($max < count($id)) ? count($this->array_library) : max($id);
+  
+        }else{
+        
+            $max = max($id);
         }
         
-        $max = max($id);
-
         return $max;
     }
     
@@ -194,20 +207,26 @@ jQuery(document).ready(function($) {
         $array_filename = $this->getLibraryArrayKey(parent::KEY_FILENAME);
         
         /* synchronize js files from /wp-content/twiz/ */
-        $filearray = $this->getImportDirectory('.js');
+        $filearray = $this->getImportDirectory(array(parent::EXT_JS, parent::EXT_CSS));
         
         foreach( $filearray as $filename ){
             
             /* synchronize new js files */
             if(!in_array($filename, $array_filename)){
             
-                $library = array(parent::F_ID => $this->getMaxId() + 1,
-                                parent::F_STATUS => 0, 
-                                parent::KEY_FILENAME => $filename);
+                $library = array(parent::F_ID         => $this->getMax(parent::F_ID) + 1,
+                                 parent::F_STATUS     => 0, 
+                                 parent::KEY_ORDER    => $this->getMax(parent::KEY_ORDER) + 1,  
+                                 parent::KEY_FILENAME => $filename);
                                       
                 $code = $this->addLibrary($library);
             }
         }
+        
+        /* get library order array */
+        $array_order = $this->getLibraryArrayKey(parent::KEY_ORDER);
+        
+        array_multisort($array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
     }
     
     private function libraryExists( $filename = '', $id = '' ){
@@ -239,8 +258,10 @@ jQuery(document).ready(function($) {
         $value = $this->getLibraryValue($id, parent::F_STATUS);
         
         $newstatus = ( $value == '1' ) ? '0' : '1'; // swicth the status value
-               
-        if( $code = $this->updateLibraryValue($id, parent::F_STATUS, $newstatus) ){
+        
+        $code = $this->updateLibraryValue($id, parent::F_STATUS, $newstatus);
+        
+        if( $code == true ){
         
             $html = ( $newstatus == '1' ) ? $this->getHtmlImgStatus($id, parent::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, parent::STATUS_INACTIVE);
         }else{ 
@@ -254,19 +275,100 @@ jQuery(document).ready(function($) {
       
     private function updateLibraryValue( $id = '', $field = '', $newvalue = '' ) {
 
-        foreach( $this->array_library as $key => $value ){
+        $library = $this->array_library;
+     
+        foreach( $library  as $key => $value ){
         
             if( $value[parent::F_ID] == $id ){
        
                 $this->array_library[$key][$field] = $newvalue;
                 
-                update_option('twiz_library', $this->array_library);
+                $code = update_option('twiz_library', $this->array_library);
                 
-                return true;
+                return $code;
+          
             }
         }
         
         return false;
     }
+    
+    function updateLibraryOrder( $id = '', $order = '' ) {
+        
+        $library = $this->array_library;
+        $neworder = 1;
+        $array_id = '';
+        $max = '';
+        $i = 1;
+        
+        foreach( $library as $key => $value ){
+ 
+            $array_id[$i] = $value[parent::F_ID];
+
+            if( $value[parent::F_ID] == $id ){
+            
+                $ibase = $i;
+                
+                if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1 ;             
+                $maxkeyorder = $this->getMax( parent::KEY_ORDER );
+ 
+                $neworder = ( $order == parent::LB_ORDER_UP ) ? $value[parent::KEY_ORDER] - 1 : $value[parent::KEY_ORDER] + 1;
+                $neworder = ( $neworder < 1 ) ? 1 : $neworder;
+                
+                if( $maxkeyorder > 1 ){
+                
+                    $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
+                }
+              
+                $ok = $this->updateLibraryValue( $value[parent::F_ID], parent::KEY_ORDER, $neworder );
+            }
+            $i++;
+        }
+        
+        switch($order){
+
+            case parent::LB_ORDER_UP:
+            
+                $ibase--;
+                $neworder++;
+                
+                break;
+                
+            case parent::LB_ORDER_DOWN:
+            
+                $ibase++;
+                $neworder--;
+                
+                break;                    
+        }
+
+        if( $ibase < 1 ){
+        
+            return true;
+        }
+       
+        if( $ibase >= $maxkeyorder ){
+        
+            return true;
+        }
+        
+        $neworder = ( $neworder < 1 ) ? 1 : $neworder;
+          
+        if( $maxkeyorder > 1 ){
+        
+           $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
+        }
+      
+        $ok = $this->updateLibraryValue( $array_id[$ibase] , parent::KEY_ORDER, $neworder);
+
+        /* get library order array */
+        $array_order = $this->getLibraryArrayKey(parent::KEY_ORDER);
+        
+        /* resort Library */
+        array_multisort($array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
+        
+        return true;
+        
+    }    
 }
 ?>

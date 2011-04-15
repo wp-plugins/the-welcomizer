@@ -1,13 +1,13 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
 Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F
-Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog
+Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.0
 Tested up to: 3.1.1
-Stable tag: 1.3.5.2
+Stable tag: 1.3.5.3
 License: GPLv2
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS Includer.
+This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + JS/CSS Includer.
 
 == Description ==
 
@@ -35,12 +35,12 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 [Example 16](http://www.sebastien-laframboise.com/the-welcomizer-example-16/) |
 [Example 17](http://www.sebastien-laframboise.com/the-welcomizer-example-17/) |
 [Example 18](http://www.sebastien-laframboise.com/the-welcomizer-example-18/) |
-[Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/) |
+[Example 19](http://www.sebastien-laframboise.com/the-welcomizer-example-19/) - A Clock |
 [Example 20](http://www.sebastien-laframboise.com/the-welcomizer-example-20/)
 
 Thanks for your feedback and support!
 
-* Repeat an animation with `$(document).twizRepeat();` <<< New! 
+* Repeat an animation with `$(document).twizRepeat();` 
 * Replay all the animation with `$(document).twizReplay();`  
 
 Stay tuned, and do your updates...
@@ -57,7 +57,6 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Export a list. 
 * Import a list.
 * Multilingual Ready.
-* Include JavaScript files.
 * Pick an HTML element ID.
 * Pick an Option properties.
 * Global Online/Offline status.
@@ -67,13 +66,14 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Ajax editable 'Delay' & 'Duration' column.
 * Build lists for homepage, categories or pages.
 * Unlimited number of movements, take it easy! 
+* Upload `.js` and/or `.css` files into the `Library`
 * Optional css position: nothing, relative, absolute.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
 * Repeat an animation with `$(document).twizRepeat();`.
 * Replay all the animation with `$(document).twizReplay();`.
-* Automatic recognition of the js files under `/wp-content/twiz/`.
 * Flexible and easy movement to config (+ or -) Top and Left.
+* Automatic recognition of the js and css files under `/wp-content/twiz/`.
 * Optional custom JavaScript textbox, triggered after each move.
 * Clean uninstallation, all the data are erased on plugin deactivation.
 * Preview your data without editing them, with an advanced caching feature.
@@ -88,8 +88,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 * Create and make this directory writable: 'wp-content/twiz/'
 
-Upload `*.js` files with the `JavaScript File Manager` included in The Welcomizer.
-
+Upload `.js` and/or `.css` files into the `Library`.
 
 Useful jQuery plugins to upload through the Library:
 - 
@@ -104,6 +103,13 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.3 = 
+
+* Added ability to upload `.css` files into the Library.
+* Added ability to `reorder` the Library.
+* The menu is displayed in alphabetical order.
+* Textarea auto-resizing adjustements.
 
 = 1.3.5.2 = 
 
@@ -410,6 +416,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.3 = 
+
+* Major update, new features.
 
 = 1.3.5.2 = 
 
