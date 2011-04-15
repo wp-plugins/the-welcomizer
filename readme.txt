@@ -88,7 +88,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 * Create and make this directory writable: 'wp-content/twiz/'
 
-Upload `.js` and/or `.css` files into the `Library`.
+Upload `.js` and/or `.css` files into the Library.
 
 Useful jQuery plugins to upload through the Library:
 - 
