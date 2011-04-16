@@ -7,7 +7,7 @@ Tested up to: 3.1.1
 Stable tag: 1.3.5.3
 License: GPLv2
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + .JS/.CSS Includer.
+This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + .js/.css Includer.
 
 == Description ==
 
