@@ -3,7 +3,7 @@
 Plugin Name: The Welcomizer
 Version: 1.3.5.3
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
-Description: Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an attribute ID. (100% AJAX) + .js/.css Includer.
+Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
 Author URI: http://www.sebastien-laframboise.com
 License: GPL2

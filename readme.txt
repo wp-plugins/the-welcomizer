@@ -7,11 +7,11 @@ Tested up to: 3.1.1
 Stable tag: 1.3.5.3
 License: GPLv2
 
-This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element. (100% AJAX) + .js/.css Includer.
+This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 
 == Description ==
 
-Welcomize your visitors also on categories and pages. This plugin allows you to add 'Smart' moves and jQuery effects to virtually any HTML element that has an id attribute.
+Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
     
 Designed for webmasters, marketing consultants, programmers and bloggers.
 
