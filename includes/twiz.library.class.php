@@ -18,7 +18,7 @@
 class TwizLibrary extends Twiz{
 	
     /* variable declaration */
-    private $array_library;
+    public $array_library;
 	
 	
     function __construct(){

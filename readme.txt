@@ -104,6 +104,10 @@ Useful jQuery plugins to upload through the Library:
 
 == Changelog ==
 
+= 1.3.5.4 = 
+
+* The Library files are now enqueued in the configured order.
+
 = 1.3.5.3 = 
 
 * Added ability to upload `.css` files into the Library.
@@ -416,6 +420,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.4 = 
+
+* The Library files are now enqueued in the configured order.
 
 = 1.3.5.3 = 
 
