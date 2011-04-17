@@ -1,0 +1,507 @@
+#twiz_plugin {
+    width: 98%;
+    margin-top: 9px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+#twiz_master {
+    width: 500px;
+    float: left;
+}
+#twiz_library_master {
+    width: 500px;
+    display: block;
+    background: #ebebeb;
+    background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));    
+}
+#twiz_container {
+    width: 500px;
+    display: none;
+}
+.twiz-loading-gif {
+    width: 20px;
+    height: 20px;
+    display: none;
+    margin: 0px 1px;
+}
+.twiz-clear {
+    clear: both;
+}
+#twiz_background {
+    width: 84%;
+    min-height: 500px;
+    position: absolute;
+    background: url(../images/twiz-logo-big.png) top right no-repeat;    
+    opacity: 0.15;    
+    filter: alpha(opacity=4);
+    z-index: -1;
+}
+#twiz_global_status {
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-topleft: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-top-left-radius: 6px;    
+    -khtml-border-radius-topright: 6px;    
+    -khtml-border-radius-topleft: 6px;        
+    background: #D7D7D7;
+    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
+    
+    border: 1px solid #D1D1D1;
+    margin: 0 0 0 233px;
+    width: 25px;
+    height: 25px;
+}
+#twiz_global_status img {
+    margin: 3px;
+}
+#twiz_global_status img:hover {
+    cursor: pointer;
+}
+#twiz_right_panel {
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -khtml-border-radius-topleft: 6px;
+    -khtml-border-radius-topright: 6px;    
+    -khtml-border-radius-bottomleft: 6px;
+    -khtml-border-radius-bottomright: 6px;        
+    background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
+    border: 1px solid #D1D1D1;
+    margin: 27px 0 0 25px;   
+    min-width: 415px;
+    min-height: 200px;
+    color: #464646;
+    display: none;
+    float: left;
+}
+#twiz_right_panel img {
+    margin-left: auto;
+    margin-right: auto;
+}
+.twiz-clear {
+    height: 0px;
+    clear: both;
+}
+.twiz-panel-loading {
+    width: 450px;
+    height: 200px;
+    padding-top: 120px;
+    text-align: center;
+}
+#twiz_head_title {
+    font-size: 22px;
+    line-height: 35px;
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    text-shadow: 2px 2px 5px #9b9b9b;
+}
+#twiz_head_title a {
+    color: #464646;
+    text-decoration: none;
+}
+#twiz_head_logo {
+    width: 85px;
+    float: left;
+    display: block;
+    padding-right: 3px;
+}
+#twiz_head_logo img {
+    width: 85px;
+    display: inline;
+}
+#twiz_head_version {
+    font-size: 12px;
+}
+#twiz_head_version a { 
+    text-decoration: none;
+}
+#twiz_head_addnew {
+    float: right;
+    margin-right: 15px;
+}
+#twiz_header {
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -khtml-border-radius-topleft: 6px;
+    -khtml-border-radius-topright: 6px
+}
+#twiz_menu,
+#twiz_header, 
+#twiz_footer {
+    width: 500px;
+    color: #464646;
+    display: table-cell;
+    background: #D7D7D7;
+}
+.twiz-menu {
+    border-bottom: 1px solid #D1D1D1;
+}
+#twiz_header, 
+#twiz_footer,
+#twiz_menu,
+#twiz_add_menu,
+#twiz_delete_menu,
+.twiz-menu  {
+    background: #D7D7D7;
+    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+}
+#twiz_header, 
+#twiz_footer {
+    border: 1px solid #D1D1D1;
+}
+#twiz_add_menu,
+#twiz_delete_menu {
+    border-left: 1px solid #D1D1D1;
+    border-right: 1px solid #D1D1D1;
+    width: 20px;
+    color: #a7a7a7;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center    
+}
+#twiz_header, 
+#twiz_footer,
+#twiz_add_menu,
+#twiz_delete_menu,
+.twiz-menu {
+    padding: 5px;
+}
+.twiz-menu {
+    min-width: 90px;
+    font-size: 12px; 
+    text-align: center;
+}
+.twiz-menu:hover {
+    color: #000000;
+}
+#twiz_add_menu:hover {
+    color: green;
+    font-weight:bold; 
+}
+#twiz_delete_menu:hover {
+    color: red;
+    font-weight:bold; 
+}
+.twiz-menu:hover,
+#twiz_add_menu:hover,
+#twiz_delete_menu:hover {
+    cursor: pointer;
+    background: #E4E4E4;
+    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+}
+.twiz-menu-selected {
+    font-weight:bold; 
+    font-size: 12px; 
+    background: #E4E4E4;
+    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));    
+}
+#twiz_add_menu,
+#twiz_delete_menu,
+.twiz-menu {
+    float: left;
+}
+#twiz_add_sections {
+    margin: 2px 0px 0px 2px;
+    float:left;
+    display:none;
+}
+#twiz_add_sections a:hover {
+    cursor: pointer;
+}
+#twiz_footer {
+    border-radius: 0px 0px 6px 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -khtml-border-radius-bottomleft: 6px;
+    -khtml-border-radius-bottomright: 6px;       
+    text-align: center;
+    font-size: 9px;
+}
+#twiz_footer a {
+    text-decoration: none;
+}
+#twiz_footer a:hover {
+    text-decoration: underline;
+}
+.twiz-table-list {
+    width: 500px;
+}    
+.twiz-table-list-tr-h, 
+.twiz-table-list tr:hover {
+    background: #ebebeb;
+    background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+}    
+.twiz-table-list img:hover {
+    cursor: pointer;
+}
+.twiz-table-list-td-h {
+    font-size: 11px;
+    padding: 4px;
+}
+.twiz-table-list-td {
+    padding: 2px;
+    font-size: 12px;
+}
+.twiz-td-center {
+    text-align: center;
+}
+.twiz-td-left {
+    text-align: left;
+}
+.twiz-td-right {
+    text-align: right;
+}
+.twiz-row-color-1 {
+    background-color: #F3F3F3;
+}
+.twiz-row-color-2 {
+    background-color: #F7F7F7;
+}
+.twiz-td-status {
+    width: 50px;
+}
+.twiz-td-action {
+    width: 70px;
+}
+.twiz-td-lib-action,
+.twiz-td-lib-order {
+    width: 50px;
+}
+.twiz-td-action img {
+    padding: 2px;
+}
+.twiz-td-duration {
+    width: 60px;
+}
+.twiz-td-duration input {
+    width: 50px;
+}
+.twiz-td-delay {
+    width: 60px;
+}
+.twiz-td-delay input {
+    width: 50px;
+}
+.twiz-xx {
+    font-size: 10px;
+    color: green;
+}
+.twiz_ajax_td_edit {
+    display: none;
+}
+.twiz-table-form, 
+.twiz-table-view {
+    background: #ffffff; 
+    background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));    
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+.twiz-table-form hr, 
+.twiz-table-view hr {
+    border-radius: 2px 2px 2px 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -webkit-border-bottom-right-radius: 2px;
+    -khtml-border-radius-topleft: 2px;
+    -khtml-border-radius-topright: 2px;    
+    -khtml-border-radius-bottomleft: 2px;
+    -khtml-border-radius-bottomright: 2px;        
+    height: 5px;
+    border: 0px;
+    margin: 15px 0 15px 0;
+    background-color: #ebebeb;
+}
+.twiz-caption {
+    height: 30px;
+    text-align: left;
+    font-size: 12px;
+}
+.twiz-form-td-left {
+    width: 260px;
+    padding: 2px;
+    font-size: 12px;
+}
+.twiz-form-td-right {
+    padding: 2px;
+    font-size: 12px;
+    text-align: left;
+}
+.twiz-td-picklist {
+    height: 30px;
+    font-size: 12px;
+    text-align: right;
+    padding: 2px 0 2px 0;
+}
+.twiz-td-picklist a:hover {
+    cursor: pointer;
+}
+.twiz-td-small-left, 
+.twiz-view-td-small-left {
+    width: 38px;
+    font-size: 12px;
+}                                
+.twiz-td-save {
+    height: 25px;
+    font-size: 12px;
+    text-align: right;
+}
+.twiz-td-save a:hover {
+    cursor: pointer;
+}
+.twiz-input {
+    width: 230px;
+}
+.twiz-input[type=text]:focus {
+    background-color: lightyellow;
+    border: #E6DB55 1px solid;
+}
+.twiz-input-small {
+    width: 50px;
+    text-align: right;
+}
+.twiz-slc-options {
+    width: 100%;
+}
+.twiz-table-more-options {
+    display: none;
+}
+a.twiz-more-options:hover {
+    cursor: pointer;
+}
+.twiz-more-options {
+    font-size: 12px;
+}
+.twiz-td-e-g {
+    line-height: 15px;
+    font-size: 10px;
+}
+.twiz-loading-gif-save {
+    height: 15px;
+    width: 15px;
+}
+#twiz_td_full_chooseid img {
+    margin-right: 5px;
+}
+#twiz_td_full_chooseid a {
+    margin-right: 5px;
+}
+.twiz-table-view {
+    width: 415px;
+    padding: 10px;
+    margin: 1px;
+}
+.twiz-view-td-left {
+    width: 242px;
+    padding: 2px;
+    font-size: 12px;
+}
+.twiz-view-td-right {
+    padding: 2px;
+    font-size: 12px;
+    text-align: left;
+}            
+.twiz-bold {
+    font-weight: bold;
+}
+.twiz-view-table-more-options {
+    width: 200px;
+}
+.twiz-green {
+    color: green;
+    font-size: 14px;
+}
+.twiz-red {
+    color: red;
+    font-size: 14px;
+}
+#twiz_messagebox {
+    background: url(../images/twiz-success.gif) no-repeat 10px 50% #F0FFF0;
+    border: 1px solid #00FF00;
+    width: 463px;
+    height: 25px;
+    color: #098809;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 7px 0 0 35px;
+}
+.twiz-float-right {
+    float: right;
+}
+#twiz_import,
+#twiz_export,
+#twiz_library , 
+#twiz_library_upload {
+    border-radius: 0px 0px 6px 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;    
+    -khtml-border-radius-bottomright: 6px;    
+    -khtml-border-radius-bottomleft: 6px;   
+    background: #D7D7D7;    
+    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
+    border: 1px solid #D1D1D1;
+    padding: 0 3px 0 3px;
+    font-size: 10px;
+}
+#twiz_import:hover,
+#twiz_export:hover,
+#twiz_library:hover, 
+#twiz_library_upload:hover {
+    color: #000000;
+    background: #E4E4E4;
+    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    cursor: pointer;
+}
+#twiz_import,
+#twiz_export,
+#twiz_library_upload {
+    float: left;
+    margin-left: 8px;
+}
+#twiz_library {
+    float: right;
+    margin-right: 8px;
+}
+#twiz_library_upload {
+    display: none;
+}
+.twiz-preload-images {
+    display:none;
+}
