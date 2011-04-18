@@ -21,7 +21,7 @@ Designed for webmasters, marketing consultants, programmers and bloggers.
 Thanks for your feedback and support!
 
 * Repeat an animation with `$(document).twizRepeat();` 
-* Replay all the animation with `$(document).twizReplay();`  
+* Replay all animations with `$(document).twizReplay();`  
 
 Stay tuned, and do your updates.
 
@@ -51,7 +51,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Delay and duration of movements are in milliseconds.
 * Optional custom options textbox, for more custom options.
 * Repeat an animation with `$(document).twizRepeat();`.
-* Replay all the animation with `$(document).twizReplay();`.
+* Replay all animations with `$(document).twizReplay();`.
 * Flexible and easy movement to config (+ or -) Top and Left.
 * Automatic recognition of the js and css files under `/wp-content/twiz/`.
 * Optional custom JavaScript textbox, triggered after each move.
@@ -114,7 +114,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.4.8 = 
 
-* Replay all the animation with `$(document).twizReplay();`.
+* Replay all animations with `$(document).twizReplay();`.
 * When deactivating and activating the plugin to reinitialize it, `/wp-content/twiz/` is no longer removed.
 * Automatic recognition of the js files under `/wp-content/twiz/`.
 * Minor fixes and adjustments.
