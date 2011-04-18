@@ -13,7 +13,7 @@ This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + 
 
 Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
     
-Designed for webmasters, marketing consultants, programmers and bloggers.
+Designed for webmasters, marketing consultants, web designers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 (Scroll down for English section)
