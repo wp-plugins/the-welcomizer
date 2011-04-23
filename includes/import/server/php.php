@@ -240,7 +240,7 @@ switch($action){
         
     case Twiz::ACTION_IMPORT:
     
-        $allowedExtensions = array(Twiz::EXT_TWZ);
+        $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_XML);
         
         break;
         

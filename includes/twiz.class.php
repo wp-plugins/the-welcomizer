@@ -134,6 +134,7 @@ class Twiz{
     const EXT_JS   = 'js';
     const EXT_CSS  = 'css';
     const EXT_TWZ  = 'twz'; 
+    const EXT_XML  = 'xml'; 
     
     /* section options array */ 
     var $array_section_options = array(self::SECTION_ALL
@@ -253,7 +254,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.5.4';
+        $this->version    = 'v1.3.5.5';
         $this->dbVersion  = 'v1.1.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -344,7 +345,7 @@ class Twiz{
         debug: false,
         id: "twiz_import",
         label: "'.__('Import', 'the-welcomizer').'",
-        allowedExtensions: ["'.self::EXT_TWZ.'"],
+        allowedExtensions: ["'.self::EXT_TWZ.'", "'.self::EXT_XML.'"],
         sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
         onSubmit: function (){ twiz_import_file.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
@@ -364,7 +365,7 @@ class Twiz{
         debug: false,
         id: "twiz_upload",
         label: "'.__('Upload', 'the-welcomizer').'",
-        allowedExtensions: ["js", "css"],
+        allowedExtensions: ["'.self::EXT_JS.'", "'.self::EXT_CSS.'"],
         sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
         onSubmit: function (){ twiz_upload_file.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_UPLOAD_LIBRARY.'"});},
@@ -1266,7 +1267,7 @@ class Twiz{
     
     protected function import( $sectionid = self::DEFAULT_SECTION ){
     
-        $filearray = $this->getImportDirectory(array(self::EXT_TWZ));
+        $filearray = $this->getImportDirectory(array(self::EXT_TWZ, self::EXT_XML));
         
         foreach( $filearray as $filename ){
             
@@ -1428,7 +1429,7 @@ class Twiz{
         return $duration;
     }
     
-    protected function getImportDirectory( $extensions = array(self::EXT_TWZ) ){
+    protected function getImportDirectory( $extensions = array(self::EXT_TWZ, self::EXT_XML) ){
         
         $filearray = '';
         

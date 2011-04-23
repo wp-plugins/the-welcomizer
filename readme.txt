@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.0
 Tested up to: 3.1.1
-Stable tag: 1.3.5.4
+Stable tag: 1.3.5.5
 License: GPLv2
 
 This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -64,7 +64,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the Plugins menu in WordPress.
 4. Find the plugin under the menu Appearance
-5. Configure and save your first movement, or Import a *.twz file.
+5. Configure and save your first movement, or Import a twz/xml file.
 
 * Create and make this directory writable: 'wp-content/twiz/'
 
@@ -83,6 +83,10 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.5 = 
+
+* .twz and .xml are supported for import. 
 
 = 1.3.5.4 = 
 
@@ -400,6 +404,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.5 = 
+
+* .twz and .xml are supported for import. 
 
 = 1.3.5.4 = 
 
