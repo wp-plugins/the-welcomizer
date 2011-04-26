@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.0
 Tested up to: 3.1.1
-Stable tag: 1.3.5.5
+Stable tag: 1.3.5.6
 License: GPLv2
 
 This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -83,6 +83,12 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.6 = 
+
+* Added `Copy` action and action label.
+* Ordered the list by `Delay` and by `Element Id`.
+* Layout adjustements and fixes.
 
 = 1.3.5.5 = 
 
@@ -404,6 +410,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.6 = 
+
+* Added `Copy` action, list ordered by `Delay` and `Element Id`.
 
 = 1.3.5.5 = 
 

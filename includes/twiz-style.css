@@ -26,6 +26,18 @@
     display: none;
     margin: 0px 1px;
 }
+.twiz-loading-gif-action {
+    width: 20px;
+    height: 20px;
+    display: none;
+    margin: 0px 1px 0 2px;
+}
+.twiz-loading-gif-action-d {
+    width: 20px;
+    height: 20px;
+    display: none;
+    margin: 0px 1px 0 1px;
+}
 .twiz-clear {
     clear: both;
 }
@@ -286,7 +298,7 @@
     width: 50px;
 }
 .twiz-td-action {
-    width: 70px;
+    width: 95px;
 }
 .twiz-td-lib-action,
 .twiz-td-lib-order {
