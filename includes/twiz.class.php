@@ -65,7 +65,7 @@ class Twiz{
     const ACTION_ID_LIST        = 'idlist';
     const ACTION_OPTIONS        = 'options';
     const ACTION_VIEW           = 'view';
-    const ACTION_NEW            = 'New';
+    const ACTION_NEW            = 'Add New';
     const ACTION_EDIT           = 'Edit';
     const ACTION_EDIT_TD        = 'tdedit';
     const ACTION_COPY           = 'Copy';
@@ -1848,7 +1848,6 @@ $(document).twizReplay();
         $id = ($action == Twiz::ACTION_COPY) ? '' : $id;
         
         /* Added to be recognized by the translator */
-        $ttnew  = __('New', 'the-welcomizer');
         $ttcopy = __('Copy', 'the-welcomizer');
         
         /* creates the form */

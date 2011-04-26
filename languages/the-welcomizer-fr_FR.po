@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-25 19:00-0500\n"
-"PO-Revision-Date: 2011-04-25 19:01-0500\n"
+"POT-Creation-Date: 2011-04-26 04:07-0500\n"
+"PO-Revision-Date: 2011-04-26 04:07-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -82,19 +82,18 @@ msgstr "Êtes-vous certain d'effacer?"
 
 #: includes/twiz.class.php:742
 #: includes/twiz.class.php:1139
-#: includes/twiz.class.php:1852
 msgid "Edit"
 msgstr "Modifier"
 
 #: includes/twiz.class.php:1126
-#: includes/twiz.class.php:1857
+#: includes/twiz.class.php:1855
 #: includes/twiz.library.class.php:66
 msgid "Status"
 msgstr "Status "
 
 #: includes/twiz.class.php:1126
-#: includes/twiz.class.php:1859
-#: includes/twiz.class.php:1973
+#: includes/twiz.class.php:1857
+#: includes/twiz.class.php:1971
 msgid "Element ID"
 msgstr "ID de l'élément "
 
@@ -103,7 +102,7 @@ msgid "Delay"
 msgstr "Délai"
 
 #: includes/twiz.class.php:1126
-#: includes/twiz.class.php:1862
+#: includes/twiz.class.php:1860
 msgid "Duration"
 msgstr "Durée "
 
@@ -113,7 +112,7 @@ msgid "Action"
 msgstr "Action"
 
 #: includes/twiz.class.php:1139
-#: includes/twiz.class.php:1853
+#: includes/twiz.class.php:1851
 msgid "Copy"
 msgstr "Copier"
 
@@ -122,132 +121,128 @@ msgstr "Copier"
 msgid "Delete"
 msgstr "Effacer"
 
-#: includes/twiz.class.php:1851
-msgid "New"
-msgstr "Nouveau"
-
-#: includes/twiz.class.php:1860
-#: includes/twiz.class.php:1908
-#: includes/twiz.class.php:1935
+#: includes/twiz.class.php:1858
+#: includes/twiz.class.php:1906
+#: includes/twiz.class.php:1933
 msgid "Pick from List"
 msgstr "Choisir parmis la liste"
 
-#: includes/twiz.class.php:1861
+#: includes/twiz.class.php:1859
 msgid "Start delay"
 msgstr "Délai du départ  "
 
-#: includes/twiz.class.php:1861
-#: includes/twiz.class.php:1862
+#: includes/twiz.class.php:1859
+#: includes/twiz.class.php:1860
 msgid "sec"
 msgstr "sec"
 
-#: includes/twiz.class.php:1864
+#: includes/twiz.class.php:1862
 msgid "Starting position"
 msgstr "Position de départ "
 
-#: includes/twiz.class.php:1864
+#: includes/twiz.class.php:1862
 msgid "(optional)"
 msgstr "(facultatif) "
 
-#: includes/twiz.class.php:1868
-#: includes/twiz.class.php:1895
-#: includes/twiz.class.php:1921
-#: includes/twiz.class.php:1977
-#: includes/twiz.class.php:1991
-#: includes/twiz.class.php:2003
+#: includes/twiz.class.php:1866
+#: includes/twiz.class.php:1893
+#: includes/twiz.class.php:1919
+#: includes/twiz.class.php:1975
+#: includes/twiz.class.php:1989
+#: includes/twiz.class.php:2001
 msgid "Top"
 msgstr "Top "
 
-#: includes/twiz.class.php:1872
-#: includes/twiz.class.php:1877
-#: includes/twiz.class.php:1899
-#: includes/twiz.class.php:1904
-#: includes/twiz.class.php:1925
-#: includes/twiz.class.php:1930
+#: includes/twiz.class.php:1870
+#: includes/twiz.class.php:1875
+#: includes/twiz.class.php:1897
+#: includes/twiz.class.php:1902
+#: includes/twiz.class.php:1923
+#: includes/twiz.class.php:1928
+#: includes/twiz.class.php:1957
+#: includes/twiz.class.php:1958
 #: includes/twiz.class.php:1959
 #: includes/twiz.class.php:1960
 #: includes/twiz.class.php:1961
 #: includes/twiz.class.php:1962
-#: includes/twiz.class.php:1963
-#: includes/twiz.class.php:1964
 msgid "px"
 msgstr "px"
 
-#: includes/twiz.class.php:1873
-#: includes/twiz.class.php:1900
-#: includes/twiz.class.php:1926
-#: includes/twiz.class.php:1978
-#: includes/twiz.class.php:1992
-#: includes/twiz.class.php:2004
+#: includes/twiz.class.php:1871
+#: includes/twiz.class.php:1898
+#: includes/twiz.class.php:1924
+#: includes/twiz.class.php:1976
+#: includes/twiz.class.php:1990
+#: includes/twiz.class.php:2002
 msgid "Left"
 msgstr "Left "
 
-#: includes/twiz.class.php:1882
-#: includes/twiz.class.php:1983
+#: includes/twiz.class.php:1880
+#: includes/twiz.class.php:1981
 msgid "Position"
 msgstr "Position "
 
-#: includes/twiz.class.php:1884
+#: includes/twiz.class.php:1882
 msgid "absolute"
 msgstr "absolu"
 
-#: includes/twiz.class.php:1885
+#: includes/twiz.class.php:1883
 msgid "relative"
 msgstr "relative"
 
-#: includes/twiz.class.php:1894
-#: includes/twiz.class.php:1990
+#: includes/twiz.class.php:1892
+#: includes/twiz.class.php:1988
 msgid "First Move"
 msgstr "Premier déplacement"
 
-#: includes/twiz.class.php:1904
-#: includes/twiz.class.php:1930
+#: includes/twiz.class.php:1902
+#: includes/twiz.class.php:1928
 msgid "More Options"
 msgstr "Plus d'options"
 
-#: includes/twiz.class.php:1907
-#: includes/twiz.class.php:1934
+#: includes/twiz.class.php:1905
+#: includes/twiz.class.php:1932
 msgid "Personalized options"
 msgstr "Options personnalisées"
 
-#: includes/twiz.class.php:1909
-#: includes/twiz.class.php:1915
-#: includes/twiz.class.php:1936
-#: includes/twiz.class.php:1941
+#: includes/twiz.class.php:1907
+#: includes/twiz.class.php:1913
+#: includes/twiz.class.php:1934
+#: includes/twiz.class.php:1939
 msgid "e.g."
 msgstr "Ex."
 
-#: includes/twiz.class.php:1912
-#: includes/twiz.class.php:1938
+#: includes/twiz.class.php:1910
+#: includes/twiz.class.php:1936
 msgid "Learn more about jQuery .animate() properties"
 msgstr "En apprendre d'avantage sur jQuery .animate()"
 
-#: includes/twiz.class.php:1915
-#: includes/twiz.class.php:1941
+#: includes/twiz.class.php:1913
+#: includes/twiz.class.php:1939
 msgid "Extra JavaScript"
 msgstr "Extra JavaScript"
 
-#: includes/twiz.class.php:1915
+#: includes/twiz.class.php:1913
 msgid "Welcome!"
 msgstr "Bienvenue !"
 
-#: includes/twiz.class.php:1920
-#: includes/twiz.class.php:2002
+#: includes/twiz.class.php:1918
+#: includes/twiz.class.php:2000
 msgid "Second Move"
 msgstr "Second déplacement"
 
-#: includes/twiz.class.php:1945
+#: includes/twiz.class.php:1943
 #: includes/twiz.menu.class.php:115
 msgid "Cancel"
 msgstr "Annuler"
 
-#: includes/twiz.class.php:1945
+#: includes/twiz.class.php:1943
 #: includes/twiz.menu.class.php:115
 msgid "Save"
 msgstr "Enregistrer"
 
-#: includes/twiz.class.php:2062
-#: includes/twiz.class.php:2080
+#: includes/twiz.class.php:2060
+#: includes/twiz.class.php:2078
 #: includes/twiz.menu.class.php:86
 msgid "Choose"
 msgstr "Choisissez"
@@ -300,6 +295,9 @@ msgstr "Le fichier est endommagé et illisible, l'importation a été annulée."
 #: includes/import/server/php.php:228
 msgid "Could not save uploaded file. The upload was cancelled, or server error encountered"
 msgstr "Impossible d'enregistrer le fichier. Le transfert a été annulé, ou une erreur serveur a été rencontré"
+
+#~ msgid "New"
+#~ msgstr "Nouveau"
 
 #~ msgid "Saved!"
 #~ msgstr "Enregistré !"
