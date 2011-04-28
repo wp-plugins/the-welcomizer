@@ -83,7 +83,7 @@ License: GPL2
                 
                     $file = Twiz::IMPORT_PATH . $value[Twiz::KEY_FILENAME];
                     
-                    if( file_exists( WP_CONTENT_DIR.$file ) ) {
+                    if( @file_exists( WP_CONTENT_DIR.$file ) ) {
                     
                         $fileinfo = pathinfo(WP_CONTENT_URL.$file);
                         
