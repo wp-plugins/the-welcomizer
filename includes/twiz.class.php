@@ -1448,7 +1448,7 @@ class Twiz{
         
         $filearray = '';
         
-        if ( $handle = opendir(WP_CONTENT_DIR.self::IMPORT_PATH ) ) {
+        if ( $handle = @opendir(WP_CONTENT_DIR.self::IMPORT_PATH ) ) {
         
             while ( false !== ( $file = readdir($handle) ) ) {
             
