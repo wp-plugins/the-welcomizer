@@ -165,7 +165,7 @@ class qqFileUploader extends TwizLibrary{
         
         if(!$replaceOldFile){
             /// don't overwrite previous files that were uploaded
-            while (file_exists($uploadDirectory . $filename )){
+            while (@file_exists($uploadDirectory . $filename )){
                 $filename = rand(10, 99).$filename;
             }
         }
@@ -206,7 +206,7 @@ class qqFileUploader extends TwizLibrary{
                         $return_array = array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
                     }
                     
-                    if(file_exists($uploadDirectory . $filename)) {
+                    if(@file_exists($uploadDirectory . $filename)) {
                     
                         unlink($uploadDirectory . $filename );
                         
@@ -220,7 +220,7 @@ class qqFileUploader extends TwizLibrary{
         }
         
         /* delete file */
-        if(file_exists($uploadDirectory . $filename)) {
+        if(@file_exists($uploadDirectory . $filename)) {
         
             unlink($uploadDirectory . $filename );
         }

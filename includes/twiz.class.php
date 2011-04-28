@@ -1300,7 +1300,7 @@ class Twiz{
         /* full file path */
         $file = WP_CONTENT_DIR.self::IMPORT_PATH.$filename;
 
-        if ( file_exists($file) ) {
+        if ( @file_exists($file) ) {
         
             if( $twz = @simplexml_load_file($file) ){
 

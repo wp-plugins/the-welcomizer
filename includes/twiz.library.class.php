@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
          
             if( $value[parent::F_ID] == $id ){
     
-                if( file_exists($file) ){
+                if( @file_exists($file) ){
                 
                     unlink($file);
                 }
@@ -236,7 +236,7 @@ jQuery(document).ready(function($) {
         
         $file = WP_CONTENT_DIR.parent::IMPORT_PATH.$filename;
         
-        if( file_exists( $file ) ){
+        if( @file_exists( $file ) ){
             
             return true;
            
