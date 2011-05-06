@@ -22,7 +22,7 @@ Thanks for your feedback and support!
 * Repeat one set of 2 movements with: `$(document).twizRepeat();`
 * Or Replay the entire list of animations with: `$(document).twizReplay();`
 
-Stay tuned, and do your updates.
+Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
