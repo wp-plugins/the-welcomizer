@@ -298,7 +298,7 @@
     width: 50px;
 }
 .twiz-td-action {
-    width: 95px;
+    width: 90px;
 }
 .twiz-td-lib-action,
 .twiz-td-lib-order {
@@ -308,16 +308,23 @@
     padding: 2px;
 }
 .twiz-td-duration {
-    width: 60px;
+    width: 55px;
 }
 .twiz-td-duration input {
+    width: 55px;
+}
+.twiz-td-event {
     width: 50px;
+}
+.twiz-td-blue {
+    font-size:10px;
+    color:blue;
 }
 .twiz-td-delay {
-    width: 60px;
+    width: 55px;
 }
 .twiz-td-delay input {
-    width: 50px;
+    width: 55px;
 }
 .twiz-xx {
     font-size: 10px;

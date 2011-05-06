@@ -4,7 +4,7 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.0
 Tested up to: 3.1.2
-Stable tag: 1.3.5.6
+Stable tag: 1.3.5.7
 License: GPLv2
 
 This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -16,12 +16,11 @@ Welcomize your visitors also on categories and pages. This plugin allows you to 
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
-(Scroll down for English section)
 
 Thanks for your feedback and support!
 
-* Repeat an animation with `$(document).twizRepeat();` 
-* Replay all animations with `$(document).twizReplay();`  
+* Repeat one set of 2 movements with: `$(document).twizRepeat();` 
+* Or Replay the entire list of animations with: `$(document).twizReplay();`  
 
 Stay tuned, and do your updates.
 
@@ -33,40 +32,40 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Features ==
 
-* 100% AJAX.
-* Export a list. 
-* Import a list.
-* Multilingual Ready.
-* Pick an HTML element ID.
-* Pick an Option properties.
-* Global Online/Offline status.
-* Optional First and Second move.
 * Activate or deactivate movements.
 * Optional starting position: Top, Left.
 * Ajax editable 'Delay' & 'Duration' column.
-* Build lists for homepage, categories or pages.
 * Unlimited number of movements, take it easy! 
-* Upload `.js` and/or `.css` files into the `Library`
+* Build lists for homepage, categories or pages.
 * Optional css position: nothing, relative, absolute.
+* Upload `.js` and/or `.css` files into the `Library`
 * Delay and duration of movements are in milliseconds.
-* Optional custom options textbox, for more custom options.
 * Repeat an animation with `$(document).twizRepeat();`.
-* Replay all animations with `$(document).twizReplay();`.
-* Flexible and easy movement to config (+ or -) Top and Left.
-* Automatic recognition of the js and css files under `/wp-content/twiz/`.
+* Optional custom options textbox, for more custom options.
 * Optional custom JavaScript textbox, triggered after each move.
 * Clean uninstallation, all the data are erased on plugin deactivation.
+* Automatic recognition of the js and css files under `/wp-content/twiz/`.
 * Preview your data without editing them, with an advanced caching feature.
 * Optional second move on the same editing panel. (Useful for back and forth).
+* Flexible and easy movement to config (+ or -) Top and Left.
+* Replay all animations with `$(document).twizReplay();`.
+* Optional First and Second move.
+* Global Online/Offline status.
+* Trigger animation by Event.
+* Pick an Option properties.
+* Pick an HTML element ID.
+* Multilingual Ready.
+* Import a list.
+* Export a list. 
+* 100% AJAX.
 
 == Installation ==
 
-1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the Plugins menu in WordPress.
+1. Create and make this directory writable: 'wp-content/twiz/'
+2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
+3. Activate the plugin through the Plugins menu in WordPress.
 4. Find the plugin under the menu Appearance
 5. Configure and save your first movement, or Import a twz/xml file.
-
-* Create and make this directory writable: 'wp-content/twiz/'
 
 Upload `.js` and/or `.css` files into the Library.
 
@@ -83,6 +82,11 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.7 =
+
+* Added `Trigger by Event`.
+* Fixes and adjusmtents.
 
 = 1.3.5.6 = 
 
@@ -411,6 +415,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.3.5.7 = 
+
+* Added Trigger animation by event. And fixes.
+
 = 1.3.5.6 = 
 
 * Added `Copy` action, list ordered by `Delay` and `Element Id`.
@@ -655,8 +663,7 @@ First release!
 
 The Welcomizer is currently available in the following languages:
 
-* English
+* English 
 * Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 100%
-* Español (by Mya) - 95%
-* ......
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 95%
+* Español - 90%
