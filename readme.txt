@@ -89,6 +89,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.5.7 =
 
+* IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
 * Added `Trigger by Event`.
 * Fixes and adjusmtents.
 
