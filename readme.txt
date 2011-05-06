@@ -1,6 +1,6 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
-Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fextend%2Fplugins%2Fthe-welcomizer%2F
+Donate link: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.0
 Tested up to: 3.1.2
@@ -19,8 +19,8 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 
 Thanks for your feedback and support!
 
-* Repeat one set of 2 movements with: `$(document).twizRepeat();` 
-* Or Replay the entire list of animations with: `$(document).twizReplay();`  
+* Repeat one set of 2 movements with: `$(document).twizRepeat();`
+* Or Replay the entire list of animations with: `$(document).twizReplay();`
 
 Stay tuned, and do your updates.
 
