@@ -1317,7 +1317,9 @@ class Twiz{
         
         }else{
             
-            if( get_option('twiz_db_version') != $this->dbVersion ){
+           $dbversion = get_option('twiz_db_version');
+            
+            if( $dbversion != $this->dbVersion ){
             
                 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             
@@ -1570,8 +1572,9 @@ class Twiz{
             return '';
         }
         
-
-        if( get_option('twiz_global_status') == '1' ){
+        $gstatus = get_option('twiz_global_status');
+        
+        if( $gstatus  == '1' ){
        
             /* script header */
             $generatedscript.="<!-- ".$this->pluginName." ".$this->version." -->\n";
@@ -2121,7 +2124,9 @@ $(document).twizReplay();
     
     function getHtmlIdList(){
     
-        $html = $this->fileGetHtml(get_option('siteurl')); // private
+        $siteurl = get_option('siteurl');
+        
+        $html = $this->fileGetHtml( $siteurl ); // private
         
         $select = '<select name="twiz_slc_id" id="twiz_slc_id">';
             
@@ -2383,7 +2388,9 @@ $(document).twizReplay();
     
     function switchGlobalStatus(){ 
 
-        $newglobalstatus = (get_option('twiz_global_status')=='0') ? '1' : '0'; // swicth the status value
+        $gstatus = get_option('twiz_global_status');
+        
+        $newglobalstatus = ($gstatus == '0') ? '1' : '0'; // swicth the status value
                 
         $code = update_option('twiz_global_status', $newglobalstatus);
     
@@ -2393,8 +2400,10 @@ $(document).twizReplay();
     }
     
     private function getImgGlobalStatus(){ 
-
-        $htmlstatus = (get_option('twiz_global_status')=='1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
+        
+        $gstatus = get_option('twiz_global_status');
+        
+        $htmlstatus = ($gstatus == '1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
 
         return $htmlstatus;
     }

@@ -55,7 +55,9 @@ License: GPL2
     
         $myTwiz  = new Twiz();
        
-        if( get_option('twiz_db_version') != $myTwiz->dbVersion ){
+        $dbversion = get_option('twiz_db_version');
+
+        if( $dbversion  != $myTwiz->dbVersion ){
         
             $ok = $myTwiz->install();
         }
@@ -82,8 +84,10 @@ License: GPL2
     }
 
     function twizEnqueueLibrary(){
+    
+        $gstatus = get_option('twiz_global_status');
      
-        if (( !is_admin() ) and ( get_option('twiz_global_status') == '1' )) {
+        if (( !is_admin() ) and ( $gstatus == '1' )) {
         
             $myTwizLibrary  = new TwizLibrary();
              
