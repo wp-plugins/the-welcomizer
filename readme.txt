@@ -14,7 +14,7 @@ This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + 
 IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
 Have you skipped this step already? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
 
-Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
+Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer. 
     
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
