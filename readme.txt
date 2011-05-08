@@ -65,7 +65,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 == Installation ==
 
 IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
-Did you skipped this step already? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
+Have you skipped this step already? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
 
 1. Create and make this directory writable: 'wp-content/twiz/'
 2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
