@@ -12,6 +12,7 @@ This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + 
 == Description ==
 
 IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
+You have skipped this step? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
 
 Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
     
@@ -64,6 +65,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 == Installation ==
 
 IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
+You have skipped this step? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
 
 1. Create and make this directory writable: 'wp-content/twiz/'
 2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
