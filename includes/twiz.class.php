@@ -1313,7 +1313,7 @@ class Twiz{
             dbDelta($sql);
         
             $code = update_option('twiz_db_version', $this->dbVersion);
-            $code = update_option('twiz_global_status', '1');
+            $code = update_option('twiz_global_status', '0');
         
         }else{
             
