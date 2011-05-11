@@ -1323,9 +1323,9 @@ class Twiz{
             if( $dbversion != $this->dbVersion ){
          
                 /* Add the new field */
-                $sql = "ALTER TABLE ".$this->table .
+                $altersql = "ALTER TABLE ".$this->table .
                 " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
-                $code = $wpdb->query($sql);
+                $code = $wpdb->query($altersql);
                 
                 /* update anythying else */
                 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -1644,36 +1644,37 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $have_b = (($value[self::F_MOVE_TOP_POS_B] !='' ) or ( $value[self::F_MOVE_LEFT_POS_B] !='' ) or ( $value[self::F_OPTIONS_B] !='' ) or ( $value[self::F_EXTRA_JS_B] !='' )) ? true : false;
                 
                 
-                    /* add a coma between each options */ 
-                    $value[self::F_OPTIONS_B] = (($value[self::F_OPTIONS_B]!='') and ((($value[self::F_MOVE_LEFT_POS_B]!="") or ($value[self::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[self::F_OPTIONS_B] :  $value[self::F_OPTIONS_B];
-                    $value[self::F_OPTIONS_B] = str_replace("\n", "," , $value[self::F_OPTIONS_B]);
-                    
-                    /* replace numeric entities */                
-                    $value[self::F_OPTIONS_B] = $this->replaceNumericEntities($value[self::F_OPTIONS_B]);
-                    
-                    /* animate jquery b */ 
-                    $generatedscript .= '
+                /* add a coma between each options */ 
+                $value[self::F_OPTIONS_B] = (($value[self::F_OPTIONS_B]!='') and ((($value[self::F_MOVE_LEFT_POS_B]!="") or ($value[self::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[self::F_OPTIONS_B] :  $value[self::F_OPTIONS_B];
+                $value[self::F_OPTIONS_B] = str_replace("\n", "," , $value[self::F_OPTIONS_B]);
+                
+                /* replace numeric entities */                
+                $value[self::F_OPTIONS_B] = $this->replaceNumericEntities($value[self::F_OPTIONS_B]);
+                
+                /* animate jquery b */ 
+                
+                $generatedscript .= '
 $("#'.$value[self::F_LAYER_ID].'").animate({';
 
-                    $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
-                    $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                    $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'"' : '';
-                    $generatedscript .=  $value[self::F_OPTIONS_B];
+                $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
+                $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
+                $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'"' : '';
+                $generatedscript .=  $value[self::F_OPTIONS_B];
+                
+                $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
                     
-                    $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
-                        
-                    /* replace numeric entities */
-                    $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
-        
-                    if($have_b){
-                        $generatedscript .= 'twiz_active_'.$repeatname.' = 0;';
-                    }
-                    
-                    /* extra js b */    
-                    $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_B]);
-                    
-                    /* closing functions */
-                    $generatedscript .= '});';
+                /* replace numeric entities */
+                $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
+    
+                if($have_b){
+                    $generatedscript .= 'twiz_active_'.$repeatname.' = 0;';
+                }
+                
+                /* extra js b */    
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_B]);
+                
+                /* closing functions */
+                $generatedscript .= '});';
                     
                 if(!$have_b){
                     $generatedscript .= 'twiz_active_'.$repeatname.' = 0;';
