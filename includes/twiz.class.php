@@ -1323,9 +1323,9 @@ class Twiz{
             if( $dbversion != $this->dbVersion ){
          
                 /* Add the new field */
-                $sql = "ALTER TABLE ".$this->table .
+                $altersql = "ALTER TABLE ".$this->table .
                 " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
-                $code = $wpdb->query($sql);
+                $code = $wpdb->query($altersql);
                 
                 /* update anythying else */
                 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
