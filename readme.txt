@@ -4,15 +4,12 @@ Donate link: http://www.facebook.com/share.php?u=http%3A%2F%2Fwordpress.org%2Fex
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js
 Requires at least: 3.1
 Tested up to: 3.1.2
-Stable tag: 1.3.5.7
+Stable tag: 1.3.5.8
 License: GPLv2
 
 This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 
 == Description ==
-
-IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
-Have you skipped this step already? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
 
 Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer. 
     
@@ -64,9 +61,6 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 
 == Installation ==
 
-IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
-Have you skipped this step already? Nothing is lost, simply reinstall [v1.3.5.6](http://downloads.wordpress.org/plugin/the-welcomizer.1.3.5.6.zip), do not deactivate the plugin.
-
 1. Create and make this directory writable: 'wp-content/twiz/'
 2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
@@ -89,9 +83,13 @@ Useful jQuery plugins to upload through the Library:
 
 == Changelog ==
 
+= 1.3.5.8 =
+
+* Restricted the `buildups` of animations.
+* New fields are now `simply` added to the database.
+
 = 1.3.5.7 =
 
-* IMPORTANT: Updating? First, export your lists, and deactivate the plugin. 
 * Added `Trigger by Event`.
 * Fixes and adjusmtents.
 
@@ -421,6 +419,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.8 =
+
+* Major update and fixes.
 
 = 1.3.5.7 = 
 

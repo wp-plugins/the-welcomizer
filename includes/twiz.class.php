@@ -302,8 +302,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.5.7';
-        $this->dbVersion  = 'v1.1.2';
+        $this->version    = 'v1.3.5.8';
+        $this->dbVersion  = 'v1.1.3';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -1283,7 +1283,7 @@ class Twiz{
                 self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION."', ". 
                 self::F_STATUS . " tinyint(3) NOT NULL default 0, ". 
                 self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
-                self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".
+                self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".                
                 self::F_START_DELAY . " int(5) NOT NULL default 0, ". 
                 self::F_DURATION . " int(5) NOT NULL default 0, ". 
                 self::F_START_TOP_POS_SIGN . " varchar(1) NOT NULL default '', ". 
@@ -1303,7 +1303,8 @@ class Twiz{
                 self::F_OPTIONS_B . " text NOT NULL default '', ". 
                 self::F_EXTRA_JS_A . " text NOT NULL default '', ". 
                 self::F_EXTRA_JS_B . " text NOT NULL default '', " .  
-                "PRIMARY KEY (". self::F_ID . "));";
+                "PRIMARY KEY (". self::F_ID . ")
+                );";
                 
                 
         if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
@@ -1318,9 +1319,15 @@ class Twiz{
         }else{
             
            $dbversion = get_option('twiz_db_version');
-            
+                   
             if( $dbversion != $this->dbVersion ){
-            
+         
+                /* Add the new field */
+                $sql = "ALTER TABLE ".$this->table .
+                " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
+                $code = $wpdb->query($sql);
+                
+                /* update anythying else */
                 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             
                 dbDelta($sql);
@@ -1580,13 +1587,19 @@ class Twiz{
             $generatedscript.="<!-- ".$this->pluginName." ".$this->version." -->\n";
             $generatedscript.= '<script type="text/javascript">
 jQuery(document).ready(function($){';
+
+            /* generates the code */
+            foreach($listarray as $value){   
+                $repeatname = str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
+                $generatedscript .= 'var twiz_active_'.$repeatname.' = 0;';
+            }
              
              $generatedscript .= '
 $.fn.twizReplay = function(){ ';
            
              /* generates the code */
-            foreach($listarray as $value){
-            
+            foreach($listarray as $value){               
+               
                 $repeatname = str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
   
                 /* repeat animation function */
@@ -1613,9 +1626,9 @@ $.fn.twizRepeat_'.$repeatname.' = function(){ ';
                 $generatedscript .= '
 $("#'.$value[self::F_LAYER_ID].'").animate({';
 
-                $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left:  "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].'"' : '';
+                $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].'"' : '';
                 $generatedscript .= (($value[self::F_MOVE_LEFT_POS_A]!="") and ($value[self::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top:  "'.$value[self::F_MOVE_TOP_POS_SIGN_A].'='.$value[self::F_MOVE_TOP_POS_A].'"' : '';
+                $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].'='.$value[self::F_MOVE_TOP_POS_A].'"' : '';
                 $generatedscript .= $value[self::F_OPTIONS_A];
                 
                 $generatedscript .= '}, '.$value[self::F_DURATION].' , function() {';
@@ -1626,7 +1639,10 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 /* extra js a */    
                 $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_A]);
                 
-                /* b */
+                /* b */ 
+                            
+                $have_b = (($value[self::F_MOVE_TOP_POS_B] !='' ) or ( $value[self::F_MOVE_LEFT_POS_B] !='' ) or ( $value[self::F_OPTIONS_B] !='' ) or ( $value[self::F_EXTRA_JS_B] !='' )) ? true : false;
+                
                 
                 /* add a coma between each options */ 
                 $value[self::F_OPTIONS_B] = (($value[self::F_OPTIONS_B]!='') and ((($value[self::F_MOVE_LEFT_POS_B]!="") or ($value[self::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[self::F_OPTIONS_B] :  $value[self::F_OPTIONS_B];
@@ -1636,12 +1652,13 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 $value[self::F_OPTIONS_B] = $this->replaceNumericEntities($value[self::F_OPTIONS_B]);
                 
                 /* animate jquery b */ 
+                
                 $generatedscript .= '
 $("#'.$value[self::F_LAYER_ID].'").animate({';
 
-                $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left:  "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
+                $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
                 $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top:  "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'"' : '';
+                $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'"' : '';
                 $generatedscript .=  $value[self::F_OPTIONS_B];
                 
                 $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
@@ -1649,24 +1666,36 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                 /* replace numeric entities */
                 $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
     
+                if($have_b){
+                    $generatedscript .= 'twiz_active_'.$repeatname.' = 0;';
+                }
+                
                 /* extra js b */    
                 $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_B]);
                 
                 /* closing functions */
                 $generatedscript .= '});';
+                    
+                if(!$have_b){
+                    $generatedscript .= 'twiz_active_'.$repeatname.' = 0;';
+                }
+                
                 $generatedscript .= '});';
                 $generatedscript .= '},'.$value[self::F_START_DELAY].');';
                 
                 /* closing functions */
-                $generatedscript .= '};
-';
+                $generatedscript .= '};';
                 
                 /* trigger on event */
                 if($value[self::F_ON_EVENT] != ''){
                 
                    if($value[self::F_ON_EVENT] != self::EV_MANUAL){
-                
-                        $generatedscript .= '$("#'.$value[self::F_LAYER_ID].'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ $(document).twizRepeat_'.$repeatname.'();});';
+                       $generatedscript .= '
+$("#'.$value[self::F_LAYER_ID].'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ ';
+                       $generatedscript .= 'if(twiz_active_'.$repeatname.' == 0) {';
+                       $generatedscript .= 'twiz_active_'.$repeatname.' = 1;';
+                       $generatedscript .= '$(document).twizRepeat_'.$repeatname.'();}';
+                       $generatedscript .= '});';                    
                    }
                    
                 }else{
@@ -1674,7 +1703,6 @@ $("#'.$value[self::F_LAYER_ID].'").animate({';
                     /* trigger the animation if not on event */
                     $generatedscript .=  '$(document).twizRepeat_'.$repeatname.'();';
                 }
-            
             }
             
             /* script footer */
@@ -2451,6 +2479,7 @@ $(document).twizReplay();
         delete_option('twiz_global_status');
         delete_option('twiz_sections');
         delete_option('twiz_library');
+        delete_option('twiz_db_version');
         
         return true;
     }
