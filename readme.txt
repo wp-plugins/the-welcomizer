@@ -1,7 +1,7 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
 Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
-Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale
+Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word
 Requires at least: 3.1
 Tested up to: 3.1.2
 Stable tag: 1.3.5.8
@@ -21,6 +21,8 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 * Or Replay the entire list of animations with: `$(document).twizReplay();`
 
 Thanks for your feedback and support!
+
+Stay tuned, and do your updates...
 
 The Welcomizer has Spirit!
 
