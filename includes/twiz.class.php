@@ -1322,7 +1322,12 @@ class Twiz{
                    
             if( $dbversion != $this->dbVersion ){
          
-                /* Add the new field */
+                /* Add the new field <= v.1.3.2.3 */
+                $altersql = "ALTER TABLE ".$this->table .
+                " ADD ". self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION."' after ".self::F_ID."";
+                $code = $wpdb->query($altersql);
+                
+                /* Add the new field <= v 1.3.5.7 */
                 $altersql = "ALTER TABLE ".$this->table .
                 " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
                 $code = $wpdb->query($altersql);
