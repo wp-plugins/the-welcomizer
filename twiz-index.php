@@ -28,8 +28,7 @@ License: GPL2
     /***********************
     * --- The Twiz Class ---
     ***********************/
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
     require_once(dirname(__FILE__).'/includes/twiz.library.class.php');     
     
