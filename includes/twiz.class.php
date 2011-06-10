@@ -320,7 +320,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.5.9';
+        $this->version    = 'v1.3.6';
         $this->dbVersion  = '2';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1687,8 +1687,14 @@ class Twiz{
                 break;
                 
             case is_feed(): // Dream on.
+                
                 return '';
-                break;                
+                break;       
+                
+            default:
+                
+                // get the active data list array
+                $listarray = $listarray_e;
         }
         
         /* no data, no output */
