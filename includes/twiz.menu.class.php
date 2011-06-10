@@ -54,7 +54,7 @@ class TwizMenu extends Twiz{
         $sql = "DELETE from ".$this->table." where ".parent::F_SECTION_ID." = '".$section_id."';";
         $code = $wpdb->query($sql);
   
-        if( $section_id != parent::DEFAULT_SECTION ){
+        if( !in_array($section_id, $this->array_default_section) ){
             
             $sections = $this->array_sections;
                
@@ -121,34 +121,49 @@ class TwizMenu extends Twiz{
 
     protected function getHtmlMenu(){
     
-           /* retrieve stored sections */
-           $sections = $this->array_sections;
-           
-           $menu = '
-<div id="twiz_menu">';
-           
-           /* default home section */
-           $menu .= '<div id="twiz_menu_home" class="twiz-menu twiz-menu-selected">'.__('Home').'</div>';
-           
-           /* generate the section menu */
-           foreach( $sections as $key => $value ){
-           
-                if( $value != parent::DEFAULT_SECTION ){
-                
-                    $name = $this->getSectionName($value, $key);
-                
-                    $menu .= $this->getHtmlSectionMenu($value, $name);
-                }
-           }
+        /* retrieve stored sections */
+        $sections = $this->array_sections;
+       
+        $twiz_menu = ( ( $this->DEFAULT_SECTION == parent::DEFAULT_SECTION_HOME ) || ( $this->DEFAULT_SECTION  == '' ) ) ? '' : ' style="display: none;"';
+        $twiz_menu_everywhere = ( $this->DEFAULT_SECTION == parent::DEFAULT_SECTION_EVERYWHERE ) ? '' : ' style="display: none;"';
+        
+        $menu = '<div id="twiz_menu"'.$twiz_menu.'>';
+       
+        /* default home section */
+        $menu .= '<div id="twiz_menu_home" class="twiz-menu twiz-menu-selected">'.__('Home').'</div>';
+       
+        /* generate the section menu */
+        foreach( $sections as $key => $value ){
+       
+            if( $value != parent::DEFAULT_SECTION_HOME ){
+            
+                $name = $this->getSectionName($value, $key);
+            
+                $menu .= $this->getHtmlSectionMenu($value, $name);
+            }
+        }
 
-           $menu .= '<div id="twiz_delete_menu">x</div>';
+        $menu .= '<div id="twiz_delete_menu">x</div>';
+        $menu .= '<div id="twiz_add_menu">+</div>';
 
-           $menu .= '<div id="twiz_add_menu">+</div>';
- 
-           $menu .= $this->getHtmlAddSection(); // private
- 
-           $menu .= '
-</div><div class="twiz-clear"></div>';
+        $menu .= $this->getHtmlAddSection(); // private
+
+        $menu .= '</div>';
+        $menu .= '<div class="twiz-clear"></div>';
+        
+        /* default everywhere section */
+        
+        $menu .= '<div id="twiz_menu-everywhere"'.$twiz_menu_everywhere.'>';
+       
+        $menu .= '<div id="twiz_menu_everywhere" class="twiz-menu twiz-menu-selected">'.__('Everywhere', 'the-welcomizer').'</div>';
+        $menu .= '<div id="twiz_menu_allarticles" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Articles').'</div>';
+        $menu .= '<div id="twiz_menu_allcategories" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Categories').'</div>';
+        $menu .= '<div id="twiz_menu_allpages" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Pages').'</div>';
+        
+        $menu .= '<div id="twiz_delete_menu_everywhere">x</div>';
+       
+        $menu .= '</div>';
+        $menu .= '<div class="twiz-clear"></div>';
         
         return $menu;
     }
@@ -165,7 +180,7 @@ class TwizMenu extends Twiz{
 
     protected function getSectionName( $value = '', $key = null ){
     
-        if( $value == parent::DEFAULT_SECTION ){ 
+        if( $value == parent::DEFAULT_SECTION_HOME ){ 
         
             return $value; 
         }
@@ -210,7 +225,7 @@ class TwizMenu extends Twiz{
     private function loadSections(){
     
         $this->array_sections = get_option('twiz_sections');
-            
+
         if( !is_array($this->array_sections) ){
         
             $this->array_sections = array();

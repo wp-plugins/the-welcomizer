@@ -127,21 +127,28 @@
     width: 85px;
     float: left;
     display: block;
-    padding-right: 3px;
+    padding-right: 5px;
+    text-align: center;
 }
 #twiz_head_logo img {
     width: 85px;
     display: inline;
 }
 #twiz_head_version {
-    font-size: 12px;
+    font-size: 10px;
 }
 #twiz_head_version a { 
     text-decoration: none;
 }
+#twiz_head_setting {
+    font-size: 10px;
+    margin-top: 4px;
+    float:left;
+}
 #twiz_head_addnew {
-    float: right;
     margin-right: 15px;
+    margin-top: 20px;
+    float: right;
 }
 #twiz_header {
     border-radius: 6px 6px 0px 0px;
@@ -153,6 +160,7 @@
     -khtml-border-radius-topright: 6px
 }
 #twiz_menu,
+#twiz_menu-everywhere,
 #twiz_header, 
 #twiz_footer {
     width: 500px;
@@ -166,8 +174,10 @@
 #twiz_header, 
 #twiz_footer,
 #twiz_menu,
+#twiz_menu-everywhere,
 #twiz_add_menu,
 #twiz_delete_menu,
+#twiz_delete_menu_everywhere,
 .twiz-menu  {
     background: #D7D7D7;
     background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
@@ -179,7 +189,8 @@
     border: 1px solid #D1D1D1;
 }
 #twiz_add_menu,
-#twiz_delete_menu {
+#twiz_delete_menu,
+#twiz_delete_menu_everywhere {
     border-left: 1px solid #D1D1D1;
     border-right: 1px solid #D1D1D1;
     width: 20px;
@@ -191,7 +202,8 @@
 #twiz_header, 
 #twiz_footer,
 #twiz_add_menu,
-#twiz_delete_menu,
+#twiz_delete_menu, 
+#twiz_delete_menu_everywhere,
 .twiz-menu {
     padding: 5px;
 }
@@ -207,13 +219,15 @@
     color: green;
     font-weight:bold; 
 }
-#twiz_delete_menu:hover {
+#twiz_delete_menu:hover, 
+#twiz_delete_menu_everywhere:hover {
     color: red;
     font-weight:bold; 
 }
 .twiz-menu:hover,
 #twiz_add_menu:hover,
-#twiz_delete_menu:hover {
+#twiz_delete_menu:hover, 
+#twiz_delete_menu_everywhere:hover {
     cursor: pointer;
     background: #E4E4E4;
     background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
@@ -230,6 +244,7 @@
 }
 #twiz_add_menu,
 #twiz_delete_menu,
+#twiz_delete_menu_everywhere,
 .twiz-menu {
     float: left;
 }
@@ -380,8 +395,9 @@
 .twiz-td-picklist {
     height: 30px;
     font-size: 12px;
-    text-align: right;
+    text-align: left;
     padding: 2px 0 2px 0;
+    
 }
 .twiz-td-picklist a:hover {
     cursor: pointer;
@@ -399,16 +415,22 @@
 .twiz-td-save a:hover {
     cursor: pointer;
 }
+.twiz-input-text {
+    width: 150px;
+}
 .twiz-input {
     width: 230px;
-}
-.twiz-input[type=text]:focus {
-    background-color: lightyellow;
-    border: #E6DB55 1px solid;
 }
 .twiz-input-small {
     width: 50px;
     text-align: right;
+}
+.twiz-input[type=text]:focus,
+.twiz-input-text[type=text]:focus,
+.twiz-input-small[type=text]:focus
+ {
+    background-color: lightyellow;
+    border: #E6DB55 1px solid;
 }
 .twiz-slc-options {
     width: 100%;

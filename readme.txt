@@ -4,14 +4,14 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word
 Requires at least: 3.1
 Tested up to: 3.1.3
-Stable tag: 1.3.5.8
+Stable tag: 1.3.5.9
 License: GPLv2
 
 This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 
 == Description ==
 
-Welcomize your visitors also on categories and pages. This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer. 
+This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer. 
     
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
@@ -51,9 +51,11 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Replay all animations with `$(document).twizReplay();`.
 * Optional First and Second move.
 * Global Online/Offline status.
+* Trigger JavaScript by Event.
 * Trigger animation by Event.
 * Pick an Option properties.
 * Pick an HTML element ID.
+* Export one animation. 
 * Multilingual Ready.
 * Import a list.
 * Export a list. 
@@ -65,7 +67,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 4. Find the plugin under the menu Appearance
-5. Configure and save your first movement, or Import a twz/xml file.
+5. Configure and save your first movement, or Import a sample twz/xml file.
 6. Activate the global Online/Offline status. (The red button at the top.)
 
 Upload `.js` and/or `.css` files into the Library.
@@ -83,6 +85,16 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.3.5.9 =
+
+* Added the ability to add animations everywhere, all articles, all categories and all pages.
+* Added another JavaScript textbox to the editing panel.
+* Added a Z-Index textbox to the editing panel.
+* Added the ability to export only one animation.
+* Added New fields to the database. 
+* Layout adjustements.
+* Minor fixes.
 
 = 1.3.5.8 =
 
@@ -420,6 +432,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.5.9 =
+
+New features. (Everywhere / All Categories / All Pages)
 
 = 1.3.5.8 =
 

@@ -14,7 +14,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
     /* Require wp-config */
     require_once(dirname(__FILE__).'/../../../wp-config.php');
     
@@ -48,7 +49,7 @@
             $myTwiz  = new Twiz();
             
             $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
-            
+
             break;
 
         case Twiz::ACTION_ADD_SECTION:
@@ -215,9 +216,10 @@
         case Twiz::ACTION_EXPORT:
         
             $twiz_section_id = esc_attr(trim($_GET['twiz_section_id']));
+            $twiz_id = esc_attr(trim($_GET['twiz_id']));
         
             $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->export($twiz_section_id);    
+            $htmlresponse = $myTwiz->export($twiz_section_id, $twiz_id);    
             
             break;             
             
