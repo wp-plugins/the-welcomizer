@@ -503,8 +503,8 @@ class twiz_simple_html_dom {
 	}
 
 	// load html from file
-	function load_file() {
-		$args = func_get_args();
+	function load_file($args = '') {
+		
 		$this->load(call_user_func_array('file_get_contents', $args), true);
 	}
 
@@ -923,6 +923,6 @@ class twiz_simple_html_dom {
 	function getElementsById($id, $idx=null) {return $this->find("#$id", $idx);}
 	function getElementByTagName($name) {return $this->find($name, 0);}
 	function getElementsByTagName($name, $idx=-1) {return $this->find($name, $idx);}
-	function loadFile() {$args = func_get_args();$this->load(call_user_func_array('file_get_contents', $args), true);}
+	function loadFile($args = ''){$this->load(call_user_func_array('file_get_contents', $args), true);}
 }
 ?>
