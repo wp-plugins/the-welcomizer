@@ -1992,17 +1992,20 @@ $(document).twizReplay();
         /* Text Area auto expand */
         $jsscript_autoexpand = '<script language="JavaScript" type="text/javascript">
  //<![CDATA[
-  jQuery(document).ready(function($) { 
+  jQuery(document).ready(function($) {
+    textarea = new Object();
+    textarea.expand = function(textbox){
+        twizsizeOrig(textbox);
+        textbox.style.height = (textbox.scrollHeight + 10) + "px";
+        textbox.style.width = (textbox.scrollWidth + 8) + "px";
+    } 
     function twizsizeOrig(textbox){
         $(textbox).css({"height":"50px", "width" : "230px"});
     }
-    $("textarea[name^=twiz_options]").blur(function (){
+    $("textarea[name^=twiz_javascript]").blur(function (){
        twizsizeOrig(this);
     });
      $("textarea[name^=twiz_extra]").blur(function (){
-       twizsizeOrig(this);
-    });
-    $("textarea[name=twiz_javascript]").blur(function (){
        twizsizeOrig(this);
     });
   });
@@ -2102,7 +2105,7 @@ $(document).twizReplay();
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
 <tr><td class="twiz-form-td-left" >'.__('Element', 'the-welcomizer').' : <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right" rowspan="3" valign="top">'.__('JavaScript Before', 'the-welcomizer').'
-<textarea rows="1" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea></td></tr>
+<textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Start delay', 'the-welcomizer').': <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td><td class="twiz-form-td-right"></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td><td class="twiz-form-td-right"></td></tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2152,14 +2155,14 @@ $(document).twizReplay();
             </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
             <table class="twiz-table-more-options">
                 <tr><td><hr></td></tr>
-                <tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea rows="1" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
+                <tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
                 <tr><td id="twiz_td_full_option_a" class="twiz-td-picklist twiz-float-right"><a id="twiz_choose_options_a" name="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
                 <tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br>
                 opacity:0.5<br>
                 width:\'200px\'
                 </td></tr>        
                 <tr><td><hr></td></tr>        
-                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea rows="1" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
+                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -2178,14 +2181,14 @@ $(document).twizReplay();
         </table>
         <table class="twiz-table-more-options">
             <tr><td ><hr></td></tr>
-            <tr><td  class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea rows="1" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
+            <tr><td  class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
             <tr><td  id="twiz_td_full_option_b" class="twiz-td-picklist twiz-float-right"><a id="twiz_choose_options_b" name="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
             <tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br> 
                 opacity:1<br>
                 width:\'100px\'
                 </td></tr>        
             <tr><td ><hr></td></tr>
-            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea rows="1" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
+            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
