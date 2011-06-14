@@ -425,6 +425,9 @@
     width: 50px;
     text-align: right;
 }
+.twiz-input-large {
+    height: 50px;
+}
 .twiz-input[type=text]:focus,
 .twiz-input-text[type=text]:focus,
 .twiz-input-small[type=text]:focus

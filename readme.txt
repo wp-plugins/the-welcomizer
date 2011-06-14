@@ -87,6 +87,7 @@ Useful jQuery plugins to upload through the Library:
 
 * Added the ability to animate elements also with attribute "name" or "class".
 * Pick an ID from list has been removed, get Firebug.
+* Adjusted textarea rezize behavior.
 * Added New field to the database. 
 * Layout adjustements.
 * Minor fixes.
