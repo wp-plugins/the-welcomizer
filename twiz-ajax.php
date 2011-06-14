@@ -100,15 +100,7 @@
             $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);       
             
             break;
-            
-        case Twiz::ACTION_ID_LIST:
-        
-            $myTwiz  = new Twiz();
-            
-            $htmlresponse = $myTwiz->getHtmlIdList();
-            
-            break;    
-            
+
         case Twiz::ACTION_OPTIONS:
         
             $twiz_charid = esc_attr(trim($_POST['twiz_charid']));
