@@ -331,7 +331,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.6.1';
+        $this->version    = 'v1.3.6.2';
         $this->dbVersion  = '2.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -396,8 +396,9 @@ class Twiz{
       $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div>';
       $library_upload = '<div id="twiz_library_upload">'.__('Upload', 'the-welcomizer').'</div>';
       $library = '<div id="twiz_library">'.__('Library', 'the-welcomizer').'</div>';
+      $admin = '<div id="twiz_admin">'.__('Admin', 'the-welcomizer').'</div>';
       
-      $html = '<div id="twiz_footer_menu">'.$library_upload.$import.$export.$library.'</div>';
+      $html = '<div id="twiz_footer_menu">'.$library_upload.$import.$export.$admin.$library.'</div>';
       
       return $html;
       
@@ -1153,6 +1154,9 @@ class Twiz{
         $("#qq_upload_list li").remove();
         twizPostLibrary();
     });     
+    $("#twiz_admin").click(function(){
+     alert("'.__('What are the features you want within the administration panel?', 'the-welcomizer').'");
+    });     
   }  
   function twizPostLibrary(){
       $("#twiz_container").slideToggle("fast"); 
@@ -1222,7 +1226,6 @@ class Twiz{
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
-        $("#twiz_library").fadeIn("fast");
   });
  //]]>
 </script>';
@@ -1952,8 +1955,6 @@ $(document).twizReplay();
             
             if(!$data = $this->getRow($id)){return false;}
             
-            $hideimport = '$("#twiz_import").fadeOut("fast");';
-            
             if( $action == self::ACTION_COPY ){
             
                 $hideimport .= '$("#twiz_export").fadeOut("fast");';
@@ -1981,7 +1982,6 @@ $(document).twizReplay();
         $("#twiz_delete_menu").fadeOut("fast");
         $("#twiz_add_sections").fadeOut("fast"); 
         $("#twiz_right_panel").fadeOut("fast");
-        $("#twiz_library").fadeOut("fast");
         $("#qq_upload_list li").remove(); 
         '.$hideimport .'
   });

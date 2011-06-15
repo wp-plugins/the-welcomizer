@@ -508,7 +508,8 @@ a.twiz-more-options:hover {
 }
 #twiz_import,
 #twiz_export,
-#twiz_library , 
+#twiz_library, 
+#twiz_admin,
 #twiz_library_upload {
     border-radius: 0px 0px 6px 6px;
     -moz-border-radius-bottomright: 6px;
@@ -528,6 +529,7 @@ a.twiz-more-options:hover {
 #twiz_import:hover,
 #twiz_export:hover,
 #twiz_library:hover, 
+#twiz_admin:hover, 
 #twiz_library_upload:hover {
     color: #000000;
     background: #E4E4E4;
@@ -542,7 +544,8 @@ a.twiz-more-options:hover {
     float: left;
     margin-left: 8px;
 }
-#twiz_library {
+#twiz_library,
+#twiz_admin {
     float: right;
     margin-right: 8px;
 }
