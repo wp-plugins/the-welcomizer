@@ -52,6 +52,7 @@ jQuery(document).ready(function($) {
     $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
     $("#twiz_delete_menu").fadeOut("slow");
+	$("#twiz_delete_menu_everywhere").fadeOut("slow");
     $("#twiz_add_sections").fadeOut("slow"); 
     $("#twiz_right_panel").fadeOut("slow");
     $("#twiz_library_upload").fadeIn("slow");    

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-13 15:35-0500\n"
-"PO-Revision-Date: 2011-06-13 15:37-0500\n"
+"POT-Creation-Date: 2011-06-17 15:31-0500\n"
+"PO-Revision-Date: 2011-06-17 15:31-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Mya\n"
 "MIME-Version: 1.0\n"
@@ -24,63 +24,67 @@ msgstr "El Bienvenidor"
 msgid "Add New"
 msgstr "Añadir nuevo"
 
-#: includes/twiz.class.php:386
+#: includes/twiz.class.php:385
 #: includes/twiz.menu.class.php:133
 msgid "Home"
 msgstr "Home"
 
-#: includes/twiz.class.php:386
+#: includes/twiz.class.php:385
 msgid "Category"
 msgstr "Category"
 
-#: includes/twiz.class.php:386
+#: includes/twiz.class.php:385
 msgid "Page"
 msgstr "Page"
 
-#: includes/twiz.class.php:387
+#: includes/twiz.class.php:386
 #: includes/twiz.menu.class.php:158
 msgid "Everywhere"
 msgstr "Everywhere"
 
-#: includes/twiz.class.php:387
+#: includes/twiz.class.php:386
 #: includes/twiz.menu.class.php:159
 #: includes/twiz.menu.class.php:160
 #: includes/twiz.menu.class.php:161
 msgid "All"
 msgstr "All"
 
-#: includes/twiz.class.php:387
+#: includes/twiz.class.php:386
 #: includes/twiz.menu.class.php:159
 msgid "Articles"
 msgstr "Articles"
 
-#: includes/twiz.class.php:387
+#: includes/twiz.class.php:386
 #: includes/twiz.menu.class.php:160
 msgid "Categories"
 msgstr "Categories"
 
-#: includes/twiz.class.php:387
+#: includes/twiz.class.php:386
 #: includes/twiz.menu.class.php:161
 msgid "Pages"
 msgstr "Pages"
 
-#: includes/twiz.class.php:396
+#: includes/twiz.class.php:395
 #: includes/twiz.class.php:433
 msgid "Import"
 msgstr "Import"
 
-#: includes/twiz.class.php:397
+#: includes/twiz.class.php:396
 msgid "Export"
 msgstr "Export"
 
-#: includes/twiz.class.php:398
+#: includes/twiz.class.php:397
 #: includes/twiz.class.php:453
 msgid "Upload"
 msgstr "Upload"
 
-#: includes/twiz.class.php:399
+#: includes/twiz.class.php:398
 msgid "Library"
 msgstr "Library"
+
+#: includes/twiz.class.php:399
+msgid "Admin"
+msgstr "Admin"
 
 #: includes/twiz.class.php:411
 msgid "Developed by"
@@ -126,14 +130,18 @@ msgstr "¿Está usted seguro que quiere borrar?"
 msgid "Edit"
 msgstr "Edición"
 
+#: includes/twiz.class.php:1158
+msgid "This section is under construction."
+msgstr "This section is under construction."
+
 #: includes/twiz.class.php:1233
-#: includes/twiz.class.php:2103
+#: includes/twiz.class.php:2099
 #: includes/twiz.library.class.php:66
 msgid "Status"
 msgstr "Estado"
 
 #: includes/twiz.class.php:1233
-#: includes/twiz.class.php:2105
+#: includes/twiz.class.php:2101
 msgid "Element"
 msgstr "Elemento"
 
@@ -146,18 +154,18 @@ msgid "Delay"
 msgstr "Retraso"
 
 #: includes/twiz.class.php:1233
-#: includes/twiz.class.php:2109
+#: includes/twiz.class.php:2105
 msgid "Duration"
 msgstr "Duración"
 
 #: includes/twiz.class.php:1233
-#: includes/twiz.class.php:2104
+#: includes/twiz.class.php:2100
 #: includes/twiz.library.class.php:69
 msgid "Action"
 msgstr "Acción"
 
 #: includes/twiz.class.php:1249
-#: includes/twiz.class.php:2096
+#: includes/twiz.class.php:2092
 msgid "Copy"
 msgstr "Copy"
 
@@ -166,130 +174,130 @@ msgstr "Copy"
 msgid "Delete"
 msgstr "Borrar"
 
-#: includes/twiz.class.php:2106
+#: includes/twiz.class.php:2102
 msgid "Trigger by Event"
 msgstr "Trigger by Event"
 
-#: includes/twiz.class.php:2106
+#: includes/twiz.class.php:2102
 msgid "JavaScript Before"
 msgstr "JavaScript Before"
 
-#: includes/twiz.class.php:2108
+#: includes/twiz.class.php:2104
 msgid "Start delay"
 msgstr "Temporizador de inicio"
 
-#: includes/twiz.class.php:2108
-#: includes/twiz.class.php:2109
+#: includes/twiz.class.php:2104
+#: includes/twiz.class.php:2105
 msgid "sec"
 msgstr "seg"
 
-#: includes/twiz.class.php:2111
+#: includes/twiz.class.php:2107
 msgid "Starting position"
 msgstr "Posición de inicio"
 
-#: includes/twiz.class.php:2111
+#: includes/twiz.class.php:2107
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: includes/twiz.class.php:2115
-#: includes/twiz.class.php:2145
-#: includes/twiz.class.php:2170
-#: includes/twiz.class.php:2227
-#: includes/twiz.class.php:2242
-#: includes/twiz.class.php:2254
+#: includes/twiz.class.php:2111
+#: includes/twiz.class.php:2141
+#: includes/twiz.class.php:2166
+#: includes/twiz.class.php:2223
+#: includes/twiz.class.php:2238
+#: includes/twiz.class.php:2250
 msgid "Top"
 msgstr "Top "
 
-#: includes/twiz.class.php:2119
-#: includes/twiz.class.php:2124
-#: includes/twiz.class.php:2149
-#: includes/twiz.class.php:2154
-#: includes/twiz.class.php:2174
-#: includes/twiz.class.php:2179
+#: includes/twiz.class.php:2115
+#: includes/twiz.class.php:2120
+#: includes/twiz.class.php:2145
+#: includes/twiz.class.php:2150
+#: includes/twiz.class.php:2170
+#: includes/twiz.class.php:2175
+#: includes/twiz.class.php:2204
+#: includes/twiz.class.php:2205
+#: includes/twiz.class.php:2206
+#: includes/twiz.class.php:2207
 #: includes/twiz.class.php:2208
 #: includes/twiz.class.php:2209
-#: includes/twiz.class.php:2210
-#: includes/twiz.class.php:2211
-#: includes/twiz.class.php:2212
-#: includes/twiz.class.php:2213
 msgid "px"
 msgstr "px"
 
-#: includes/twiz.class.php:2120
-#: includes/twiz.class.php:2150
-#: includes/twiz.class.php:2175
-#: includes/twiz.class.php:2228
-#: includes/twiz.class.php:2243
-#: includes/twiz.class.php:2255
+#: includes/twiz.class.php:2116
+#: includes/twiz.class.php:2146
+#: includes/twiz.class.php:2171
+#: includes/twiz.class.php:2224
+#: includes/twiz.class.php:2239
+#: includes/twiz.class.php:2251
 msgid "Left"
 msgstr "Left "
 
-#: includes/twiz.class.php:2129
-#: includes/twiz.class.php:2233
+#: includes/twiz.class.php:2125
+#: includes/twiz.class.php:2229
 msgid "Position"
 msgstr "Posición"
 
-#: includes/twiz.class.php:2131
+#: includes/twiz.class.php:2127
 msgid "absolute"
 msgstr "absoluto"
 
-#: includes/twiz.class.php:2132
+#: includes/twiz.class.php:2128
 msgid "relative"
 msgstr "relativo"
 
-#: includes/twiz.class.php:2135
-#: includes/twiz.class.php:2234
+#: includes/twiz.class.php:2131
+#: includes/twiz.class.php:2230
 msgid "Z-Index"
 msgstr "Z-Index"
 
-#: includes/twiz.class.php:2144
-#: includes/twiz.class.php:2241
+#: includes/twiz.class.php:2140
+#: includes/twiz.class.php:2237
 msgid "First Move"
 msgstr "Primer Movimiento"
 
-#: includes/twiz.class.php:2154
-#: includes/twiz.class.php:2179
+#: includes/twiz.class.php:2150
+#: includes/twiz.class.php:2175
 msgid "More Options"
 msgstr "Más Opciones"
 
-#: includes/twiz.class.php:2157
-#: includes/twiz.class.php:2183
+#: includes/twiz.class.php:2153
+#: includes/twiz.class.php:2179
 msgid "Personalized options"
 msgstr "Opciones personalizadas"
 
-#: includes/twiz.class.php:2158
-#: includes/twiz.class.php:2184
+#: includes/twiz.class.php:2154
+#: includes/twiz.class.php:2180
 msgid "Pick from List"
 msgstr "Eligir de la lista"
 
-#: includes/twiz.class.php:2159
-#: includes/twiz.class.php:2164
-#: includes/twiz.class.php:2185
-#: includes/twiz.class.php:2190
+#: includes/twiz.class.php:2155
+#: includes/twiz.class.php:2160
+#: includes/twiz.class.php:2181
+#: includes/twiz.class.php:2186
 msgid "e.g."
 msgstr "Ej."
 
-#: includes/twiz.class.php:2164
-#: includes/twiz.class.php:2190
+#: includes/twiz.class.php:2160
+#: includes/twiz.class.php:2186
 msgid "Extra JavaScript"
 msgstr "JavaScript Extra"
 
-#: includes/twiz.class.php:2169
-#: includes/twiz.class.php:2253
+#: includes/twiz.class.php:2165
+#: includes/twiz.class.php:2249
 msgid "Second Move"
 msgstr "Segundo Movimiento"
 
-#: includes/twiz.class.php:2194
+#: includes/twiz.class.php:2190
 #: includes/twiz.menu.class.php:115
 msgid "Cancel"
 msgstr "Anular"
 
-#: includes/twiz.class.php:2194
+#: includes/twiz.class.php:2190
 #: includes/twiz.menu.class.php:115
 msgid "Save"
 msgstr "Guardar"
 
-#: includes/twiz.class.php:2351
+#: includes/twiz.class.php:2347
 #: includes/twiz.menu.class.php:86
 msgid "Choose"
 msgstr "Elegir"

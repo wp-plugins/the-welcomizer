@@ -331,7 +331,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.6.2';
+        $this->version    = 'v1.3.6.3';
         $this->dbVersion  = '2.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1155,7 +1155,7 @@ class Twiz{
         twizPostLibrary();
     });     
     $("#twiz_admin").click(function(){
-     alert("'.__('What are the features you want within the administration panel?', 'the-welcomizer').'");
+     alert("'.__('This section is under construction.', 'the-welcomizer').'");
     });     
   }  
   function twizPostLibrary(){
@@ -1222,8 +1222,9 @@ class Twiz{
  //<![CDATA[
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeIn("fast");
-        $("#twiz_add_menu").fadeIn("fast");
-        $("#twiz_delete_menu").fadeIn("fast");
+		$("#twiz_add_menu").fadeIn("fast");
+		$("#twiz_delete_menu").fadeIn("fast");
+		$("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
   });
@@ -1978,9 +1979,6 @@ $(document).twizReplay();
  //<![CDATA[
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeOut("fast");
-        $("#twiz_add_menu").fadeOut("fast");
-        $("#twiz_delete_menu").fadeOut("fast");
-        $("#twiz_add_sections").fadeOut("fast"); 
         $("#twiz_right_panel").fadeOut("fast");
         $("#qq_upload_list li").remove(); 
         '.$hideimport .'
