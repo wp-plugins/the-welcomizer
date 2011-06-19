@@ -331,7 +331,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.6.3';
+        $this->version    = 'v1.3.6.4';
         $this->dbVersion  = '2.1';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1222,9 +1222,9 @@ class Twiz{
  //<![CDATA[
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeIn("fast");
-		$("#twiz_add_menu").fadeIn("fast");
-		$("#twiz_delete_menu").fadeIn("fast");
-		$("#twiz_delete_menu_everywhere").fadeIn("fast");
+        $("#twiz_add_menu").fadeIn("fast");
+        $("#twiz_delete_menu").fadeIn("fast");
+        $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
   });
@@ -1718,13 +1718,16 @@ class Twiz{
             $generatedscript.= '<script type="text/javascript">
 jQuery(document).ready(function($){';
 
+            /* this used by javasccript before. */
+            $generatedscript .= 'var twiz_this = "";';
+
             /* generates the code */
             foreach($listarray as $value){   
                 $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_ID];
                 $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
             }
              
-             $generatedscript .= '
+            $generatedscript .= '
 $.fn.twizReplay = function(){ ';
            
            
@@ -1738,13 +1741,17 @@ $.fn.twizReplay = function(){ ';
                 
                 /* repeat animation function */
                 $generatedscript .= '
-$.fn.twizRepeat_'.$repeatname.' = function(){ ';
+$.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
           
                 /* start delay */ 
                 $generatedscript .= 'setTimeout(function(){'; 
             
                 /* replace numeric entities */
                 $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
+                
+                /* replace this */
+                $value[self::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[self::F_JAVASCRIPT]);
+                
     
                 /* extra js a */    
                 $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
@@ -1835,14 +1842,14 @@ $("'. $newElementFormat . '").animate({';
 $("'.$newElementFormat.'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ ';
                        $generatedscript .= 'if(twiz_active_'.$repeatname_var.' == 0) {';
                        $generatedscript .= 'twiz_active_'.$repeatname_var.' = 1;';
-                       $generatedscript .= '$(document).twizRepeat_'.$repeatname.'();}';
+                       $generatedscript .= '$(document).twizRepeat_'.$repeatname.'(this);}';
                        $generatedscript .= '});';                    
                    }
                    
                 }else{
                 
                     /* trigger the animation if not on event */
-                    $generatedscript .=  '$(document).twizRepeat_'.$repeatname.'();';
+                    $generatedscript .=  '$(document).twizRepeat_'.$repeatname.'($("'.$newElementFormat.'"));';
                 }
             }
             
@@ -1980,9 +1987,9 @@ $(document).twizReplay();
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeOut("fast");
         $("#twiz_right_panel").fadeOut("fast");
-	    $("#twiz_add_menu").fadeIn("fast");
-		$("#twiz_delete_menu").fadeIn("fast");
-		$("#twiz_delete_menu_everywhere").fadeIn("fast");
+        $("#twiz_add_menu").fadeIn("fast");
+        $("#twiz_delete_menu").fadeIn("fast");
+        $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#qq_upload_list li").remove(); 
         '.$hideimport .'
   });
