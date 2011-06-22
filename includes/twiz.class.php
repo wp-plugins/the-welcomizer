@@ -1952,7 +1952,7 @@ $(document).twizReplay();
         }
     }
 
-    function getHtmlForm( $id = '', $action = '' ){ 
+    function getHtmlForm( $id = '', $action = self::ACTION_NEW ){ 
     
         $data = '';        
         $opendiv = '';
