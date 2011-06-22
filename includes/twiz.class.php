@@ -1988,6 +1988,7 @@ $(document).twizReplay();
         $("#twiz_new").fadeOut("fast");
         $("#twiz_right_panel").fadeOut("fast");
         $("#twiz_add_menu").fadeIn("fast");
+        $("#twiz_import").fadeIn("fast");
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#qq_upload_list li").remove(); 
