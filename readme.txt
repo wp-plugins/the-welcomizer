@@ -85,7 +85,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.6.8 =
 
-* Correction, small configs are always output before the delay, and the JavaScript has the option before or after delay.
+* Correction, small configs are always output before the delay, and the JavaScript has an option before or after the delay.
 
 = 1.3.6.7 =
 
