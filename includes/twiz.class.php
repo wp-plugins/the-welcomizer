@@ -113,6 +113,7 @@ class Twiz{
     const F_ON_EVENT             = 'on_event';  
     const F_START_DELAY          = 'start_delay';  
     const F_DURATION             = 'duration';  
+    const F_OUTPUT               = 'output';  
     const F_JAVASCRIPT           = 'javascript';     
     const F_START_TOP_POS_SIGN   = 'start_top_pos_sign';        
     const F_START_TOP_POS        = 'start_top_pos';  
@@ -259,6 +260,7 @@ class Twiz{
                                       ,self::F_ON_EVENT             => 'DA'
                                       ,self::F_START_DELAY          => 'DD'
                                       ,self::F_DURATION             => 'EE'
+                                      ,self::F_OUTPUT               => 'EG'
                                       ,self::F_JAVASCRIPT           => 'EL'
                                       ,self::F_START_TOP_POS_SIGN   => 'FF'
                                       ,self::F_START_TOP_POS        => 'GG'    
@@ -287,7 +289,8 @@ class Twiz{
                                  ,self::F_LAYER_ID 
                                  ,self::F_ON_EVENT                             
                                  ,self::F_START_DELAY          
-                                 ,self::F_DURATION            
+                                 ,self::F_DURATION    
+                                 ,self::F_OUTPUT                                  
                                  ,self::F_JAVASCRIPT   
                                  ,self::F_START_TOP_POS_SIGN 
                                  ,self::F_START_TOP_POS           
@@ -331,8 +334,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = 'v1.3.6.5';
-        $this->dbVersion  = '2.1';
+        $this->version    = '1.3.6.6';
+        $this->dbVersion  = '2.2';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -379,7 +382,7 @@ class Twiz{
         $twiz_setting_menu_2 = ( $this->DEFAULT_SECTION == self::DEFAULT_SECTION_EVERYWHERE ) ? ' checked="checked"' : '';
         
         $header = '<div id="twiz_header">
-<div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a><span id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->version.'</a></span> </div>
+<div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a><span id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></span> </div>
 <span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span>
 <span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span>
 <span id="twiz_head_setting"><input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_1" value="'.self::DEFAULT_SECTION_HOME.'"'.$twiz_setting_menu_1.'> <label for="twiz_setting_menu_1">'.__('Home').' / ' . __('Category').' / ' . __('Page').'</label> <br>
@@ -794,7 +797,12 @@ class Twiz{
   }
   var bind_twiz_More_Options = function() {
     $(".twiz-more-options").click(function(){
-        $(".twiz-table-more-options").toggle();
+        var textname = $(this).attr("name");
+        if(textname == "twiz_starting_config"){
+            $("#twiz_tr_starting_config").toggle();
+        }else{
+            $(".twiz-table-more-options").toggle();
+        }
     });
   }
   var bind_twiz_Select_Id = function() {
@@ -1233,7 +1241,7 @@ class Twiz{
 
         $htmllist = $opendiv.'<table class="twiz-table-list" cellspacing="0">';
         
-        $htmllist.= '<tr class="twiz-table-list-tr-h"><td class="twiz-td-status twiz-table-list-td-h twiz-td-center">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap>'.__('Element', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-center twiz-td-event" nowrap>'.__('Event', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-delay" nowrap>'.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap>'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action twiz-td-right" nowrap>'.__('Action', 'the-welcomizer').'</td></tr>';
+        $htmllist.= '<tr class="twiz-table-list-tr-h"><td class="twiz-td-status twiz-table-list-td-h twiz-td-center">'.__('Status', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-left" nowrap="nowrap">'.__('Element', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-center twiz-td-event" nowrap="nowrap">'.__('Event', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-delay" nowrap="nowrap">'.__('Delay', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-right twiz-td-duration" nowrap="nowrap">'.__('Duration', 'the-welcomizer').'</td><td class="twiz-table-list-td-h  twiz-td-action twiz-td-right" nowrap="nowrap">'.__('Action', 'the-welcomizer').'</td></tr>';
         
         foreach($listarray as $value){
             
@@ -1249,7 +1257,7 @@ class Twiz{
             
             /* the table row */
             $htmllist.= '
-    <tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center " id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'"  class="twiz-td-right twiz-td-duration" nowrap><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/></td></tr>';
+    <tr class="'.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center " id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'"  class="twiz-td-right twiz-td-duration" nowrap="nowrap"><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap="nowrap"><img  src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25"/> <img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'"/></td></tr>';
          
          }
          
@@ -1355,9 +1363,10 @@ class Twiz{
                 self::F_STATUS . " tinyint(3) NOT NULL default 0, ". 
                 self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."', ". 
                 self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
-                self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".                
+                self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".
                 self::F_START_DELAY . " int(5) NOT NULL default 0, ". 
                 self::F_DURATION . " int(5) NOT NULL default 0, ". 
+                self::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
                 self::F_JAVASCRIPT . " text NOT NULL default '', ". 
                 self::F_START_TOP_POS_SIGN . " varchar(1) NOT NULL default '', ". 
                 self::F_START_TOP_POS . " int(5) default NULL, ". 
@@ -1420,6 +1429,11 @@ class Twiz{
                 /* Add the new field from <= v 1.3.6.1 */
                 $altersql = "ALTER TABLE ".$this->table .
                 " ADD ". self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."' after ".self::F_STATUS."";
+                $code = $wpdb->query($altersql);
+                
+                /* Add the new field from <= v 1.3.6.6 */
+                $altersql = "ALTER TABLE ".$this->table .
+                " ADD ". self::F_OUTPUT . " varchar(1) NOT NULL default 'b' after ".self::F_DURATION."";
                 $code = $wpdb->query($altersql);
                 
                 $tsoption = get_option('twiz_setting_menu'); // home / cat / page
@@ -1516,6 +1530,8 @@ class Twiz{
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '' ;
         if( !isset($data[self::F_ZINDEX]) ) $data[self::F_ZINDEX] = '' ;
         if( !isset($data[self::F_TYPE]) ) $data[self::F_TYPE] = '' ;
+        if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
+        
         
         $twiz_move_top_pos_a  = esc_attr(trim($data[self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($data[self::F_MOVE_LEFT_POS_A]));
@@ -1543,6 +1559,7 @@ class Twiz{
              ,".self::F_ON_EVENT."
              ,".self::F_START_DELAY."
              ,".self::F_DURATION."
+             ,".self::F_OUTPUT."
              ,".self::F_JAVASCRIPT."
              ,".self::F_START_TOP_POS_SIGN."
              ,".self::F_START_TOP_POS."
@@ -1569,6 +1586,7 @@ class Twiz{
              ,'".esc_attr(trim($data[self::F_ON_EVENT]))."'             
              ,'0".esc_attr(trim($data[self::F_START_DELAY]))."'
              ,'0".esc_attr(trim($data[self::F_DURATION]))."'
+             ,'".esc_attr(trim($data[self::F_OUTPUT]))."'
              ,'".esc_attr($twiz_javascript)."'    
              ,'".esc_attr(trim($data[self::F_START_TOP_POS_SIGN]))."'    
              ,".$twiz_start_top_pos."
@@ -1739,20 +1757,17 @@ $.fn.twizReplay = function(){ ';
                 
                 $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
                 
-                /* repeat animation function */
-                $generatedscript .= '
-$.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
-          
-                /* start delay */ 
-                $generatedscript .= 'setTimeout(function(){'; 
-            
                 /* replace numeric entities */
                 $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
                 
                 /* replace this */
                 $value[self::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[self::F_JAVASCRIPT]);
-                
-    
+                /* repeat animation function */
+                $generatedscript .= '
+$.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
+          
+            if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before or older version
+
                 /* extra js a */    
                 $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
                 
@@ -1763,6 +1778,24 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                 /* starting positions */ 
                 $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
                 $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+                }
+                
+                /* start delay */ 
+                $generatedscript .= 'setTimeout(function(){'; 
+            
+            if( $value[self::F_OUTPUT] == 'a' ){ // after 
+
+                /* extra js a */    
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                
+                /* css position */ 
+                $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
+                $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
+                
+                /* starting positions */ 
+                $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
+                $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+                }
                 
                 $value[self::F_OPTIONS_A] = (($value[self::F_OPTIONS_A]!='') and (($value[self::F_MOVE_LEFT_POS_A]!="") or ($value[self::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[self::F_OPTIONS_A] :  $value[self::F_OPTIONS_A];
                 $value[self::F_OPTIONS_A] = str_replace("\n", "," , $value[self::F_OPTIONS_A]);
@@ -1972,40 +2005,36 @@ $(document).twizReplay();
             $hideimport = '$("#twiz_export").fadeOut("fast");';
         }
         
-        /* Toggle More Options */
-        $jsscript_moreoptions = '<script>
+        $jsscript_open = '<script>
  //<![CDATA[
- jQuery(document).ready(function($) {
-  $(".twiz-table-more-options").toggle();
-  });
+ jQuery(document).ready(function($) {';
+ 
+        $jsscript_close = '});
  //]]>
 </script>';
         
+        /* Toggle starting config */
+        $jsscript_starting_config = '$("#twiz_tr_starting_config").toggle();';
+        
+        /* Toggle More Options */
+        $jsscript_moreoptions = '$(".twiz-table-more-options").toggle();';
+        
         /* hide element */
-        $jsscript_hide = '<script>
- //<![CDATA[
- jQuery(document).ready(function($) {
-        $("#twiz_new").fadeOut("fast");
+        $jsscript_hide = '$("#twiz_new").fadeOut("fast");
         $("#twiz_right_panel").fadeOut("fast");
         $("#twiz_add_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#qq_upload_list li").remove(); 
-        '.$hideimport .'
-  });
- //]]>
-</script>';
-
+        '.$hideimport;
 
         /* Text Area auto expand */
-        $jsscript_autoexpand = '<script language="JavaScript" type="text/javascript">
- //<![CDATA[
-  jQuery(document).ready(function($) {
+        $jsscript_autoexpand = '
     textarea = new Object();
     textarea.expand = function(textbox){
         twizsizeOrig(textbox);
-        textbox.style.height = (textbox.scrollHeight + 10) + "px";
+        textbox.style.height = (textbox.scrollHeight + 20) + "px";
         textbox.style.width = (textbox.scrollWidth + 8) + "px";
     } 
     function twizsizeOrig(textbox){
@@ -2016,11 +2045,7 @@ $(document).twizReplay();
     });
      $("textarea[name^=twiz_extra]").blur(function (){
        twizsizeOrig(this);
-    });
-  });
- //]]>
-</script>';
-
+    });';
 
         /* ajax container */ 
         if(!in_array($_POST['twiz_action'], $this->array_action_excluded)){
@@ -2046,6 +2071,7 @@ $(document).twizReplay();
         if( !isset($data[self::F_START_DELAY]) ) $data[self::F_START_DELAY] = '' ;
         if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '' ;
         if( !isset($data[self::F_DURATION]) ) $data[self::F_DURATION] = '' ;
+        if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '' ;
         if( !isset($data[self::F_START_TOP_POS]) ) $data[self::F_START_TOP_POS] = '' ;
         if( !isset($data[self::F_START_LEFT_POS]) ) $data[self::F_START_LEFT_POS] = '' ;
@@ -2064,13 +2090,17 @@ $(document).twizReplay();
         if( !isset($twiz_move_top_pos_sign_a['-'] ) ) $twiz_move_top_pos_sign_a['-']  = '' ;
         if( !isset($twiz_move_top_pos_sign_b['+']) ) $twiz_move_top_pos_sign_b['+'] = '' ;
         if( !isset($twiz_move_top_pos_sign_b['-']) ) $twiz_move_top_pos_sign_b['-'] = '' ;        
+    
+        /* toggle starting config if we have values */        
+        if(($data[self::F_START_TOP_POS]!='')or($data[self::F_START_LEFT_POS]!='')
+         or($data[self::F_ZINDEX]!='')or($data[self::F_JAVASCRIPT]!='')){
+            $toggleoptions = $jsscript_starting_config;
+        }
         
         /* toggle more options by default if we have values */        
         if(($data[self::F_OPTIONS_A]!='')or($data[self::F_EXTRA_JS_A]!='')
          or($data[self::F_OPTIONS_B]!='')or($data[self::F_EXTRA_JS_B]!='')){
-            $toggleoptions = $jsscript_moreoptions;
-        }else{
-            $toggleoptions = '';
+            $toggleoptions .= $jsscript_moreoptions;
         }
     
         /* checked */
@@ -2080,6 +2110,10 @@ $(document).twizReplay();
         $twiz_position['absolute'] = ( $data[self::F_POSITION] == 'absolute' ) ? ' selected="selected"' : '';
         $twiz_position['relative'] = (( $data[self::F_POSITION] == 'relative' ) or ( $id == '' )) ? ' selected="selected"' : '';
         $twiz_position['static']   = ($data[self::F_POSITION] == 'static') ? ' selected="selected"' : '';
+      
+        $twiz_ouput['before'] = ($data[self::F_OUTPUT] == 'b') ? ' selected="selected"' : '';
+        $twiz_ouput['after'] = ($data[self::F_OUTPUT] == 'a') ? ' selected="selected"' : '';
+        $twiz_ouput['before'] = ($data[self::F_OUTPUT] == '') ? ' selected="selected"' : $twiz_ouput['before'];
 
         $twiz_start_top_pos_sign['nothing']  = ($data[self::F_START_TOP_POS_SIGN] == '') ? ' selected="selected"' : '';
         $twiz_start_top_pos_sign['-']        = ($data[self::F_START_TOP_POS_SIGN] == '-') ? ' selected="selected"' : '';
@@ -2112,37 +2146,40 @@ $(document).twizReplay();
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'></div></td>
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
-<tr><td class="twiz-form-td-left" >'.__('Element', 'the-welcomizer').' : <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right" rowspan="3" valign="top">'.__('JavaScript Before', 'the-welcomizer').'
-<textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Start delay', 'the-welcomizer').': <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td><td class="twiz-form-td-right"></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td><td class="twiz-form-td-right"></td></tr>
-<tr><td colspan="2"><hr></td></tr>
- <tr><td colspan="2" class="twiz-caption">'.__('Starting position', 'the-welcomizer').' <b>'.__('(optional)', 'the-welcomizer').'</b></tr>
-<tr>
-    <td>
+
+<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right twiz-float-left">'.__('(optional)', 'the-welcomizer').'</td></tr>
+<tr><td class="twiz-form-td-left" >'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left" rowspan="3" ><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
+
+
+<tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</b></a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr id="twiz_tr_starting_config">
+    <td valign="top"><hr>
+  <div id="twiz_div_output">'.__('Include', 'the-welcomizer').': <select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
+        <option value="b" '.$twiz_ouput['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
+        <option value="a" '.$twiz_ouput['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
+        </select></div>'.__('JavaScript', 'the-welcomizer').'
+<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>
+    </td>
+    <td valign="top"><hr>
         <table>
-            <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td>
+            <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
                 <option value="" '.$twiz_start_top_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_top_pos_sign['-'].'>-</option>
                 </select><input class="twiz-input-small" id="twiz_'.self::F_START_TOP_POS.'" name="twiz_'.self::F_START_TOP_POS.'" type="text" value="'.$data[self::F_START_TOP_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
-            <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>
+            <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_LEFT_POS_SIGN.'" id="twiz_'.self::F_START_LEFT_POS_SIGN.'">
                 <option value="" '.$twiz_start_left_pos_sign['nothing'].'>+</option>
                 <option value="-" '.$twiz_start_left_pos_sign['-'].'>-</option>
                 </select><input class="twiz-input-small" id="twiz_'.self::F_START_LEFT_POS.'" name="twiz_'.self::F_START_LEFT_POS.'" type="text" value="'.$data[self::F_START_LEFT_POS].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr>
-        </table>
-    </td>
-    <td>
-        <table>
-            <tr><td>'.__('Position', 'the-welcomizer').':</td><td>
-            <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="" > </option>
-            <option value="absolute" '.$twiz_position['absolute'].'>'.__('absolute', 'the-welcomizer').'</option>
-            <option value="relative" '.$twiz_position['relative'].'>'.__('relative', 'the-welcomizer').'</option>
-            </select>
-            </td></tr>
-          <tr><td>'.__('Z-Index', 'the-welcomizer').':</td><td>
+        <tr><td class="twiz-td-small-left-start">'.__('Position', 'the-welcomizer').':</td><td>
+        <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="" > </option>
+        <option value="absolute" '.$twiz_position['absolute'].'>'.__('absolute', 'the-welcomizer').'</option>
+        <option value="relative" '.$twiz_position['relative'].'>'.__('relative', 'the-welcomizer').'</option>
+        </select>
+        </td></tr>                
+          <tr><td class="twiz-td-small-left-start">'.__('Z-Index', 'the-welcomizer').':</td><td>
         <input class="twiz-input-small" id="twiz_'.self::F_ZINDEX.'" name="twiz_'.self::F_ZINDEX.'" type="text" value="'.$data[self::F_ZINDEX].'" maxlength="5">
             </td></tr>            
         </table>
@@ -2152,19 +2189,18 @@ $(document).twizReplay();
 <tr><td valign="top">
         <table>
             <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
-            <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
+            <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'">
             <option value="+" '.$twiz_move_top_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_top_pos_sign_a['-'].'>-</option>
             </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_a" name="twiz_move_top_pos_a" type="text" value="'.$data[self::F_MOVE_TOP_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_a">'.$imagemove_a.'</td></tr>
-            <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
+            <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'">
             <option value="+" '.$twiz_move_left_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_left_pos_sign_a['-'].'>-</option>
             </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
             <table class="twiz-table-more-options">
-                <tr><td><hr></td></tr>
-                <tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
+                <tr><td><hr></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></td></tr>
                 <tr><td id="twiz_td_full_option_a" class="twiz-td-picklist twiz-float-right"><a id="twiz_choose_options_a" name="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
                 <tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br>
                 opacity:0.5<br>
@@ -2177,20 +2213,19 @@ $(document).twizReplay();
 <td valign="top">    
     <table>
         <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
-        <tr><td class="twiz-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td nowrap>
+        <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'">
         <option value="-" '.$twiz_move_top_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_top_pos_sign_b['+'].'>+</option>
         </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_b" name="twiz_move_top_pos_b" type="text" value="'.$data[self::F_MOVE_TOP_POS_B].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_b">'.$imagemove_b.'</td></tr>
-        <tr><td class="twiz-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td nowrap>
+        <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'">
         <option value="-" '.$twiz_move_left_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_left_pos_sign_b['+'].'>+</option>
         </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_B.'" name="twiz_'.self::F_MOVE_LEFT_POS_B.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"> '.__('px', 'the-welcomizer').'</td></tr><tr><td></td><td><a name="twiz_more_options_b" id="twiz_more_options_b" class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr>
         </table>
         <table class="twiz-table-more-options">
-            <tr><td ><hr></td></tr>
-            <tr><td  class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
+            <tr><td><hr></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></td></tr>
             <tr><td  id="twiz_td_full_option_b" class="twiz-td-picklist twiz-float-right"><a id="twiz_choose_options_b" name="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
             <tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').' <br> 
                 opacity:1<br>
@@ -2202,7 +2237,7 @@ $(document).twizReplay();
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
-</table>'.$closediv.$toggleoptions.$jsscript_autoexpand.$jsscript_hide;
+</table>'.$closediv.$jsscript_open.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
     
         return $htmlform;
     }
@@ -2234,8 +2269,8 @@ $(document).twizReplay();
 <tr><td colspan="2"><hr></td></tr>
     <td>
         <table>
-            <tr><td class="twiz-view-td-small-left" nowrap>'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
-            <tr><td class="twiz-view-td-small-left" nowrap>'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
+            <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
+            <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
         </table>
     </td>
     <td>
@@ -2248,9 +2283,9 @@ $(document).twizReplay();
 <tr><td colspan="2"><hr></td></tr>
 <tr><td valign="top">
         <table>
-            <tr><td class="twiz-caption" colspan="3" nowrap><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
-            <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap>'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
-            <tr><td class="twiz-view-td-small-left"  nowrap valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_left_pos_a .'</td></tr></table>
+            <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
+            <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
+            <tr><td class="twiz-view-td-small-left"  nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_a .'</td></tr></table>
             <table class="twiz-view-table-more-options">
                 <tr><td colspan="2"><hr></td></tr>
                 <tr><td colspan="2">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>    
@@ -2260,9 +2295,9 @@ $(document).twizReplay();
 </td>
 <td valign="top">    
     <table>
-        <tr><td class="twiz-caption" colspan="3" nowrap><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
-        <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap>'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_top_pos_b.'</td><td rowspan="2" align="center" width="95">'.$imagemove_b.'</td></tr>
-        <tr><td class="twiz-view-td-small-left" nowrap valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap>'.$move_left_pos_b .'</td></tr>
+        <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
+        <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_b.'</td><td rowspan="2" align="center" width="95">'.$imagemove_b.'</td></tr>
+        <tr><td class="twiz-view-td-small-left" nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_b .'</td></tr>
         </table>
         <table class="twiz-view-table-more-options">
             <tr><td colspan="2"><hr></td></tr>
@@ -2510,6 +2545,7 @@ $(document).twizReplay();
                   ,".self::F_ON_EVENT."                  
                   ,".self::F_START_DELAY."
                   ,".self::F_DURATION."
+                  ,".self::F_OUTPUT."
                   ,".self::F_JAVASCRIPT."
                   ,".self::F_START_TOP_POS_SIGN."
                   ,".self::F_START_TOP_POS."
@@ -2536,6 +2572,7 @@ $(document).twizReplay();
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
                   ,'0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
                   ,'0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                   ,'".$twiz_javascript."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'    
                   ,".$twiz_start_top_pos."
@@ -2576,6 +2613,7 @@ $(document).twizReplay();
                  ,".self::F_ON_EVENT." = '".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
                  ,".self::F_START_DELAY." = '0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
                  ,".self::F_DURATION." = '0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
+                 ,".self::F_OUTPUT." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                  ,".self::F_JAVASCRIPT." = '".$twiz_javascript."' 
                  ,".self::F_START_TOP_POS_SIGN." = '".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'
                  ,".self::F_START_TOP_POS." = ".$twiz_start_top_pos."

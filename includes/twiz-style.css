@@ -384,13 +384,16 @@
 }
 .twiz-form-td-left {
     width: 260px;
-    padding: 2px;
+    padding: 3px;
     font-size: 12px;
 }
 .twiz-form-td-right {
-    padding: 2px;
+    padding: 3px;
     font-size: 12px;
     text-align: right;
+}
+#twiz_div_output{
+    margin-bottom: 10px;
 }
 .twiz-td-picklist {
     height: 30px;
@@ -406,7 +409,11 @@
 .twiz-view-td-small-left {
     width: 38px;
     font-size: 12px;
-}                                
+}    
+.twiz-td-small-left-start {
+    width: 60px;
+    font-size: 12px;
+}                             
 .twiz-td-save {
     height: 25px;
     font-size: 12px;
@@ -438,7 +445,8 @@
 .twiz-slc-options {
     width: 100%;
 }
-.twiz-table-more-options {
+.twiz-table-more-options,
+#twiz_tr_starting_config {
     display: none;
 }
 a.twiz-more-options:hover {
@@ -446,6 +454,7 @@ a.twiz-more-options:hover {
 }
 .twiz-more-options {
     font-size: 12px;
+    padding-top:5px;
 }
 .twiz-td-e-g {
     line-height: 15px;
@@ -489,16 +498,6 @@ a.twiz-more-options:hover {
 .twiz-status-red {
     color: red;
     font-size: 12px;
-}
-#twiz_messagebox {
-    background: url(../images/twiz-success.gif) no-repeat 10px 50% #F0FFF0;
-    border: 1px solid #00FF00;
-    width: 463px;
-    height: 25px;
-    color: #098809;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 7px 0 0 35px;
 }
 .twiz-float-left {
     float: left;
