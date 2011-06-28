@@ -334,7 +334,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.6.6';
+        $this->version    = '1.3.6.7';
         $this->dbVersion  = '2.2';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1767,9 +1767,6 @@ $.fn.twizReplay = function(){ ';
 $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
           
             if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before or older version
-
-                /* extra js a */    
-                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
                 
                 /* css position */ 
                 $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
@@ -1778,15 +1775,16 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                 /* starting positions */ 
                 $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
                 $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+
+                /* js */    
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                
                 }
                 
                 /* start delay */ 
                 $generatedscript .= 'setTimeout(function(){'; 
             
             if( $value[self::F_OUTPUT] == 'a' ){ // after 
-
-                /* extra js a */    
-                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
                 
                 /* css position */ 
                 $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
@@ -1795,6 +1793,10 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                 /* starting positions */ 
                 $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
                 $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+
+                /* js */    
+                $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                
                 }
                 
                 $value[self::F_OPTIONS_A] = (($value[self::F_OPTIONS_A]!='') and (($value[self::F_MOVE_LEFT_POS_A]!="") or ($value[self::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[self::F_OPTIONS_A] :  $value[self::F_OPTIONS_A];
@@ -2155,13 +2157,6 @@ $(document).twizReplay();
 <tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</b></a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr id="twiz_tr_starting_config">
     <td valign="top"><hr>
-  <div id="twiz_div_output">'.__('Include', 'the-welcomizer').': <select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
-        <option value="b" '.$twiz_ouput['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
-        <option value="a" '.$twiz_ouput['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
-        </select></div>'.__('JavaScript', 'the-welcomizer').'
-<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>
-    </td>
-    <td valign="top"><hr>
         <table>
             <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
@@ -2183,6 +2178,13 @@ $(document).twizReplay();
         <input class="twiz-input-small" id="twiz_'.self::F_ZINDEX.'" name="twiz_'.self::F_ZINDEX.'" type="text" value="'.$data[self::F_ZINDEX].'" maxlength="5">
             </td></tr>            
         </table>
+    </td>
+    <td valign="top"><hr>
+  <div id="twiz_div_output">'.__('Include', 'the-welcomizer').': <select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
+        <option value="b" '.$twiz_ouput['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
+        <option value="a" '.$twiz_ouput['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
+        </select></div>'.__('JavaScript', 'the-welcomizer').'
+<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>    
     </td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
