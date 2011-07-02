@@ -17,8 +17,6 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
-The possibilities are almost endless. 
-
 Thanks for your patience and support!
 
 Stay tuned, and do your updates...
