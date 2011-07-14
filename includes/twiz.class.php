@@ -512,7 +512,7 @@ class Twiz{
  function twizRightPanel(textid, numid){
          if((twiz_view_id != numid)&&(twiz_view_id!="edit")&&(numid!="global")&&(twiz_current_section_id!="library")){
             twiz_view_id = numid;
-            $("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
+            $("#twiz_right_panel").html(\'<div\' + \' class="twiz-panel-loading">\' + \'<img\' + \' src="'.$this->pluginUrl.'/images/twiz-big-loading.gif"></div>\');
             $("#twiz_right_panel").fadeIn("slow");    
             if(twiz_array_view_id[numid]==undefined){
                 $.post(ajaxurl, {
@@ -824,7 +824,7 @@ class Twiz{
     $("a[name^=twiz_choose_options]").click(function(){
         var textid = $(this).attr("name");
         var charid = textid.substring(20,textid.length);
-        $("#twiz_td_full_option_" + charid).html(\'<img src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+        $("#twiz_td_full_option_" + charid).html(\'<img\' + \' src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
         $.post(ajaxurl, { 
         action: "twiz_ajax_callback",
         twiz_nonce: "'.$this->nonce.'", 
@@ -890,7 +890,7 @@ class Twiz{
                  $("#twiz_ajax_td_edit_" + columnName + "_" + numid).hide();
                  $("#twiz_ajax_td_val_" + columnName + "_" + numid).html("");
                  $("#twiz_ajax_td_val_" + columnName + "_" + numid).hide();
-                 $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+                 $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html(\'<img\' + \' name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
                 $.post(ajaxurl, { 
                 action: "twiz_ajax_callback",
                 twiz_nonce: "'.$this->nonce.'", 
@@ -936,7 +936,7 @@ class Twiz{
         var numid = textid.substring(13,textid.length);
         if((twiz_view_id != numid)&&(twiz_view_id!="edit")){
             twiz_view_id = numid;
-            $("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
+            $("#twiz_right_panel").html(\'<div\' + \' class="twiz-panel-loading"><img\' + \' src="'.$this->pluginUrl.'/images/twiz-big-loading.gif"></div>\');
             $("#twiz_right_panel").fadeIn("fast");    
             if(twiz_array_view_id[numid]==undefined){
                 $.post(ajaxurl, {
@@ -1133,7 +1133,7 @@ class Twiz{
             break;           
       }
       if(direction!=""){ 
-          htmlimage = "<img width=\"45\" height=\"45\" src=\"'.$this->pluginUrl.'/images/twiz-arrow-" + direction + ".png\">";
+          htmlimage = \'<img\' + \' width="45"\' + \' height="45"\' + \' src="'.$this->pluginUrl.'\' + \'/images/twiz-arrow-\' + direction + \'.png">\';
       }
       $("#twiz_td_arrow_" + ab).html(htmlimage);
     }
@@ -1142,13 +1142,13 @@ class Twiz{
         $("img[name^=twiz_new_order_up]").click(function(){
             var textid = $(this).attr("id");
             var numid = textid.substring(18,textid.length);
-            $("#twiz_list_td_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+            $("#twiz_list_td_" + numid).html(\'<img\' + \' name="twiz_img_loading_delay_\' + numid + \'[]"\' + \' id="twiz_img_loading_delay_\' + numid + \'[]"\' + \' src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
             twizOrderLibrary("'.self::LB_ORDER_UP.'", numid);
         });
         $("img[name^=twiz_new_order_down]").click(function(){
             var textid = $(this).attr("id");
             var numid = textid.substring(20, textid.length);
-            $("#twiz_list_td_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+            $("#twiz_list_td_" + numid).html(\'<img\' + \' name="twiz_img_loading_delay_\' + numid + \'[]"\' + \' id="twiz_img_loading_delay_\' + numid + \'[]"\' + \' src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
             twizOrderLibrary("'.self::LB_ORDER_DOWN.'", numid);
         });        
     }
@@ -1171,7 +1171,7 @@ class Twiz{
   }
   var bind_twiz_FooterMenu = function() {
     $("#twiz_export").click(function(){
-        $("#twiz_export_url").html(\'<img name="twiz_img_loading_export" id="twiz_img_loading_export" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+        $("#twiz_export_url").html(\'<img\' + \' name="twiz_img_loading_export"\' + \' id="twiz_img_loading_export"\' + \' src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
         $("#qq_upload_list li").remove(); 
         var animid = $("#twiz_id").val();
         if(animid==undefined){
