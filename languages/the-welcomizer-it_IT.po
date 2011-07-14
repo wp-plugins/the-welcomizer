@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer in italiano\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-09 19:57-0500\n"
-"PO-Revision-Date: 2011-07-09 19:57-0500\n"
+"PO-Revision-Date: 2011-07-14 10:04-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "More configurations"
 
 #: includes/twiz.class.php:2259
 msgid "Starting Positions"
-msgstr "Posizione inizio"
+msgstr "Posizioni di partenza"
 
 #: includes/twiz.class.php:2260
 #: includes/twiz.class.php:2289
