@@ -1,17 +1,25 @@
 <?php
+define('WP_ADMIN', true);
 
-/* Require wp-config */
-require_once(dirname(__FILE__).'/../../../../../../wp-config.php');
+if ( defined('ABSPATH') ){
+    require_once(ABSPATH . 'wp-load.php');
+}
+else{
+    require_once('../../../../../../wp-load.php');
+}
+        
+// Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
+require_once(ABSPATH .'wp-includes/pluggable.php'); 
 
 /* Require Twiz Class */
 require_once(dirname(__FILE__).'/../../twiz.class.php'); 
 require_once(dirname(__FILE__).'/../../twiz.library.class.php'); 
 
-$_POST['twiz_nonce']      = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
-$_GET['twiz_nonce']       = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
-$_POST['twiz_action']     = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
+$_POST['twiz_nonce']      = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'];
+$_GET['twiz_nonce']       = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'];
+$_POST['twiz_action']     = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
 $_GET['twiz_action']      = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action']; 
-$_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
+$_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'];
 $_GET['twiz_section_id']  = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id']; 
 
 $nonce = ($_POST['twiz_nonce'] == '') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
@@ -19,7 +27,6 @@ $action = ($_POST['twiz_action'] == '') ? $_GET['twiz_action'] : $_POST['twiz_ac
 
 /* Nonce security import security check */
 if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
-
     die("Security check"); 
 }
 
@@ -136,7 +143,11 @@ class qqFileUploader extends TwizLibrary{
                            
         /* twiz class */
         if (!is_writable($uploadDirectory)){
-            return array('error' => __("Server error. Upload directory isn't writable: ", 'the-welcomizer')."'".$this->import_path_message."'");
+            @mkdir($uploadDirectory, 755); 
+        }
+        
+        if (!is_writable($uploadDirectory)){
+            return array('error' => __('You must first create this directory', 'the-welcomizer')." '".$this->import_path_message."'");
         }
         
         if (!$this->file){
@@ -229,32 +240,34 @@ class qqFileUploader extends TwizLibrary{
     }    
 }
 
-// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-switch($action){
+    // list of valid extensions, ex. array("jpeg", "xml", "bmp")
+    switch($action){
 
-    case Twiz::ACTION_UPLOAD_LIBRARY:
+        case Twiz::ACTION_UPLOAD_LIBRARY:
+        
+            $allowedExtensions = array(Twiz::EXT_JS, Twiz::EXT_CSS);
+            
+            break;
+            
+        case Twiz::ACTION_IMPORT:
+        
+            $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_XML);
+            
+            break;
+            
+       default:
+       
+            die("Security check");
+    }
+
+    // max file size in bytes
+    $sizeLimit = Twiz::IMPORT_MAX_SIZE;
+
+    $uploader = new qqFileUploader($allowedExtensions, $sizeLimit, $action);
+    $result = $uploader->handleUpload(WP_CONTENT_DIR.Twiz::IMPORT_PATH);
+
+    // to pass data through iframe you will need to encode all html tags
+    $htmlresponse = htmlspecialchars(json_encode($result), ENT_NOQUOTES); 
     
-        $allowedExtensions = array(Twiz::EXT_JS, Twiz::EXT_CSS);
-        
-        break;
-        
-    case Twiz::ACTION_IMPORT:
-    
-        $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_XML);
-        
-        break;
-        
-   default:
-   
-        die("Security check");
-}
-
-// max file size in bytes
-$sizeLimit = Twiz::IMPORT_MAX_SIZE;
-
-$uploader = new qqFileUploader($allowedExtensions, $sizeLimit, $action);
-$result = $uploader->handleUpload(WP_CONTENT_DIR.Twiz::IMPORT_PATH);
-
-// to pass data through iframe you will need to encode all html tags
-echo htmlspecialchars(json_encode($result), ENT_NOQUOTES); 
+    echo($htmlresponse);
 ?>

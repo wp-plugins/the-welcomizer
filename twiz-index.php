@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.6.9
+Version: 1.3.7
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -32,9 +32,12 @@ License: GPL2
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
     require_once(dirname(__FILE__).'/includes/twiz.library.class.php');     
     
+    require_once(dirname(__FILE__).'/twiz-ajax.php');   
+    
     /******************
     * --- Functions ---
     *******************/
+  
     
     /* Create the necessary for the installation */
     function twizInstall() {
@@ -82,7 +85,7 @@ License: GPL2
         $myTwiz  = new Twiz();
         echo($myTwiz->getFrontEnd());
     }
-
+    
     function twizEnqueueLibrary(){
     
         $gstatus = get_option('twiz_global_status');
@@ -124,7 +127,7 @@ License: GPL2
             }
         }
     }
-    
+
     /****************
     * --- Actions ---
     *****************/
@@ -136,11 +139,41 @@ License: GPL2
     /* Set the multi-language file, english is the standard. */
     load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
     
-    /* Enqueue style in admin */
-    if( is_admin() ){
+     $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
+     
+    /* Enqueue style in admin welcomizer page only */
+    if( ( is_admin() ) 
+    and (!preg_match("/plugins.php/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) and ((preg_match("/the-welcomizer/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/admin-ajax/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/php.php/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    )){
     
         wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+        
+        /* Admin Ajax script */
+        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) ); 
+        
+        /* Fileuploader */
+        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );   
+
+        /* Ajax callback */
+        add_action('wp_ajax_my_action', 'twiz_ajax_callback');
+        
+        $_POST['action'] = (!isset($_POST['action'])) ? '' : $_POST['action'];
+        $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
+         
+        /* Do WP Ajax */
+        if(($_POST['action']!='')and($_POST['twiz_action']!='')){
+            do_action('wp_ajax_my_action', $_POST['action']);
+        }
+        
+    }else{
+    
+        /* register frontend default jQuery lib */
+        wp_deregister_script( 'jquery' );  
+        wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
+        wp_enqueue_script( 'jquery' );  
     }
     
     /* dbversion check */

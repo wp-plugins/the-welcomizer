@@ -114,7 +114,7 @@
     text-align: center;
 }
 #twiz_head_title {
-    font-size: 22px;
+    font-size: 24px;
     line-height: 35px;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     text-shadow: 2px 2px 5px #9b9b9b;
@@ -135,19 +135,22 @@
     display: inline;
 }
 #twiz_head_version {
-    font-size: 10px;
+    font-size: 12px;
 }
 #twiz_head_version a { 
     text-decoration: none;
 }
 #twiz_head_setting {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 4px;
     float:left;
 }
 #twiz_head_addnew {
+    display: block;
     margin-right: 15px;
     margin-top: 20px;
+    height: 20px;
+    width: 73px;
     float: right;
 }
 #twiz_header {
@@ -195,7 +198,7 @@
     border-right: 1px solid #D1D1D1;
     width: 20px;
     color: #a7a7a7;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     text-align: center    
 }
@@ -265,7 +268,7 @@
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;       
     text-align: center;
-    font-size: 9px;
+    font-size: 10px;
 }
 #twiz_footer a {
     text-decoration: none;
@@ -287,12 +290,12 @@
     cursor: pointer;
 }
 .twiz-table-list-td-h {
-    font-size: 11px;
+    font-size: 12px;
     padding: 4px;
 }
 .twiz-table-list-td {
     padding: 2px;
-    font-size: 12px;
+    font-size: 14px;
 }
 .twiz-td-center {
     text-align: center;
@@ -332,12 +335,16 @@
     width: 50px;
 }
 .twiz-blue {
-    font-size:10px;
+    font-size:12px;
     color:blue;
 }
 .twiz-green {
-    font-size: 10px;
+    font-size: 12px;
     color: green;
+}
+.twiz-red {
+    font-size: 12px;
+    color: red;
 }
 .twiz-td-delay {
     width: 50px;
@@ -391,9 +398,6 @@
     padding: 3px;
     font-size: 12px;
     text-align: right;
-}
-#twiz_div_output{
-    margin-bottom: 10px;
 }
 .twiz-td-picklist {
     height: 30px;
@@ -458,7 +462,7 @@ a.twiz-more-options:hover {
 }
 .twiz-td-e-g {
     line-height: 15px;
-    font-size: 10px;
+    font-size: 11px;
 }
 .twiz-loading-gif-save {
     height: 15px;
@@ -478,11 +482,11 @@ a.twiz-more-options:hover {
 .twiz-view-td-left {
     width: 242px;
     padding: 2px;
-    font-size: 12px;
+    font-size: 13px;
 }
 .twiz-view-td-right {
     padding: 2px;
-    font-size: 12px;
+    font-size: 13px;
     text-align: left;
 }            
 .twiz-bold {
@@ -493,11 +497,11 @@ a.twiz-more-options:hover {
 }
 .twiz-status-green {
     color: green;
-    font-size: 12px;
+    font-size: 13px;
 }
 .twiz-status-red {
     color: red;
-    font-size: 12px;
+    font-size: 13px;
 }
 .twiz-float-left {
     float: left;
@@ -522,8 +526,8 @@ a.twiz-more-options:hover {
     background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
     background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
     border: 1px solid #D1D1D1;
-    padding: 0 3px 0 3px;
-    font-size: 10px;
+    padding: 0 8px 0 8px;
+    font-size: 12px;
 }
 #twiz_import:hover,
 #twiz_export:hover,
@@ -536,6 +540,19 @@ a.twiz-more-options:hover {
     background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
     cursor: pointer;
+}
+#twiz_export_url {
+    float: left;
+    margin-left: 8px;
+    font-size: 12px;
+}
+#twiz_img_loading_export {
+    margin: 5px 0px 0px 0px;
+    float:left;
+}
+#twiz_export_url a {
+    margin: 5px 3px 0px 0px;
+    float:left;
 }
 #twiz_import,
 #twiz_export,

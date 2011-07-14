@@ -114,7 +114,8 @@ class Twiz{
     const F_START_DELAY          = 'start_delay';  
     const F_DURATION             = 'duration';  
     const F_OUTPUT               = 'output';  
-    const F_JAVASCRIPT           = 'javascript';     
+    const F_OUTPUT_POS           = 'output_pos';
+    const F_JAVASCRIPT           = 'javascript';
     const F_START_TOP_POS_SIGN   = 'start_top_pos_sign';        
     const F_START_TOP_POS        = 'start_top_pos';  
     const F_START_LEFT_POS_SIGN  = 'start_left_pos_sign';  
@@ -261,6 +262,7 @@ class Twiz{
                                       ,self::F_START_DELAY          => 'DD'
                                       ,self::F_DURATION             => 'EE'
                                       ,self::F_OUTPUT               => 'EG'
+                                      ,self::F_OUTPUT_POS           => 'EJ'
                                       ,self::F_JAVASCRIPT           => 'EL'
                                       ,self::F_START_TOP_POS_SIGN   => 'FF'
                                       ,self::F_START_TOP_POS        => 'GG'    
@@ -290,7 +292,8 @@ class Twiz{
                                  ,self::F_ON_EVENT                             
                                  ,self::F_START_DELAY          
                                  ,self::F_DURATION    
-                                 ,self::F_OUTPUT                                  
+                                 ,self::F_OUTPUT  
+                                 ,self::F_OUTPUT_POS
                                  ,self::F_JAVASCRIPT   
                                  ,self::F_START_TOP_POS_SIGN 
                                  ,self::F_START_TOP_POS           
@@ -312,8 +315,9 @@ class Twiz{
                                  ,self::F_EXTRA_JS_B           
                                  );                                 
                                  
-    /* upload import path constant*/
+    /* upload import export path constant*/
     const IMPORT_PATH = '/twiz/';       
+    const EXPORT_PATH = 'export/';       
   
     /* import max file size constant */ 
     const IMPORT_MAX_SIZE = '2097152';
@@ -334,12 +338,12 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.6.9';
-        $this->dbVersion  = '2.2';
+        $this->version    = '1.3.7';
+        $this->dbVersion  = '2.3';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
-        $this->nonce      = wp_create_nonce('twiz-nonce');
+        $this->nonce      =  wp_create_nonce('twiz-nonce');
         $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
 
@@ -352,7 +356,6 @@ class Twiz{
         $html.= '<div id="twiz_master">';
         
         $html.= $this->getHtmlGlobalstatus();
-        $html.= $this->getAjaxHeader();
         $html.= $this->getHtmlHeader();
         
         $myTwizMenu  = new TwizMenu(); 
@@ -396,7 +399,7 @@ class Twiz{
     private function getHtmlFooterMenu(){
     
       $import = '<div id="twiz_import_container">'.__('Import', 'the-welcomizer').'</div>';
-      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div>';
+      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div><div id="twiz_export_url"></div>';
       $library_upload = '<div id="twiz_library_upload">'.__('Upload', 'the-welcomizer').'</div>';
       $library = '<div id="twiz_library">'.__('Library', 'the-welcomizer').'</div>';
       $admin = '<div id="twiz_admin">'.__('Admin', 'the-welcomizer').'</div>';
@@ -416,12 +419,8 @@ class Twiz{
         return $footer;
     }    
 
-    private function getAjaxHeader(){
-    
-        $header = '
-<script src="'.$this->pluginUrl.'/includes/import/client/fileuploader.js" type="text/javascript"></script>
-<script>
- //<![CDATA[
+ function getAjaxHeader(){
+     $header = '
  jQuery(document).ready(function($) {
  var twiz_hide_MessageDelay = 1234;
  var twiz_view_id = null;
@@ -437,8 +436,8 @@ class Twiz{
         allowedExtensions: ["'.self::EXT_TWZ.'", "'.self::EXT_XML.'"],
         sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
-        onSubmit: function (){ twiz_import_file.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
-        onComplete: function (){twizPostMenu(twiz_current_section_id);},
+        onSubmit: function (){ twiz_import_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
+        onComplete: function (){$("#twiz_export_url").html(""); twizPostMenu(twiz_current_section_id);},
         messages: {
             typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
             sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
@@ -457,8 +456,8 @@ class Twiz{
         allowedExtensions: ["'.self::EXT_JS.'", "'.self::EXT_CSS.'"],
         sizeLimit: '.self::IMPORT_MAX_SIZE.', // max size   
         minSizeLimit: 1, // min size
-        onSubmit: function (){ twiz_upload_file.setParams({ twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_UPLOAD_LIBRARY.'"});},
-        onComplete: function (){twizPostLibrary();},
+        onSubmit: function (){ twiz_upload_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.self::ACTION_UPLOAD_LIBRARY.'"});},
+        onComplete: function (){$("#twiz_export_url").html(""); twizPostLibrary();},
         messages: {
             typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
             sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
@@ -467,7 +466,7 @@ class Twiz{
             onLeave: "'.__('The files are being uploaded, if you leave now the upload will be cancelled.', 'the-welcomizer').'",
             showMessage: function(message){ alert(message); }
         }
- });    
+ });   
  var bind_twiz_setting_menu = function() {
     $("input[name=twiz_setting_menu]").click(function(){
       twizSettingDisplay($(this).val());
@@ -488,6 +487,7 @@ class Twiz{
     $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
     $("#twiz_menu_" + section).attr({"class" : "twiz-menu twiz-menu-selected"});
     $("#qq_upload_list li").remove(); 
+    $("#twiz_export_url").html(""); 
     twizPostMenu(section);
  }
  var bind_twiz_New = function() {
@@ -495,10 +495,11 @@ class Twiz{
      twiz_view_id = "edit";
      $(this).fadeOut("fast");
      $("#twiz_container").fadeOut("slow");
-        $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_NEW.'"
-        }, function(data) {
+        $.post(ajaxurl,  {
+        action: "twiz_ajax_callback",
+        twiz_action: "'.self::ACTION_NEW.'",
+        twiz_nonce: "'.$this->nonce.'"
+     }, function(data) {
             $("#twiz_container").html(data);
             $("#twiz_container").fadeIn("slow");
             twiz_view_id = null;
@@ -514,10 +515,11 @@ class Twiz{
             $("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
             $("#twiz_right_panel").fadeIn("slow");    
             if(twiz_array_view_id[numid]==undefined){
-                $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-                "twiz_nonce": "'.$this->nonce.'", 
-                "twiz_action": "'.self::ACTION_VIEW.'",
-                "twiz_id": numid
+                $.post(ajaxurl, {
+                action: "twiz_ajax_callback",
+                twiz_nonce: "'.$this->nonce.'", 
+                twiz_action: "'.self::ACTION_VIEW.'",
+                twiz_id: numid
                 }, function(data) {
                     $("#twiz_right_panel").html(data);
                     twiz_array_view_id[numid] = data;
@@ -536,17 +538,18 @@ class Twiz{
     $("img[name^=twiz_status]").click(function(){
         var textid = $(this).attr("name");
         var numid = textid.substring(12,textid.length);
-        var action = "'.self::ACTION_STATUS.'";
+        var c_action = "'.self::ACTION_STATUS.'";
         if(twiz_current_section_id=="library"){
-            action = "'.self::ACTION_LIBRARY_STATUS.'";
+            c_action = "'.self::ACTION_LIBRARY_STATUS.'";
         }
         if(numid!="global"){
             $(this).hide();
             $("#twiz_img_status_" + numid).fadeIn("slow");        
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": action,
-            "twiz_id": numid
+            $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: c_action,
+            twiz_id: numid
             }, function(data) {
                 $("#twiz_td_status_" + numid).html(data);
                 $("img[name^=twiz_status]").unbind("click");
@@ -555,10 +558,11 @@ class Twiz{
                 if((twiz_view_id != numid)&&(twiz_view_id!="edit")&&(twiz_current_section_id!="library")){
                     twiz_view_id = numid;
                     if(twiz_array_view_id[numid]==undefined){
-                        $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-                        "twiz_nonce": "'.$this->nonce.'", 
-                        "twiz_action": "'.self::ACTION_VIEW.'",
-                        "twiz_id": numid
+                        $.post(ajaxurl, {
+                        action: "twiz_ajax_callback",
+                        twiz_nonce: "'.$this->nonce.'", 
+                        twiz_action: "'.self::ACTION_VIEW.'",
+                        twiz_id: numid
                         }, function(data) {
                             $("#twiz_right_panel").html(data);
                             twiz_array_view_id[numid] = data;
@@ -572,9 +576,10 @@ class Twiz{
         }else{
             $(this).hide();
             $("#twiz_img_status_global").fadeIn("slow");        
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": "'.self::ACTION_GLOBAL_STATUS.'"
+            $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: "'.self::ACTION_GLOBAL_STATUS.'"
             }, function(data) {
                 $("#twiz_global_status").html(data);
                 $("img[name^=twiz_status]").unbind("click");
@@ -595,11 +600,12 @@ class Twiz{
         twiz_view_id = "edit";
         $(this).hide();
         $("#twiz_img_edit_" + numid).fadeIn("slow");    
-        $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_EDIT.'",
-        "twiz_id": numid,
-        "twiz_section_id": twiz_current_section_id
+        $.post(ajaxurl, {
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_EDIT.'",
+        twiz_id: numid,
+        twiz_section_id: twiz_current_section_id
         }, function(data) {
             $("#twiz_container").html(data);
             twiz_view_id = null;
@@ -630,11 +636,12 @@ class Twiz{
         twiz_view_id = "edit";
         $(this).hide();
         $("#twiz_img_copy_" + numid).fadeIn("slow");    
-        $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_COPY.'",
-        "twiz_id": numid,
-        "twiz_section_id": twiz_current_section_id
+        $.post(ajaxurl, {
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_COPY.'",
+        twiz_id: numid,
+        twiz_section_id: twiz_current_section_id
         }, function(data) {
             $("#twiz_container").html(data);
             twiz_view_id = null;
@@ -663,17 +670,18 @@ class Twiz{
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
             var textid = $(this).attr("name");
             var numid = textid.substring(12,textid.length);    
-            var action = "'.self::ACTION_DELETE.'";
+            var c_action = "'.self::ACTION_DELETE.'";
             if(twiz_current_section_id=="library"){
-                action = "'.self::ACTION_DELETE_LIBRARY.'";
+                c_action = "'.self::ACTION_DELETE_LIBRARY.'";
             }            
             $(this).hide();
             $("#twiz_img_delete_" + numid).fadeIn("slow");
             $("#twiz_right_panel").fadeOut("slow");
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": action,
-             "twiz_id": numid 
+            $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: c_action,
+            twiz_id: numid 
              }, function(data) {        
                  $("#twiz_list_tr_" + numid).fadeOut();
                  twiz_array_view_id[numid] = undefined;
@@ -684,10 +692,11 @@ class Twiz{
  var bind_twiz_Cancel = function() {
     $("#twiz_cancel").click(function(){
     $("#twiz_container").fadeOut("slow");
-    $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-    "twiz_nonce": "'.$this->nonce.'", 
-    "twiz_action": "'.self::ACTION_CANCEL.'",
-    "twiz_section_id": twiz_current_section_id
+    $.post(ajaxurl, {
+    action: "twiz_ajax_callback",
+    twiz_nonce: "'.$this->nonce.'", 
+    twiz_action: "'.self::ACTION_CANCEL.'",
+    twiz_section_id: twiz_current_section_id
     }, function(data) {
         $("#twiz_container").html(data);
         $("#twiz_container").fadeIn("slow");
@@ -707,9 +716,10 @@ class Twiz{
     $("#twiz_save").attr({"disabled" : "true"});
     $("#twiz_save_img").fadeIn("slow");
     var numid = $("#twiz_id").val();
-    $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-         "twiz_nonce": "'.$this->nonce.'", 
-         "twiz_action": "'.self::ACTION_SAVE.'", ';
+    $.post(ajaxurl, {
+         action: "twiz_ajax_callback",
+         twiz_nonce: "'.$this->nonce.'", 
+         twiz_action: "'.self::ACTION_SAVE.'", ';
          
          $i=0;
          $count_array = count($this->array_fields);
@@ -722,22 +732,22 @@ class Twiz{
                     
                  case self::F_SECTION_ID:
                  
-                    $header.= '"twiz_'.$value.'": twiz_current_section_id'.$comma;
+                    $header.= 'twiz_'.$value.': twiz_current_section_id'.$comma;
                     break;  
                                    
                  case self::F_ID:
                  
-                    $header.= '"twiz_'.$value.'": numid'.$comma;
+                    $header.= 'twiz_'.$value.': numid'.$comma;
                     break;
                     
                  case self::F_STATUS:
                  
-                    $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
+                    $header.= 'twiz_'.$value.': $("#twiz_'.$value.'").is(":checked")'.$comma;
                     break;
                                       
                  default:
                  
-                    $header.= ' "twiz_'.$value.'": $("#twiz_'.$value.'").val()'.$comma;
+                    $header.= 'twiz_'.$value.': $("#twiz_'.$value.'").val()'.$comma;
              }
              
              $i++;
@@ -815,10 +825,11 @@ class Twiz{
         var textid = $(this).attr("name");
         var charid = textid.substring(20,textid.length);
         $("#twiz_td_full_option_" + charid).html(\'<img src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
-        $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", { 
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_OPTIONS.'",
-        "twiz_charid": charid
+        $.post(ajaxurl, { 
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_OPTIONS.'",
+        twiz_charid: charid
         }, function(data) {
         $("#twiz_td_full_option_" + charid).html(data);
         bind_twiz_Select_Options(charid);
@@ -880,12 +891,13 @@ class Twiz{
                  $("#twiz_ajax_td_val_" + columnName + "_" + numid).html("");
                  $("#twiz_ajax_td_val_" + columnName + "_" + numid).hide();
                  $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html(\'<img name="twiz_img_loading_delay_\' + numid + \'[]" id="twiz_img_loading_delay_\' + numid + \'[]" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
-                $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", { 
-                "twiz_nonce": "'.$this->nonce.'", 
-                "twiz_action": "'.self::ACTION_EDIT_TD.'",
-                "twiz_id": numid, 
-                "twiz_column": columnName, 
-                "twiz_value": txtval
+                $.post(ajaxurl, { 
+                action: "twiz_ajax_callback",
+                twiz_nonce: "'.$this->nonce.'", 
+                twiz_action: "'.self::ACTION_EDIT_TD.'",
+                twiz_id: numid, 
+                twiz_column: columnName, 
+                twiz_value: txtval
                 }, function(data) {
                     $("#twiz_ajax_td_loading_" + columnName + "_" + numid).html("");
                     $("#twiz_ajax_td_val_" + columnName + "_" + numid).html(data);
@@ -927,10 +939,11 @@ class Twiz{
             $("#twiz_right_panel").html("<div class=\"twiz-panel-loading\"><img src=\"'.$this->pluginUrl.'/images/twiz-big-loading.gif\"></div>");
             $("#twiz_right_panel").fadeIn("fast");    
             if(twiz_array_view_id[numid]==undefined){
-                $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-                "twiz_nonce": "'.$this->nonce.'", 
-                "twiz_action": "'.self::ACTION_VIEW.'",
-                "twiz_id": numid
+                $.post(ajaxurl, {
+                action: "twiz_ajax_callback",
+                twiz_nonce: "'.$this->nonce.'", 
+                twiz_action: "'.self::ACTION_VIEW.'",
+                twiz_id: numid
                 }, function(data) {
                     $("#twiz_right_panel").html(data);
                     twiz_array_view_id[numid] = data;
@@ -956,13 +969,18 @@ class Twiz{
             if(twiz_current_section_id!=twiz_default_section_id){
                 $("#twiz_menu_" + twiz_current_section_id).fadeOut("slow");
             }
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": "'.self::ACTION_DELETE_SECTION.'",
-            "twiz_section_id": twiz_current_section_id
+            $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: "'.self::ACTION_DELETE_SECTION.'",
+            twiz_section_id: twiz_current_section_id
             }, function(data) {                
             if(twiz_current_section_id!=twiz_default_section_id){
-                var options = $("#twiz_slc_sections").attr("options");
+                if($("#twiz_slc_sections").prop) {
+                  var options = $("#twiz_slc_sections").prop("options");
+                } else {
+                  var options = $("#twiz_slc_sections").attr("options");
+                }
                 options[options.length] = new Option($("#twiz_menu_" + twiz_current_section_id).html(), twiz_current_section_id, false, false);
                 $("#twiz_menu_" + twiz_current_section_id).remove();
                 $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
@@ -975,18 +993,21 @@ class Twiz{
                 bind_twiz_Menu();            
             }
              $("#qq_upload_list li").remove();
+             $("#twiz_export_url").html(""); 
             twizPostMenu(twiz_default_section_id);
             });
         }
    });    
     $("#twiz_delete_menu_everywhere").click(function(){  
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": "'.self::ACTION_DELETE_SECTION.'",
-            "twiz_section_id": twiz_current_section_id
+            $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: "'.self::ACTION_DELETE_SECTION.'",
+            twiz_section_id: twiz_current_section_id
             }, function(data) {                
             $("#qq_upload_list li").remove();
+            $("#twiz_export_url").html(""); 
             twizPostMenu(twiz_current_section_id);
             });
         }
@@ -997,16 +1018,18 @@ class Twiz{
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
         $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
         $("#qq_upload_list li").remove(); 
+        $("#twiz_export_url").html(""); 
        twizPostMenu(twiz_current_section_id);
     });
   }    
   function twizPostMenu(section_id){
    $("#twiz_container").slideToggle("fast"); 
    $("#twiz_library_upload").fadeOut("fast");
-   $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-            "twiz_nonce": "'.$this->nonce.'", 
-            "twiz_action": "'.self::ACTION_MENU.'",
-            "twiz_section_id": section_id
+   $.post(ajaxurl, {
+            action: "twiz_ajax_callback",
+            twiz_nonce: "'.$this->nonce.'", 
+            twiz_action: "'.self::ACTION_MENU.'",
+            twiz_section_id: section_id
             }, function(data) {
                 $("#twiz_container").html(data);
                 $("#twiz_container").slideToggle("slow");  
@@ -1033,17 +1056,19 @@ class Twiz{
         if((sectionid != "")&&(sectionid != "+++ +++ +++")){
             $("input[id=twiz_save_section]").attr({"disabled" : "true"});
             $("#twiz_add_sections").hide();
-            $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-                 "twiz_nonce": "'.$this->nonce.'", 
-                 "twiz_action": "'.self::ACTION_ADD_SECTION.'",
-                 "twiz_section_id": sectionid
+            $.post(ajaxurl, {
+                 action: "twiz_ajax_callback",
+                 twiz_nonce: "'.$this->nonce.'", 
+                 twiz_action: "'.self::ACTION_ADD_SECTION.'",
+                 twiz_section_id: sectionid
                 }, function(data) {
                     $("#twiz_delete_menu").before(data);
                     $("#twiz_container").fadeOut("slow");   
-                    $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-                    "twiz_nonce": "'.$this->nonce.'", 
-                    "twiz_action": "'.self::ACTION_MENU.'",
-                    "twiz_section_id": sectionid
+                    $.post(ajaxurl, {
+                    action: "twiz_ajax_callback",
+                    twiz_nonce: "'.$this->nonce.'", 
+                    twiz_action: "'.self::ACTION_MENU.'",
+                    twiz_section_id: sectionid
                     }, function(data) {
                         twiz_current_section_id = sectionid; 
                         $("#twiz_slc_sections option[value=\'" + sectionid + "\']").remove();
@@ -1112,7 +1137,7 @@ class Twiz{
       }
       $("#twiz_td_arrow_" + ab).html(htmlimage);
     }
-  }
+   }
     var bind_twiz_Library_New_Order = function() {
         $("img[name^=twiz_new_order_up]").click(function(){
             var textid = $(this).attr("id");
@@ -1128,11 +1153,12 @@ class Twiz{
         });        
     }
     function twizOrderLibrary(order, numid){
-      $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_ORDER_LIBRARY.'",
-        "twiz_order": order,
-        "twiz_id" : numid
+      $.post(ajaxurl, {
+       action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_ORDER_LIBRARY.'",
+        twiz_order: order,
+        twiz_id : numid
         }, function(data) {                
             $("#twiz_container").html(data);
             $("img[name^=twiz_new_order_up]").unbind("click");
@@ -1145,21 +1171,30 @@ class Twiz{
   }
   var bind_twiz_FooterMenu = function() {
     $("#twiz_export").click(function(){
-          var animid = $("#twiz_id").val();
-          if(animid==undefined){
-            animid = "";
-          }
-          var sectionid = $("#twiz_slc_sections").val();
-          var superiframe = document.createElement("iframe");
-          superiframe.src = "'.$this->pluginUrl.'/twiz-ajax.php?twiz_nonce='.$this->nonce.'&twiz_action='.self::ACTION_EXPORT.'&twiz_section_id=" + twiz_current_section_id + "&twiz_id=" + animid;
-          superiframe.style.display = "none";
-          document.body.appendChild(superiframe); 
+        $("#twiz_export_url").html(\'<img name="twiz_img_loading_export" id="twiz_img_loading_export" src="'.$this->pluginUrl.'/images/twiz-loading.gif">\');
+        $("#qq_upload_list li").remove(); 
+        var animid = $("#twiz_id").val();
+        if(animid==undefined){
+           animid = "";
+        }
+        $.post(ajaxurl, {
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_EXPORT.'",
+        twiz_section_id: twiz_current_section_id,
+        twiz_id: animid
+        }, function(data) {
+           var superiframe = document.createElement("iframe");
+           $("#twiz_export_url").html( data );
+           document.body.appendChild(data); 
+        });
     });   
     $("#twiz_library").click(function(){
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"}); 
         $("#twiz_export").fadeOut("fast");
         $("#twiz_import").fadeOut("fast");
         $("#qq_upload_list li").remove();
+        $("#twiz_export_url").html(""); 
         twizPostLibrary();
     });     
     $("#twiz_admin").click(function(){
@@ -1168,9 +1203,10 @@ class Twiz{
   }  
   function twizPostLibrary(){
       $("#twiz_container").slideToggle("fast"); 
-      $.post("'.$this->pluginUrl.'/twiz-ajax.php'.'", {
-        "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.self::ACTION_LIBRARY.'"
+      $.post(ajaxurl, {
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.self::ACTION_LIBRARY.'"
         }, function(data) {                
             $("#twiz_container").html(data);
             $("#twiz_container").slideToggle("slow"); 
@@ -1204,12 +1240,11 @@ class Twiz{
   bind_twiz_Save_Section();bind_twiz_FooterMenu();
   bind_twiz_setting_menu();
   $("#twiz_container").slideToggle("slow");
- });
- //]]>
-</script>';
+ });';
        return $header;
+       
     }
-     
+    
     private function createHtmlList( $listarray = array() ){ 
     
         if( count($listarray) == 0 ){return false;}
@@ -1217,6 +1252,7 @@ class Twiz{
         $opendiv = '';
         $closediv = '';
         $rowcolor = '';
+        $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
         
         /* ajax container */ 
         if( !in_array($_POST['twiz_action'], $this->array_action_excluded) ){
@@ -1269,7 +1305,8 @@ class Twiz{
     function export( $section_id = '', $id = '' ){
   
         $sectionname = '';
-    
+        $error = '';
+        
         if( $id != '' ) {
         
            $where = " where ".self::F_ID." = '".$id."'";
@@ -1312,17 +1349,38 @@ class Twiz{
         $filedata .= '</TWIZ>'."\n";
         
         $sectionname = ($sectionname == '') ? $sectionname = $section_id.$id : $sectionname.$id;
+       
+        $filename = urldecode($sectionname).".".self::EXT_TWZ;
+        $filepath = self::IMPORT_PATH.self::EXPORT_PATH;
+        $filepathdir = WP_CONTENT_DIR.$filepath;
+        $filefullpathdir = $filepathdir.$filename;
+        $filefullpathurl = WP_CONTENT_URL.$filepath.$filename;
+ 
+        if (!is_writable($filepathdir)) {
+            @mkdir($filepathdir, 755); 
+        }
+ 
+        if (is_writable($filepathdir)) {
+
+            if (!$handle = fopen($filefullpathdir, 'w')) {
+                $error =  __("Cannot open file", 'the-welcomizer').' ('.$filename.')';
+                exit;
+            }
+
+            if (fwrite($handle, $filedata) === FALSE) {
+                $error = __("Cannot write to file", 'the-welcomizer').' ('.$filename.')';
+                exit;
+            }
+
+            fclose($handle);
+
+        } else {
+           $error =  __("You must first create this directory", 'the-welcomizer').':<br>'.$this->import_path_message;
+        }
         
-        header("Content-Type: text/".self::EXT_TWZ.";\n"); 
-        header("Content-Transfer-Encoding: binary\n");
-        header("Content-length: ".$this->utf8_strlen($filedata)."\n");
-        header("Content-Disposition: attachment; filename=\"".urldecode($sectionname).".".self::EXT_TWZ."\"\n");
-        header("Content-Description: The Welcomizer generated data: ".date('Y-m-d H:i:s')."\n");
-        header("Expires: 0");
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Pragma: no-cache"); 
+        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.'/images/twiz-download.png"></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
         
-        return $filedata;
+        return $html;
     }
    
     private function utf8_strlen( $string = '' ) {
@@ -1356,7 +1414,7 @@ class Twiz{
     function install(){ 
     
         global $wpdb;
-                 
+
         $sql = "CREATE TABLE ".$this->table." (". 
                 self::F_ID . " int NOT NULL AUTO_INCREMENT, ". 
                 self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."', ". 
@@ -1367,6 +1425,7 @@ class Twiz{
                 self::F_START_DELAY . " int(5) NOT NULL default 0, ". 
                 self::F_DURATION . " int(5) NOT NULL default 0, ". 
                 self::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
+                self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b', ".
                 self::F_JAVASCRIPT . " text NOT NULL default '', ". 
                 self::F_START_TOP_POS_SIGN . " varchar(1) NOT NULL default '', ". 
                 self::F_START_TOP_POS . " int(5) default NULL, ". 
@@ -1387,7 +1446,7 @@ class Twiz{
                 self::F_EXTRA_JS_A . " text NOT NULL default '', ". 
                 self::F_EXTRA_JS_B . " text NOT NULL default '', " .  
                 "PRIMARY KEY (". self::F_ID . ")
-                );";
+                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
                 
                 
         if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
@@ -1403,38 +1462,69 @@ class Twiz{
         }else{
             
            $dbversion = get_option('twiz_db_version');
-                   
+           $array_describe = '';       
+           
             if( $dbversion != $this->dbVersion ){
-         
-                /* Add the new field from <= v.1.3.2.3 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ". self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."' after ".self::F_ID."";
-                $code = $wpdb->query($altersql);
                 
-                /* Add the new field from <= v 1.3.5.7 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
-                $code = $wpdb->query($altersql);
                 
-                /* Add the new field from <= v 1.3.5.8 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ". self::F_JAVASCRIPT . " text NOT NULL default '' after ".self::F_DURATION."";
-                $code = $wpdb->query($altersql);
+                /* Describe table */
+                $describe = "DESCRIBE ".$this->table ."";
+                $describe_rows = $wpdb->get_results($describe, ARRAY_A);
                 
-                /* Add the new field from <= v 1.3.5.8 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ". self::F_ZINDEX . " varchar(5) NOT NULL default '' after ".self::F_POSITION."";
-                $code = $wpdb->query($altersql);
+                foreach($describe_rows as $values){
                 
-                /* Add the new field from <= v 1.3.6.1 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ". self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."' after ".self::F_STATUS."";
-                $code = $wpdb->query($altersql);
+                    $array_describe[] = $values['Field'];
+                }
                 
-                /* Add the new field from <= v 1.3.6.6 */
-                $altersql = "ALTER TABLE ".$this->table .
-                " ADD ". self::F_OUTPUT . " varchar(1) NOT NULL default 'b' after ".self::F_DURATION."";
-                $code = $wpdb->query($altersql);
+                if( !in_array(self::F_SECTION_ID, $array_describe) ){
+                
+                    /* Add the new field from <= v.1.3.2.3 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."' after ".self::F_ID."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_ON_EVENT, $array_describe) ){    
+                
+                    /* Add the new field from <= v 1.3.5.7 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_JAVASCRIPT, $array_describe) ){
+                
+                    /* Add the new field from <= v 1.3.5.8 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_JAVASCRIPT . " text NOT NULL default '' after ".self::F_DURATION."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_ZINDEX, $array_describe) ){
+                
+                    /* Add the new field from <= v 1.3.5.8 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_ZINDEX . " varchar(5) NOT NULL default '' after ".self::F_POSITION."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_TYPE, $array_describe) ){        
+                
+                    /* Add the new field from <= v 1.3.6.1 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."' after ".self::F_STATUS."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_OUTPUT, $array_describe) ){
+                
+                    /* Add the new field from <= v 1.3.6.6 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_OUTPUT . " varchar(1) NOT NULL default 'b' after ".self::F_DURATION."";
+                    $code = $wpdb->query($altersql);
+                }
+                if( !in_array(self::F_OUTPUT_POS, $array_describe) ){
+                
+                    /* Add the new field from <= v 1.3.7 */
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b' after ".self::F_OUTPUT."";
+                    $code = $wpdb->query($altersql);
+                }
                 
                 $tsoption = get_option('twiz_setting_menu'); // home / cat / page
                 
@@ -1442,11 +1532,6 @@ class Twiz{
                 
                     $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page
                 }
-                
-                /* update anythying else */
-                require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-            
-                dbDelta($sql);
             
                 $code = update_option('twiz_db_version', $this->dbVersion);
                 
@@ -1560,6 +1645,7 @@ class Twiz{
              ,".self::F_START_DELAY."
              ,".self::F_DURATION."
              ,".self::F_OUTPUT."
+             ,".self::F_OUTPUT_POS."
              ,".self::F_JAVASCRIPT."
              ,".self::F_START_TOP_POS_SIGN."
              ,".self::F_START_TOP_POS."
@@ -1587,6 +1673,7 @@ class Twiz{
              ,'0".esc_attr(trim($data[self::F_START_DELAY]))."'
              ,'0".esc_attr(trim($data[self::F_DURATION]))."'
              ,'".esc_attr(trim($data[self::F_OUTPUT]))."'
+             ,'".esc_attr(trim($data[self::F_OUTPUT_POS]))."'
              ,'".esc_attr($twiz_javascript)."'    
              ,'".esc_attr(trim($data[self::F_START_TOP_POS_SIGN]))."'    
              ,".$twiz_start_top_pos."
@@ -1631,12 +1718,12 @@ class Twiz{
     protected function getImportDirectory( $extensions = array(self::EXT_TWZ, self::EXT_XML) ){
         
         $filearray = '';
-        
         if ( $handle = @opendir(WP_CONTENT_DIR.self::IMPORT_PATH ) ) {
         
             while ( false !== ( $file = readdir($handle) ) ) {
             
                $pathinfo = pathinfo(WP_CONTENT_DIR.self::IMPORT_PATH.$file);
+               if( !isset($pathinfo['extension']) ) $pathinfo['extension'] = '' ;
                $ext = $pathinfo['extension'];
         
                 if ( ( $file != "." && $file != ".." ) && (in_array(strtolower($ext), $extensions) ) ) {
@@ -1685,6 +1772,8 @@ class Twiz{
     function getFrontEnd(){
       
         global $post;
+      
+        $generatedscript = '';
       
         wp_reset_query(); // fix is_home() due to a custom query.
         
@@ -1770,10 +1859,33 @@ jQuery(document).ready(function($){';
 
             /* generates the code */
             foreach($listarray as $value){   
+            
                 $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_ID];
                 $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
+                                
+                if( $value[self::F_OUTPUT] == 'r' ){ // ready 
+
+                    $repeatname = $value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
+                    /* js */    
+                    $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                }   
+                
+                if($value[self::F_OUTPUT_POS]=='r'){ // ready
+               
+                    $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
+                        
+                    /* css position */ 
+                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
+                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
+
+                    /* starting positions */ 
+                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
+                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+                       
+               }                
+                
             }
-             
+            
             $generatedscript .= '
 $.fn.twizReplay = function(){ ';
            
@@ -1791,19 +1903,26 @@ $.fn.twizReplay = function(){ ';
                 
                 /* replace this */
                 $value[self::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[self::F_JAVASCRIPT]);
+                
+
                 /* repeat animation function */
                 $generatedscript .= '
 $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
           
+                if(($value[self::F_OUTPUT_POS]=='b')or ($value[self::F_OUTPUT_POS]=='')){ // before
+                    
+                    
                 /* css position */ 
                 $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
                 $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
-  
+
                 /* starting positions */ 
                 $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
                 $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
-                  
-                if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before or older version
+                   
+                }
+                
+                if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before
                     /* js */    
                     $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
                 }
@@ -1814,6 +1933,19 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                     
                     /* start delay */ 
                     $generatedscript .= 'setTimeout(function(){'; 
+                
+
+                    if($value[self::F_OUTPUT_POS]=='a'){ // after
+                        
+                    /* css position */ 
+                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
+                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
+
+                    /* starting positions */ 
+                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
+                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+                       
+                    }
                 
                     if( $value[self::F_OUTPUT] == 'a' ){ // after 
                         /* js */    
@@ -1832,7 +1964,7 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                         
                         /* animate jquery a */ 
                         $generatedscript .= '
-        $("'. $newElementFormat . '").animate({';
+$("'. $newElementFormat . '").animate({';
 
                         $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].'"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_A]!="") and ($value[self::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
@@ -1861,7 +1993,7 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                         /* animate jquery b */ 
                         
                         $generatedscript .= '
-        $("'. $newElementFormat . '").animate({';
+$("'. $newElementFormat . '").animate({';
 
                         $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
@@ -2028,7 +2160,9 @@ $(document).twizReplay();
         $opendiv = '';
         $closediv = '';
         $hideimport = '';
-         
+        $toggleoptions = '';
+        $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;  
+        
         if($id!=''){
             
             if(!$data = $this->getRow($id)){return false;}
@@ -2064,6 +2198,7 @@ $(document).twizReplay();
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#qq_upload_list li").remove(); 
+        $("#twiz_export_url").html(""); 
         '.$hideimport;
 
         /* Text Area auto expand */
@@ -2109,6 +2244,7 @@ $(document).twizReplay();
         if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '' ;
         if( !isset($data[self::F_DURATION]) ) $data[self::F_DURATION] = '' ;
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
+        if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '' ;
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '' ;
         if( !isset($data[self::F_START_TOP_POS]) ) $data[self::F_START_TOP_POS] = '' ;
         if( !isset($data[self::F_START_LEFT_POS]) ) $data[self::F_START_LEFT_POS] = '' ;
@@ -2148,6 +2284,14 @@ $(document).twizReplay();
         $twiz_position['relative'] = (( $data[self::F_POSITION] == 'relative' ) or ( $id == '' )) ? ' selected="selected"' : '';
         $twiz_position['static']   = ($data[self::F_POSITION] == 'static') ? ' selected="selected"' : '';
       
+      
+        $twiz_ouput_pos['ready'] = ($data[self::F_OUTPUT_POS] == 'r') ? ' selected="selected"' : '';
+        $twiz_ouput_pos['before'] = ($data[self::F_OUTPUT_POS] == 'b') ? ' selected="selected"' : '';
+        $twiz_ouput_pos['after'] = ($data[self::F_OUTPUT_POS] == 'a') ? ' selected="selected"' : '';
+        $twiz_ouput_pos['ready'] = ($data[self::F_OUTPUT_POS] == '') ? ' selected="selected"' : $twiz_ouput_pos['ready'];
+        
+        
+        $twiz_ouput['ready'] = ($data[self::F_OUTPUT] == 'r') ? ' selected="selected"' : '';
         $twiz_ouput['before'] = ($data[self::F_OUTPUT] == 'b') ? ' selected="selected"' : '';
         $twiz_ouput['after'] = ($data[self::F_OUTPUT] == 'a') ? ' selected="selected"' : '';
         $twiz_ouput['before'] = ($data[self::F_OUTPUT] == '') ? ' selected="selected"' : $twiz_ouput['before'];
@@ -2192,7 +2336,12 @@ $(document).twizReplay();
 <tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</b></a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr id="twiz_tr_starting_config">
     <td valign="top"><hr>
-        <table>
+        <table> 
+ <tr><td colspan="2" class="twiz-caption"><b>'.__('Starting Positions', 'the-welcomizer').'</b> <select name="twiz_'.self::F_OUTPUT_POS.'" id="twiz_'.self::F_OUTPUT_POS.'">
+        <option value="r" '.$twiz_ouput_pos['ready'].'>'.__('OnReady', 'the-welcomizer').'</option>
+        <option value="b" '.$twiz_ouput_pos['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
+        <option value="a" '.$twiz_ouput_pos['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
+        </select></td></tr>        
             <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
                 <option value="" '.$twiz_start_top_pos_sign['nothing'].'>+</option>
@@ -2214,11 +2363,17 @@ $(document).twizReplay();
             </td></tr>            
         </table>
     </td>
-    <td valign="top"><hr>'.__('JavaScript', 'the-welcomizer').'
-<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea><div id="twiz_div_output">'.__('Include', 'the-welcomizer').': <select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
+    <td valign="top"><hr>
+<table> 
+ <tr><td class="twiz-caption">
+    <b>'.__('JavaScript', 'the-welcomizer').'</b> <select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
+        <option value="r" '.$twiz_ouput['ready'].'>'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b" '.$twiz_ouput['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
         <option value="a" '.$twiz_ouput['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
-        </select></div>    
+        </select>
+      </td></tr>            
+        </table>
+<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>
     </td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2299,21 +2454,32 @@ $(document).twizReplay();
         $imagemove_b = $this->getDirectionalImage($data, 'b');
         $elementype = ($data[self::F_TYPE] == '') ? self::ELEMENT_TYPE_ID : $data[self::F_TYPE];
         
+        
+        $output_starting_pos = $this->getOutputLabel($data[self::F_OUTPUT_POS]);
+        $output_javascript = $this->getOutputLabel($data[self::F_OUTPUT]);
+            
+        
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap">'.str_replace("\n", "<br>", $data[self::F_JAVASCRIPT]).'</td></tr>
+        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap">
+        </td></tr>
 <tr><td colspan="2"><hr></td></tr>
-    <td>
-        <table>
-            <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
-            <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
-        </table>
+    <td valign="top">
+    <table>
+     <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Starting Positions', 'the-welcomizer').'</b>
+     <div class="twiz-green">'.$output_starting_pos.'</div></td></tr>
+        <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
+        <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
+        <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>
+         <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Z-Index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>
+    </table>
     </td>
-    <td>
-        <table>
-            <tr><td>'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>
-             <tr><td>'.__('Z-Index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>
-        </table>
+    <td valign="top">
+    <table>
+     <tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('JavaScript', 'the-welcomizer').'</b>
+     <div class="twiz-green">'.$output_javascript.'</div></td></tr>
+         <tr><td>'.str_replace("\n", "<br>", $data[self::F_JAVASCRIPT]).'</td></tr>
+    </table>    
     </td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2323,10 +2489,10 @@ $(document).twizReplay();
             <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
             <tr><td class="twiz-view-td-small-left"  nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_a .'</td></tr></table>
             <table class="twiz-view-table-more-options">
-                <tr><td colspan="2"><hr></td></tr>
-                <tr><td colspan="2">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>    
-                <tr><td colspan="2"><hr></td></tr>        
-                <tr><td colspan="2">'.str_replace("\n", "<br>",$data[self::F_EXTRA_JS_A]).'</td></tr>
+                <tr><td><hr></td></tr>
+                <tr><td>'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>    
+                <tr><td><hr></td></tr>        
+                <tr><td>'.str_replace("\n", "<br>",$data[self::F_EXTRA_JS_A]).'</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -2336,10 +2502,10 @@ $(document).twizReplay();
         <tr><td class="twiz-view-td-small-left" nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_b .'</td></tr>
         </table>
         <table class="twiz-view-table-more-options">
-            <tr><td colspan="2"><hr></td></tr>
-            <tr><td colspan="2">'.str_replace("\n", "<br>", $data[self::F_OPTIONS_B]).'</td></tr>
-            <tr><td colspan="2"><hr></td></tr>
-            <tr><td colspan="2">'.str_replace("\n", "<br>", $data[self::F_EXTRA_JS_B]).'</td></tr>
+            <tr><td><hr></td></tr>
+            <tr><td>'.str_replace("\n", "<br>", $data[self::F_OPTIONS_B]).'</td></tr>
+            <tr><td><hr></td></tr>
+            <tr><td>'.str_replace("\n", "<br>", $data[self::F_EXTRA_JS_B]).'</td></tr>
         </table>
 </td></tr>
 </table>';
@@ -2440,7 +2606,24 @@ $(document).twizReplay();
             
         return $select;
     }    
+    
+    private function getOutputLabel( $type = '' ){
+    
+        switch($type){
+            case 'r':
+                return '('.__('OnReady', 'the-welcomizer').')';
+            break;
+            case 'b':
+                return '('.__('Before the delay', 'the-welcomizer').')';
+            break;
+            case 'a':
+                return '('.__('After the delay', 'the-welcomizer').')';    
+            break;
+        }
         
+        return '';
+    }
+    
     private function getRow( $id = '' ){ 
     
         global $wpdb;
@@ -2471,12 +2654,16 @@ $(document).twizReplay();
     }
     
     private function preloadImages(){
+    
+        $html = '';
         
         foreach( $this->array_arrows as $value ) {
           
           $html .='<img width="45" height="45" src="'.$this->pluginUrl.'/images/twiz-arrow-'.$value.'.png" class="twiz-preload-images">';
         
         }
+        
+        $html .'<img src="http://www.sebastien-laframboise.com/go-green/wp-content/plugins/the-welcomizer/images/twiz-download.png"  class="twiz-preload-images">';
     
         return $html;
     
@@ -2582,6 +2769,7 @@ $(document).twizReplay();
                   ,".self::F_START_DELAY."
                   ,".self::F_DURATION."
                   ,".self::F_OUTPUT."
+                  ,".self::F_OUTPUT_POS."
                   ,".self::F_JAVASCRIPT."
                   ,".self::F_START_TOP_POS_SIGN."
                   ,".self::F_START_TOP_POS."
@@ -2609,6 +2797,7 @@ $(document).twizReplay();
                   ,'0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
                   ,'0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                   ,'".$twiz_javascript."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'    
                   ,".$twiz_start_top_pos."
@@ -2650,6 +2839,7 @@ $(document).twizReplay();
                  ,".self::F_START_DELAY." = '0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
                  ,".self::F_DURATION." = '0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
                  ,".self::F_OUTPUT." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
+                 ,".self::F_OUTPUT_POS." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                  ,".self::F_JAVASCRIPT." = '".$twiz_javascript."' 
                  ,".self::F_START_TOP_POS_SIGN." = '".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'
                  ,".self::F_START_TOP_POS." = ".$twiz_start_top_pos."

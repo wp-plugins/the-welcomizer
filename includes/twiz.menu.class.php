@@ -77,6 +77,9 @@ class TwizMenu extends Twiz{
     
         global $wpdb;
  
+        $select_cat = '';
+        $select_page = '';
+ 
         $sections = $this->array_sections;
   
         $addsection = '<div id="twiz_add_sections">';

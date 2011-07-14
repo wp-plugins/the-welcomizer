@@ -15,30 +15,29 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-    /* Require wp-config */
-    require_once(dirname(__FILE__).'/../../../wp-config.php');
-    
-    /* Require Twiz Class */
-    require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
-    require_once(dirname(__FILE__).'/includes/twiz.library.class.php'); 
+  // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
+  require_once(ABSPATH .'wp-includes/pluggable.php'); 
 
+  function twiz_ajax_callback(){
+  
+   global $wpdb;
     /* Nonce security (number used once) */
     $_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
-    $_GET['twiz_nonce'] = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'] ;
-    $nonce = ($_POST['twiz_nonce']=='') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
+    $nonce = $_POST['twiz_nonce'];
     
-    if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
+    if (!wp_verify_nonce($nonce, 'twiz-nonce') ) {
     
         die("Security check"); 
     }
 
     /* actions */
-    $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;
-    $_GET['twiz_action'] = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action'];    
-    $action = ($_POST['twiz_action']=='') ? $_GET['twiz_action'] : $_POST['twiz_action'];
+    $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;   
+    $action = $_POST['twiz_action'];
     
+    $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
+
     $htmlresponse = '';
-     
+
     switch(esc_attr(trim($action))){ 
     
         case Twiz::ACTION_MENU:
@@ -206,8 +205,8 @@
             
         case Twiz::ACTION_EXPORT:
         
-            $twiz_section_id = esc_attr(trim($_GET['twiz_section_id']));
-            $twiz_id = esc_attr(trim($_GET['twiz_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
         
             $myTwiz  = new Twiz();
             $htmlresponse = $myTwiz->export($twiz_section_id, $twiz_id);    
@@ -254,4 +253,6 @@
     }
     
     echo($htmlresponse); // output the result
+    die();
+ }
 ?>
