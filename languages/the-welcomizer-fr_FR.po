@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-14 02:46-0500\n"
-"PO-Revision-Date: 2011-07-14 02:55-0500\n"
+"PO-Revision-Date: 2011-07-14 09:50-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "Plus de configurations"
 #: includes/twiz.class.php:2344
 #: includes/twiz.class.php:2473
 msgid "Starting Positions"
-msgstr "Position de départ"
+msgstr "Positions de départ"
 
 #: includes/twiz.class.php:2345
 #: includes/twiz.class.php:2374
