@@ -135,19 +135,18 @@ License: GPL2
     /* register installation hooks and action */
     register_activation_hook( __FILE__,  'twizInstall' );
     register_deactivation_hook( __FILE__,  'twizUninstall' );    
-
-    /* Set the multi-language file, english is the standard. */
-    load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
-    
-     $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
      
     /* Enqueue style in admin welcomizer page only */
     if( ( is_admin() ) 
-    and (!preg_match("/plugins.php/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) and ((preg_match("/the-welcomizer/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
-    or (preg_match("/admin-ajax/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
-    or (preg_match("/php.php/i",$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    and (!preg_match("/plugins.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
+    and ((preg_match("/the-welcomizer/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/admin-ajax/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/php.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
     )){
-    
+        /* Set the multi-language file, english is the standard. */
+        load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+        $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
+        
         wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
         
@@ -167,13 +166,16 @@ License: GPL2
         if(($_POST['action']!='')and($_POST['twiz_action']!='')){
             do_action('wp_ajax_my_action', $_POST['action']);
         }
-        
+
     }else{
     
-        /* register frontend default jQuery lib */
-        wp_deregister_script( 'jquery' );  
-        wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
-        wp_enqueue_script( 'jquery' );  
+        if( !is_admin() ) { // Just to make sure.
+      
+            /* register frontend default jQuery lib */
+            wp_deregister_script( 'jquery' );  
+            wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
+            wp_enqueue_script( 'jquery' );  
+        }
     }
     
     /* dbversion check */
