@@ -1,6 +1,8 @@
 <?php
 define('WP_ADMIN', true);
 
+$_SERVER['PHP_SELF'] = $PHP_SELF = '/wp-admin/'.preg_replace( '/(\?.*)?$/', '', $_SERVER["REQUEST_URI"] );
+
 if ( defined('ABSPATH') ){
     require_once(ABSPATH . 'wp-load.php');
 }
