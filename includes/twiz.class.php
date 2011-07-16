@@ -1616,6 +1616,7 @@ class Twiz{
         if( !isset($data[self::F_ZINDEX]) ) $data[self::F_ZINDEX] = '' ;
         if( !isset($data[self::F_TYPE]) ) $data[self::F_TYPE] = '' ;
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
+        if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '' ;
         
         
         $twiz_move_top_pos_a  = esc_attr(trim($data[self::F_MOVE_TOP_POS_A]));
