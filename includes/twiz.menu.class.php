@@ -79,7 +79,8 @@ class TwizMenu extends Twiz{
  
         $select_cat = '';
         $select_page = '';
- 
+        $separator = '';
+        
         $sections = $this->array_sections;
   
         $addsection = '<div id="twiz_add_sections">';
