@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-14 02:45-0500\n"
-"PO-Revision-Date: 2011-07-14 02:46-0500\n"
+"POT-Creation-Date: 2011-07-25 18:40-0500\n"
+"PO-Revision-Date: 2011-07-25 18:40-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Add New"
 msgstr ""
 
 #: includes/twiz.class.php:391
-#: includes/twiz.menu.class.php:136
+#: includes/twiz.menu.class.php:158
 msgid "Home"
 msgstr ""
 
@@ -36,31 +36,35 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
+#: includes/twiz.class.php:391
+msgid "Post"
+msgstr ""
+
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:161
+#: includes/twiz.menu.class.php:183
 msgid "Everywhere"
 msgstr ""
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:162
-#: includes/twiz.menu.class.php:163
-#: includes/twiz.menu.class.php:164
+#: includes/twiz.menu.class.php:184
+#: includes/twiz.menu.class.php:185
+#: includes/twiz.menu.class.php:186
 msgid "All"
 msgstr ""
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:162
-msgid "Articles"
-msgstr ""
-
-#: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:163
+#: includes/twiz.menu.class.php:185
 msgid "Categories"
 msgstr ""
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:164
+#: includes/twiz.menu.class.php:186
 msgid "Pages"
+msgstr ""
+
+#: includes/twiz.class.php:392
+#: includes/twiz.menu.class.php:184
+msgid "Posts"
 msgstr ""
 
 #: includes/twiz.class.php:401
@@ -177,20 +181,20 @@ msgstr ""
 msgid "Cannot open file"
 msgstr ""
 
-#: includes/twiz.class.php:1372
+#: includes/twiz.class.php:1371
 msgid "Cannot write to file"
 msgstr ""
 
-#: includes/twiz.class.php:1380
-#: includes/import/server/php.php:150
+#: includes/twiz.class.php:1378
+#: includes/import/server/php.php:152
 msgid "You must first create this directory"
 msgstr ""
 
-#: includes/twiz.class.php:1385
+#: includes/twiz.class.php:1381
 msgid "Right-click, Save Target As/Save Link As"
 msgstr ""
 
-#: includes/twiz.class.php:1385
+#: includes/twiz.class.php:1381
 msgid "Download file"
 msgstr ""
 
@@ -332,17 +336,17 @@ msgid "Second Move"
 msgstr ""
 
 #: includes/twiz.class.php:2434
-#: includes/twiz.menu.class.php:118
+#: includes/twiz.menu.class.php:140
 msgid "Cancel"
 msgstr ""
 
 #: includes/twiz.class.php:2434
-#: includes/twiz.menu.class.php:118
+#: includes/twiz.menu.class.php:140
 msgid "Save"
 msgstr ""
 
 #: includes/twiz.class.php:2602
-#: includes/twiz.menu.class.php:89
+#: includes/twiz.menu.class.php:98
 msgid "Choose"
 msgstr ""
 
@@ -354,36 +358,36 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: includes/import/server/php.php:65
+#: includes/import/server/php.php:67
 msgid "Getting content length is not supported."
 msgstr ""
 
-#: includes/import/server/php.php:124
+#: includes/import/server/php.php:126
 msgid "php.ini increase post_max_size and upload_max_filesize to "
 msgstr ""
 
-#: includes/import/server/php.php:154
+#: includes/import/server/php.php:156
 msgid "No files were uploaded."
 msgstr ""
 
-#: includes/import/server/php.php:160
+#: includes/import/server/php.php:162
 msgid "File is empty"
 msgstr ""
 
-#: includes/import/server/php.php:164
+#: includes/import/server/php.php:166
 msgid "File is too large"
 msgstr ""
 
-#: includes/import/server/php.php:174
+#: includes/import/server/php.php:176
 msgid "File has an invalid extension, it should be one of "
 msgstr ""
 
-#: includes/import/server/php.php:200
-#: includes/import/server/php.php:217
+#: includes/import/server/php.php:202
+#: includes/import/server/php.php:219
 msgid "File is corrupted and unreadable, the import was cancelled."
 msgstr ""
 
-#: includes/import/server/php.php:239
+#: includes/import/server/php.php:241
 msgid "Could not save uploaded file. The upload was cancelled, or server error encountered"
 msgstr ""
 

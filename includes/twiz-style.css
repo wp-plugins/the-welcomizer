@@ -259,6 +259,9 @@
 #twiz_add_sections a:hover {
     cursor: pointer;
 }
+#twiz_slc_sections {
+    max-width: 150px;
+}
 #twiz_footer {
     border-radius: 0px 0px 6px 6px;
     -moz-border-radius-bottomleft: 6px;

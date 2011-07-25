@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.7.2
+Version: 1.3.7.3
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -145,6 +145,7 @@ License: GPL2
     )){
         /* Set the multi-language file, english is the standard. */
         load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+        
         $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
         
         wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));

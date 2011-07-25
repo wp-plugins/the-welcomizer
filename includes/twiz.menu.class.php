@@ -20,6 +20,14 @@ class TwizMenu extends Twiz{
     /* variable declaration */
     private $array_sections;
     
+    const ITEM_TYPEUNLOAD     = 'Unload'; 
+
+    /* on event array */ 
+    private $array_element_type = array(self::ELEMENT_TYPE_ID      
+                                       ,self::ELEMENT_TYPE_CLASS  
+                                       ,self::ELEMENT_TYPE_NAME  
+                                       );
+                                       
     function __construct(){
     
         parent::__construct();
@@ -79,7 +87,9 @@ class TwizMenu extends Twiz{
  
         $select_cat = '';
         $select_page = '';
-        $separator = '';
+        $select_post = '';
+        $separator_page = '';
+        $separator_post = '';
         
         $sections = $this->array_sections;
   
@@ -107,14 +117,27 @@ class TwizMenu extends Twiz{
         
             if( !in_array('p_'.$value->ID, $sections )){
             
-                $separator = '<option value="+++ +++ +++">+++ +++ +++</option>';
+                $separator_page = '<option value="+++ +++ +++">+++ +++ +++</option>';
                
                 $select_page .= '<option value="p_'.$value->ID.'">'.$value->post_title.'</option>';
             }
         }
         
+        /* get last 75 posts */
+        $posts = get_posts('sort_order=asc&numberposts=75'); 
+        
+        foreach( $posts as $value ){
+        
+            if( !in_array('a_'.$value->ID, $sections )){
+            
+                $separator_post = '<option value="+++ +++ +++">+++ +++ +++</option>';
+               
+                $select_post .= '<option value="a_'.$value->ID.'">'.$value->post_title.'</option>';
+            }
+        }
+        
         /* close select */
-        $addsection .=  $select.$select_cat.$separator.$select_page.'</select>';
+        $addsection .=  $select.$select_cat.$separator_page.$select_page.$separator_post.$select_post.'</select>';
 
         $addsection .= '<input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /> <a name="twiz_cancel_section" id="twiz_cancel_section">'.__('Cancel', 'the-welcomizer').'</a>';
         
@@ -160,7 +183,7 @@ class TwizMenu extends Twiz{
         $menu .= '<div id="twiz_menu-everywhere"'.$twiz_menu_everywhere.'>';
        
         $menu .= '<div id="twiz_menu_everywhere" class="twiz-menu twiz-menu-selected">'.__('Everywhere', 'the-welcomizer').'</div>';
-        $menu .= '<div id="twiz_menu_allarticles" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Articles').'</div>';
+        $menu .= '<div id="twiz_menu_allarticles" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Posts').'</div>';
         $menu .= '<div id="twiz_menu_allcategories" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Categories').'</div>';
         $menu .= '<div id="twiz_menu_allpages" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Pages').'</div>';
         
@@ -221,6 +244,21 @@ class TwizMenu extends Twiz{
                     return $this->updateSectionMenuKey($key, $type.'_'.$page->ID); // private
                 }
                 break;
+                
+            case 'a': // is post
+            
+                $post = get_post( $id ) ;
+                $name = $post->post_title;
+                
+                /* User deleted post */
+                if ( $name == "" ){
+                
+                    $post = get_page_by_title($key, 'OBJECT', 'post');
+                    
+                    /*  Give the key instead if empty, and update the key if possible */
+                    return $this->updateSectionMenuKey($key, $type.'_'.$post->ID); // private
+                }
+                break;                
         }
         
         return $name;
@@ -240,7 +278,7 @@ class TwizMenu extends Twiz{
     
     private function updateSectionMenuKey( $keyid = '', $newid = '' ){
            
-        if(( $keyid != '' ) and ( $newid != 'c_' ) and ( $newid != 'p_' )){
+        if(( $keyid != '' ) and ( $newid != 'c_' ) and ( $newid != 'p_' ) and ( $newid != 'a_' )){
             
             $sections = $this->array_sections;
             

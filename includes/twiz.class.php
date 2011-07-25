@@ -37,7 +37,7 @@ class Twiz{
     const DEFAULT_SECTION_EVERYWHERE     = 'everywhere';
     const DEFAULT_SECTION_ALL_CATEGORIES = 'allcategories';
     const DEFAULT_SECTION_ALL_PAGES      = 'allpages';
-    const DEFAULT_SECTION_ALL_ARTICLES   = 'allarticles';
+    const DEFAULT_SECTION_ALL_ARTICLES   = 'allarticles'; // allposts
     
     /* element type constants */ 
     const ELEMENT_TYPE_ID    = 'id';
@@ -338,7 +338,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.2';
+        $this->version    = '1.3.7.3';
         $this->dbVersion  = '2.3';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -388,8 +388,8 @@ class Twiz{
 <div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a><span id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></span> </div>
 <span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span>
 <span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span>
-<span id="twiz_head_setting"><input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_1" value="'.self::DEFAULT_SECTION_HOME.'"'.$twiz_setting_menu_1.'> <label for="twiz_setting_menu_1">'.__('Home').' / ' . __('Category').' / ' . __('Page').'</label> <br>
-<input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_2" value="'.self::DEFAULT_SECTION_EVERYWHERE.'"'.$twiz_setting_menu_2.'> <label for="twiz_setting_menu_2">'.__('Everywhere', 'the-welcomizer') . ' / ' . __('All', 'the-welcomizer')  . ' ' . __('Articles') . ' / ' . __('All', 'the-welcomizer') . ' ' . __('Categories') . ' / ' . __('All', 'the-welcomizer') . ' '  . __('Pages') .'</label></span> 
+<span id="twiz_head_setting"><input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_1" value="'.self::DEFAULT_SECTION_HOME.'"'.$twiz_setting_menu_1.'> <label for="twiz_setting_menu_1">'.__('Home').' / ' . __('Category').' / ' . __('Page').' / ' . __('Post').'</label> <br>
+<input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_2" value="'.self::DEFAULT_SECTION_EVERYWHERE.'"'.$twiz_setting_menu_2.'> <label for="twiz_setting_menu_2">'.__('Everywhere', 'the-welcomizer') . ' / ' . __('All', 'the-welcomizer') . ' ' . __('Categories') . ' / ' . __('All', 'the-welcomizer') . ' '  . __('Pages')  . ' / ' . __('All', 'the-welcomizer')  . ' ' . __('Posts') .'</label></span> 
 </div><div class="twiz-clear"></div>
     ';
         
@@ -1618,7 +1618,6 @@ class Twiz{
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
         if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '' ;
         
-        
         $twiz_move_top_pos_a  = esc_attr(trim($data[self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($data[self::F_MOVE_LEFT_POS_A]));
         $twiz_move_top_pos_b  = esc_attr(trim($data[self::F_MOVE_TOP_POS_B]));
@@ -1821,10 +1820,14 @@ class Twiz{
 
             case is_single(): 
 
+                $post_id = 'a_'.$post->ID;
+                
                 // get the active data list array
                 $listarray_alla = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_ALL_ARTICLES."' ");          
+                $listarray_a = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$post_id."' "); 
                 
-                $listarray = array_merge($listarray_e, $listarray_alla);
+                $listarray_T = array_merge($listarray_e, $listarray_a);
+                $listarray = array_merge($listarray_T, $listarray_alla);
                 
                 break;
                 

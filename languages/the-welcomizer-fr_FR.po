@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-14 02:46-0500\n"
-"PO-Revision-Date: 2011-07-14 09:50-0500\n"
+"POT-Creation-Date: 2011-07-25 18:40-0500\n"
+"PO-Revision-Date: 2011-07-25 18:41-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgid "Add New"
 msgstr "Ajouter"
 
 #: includes/twiz.class.php:391
-#: includes/twiz.menu.class.php:136
+#: includes/twiz.menu.class.php:158
 msgid "Home"
 msgstr "Accueil"
 
@@ -37,32 +37,36 @@ msgstr "Catégorie"
 msgid "Page"
 msgstr "Page"
 
+#: includes/twiz.class.php:391
+msgid "Post"
+msgstr "Article "
+
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:161
+#: includes/twiz.menu.class.php:183
 msgid "Everywhere"
 msgstr "Partout"
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:162
-#: includes/twiz.menu.class.php:163
-#: includes/twiz.menu.class.php:164
+#: includes/twiz.menu.class.php:184
+#: includes/twiz.menu.class.php:185
+#: includes/twiz.menu.class.php:186
 msgid "All"
 msgstr "Toutes "
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:162
-msgid "Articles"
-msgstr "Articles"
-
-#: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:163
+#: includes/twiz.menu.class.php:185
 msgid "Categories"
 msgstr "Catégories"
 
 #: includes/twiz.class.php:392
-#: includes/twiz.menu.class.php:164
+#: includes/twiz.menu.class.php:186
 msgid "Pages"
 msgstr "Pages"
+
+#: includes/twiz.class.php:392
+#: includes/twiz.menu.class.php:184
+msgid "Posts"
+msgstr "Articles "
 
 #: includes/twiz.class.php:401
 #: includes/twiz.class.php:435
@@ -178,20 +182,20 @@ msgstr "Effacer"
 msgid "Cannot open file"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: includes/twiz.class.php:1372
+#: includes/twiz.class.php:1371
 msgid "Cannot write to file"
 msgstr "Impossible d'écrire dans le fichier"
 
-#: includes/twiz.class.php:1380
-#: includes/import/server/php.php:150
+#: includes/twiz.class.php:1378
+#: includes/import/server/php.php:152
 msgid "You must first create this directory"
 msgstr "Vous devez d'abord créer ce répertoire"
 
-#: includes/twiz.class.php:1385
+#: includes/twiz.class.php:1381
 msgid "Right-click, Save Target As/Save Link As"
 msgstr "Faites un clic droit, enregistrer la cible du lien sous / enregistrer le lien sous"
 
-#: includes/twiz.class.php:1385
+#: includes/twiz.class.php:1381
 msgid "Download file"
 msgstr "Télécharger le fichier"
 
@@ -333,17 +337,17 @@ msgid "Second Move"
 msgstr "Second déplacement"
 
 #: includes/twiz.class.php:2434
-#: includes/twiz.menu.class.php:118
+#: includes/twiz.menu.class.php:140
 msgid "Cancel"
 msgstr "Annuler"
 
 #: includes/twiz.class.php:2434
-#: includes/twiz.menu.class.php:118
+#: includes/twiz.menu.class.php:140
 msgid "Save"
 msgstr "Enregistrer"
 
 #: includes/twiz.class.php:2602
-#: includes/twiz.menu.class.php:89
+#: includes/twiz.menu.class.php:98
 msgid "Choose"
 msgstr "Choisissez"
 
@@ -355,38 +359,41 @@ msgstr "Nom du fichier"
 msgid "Order"
 msgstr "Ordre"
 
-#: includes/import/server/php.php:65
+#: includes/import/server/php.php:67
 msgid "Getting content length is not supported."
 msgstr "Lire la longueur du contenu n'est pas supporté."
 
-#: includes/import/server/php.php:124
+#: includes/import/server/php.php:126
 msgid "php.ini increase post_max_size and upload_max_filesize to "
 msgstr "php.ini augmenter post_max_size et upload_max_filesize à "
 
-#: includes/import/server/php.php:154
+#: includes/import/server/php.php:156
 msgid "No files were uploaded."
 msgstr "Aucun fichier n'a été téléversé."
 
-#: includes/import/server/php.php:160
+#: includes/import/server/php.php:162
 msgid "File is empty"
 msgstr "Le fichier est vide."
 
-#: includes/import/server/php.php:164
+#: includes/import/server/php.php:166
 msgid "File is too large"
 msgstr "Le fichier est trop lourd"
 
-#: includes/import/server/php.php:174
+#: includes/import/server/php.php:176
 msgid "File has an invalid extension, it should be one of "
 msgstr "Le fichier a une extension invalide, elle devrait être"
 
-#: includes/import/server/php.php:200
-#: includes/import/server/php.php:217
+#: includes/import/server/php.php:202
+#: includes/import/server/php.php:219
 msgid "File is corrupted and unreadable, the import was cancelled."
 msgstr "Le fichier est endommagé et illisible, l'importation a été annulée."
 
-#: includes/import/server/php.php:239
+#: includes/import/server/php.php:241
 msgid "Could not save uploaded file. The upload was cancelled, or server error encountered"
 msgstr "Impossible d'enregistrer le fichier. Le transfert a été annulé, ou une erreur serveur a été rencontré"
+
+#~ msgid "Articles"
+#~ msgstr "Articles"
 
 #~ msgid "Server error. Upload directory isn't writable: "
 #~ msgstr ""
