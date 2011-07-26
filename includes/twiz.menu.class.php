@@ -183,9 +183,9 @@ class TwizMenu extends Twiz{
         $menu .= '<div id="twiz_menu-everywhere"'.$twiz_menu_everywhere.'>';
        
         $menu .= '<div id="twiz_menu_everywhere" class="twiz-menu twiz-menu-selected">'.__('Everywhere', 'the-welcomizer').'</div>';
-        $menu .= '<div id="twiz_menu_allarticles" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Posts').'</div>';
         $menu .= '<div id="twiz_menu_allcategories" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Categories').'</div>';
         $menu .= '<div id="twiz_menu_allpages" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Pages').'</div>';
+        $menu .= '<div id="twiz_menu_allarticles" class="twiz-menu">'.__('All', 'the-welcomizer').' '.__('Posts').'</div>';
         
         $menu .= '<div id="twiz_delete_menu_everywhere">x</div>';
        
