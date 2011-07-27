@@ -132,7 +132,7 @@ class TwizMenu extends Twiz{
             
                 $separator_post = '<option value="+++ +++ +++">+++ +++ +++</option>';
                
-                $select_post .= '<option value="a_'.$value->ID.'">'. mysql2date('Y-m-d', $value->post_date). ' : Post #'.$value->ID. ' - '.$value->post_title.'</option>';
+                $select_post .= '<option value="a_'.$value->ID.'">'. mysql2date('Y-m-d', $value->post_date). ' : '.$value->post_title.'</option>';
             }
         }
         
