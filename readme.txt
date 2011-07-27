@@ -817,5 +817,5 @@ The Welcomizer is currently available in the following languages:
 
 * English 
 * Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 95%
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 100%
 * Español - 85%
