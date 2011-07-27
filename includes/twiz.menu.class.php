@@ -123,8 +123,8 @@ class TwizMenu extends Twiz{
             }
         }
         
-        /* get last 75 posts */
-        $posts = get_posts('sort_order=asc&numberposts=75'); 
+        /* get last 125 posts */
+        $posts = get_posts('sort_order=asc&numberposts=125'); 
         
         foreach( $posts as $value ){
         
@@ -132,7 +132,7 @@ class TwizMenu extends Twiz{
             
                 $separator_post = '<option value="+++ +++ +++">+++ +++ +++</option>';
                
-                $select_post .= '<option value="a_'.$value->ID.'">'.$value->post_title.'</option>';
+                $select_post .= '<option value="a_'.$value->ID.'">'. mysql2date('Y-m-d', $value->post_date). ' : Post #'.$value->ID. ' - '.$value->post_title.'</option>';
             }
         }
         
