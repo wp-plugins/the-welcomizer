@@ -495,6 +495,9 @@ a.twiz-more-options:hover {
 .twiz-bold {
     font-weight: bold;
 }
+.twiz-tr-view-more {
+    display: none;
+}
 .twiz-view-table-more-options {
     width: 200px;
 }
@@ -545,16 +548,16 @@ a.twiz-more-options:hover {
     cursor: pointer;
 }
 #twiz_export_url {
-    float: left;
-    margin-left: 8px;
+    margin-left: 70px;
     font-size: 12px;
+    clear:both;
 }
 #twiz_img_loading_export {
-    margin: 5px 0px 0px 0px;
+    margin: 15px 0px 0px 0px;
     float:left;
 }
 #twiz_export_url a {
-    margin: 5px 3px 0px 0px;
+    margin: 15px 3px 0px 0px;
     float:left;
 }
 #twiz_import,

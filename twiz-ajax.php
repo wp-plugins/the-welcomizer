@@ -124,7 +124,8 @@
         
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlForm('', Twiz::ACTION_NEW);     
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $htmlresponse = $myTwiz->getHtmlForm('', Twiz::ACTION_NEW, $twiz_section_id);     
             
             break;
 
@@ -135,7 +136,7 @@
             
             $myTwiz  = new Twiz();
             
-            if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_EDIT)){}else{
+            if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_EDIT, $twiz_section_id)){}else{
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
             }
             
@@ -172,7 +173,7 @@
             
             $myTwiz  = new Twiz();
             
-            if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_COPY)){}else{
+            if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_COPY, $twiz_section_id)){}else{
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
             }
     

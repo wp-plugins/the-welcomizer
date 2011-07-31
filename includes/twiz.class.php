@@ -186,7 +186,8 @@ class Twiz{
                                             ,self::DEFAULT_SECTION_ALL_ARTICLES 
                                             );
     /* on event array */ 
-    private $array_on_event = array(self::EV_BLUR      
+    private $array_on_event = array(self::EV_MANUAL
+                                   ,self::EV_BLUR      
                                    ,self::EV_CHANGE    
                                    ,self::EV_CLICK     
                                    ,self::EV_DBLCLICK  
@@ -338,7 +339,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.3';
+        $this->version    = '1.3.7.4';
         $this->dbVersion  = '2.3';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -399,12 +400,12 @@ class Twiz{
     private function getHtmlFooterMenu(){
     
       $import = '<div id="twiz_import_container">'.__('Import', 'the-welcomizer').'</div>';
-      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div><div id="twiz_export_url"></div>';
+      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div>';
       $library_upload = '<div id="twiz_library_upload">'.__('Upload', 'the-welcomizer').'</div>';
       $library = '<div id="twiz_library">'.__('Library', 'the-welcomizer').'</div>';
       $admin = '<div id="twiz_admin">'.__('Admin', 'the-welcomizer').'</div>';
       
-      $html = '<div id="twiz_footer_menu">'.$library_upload.$import.$export.$admin.$library.'</div>';
+      $html = '<div id="twiz_footer_menu">'.$library_upload.$import.$export.$admin.$library.'</div><div id="twiz_export_url"></div>';
       
       return $html;
       
@@ -498,13 +499,14 @@ class Twiz{
         $.post(ajaxurl,  {
         action: "twiz_ajax_callback",
         twiz_action: "'.self::ACTION_NEW.'",
+        twiz_section_id: twiz_current_section_id,
         twiz_nonce: "'.$this->nonce.'"
      }, function(data) {
             $("#twiz_container").html(data);
             $("#twiz_container").fadeIn("slow");
             twiz_view_id = null;
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-            bind_twiz_More_Options();bind_twiz_Choose_Options();
+            bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
             bind_twiz_DynArrows();
         });
     });
@@ -523,9 +525,11 @@ class Twiz{
                 }, function(data) {
                     $("#twiz_right_panel").html(data);
                     twiz_array_view_id[numid] = data;
+                    bind_twiz_view_show_more();
                 });    
             }else{
                 $("#twiz_right_panel").html(twiz_array_view_id[numid]);
+                bind_twiz_view_show_more();
             }
         }
  }
@@ -619,7 +623,7 @@ class Twiz{
             $("img[name^=twiz_delete]").unbind("mouseover");            
             $("img[name^=twiz_cancel]").unbind("click");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-            bind_twiz_More_Options();bind_twiz_Choose_Options();
+            bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
             bind_twiz_DynArrows();
         });
     });
@@ -655,7 +659,7 @@ class Twiz{
             $("img[name^=twiz_delete]").unbind("mouseover");
             $("img[name^=twiz_cancel]").unbind("click");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-            bind_twiz_More_Options();bind_twiz_Choose_Options();
+            bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
             bind_twiz_DynArrows();
         });
     });
@@ -706,7 +710,7 @@ class Twiz{
         $("img[name^=twiz_save]").unbind("click");
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Options();bind_twiz_Choose_Options();
+        bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
         bind_twiz_Ajax_TD();bind_twiz_TR_View();
     });
    });
@@ -761,7 +765,7 @@ class Twiz{
         twiz_array_view_id[numid] = undefined;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Options();bind_twiz_Choose_Options();
+        bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();
         $("#twiz_list_tr_" + numid).animate({opacity:0}, 320); // needs a rebind for add new
         $("#twiz_list_tr_" + numid).animate({opacity:1}, 320); // needs a rebind for add new
@@ -845,6 +849,32 @@ class Twiz{
             $("#twiz_options_" + charid).attr({"value" : curval + optionstring}) 
         }
     });    
+  }    
+  var bind_twiz_Select_Functions = function() {
+    $("#twiz_slc_functions_javascript").change(function(){
+        var curval = $("#twiz_javascript").val();
+        if($(this).val()!=""){
+            if(curval!=""){ var curval = curval + "\n";}
+            var optionstring =  $(this).val();
+            $("#twiz_javascript").attr({"value" : curval + optionstring}) 
+        }
+    });   
+    $("#twiz_slc_functions_javascript_a").change(function(){
+        var curval = $("#twiz_extra_js_a").val();
+        if($(this).val()!=""){
+            if(curval!=""){ var curval = curval + "\n";}
+            var optionstring =  $(this).val();
+            $("#twiz_extra_js_a").attr({"value" : curval + optionstring}) 
+        }
+    }); 
+    $("#twiz_slc_functions_javascript_b").change(function(){
+        var curval = $("#twiz_extra_js_b").val();
+        if($(this).val()!=""){
+            if(curval!=""){ var curval = curval + "\n";}
+            var optionstring =  $(this).val();
+            $("#twiz_extra_js_b").attr({"value" : curval + optionstring}) 
+        }
+    });     
   }    
   var bind_twiz_Ajax_TD = function() {
     $("div[id^=twiz_ajax_td_val]").mouseover(function(){
@@ -933,7 +963,7 @@ class Twiz{
     $("tr[name^=twiz_list_tr]").mouseover(function(){
     if(twiz_current_section_id!="library"){
         var textid = $(this).attr("name");
-        var numid = textid.substring(13,textid.length);
+        var numid = textid.substring(13, textid.length);
         if((twiz_view_id != numid)&&(twiz_view_id!="edit")){
             twiz_view_id = numid;
             $("#twiz_right_panel").html(\'<div\' + \' class="twiz-panel-loading"><img\' + \' src="'.$this->pluginUrl.'/images/twiz-big-loading.gif"></div>\');
@@ -947,9 +977,11 @@ class Twiz{
                 }, function(data) {
                     $("#twiz_right_panel").html(data);
                     twiz_array_view_id[numid] = data;
+                    bind_twiz_view_show_more();
                 });    
             }else{
                 $("#twiz_right_panel").html(twiz_array_view_id[numid]);
+                bind_twiz_view_show_more();
             }
         }
     }
@@ -1019,7 +1051,7 @@ class Twiz{
         $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
         $("#qq_upload_list li").remove(); 
         $("#twiz_export_url").html(""); 
-       twizPostMenu(twiz_current_section_id);
+        twizPostMenu(twiz_current_section_id);
     });
   }    
   function twizPostMenu(section_id){
@@ -1046,7 +1078,7 @@ class Twiz{
                 $("img[name^=twiz_delete]").unbind("mouseover");
                 bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
                 bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-                bind_twiz_More_Options();bind_twiz_Choose_Options();
+                bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
                 bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();           
             });
   }
@@ -1081,7 +1113,7 @@ class Twiz{
                         $("#twiz_cancel_section").unbind("click");
                         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
                         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-                        bind_twiz_More_Options();bind_twiz_Choose_Options();
+                        bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
                         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Menu();
                         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"});
                         $("#twiz_menu_" + sectionid).attr({"class" : "twiz-menu twiz-menu-selected"});
@@ -1198,7 +1230,7 @@ class Twiz{
         twizPostLibrary();
     });     
     $("#twiz_admin").click(function(){
-     alert("'.__('This section is under construction.', 'the-welcomizer').'");
+     $("#twiz_admin").html("'.__('This section is under construction.', 'the-welcomizer').'");
     });     
   }  
   function twizPostLibrary(){
@@ -1216,6 +1248,11 @@ class Twiz{
             bind_twiz_Status();bind_twiz_Delete();
             bind_twiz_Library_New_Order();
         });   
+  }
+  var bind_twiz_view_show_more = function() {
+    $("a[name^=twiz_view_show_more]").click(function(){
+        $("[id^=twiz-tr-view-more]").toggle();
+    }); 
   }
   $("#twiz_footer_menu").mouseover(function(){
      $("#twiz_right_panel").fadeOut("fast");   
@@ -1238,7 +1275,7 @@ class Twiz{
   bind_twiz_More_Options();bind_twiz_Choose_Options();
   bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Menu();
   bind_twiz_Save_Section();bind_twiz_FooterMenu();
-  bind_twiz_setting_menu();
+  bind_twiz_setting_menu();bind_twiz_Select_Functions();
   $("#twiz_container").slideToggle("slow");
  });';
        return $header;
@@ -1288,7 +1325,12 @@ class Twiz{
             /* add a '2x' to the duration if necessary */
             $duration = $this->formatDuration($value[self::F_ID], $value);
 
-            $on_event = ($value[self::F_ON_EVENT] != '') ? 'On'.$value[self::F_ON_EVENT] : '-';
+            if( $value[self::F_ON_EVENT] != self::EV_MANUAL) {
+                $on_event = ( $value[self::F_ON_EVENT] != '' ) ? 'On'.$value[self::F_ON_EVENT] : '-';
+            }else{
+                $on_event = self::EV_MANUAL;    
+            }
+            
             $elementype = ($value[self::F_TYPE] == '') ? self::ELEMENT_TYPE_ID : $value[self::F_TYPE];
             
             /* the table row */
@@ -1871,7 +1913,9 @@ jQuery(document).ready(function($){';
 
                     $repeatname = $value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
                     /* js */    
-                    $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
+                    $generatedscript .= $value[self::F_JAVASCRIPT];
                 }   
                 
                 if($value[self::F_OUTPUT_POS]=='r'){ // ready
@@ -1885,14 +1929,11 @@ jQuery(document).ready(function($){';
                     /* starting positions */ 
                     $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
                     $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
-                       
                }                
-                
             }
             
             $generatedscript .= '
 $.fn.twizReplay = function(){ ';
-           
            
              /* generates the code */
             foreach($listarray as $value){               
@@ -1908,27 +1949,28 @@ $.fn.twizReplay = function(){ ';
                 /* replace this */
                 $value[self::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[self::F_JAVASCRIPT]);
                 
-
                 /* repeat animation function */
                 $generatedscript .= '
 $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
           
                 if(($value[self::F_OUTPUT_POS]=='b')or ($value[self::F_OUTPUT_POS]=='')){ // before
                     
-                    
-                /* css position */ 
-                $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
-                $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
+                    /* css position */ 
+                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
+                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
 
-                /* starting positions */ 
-                $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
-                $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
-                   
+                    /* starting positions */ 
+                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
+                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+                       
                 }
                 
                 if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before
+                
                     /* js */    
-                    $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
+                    $generatedscript .= $value[self::F_JAVASCRIPT];
                 }
                 
                 $hasSomething = $this->hasSomething($value);
@@ -1952,8 +1994,11 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                     }
                 
                     if( $value[self::F_OUTPUT] == 'a' ){ // after 
+                        
                         /* js */    
-                        $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_JAVASCRIPT]);
+                        $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                        $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
+                        $generatedscript .= $value[self::F_JAVASCRIPT];
                     }
                     
                     $value[self::F_OPTIONS_A] = (($value[self::F_OPTIONS_A]!='') and (($value[self::F_MOVE_LEFT_POS_A]!="") or ($value[self::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[self::F_OPTIONS_A] :  $value[self::F_OPTIONS_A];
@@ -1981,8 +2026,10 @@ $("'. $newElementFormat . '").animate({';
                         $value[self::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_A]);
             
                         /* extra js a */    
-                        $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_A]);
-                        
+                        $value[self::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_EXTRA_JS_A]);
+                        $value[self::F_EXTRA_JS_A] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_EXTRA_JS_A]);
+                        $generatedscript .= $value[self::F_EXTRA_JS_A];
+   
                         /* b */ 
                                     
                         $have_b = (($value[self::F_MOVE_TOP_POS_B] !='' ) or ( $value[self::F_MOVE_LEFT_POS_B] !='' ) or ( $value[self::F_OPTIONS_B] !='' ) or ( $value[self::F_EXTRA_JS_B] !='' )) ? true : false;
@@ -2014,7 +2061,9 @@ $("'. $newElementFormat . '").animate({';
                         }
                         
                         /* extra js b */    
-                        $generatedscript .= str_replace("twizRepeat", "twizRepeat_".$repeatname , $value[self::F_EXTRA_JS_B]);
+                        $value[self::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_EXTRA_JS_B]);
+                        $value[self::F_EXTRA_JS_B] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_EXTRA_JS_B]);
+                        $generatedscript .= $value[self::F_EXTRA_JS_B];
                         
                         /* closing functions */
                         $generatedscript .= '});';
@@ -2158,7 +2207,7 @@ $(document).twizReplay();
         }
     }
 
-    function getHtmlForm( $id = '', $action = self::ACTION_NEW ){ 
+    function getHtmlForm( $id = '', $action = self::ACTION_NEW, $section_id = self::DEFAULT_SECTION_HOME){ 
     
         $data = '';        
         $opendiv = '';
@@ -2196,32 +2245,32 @@ $(document).twizReplay();
         
         /* hide element */
         $jsscript_hide = '$("#twiz_new").fadeOut("fast");
-        $("#twiz_right_panel").fadeOut("fast");
-        $("#twiz_add_menu").fadeIn("fast");
-        $("#twiz_import").fadeIn("fast");
-        $("#twiz_delete_menu").fadeIn("fast");
-        $("#twiz_delete_menu_everywhere").fadeIn("fast");
-        $("#qq_upload_list li").remove(); 
-        $("#twiz_export_url").html(""); 
+$("#twiz_right_panel").fadeOut("fast");
+$("#twiz_add_menu").fadeIn("fast");
+$("#twiz_import").fadeIn("fast");
+$("#twiz_delete_menu").fadeIn("fast");
+$("#twiz_delete_menu_everywhere").fadeIn("fast");
+$("#qq_upload_list li").remove(); 
+$("#twiz_export_url").html(""); 
         '.$hideimport;
 
         /* Text Area auto expand */
         $jsscript_autoexpand = '
-    textarea = new Object();
-    textarea.expand = function(textbox){
-        twizsizeOrig(textbox);
-        textbox.style.height = (textbox.scrollHeight + 20) + "px";
-        textbox.style.width = (textbox.scrollWidth + 8) + "px";
-    } 
-    function twizsizeOrig(textbox){
-        $(textbox).css({"height":"50px", "width" : "230px"});
-    }
-    $("textarea[name^=twiz_javascript]").blur(function (){
-       twizsizeOrig(this);
-    });
-     $("textarea[name^=twiz_extra]").blur(function (){
-       twizsizeOrig(this);
-    });';
+textarea = new Object();
+textarea.expand = function(textbox){
+    twizsizeOrig(textbox);
+    textbox.style.height = (textbox.scrollHeight + 20) + "px";
+    textbox.style.width = (textbox.scrollWidth + 8) + "px";
+} 
+function twizsizeOrig(textbox){
+    $(textbox).css({"height":"50px", "width" : "230px"});
+}
+$("textarea[name^=twiz_javascript]").blur(function (){
+   twizsizeOrig(this);
+});
+ $("textarea[name^=twiz_extra]").blur(function (){
+   twizsizeOrig(this);
+});';
 
         /* ajax container */ 
         if(!in_array($_POST['twiz_action'], $this->array_action_excluded)){
@@ -2331,13 +2380,10 @@ $(document).twizReplay();
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'></div></td>
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
-
 <tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right twiz-float-left">'.__('(optional)', 'the-welcomizer').'</td></tr>
 <tr><td class="twiz-form-td-left" >'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left" rowspan="3" ><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
-
-
 <tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
-<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</b></a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr id="twiz_tr_starting_config">
     <td valign="top"><hr>
         <table> 
@@ -2377,7 +2423,7 @@ $(document).twizReplay();
         </select>
       </td></tr>            
         </table>
-<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>
+<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript', $section_id).'
     </td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2402,7 +2448,7 @@ $(document).twizReplay();
                 width:\'200px\'
                 </td></tr>        
                 <tr><td><hr></td></tr>        
-                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
+                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript_a', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -2427,7 +2473,7 @@ $(document).twizReplay();
                 width:\'100px\'
                 </td></tr>        
             <tr><td ><hr></td></tr>
-            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
+            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript_b', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2466,12 +2512,13 @@ $(document).twizReplay();
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
         <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap">
-        </td></tr>
-<tr><td colspan="2"><hr></td></tr>
-    <td valign="top">
+        <a id="twiz_view_show_more_'.$data[self::F_ID].'" name="twiz_view_show_more_'.$data[self::F_ID].'" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</a></td></tr>
+<tr id="twiz-tr-view-more-'.$data[self::F_ID].'" class="twiz-tr-view-more"><td colspan="2"><hr></td></tr>
+    <tr id="twiz-tr-view-more-'.$data[self::F_ID].'" class="twiz-tr-view-more"><td valign="top">
     <table>
      <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Starting Positions', 'the-welcomizer').'</b>
-     <div class="twiz-green">'.$output_starting_pos.'</div></td></tr>
+     <div class="twiz-green">'.$output_starting_pos.'</div>
+&nbsp;</td></tr>
         <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
         <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
         <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>
@@ -2481,7 +2528,8 @@ $(document).twizReplay();
     <td valign="top">
     <table>
      <tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('JavaScript', 'the-welcomizer').'</b>
-     <div class="twiz-green">'.$output_javascript.'</div></td></tr>
+     <div class="twiz-green">'.$output_javascript.'</div>
+&nbsp;</td></tr>
          <tr><td>'.str_replace("\n", "<br>", $data[self::F_JAVASCRIPT]).'</td></tr>
     </table>    
     </td>
@@ -2553,8 +2601,30 @@ $(document).twizReplay();
         if($id==''){ return ''; }
         if($status==''){ return ''; }
     
-        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
+        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
+    }
+    
+    private function getHtmlFunctionList( $id = '', $name = '', $section_id ){
+
+        $where = ($section_id!='') ? " where ".self::F_SECTION_ID." = '".$section_id."'"." and ".self::F_ID." <> '".$id."'" : '';
+        $listarray = $this->getListArray( $where ); // get all the data
+        
+        if( $name == '' ){ return ''; }
+        if( count($listarray) == 0 ){return '';}
+        
+        $select = '<select class="twiz-slc-options" name="twiz_slc_functions_'.$name.'" id="twiz_slc_functions_'.$name.'">';
+        $select .= '<option value="">'.__('All animations', 'the-welcomizer').'</option>';
+        
+        foreach ( $listarray as $value ){
+       
+            $functionnames = 'twiz_'.$value[self::F_SECTION_ID].'_'.str_replace("-","_",$value[self::F_LAYER_ID]).'_'.$value[self::F_ID].'();';
+            $select .= '<option value="$(document).'.$functionnames.'">'.$functionnames.'</option>';
+        }
+        
+        $select .= '</select>';
+        
+        return $select;
     }
     
     private function getHtmlElementTypeList( $type = self::ELEMENT_TYPE_ID ){
@@ -2576,16 +2646,13 @@ $(document).twizReplay();
     private function getHtmlEventList( $event = '' ){
         
         $select = '<select name="twiz_'.self::F_ON_EVENT.'" id="twiz_'.self::F_ON_EVENT.'">';
-            
         $select .= '<option value=""></option>';
-            
-        $select .= '<option value="'.self::EV_MANUAL.'">'.self::EV_MANUAL.'</option>';
             
         foreach ($this->array_on_event as $value){
 
             $selected = ($event == $value) ? ' selected="selected"' : '';
-            
-            $select .= '<option value="'.$value.'"'.$selected.'>On'.$value.'</option>';
+            $on = ($value != self::EV_MANUAL) ? 'On': '';
+            $select .= '<option value="'.$value.'"'.$selected.'>'.$on.$value.'</option>';
         }
             
         $select .= '</select>';
