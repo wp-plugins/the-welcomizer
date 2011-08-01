@@ -2207,7 +2207,7 @@ $(document).twizReplay();
         }
     }
 
-    function getHtmlForm( $id = '', $action = self::ACTION_NEW, $section_id = self::DEFAULT_SECTION_HOME){ 
+    function getHtmlForm( $id = '', $action = self::ACTION_NEW, $section_id = ''){ 
     
         $data = '';        
         $opendiv = '';
@@ -2586,7 +2586,9 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         if(count($listarray)==0){ // if, display the default new form
             
-            return $this->getHtmlForm(); 
+            $section_id = ($section_id == '')? $this->DEFAULT_SECTION : $section_id;
+            
+            return $this->getHtmlForm('', self::ACTION_NEW, $section_id); 
             
         }else{ // else display the list
         
@@ -2605,9 +2607,10 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
     }
     
-    private function getHtmlFunctionList( $id = '', $name = '', $section_id ){
+    private function getHtmlFunctionList( $id = '', $name = '', $section_id = ''){
 
         $where = ($section_id!='') ? " where ".self::F_SECTION_ID." = '".$section_id."'"." and ".self::F_ID." <> '".$id."'" : '';
+        
         $listarray = $this->getListArray( $where ); // get all the data
         
         if( $name == '' ){ return ''; }
