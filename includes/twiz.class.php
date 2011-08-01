@@ -2578,15 +2578,14 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
     function getHtmlList( $section_id = '' ){ 
        
-        /* from the menu */ 
-        $where = ($section_id!='') ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".$this->DEFAULT_SECTION."'";
-      
-        $listarray = $this->getListArray( $where ); // get all the data
+        $section_id = ( $section_id == '' ) ? $this->DEFAULT_SECTION : $section_id;
         $code = $this->updateSettingMenu( $section_id );
         
+        /* from the menu */ 
+        $where = ( $section_id != '' ) ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".$this->DEFAULT_SECTION."'";
+      
+        $listarray = $this->getListArray( $where ); // get all the data
         if(count($listarray)==0){ // if, display the default new form
-            
-            $section_id = ($section_id == '')? $this->DEFAULT_SECTION : $section_id;
             
             return $this->getHtmlForm('', self::ACTION_NEW, $section_id); 
             
