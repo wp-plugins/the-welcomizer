@@ -2582,7 +2582,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $code = $this->updateSettingMenu( $section_id );
         
         /* from the menu */ 
-        $where = ( $section_id != '' ) ? " where ".self::F_SECTION_ID." = '".$section_id."'" : " where ".self::F_SECTION_ID." = '".$this->DEFAULT_SECTION."'";
+        $where = " where ".self::F_SECTION_ID." = '".$section_id."'";
       
         $listarray = $this->getListArray( $where ); // get all the data
         if(count($listarray)==0){ // if, display the default new form
