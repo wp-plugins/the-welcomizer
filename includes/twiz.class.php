@@ -339,7 +339,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.4';
+        $this->version    = '1.3.7.5';
         $this->dbVersion  = '2.3';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1367,7 +1367,6 @@ class Twiz{
         foreach( $listarray as $value ){
 
               if ( $sectionname == '' ) {
-              
                   $myTwizMenu  = new TwizMenu(); 
                   $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($value[self::F_SECTION_ID]));
               }
@@ -1390,6 +1389,7 @@ class Twiz{
 
         $filedata .= '</TWIZ>'."\n";
         
+        $section_id =  str_replace(self::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $section_id);
         $sectionname = ($sectionname == '') ? $sectionname = $section_id.$id : $sectionname.$id;
        
         $filename = urldecode($sectionname).".".self::EXT_TWZ;
@@ -1913,9 +1913,8 @@ jQuery(document).ready(function($){';
 
                     $repeatname = $value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
                     /* js */    
-                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
-                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
-                    $generatedscript .= $value[self::F_JAVASCRIPT];
+                    $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                  
                 }   
                 
                 if($value[self::F_OUTPUT_POS]=='r'){ // ready
@@ -1951,7 +1950,7 @@ $.fn.twizReplay = function(){ ';
                 
                 /* repeat animation function */
                 $generatedscript .= '
-$.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
+$.fn.twiz_'.$repeatname.' = function(twiz_this){ ';
           
                 if(($value[self::F_OUTPUT_POS]=='b')or ($value[self::F_OUTPUT_POS]=='')){ // before
                     
@@ -1968,9 +1967,7 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                 if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before
                 
                     /* js */    
-                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
-                    $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
-                    $generatedscript .= $value[self::F_JAVASCRIPT];
+                    $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
                 }
                 
                 $hasSomething = $this->hasSomething($value);
@@ -1996,9 +1993,8 @@ $.fn.twizRepeat_'.$repeatname.' = function(twiz_this){ ';
                     if( $value[self::F_OUTPUT] == 'a' ){ // after 
                         
                         /* js */    
-                        $value[self::F_JAVASCRIPT] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
-                        $value[self::F_JAVASCRIPT] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_JAVASCRIPT]);
-                        $generatedscript .= $value[self::F_JAVASCRIPT];
+                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                        
                     }
                     
                     $value[self::F_OPTIONS_A] = (($value[self::F_OPTIONS_A]!='') and (($value[self::F_MOVE_LEFT_POS_A]!="") or ($value[self::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[self::F_OPTIONS_A] :  $value[self::F_OPTIONS_A];
@@ -2026,9 +2022,8 @@ $("'. $newElementFormat . '").animate({';
                         $value[self::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_A]);
             
                         /* extra js a */    
-                        $value[self::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_EXTRA_JS_A]);
-                        $value[self::F_EXTRA_JS_A] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_EXTRA_JS_A]);
-                        $generatedscript .= $value[self::F_EXTRA_JS_A];
+                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_EXTRA_JS_A]);
+                        
    
                         /* b */ 
                                     
@@ -2061,9 +2056,7 @@ $("'. $newElementFormat . '").animate({';
                         }
                         
                         /* extra js b */    
-                        $value[self::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat()", "$(document).twizRepeat_".$repeatname.'()' , $value[self::F_EXTRA_JS_B]);
-                        $value[self::F_EXTRA_JS_B] = str_replace("$(document).twiz_", "$(document).twizRepeat_" , $value[self::F_EXTRA_JS_B]);
-                        $generatedscript .= $value[self::F_EXTRA_JS_B];
+                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_EXTRA_JS_B]);
                         
                         /* closing functions */
                         $generatedscript .= '});';
@@ -2097,14 +2090,14 @@ $("'. $newElementFormat . '").animate({';
 $("'.$newElementFormat.'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ ';
                        $generatedscript .= 'if(twiz_active_'.$repeatname_var.' == 0) {';
                        $generatedscript .= 'twiz_active_'.$repeatname_var.' = 1;';
-                       $generatedscript .= '$(document).twizRepeat_'.$repeatname.'(this);}';
+                       $generatedscript .= '$(document).twiz_'.$repeatname.'(this);}';
                        $generatedscript .= '});';                    
                    }
                    
                 }else{
                 
                     /* trigger the animation if not on event */
-                    $generatedscript .=  '$(document).twizRepeat_'.$repeatname.'($("'.$newElementFormat.'"));';
+                    $generatedscript .=  '$(document).twiz_'.$repeatname.'($("'.$newElementFormat.'"));';
                 }
             }
             
@@ -2448,7 +2441,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                 width:\'200px\'
                 </td></tr>        
                 <tr><td><hr></td></tr>        
-                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript_a', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
+                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td>'.$this->getHtmlFunctionList($id, 'javascript_a', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -2473,7 +2466,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                 width:\'100px\'
                 </td></tr>        
             <tr><td ><hr></td></tr>
-            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript_b', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
+            <tr><td  class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></td></tr><tr><td>'.$this->getHtmlFunctionList($id, 'javascript_b', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(document).twizRepeat();<br>$(document).twizReplay();</td></tr>
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
