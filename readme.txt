@@ -85,7 +85,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.3.7.5 =
 
-* Nothing new in this version.
+* Adjusted Right panel inside two conditional blocks.
 * Renamed functions to twiz_*
 * Fixed Animations list.
 * Layout fixes.
