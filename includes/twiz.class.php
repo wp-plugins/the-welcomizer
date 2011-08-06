@@ -2725,7 +2725,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if($id != 'global'){
         
             $row = $this->getRow( $id ); 
-            $id  = $row[self::F_EXPORT_ID];
+            $id .= ' - '.$row[self::F_EXPORT_ID];
         }
         
         return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
@@ -2747,7 +2747,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         foreach ( $listarray as $value ){
        
             $functionnames = 'twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",$value[self::F_LAYER_ID]).'_'.$value[self::F_EXPORT_ID].'();';
-            $select .= '<option value="$(document).'.$functionnames.'">'.$functionnames.'</option>';
+            $select .= '<option value="$(document).'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         
         $select .= '</select>';
