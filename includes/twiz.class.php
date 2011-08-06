@@ -106,6 +106,7 @@ class Twiz{
     
     /* table field constants */ 
     const F_ID                   = 'id';   
+    const F_EXPORT_ID            = 'export_id';
     const F_SECTION_ID           = 'section_id';    
     const F_STATUS               = 'status';  
     const F_TYPE                 = 'type';  
@@ -236,26 +237,27 @@ class Twiz{
                             
     /* jQuery common options array */
     private $array_jQuery_options = array(self::JQ_HEIGHT
-                                     ,self::JQ_WITDH
-                                     ,self::JQ_OPACITY
-                                     ,self::JQ_FONTSIZE
-                                     ,self::JQ_MARGINTOP
-                                     ,self::JQ_MARGINBOTTOM
-                                     ,self::JQ_MARGINLEFT
-                                     ,self::JQ_MARGINRIGHT
-                                     ,self::JQ_PADDINGTOP
-                                     ,self::JQ_PADDINGBOTTOM
-                                     ,self::JQ_PADDINGLEFT
-                                     ,self::JQ_PADDINGRIGHT
-                                     ,self::JQ_BORDERWIDTH
-                                     ,self::JQ_BORDERTOPWIDTH
-                                     ,self::JQ_BORDERBOTTOMWIDTH
-                                     ,self::JQ_BORDERIGHTWIDTH
-                                     ,self::JQ_BORDERLEFTWIDTH
-                                     );
+                                         ,self::JQ_WITDH
+                                         ,self::JQ_OPACITY
+                                         ,self::JQ_FONTSIZE
+                                         ,self::JQ_MARGINTOP
+                                         ,self::JQ_MARGINBOTTOM
+                                         ,self::JQ_MARGINLEFT
+                                         ,self::JQ_MARGINRIGHT
+                                         ,self::JQ_PADDINGTOP
+                                         ,self::JQ_PADDINGBOTTOM
+                                         ,self::JQ_PADDINGLEFT
+                                         ,self::JQ_PADDINGRIGHT
+                                         ,self::JQ_BORDERWIDTH
+                                         ,self::JQ_BORDERTOPWIDTH
+                                         ,self::JQ_BORDERBOTTOMWIDTH
+                                         ,self::JQ_BORDERIGHTWIDTH
+                                         ,self::JQ_BORDERLEFTWIDTH
+                                         );
                 
     /* XML MULTI-VERSION mapping values */
-    private $array_twz_mapping = array(self::F_SECTION_ID           => 'AA' 
+    private $array_twz_mapping = array(self::F_EXPORT_ID            => 'AA'
+                                      ,self::F_SECTION_ID           => 'AH' 
                                       ,self::F_STATUS               => 'BB'
                                       ,self::F_TYPE                 => 'BL' 
                                       ,self::F_LAYER_ID             => 'CC'    
@@ -286,6 +288,7 @@ class Twiz{
                                       );
 
     private $array_fields = array(self::F_ID          
+                                 ,self::F_EXPORT_ID 
                                  ,self::F_SECTION_ID          
                                  ,self::F_STATUS 
                                  ,self::F_TYPE                                   
@@ -339,8 +342,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.5';
-        $this->dbVersion  = '2.3';
+        $this->version    = '1.3.7.6';
+        $this->dbVersion  = '2.4';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -733,6 +736,10 @@ class Twiz{
              $comma = ( $count_array != $i ) ? ','."\n" : '';
           
              switch($value){
+                 
+                 case self::F_EXPORT_ID: // Skipped
+                 
+                    break;
                     
                  case self::F_SECTION_ID:
                  
@@ -1367,6 +1374,7 @@ class Twiz{
         foreach( $listarray as $value ){
 
               if ( $sectionname == '' ) {
+              
                   $myTwizMenu  = new TwizMenu(); 
                   $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($value[self::F_SECTION_ID]));
               }
@@ -1378,7 +1386,7 @@ class Twiz{
               /* loop fields array */
               foreach( $this->array_fields as $key ){
               
-                  if(( $key != self::F_ID ) and ( $key != self::F_SECTION_ID )){
+                  if( $key != self::F_ID ){
              
                      $filedata .= '<'.$this->array_twz_mapping[$key].'>'.$value[$key].'</'.$this->array_twz_mapping[$key].'>'."\n";
                   }
@@ -1459,6 +1467,7 @@ class Twiz{
 
         $sql = "CREATE TABLE ".$this->table." (". 
                 self::F_ID . " int NOT NULL AUTO_INCREMENT, ". 
+                self::F_EXPORT_ID . " varchar(13) NOT NULL default '', ". 
                 self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."', ". 
                 self::F_STATUS . " tinyint(3) NOT NULL default 0, ". 
                 self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."', ". 
@@ -1568,6 +1577,61 @@ class Twiz{
                     $code = $wpdb->query($altersql);
                 }
                 
+                
+                /*
+                * HOTFIX - Export ID
+                *
+                * Adds the new field export_id and applies a Hotfix for updating and replacing ids.
+                */
+                if( !in_array(self::F_EXPORT_ID, $array_describe) ){
+                    
+
+                    // Add the new field from <= v 1.3.7.6 
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ".  self::F_EXPORT_ID . " varchar(13) NOT NULL default '' after ". self::F_ID ."";
+                    $code = $wpdb->query($altersql);
+                    
+                    // Select all the table
+                    $sql = "SELECT * from ".$this->table;
+                    $rows = $wpdb->get_results($sql, ARRAY_A);                    
+                    
+                    foreach ( $rows as $value ){
+                        
+                        // wait for 1/10 second
+                        usleep(100000);
+                        
+                        // a simple uniq id
+                        $exportid = uniqid();
+                        
+                        // array temp
+                        if( !isset($array_ids[$value[self::F_ID]]) ) $array_ids[$value[self::F_ID]] = '' ;
+                        $array_ids[$value[self::F_ID]] = $exportid;
+                        
+                        // update each row with the unique id and removes section_id.
+                        $updatesql = "UPDATE ".$this->table . " SET ".  self::F_EXPORT_ID . " = '".$exportid."'
+                        WHERE ". self::F_ID ." = '".$value[self::F_ID]."'";
+                        $code = $wpdb->query($updatesql);
+
+                    }
+                    
+                    // loops the previous temp array
+                    foreach ( $array_ids as $t_id => $t_export_id ){
+                    
+                        // loop all rows again and again
+                        foreach ( $rows as $value ){
+                        
+                            // Replace all current ids. all functions and activations vars included
+                            $updatesql = "UPDATE ".$this->table . " SET
+                             ". self::F_JAVASCRIPT . " = replace(". self::F_JAVASCRIPT . ", '_".$t_id."', '_".$t_export_id."') 
+                            ,". self::F_EXTRA_JS_A . " = replace(". self::F_EXTRA_JS_A . ", '_".$t_id."', '_".$t_export_id."') 
+                            ,". self::F_EXTRA_JS_B . " = replace(". self::F_EXTRA_JS_B . ", '_".$t_id."', '_".$t_export_id."') 
+                            WHERE ". self::F_ID ." = '".$value[self::F_ID]."'";
+                            $code = $wpdb->query($updatesql);
+                            
+                        }
+                    }                    
+                }
+                
                 $tsoption = get_option('twiz_setting_menu'); // home / cat / page
                 
                 if( $tsoption == "" ) {
@@ -1607,14 +1671,14 @@ class Twiz{
         
             if( $twz = @simplexml_load_file($file) ){
 
-               /* flip array mapping value to match*/
+               /* flip array mapping value to match */
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
                
                 /* loop xml entities */              
                 foreach( $twz->children() as $twzrow )
                 {                  
                     $row = array();
-                    $row[self::F_SECTION_ID] = $sectionid;
+                    $row[self::F_SECTION_ID] = $sectionid; 
                     
                     foreach( $twzrow->children() as $twzfield )
                     {
@@ -1635,7 +1699,7 @@ class Twiz{
                     }
 
                     /* insert row  */
-                    if( !$code = $this->importInsert($row) ){
+                    if( !$code = $this->importInsert($row, $sectionid) ){
                         
                         return false;
                     }
@@ -1648,10 +1712,10 @@ class Twiz{
         return false;
     }
     
-    private function importInsert( $data = array() ){
+    private function importInsert( $data = array(), $newsectionid = self::DEFAULT_SECTION_HOME  ){
         
         global $wpdb;
-        
+                        
         /* field added, older xml are always supported  */
         if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '' ;
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '' ;
@@ -1659,6 +1723,8 @@ class Twiz{
         if( !isset($data[self::F_TYPE]) ) $data[self::F_TYPE] = '' ;
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '' ;
         if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '' ;
+        if( !isset($data[self::F_EXPORT_ID]) ) $data[self::F_EXPORT_ID] = '' ;
+        if( !isset($data[self::F_SECTION_ID]) ) $data[self::F_SECTION_ID] = '' ;
         
         $twiz_move_top_pos_a  = esc_attr(trim($data[self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($data[self::F_MOVE_LEFT_POS_A]));
@@ -1674,12 +1740,37 @@ class Twiz{
         $twiz_start_top_pos   = ($twiz_start_top_pos=='') ? 'NULL' : $twiz_start_top_pos;
         $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;
       
+        $twiz_javascript = str_replace("\\", "\\\\" , $data[self::F_JAVASCRIPT]);
         $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_A]);
         $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_B]);
-        $twiz_javascript = str_replace("\\", "\\\\" , $data[self::F_JAVASCRIPT]);
-      
+        
+        // replace section id
+        $twiz_javascript = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_JAVASCRIPT]);
+        $twiz_extra_js_a = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_EXTRA_JS_A]);
+        $twiz_extra_js_b = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_EXTRA_JS_B]);
+
+        // wait for 1/10 second
+        usleep(100000);
+        
+        // a simple uniq id
+        $exportid = uniqid();
+        
+        $data[self::F_EXPORT_ID] = ($data[self::F_EXPORT_ID]=='')? $exportid : $data[self::F_EXPORT_ID];
+
+        // Check if the exportid already exists and replace it.
+        $exportidExists = $this->ExportidExists($data[self::F_EXPORT_ID]);
+        
+        // If imported in the same section, new exportid is given
+        if( ($exportidExists) and ($data[self::F_SECTION_ID] == $newsectionid) ){
+       
+            // new exportid
+            $data[self::F_EXPORT_ID] = $exportid;
+        }
+        
+                
         $sql = "INSERT INTO ".$this->table." 
-             (".self::F_SECTION_ID."
+             (".self::F_EXPORT_ID."
+             ,".self::F_SECTION_ID."
              ,".self::F_STATUS."
              ,".self::F_TYPE."
              ,".self::F_LAYER_ID."
@@ -1707,7 +1798,8 @@ class Twiz{
              ,".self::F_OPTIONS_B."
              ,".self::F_EXTRA_JS_A."
              ,".self::F_EXTRA_JS_B."       
-             )values('".esc_attr(trim($data[self::F_SECTION_ID]))."'
+             )values('".esc_attr(trim($data[self::F_EXPORT_ID]))."'
+             ,'".$newsectionid."'
              ,'".esc_attr(trim($data[self::F_STATUS]))."'
              ,'".esc_attr(trim($data[self::F_TYPE]))."'
              ,'".esc_attr(trim($data[self::F_LAYER_ID]))."'
@@ -1918,12 +2010,12 @@ jQuery(document).ready(function($){';
             /* generates the code */
             foreach($listarray as $value){   
             
-                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_ID];
+                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                 $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
                                 
                 if( $value[self::F_OUTPUT] == 'r' ){ // ready 
 
-                    $repeatname = $value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
+                    $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                     /* js */    
                     $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
                   
@@ -1949,8 +2041,8 @@ $.fn.twizReplay = function(){ ';
              /* generates the code */
             foreach($listarray as $value){               
                
-                $repeatname = $value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_ID];
-                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_ID];
+                $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
+                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                 
                 $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
                 
@@ -2626,6 +2718,12 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if($id==''){ return ''; }
         if($status==''){ return ''; }
     
+        if($id != 'global'){
+        
+            $row = $this->getRow( $id ); 
+            $id  = $row[self::F_EXPORT_ID];
+        }
+        
         return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
     }
@@ -2644,7 +2742,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         foreach ( $listarray as $value ){
        
-            $functionnames = 'twiz_'.$value[self::F_SECTION_ID].'_'.str_replace("-","_",$value[self::F_LAYER_ID]).'_'.$value[self::F_ID].'();';
+            $functionnames = 'twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",$value[self::F_LAYER_ID]).'_'.$value[self::F_EXPORT_ID].'();';
             $select .= '<option value="$(document).'.$functionnames.'">'.$functionnames.'</option>';
         }
         
@@ -2748,6 +2846,23 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $value = $row[$column];
   
         return $value;
+    }
+    
+    private function ExportidExists( $exportid = '' ){ 
+    
+        global $wpdb;
+        
+        if($exportid==''){return false;}
+    
+        $sql = "SELECT ".self::F_EXPORT_ID." from ".$this->table." where ".self::F_EXPORT_ID." = '".$exportid."'";
+        $row = $wpdb->get_row($sql, ARRAY_A);
+      
+        if($row[self::F_EXPORT_ID]!=''){
+
+            return true;
+        }
+  
+        return false;
     }
     
     private function preloadImages(){
@@ -2855,10 +2970,14 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         $twiz_javascript = esc_attr(trim($_POST['twiz_'.self::F_JAVASCRIPT]));
         
+        // a simple uniq id
+        $exportid = uniqid();
+                        
         if( $id == "" ){ // add new
 
             $sql = "INSERT INTO ".$this->table." 
-                  (".self::F_SECTION_ID."
+                  (".self::F_EXPORT_ID."
+                  ,".self::F_SECTION_ID."
                   ,".self::F_STATUS."
                   ,".self::F_TYPE."
                   ,".self::F_LAYER_ID."
@@ -2886,7 +3005,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                   ,".self::F_OPTIONS_B."
                   ,".self::F_EXTRA_JS_A."
                   ,".self::F_EXTRA_JS_B."         
-                  )values('".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
+                  )values('".$exportid."'
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
                   ,'".$twiz_status."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."'
                   ,'".$twiz_layer_id."'
