@@ -1756,7 +1756,11 @@ class Twiz{
         $exportid = uniqid();
         
         $data[self::F_EXPORT_ID] = ($data[self::F_EXPORT_ID]=='')? $exportid : $data[self::F_EXPORT_ID];
-
+        
+        // default output pos for older export files. b r default, because no backward v to check
+        $data[self::F_OUTPUT] = ($data[self::F_OUTPUT] == '')? 'b' : $data[self::F_OUTPUT];
+        $data[self::F_OUTPUT_POS] = ($data[self::F_OUTPUT_POS] == '') ? 'r' : $data[self::F_OUTPUT_POS];
+        
         // Check if the exportid already exists and replace it.
         $exportidExists = $this->ExportidExists($data[self::F_EXPORT_ID]);
         
