@@ -342,7 +342,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.6';
+        $this->version    = '1.3.7.7';
         $this->dbVersion  = '2.4';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -2533,7 +2533,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         </select>
       </td></tr>            
         </table>
-<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript', $section_id).'
+<textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_JAVASCRIPT.'" name="twiz_'.self::F_JAVASCRIPT.'" type="text" >'.$data[self::F_JAVASCRIPT].'</textarea>'.$this->getHtmlFunctionList($id, 'javascript', $section_id).'<br>'.__('e.g.', 'the-welcomizer').'<br>$(\'#realid\').css({\'display\':\'block\'});
     </td>
 </tr>
 <tr><td colspan="2"><hr></td></tr>
@@ -2558,7 +2558,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                 width:\'200px\'
                 </td></tr>        
                 <tr><td><hr></td></tr>        
-                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td>'.$this->getHtmlFunctionList($id, 'javascript_a', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(this).css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
+                <tr><td class="twiz-caption">'.__('Extra JavaScript', 'the-welcomizer').'</td></tr><tr><td ><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></td></tr><tr><td>'.$this->getHtmlFunctionList($id, 'javascript_a', $section_id).'</td></tr><tr><td  class="twiz-td-e-g">'.__('e.g.', 'the-welcomizer').'<br>$(\'#realid\').css({position:\'static\',<br>\'z-index\':\'1\'});</td></tr>
         </table>
 </td>
 <td valign="top">    
@@ -2734,10 +2734,12 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if($id != 'global'){
         
             $row = $this->getRow( $id ); 
-            $id .= ' - '.$row[self::F_EXPORT_ID];
+            $title = $id . ' - '.$row[self::F_EXPORT_ID];
+        }else{
+            $title = __('Global', 'the-welcomizer');
         }
         
-        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$id.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
+        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$title.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
 
     }
     
