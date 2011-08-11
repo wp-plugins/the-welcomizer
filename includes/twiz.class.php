@@ -2019,7 +2019,12 @@ jQuery(document).ready(function($){';
                                 
                 if( $value[self::F_OUTPUT] == 'r' ){ // ready 
 
+                
                     $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
+                    
+                    /* replace numeric entities */
+                    $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
+                
                     /* js */    
                     $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
                   
