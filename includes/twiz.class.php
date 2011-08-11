@@ -2048,7 +2048,9 @@ jQuery(document).ready(function($){';
 $.fn.twizReplay = function(){ ';
            
              /* generates the code */
-            foreach($listarray as $value){               
+            foreach($listarray as $value){
+
+                $have_active = '';
                
                 $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                 $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
@@ -2124,9 +2126,9 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){ ';
                         $generatedscript .= '
 $("'. $newElementFormat . '").animate({';
 
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].'px"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_A]!="") and ($value[self::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].'='.$value[self::F_MOVE_TOP_POS_A].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].'='.$value[self::F_MOVE_TOP_POS_A].'px"' : '';
                         $generatedscript .= $value[self::F_OPTIONS_A];
                         
                         $generatedscript .= '}, '.$value[self::F_DURATION].' , function() {';
@@ -2154,9 +2156,9 @@ $("'. $newElementFormat . '").animate({';
                         $generatedscript .= '
 $("'. $newElementFormat . '").animate({';
 
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].'px"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].'px"' : '';
                         $generatedscript .=  $value[self::F_OPTIONS_B];
                         
                         $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
@@ -2166,6 +2168,7 @@ $("'. $newElementFormat . '").animate({';
             
                         if($have_b){
                             $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
+                            $have_active = true;
                         }
                         
                         /* extra js b */    
@@ -2176,6 +2179,7 @@ $("'. $newElementFormat . '").animate({';
                             
                         if(!$have_b){
                             $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
+                            $have_active = true;
                         }
                         
                         $generatedscript .= '});';
@@ -2186,7 +2190,7 @@ $("'. $newElementFormat . '").animate({';
 
                 }
                 
-                if(($hasMovements == false ) or ($hasSomething == false )){
+                if( $have_active != true ){
                
                     $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
                 }
