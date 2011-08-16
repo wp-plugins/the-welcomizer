@@ -2037,6 +2037,7 @@ jQuery(document).ready(function($){';
             $generatedscript .= '
 $.fn.twizReplay = function(){ ';
            
+            
              /* generates the code */
             foreach($listarray as $value){
 
@@ -2072,7 +2073,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){ ';
                 if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before
                 
                     /* js */    
-                    $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                    $generatedscript .= 'setTimeout(function(){'.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]).'},0);';
                 }
                 
                 $hasSomething = $this->hasSomething($value);
@@ -2190,7 +2191,7 @@ $("'. $newElementFormat . '").animate({';
                 /* closing functions */
                 $generatedscript .= '};';
                 
-                /* trigger on event */
+               /* trigger on event */
                 if($value[self::F_ON_EVENT] != ''){
                 
                    if($value[self::F_ON_EVENT] != self::EV_MANUAL){
@@ -2202,11 +2203,11 @@ $("'.$newElementFormat.'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ 
                        $generatedscript .= '});';                    
                    }
                    
-                }else{
+                } else{
                 
                     /* trigger the animation if not on event */
                     $generatedscript .=  '$(document).twiz_'.$repeatname.'($("'.$newElementFormat.'"));';
-                }
+                }  
             }
             
             /* script footer */
@@ -2216,17 +2217,18 @@ $(document).twizReplay();';
             /* generates the code */
             foreach($listarray as $value){   
                                 
+                $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
+                    
                 if( $value[self::F_OUTPUT] == 'r' ){ // ready 
-                
-                    $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                     
                     /* replace numeric entities */
                     $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
                 
                     /* js */    
-                    $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
+                  $generatedscript .= 'setTimeout(function(){'.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]).'},0);';
                   
                 }   
+
             }
             
             $generatedscript.= '});';
