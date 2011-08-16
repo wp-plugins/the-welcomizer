@@ -2217,9 +2217,9 @@ $(document).twizReplay();';
             /* generates the code */
             foreach($listarray as $value){   
                                 
-                $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                    
                 if( $value[self::F_OUTPUT] == 'r' ){ // ready 
+                    
+                    $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                     
                     /* replace numeric entities */
                     $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
