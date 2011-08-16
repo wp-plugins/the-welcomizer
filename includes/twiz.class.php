@@ -1924,6 +1924,7 @@ class Twiz{
         global $post;
       
         $generatedscript = '';
+        $generatedscript_pos = '';
       
         wp_reset_query(); // fix is_home() due to a custom query.
         
@@ -2008,7 +2009,30 @@ class Twiz{
             $generatedscript.= '<script type="text/javascript">
 jQuery(document).ready(function($){';
 
+            /* this used by javasccript before. */
+            $generatedscript .= 'var twiz_this = "";';
+            
+            /* generates the code starting positions */
+            foreach($listarray as $value){   
   
+                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
+                $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
+                
+                if($value[self::F_OUTPUT_POS]=='r'){ // ready
+               
+                    $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
+                        
+                    /* css position */ 
+                    $generatedscript_pos .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
+                    $generatedscript_pos .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
+
+                    /* starting positions */ 
+                    $generatedscript_pos .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
+                    $generatedscript_pos .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
+               }                
+            }
+            
+            $generatedscript .= $generatedscript_pos;
             
             $generatedscript .= '
 $.fn.twizReplay = function(){ ';
@@ -2133,6 +2157,7 @@ $("'. $newElementFormat . '").animate({';
                         $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
             
                         if($have_b){
+                        
                             $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
                             $have_active = true;
                         }
@@ -2188,17 +2213,10 @@ $("'.$newElementFormat.'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ 
             $generatedscript.= '}
 $(document).twizReplay();';
 
-          /* this used by javasccript before. */
-            $generatedscript .= 'var twiz_this = "";';
-
             /* generates the code */
             foreach($listarray as $value){   
-            
-                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
                                 
                 if( $value[self::F_OUTPUT] == 'r' ){ // ready 
-
                 
                     $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
                     
@@ -2209,22 +2227,9 @@ $(document).twizReplay();';
                     $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
                   
                 }   
-                
-                if($value[self::F_OUTPUT_POS]=='r'){ // ready
-               
-                    $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
-                        
-                    /* css position */ 
-                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
-                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
-
-                    /* starting positions */ 
-                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].'px");' : '';
-                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].'px");' : '';
-               }                
             }
             
-$generatedscript.= '});';
+            $generatedscript.= '});';
             $generatedscript.= '
 </script>';
         }
