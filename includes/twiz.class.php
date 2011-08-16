@@ -2225,7 +2225,7 @@ $(document).twizReplay();';
                     $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
                 
                     /* js */    
-                  $generatedscript .= 'setTimeout(function(){'.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]).'},0);';
+                  $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
                   
                 }   
 
