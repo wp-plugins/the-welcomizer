@@ -8,8 +8,9 @@ else{
 
 require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
 require_once(dirname(__FILE__).'/includes/twiz.library.class.php');  
+require_once(dirname(__FILE__).'/includes/twiz.ajax.class.php'); 
 
-$myTwiz  = new Twiz();
+$myTwizAjax  = new TwizAjax();
 header("Content-type: text/javascript"); 
-echo($myTwiz->getAjaxHeader());
+echo($myTwizAjax->getAjaxHeader());
 ?>
