@@ -127,7 +127,6 @@
     width: 85px;
     float: left;
     display: block;
-    padding-right: 5px;
     text-align: center;
 }
 #twiz_head_logo img {
@@ -142,8 +141,8 @@
 }
 #twiz_head_setting {
     font-size: 12px;
-    margin-top: 4px;
-    float:left;
+    float: left;
+    width: 400px;
 }
 #twiz_head_addnew {
     display: block;
@@ -160,7 +159,10 @@
     -webkit-border-top-left-radius: 6px;
     -webkit-border-top-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px
+    -khtml-border-radius-topright: 6px;
+    height: 90px;
+    display: block;
+    overflow:hidden;
 }
 #twiz_menu,
 #twiz_menu-everywhere,
@@ -412,9 +414,12 @@
 .twiz-td-picklist a:hover {
     cursor: pointer;
 }
-.twiz-td-small-left, 
+.twiz-td-small-left {
+    min-width: 25px;
+    font-size: 12px;
+}  
 .twiz-view-td-small-left {
-    width: 38px;
+    min-width: 38px;
     font-size: 12px;
 }    
 .twiz-td-small-left-start {
