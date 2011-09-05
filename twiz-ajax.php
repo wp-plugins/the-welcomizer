@@ -80,7 +80,6 @@
             if(($saved = $myTwiz->save($twiz_id)) // insert or update
             or($saved=='0')){ // success, but no differences
             
-               // $htmlresponse = $myTwiz->getHtmlSuccess(__('Saved!', 'the-welcomizer'));
                 $htmlresponse.= $myTwiz->getHtmlList($twiz_section_id);        
                 
             }else{
@@ -249,6 +248,22 @@
             if( $updated =  $myTwizLibrary->updateLibraryOrder($twiz_id, $twiz_order) ) {
                 $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
             }
+            
+            break;       
+
+        case Twiz::ACTION_ADMIN:
+
+            $myTwizAdmin  = new TwizAdmin();
+            $htmlresponse = $myTwizAdmin->getHtmlAdmin();    
+            
+            break;     
+
+        case Twiz::ACTION_SAVE_ADMIN:
+           
+            $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
+            
+            $myTwizAdmin  = new TwizAdmin();
+            $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
             
             break;             
     }

@@ -281,7 +281,8 @@
 #twiz_footer a:hover {
     text-decoration: underline;
 }
-.twiz-table-list {
+.twiz-table-list,
+.twiz-table-form {
     width: 500px;
 }    
 .twiz-table-list-tr-h, 

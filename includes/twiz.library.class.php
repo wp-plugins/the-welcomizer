@@ -40,9 +40,7 @@ class TwizLibrary extends Twiz{
     }
     
     private function getHtmlLibraryList(){
-    
-        $opendiv = '';
-        $closediv = '';
+
         $rowcolor = '';
         
          /* hide element */

@@ -14,7 +14,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
+require_once(dirname(__FILE__).'/twiz.admin.class.php'); 
 require_once(dirname(__FILE__).'/twiz.menu.class.php'); 
     
 class Twiz{
@@ -84,6 +84,8 @@ class Twiz{
     const ACTION_DELETE_SECTION = 'deletesection';
     const ACTION_DELETE_LIBRARY = 'deletelib';
     const ACTION_ORDER_LIBRARY  = 'orderlib';
+    const ACTION_ADMIN          = 'admin';
+    const ACTION_SAVE_ADMIN     = 'adminsave';
     
     /* jquery common options constants */ 
     const JQ_HEIGHT            = 'height';
@@ -145,6 +147,13 @@ class Twiz{
     /* key field constants */
     const KEY_FILENAME = 'filename';  
     const KEY_ORDER    = 'order';  
+    
+    /* Key output constant */
+    const KEY_OUTPUT = 'output';
+    
+    /* Output constants*/  
+    const OUTPUT_HEADER = 'wp_head';    
+    const OUTPUT_FOOTER = 'wp_footer'; 
     
     /* extension constants */
     const EXT_JS  = 'js';
@@ -374,8 +383,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.7.9';
-        $this->dbVersion  = '2.5';
+        $this->version    = '1.3.8';
+        $this->dbVersion  = '2.51';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -680,7 +689,8 @@ class Twiz{
         
             $code = update_option('twiz_db_version', $this->dbVersion);
             $code = update_option('twiz_global_status', '0');
-            $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page
+            $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page / post
+            $code = new TwizAdmin(); // Default settings
         
         }else{
             
@@ -838,11 +848,15 @@ class Twiz{
 
                 $tsoption = get_option('twiz_setting_menu'); // home / cat / page
                 
-                if( $tsoption == "" ) {
+                if( $tsoption == '' ) {
                 
                     $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page
                 }
-            
+                
+                /* Admin Settings */
+                $code = new TwizAdmin(); // Default settings
+                
+                /* db version */
                 $code = update_option('twiz_db_version', $this->dbVersion);
                 
             }
@@ -1147,18 +1161,18 @@ class Twiz{
     
     }
     
-    function getFrontEnd(){
-      
+   function getFrontEnd(){
+ 
         global $post;
       
         $generatedscript = '';
         $generatedscript_pos = '';
       
         wp_reset_query(); // fix is_home() due to a custom query.
-        
         // get the active data list array
         $listarray_e = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_EVERYWHERE."' "); 
                 
+        
         /* true super logical switch */
         switch( true ){
 
@@ -1222,12 +1236,12 @@ class Twiz{
                 $listarray = $listarray_e;
         }
         
+           
         /* no data, no output */
         if( count($listarray) == 0 ){
         
             return '';
         }
-        
         $gstatus = get_option('twiz_global_status');
         
         if( $gstatus  == '1' ){
@@ -1345,9 +1359,12 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){ ';
                         $generatedscript .= '
 $("'. $newElementFormat . '").animate({';
 
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].'='.$value[self::F_MOVE_LEFT_POS_A].$value[self::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
+                        $value[self::F_MOVE_TOP_POS_SIGN_A] = ($value[self::F_MOVE_TOP_POS_SIGN_A]!='')? $value[self::F_MOVE_TOP_POS_SIGN_A].'=' : '';
+                        $value[self::F_MOVE_LEFT_POS_SIGN_A] = ($value[self::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[self::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
+
+                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].$value[self::F_MOVE_LEFT_POS_A].$value[self::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_A]!="") and ($value[self::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].'='.$value[self::F_MOVE_TOP_POS_A].$value[self::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].$value[self::F_MOVE_TOP_POS_A].$value[self::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                         $generatedscript .= $value[self::F_OPTIONS_A];
                         
                         $generatedscript .= '}, '.$value[self::F_DURATION].' , function() {';
@@ -1375,9 +1392,12 @@ $("'. $newElementFormat . '").animate({';
                         $generatedscript .= '
 $("'. $newElementFormat . '").animate({';
 
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].'='.$value[self::F_MOVE_LEFT_POS_B].$value[self::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
+                        $value[self::F_MOVE_TOP_POS_SIGN_B] = ($value[self::F_MOVE_TOP_POS_SIGN_B]!='')? $value[self::F_MOVE_TOP_POS_SIGN_B].'=' : '';
+                        $value[self::F_MOVE_LEFT_POS_SIGN_B] = ($value[self::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[self::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
+
+                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].$value[self::F_MOVE_LEFT_POS_B].$value[self::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
                         $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].'='.$value[self::F_MOVE_TOP_POS_B].$value[self::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
+                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].$value[self::F_MOVE_TOP_POS_B].$value[self::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
                         $generatedscript .=  $value[self::F_OPTIONS_B];
                         
                         $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
@@ -1472,76 +1492,79 @@ $(document).twizReplay();';
         if($ab==''){return '';}
         $direction = '';
         
-        /* true super fast logical switch */
-        switch(true){
+        if(($data['move_top_pos_sign_'.$ab] != '')and($data['move_left_pos_sign_'.$ab] != '')){
         
-            case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '-') 
-                 and ($data['move_left_pos_'.$ab]== '') ): // N
-                 
-                 $direction = self::DIMAGE_N;
-                 
-                break;
-                
-            case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '-') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
-                 
-                $direction = self::DIMAGE_NE;
+            /* true super fast logical switch */
+            switch(true){
             
-                break;       
+                case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '-') 
+                     and ($data['move_left_pos_'.$ab]== '') ): // N
+                     
+                     $direction = self::DIMAGE_N;
+                     
+                    break;
+                    
+                case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '-') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
+                     
+                    $direction = self::DIMAGE_NE;
                 
-            case (($data['move_top_pos_'.$ab]== '') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
-                 
-                $direction = self::DIMAGE_E;
-            
-                break;    
+                    break;       
+                    
+                case (($data['move_top_pos_'.$ab]== '') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
+                     
+                    $direction = self::DIMAGE_E;
                 
-            case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '+') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
-                 
-                $direction = self::DIMAGE_SE;
-            
-                break;  
+                    break;    
+                    
+                case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '+') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
+                     
+                    $direction = self::DIMAGE_SE;
                 
-           case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '+') 
-                 and ($data['move_left_pos_'.$ab]== '') ): // S
-                 
-                $direction = self::DIMAGE_S;                 
-            
-                break;  
+                    break;  
+                    
+               case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '+') 
+                     and ($data['move_left_pos_'.$ab]== '') ): // S
+                     
+                    $direction = self::DIMAGE_S;                 
                 
-           case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '+') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
-                 
-                 $direction = self::DIMAGE_SW;
-            
-                break; 
+                    break;  
+                    
+               case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '+') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
+                     
+                     $direction = self::DIMAGE_SW;
                 
-           case (($data['move_top_pos_'.$ab]== '') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
-                 
-                 $direction = self::DIMAGE_W;
-            
-                break;      
+                    break; 
+                    
+               case (($data['move_top_pos_'.$ab]== '') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
+                     
+                     $direction = self::DIMAGE_W;
                 
-           case (($data['move_top_pos_'.$ab]!= '') 
-                 and ($data['move_top_pos_sign_'.$ab] == '-') 
-                 and ($data['move_left_pos_'.$ab]!= '') 
-                 and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
-                 
-                $direction = self::DIMAGE_NW;
-            
-                break;     
+                    break;      
+                    
+               case (($data['move_top_pos_'.$ab]!= '') 
+                     and ($data['move_top_pos_sign_'.$ab] == '-') 
+                     and ($data['move_left_pos_'.$ab]!= '') 
+                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
+                     
+                    $direction = self::DIMAGE_NW;
+                
+                    break;     
+            }
         }
         
         if($direction!=''){ 
@@ -1659,18 +1682,31 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if( !isset($data[self::F_MOVE_TOP_POS_FORMAT_B]) ) $data[self::F_MOVE_TOP_POS_FORMAT_B] = '';
         if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_A]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_A] = '';
         if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_B]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_B] = '';
+        
         if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute'] = '';
         if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '';
         if( !isset($twiz_position['static']) ) $twiz_position['static'] = '';
+        
         if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing'] = '';
         if( !isset($twiz_start_top_pos_sign['-']) ) $twiz_start_top_pos_sign['-'] = '';
         if( !isset($twiz_start_left_pos_sign['nothing'] ) ) $twiz_start_left_pos_sign['nothing'] = '';
         if( !isset($twiz_start_left_pos_sign['-']) ) $twiz_start_left_pos_sign['-'] = '';
+        
         if( !isset($twiz_move_top_pos_sign_a['+'] ) ) $twiz_move_top_pos_sign_a['+']  = '';
         if( !isset($twiz_move_top_pos_sign_a['-'] ) ) $twiz_move_top_pos_sign_a['-']  = '';
+        if( !isset($twiz_move_top_pos_sign_a['='] ) ) $twiz_move_top_pos_sign_a['=']  = '';
         if( !isset($twiz_move_top_pos_sign_b['+']) ) $twiz_move_top_pos_sign_b['+'] = '';
         if( !isset($twiz_move_top_pos_sign_b['-']) ) $twiz_move_top_pos_sign_b['-'] = '';
-    
+        if( !isset($twiz_move_top_pos_sign_b['=']) ) $twiz_move_top_pos_sign_b['='] = '';
+            
+        if( !isset($twiz_move_left_pos_sign_a['+'] ) ) $twiz_move_left_pos_sign_a['+']  = '';
+        if( !isset($twiz_move_left_pos_sign_a['-'] ) ) $twiz_move_left_pos_sign_a['-']  = '';
+        if( !isset($twiz_move_left_pos_sign_a['='] ) ) $twiz_move_left_pos_sign_a['=']  = '';
+        if( !isset($twiz_move_left_pos_sign_b['+']) ) $twiz_move_left_pos_sign_b['+'] = '';
+        if( !isset($twiz_move_left_pos_sign_b['-']) ) $twiz_move_left_pos_sign_b['-'] = '';
+        if( !isset($twiz_move_left_pos_sign_b['=']) ) $twiz_move_left_pos_sign_b['='] = '';
+        
+        
         /* toggle starting config if we have values */        
         if(($data[self::F_START_TOP_POS]!='')or($data[self::F_START_LEFT_POS]!='')
          or($data[self::F_ZINDEX]!='')or($data[self::F_JAVASCRIPT]!='')){
@@ -1709,13 +1745,19 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         $twiz_move_top_pos_sign_a['+']  = ($data[self::F_MOVE_TOP_POS_SIGN_A] == '+') ? ' selected="selected"' : '';
         $twiz_move_top_pos_sign_a['-']  = ($data[self::F_MOVE_TOP_POS_SIGN_A] == '-') ? ' selected="selected"' : '';
+        $twiz_move_top_pos_sign_a[' ']  = ($data[self::F_MOVE_TOP_POS_SIGN_A] == '') ? ' selected="selected"' : '';
+        
         $twiz_move_left_pos_sign_a['+'] = ($data[self::F_MOVE_LEFT_POS_SIGN_A] == '+') ? ' selected="selected"' : '';
         $twiz_move_left_pos_sign_a['-'] = ($data[self::F_MOVE_LEFT_POS_SIGN_A] == '-') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_a[' '] = ($data[self::F_MOVE_LEFT_POS_SIGN_A] == '') ? ' selected="selected"' : '';
 
         $twiz_move_top_pos_sign_b['+']  = ($data[self::F_MOVE_TOP_POS_SIGN_B] == '+') ? ' selected="selected"' : '';
         $twiz_move_top_pos_sign_b['-']  = ($data[self::F_MOVE_TOP_POS_SIGN_B] == '-') ? ' selected="selected"' : '';
+        $twiz_move_top_pos_sign_b[' ']  = ($data[self::F_MOVE_TOP_POS_SIGN_B] == '') ? ' selected="selected"' : '';
+        
         $twiz_move_left_pos_sign_b['+'] = ($data[self::F_MOVE_LEFT_POS_SIGN_B] == '+') ? ' selected="selected"' : '';
         $twiz_move_left_pos_sign_b['-'] = ($data[self::F_MOVE_LEFT_POS_SIGN_B] == '-') ? ' selected="selected"' : '';
+        $twiz_move_left_pos_sign_b[' '] = ($data[self::F_MOVE_LEFT_POS_SIGN_B] == '') ? ' selected="selected"' : '';
 
         $imagemove_a = $this->getDirectionalImage($data, 'a');
         $imagemove_b = $this->getDirectionalImage($data, 'b');
@@ -1784,11 +1826,13 @@ $("textarea[name^=twiz_javascript]").blur(function (){
             <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b></td></tr>
             <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'">
+            <option value="" '.$twiz_move_top_pos_sign_a[' '].'> </option>
             <option value="+" '.$twiz_move_top_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_top_pos_sign_a['-'].'>-</option>
             </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_a" name="twiz_move_top_pos_a" type="text" value="'.$data[self::F_MOVE_TOP_POS_A].'" maxlength="5"> '.$this->getHtmlFormatList(self::F_MOVE_TOP_POS_FORMAT_A, $data[self::F_MOVE_TOP_POS_FORMAT_A]).'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_a">'.$imagemove_a.'</td></tr>
             <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.'">
+            <option value="" '.$twiz_move_left_pos_sign_a[' '].'> </option>
             <option value="+" '.$twiz_move_left_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_left_pos_sign_a['-'].'>-</option>
             </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_A, $data[self::F_MOVE_LEFT_POS_FORMAT_A]).'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
@@ -1808,11 +1852,13 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b></td></tr>
         <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'">
+        <option value="" '.$twiz_move_top_pos_sign_b[' '].'> </option>
         <option value="-" '.$twiz_move_top_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_top_pos_sign_b['+'].'>+</option>
         </select><input class="twiz-input twiz-input-small" id="twiz_move_top_pos_b" name="twiz_move_top_pos_b" type="text" value="'.$data[self::F_MOVE_TOP_POS_B].'" maxlength="5"> '.$this->getHtmlFormatList(self::F_MOVE_TOP_POS_FORMAT_B, $data[self::F_MOVE_TOP_POS_FORMAT_B]).'</td><td rowspan="2" align="center" width="95" id="twiz_td_arrow_b">'.$imagemove_b.'</td></tr>
         <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.'">
+        <option value="" '.$twiz_move_left_pos_sign_b[' '].'> </option>
         <option value="-" '.$twiz_move_left_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_left_pos_sign_b['+'].'>+</option>
         </select><input class="twiz-input twiz-input-small" id="twiz_'.self::F_MOVE_LEFT_POS_B.'" name="twiz_'.self::F_MOVE_LEFT_POS_B.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_B, $data[self::F_MOVE_LEFT_POS_FORMAT_B]).'</td></tr><tr><td></td><td><a name="twiz_more_options_b" id="twiz_more_options_b" class="twiz-more-options">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr>
@@ -1846,6 +1892,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $hasMovements = $this->hasMovements($data);
         $hasStartingConfigs = $this->hasStartingConfigs($data);
         
+
         $start_top_pos = ($data[self::F_START_TOP_POS]!='') ? $data[self::F_START_TOP_POS_SIGN].$data[self::F_START_TOP_POS].' '.$data[self::F_START_TOP_POS_FORMAT] : '';
         $start_left_pos = ($data[self::F_START_LEFT_POS]!='') ? $data[self::F_START_LEFT_POS_SIGN].$data[self::F_START_LEFT_POS].' '.$data[self::F_START_LEFT_POS_FORMAT] : '';
         $move_top_pos_a = ($data[self::F_MOVE_TOP_POS_A]!='') ? $data[self::F_MOVE_TOP_POS_SIGN_A].$data[self::F_MOVE_TOP_POS_A].' '.$data[self::F_MOVE_TOP_POS_FORMAT_A] : '';
@@ -1938,6 +1985,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
     private function getListArray( $where = '', $order = '' ){ 
     
+    
         global $wpdb;
 
         $sql = "SELECT * from ".$this->table.$where;
@@ -1945,6 +1993,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $order = ( $order == '' ) ? " order by ".self::F_ON_EVENT.", ".self::F_START_DELAY.", ".self::F_LAYER_ID : $order;
       
         $rows = $wpdb->get_results($sql.$order, ARRAY_A);
+    
         
         return $rows;
     }
@@ -2461,6 +2510,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         delete_option('twiz_setting_menu');
         delete_option('twiz_sections');
         delete_option('twiz_library');
+        delete_option('twiz_admin');
         
         return true;
     }

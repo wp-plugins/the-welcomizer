@@ -19,13 +19,11 @@ class TwizMenu extends Twiz{
         
     /* variable declaration */
     private $array_sections;
-    
-    const ITEM_TYPEUNLOAD     = 'Unload'; 
-
+ 
     /* on event array */ 
-    private $array_element_type = array(self::ELEMENT_TYPE_ID      
-                                       ,self::ELEMENT_TYPE_CLASS  
-                                       ,self::ELEMENT_TYPE_NAME  
+    private $array_element_type = array(parent::ELEMENT_TYPE_ID      
+                                       ,parent::ELEMENT_TYPE_CLASS  
+                                       ,parent::ELEMENT_TYPE_NAME  
                                        );
                                        
     function __construct(){

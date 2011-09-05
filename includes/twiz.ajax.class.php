@@ -26,7 +26,6 @@ class TwizAjax extends Twiz{
     function getAjaxHeader(){
     $header = '
  jQuery(document).ready(function($) {
- var twiz_hide_MessageDelay = 1234;
  var twiz_view_id = null;
  var twiz_current_section_id = "'.$this->DEFAULT_SECTION.'";
  var twiz_default_section_id = "'.parent::DEFAULT_SECTION_HOME.'";
@@ -224,7 +223,7 @@ class TwizAjax extends Twiz{
             $("img[name^=twiz_copy]").unbind("mouseover");              
             $("img[name^=twiz_delete]").unbind("click");
             $("img[name^=twiz_delete]").unbind("mouseover");            
-            $("img[name^=twiz_cancel]").unbind("click");
+            $("#twiz_cancel").unbind("click");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
             bind_twiz_DynArrows();
@@ -260,7 +259,7 @@ class TwizAjax extends Twiz{
             $("img[name^=twiz_copy]").unbind("mouseover");            
             $("img[name^=twiz_delete]").unbind("click");
             $("img[name^=twiz_delete]").unbind("mouseover");
-            $("img[name^=twiz_cancel]").unbind("click");
+            $("#twiz_cancel").unbind("click");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
             bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
             bind_twiz_DynArrows();
@@ -309,8 +308,8 @@ class TwizAjax extends Twiz{
         $("#twiz_container").fadeIn("slow");
         twiz_view_id = "";
         $("img[name^=twiz_status]").unbind("click");
-        $("img[name^=twiz_cancel]").unbind("click");
-        $("img[name^=twiz_save]").unbind("click");
+        $("#twiz_cancel").unbind("click");
+        $("#twiz_save").unbind("click");
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
         bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
@@ -367,8 +366,8 @@ class TwizAjax extends Twiz{
         $header.= '}, function(data) {
         $("#twiz_container").html(data);
         $("img[name^=twiz_status]").unbind("click");
-        $("img[name^=twiz_cancel]").unbind("click");
-        $("img[name^=twiz_save]").unbind("click");
+        $("#twiz_cancel").unbind("click");
+        $("#twiz_save").unbind("click");
         twiz_array_view_id[numid] = undefined;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
@@ -377,10 +376,23 @@ class TwizAjax extends Twiz{
         $("#twiz_list_tr_" + numid).animate({opacity:0}, 320); // needs a rebind for add new
         $("#twiz_list_tr_" + numid).animate({opacity:1}, 320); // needs a rebind for add new
         $("#twiz_list_tr_" + numid).animate({opacity:0}, 300); // needs a rebind for add new
-        $("#twiz_list_tr_" + numid).animate({opacity:1}, 300); // needs a rebind for add new
-        setTimeout(function(){
-            $("#twiz_messagebox").hide("slow");
-        }, twiz_hide_MessageDelay);    
+        $("#twiz_list_tr_" + numid).animate({opacity:1}, 300); // needs a rebind for add new 
+    });
+   });
+  }
+  var bind_twiz_AdminSave = function() {
+    $("#twiz_admin_save").click(function(){
+    $("#twiz_admin_save").attr({"disabled" : "true"});
+    $("#twiz_admin_save_img").fadeIn("fast");
+    var numid = $("#twiz_id").val();
+    $.post(ajaxurl, {
+         action: "twiz_ajax_callback",
+         twiz_nonce: "'.$this->nonce.'", 
+         twiz_action: "'.parent::ACTION_SAVE_ADMIN.'",
+         twiz_slc_output: $("#twiz_slc_output").val()
+    }, function(data) {
+        $("#twiz_admin_save_img").fadeOut("fast"); 
+        $("#twiz_admin_save").removeAttr("disabled");
     });
    });
   }
@@ -394,26 +406,26 @@ class TwizAjax extends Twiz{
     $("#twiz_duration").keypress(function (e){
     if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_start_top_pos").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_start_top_pos").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_start_left_pos").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_start_left_pos").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_zindex").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_zindex").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {if( e.which!=45 ) { return false; }}});
-    $("#twiz_move_top_pos_a").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_move_top_pos_a").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_move_left_pos_a").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_move_left_pos_a").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_move_top_pos_b").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_move_top_pos_b").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
     {return false;}});
-    $("#twiz_move_left_pos_b").keypress(function (e)
-    {if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+    $("#twiz_move_left_pos_b").keypress(function (e){
+    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
     {return false;}});
   }
   var bind_twiz_More_Options = function() {
@@ -675,8 +687,8 @@ class TwizAjax extends Twiz{
                 twiz_view_id = null;
                 twiz_array_view_id = new Array();
                 $("img[name^=twiz_status]").unbind("click");
-                $("img[name^=twiz_cancel]").unbind("click");
-                $("img[name^=twiz_save]").unbind("click");
+                $("#twiz_cancel").unbind("click");
+                $("#twiz_save").unbind("click");
                 $("img[name^=twiz_edit]").unbind("click");
                 $("img[name^=twiz_edit]").unbind("mouseover");
                 $("img[name^=twiz_copy]").unbind("click");
@@ -745,34 +757,36 @@ class TwizAjax extends Twiz{
       var left_val  = $("#twiz_move_left_pos_" + ab).val();
       var direction = "";
       var htmlimage = "";
-      switch(true){
-         case ((top_val!="")&&(top_sign=="-")&&(left_val=="")): 
-            direction = "'.parent::DIMAGE_N.'";
-            break;
-         case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="+")):
-            direction = "'.parent::DIMAGE_NE.'";
-            break;        
-         case ((top_val=="")&&(left_val!="")&&(left_sign=="+")): 
-            direction = "'.parent::DIMAGE_E.'";
-            break;         
-         case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="+")): 
-            direction = "'.parent::DIMAGE_SE.'";    
-            break;     
-         case ((top_val!="")&&(top_sign=="+")&&(left_val=="")): 
-            direction = "'.parent::DIMAGE_S.'";    
-            break; 
-         case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="-")): 
-            direction = "'.parent::DIMAGE_SW.'";    
-            break;    
-         case ((top_val=="")&&(left_val!="")&&(left_sign=="-")): 
-            direction = "'.parent::DIMAGE_W.'";    
-            break;          
-         case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="-")): 
-            direction = "'.parent::DIMAGE_NW.'";    
-            break;           
-      }
-      if(direction!=""){ 
-          htmlimage = \'<img\' + \' width="45"\' + \' height="45"\' + \' src="'.$this->pluginUrl.'\' + \'/images/twiz-arrow-\' + direction + \'.png">\';
+      if((top_sign!="=")&&(left_sign!="=")){
+          switch(true){
+             case ((top_val!="")&&(top_sign=="-")&&(left_val=="")): 
+                direction = "'.parent::DIMAGE_N.'";
+                break;
+             case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="+")):
+                direction = "'.parent::DIMAGE_NE.'";
+                break;        
+             case ((top_val=="")&&(left_val!="")&&(left_sign=="+")): 
+                direction = "'.parent::DIMAGE_E.'";
+                break;         
+             case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="+")): 
+                direction = "'.parent::DIMAGE_SE.'";    
+                break;     
+             case ((top_val!="")&&(top_sign=="+")&&(left_val=="")): 
+                direction = "'.parent::DIMAGE_S.'";    
+                break; 
+             case ((top_val!="")&&(top_sign=="+")&&(left_val!="")&&(left_sign=="-")): 
+                direction = "'.parent::DIMAGE_SW.'";    
+                break;    
+             case ((top_val=="")&&(left_val!="")&&(left_sign=="-")): 
+                direction = "'.parent::DIMAGE_W.'";    
+                break;          
+             case ((top_val!="")&&(top_sign=="-")&&(left_val!="")&&(left_sign=="-")): 
+                direction = "'.parent::DIMAGE_NW.'";    
+                break;           
+          }
+          if(direction!=""){ 
+              htmlimage = \'<img\' + \' width="45"\' + \' height="45"\' + \' src="'.$this->pluginUrl.'\' + \'/images/twiz-arrow-\' + direction + \'.png">\';
+          }
       }
       $("#twiz_td_arrow_" + ab).html(htmlimage);
     }
@@ -829,16 +843,30 @@ class TwizAjax extends Twiz{
         });
     });   
     $("#twiz_library").click(function(){
-        $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"}); 
-        $("#twiz_export").fadeOut("fast");
-        $("#twiz_import").fadeOut("fast");
-        $("#qq_upload_list li").remove();
-        $("#twiz_export_url").html(""); 
+        twizSwitchFooterMenu();
         twizPostLibrary();
     });     
     $("#twiz_admin").click(function(){
-     $("#twiz_admin").html("'.__('This section is under construction.', 'the-welcomizer').'");
+      twizSwitchFooterMenu();
+      $("#twiz_container").slideToggle("fast"); 
+      $.post(ajaxurl, {
+        action: "twiz_ajax_callback",
+        twiz_nonce: "'.$this->nonce.'", 
+        twiz_action: "'.parent::ACTION_ADMIN.'"
+        }, function(data) {                
+            $("#twiz_container").html(data);
+            $("#twiz_container").slideToggle("slow"); 
+            bind_twiz_AdminSave();
+            twiz_current_section_id = "admin";
+        }); 
     });     
+  }  
+  function twizSwitchFooterMenu(){
+      $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu"}); 
+      $("#twiz_export").fadeOut("fast");
+      $("#twiz_import").fadeOut("fast");
+      $("#qq_upload_list li").remove();
+      $("#twiz_export_url").html(""); 
   }  
   function twizPostLibrary(){
       $("#twiz_container").slideToggle("fast"); 
