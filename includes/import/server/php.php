@@ -10,6 +10,10 @@ else{
     require_once('../../../../../../wp-load.php');
 }
         
+// Set the multi-language file, english is the standard.
+load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/../../../languages/' ); 
+
+
 // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
 require_once(ABSPATH .'wp-includes/pluggable.php'); 
 
