@@ -127,7 +127,7 @@ class qqFileUploader extends TwizLibrary{
         
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';             
-            die("{'error':'".__('php.ini increase post_max_size and upload_max_filesize to ').$size."'}");    
+            die("{'error':'".__('php.ini increase post_max_size and upload_max_filesize to ', 'the-welcomizer').$size."'}");    
         }      
     }
     
