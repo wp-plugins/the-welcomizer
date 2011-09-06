@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
 
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';      
         
-        $html .= '<tr><td class="twiz-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</td><td class="twiz-form-td-right"></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';

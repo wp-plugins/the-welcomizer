@@ -395,6 +395,11 @@
     text-align: left;
     font-size: 12px;
 }
+.twiz-admin-form-td-left {
+    width: 275px;
+    padding: 3px;
+    font-size: 12px;
+}
 .twiz-form-td-left {
     width: 260px;
     padding: 3px;

@@ -383,7 +383,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8';
+        $this->version    = '1.3.8.1';
         $this->dbVersion  = '2.51';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -1492,7 +1492,11 @@ $(document).twizReplay();';
         if($ab==''){return '';}
         $direction = '';
         
-        if(($data['move_top_pos_sign_'.$ab] != '')and($data['move_left_pos_sign_'.$ab] != '')){
+        if((($data['move_top_pos_sign_'.$ab] != '') and ($data['move_left_pos_'.$ab] == ''))
+        or (($data['move_left_pos_sign_'.$ab] != '') and ($data['move_top_pos_'.$ab] == ''))
+        or (($data['move_left_pos_sign_'.$ab] != '') and ($data['move_top_pos_'.$ab] != '')
+        and ($data['move_top_pos_sign_'.$ab] != '') and ($data['move_left_pos_'.$ab] != ''))
+        ){
         
             /* true super fast logical switch */
             switch(true){
