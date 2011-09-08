@@ -1400,6 +1400,9 @@ $("'. $newElementFormat . '").animate({';
                         $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].$value[self::F_MOVE_TOP_POS_B].$value[self::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
                         $generatedscript .=  $value[self::F_OPTIONS_B];
                         
+                        /* set to sero */
+                        $value[self::F_DURATION] = (!$have_b)? '0' : $value[self::F_DURATION];
+                        
                         $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
                             
                         /* replace numeric entities */
