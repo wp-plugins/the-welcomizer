@@ -24,8 +24,8 @@ class Twiz{
     protected $import_path_message;
     protected $DEFAULT_SECTION;
     protected $nonce;    
-    private $version;
-    private $pluginName;
+    protected $version;
+    protected $pluginName;
     private $logobigUrl;
     private $logoUrl;
     public $dbVersion;
@@ -383,7 +383,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.1';
+        $this->version    = '1.3.8.2';
         $this->dbVersion  = '2.51';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -394,27 +394,31 @@ class Twiz{
 
     }
     
+   
     function twizIt(){
         
         $html = '<div id="twiz_plugin">';
-        $html.= '<div id="twiz_background"></div>';
-        $html.= '<div id="twiz_master">';
+        $html .= '<div id="twiz_background"></div>';
+        $html .= '<div id="twiz_master">';
         
-        $html.= $this->getHtmlGlobalstatus();
-        $html.= $this->getHtmlHeader();
+        $html .= $this->getHtmlGlobalstatus();
+        $html .= $this->getHtmlHeader();
         
         $myTwizMenu  = new TwizMenu(); 
-        $html.= $myTwizMenu->getHtmlMenu();
+        $html .= $myTwizMenu->getHtmlMenu();
         
-        $html.= $this->getHtmlList();
-        $html.= $this->getHtmlFooter();
-        $html.= $this->getHtmlFooterMenu();
+        $html .= $this->getHtmlList();
+        $html .= $this->getHtmlFooter();
+        $html .= $this->getHtmlFooterMenu();
         
-        $html.= '</div>';
-        $html.= '<div id="twiz_right_panel"></div>';
-        $html.= $this->preloadImages();
-        $html.= '</div>'; 
+        $html .= '</div>';
         
+        $html .= '<div id="twiz_right_panel"></div>';
+        
+        $html .= $this->preloadImages();
+        $html .= '</div>'; 
+        
+   
         return $html;
     }
       
@@ -457,13 +461,13 @@ class Twiz{
     
     private function getHtmlFooter(){
 
-        $footer = '
+        $html = '
 <div class="twiz-clear"></div><div id="twiz_footer">
 '.__('Developed by', 'the-welcomizer').' <a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.utf8_encode('Sébastien Laframboise').'</a>. '.__('Licensed under the GPL version 2.0', 'the-welcomizer').'</div>';
         
-        return $footer;
+        return $html;
     }    
-    
+      
     private function createHtmlList( $listarray = array() ){ 
     
         if( count($listarray) == 0 ){return false;}
@@ -1161,334 +1165,6 @@ class Twiz{
     
     }
     
-   function getFrontEnd(){
- 
-        global $post;
-      
-        $generatedscript = '';
-        $generatedscript_pos = '';
-      
-        wp_reset_query(); // fix is_home() due to a custom query.
-        // get the active data list array
-        $listarray_e = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_EVERYWHERE."' "); 
-                
-        
-        /* true super logical switch */
-        switch( true ){
-
-            case ( is_home() || is_front_page() ):
-                
-                // get the active data list array
-                $listarray_h = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_HOME."' "); 
-            
-                $listarray = array_merge($listarray_e, $listarray_h);
-                
-                break;
-                
-            case is_category():
-                
-                $category_id = 'c_'.get_query_var('cat');
-                
-                // get the active data list array
-                $listarray_allc = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
-                $listarray_c = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$category_id."' "); 
-                
-                $listarray_T = array_merge($listarray_e, $listarray_c);
-                $listarray = array_merge($listarray_T, $listarray_allc);
-                
-                break;
-                
-            case is_page():
-            
-                $page_id = 'p_'.$post->ID;
-                
-                // get the active data list array
-                $listarray_allp = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_ALL_PAGES."' "); 
-                $listarray_p = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$page_id."' ");             
-                
-                $listarray_T = array_merge($listarray_e, $listarray_p);
-                $listarray = array_merge($listarray_T, $listarray_allp);
-                
-                break;
-
-            case is_single(): 
-
-                $post_id = 'a_'.$post->ID;
-                
-                // get the active data list array
-                $listarray_alla = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".self::DEFAULT_SECTION_ALL_ARTICLES."' ");          
-                $listarray_a = $this->getListArray(" where ".self::F_STATUS." = 1 and ".self::F_SECTION_ID." = '".$post_id."' "); 
-                
-                $listarray_T = array_merge($listarray_e, $listarray_a);
-                $listarray = array_merge($listarray_T, $listarray_alla);
-                
-                break;
-                
-            case is_feed(): 
-                
-                return '';
-                
-                break;       
-                
-            default:
-                
-                // get the active data list array
-                $listarray = $listarray_e;
-        }
-        
-           
-        /* no data, no output */
-        if( count($listarray) == 0 ){
-        
-            return '';
-        }
-        $gstatus = get_option('twiz_global_status');
-        
-        if( $gstatus  == '1' ){
-       
-            /* script header */
-            $generatedscript.="<!-- ".$this->pluginName." ".$this->version." -->\n";
-            $generatedscript.= '<script type="text/javascript">
-jQuery(document).ready(function($){';
-
-            /* this used by javasccript before. */
-            $generatedscript .= 'var twiz_this = "";';
-            
-            /* generates the code starting positions */
-            foreach($listarray as $value){   
-  
-                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                $generatedscript .= 'var twiz_active_'.$repeatname_var.' = 0;';
-                
-                if($value[self::F_OUTPUT_POS]=='r'){ // ready
-               
-                    $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
-                        
-                    /* css position */ 
-                    $generatedscript_pos .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
-                    $generatedscript_pos .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
-
-                    /* starting positions */ 
-                    $generatedscript_pos .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].$value[self::F_START_LEFT_POS_FORMAT].'");' : '';
-                    $generatedscript_pos .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].$value[self::F_START_TOP_POS_FORMAT].'");' : '';
-               }                
-            }
-            
-            $generatedscript .= $generatedscript_pos;
-            
-            $generatedscript .= '
-$.fn.twizReplay = function(){ ';
-           
-            
-             /* generates the code */
-            foreach($listarray as $value){
-
-                $have_active = '';
-               
-                $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                $repeatname_var = str_replace("-","_", $value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                
-                $newElementFormat = $this->replacejElementType($value[self::F_TYPE], $value[self::F_LAYER_ID]);
-                
-                /* replace numeric entities */
-                $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
-                
-                /* replace this */
-                $value[self::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[self::F_JAVASCRIPT]);
-                
-                /* repeat animation function */
-                $generatedscript .= '
-$.fn.twiz_'.$repeatname.' = function(twiz_this){ ';
-          
-                if(($value[self::F_OUTPUT_POS]=='b')or ($value[self::F_OUTPUT_POS]=='')){ // before
-                    
-                    /* css position */ 
-                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
-                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
-
-                    /* starting positions */ 
-                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].$value[self::F_START_LEFT_POS_FORMAT].'");' : '';
-                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].$value[self::F_START_TOP_POS_FORMAT].'");' : '';
-                       
-                }
-                
-                if(($value[self::F_OUTPUT]=='b')or ($value[self::F_OUTPUT]=='')){ // before
-                
-                    /* js */    
-                    $generatedscript .= 'setTimeout(function(){'.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]).'},0);';
-                }
-                
-                $hasSomething = $this->hasSomething($value);
-                
-                if($hasSomething == true ){
-                    
-                    /* start delay */ 
-                    $generatedscript .= 'setTimeout(function(){'; 
-                
-
-                    if($value[self::F_OUTPUT_POS]=='a'){ // after
-                        
-                    /* css position */ 
-                    $generatedscript .= ($value[self::F_POSITION]!='') ? '$("'. $newElementFormat . '").css("position", "'.$value[self::F_POSITION].'");' : ''; 
-                    $generatedscript .= ($value[self::F_ZINDEX]!='') ? '$("'. $newElementFormat . '").css("z-index", "'.$value[self::F_ZINDEX].'");' : ''; 
-
-                    /* starting positions */ 
-                    $generatedscript .=($value[self::F_START_LEFT_POS]!='') ? '$("'. $newElementFormat . '").css("left", "'.$value[self::F_START_LEFT_POS_SIGN].$value[self::F_START_LEFT_POS].$value[self::F_START_LEFT_POS_FORMAT].'");' : '';
-                    $generatedscript .=($value[self::F_START_TOP_POS]!='') ? '$("'. $newElementFormat . '").css("top", "'.$value[self::F_START_TOP_POS_SIGN].$value[self::F_START_TOP_POS].$value[self::F_START_TOP_POS_FORMAT].'");' : '';
-                       
-                    }
-                
-                    if( $value[self::F_OUTPUT] == 'a' ){ // after 
-                        
-                        /* js */    
-                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
-                        
-                    }
-                    
-                    $value[self::F_OPTIONS_A] = (($value[self::F_OPTIONS_A]!='') and (($value[self::F_MOVE_LEFT_POS_A]!="") or ($value[self::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[self::F_OPTIONS_A] :  $value[self::F_OPTIONS_A];
-                    $value[self::F_OPTIONS_A] = str_replace("\n", "," , $value[self::F_OPTIONS_A]);
-                
-                    /* replace numeric entities */    
-                    $value[self::F_OPTIONS_A] = $this->replaceNumericEntities($value[self::F_OPTIONS_A]);
-
-                    $hasMovements = $this->hasMovements($value);
-                    
-                    if($hasMovements == true ){
-                        
-                        /* animate jquery a */ 
-                        $generatedscript .= '
-$("'. $newElementFormat . '").animate({';
-
-                        $value[self::F_MOVE_TOP_POS_SIGN_A] = ($value[self::F_MOVE_TOP_POS_SIGN_A]!='')? $value[self::F_MOVE_TOP_POS_SIGN_A].'=' : '';
-                        $value[self::F_MOVE_LEFT_POS_SIGN_A] = ($value[self::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[self::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
-
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_A].$value[self::F_MOVE_LEFT_POS_A].$value[self::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
-                        $generatedscript .= (($value[self::F_MOVE_LEFT_POS_A]!="") and ($value[self::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_A].$value[self::F_MOVE_TOP_POS_A].$value[self::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
-                        $generatedscript .= $value[self::F_OPTIONS_A];
-                        
-                        $generatedscript .= '}, '.$value[self::F_DURATION].' , function() {';
-                
-                        /* replace numeric entities */
-                        $value[self::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_A]);
-            
-                        /* extra js a */    
-                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_EXTRA_JS_A]);
-                        
-   
-                        /* b */ 
-                                    
-                        $have_b = (($value[self::F_MOVE_TOP_POS_B] !='' ) or ( $value[self::F_MOVE_LEFT_POS_B] !='' ) or ( $value[self::F_OPTIONS_B] !='' ) or ( $value[self::F_EXTRA_JS_B] !='' )) ? true : false;
-                        
-                        /* add a coma between each options */ 
-                        $value[self::F_OPTIONS_B] = (($value[self::F_OPTIONS_B]!='') and ((($value[self::F_MOVE_LEFT_POS_B]!="") or ($value[self::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[self::F_OPTIONS_B] :  $value[self::F_OPTIONS_B];
-                        $value[self::F_OPTIONS_B] = str_replace("\n", "," , $value[self::F_OPTIONS_B]);
-                        
-                        /* replace numeric entities */                
-                        $value[self::F_OPTIONS_B] = $this->replaceNumericEntities($value[self::F_OPTIONS_B]);
-                        
-                        /* animate jquery b */ 
-                        
-                        $generatedscript .= '
-$("'. $newElementFormat . '").animate({';
-
-                        $value[self::F_MOVE_TOP_POS_SIGN_B] = ($value[self::F_MOVE_TOP_POS_SIGN_B]!='')? $value[self::F_MOVE_TOP_POS_SIGN_B].'=' : '';
-                        $value[self::F_MOVE_LEFT_POS_SIGN_B] = ($value[self::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[self::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
-
-                        $generatedscript .= ($value[self::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[self::F_MOVE_LEFT_POS_SIGN_B].$value[self::F_MOVE_LEFT_POS_B].$value[self::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
-                        $generatedscript .= (($value[self::F_MOVE_LEFT_POS_B]!="") and ($value[self::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                        $generatedscript .= ($value[self::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[self::F_MOVE_TOP_POS_SIGN_B].$value[self::F_MOVE_TOP_POS_B].$value[self::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
-                        $generatedscript .=  $value[self::F_OPTIONS_B];
-                        
-                        /* set to sero */
-                        $value[self::F_DURATION] = (!$have_b)? '0' : $value[self::F_DURATION];
-                        
-                        $generatedscript .= '}, '.$value[self::F_DURATION].', function() {';
-                            
-                        /* replace numeric entities */
-                        $value[self::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[self::F_EXTRA_JS_B]);
-            
-                        if($have_b){
-                        
-                            $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
-                            $have_active = true;
-                        }
-                        
-                        /* extra js b */    
-                        $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_EXTRA_JS_B]);
-                        
-                        /* closing functions */
-                        $generatedscript .= '});';
-                            
-                        if(!$have_b){
-                            $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
-                            $have_active = true;
-                        }
-                        
-                        $generatedscript .= '});';
-                    }
-                    
-                    /* Closing timout */
-                    $generatedscript .= '},'.$value[self::F_START_DELAY].');';
-
-                }
-                
-                if( $have_active != true ){
-               
-                    $generatedscript .= 'twiz_active_'.$repeatname_var.' = 0;';
-                }
-                
-                
-                /* closing functions */
-                $generatedscript .= '};';
-                
-               /* trigger on event */
-                if($value[self::F_ON_EVENT] != ''){
-                
-                   if($value[self::F_ON_EVENT] != self::EV_MANUAL){
-                       $generatedscript .= '
-$("'.$newElementFormat.'").'.strtolower($value[self::F_ON_EVENT]).'(function(){ ';
-                       $generatedscript .= 'if(twiz_active_'.$repeatname_var.' == 0) {';
-                       $generatedscript .= 'twiz_active_'.$repeatname_var.' = 1;';
-                       $generatedscript .= '$(document).twiz_'.$repeatname.'(this);}';
-                       $generatedscript .= '});';                    
-                   }
-                   
-                } else{
-                
-                    /* trigger the animation if not on event */
-                    $generatedscript .=  '$(document).twiz_'.$repeatname.'($("'.$newElementFormat.'"));';
-                }  
-            }
-            
-            /* script footer */
-            $generatedscript.= '}
-$(document).twizReplay();';
-
-            /* generates the code */
-            foreach($listarray as $value){   
-                                
-                if( $value[self::F_OUTPUT] == 'r' ){ // ready 
-                    
-                    $repeatname = $value[self::F_SECTION_ID] ."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID];
-                    
-                    /* replace numeric entities */
-                    $value[self::F_JAVASCRIPT] = $this->replaceNumericEntities($value[self::F_JAVASCRIPT]);
-                
-                    /* js */    
-                  $generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[self::F_JAVASCRIPT]);
-                  
-                }   
-
-            }
-            
-            $generatedscript.= '});';
-            $generatedscript.= '
-</script>';
-        }
-        return $generatedscript;
-    }
-    
     private function getDirectionalImage( $data = '', $ab = ''){
     
         if($data==''){return '';}
@@ -1990,7 +1666,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         return $htmlview;
     }
 
-    private function getListArray( $where = '', $order = '' ){ 
+    protected function getListArray( $where = '', $order = '' ){ 
     
     
         global $wpdb;
@@ -2209,51 +1885,10 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         }
         
-        $html .'<img src="http://www.sebastien-laframboise.com/go-green/wp-content/plugins/the-welcomizer/images/twiz-download.png"  class="twiz-preload-images">';
+        $html .'<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-preload-images">';
     
         return $html;
     
-    }
-    
-    private function replacejElementType ( $type = '', $element = '' ){
-            
-            switch($type){
-            
-                case self::ELEMENT_TYPE_ID:
-                
-                    return '#'.$element;
-     
-                break;
-
-                case self::ELEMENT_TYPE_CLASS:
-                
-                    return '.'.$element;
-                    
-                break;
-
-                case self::ELEMENT_TYPE_NAME:
-                    
-                    return '[name='.$element.']';
-                    
-                break; 
-                
-            }
-            
-            return '#'.$element;
-    }
-    
-    private function replaceNumericEntities( $value = '' ){
-            
-        /* entities array */
-        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-        $trans_tbl = array_flip($trans_tbl);
-            
-        /* replace numeric entities */
-        $value = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $value);
-        $value = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $value);
-        $newvalue = strtr($value, $trans_tbl);
-        
-        return $newvalue;
     }
 
     private function updateSettingMenu( $section_id = '' ){

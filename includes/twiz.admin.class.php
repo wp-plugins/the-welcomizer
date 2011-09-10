@@ -28,8 +28,7 @@ class TwizAdmin extends Twiz{
     function __construct(){
     
         parent::__construct();
-        parent::__construct();
-               
+        
         $this->loadAdmin();
 
     }

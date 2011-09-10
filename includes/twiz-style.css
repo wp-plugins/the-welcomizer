@@ -588,3 +588,8 @@ a.twiz-more-options:hover {
 .twiz-preload-images {
     display:none;
 }
+#twiz_promo {
+    height: 200px;
+    display: block;
+    top: 40px;
+}
