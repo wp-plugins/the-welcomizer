@@ -244,7 +244,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                 
                 // replace numeric entities
                 $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
-                $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $value[parent::F_JAVASCRIPT]."\n" : '';
+                $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? "\n".$value[parent::F_JAVASCRIPT] : '';
                 
                 // js 
                 $generatedscript .= str_replace("$(document).twizRepeat();", "$(document).twiz_".$repeatname.'();' , $value[parent::F_JAVASCRIPT]);
