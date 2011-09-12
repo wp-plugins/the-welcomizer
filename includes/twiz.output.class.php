@@ -426,7 +426,7 @@ class TwizOutput extends Twiz{
             }           
         }
 
-        return  $generatedscript_pos;
+        return  $generatedscript_pos.$this->linebreak;
     }
     
     private function replacejElementType ( $type = '', $element = '' ){
