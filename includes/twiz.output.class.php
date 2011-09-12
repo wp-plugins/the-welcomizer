@@ -135,7 +135,7 @@ class TwizOutput extends Twiz{
                         $this->generatedscript .= $value[parent::F_OPTIONS_A];
                         
                         $this->generatedscript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].', function(){';
-                
+                        $value[parent::F_EXTRA_JS_A] = ($value[parent::F_EXTRA_JS_A] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_A] : $value[parent::F_EXTRA_JS_A];
                         // replace numeric entities
                         $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
             
@@ -156,7 +156,7 @@ class TwizOutput extends Twiz{
                         
                         // animate jquery b
                         
-                        $this->generatedscript .= $this->linebreak.$this->tab.'$("'. $this->newElementFormat . '").animate({';
+                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'$("'. $this->newElementFormat . '").animate({';
 
                         $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                         $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
@@ -169,14 +169,16 @@ class TwizOutput extends Twiz{
                         // set to sero
                         $value[parent::F_DURATION] = (!$have_b)? '0' : $value[parent::F_DURATION];
                         
-                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].', function(){'.$this->linebreak;
+                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].', function(){';
                             
+                        $value[parent::F_EXTRA_JS_B] = ($value[parent::F_EXTRA_JS_B] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_B] : $value[parent::F_EXTRA_JS_B];
+                        
                         // replace numeric entities
                         $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]).$this->linebreak;
-            
+                        
                         if($have_b){
                         
-                            $this->generatedscript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;
+                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;
 ';
                             $have_active = true;
                         }
