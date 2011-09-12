@@ -66,6 +66,11 @@ jQuery(document).ready(function($) {
 
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';      
         
+        // Output compress
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compressed Output', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</td><td class="twiz-form-td-right"></td></tr>';
+        
+        // Output code hook
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</td><td class="twiz-form-td-right"></td></tr>';
         
@@ -77,6 +82,15 @@ jQuery(document).ready(function($) {
                  
         return $html;
         
+    }
+    
+    private function getHTMLOutputCompression(){
+    
+        $twiz_output_compression = ($this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_output_compression" name="twiz_output_compression"'.$twiz_output_compression.'>';
+                 
+        return $html;
     }
     
     private function getHTMLOutputList(){
@@ -101,18 +115,28 @@ jQuery(document).ready(function($) {
 
         $this->array_admin = get_option('twiz_admin');
 
-        // Add new settings right here and below.
+        // Add new settings right here and below...
     
-        /* Output setting */ 
-        if( !isset($this->array_admin[parent::KEY_OUTPUT]) ) $this->array_admin[parent::KEY_OUTPUT] = '';
+        // Output compresssion
+        if( !isset($this->array_admin[parent::KEY_OUTPUT_COMPRESSION]) ) $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '';
+        if( $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '' ) {
         
+            $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '0';
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
+        
+        // Output setting 
+        if( !isset($this->array_admin[parent::KEY_OUTPUT]) ) $this->array_admin[parent::KEY_OUTPUT] = '';
         if( $this->array_admin[parent::KEY_OUTPUT] == '' ) {
         
             $this->array_admin[parent::KEY_OUTPUT] = parent::OUTPUT_HEADER;
             $code = update_option('twiz_admin', $this->array_admin); 
             $this->array_admin = get_option('twiz_admin');
         }
-        /* ****** */
+        
+        // Next option
       
     }
     
@@ -120,9 +144,16 @@ jQuery(document).ready(function($) {
     
         if( $setting == '' ){ return false;}
     
-        // Add new settings right here.
+        // Add new settings right here and above...
+
+        // Output compresssion
+        $output_compression = ($setting[parent::KEY_OUTPUT_COMPRESSION] == 'true') ? '1' : '0';
+        $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = $output_compression ;
+        
+        // Output setting
         $this->array_admin[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
         
+        // Update array
         $code = update_option('twiz_admin', $this->array_admin); 
 
         return $code;

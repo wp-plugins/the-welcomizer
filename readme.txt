@@ -83,6 +83,10 @@ Useful jQuery plugins to upload through the Library:
 
 == Changelog ==
 
+= 1.3.8.3 =
+
+* Added `Output code compression` option. (Inactive by default)
+
 = 1.3.8.2 =
 
 * Fixed time of second move when empty.
@@ -559,6 +563,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 4. Add the option 'opacity:1' for the first move, reverse it for the second move.
 
 == Upgrade Notice ==
+
+= 1.3.8.3 =
+
+* Added `Output code compression` option.
 
 = 1.3.8.2 =
 

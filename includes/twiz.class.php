@@ -150,6 +150,7 @@ class Twiz{
     
     /* Key output constant */
     const KEY_OUTPUT = 'output';
+    const KEY_OUTPUT_COMPRESSION = 'output_compression';
     
     /* Output constants*/  
     const OUTPUT_HEADER = 'wp_head';    
@@ -383,8 +384,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.2';
-        $this->dbVersion  = '2.51';
+        $this->version    = '1.3.8.3';
+        $this->dbVersion  = '2.52';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';

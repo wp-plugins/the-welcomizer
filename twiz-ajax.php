@@ -261,6 +261,7 @@
         case Twiz::ACTION_SAVE_ADMIN:
            
             $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
+            $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
             
             $myTwizAdmin  = new TwizAdmin();
             $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    

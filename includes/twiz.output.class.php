@@ -22,13 +22,25 @@ class TwizOutput extends Twiz{
     private $generatedscriptonready;    
     private $generatedscriptonevent;    
     private $newElementFormat;
-
+    private $linebreak;
+    private $tab;
+    
+    const COMPRESS_LINEBREAK = "\n";
+    const COMPRESS_TAB = "\t";
+    
     function __construct(){
     
         parent::__construct();
         
         $this->listarray = $this->getCurrentList();
         
+        $admin_option = get_option('twiz_admin');
+        
+        if($admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
+        
+            $this->linebreak = self::COMPRESS_LINEBREAK;
+            $this->tab = self::COMPRESS_TAB;
+        }       
     }
 
     function generateOutput(){
@@ -41,11 +53,9 @@ class TwizOutput extends Twiz{
         if( $gstatus  == '1' ){
        
             // script header 
-            $this->generatedscript .="<!-- ".$this->pluginName." ".$this->version." -->\n";
+            $this->generatedscript .="<!-- ".$this->pluginName." ".$this->version." -->".self::COMPRESS_LINEBREAK;
             
-            $this->generatedscript .= '<script type="text/javascript">
-jQuery(document).ready(function($){
-';
+            $this->generatedscript .= '<script type="text/javascript">'.$this->linebreak.'jQuery(document).ready(function($){ '.$this->linebreak;
 
             // this used by javasccript before.
             $this->generatedscript .= 'var twiz_this = "";';
@@ -70,8 +80,7 @@ jQuery(document).ready(function($){
                 $value[parent::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[parent::F_JAVASCRIPT]);
                 
                 // repeat animation function 
-                $this->generatedscript .= '
-$.fn.twiz_'.$repeatname.' = function(twiz_this){';
+                $this->generatedscript .= '$.fn.twiz_'.$repeatname.' = function(twiz_this){';
           
                 if(($value[parent::F_OUTPUT_POS]=='b')or ($value[parent::F_OUTPUT_POS]=='')){ // before
                     
@@ -81,8 +90,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                 if(($value[parent::F_OUTPUT]=='b') or ($value[parent::F_OUTPUT]=='')){ // before
                 
                     // js
-                    $this->generatedscript .= ($value[parent::F_JAVASCRIPT] != '') ? '
-    '.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]) : '';
+                    $this->generatedscript .= ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]) : '';
                 }
                 
                 $hasSomething = $this->hasSomething($value);
@@ -90,8 +98,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                 if($hasSomething == true ){
                     
                     // start delay 
-                    $this->generatedscript .= '
-    setTimeout(function(){'; 
+                    $this->generatedscript .= $this->linebreak.$this->tab.'setTimeout(function(){'; 
                 
                     if($value[parent::F_OUTPUT_POS]=='a'){ // after
                         
@@ -102,12 +109,12 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                     if( $value[parent::F_OUTPUT] == 'a' ){ // after 
                         
                         // js 
-                        $this->generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]);
+                        $this->generatedscript .= str_replace("$(document).twizRepeat()", " $(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]);
                         
                     }
                     
                     $value[parent::F_OPTIONS_A] = (($value[parent::F_OPTIONS_A]!='') and (($value[parent::F_MOVE_LEFT_POS_A]!="") or ($value[parent::F_MOVE_TOP_POS_A]!=""))) ? ','.$value[parent::F_OPTIONS_A] :  $value[parent::F_OPTIONS_A];
-                    $value[parent::F_OPTIONS_A] = str_replace("\n", "\n    ," , $value[parent::F_OPTIONS_A]);
+                    $value[parent::F_OPTIONS_A] = str_replace(self::COMPRESS_LINEBREAK, $this->linebreak.$this->tab.",", $value[parent::F_OPTIONS_A]);
                 
                     // replace numeric entities   
                     $value[parent::F_OPTIONS_A] = $this->replaceNumericEntities($value[parent::F_OPTIONS_A]);
@@ -117,8 +124,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                     if($hasMovements == true ){
                         
                         // animate jquery a 
-                        $this->generatedscript .= '
-    $("'. $this->newElementFormat . '").animate({';
+                        $this->generatedscript .= $this->linebreak.$this->tab.'$("'. $this->newElementFormat . '").animate({';
 
                         $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                         $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
@@ -128,11 +134,10 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                         $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                         $this->generatedscript .= $value[parent::F_OPTIONS_A];
                         
-                        $this->generatedscript .= '
-    },'.$value[parent::F_DURATION].', function(){';
+                        $this->generatedscript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].', function(){';
                 
                         // replace numeric entities
-                        $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]);
+                        $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
             
                         // extra js a
                         $this->generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[parent::F_EXTRA_JS_A]);
@@ -144,15 +149,14 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                         
                         // add a coma between each options 
                         $value[parent::F_OPTIONS_B] = (($value[parent::F_OPTIONS_B]!='') and ((($value[parent::F_MOVE_LEFT_POS_B]!="") or ($value[parent::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[parent::F_OPTIONS_B] :  $value[parent::F_OPTIONS_B];
-                        $value[parent::F_OPTIONS_B] = str_replace("\n", "\n        ," , $value[parent::F_OPTIONS_B]);
+                        $value[parent::F_OPTIONS_B] = str_replace(self::COMPRESS_LINEBREAK, $this->linebreak.$this->tab.$this->tab."," , $value[parent::F_OPTIONS_B]);
                         
                         // replace numeric entities              
                         $value[parent::F_OPTIONS_B] = $this->replaceNumericEntities($value[parent::F_OPTIONS_B]);
                         
                         // animate jquery b
                         
-                        $this->generatedscript .= '
-        $("'. $this->newElementFormat . '").animate({';
+                        $this->generatedscript .= $this->linebreak.$this->tab.'$("'. $this->newElementFormat . '").animate({';
 
                         $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                         $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
@@ -165,54 +169,46 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                         // set to sero
                         $value[parent::F_DURATION] = (!$have_b)? '0' : $value[parent::F_DURATION];
                         
-                        $this->generatedscript .= '
-        },'.$value[parent::F_DURATION].', function(){
-';
+                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].', function(){'.$this->linebreak;
                             
                         // replace numeric entities
-                        $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]);
+                        $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]).$this->linebreak;
             
                         if($have_b){
                         
-                            $this->generatedscript .= '            twiz_active_'.$repeatname_var.' = 0;
+                            $this->generatedscript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;
 ';
                             $have_active = true;
                         }
                         
                         // extra js b    
-                        $this->generatedscript .= str_replace("$(document).twizRepeat();", "            $(document).twiz_".$repeatname.'();
-' , $value[parent::F_EXTRA_JS_B]);
+                        $this->generatedscript .= str_replace("$(document).twizRepeat();", $this->tab.$this->tab."$(document).twiz_".$repeatname.'();', $value[parent::F_EXTRA_JS_B]);
                         
                         // closing functions
-                        $this->generatedscript .= '        });
-';
+                        $this->generatedscript .= $this->tab.$this->tab.'});'.$this->linebreak;
                             
                         if( !$have_b ){
                         
-                            $this->generatedscript .= '    twiz_active_'.$repeatname_var.' = 0;
-';
+                            $this->generatedscript .= $this->tab.'twiz_active_'.$repeatname_var.' = 0;'.$this->linebreak;
                             $have_active = true;
                         }
                         
-                        $this->generatedscript .= '    });
-';
+                        $this->generatedscript .= $this->tab.'});'.$this->linebreak;
                     }
                     
                     // Closing timout
-                    $this->generatedscript .= '    },'.$value[parent::F_START_DELAY].');
-';
+                    $this->generatedscript .= $this->tab.'},'.$value[parent::F_START_DELAY].');'.$this->linebreak;
 
                 }
                 
                 if( $have_active != true ){
                
-                    $this->generatedscript .= '
-    twiz_active_'.$repeatname_var.' = 0;';
+                    $this->generatedscript .= $this->linebreak.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
                 }
                 
                 
                 // closing functions
-                $this->generatedscript .= '};';
+                $this->generatedscript .= '}'.self::COMPRESS_LINEBREAK;
                 
                 $this->generatedscriptonevent .= $this->getOnEventFunction( $value, $repeatname, $repeatname_var );
    
@@ -224,9 +220,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
             $this->generatedscript .= $this->getJavaScriptOnReady();
             $this->generatedscript .= $this->generatedscriptonready;
             
-            $this->generatedscript.= '
-});
-</script>';
+            $this->generatedscript.= $this->linebreak.'});'.$this->linebreak.'</script>';
         }
         return $this->generatedscript;
     }
@@ -244,7 +238,7 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
                 
                 // replace numeric entities
                 $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
-                $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? "\n".$value[parent::F_JAVASCRIPT] : '';
+                $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$value[parent::F_JAVASCRIPT] : '';
                 
                 // js 
                 $generatedscript .= str_replace("$(document).twizRepeat();", "$(document).twiz_".$repeatname.'();' , $value[parent::F_JAVASCRIPT]);
@@ -265,24 +259,17 @@ $.fn.twiz_'.$repeatname.' = function(twiz_this){';
         
            if( $value[parent::F_ON_EVENT] != parent::EV_MANUAL ){
            
-               $generatedscript .= '
-$("'.$this->newElementFormat.'").'.strtolower($value[parent::F_ON_EVENT]).'(function(){ 
-';
-               $generatedscript .= '    if(twiz_active_'.$repeatname_var.' == 0){
-';
-               $generatedscript .= '        twiz_active_'.$repeatname_var.' = 1;
-';
-               $generatedscript .= '        $(document).twiz_'.$repeatname.'(this);
-    }';
-               $generatedscript .= '
-});';                    
+               $generatedscript .= $this->linebreak.'$("'.$this->newElementFormat.'").'.strtolower($value[parent::F_ON_EVENT]).'(function(){'.$this->linebreak;
+               $generatedscript .= $this->tab.'if(twiz_active_'.$repeatname_var.' == 0){'.$this->linebreak;
+               $generatedscript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 1;'.$this->linebreak;
+               $generatedscript .= $this->tab.$this->tab.'$(document).twiz_'.$repeatname.'(this);'.$this->linebreak.$this->tab.'}';
+               $generatedscript .= $this->linebreak.'}); ';                    
            }
            
         } else{
         
             // trigger the animation if not on event
-            $this->generatedscriptonready .=  '
-$(document).twiz_'.$repeatname.'($("'.$this->newElementFormat.'"));';
+            $this->generatedscriptonready .=  $this->linebreak.'$(document).twiz_'.$repeatname.'($("'.$this->newElementFormat.'"));';
         }  
         
         return $generatedscript;
@@ -366,21 +353,17 @@ $(document).twiz_'.$repeatname.'($("'.$this->newElementFormat.'"));';
     
     private function getReplayFunction(){
     
-        $generatedscript = '
-$.fn.twizReplay = function(){ ';
+        $generatedscript = $this->linebreak.'$.fn.twizReplay = function(){';
         // generates the code
         foreach($this->listarray as $value){
             if( $value[parent::F_ON_EVENT] == '' ){
 
-                    $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
-                    $generatedscript .= '
-    $(document).twiz_'.$repeatname.'();';
+                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+                $generatedscript .= $this->linebreak.$this->tab.' $(document).twiz_'.$repeatname.'();';
                 
             }
         }
-        $generatedscript .= '
-}
-';
+        $generatedscript .= $this->linebreak.' }'.self::COMPRESS_LINEBREAK;
         
         return $generatedscript;
     }
@@ -402,7 +385,7 @@ $.fn.twizReplay = function(){ ';
             
             if($value[parent::F_ZINDEX]!=''){
             
-                $generatedscript_pos[] =  '"z-index":"'.$value[parent::F_ZINDEX].'"'."\n"; 
+                $generatedscript_pos[] =  '"z-index":"'.$value[parent::F_ZINDEX].'"'.$this->linebreak; 
             }
             
             if($value[parent::F_START_LEFT_POS]!=''){
@@ -419,8 +402,7 @@ $.fn.twizReplay = function(){ ';
         
         if(is_array($generatedscript_pos)){
         
-            $generatedscript_block .= '
-$("'. $this->newElementFormat . '").css({'.implode(",",$generatedscript_pos).'});';
+            $generatedscript_block .= $this->linebreak.'$("'. $this->newElementFormat . '").css({'.implode(",", $generatedscript_pos).'});';
         }
         
         return $generatedscript_block;  
@@ -435,8 +417,7 @@ $("'. $this->newElementFormat . '").css({'.implode(",",$generatedscript_pos).'})
         foreach($this->listarray as $value){   
         
             $repeatname_var = str_replace("-","_", $value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
-            $this->generatedscript .= '
-var twiz_active_'.$repeatname_var.' = 0;';
+            $this->generatedscript .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
 
             if( $value[parent::F_OUTPUT_POS] == 'r' ){ // ready
             

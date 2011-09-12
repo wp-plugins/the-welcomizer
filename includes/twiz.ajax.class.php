@@ -389,7 +389,8 @@ class TwizAjax extends Twiz{
          action: "twiz_ajax_callback",
          twiz_nonce: "'.$this->nonce.'", 
          twiz_action: "'.parent::ACTION_SAVE_ADMIN.'",
-         twiz_slc_output: $("#twiz_slc_output").val()
+         twiz_slc_output: $("#twiz_slc_output").val(),
+         twiz_output_compression: $("#twiz_output_compression").is(":checked")
     }, function(data) {
         $("#twiz_admin_save_img").fadeOut("fast"); 
         $("#twiz_admin_save").removeAttr("disabled");
