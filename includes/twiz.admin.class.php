@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';      
         
         // Output compress
-        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compressed Output', 'the-welcomizer').': ';
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</td><td class="twiz-form-td-right"></td></tr>';
         
         // Output code hook
