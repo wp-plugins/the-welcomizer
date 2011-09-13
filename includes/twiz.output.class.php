@@ -178,8 +178,7 @@ class TwizOutput extends Twiz{
                         
                         if($have_b){
                         
-                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;
-';
+                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
                             $have_active = true;
                         }
                         
