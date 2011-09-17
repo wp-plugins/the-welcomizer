@@ -1,4 +1,4 @@
-  <?php
+<?php
 /*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -109,7 +109,7 @@ class TwizOutput extends Twiz{
                     if( $value[parent::F_OUTPUT] == 'a' ){ // after 
                         
                         // js 
-                        $this->generatedscript .= str_replace("$(document).twizRepeat()", " $(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]);
+                        $this->generatedscript .= str_replace("$(document).twizRepeat()", "$(document).twiz_".$repeatname.'()' , $value[parent::F_JAVASCRIPT]);
                         
                     }
                     
@@ -360,7 +360,7 @@ class TwizOutput extends Twiz{
             if( $value[parent::F_ON_EVENT] == '' ){
 
                 $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
-                $generatedscript .= $this->linebreak.$this->tab.' $(document).twiz_'.$repeatname.'();';
+                $generatedscript .= $this->linebreak.$this->tab.'$(document).twiz_'.$repeatname.'();';
                 
             }
         }
@@ -470,4 +470,4 @@ class TwizOutput extends Twiz{
         
         return $newvalue;
     }
-}
+}?>
