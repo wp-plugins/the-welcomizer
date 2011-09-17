@@ -384,8 +384,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.3';
-        $this->dbVersion  = '2.52';
+        $this->version    = '1.3.8.4';
+        $this->dbVersion  = '2.53';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -693,7 +693,7 @@ class Twiz{
             dbDelta($sql);
         
             $code = update_option('twiz_db_version', $this->dbVersion);
-            $code = update_option('twiz_global_status', '0');
+            $code = update_option('twiz_global_status', '1');
             $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page / post
             $code = new TwizAdmin(); // Default settings
         
