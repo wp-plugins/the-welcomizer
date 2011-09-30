@@ -7,17 +7,17 @@ Tested up to: 3.2.1
 Stable tag: 1.3.8.4
 License: GPLv2
 
-This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
+This plugin allows you to quickly animate your WordPress blog.
 
 == Description ==
 
-This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer. 
+Quickly add animations to your WordPress blog.
     
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
 
-Thanks for your patience and support!
+Thanks for your support!
 
 Stay tuned, and do your updates...
 
@@ -67,14 +67,13 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 5. Configure and save your first movement, or Import a sample twz/xml file.
 6. Activate the global Online/Offline status. (The red button at the top.)
 
-Upload `.js` and/or `.css` files into the Library.
 
 Useful jQuery plugins to upload through the Library:
 - 
-- jQuery UI/Effects - [Download page](http://jqueryui.com/download) - [More info](http://docs.jquery.com/UI/Effects)
-- Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) - [Author page](http://www.zachstronaut.com/projects/rotate3di/)
-- jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale) - [Author page](http://www.zachstronaut.com)
-- transform  - [Download page](https://github.com/heygrady/transform/) - [Author page](https://github.com/heygrady/)
+- jQuery UI/Effects - [Download page](http://jqueryui.com/download) 
+- Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) 
+- jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale)
+- transform  - [Download page](https://github.com/heygrady/transform/)
 
 == Screenshots ==
 
