@@ -90,12 +90,16 @@ License: GPL2
     
         $gstatus = get_option('twiz_global_status');
      
-        if ( ( !is_admin() ) and ( $gstatus == '1' ) and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) ) {
-            
+        if (( !is_admin() ) and ( $gstatus == '1' ) 
+        and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+        and (!preg_match("/wp-login/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+        ) {
+        
             // register frontend default jQuery lib 
             wp_deregister_script( 'jquery' );  
             wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
             wp_enqueue_script( 'jquery' );  
+
             
             $myTwizLibrary  = new TwizLibrary();
             
