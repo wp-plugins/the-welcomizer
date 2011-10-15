@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.8.4
+Version: 1.3.8.5
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -94,25 +94,25 @@ License: GPL2
         and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
         and (!preg_match("/wp-login/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
         ) {
-        
-            // register frontend default jQuery lib 
-            wp_deregister_script( 'jquery' );  
-            wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
-            wp_enqueue_script( 'jquery' );  
-
-            
             $myTwizLibrary  = new TwizLibrary();
             
             // get output setting
             $admin_option = get_option('twiz_admin');
             
-            if($admin_option[Twiz::KEY_OUTPUT] !=  ''){
+            if( $admin_option[Twiz::KEY_OUTPUT] !=  '' ){
             
                 // add the Frontend generated code
                 add_filter($admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
-                
             }
-             
+            
+            if( $admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
+     
+                // register frontend default jQuery lib 
+                wp_deregister_script( 'jquery' );  
+                wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
+                wp_enqueue_script( 'jquery' );  
+            }
+            
             foreach( $myTwizLibrary->array_library as $key => $value ){
             
                 if( $value[Twiz::F_STATUS] == "1" ){

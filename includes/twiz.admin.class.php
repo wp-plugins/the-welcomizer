@@ -66,6 +66,12 @@ jQuery(document).ready(function($) {
 
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';      
         
+        // default jquery registration
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</td><td class="twiz-form-td-right"></td></tr>';
+        
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        
         // Output compress
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</td><td class="twiz-form-td-right"></td></tr>';
@@ -82,6 +88,15 @@ jQuery(document).ready(function($) {
                  
         return $html;
         
+    }
+    
+    private function getHTMLjQueryRegister(){
+    
+        $twiz_register_jquery = ($this->array_admin[parent::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_register_jquery" name="twiz_register_jquery"'.$twiz_register_jquery.'>';
+                 
+        return $html;
     }
     
     private function getHTMLOutputCompression(){
@@ -117,6 +132,15 @@ jQuery(document).ready(function($) {
 
         // Add new settings right here and below...
     
+        // Register jQuery
+        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY] = '';
+        if( $this->array_admin[parent::KEY_REGISTER_JQUERY] == '' ) {
+        
+            $this->array_admin[parent::KEY_REGISTER_JQUERY] = '1'; // Activated by default
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
         // Output compresssion
         if( !isset($this->array_admin[parent::KEY_OUTPUT_COMPRESSION]) ) $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '';
         if( $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '' ) {
@@ -125,8 +149,7 @@ jQuery(document).ready(function($) {
             $code = update_option('twiz_admin', $this->array_admin); 
             $this->array_admin = get_option('twiz_admin');
         }
-        
-        
+
         // Output setting 
         if( !isset($this->array_admin[parent::KEY_OUTPUT]) ) $this->array_admin[parent::KEY_OUTPUT] = '';
         if( $this->array_admin[parent::KEY_OUTPUT] == '' ) {
@@ -146,6 +169,10 @@ jQuery(document).ready(function($) {
     
         // Add new settings right here and above...
 
+        // Register jQuery
+        $register_jquery = ($setting[parent::KEY_REGISTER_JQUERY] == 'true') ? '1' : '0';
+        $this->array_admin[parent::KEY_REGISTER_JQUERY] = $register_jquery ;
+        
         // Output compresssion
         $output_compression = ($setting[parent::KEY_OUTPUT_COMPRESSION] == 'true') ? '1' : '0';
         $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = $output_compression ;

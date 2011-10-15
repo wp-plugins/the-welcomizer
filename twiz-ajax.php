@@ -262,6 +262,7 @@
            
             $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
             $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
+            $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
             
             $myTwizAdmin  = new TwizAdmin();
             $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    

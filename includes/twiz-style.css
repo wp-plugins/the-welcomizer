@@ -12,9 +12,9 @@
     width: 500px;
     display: block;
     background: #ebebeb;
-    background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));    
+    background: -moz-linear-gradient(center top , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#ebebeb), to(#E4E4E4));    
 }
 #twiz_container {
     width: 500px;
@@ -59,10 +59,9 @@
     -khtml-border-radius-topright: 6px;    
     -khtml-border-radius-topleft: 6px;        
     background: #D7D7D7;
-    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
-    
+    background: -moz-linear-gradient(center top , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));    
     border: 1px solid #D1D1D1;
     margin: 0 0 0 233px;
     width: 25px;
@@ -88,9 +87,9 @@
     -khtml-border-radius-topright: 6px;    
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;        
-    background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ffffff), to(#F7F7F7));
+    background: -moz-linear-gradient(center top , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#F7F7F7));
+    background: -khtml-gradient(linear, center top, center bottom, from(#ffffff), to(#F7F7F7));
     border: 1px solid #D1D1D1;
     margin: 27px 0 0 25px;   
     min-width: 415px;
@@ -162,7 +161,7 @@
     -khtml-border-radius-topright: 6px;
     height: 90px;
     display: block;
-    overflow:hidden;
+    overflow: hidden;
 }
 #twiz_menu,
 #twiz_menu-everywhere,
@@ -172,9 +171,14 @@
     color: #464646;
     display: table-cell;
     background: #D7D7D7;
-}
-.twiz-menu {
     border-bottom: 1px solid #D1D1D1;
+    border-left: 1px solid #D1D1D1;
+}
+.twiz-menu  {
+    border-right: 1px solid #D1D1D1;
+}
+#twiz_menu {
+    border-right: 1px solid #D1D1D1;
 }
 #twiz_header, 
 #twiz_footer,
@@ -185,9 +189,9 @@
 #twiz_delete_menu_everywhere,
 .twiz-menu  {
     background: #D7D7D7;
-    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -moz-linear-gradient(center top , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));
 }
 #twiz_header, 
 #twiz_footer {
@@ -222,12 +226,12 @@
 }
 #twiz_add_menu:hover {
     color: green;
-    font-weight:bold; 
+    font-weight: bold; 
 }
 #twiz_delete_menu:hover, 
 #twiz_delete_menu_everywhere:hover {
     color: red;
-    font-weight:bold; 
+    font-weight: bold; 
 }
 .twiz-menu:hover,
 #twiz_add_menu:hover,
@@ -235,17 +239,17 @@
 #twiz_delete_menu_everywhere:hover {
     cursor: pointer;
     background: #E4E4E4;
-    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -moz-linear-gradient(center top , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));
 }
 .twiz-menu-selected {
     font-weight:bold; 
     font-size: 12px; 
     background: #E4E4E4;
-    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));    
+    background: -moz-linear-gradient(center top , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));    
 }
 #twiz_add_menu,
 #twiz_delete_menu,
@@ -255,8 +259,8 @@
 }
 #twiz_add_sections {
     margin: 2px 0px 0px 2px;
-    float:left;
-    display:none;
+    float: left;
+    display: none;
 }
 #twiz_add_sections a:hover {
     cursor: pointer;
@@ -285,12 +289,22 @@
 .twiz-table-form {
     width: 500px;
 }    
+.twiz_list_tr_action {
+    visibility: hidden;
+    display: block;
+}
+.twiz_list_tr_action a {
+    font-size: 11px;
+}
+.twiz_list_tr_action a:hover{
+    cursor: pointer;
+}
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
     background: #ebebeb;
-    background: -moz-linear-gradient(center bottom , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -moz-linear-gradient(center top , #ebebeb, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#ebebeb), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#ebebeb), to(#E4E4E4));
 }    
 .twiz-table-list img:hover {
     cursor: pointer;
@@ -322,7 +336,7 @@
     width: 40px;
 }
 .twiz-td-action {
-    width: 85px;
+    width: 79px;
 }
 .twiz-td-lib-action,
 .twiz-td-lib-order {
@@ -341,8 +355,8 @@
     width: 50px;
 }
 .twiz-blue {
-    font-size:12px;
-    color:blue;
+    font-size: 11px;
+    color: blue;
 }
 .twiz-green {
     font-size: 12px;
@@ -350,7 +364,7 @@
 }
 .twiz-red {
     font-size: 12px;
-    color: red;
+    color: #BC0B0B;
 }
 .twiz-td-delay {
     width: 50px;
@@ -364,9 +378,9 @@
 .twiz-table-form, 
 .twiz-table-view {
     background: #ffffff; 
-    background: -moz-linear-gradient(center bottom , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#F7F7F7), to(#F7F7F7));    
+    background: -moz-linear-gradient(center top , #ffffff, #F7F7F7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#F7F7F7), to(#F7F7F7));
+    background: -khtml-gradient(linear, center top, center bottom, from(#F7F7F7), to(#F7F7F7));    
     padding-top: 10px;
     padding-bottom: 12px;
 }
@@ -396,7 +410,7 @@
     font-size: 12px;
 }
 .twiz-admin-form-td-left {
-    width: 275px;
+    width: 300px;
     padding: 3px;
     font-size: 12px;
 }
@@ -472,7 +486,7 @@ a.twiz-more-options:hover {
 }
 .twiz-more-options {
     font-size: 12px;
-    padding-top:5px;
+    padding-top: 5px;
 }
 .twiz-td-e-g {
     line-height: 15px;
@@ -517,7 +531,7 @@ a.twiz-more-options:hover {
     font-size: 13px;
 }
 .twiz-status-red {
-    color: red;
+    color: #BC0B0B;
     font-size: 13px;
 }
 .twiz-float-left {
@@ -539,9 +553,9 @@ a.twiz-more-options:hover {
     -khtml-border-radius-bottomright: 6px;    
     -khtml-border-radius-bottomleft: 6px;   
     background: #D7D7D7;    
-    background: -moz-linear-gradient(center bottom , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));
-    background: -khtml-gradient(linear, left top, center bottom, from(#D7D7D7), to(#E4E4E4));    
+    background: -moz-linear-gradient(center top , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));    
     border: 1px solid #D1D1D1;
     padding: 0 8px 0 8px;
     font-size: 12px;
@@ -553,23 +567,23 @@ a.twiz-more-options:hover {
 #twiz_library_upload:hover {
     color: #000000;
     background: #E4E4E4;
-    background: -moz-linear-gradient(center bottom , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
-    background: -khtml-gradient(linear, left top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -moz-linear-gradient(center top , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));
+    background: -khtml-gradient(linear, center top,  center bottom, from(#E4E4E4), to(#D7D7D7));
     cursor: pointer;
 }
 #twiz_export_url {
     margin-left: 70px;
     font-size: 12px;
-    clear:both;
+    clear: both;
 }
 #twiz_img_loading_export {
-    margin: 15px 0px 0px 0px;
-    float:left;
+    margin: 3px 0px 5px 0px;
+    float: left;
 }
 #twiz_export_url a {
     margin: 15px 3px 0px 0px;
-    float:left;
+    float: left;
 }
 #twiz_import,
 #twiz_export,
@@ -586,10 +600,14 @@ a.twiz-more-options:hover {
     display: none;
 }
 .twiz-preload-images {
-    display:none;
+    display: none;
 }
 #twiz_promo {
     height: 200px;
     display: block;
     top: 40px;
+}
+.twiz-spacer {
+    display: block;
+    height: 5px;
 }

@@ -134,7 +134,7 @@ class TwizOutput extends Twiz{
                         $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                         $this->generatedscript .= $value[parent::F_OPTIONS_A];
                         
-                        $this->generatedscript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].', function(){';
+                        $this->generatedscript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){';
                         $value[parent::F_EXTRA_JS_A] = ($value[parent::F_EXTRA_JS_A] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_A] : $value[parent::F_EXTRA_JS_A];
                         // replace numeric entities
                         $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
@@ -168,8 +168,9 @@ class TwizOutput extends Twiz{
                         
                         // set to sero
                         $value[parent::F_DURATION] = (!$have_b)? '0' : $value[parent::F_DURATION];
+                        $value[parent::F_EASING_B] = (!$have_b)? '' : $value[parent::F_EASING_B];
                         
-                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].', function(){';
+                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_B].'", function(){';
                             
                         $value[parent::F_EXTRA_JS_B] = ($value[parent::F_EXTRA_JS_B] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_B] : $value[parent::F_EXTRA_JS_B];
                         

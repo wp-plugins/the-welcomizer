@@ -4,14 +4,14 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 1.3.8.4
+Stable tag: 1.3.8.5
 License: GPLv2
 
-This plugin allows you to quickly animate your WordPress blog.
+This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 
 == Description ==
 
-Quickly add animations to your WordPress blog.
+Quickly add animations to your WordPress blog. 
     
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
@@ -57,6 +57,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Import a list.
 * Export a list. 
 * 100% AJAX.
+* And more...
 
 == Installation ==
 
@@ -65,7 +66,6 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 3. Activate the plugin through the Plugins menu in WordPress.
 4. Find the plugin under the menu Appearance,
 5. Configure and save your first movement, or Import a sample twz/xml file.
-6. Activate the global Online/Offline status. (The red button at the top.)
 
 
 Useful jQuery plugins to upload through the Library:
@@ -82,6 +82,14 @@ Useful jQuery plugins to upload through the Library:
 
 == Changelog ==
 
+
+= 1.3.8.5 =
+
+* Added `swing` and `linear` option above each moves. (swing by default)
+* Added links `Edit - Copy - Delete` under each element.
+* Added option `Register jQuery default library`. (active by default)
+* Modified the right panel view.
+* Fixed layout stylesheet.
 
 = 1.3.8.4 =
 
@@ -551,23 +559,15 @@ Useful jQuery plugins to upload through the Library:
 
 == Frequently Asked Questions == 
 
-= I've translated your awesome plugin in MyLanguage. Could I send you the .po and .mo files? =
+= I've translated your plugin in my language. Could I send you the .po and .mo files? =
 
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
-= How to bring my element from outside the screen with an opacity effect? =
- 
-1. Add this style below to your HTML element: 
-
-   style="position: absolute; opacity: 0; filter: alpha(opacity=0); z-index: 1;"
-
-2. Adjust the starting position inside the editing panel. (e.g. Top: - 400 px , position: absolute)
-
-3. Adjust the Top of the first move. (e.g. Top: + 800 px), reverse it for the second move.
-
-4. Add the option 'opacity:1' for the first move, reverse it for the second move.
-
 == Upgrade Notice ==
+
+= 1.3.8.5 =
+
+* Added many features. Layout fixes.
 
 = 1.3.8.4 =
 
@@ -927,5 +927,5 @@ The Welcomizer is currently available in the following languages:
 
 * English 
 * Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 100%
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 99%
 * Español - 85%
