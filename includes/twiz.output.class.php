@@ -49,7 +49,7 @@ class TwizOutput extends Twiz{
         if( count($this->listarray) == 0 ){ return ''; }
         
         $gstatus = get_option('twiz_global_status');
-        
+
         if( $gstatus  == '1' ){
        
             // script header 
@@ -282,30 +282,53 @@ class TwizOutput extends Twiz{
     
         global $post;
  
-      
+        $myTwizMenu  = new TwizMenu(); 
+                  
         wp_reset_query(); // fix is_home() due to a custom query.
-        // get the active data list array
-        $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
-                
+        
+        $sections = get_option('twiz_sections');
+        $hardsections = get_option('twiz_hardsections');
+        
+        if($hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                        
+            $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
+            
+        }else{
+            $listarray_e = array();
+        }
        
         switch( true ){
 
             case ( is_home() || is_front_page() ):
                 
-                // get the active data list array
-                $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
-            
-                $this->listarray = array_merge($listarray_e, $listarray_h);
+                if($hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
                 
+                    // get the active data list array
+                    $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
+                
+                    $this->listarray = array_merge($listarray_e, $listarray_h);
+                }
                 break;
                 
             case is_category():
                 
                 $category_id = 'c_'.get_query_var('cat');
                 
-                // get the active data list array
-                $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
-                $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
+                if($hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                
+                    // get the active data list array
+                    $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
+                
+                }else{
+                    $listarray_allc = array();
+                }
+                
+                $sectionkey = $myTwizMenu->getSectionName($category_id);
+                if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                
+                    $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
+                }else{
+                    $listarray_c = array();
+                }
                 
                 $listarray_T = array_merge($listarray_e, $listarray_c);
                 $this->listarray = array_merge($listarray_T, $listarray_allc);
@@ -316,9 +339,20 @@ class TwizOutput extends Twiz{
             
                 $page_id = 'p_'.$post->ID;
                 
-                // get the active data list array
-                $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
-                $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
+                if($hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                
+                    // get the active data list array
+                    $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
+                }else{
+                    $listarray_allp = array();
+                }
+                
+                $sectionkey = $myTwizMenu->getSectionName($page_id);
+                if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
+                    $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
+                }else{
+                    $listarray_p = array();
+                }
                 
                 $listarray_T = array_merge($listarray_e, $listarray_p);
                 $this->listarray = array_merge($listarray_T, $listarray_allp);
@@ -329,9 +363,20 @@ class TwizOutput extends Twiz{
 
                 $post_id = 'a_'.$post->ID;
                 
-                // get the active data list array
-                $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");          
-                $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' "); 
+                if($hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                
+                    // get the active data list array
+                    $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
+                }else{
+                    $listarray_alla = array();
+                }
+                
+                $sectionkey = $myTwizMenu->getSectionName($post_id);
+                if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
+                    $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
+                }else{
+                    $listarray_a = array();
+                }
                 
                 $listarray_T = array_merge($listarray_e, $listarray_a);
                 $this->listarray = array_merge($listarray_T, $listarray_alla);
@@ -435,19 +480,19 @@ class TwizOutput extends Twiz{
             
             switch($type){
             
-                case self::ELEMENT_TYPE_ID:
+                case parent::ELEMENT_TYPE_ID:
                 
                     return '#'.$element;
      
                 break;
 
-                case self::ELEMENT_TYPE_CLASS:
+                case parent::ELEMENT_TYPE_CLASS:
                 
                     return '.'.$element;
                     
                 break;
 
-                case self::ELEMENT_TYPE_NAME:
+                case parent::ELEMENT_TYPE_NAME:
                     
                     return '[name='.$element.']';
                     

@@ -49,7 +49,34 @@
             $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
 
             break;
+            
+        case Twiz::ACTION_MENU_STATUS:
+        
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+        
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->switchMenuStatus($twiz_id);
 
+            break;    
+        case Twiz::ACTION_VMENU_STATUS:
+        
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+        
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->switchMenuStatus($twiz_id);
+
+            break;  
+            
+        case Twiz::ACTION_GET_VMENU:
+       
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->getHtmlVerticalMenu();
+
+            break;  
+            
         case Twiz::ACTION_ADD_SECTION:
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
@@ -59,6 +86,13 @@
             $htmlresponse = $myTwizMenu->addSectionMenu($twiz_section_id);
             
             break;
+        case Twiz::ACTION_GET_ADD_SECTION:
+
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->getHtmlAddSection();
+            
+            break;            
 
         case Twiz::ACTION_DELETE_SECTION:
         

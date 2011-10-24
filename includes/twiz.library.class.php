@@ -20,7 +20,6 @@ class TwizLibrary extends Twiz{
     /* variable declaration */
     public $array_library;
 	
-	
     function __construct(){
     
         parent::__construct();
@@ -50,10 +49,9 @@ jQuery(document).ready(function($) {
     $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
     $("#twiz_delete_menu").fadeOut("slow");
-	$("#twiz_delete_menu_everywhere").fadeOut("slow");
     $("#twiz_add_sections").fadeOut("slow"); 
     $("#twiz_right_panel").fadeOut("slow");
-    $("#twiz_library_upload").fadeIn("slow");    
+    $("#twiz_library_upload").fadeIn("slow");   
 });
 //]]>
 </script>';
@@ -77,10 +75,10 @@ jQuery(document).ready(function($) {
 
                 $rowcolor = ($rowcolor=='twiz-row-color-1') ? 'twiz-row-color-2' : 'twiz-row-color-1';
             
-                $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE) : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE);
+                $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE, 'library');
                         
                 $html.= '
-    <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-td-center" id="twiz_td_status_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
+    <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-td-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
     <td class="twiz-table-list-td"><a href="'.WP_CONTENT_URL.parent::IMPORT_PATH.$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
      <td class="twiz-table-list-td twiz-td-center" id="twiz_list_td_'.$value[parent::F_ID].'"><img name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'" width="25" height="25" src="'.$this->pluginUrl.'/images/twiz-arrow-n.png"><img name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"  width="25" height="25" src="'.$this->pluginUrl.'/images/twiz-arrow-s.png"></td>
     <td class="twiz-table-list-td twiz-td-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[parent::F_ID].'" name="twiz_img_delete_'.$value[parent::F_ID].'"></td></tr>';
@@ -254,18 +252,20 @@ jQuery(document).ready(function($) {
         
         if( $id=='' ){return false;}
     
-        $value = $this->getLibraryValue($id, parent::F_STATUS);
+		$cleanid = str_replace('library_','',$id);
+		   
+        $value = $this->getLibraryValue($cleanid, parent::F_STATUS);
         
         $newstatus = ( $value == '1' ) ? '0' : '1'; // swicth the status value
         
-        $code = $this->updateLibraryValue($id, parent::F_STATUS, $newstatus);
+        $code = $this->updateLibraryValue($cleanid, parent::F_STATUS, $newstatus);
         
         if( $code == true ){
         
-            $html = ( $newstatus == '1' ) ? $this->getHtmlImgStatus($id, parent::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, parent::STATUS_INACTIVE);
+            $html = ( $newstatus == '1' ) ? $this->getHtmlImgStatus($cleanid, parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($cleanid, parent::STATUS_INACTIVE, 'library');
         }else{ 
         
-            $html = ( $value[parent::F_STATUS] == '1' ) ? $this->getHtmlImgStatus($id, parent::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, parent::STATUS_INACTIVE);
+            $html = ( $value[parent::F_STATUS] == '1' ) ? $this->getHtmlImgStatus($cleanid, parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($cleanid, parent::STATUS_INACTIVE, 'library');
             
         }
         
@@ -308,7 +308,7 @@ jQuery(document).ready(function($) {
             
                 $ibase = $i;
                 
-                if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1 ;             
+                if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1;             
                 $maxkeyorder = $this->getMax( parent::KEY_ORDER );
  
                 $neworder = ( $order == parent::LB_ORDER_UP ) ? $value[parent::KEY_ORDER] - 1 : $value[parent::KEY_ORDER] + 1;
@@ -357,7 +357,11 @@ jQuery(document).ready(function($) {
         
            $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
         }
-      
+        
+        if(!isset($array_id[$ibase])){
+            $ibase = $id;
+        }
+        
         $ok = $this->updateLibraryValue( $array_id[$ibase] , parent::KEY_ORDER, $neworder);
 
         /* get library order array */

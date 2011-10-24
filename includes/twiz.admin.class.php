@@ -16,7 +16,7 @@
 */
 
 class TwizAdmin extends Twiz{
-	
+    
     /* variable declaration */
     private $array_admin;
 
@@ -56,7 +56,6 @@ jQuery(document).ready(function($) {
     $("#twiz_library_upload").fadeOut("slow");    
     $("#twiz_import").fadeOut("slow");    
     $("#twiz_export").fadeOut("slow"); 
-	$("#twiz_delete_menu_everywhere").fadeOut("slow");
     $("#twiz_add_sections").fadeOut("slow"); 
     $("#twiz_right_panel").fadeOut("slow");
 });

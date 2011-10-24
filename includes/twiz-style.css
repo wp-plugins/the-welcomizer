@@ -21,9 +21,9 @@
     display: none;
 }
 .twiz-loading-gif {
+    display: none;
     width: 20px;
     height: 20px;
-    display: none;
     margin: 0px 1px;
 }
 .twiz-loading-gif-action {
@@ -74,6 +74,13 @@
     cursor: pointer;
 }
 #twiz_right_panel {
+    margin: 27px 0 0 15px;   
+    min-height: 200px;
+    color: #464646;
+    min-width: 415px;
+}
+#twiz_vertical_menu,
+#twiz_right_panel{
     border-radius: 6px 6px 6px 6px;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
@@ -91,10 +98,6 @@
     background: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#F7F7F7));
     background: -khtml-gradient(linear, center top, center bottom, from(#ffffff), to(#F7F7F7));
     border: 1px solid #D1D1D1;
-    margin: 27px 0 0 25px;   
-    min-width: 415px;
-    min-height: 200px;
-    color: #464646;
     display: none;
     float: left;
 }
@@ -138,11 +141,6 @@
 #twiz_head_version a { 
     text-decoration: none;
 }
-#twiz_head_setting {
-    font-size: 12px;
-    float: left;
-    width: 400px;
-}
 #twiz_head_addnew {
     display: block;
     margin-right: 15px;
@@ -159,12 +157,11 @@
     -webkit-border-top-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
     -khtml-border-radius-topright: 6px;
-    height: 90px;
+    height: 70px;
     display: block;
     overflow: hidden;
 }
 #twiz_menu,
-#twiz_menu-everywhere,
 #twiz_header, 
 #twiz_footer {
     width: 500px;
@@ -174,19 +171,24 @@
     border-bottom: 1px solid #D1D1D1;
     border-left: 1px solid #D1D1D1;
 }
-.twiz-menu  {
-    border-right: 1px solid #D1D1D1;
+#twiz_vertical_menu {
+  margin: 27px 0 0 15px;  
+  max-width: 386px;
+  padding: 3px;
+  max-height: 300px;
+  overflow: auto;
 }
-#twiz_menu {
-    border-right: 1px solid #D1D1D1;
+#twiz_vertical_menu div.twiz-menu{
+    float: none;
+    border-top: 1px solid #D1D1D1;
+    padding-left: 45px;
 }
 #twiz_header, 
 #twiz_footer,
+#twiz_more_menu,
 #twiz_menu,
-#twiz_menu-everywhere,
 #twiz_add_menu,
 #twiz_delete_menu,
-#twiz_delete_menu_everywhere,
 .twiz-menu  {
     background: #D7D7D7;
     background: -moz-linear-gradient(center top , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
@@ -197,9 +199,9 @@
 #twiz_footer {
     border: 1px solid #D1D1D1;
 }
+#twiz_more_menu,
 #twiz_add_menu,
-#twiz_delete_menu,
-#twiz_delete_menu_everywhere {
+#twiz_delete_menu{
     border-left: 1px solid #D1D1D1;
     border-right: 1px solid #D1D1D1;
     width: 20px;
@@ -208,35 +210,47 @@
     font-weight: normal;
     text-align: center    
 }
+#twiz_more_menu,
 #twiz_header, 
 #twiz_footer,
 #twiz_add_menu,
-#twiz_delete_menu, 
-#twiz_delete_menu_everywhere,
+#twiz_delete_menu,
 .twiz-menu {
     padding: 5px;
 }
 .twiz-menu {
-    min-width: 90px;
     font-size: 12px; 
-    text-align: center;
+    text-align: left;
+    border-right: 1px solid #D1D1D1;
+    max-width: 334px;
 }
 .twiz-menu:hover {
     color: #000000;
+}
+.twiz-status-menu {
+    width: 25px;
+    float: left;
+    margin: 5px 7px 0 13px;
+}
+#twiz_more_menu:hover {
+    color: #464646;
+    font-weight: bold; 
 }
 #twiz_add_menu:hover {
     color: green;
     font-weight: bold; 
 }
-#twiz_delete_menu:hover, 
-#twiz_delete_menu_everywhere:hover {
+#twiz_delete_menu:hover {
     color: red;
     font-weight: bold; 
 }
+.twiz-status-menu:hover{
+    cursor: pointer;
+}
 .twiz-menu:hover,
+#twiz_more_menu:hover,
 #twiz_add_menu:hover,
-#twiz_delete_menu:hover, 
-#twiz_delete_menu_everywhere:hover {
+#twiz_delete_menu:hover {
     cursor: pointer;
     background: #E4E4E4;
     background: -moz-linear-gradient(center top , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
@@ -247,18 +261,21 @@
     font-weight:bold; 
     font-size: 12px; 
     background: #E4E4E4;
-    background: -moz-linear-gradient(center top , #E4E4E4, #D7D7D7) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));
-    background: -khtml-gradient(linear, center top, center bottom, from(#E4E4E4), to(#D7D7D7));    
+    background: -moz-linear-gradient(center top , #D7D7D7, #E4E4E4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));
+    background: -khtml-gradient(linear, center top, center bottom, from(#D7D7D7), to(#E4E4E4));    
+}
+#twiz_more_menu{
+    float: right;
+    width: 33px;
 }
 #twiz_add_menu,
 #twiz_delete_menu,
-#twiz_delete_menu_everywhere,
 .twiz-menu {
     float: left;
 }
 #twiz_add_sections {
-    margin: 2px 0px 0px 2px;
+    margin: 1px 0px 0px 2px;
     float: left;
     display: none;
 }
@@ -429,7 +446,6 @@
     font-size: 12px;
     text-align: left;
     padding: 2px 0 2px 0;
-    
 }
 .twiz-td-picklist a:hover {
     cursor: pointer;
@@ -610,4 +626,10 @@ a.twiz-more-options:hover {
 .twiz-spacer {
     display: block;
     height: 5px;
+}
+.twiz-display-none {
+    display: none;
+}
+.twiz-display-block {
+    display: block;
 }

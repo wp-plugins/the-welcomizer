@@ -64,6 +64,9 @@ class Twiz{
     
     /* action constants */ 
     const ACTION_MENU           = 'menu';
+    const ACTION_MENU_STATUS    = 'menustatus';
+    const ACTION_VMENU_STATUS   = 'vmenustatus';
+    const ACTION_GET_VMENU      = 'getvmenu';
     const ACTION_SAVE           = 'save';
     const ACTION_CANCEL         = 'cancel';
     const ACTION_OPTIONS        = 'options';
@@ -81,6 +84,7 @@ class Twiz{
     const ACTION_UPLOAD_LIBRARY = 'uploadlib';
     const ACTION_GLOBAL_STATUS  = 'gstatus';
     const ACTION_ADD_SECTION    = 'addsection';
+    const ACTION_GET_ADD_SECTION= 'getaddsection';
     const ACTION_DELETE_SECTION = 'deletesection';
     const ACTION_DELETE_LIBRARY = 'deletelib';
     const ACTION_ORDER_LIBRARY  = 'orderlib';
@@ -146,13 +150,14 @@ class Twiz{
     const F_EXTRA_JS_A             = 'extra_js_a'; 
     const F_EXTRA_JS_B             = 'extra_js_b';     
  
+    
     /* key field constants */
     const KEY_FILENAME = 'filename';  
     const KEY_ORDER    = 'order';  
     
     /* Key output constant */
-    const KEY_REGISTER_JQUERY = 'register_jquery';
-    const KEY_OUTPUT = 'output';
+    const KEY_REGISTER_JQUERY    = 'register_jquery';
+    const KEY_OUTPUT             = 'output';
     const KEY_OUTPUT_COMPRESSION = 'output_compression';
     
     /* Output constants*/  
@@ -391,7 +396,7 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.5';
+        $this->version    = '1.3.8.6';
         $this->dbVersion  = '2.54';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
@@ -402,7 +407,6 @@ class Twiz{
 
     }
     
-   
     function twizIt(){
         
         $html = '<div id="twiz_plugin">';
@@ -420,7 +424,7 @@ class Twiz{
         $html .= $this->getHtmlFooterMenu();
         
         $html .= '</div>';
-        
+        $html .= '<div id="twiz_vertical_menu">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
         $html .= '<div id="twiz_right_panel"></div>';
         
         $html .= $this->preloadImages();
@@ -442,11 +446,9 @@ class Twiz{
         $twiz_setting_menu_2 = ( $this->DEFAULT_SECTION == self::DEFAULT_SECTION_EVERYWHERE ) ? ' checked="checked"' : '';
         
         $header = '<div id="twiz_header">
-<div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a><span id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></span> </div>
-<span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span>
-<span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span>
-<span id="twiz_head_setting"><input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_1" value="'.self::DEFAULT_SECTION_HOME.'"'.$twiz_setting_menu_1.'> <label for="twiz_setting_menu_1">'.__('Home').' / ' . __('Category').' / ' . __('Page').' / ' . __('Post').'</label> <br>
-<input type="radio" name="twiz_setting_menu" id="twiz_setting_menu_2" value="'.self::DEFAULT_SECTION_EVERYWHERE.'"'.$twiz_setting_menu_2.'> <label for="twiz_setting_menu_2">'.__('Everywhere', 'the-welcomizer') . ' / ' . __('All', 'the-welcomizer') . ' ' . __('Categories') . ' / ' . __('All', 'the-welcomizer') . ' '  . __('Pages')  . ' / ' . __('All', 'the-welcomizer')  . ' ' . __('Posts') .'</label></span> 
+<div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a></div>
+<span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span><div id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></div> 
+
 </div><div class="twiz-clear"></div>
     ';
         
@@ -497,9 +499,9 @@ class Twiz{
  //<![CDATA[
  jQuery(document).ready(function($) {
         $("#twiz_new").fadeIn("fast");
+        $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
         $("#twiz_delete_menu").fadeIn("fast");
-        $("#twiz_delete_menu_everywhere").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
   });
@@ -584,8 +586,8 @@ class Twiz{
 
         $filedata .= '</TWIZ>'."\n";
         
-        $section_id =  str_replace(self::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $section_id);
         $sectionname = ($sectionname == '') ? $sectionname = $section_id.$id : $sectionname.$id;
+        $sectionname =  str_replace(self::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname);
        
         $filename = urldecode($sectionname).".".self::EXT_TWZ;
         $filepath = self::IMPORT_PATH.self::EXPORT_PATH;
@@ -647,6 +649,31 @@ class Twiz{
         return $code;
 
     }        
+    
+    protected function in_multi_array($needle, $haystack){
+
+        $in_multi_array = false;
+        
+        if(in_array($needle, $haystack)){
+        
+            $in_multi_array = true;
+            
+        }else{   
+        
+            foreach( $haystack as $i => $value ) {
+                
+                if(is_array($haystack[$i])){
+                
+                    if($this->in_multi_array($needle, $haystack[$i])) {
+                        $in_multi_array = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return $in_multi_array;
+    } 
     
     function install(){ 
     
@@ -1331,7 +1358,6 @@ $("#twiz_right_panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
 $("#twiz_import").fadeIn("fast");
 $("#twiz_delete_menu").fadeIn("fast");
-$("#twiz_delete_menu_everywhere").fadeIn("fast");
 $("#qq_upload_list li").remove(); 
 $("#twiz_export_url").html(""); 
         '.$hideimport;
@@ -1749,20 +1775,32 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
     }
    
-    protected function getHtmlImgStatus( $id = '', $status = ''){
+    protected function getHtmlImgStatus( $id = '', $status = '', $from = ''){
     
         if($id==''){ return ''; }
         if($status==''){ return ''; }
-    
-        if($id != 'global'){
+        $title = '';
+        $prefix = '';
         
-            $row = $this->getRow( $id ); 
-            $title = $id . ' - '.$row[self::F_EXPORT_ID];
-        }else{
-            $title = __('Global', 'the-welcomizer');
+        switch($id){
+        
+            case 'global':
+                
+                $title = __('Global', 'the-welcomizer');
+                break;
+                
+            default:
+                
+                if($from == ''){
+                
+                    $row = $this->getRow( $id ); 
+                    $title = $id . ' - '.$row[self::F_EXPORT_ID];
+                }else{
+                    $prefix = $from."_";
+                }
         }
-        
-        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_'.$id.'" name="twiz_status_'.$id.'" title="'.$title.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$id.'" name="twiz_img_status_'.$id.'" class="twiz-loading-gif">';
+ 
+        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_img_'.$prefix.$id.'" name="twiz_status_img_'.$prefix.$id.'" title="'.$title.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$prefix.$id.'" name="twiz_img_status_'.$prefix.$id.'" class="twiz-loading-gif">';
 
     }
     
@@ -1958,15 +1996,12 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
     private function updateSettingMenu( $section_id = '' ){
     
-        /* update setting menu */
-        switch($section_id){
-            case self::DEFAULT_SECTION_HOME:
-                $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME);
-                break;
-            case self::DEFAULT_SECTION_EVERYWHERE:
-                $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_EVERYWHERE);
-                break;
+        if($section_id == ''){
+            $section_id = self::DEFAULT_SECTION_HOME;
         }
+    
+        /* update setting menu */
+        $code = update_option('twiz_setting_menu', $section_id);
         
         return true;
     }
@@ -1979,7 +2014,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $twiz_status = ($twiz_status=='true') ? 1 : 0;
         
         $twiz_layer_id = esc_attr(trim($_POST['twiz_'.self::F_LAYER_ID]));
-        $twiz_layer_id = ($twiz_layer_id=='') ? '***' : $twiz_layer_id;
+        $twiz_layer_id = ($twiz_layer_id=='') ? '' : $twiz_layer_id;
         
         $twiz_move_top_pos_a  = esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_A]));
@@ -2222,6 +2257,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         delete_option('twiz_global_status');
         delete_option('twiz_setting_menu');
         delete_option('twiz_sections');
+        delete_option('twiz_hardsections');
         delete_option('twiz_library');
         delete_option('twiz_admin');
         
