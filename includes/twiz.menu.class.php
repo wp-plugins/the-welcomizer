@@ -25,7 +25,7 @@ class TwizMenu extends Twiz{
     const KEY_STATUS = 'status';     
     
     /* array hard menu */
-    var $array_hardmenu = array(parent::DEFAULT_SECTION_HOME
+    private $array_hardmenu = array(parent::DEFAULT_SECTION_HOME
                                 ,parent::DEFAULT_SECTION_EVERYWHERE
                                 ,parent::DEFAULT_SECTION_ALL_CATEGORIES
                                 ,parent::DEFAULT_SECTION_ALL_PAGES
