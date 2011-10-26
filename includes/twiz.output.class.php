@@ -324,6 +324,7 @@ class TwizOutput extends Twiz{
                 }
                 
                 $sectionkey = $myTwizMenu->getSectionName($category_id);
+                if( !isset($sections[$sectionkey]) ) $sections[$sectionkey][parent::F_STATUS] = parent::STATUS_INACTIVE;
                 if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                
                     $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
                 }else{
@@ -348,6 +349,7 @@ class TwizOutput extends Twiz{
                 }
                 
                 $sectionkey = $myTwizMenu->getSectionName($page_id);
+                if( !isset($sections[$sectionkey]) ) $sections[$sectionkey][parent::F_STATUS] = parent::STATUS_INACTIVE;
                 if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
                     $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
                 }else{
@@ -372,6 +374,7 @@ class TwizOutput extends Twiz{
                 }
                 
                 $sectionkey = $myTwizMenu->getSectionName($post_id);
+                if( !isset($sections[$sectionkey]) ) $sections[$sectionkey][parent::F_STATUS] = parent::STATUS_INACTIVE;
                 if($sections[$sectionkey][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
                     $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
                 }else{
