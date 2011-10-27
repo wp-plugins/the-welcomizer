@@ -23,15 +23,7 @@ class TwizMenu extends Twiz{
                                        
     /* key menu constants */
     const KEY_STATUS = 'status';     
-    
-    /* array hard menu */
-    private $array_hardmenu = array(parent::DEFAULT_SECTION_HOME
-                                ,parent::DEFAULT_SECTION_EVERYWHERE
-                                ,parent::DEFAULT_SECTION_ALL_CATEGORIES
-                                ,parent::DEFAULT_SECTION_ALL_PAGES
-                                ,parent::DEFAULT_SECTION_ALL_ARTICLES
-                                );                
-                                
+              
     function __construct(){
     
         parent::__construct();
@@ -43,19 +35,17 @@ class TwizMenu extends Twiz{
     function addSectionMenu( $section_id = '' ){
      
         if( $section_id == '' ){return '';}
-            
-        $sections = $this->array_sections;
         
         $section_name = $this->getSectionName($section_id);
         
-        $section = array( parent::F_SECTION_ID => $section_id,
-                          parent::F_STATUS     => parent::STATUS_ACTIVE 
-                   );
-                                              
-        $sections[$section_name] = '';
-        $sections[$section_name] = $section;
+        $section = array(parent::F_STATUS => parent::STATUS_ACTIVE 
+                        ,parent::KEY_TITLE => $section_name
+                        );
+             
+        if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';              
+        $this->array_sections[$section_id] = $section;
         
-        $code = update_option('twiz_sections', $sections);
+        $code = update_option('twiz_sections', $this->array_sections);
         
         $html = $this->getHtmlSectionMenu($section_id, $section_name, parent::STATUS_ACTIVE);
         
@@ -72,20 +62,19 @@ class TwizMenu extends Twiz{
         $code = $wpdb->query($sql);
         
         // Hard sections are not deleted
-        if( !$this->in_multi_array($section_id, $this->array_default_section) ){
+        if( !array_key_exists($section_id, $this->array_default_section) ){
             
             $sections = $this->array_sections;
                
-            foreach( $this->array_sections as $key => $value ){
+            foreach( $sections as $key => $value ){
         
-                if(( $value[parent::F_SECTION_ID] == $section_id ) and ($key != "")){
-           
-                    $sections[$key] = '';
-                    unset($sections[$key]);
+                if( $key == $section_id ){
+  
+                    unset($this->array_sections[$key]);
                 }
             }
             
-           $code = update_option('twiz_sections', $sections);
+           $code = update_option('twiz_sections', $this->array_sections);
         }
 
         return true;
@@ -114,7 +103,7 @@ class TwizMenu extends Twiz{
  
         foreach( $categories as $value ){
         
-            if( !$this->in_multi_array('c_'.$value->cat_ID, $sections) ){
+            if( !array_key_exists('c_'.$value->cat_ID, $sections) ){
             
                 $select_cat .= '<option value="c_'.$value->cat_ID.'">'.$value->cat_name.'</option>';
             }
@@ -125,7 +114,7 @@ class TwizMenu extends Twiz{
         
         foreach( $pages as $value ){
         
-            if( !$this->in_multi_array('p_'.$value->ID, $sections )){
+            if( !array_key_exists('p_'.$value->ID, $sections )){
             
                 $separator_page = '<option value="+++ +++ +++">+++ +++ +++</option>';
                
@@ -138,7 +127,7 @@ class TwizMenu extends Twiz{
         
         foreach( $posts as $value ){
         
-            if( !$this->in_multi_array('a_'.$value->ID, $sections )){
+            if( !array_key_exists('a_'.$value->ID, $sections )){
             
                 $separator_post = '<option value="+++ +++ +++">+++ +++ +++</option>';
                
@@ -162,19 +151,17 @@ class TwizMenu extends Twiz{
        
         $menu = '<div id="twiz_menu">';
        
-       $statusimg = '<div id="twiz_status_menu_home" class="twiz-status-menu twiz-display-none">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, parent::STATUS_ACTIVE, 'menu' ).'</div>';
+        $statusimg = '<div id="twiz_status_menu_home" class="twiz-status-menu twiz-display-none">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, parent::STATUS_ACTIVE, 'menu' ).'</div>';
        
         /* default home section */
         $menu .=  $statusimg . '<div id="twiz_menu_home" class="twiz-menu twiz-menu-selected twiz-display-none">'.__('Home').'</div>';
-       
+               
         /* generate the section menu */
         foreach( $sections as $key => $value ){
        
-             if( $value != parent::DEFAULT_SECTION_HOME ){
-            
-                $name = $this->getSectionName($value[parent::F_SECTION_ID], $key);
-            
-                $menu .= $this->getHtmlSectionMenu($value[parent::F_SECTION_ID], $name,  $value[parent::F_STATUS]);
+             if( $key != parent::DEFAULT_SECTION_HOME ){
+                       
+                $menu .= $this->getHtmlSectionMenu($key, $value[parent::KEY_TITLE], $value[parent::F_STATUS]);
             }
         }
 
@@ -228,11 +215,9 @@ class TwizMenu extends Twiz{
         /* generate the section menu */
         foreach( $sections as $key => $value ){
        
-            if( $value != parent::DEFAULT_SECTION_HOME ){
+            if( $key != parent::DEFAULT_SECTION_HOME ){
             
-                $name = $this->getSectionName($value[parent::F_SECTION_ID], $key);
-            
-                $menu .= $this->getHtmlSectionvMenu($value[parent::F_SECTION_ID], $name, $value[parent::F_STATUS]);
+                $menu .= $this->getHtmlSectionvMenu($key, $value[parent::KEY_TITLE], $value[parent::F_STATUS]);
             }
         }
 
@@ -282,16 +267,17 @@ class TwizMenu extends Twiz{
        return $html;
     }
     
-    function getSectionName( $value = '', $key = null ){
+    function getSectionName( $key = ''){
     
-        if(!preg_match("/_/i", $value)){
+        if(!preg_match("/_/i", $key)){
         
-            return $value;
+            return $key;
         }
         
-        list( $type, $id ) = split('_', $value);
+        list( $type, $id ) = split('_', $key);
                 
         $name = '';
+        $newid = '';
         
         switch($type){
         
@@ -301,39 +287,43 @@ class TwizMenu extends Twiz{
                 
                 /* User deleted category */
                 if ($name==""){
-                    
-                    /*  Give the key instead if empty, and update the key if possible */
-                    return $this->updateSectionMenuKey($key, $type.'_'.get_cat_id($key));
+                
+                    $name = $this->array_sections[$key][parent::KEY_TITLE];
+                    $name = '<span class="twiz-status-red">'.$name.'</span>';
                 }
                 break;
                 
             case 'p': // is page
             
-                $page = get_page( $id ) ;
-                $name = $page->post_title;
+                $page = get_page($id);
+                
+                if(is_object($page)){
+                
+                    $name = $page->post_title;
+                }
                 
                 /* User deleted page */
                 if ( $name == "" ){
-                
-                    $page = get_page_by_title($key);
-                    
-                    /*  Give the key instead if empty, and update the key if possible */
-                    return $this->updateSectionMenuKey($key, $type.'_'.$page->ID); // private
+
+                    $name = $this->array_sections[$key][parent::KEY_TITLE];
+                    $name = '<span class="twiz-status-red">'.$name.'</span>';
                 }
                 break;
                 
             case 'a': // is post
-            
-                $post = get_post( $id ) ;
-                $name = mysql2date('Y-m-d', $post->post_date).' : '.$post->post_title;
+                   
+                $post = get_post( $id );
+                
+                if(is_object($post)){
+                
+                    $name = mysql2date('Y-m-d', $post->post_date).' : '.$post->post_title;
+                }
                 
                 /* User deleted post */
                 if ( $name == "" ){
-                
-                    $post = get_page_by_title($key, 'OBJECT', 'post');
-                    
-                    /*  Give the key instead if empty, and update the key if possible */
-                    return $this->updateSectionMenuKey($key, $type.'_'.$post->ID); // private
+
+                    $name = $this->array_sections[$key][parent::KEY_TITLE];
+                    $name = '<span class="twiz-status-red">'.$name.'</span>';
                 }
                 break;                
         }
@@ -352,15 +342,44 @@ class TwizMenu extends Twiz{
             $this->array_sections = array();
         }else{
         
-            // Reformat as array if necessary
+            // Reformat array if necessary
             foreach( $sections as $key => $value ) {
 
-                if( !is_array($sections[$key]) ){
+                if( !is_array($sections[$key]) ){ // reformat array for the first time
+                    
+                    if( !isset($this->array_sections[$value]) ) $this->array_sections[$value] = ''; 
+                    
+                    $section = array(parent::F_STATUS  => parent::STATUS_ACTIVE
+                                    ,parent::KEY_TITLE => $this->getSectionName($key)
+                                    ); // new array
+                   
+                    $this->array_sections[$value] = $section; // new value
+                    
+                    unset($this->array_sections[$key]); // delete old format
+                    
+                }else{ 
                 
-                    $section = array( parent::F_SECTION_ID => $value,
-                                      parent::F_STATUS     => parent::STATUS_ACTIVE);
-                                  
-                    $this->array_sections[$key] = $section; // Activated by default
+                    if( !isset($this->array_sections[$key][parent::F_SECTION_ID]) ){ // Always update the title, this array has been cleaned already
+                        
+                        if( !isset($this->array_sections[$key][parent::KEY_TITLE]) ) $this->array_sections[$key][parent::KEY_TITLE] = ''; // Register the key
+                        
+                        $this->array_sections[$key][parent::KEY_TITLE] = $this->getSectionName($key); // Fresh title
+                      
+                    }else{ // it has already been formated once v1.3.8.6(broken), we need to format it again for those users.
+                                             
+                        $newkey = $this->array_sections[$key][parent::F_SECTION_ID]; // New key from array
+                        $samestatus = $this->array_sections[$key][parent::F_STATUS]; // Same status
+                        
+                        if( !isset($this->array_sections[$newkey]) ) $this->array_sections[$newkey] = ''; 
+                        
+                        $section = array( parent::F_STATUS => $samestatus
+                                         ,parent::KEY_TITLE => $this->getSectionName($newkey)
+                                         ); // new array
+                        
+                        $this->array_sections[$newkey] = $section; // new value
+                        
+                        unset($this->array_sections[$key]); // delete old format
+                    }
                 }
             }
             
@@ -368,14 +387,17 @@ class TwizMenu extends Twiz{
         }
                     
         // Register hard menu
-        foreach( $this->array_hardmenu as $key ) {
+        foreach( $this->array_default_section as $key ) {
 
+            if( !isset($this->array_hardsections[$key][parent::F_SECTION_ID]) ){}else{
+                unset($this->array_hardsections[$key]);  // delete old format
+            }
+            
             if( !isset($this->array_hardsections[$key]) ) $this->array_hardsections[$key] = '';
             
             if( $this->array_hardsections[$key] == '' ) {
             
-                $section = array( parent::F_SECTION_ID => $key,
-                                  parent::F_STATUS     => parent::STATUS_ACTIVE);
+                $section = array( parent::F_STATUS => parent::STATUS_ACTIVE);
                               
                 $this->array_hardsections[$key] = $section; // Activated by default
             }
@@ -384,26 +406,7 @@ class TwizMenu extends Twiz{
         $code = update_option('twiz_hardsections', $this->array_hardsections); 
         
         ksort($this->array_sections);
-    }
-    
-    private function updateSectionMenuKey( $keyid = '', $newid = '' ){
-           
-        if(( $keyid != '' ) and ( $newid != 'c_' ) and ( $newid != 'p_' ) and ( $newid != 'a_' )){
-            
-            $sections = $this->array_sections;
-            
-            $section = array( parent::F_SECTION_ID => $newid,
-                              parent::F_STATUS     => parent::STATUS_ACTIVE
-            );
-
-            $sections[$keyid] = '';
-            $sections[$keyid] = $section;
-            
-            $code = update_option('twiz_sections', $sections);
-        }
-        
-        return $keyid;
-    }    
+    }  
     
     function switchMenuStatus($id){ 
     
@@ -417,17 +420,14 @@ class TwizMenu extends Twiz{
 
         foreach( $sections as $key => $value ){
    
-            if( $value[parent::F_SECTION_ID] == $cleanid ){
+            if( $key == $cleanid ){
                 
-                
-                $newstatus = ($value[parent::F_STATUS] == self::STATUS_INACTIVE) ? self::STATUS_ACTIVE : self::STATUS_INACTIVE; // swicth the status value
+                $newstatus = ($value[parent::F_STATUS] == parent::STATUS_INACTIVE) ? parent::STATUS_ACTIVE : parent::STATUS_INACTIVE; // swicth the status value
                 $ddcleanid = str_replace('_'.$cleanid,'',$id);
             
-                $htmlstatus = ($newstatus==self::STATUS_ACTIVE) ? $this->getHtmlImgStatus($cleanid , self::STATUS_ACTIVE, $ddcleanid ) : $this->getHtmlImgStatus($cleanid , self::STATUS_INACTIVE, $ddcleanid );
+                $htmlstatus = ($newstatus == parent::STATUS_ACTIVE) ? $this->getHtmlImgStatus($cleanid, parent::STATUS_ACTIVE, $ddcleanid ) : $this->getHtmlImgStatus($cleanid , parent::STATUS_INACTIVE, $ddcleanid );
                 
-                $section = array( parent::F_SECTION_ID => $value[parent::F_SECTION_ID],
-                                  parent::F_STATUS     => $newstatus);            
-                $this->array_sections[$key] = $section;
+                $this->array_sections[$key][parent::F_STATUS] = $newstatus;
 
                 $code = update_option('twiz_sections', $this->array_sections);
         
@@ -436,21 +436,16 @@ class TwizMenu extends Twiz{
 
         foreach( $hardsections as $key => $value ){
    
-            if( $value[parent::F_SECTION_ID] == $cleanid ){
+            if( $key == $cleanid ){
                 
-                
-                $newstatus = ($value[parent::F_STATUS] == self::STATUS_INACTIVE) ? self::STATUS_ACTIVE : self::STATUS_INACTIVE; // swicth the status value
+                $newstatus = ($value[parent::F_STATUS] == parent::STATUS_INACTIVE) ? parent::STATUS_ACTIVE : parent::STATUS_INACTIVE; // swicth the status value
                 $ddcleanid = str_replace('_'.$cleanid,'',$id);
             
-                $htmlstatus = ($newstatus==self::STATUS_ACTIVE) ? $this->getHtmlImgStatus($cleanid , self::STATUS_ACTIVE, $ddcleanid ) : $this->getHtmlImgStatus($cleanid , self::STATUS_INACTIVE, $ddcleanid );
-                
-                $section = array( parent::F_SECTION_ID => $value[parent::F_SECTION_ID],
-                                  parent::F_STATUS     => $newstatus);    
+                $htmlstatus = ($newstatus == parent::STATUS_ACTIVE) ? $this->getHtmlImgStatus($cleanid, parent::STATUS_ACTIVE, $ddcleanid ) : $this->getHtmlImgStatus($cleanid , parent::STATUS_INACTIVE, $ddcleanid );
                                   
-                $this->array_hardsections[$key] = $section;
+                $this->array_hardsections[$key][parent::F_STATUS] = $newstatus;
 
                 $code = update_option('twiz_hardsections', $this->array_hardsections);
-        
             }
         }
         

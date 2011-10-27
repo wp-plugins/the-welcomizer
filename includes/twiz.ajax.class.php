@@ -30,44 +30,44 @@ class TwizAjax extends Twiz{
  var twiz_default_section_id = "'.parent::DEFAULT_SECTION_HOME.'";
  var twiz_array_view_id = new Array();
  var twiz_import_file = new qq.FileUploader({
-        element: document.getElementById("twiz_import_container"),
-        action: "'.$this->pluginUrl.'/includes/import/server/php.php",
-        debug: false,
-        id: "twiz_import",
-        label: "'.__('Import', 'the-welcomizer').'",
-        allowedExtensions: ["'.parent::EXT_TWZ.'", "'.parent::EXT_XML.'"],
-        sizeLimit: '.parent::IMPORT_MAX_SIZE.', // max size   
-        minSizeLimit: 1, // min size
-        onSubmit: function (){ twiz_import_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
-        onComplete: function (){$("#twiz_export_url").html(""); twizPostMenu(twiz_current_section_id);},
-        messages: {
-            typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
-            sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
-            minSizeError: "'.__('{file} is too small, minimum file size is {minSizeLimit}.', 'the-welcomizer').'",
-            emptyError: "'.__('{file} is empty, please select files again without it.', 'the-welcomizer').'",
-            onLeave: "'.__('The files are being uploaded, if you leave now the upload will be cancelled.', 'the-welcomizer').'",
-            showMessage: function(message){ alert(message); }
-        }
+    element: document.getElementById("twiz_import_container"),
+    action: "'.$this->pluginUrl.'/includes/import/server/php.php",
+    debug: false,
+    id: "twiz_import",
+    label: "'.__('Import', 'the-welcomizer').'",
+    allowedExtensions: ["'.parent::EXT_TWZ.'", "'.parent::EXT_XML.'"],
+    sizeLimit: '.parent::IMPORT_MAX_SIZE.', // max size   
+    minSizeLimit: 1, // min size
+    onSubmit: function (){ twiz_import_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
+    onComplete: function (){$("#twiz_export_url").html(""); twizPostMenu(twiz_current_section_id);},
+    messages: {
+        typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
+        sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
+        minSizeError: "'.__('{file} is too small, minimum file size is {minSizeLimit}.', 'the-welcomizer').'",
+        emptyError: "'.__('{file} is empty, please select files again without it.', 'the-welcomizer').'",
+        onLeave: "'.__('The files are being uploaded, if you leave now the upload will be cancelled.', 'the-welcomizer').'",
+        showMessage: function(message){ alert(message); }
+    }
  });      
  var twiz_upload_file = new qq.FileUploader({
-        element: document.getElementById("twiz_library_upload"),
-        action: "'.$this->pluginUrl.'/includes/import/server/php.php",
-        debug: false,
-        id: "twiz_upload",
-        label: "'.__('Upload', 'the-welcomizer').'",
-        allowedExtensions: ["'.parent::EXT_JS.'", "'.parent::EXT_CSS.'"],
-        sizeLimit: '.parent::IMPORT_MAX_SIZE.', // max size   
-        minSizeLimit: 1, // min size
-        onSubmit: function (){ twiz_upload_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_UPLOAD_LIBRARY.'"});},
-        onComplete: function (){$("#twiz_export_url").html(""); twizPostLibrary();},
-        messages: {
-            typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
-            sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
-            minSizeError: "'.__('{file} is too small, minimum file size is {minSizeLimit}.', 'the-welcomizer').'",
-            emptyError: "'.__('{file} is empty, please select files again without it.', 'the-welcomizer').'",
-            onLeave: "'.__('The files are being uploaded, if you leave now the upload will be cancelled.', 'the-welcomizer').'",
-            showMessage: function(message){ alert(message); }
-        }
+    element: document.getElementById("twiz_library_upload"),
+    action: "'.$this->pluginUrl.'/includes/import/server/php.php",
+    debug: false,
+    id: "twiz_upload",
+    label: "'.__('Upload', 'the-welcomizer').'",
+    allowedExtensions: ["'.parent::EXT_JS.'", "'.parent::EXT_CSS.'"],
+    sizeLimit: '.parent::IMPORT_MAX_SIZE.', // max size   
+    minSizeLimit: 1, // min size
+    onSubmit: function (){ twiz_upload_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_UPLOAD_LIBRARY.'"});},
+    onComplete: function (){$("#twiz_export_url").html(""); twizPostLibrary();},
+    messages: {
+        typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
+        sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
+        minSizeError: "'.__('{file} is too small, minimum file size is {minSizeLimit}.', 'the-welcomizer').'",
+        emptyError: "'.__('{file} is empty, please select files again without it.', 'the-welcomizer').'",
+        onLeave: "'.__('The files are being uploaded, if you leave now the upload will be cancelled.', 'the-welcomizer').'",
+        showMessage: function(message){ alert(message); }
+    }
  });   
  var bind_twiz_New = function() {
      $("#twiz_new").click(function(){
@@ -155,7 +155,7 @@ class TwizAjax extends Twiz{
                 bind_twiz_Status();
             });
             break;
-            default:
+        default:
              switch(numid){
                 case "global":
                     $(this).hide();
@@ -204,7 +204,6 @@ class TwizAjax extends Twiz{
                     break;
                 }
         }            
-      
     });
  }
  var bind_twiz_Edit = function() {
@@ -666,8 +665,8 @@ class TwizAjax extends Twiz{
         $("#twiz_add_sections").slideToggle("fast");  
     });
     $("#twiz_add_menu").click(function(){    
+        twizGetAddSection();
         $("#twiz_add_sections").slideToggle("fast");  
-        $("input[id=twiz_save_section]").removeAttr("disabled");
         twiz_view_id = null;
     });
     $("#twiz_delete_menu").click(function(){  

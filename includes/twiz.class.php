@@ -154,6 +154,7 @@ class Twiz{
     /* key field constants */
     const KEY_FILENAME = 'filename';  
     const KEY_ORDER    = 'order';  
+    const KEY_TITLE    = 'title'; 
     
     /* Key output constant */
     const KEY_REGISTER_JQUERY    = 'register_jquery';
@@ -396,8 +397,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.6';
-        $this->dbVersion  = '2.54';
+        $this->version    = '1.3.8.7';
+        $this->dbVersion  = '2.56';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -416,7 +417,7 @@ class Twiz{
         $html .= $this->getHtmlGlobalstatus();
         $html .= $this->getHtmlHeader();
         
-        $myTwizMenu  = new TwizMenu(); 
+        $myTwizMenu = new TwizMenu(); 
         $html .= $myTwizMenu->getHtmlMenu();
         
         $html .= $this->getHtmlList();
@@ -906,6 +907,9 @@ class Twiz{
                 /* Admin Settings */
                 $code = new TwizAdmin(); // Default settings
                 
+                /* Menu reformating */
+                $myTwizMenu  = new TwizMenu();
+                        
                 /* db version */
                 $code = update_option('twiz_db_version', $this->dbVersion);
                 
