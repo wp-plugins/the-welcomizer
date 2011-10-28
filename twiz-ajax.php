@@ -18,6 +18,9 @@
   // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
   require_once(ABSPATH .'wp-includes/pluggable.php'); 
 
+  $locale = get_locale();
+  load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
+
   function twiz_ajax_callback(){
   
    global $wpdb;
@@ -62,7 +65,7 @@
         case Twiz::ACTION_VMENU_STATUS:
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
-        
+            
             $myTwizMenu  = new TwizMenu();
             
             $htmlresponse = $myTwizMenu->switchMenuStatus($twiz_id);
@@ -80,7 +83,7 @@
         case Twiz::ACTION_ADD_SECTION:
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
-        
+
             $myTwizMenu  = new TwizMenu();
             
             $htmlresponse = $myTwizMenu->addSectionMenu($twiz_section_id);
