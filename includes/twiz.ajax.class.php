@@ -665,8 +665,8 @@ class TwizAjax extends Twiz{
         $("#twiz_add_sections").slideToggle("fast");  
     });
     $("#twiz_add_menu").click(function(){    
-        twizGetAddSection();
         $("#twiz_add_sections").slideToggle("fast");  
+        twizGetAddSection();
         twiz_view_id = null;
     });
     $("#twiz_delete_menu").click(function(){  
@@ -946,7 +946,7 @@ class TwizAjax extends Twiz{
   function twizGetvMenu(){
       $.post(ajaxurl, {
        action: "twiz_ajax_callback",
-        twiz_nonce: "'.$this->nonce.'", 
+        twiz_nonce: "'.$this->nonce.'",       
         twiz_action: "'.parent::ACTION_GET_VMENU.'"
         }, function(data) {                
             $("div[id^=twiz_menu_]").unbind("click");
@@ -959,9 +959,10 @@ class TwizAjax extends Twiz{
         });   
   }
   function twizGetAddSection(){
+      $("#twiz_add_sections").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><img\' + \' name="twiz_img_loading_add_sections"\' + \' id="twiz_img_loading_add_sections"\' + \' src="'.$this->pluginUrl.'/images/twiz-loading.gif"></div>\');
       $.post(ajaxurl, {
        action: "twiz_ajax_callback",
-        twiz_nonce: "'.$this->nonce.'", 
+        twiz_nonce: "'.$this->nonce.'",
         twiz_action: "'.parent::ACTION_GET_ADD_SECTION.'"
         }, function(data) {                
             $("div[id^=twiz_menu_]").unbind("click");

@@ -633,3 +633,6 @@ a.twiz-more-options:hover {
 .twiz-display-block {
     display: block;
 }
+.twiz-noborder-right {
+    border-right: 0px;
+}
