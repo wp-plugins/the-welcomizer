@@ -14,7 +14,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
+ 
 class TwizMenu extends Twiz{
         
     /* variable declaration */
@@ -191,7 +191,7 @@ class TwizMenu extends Twiz{
         $menu .= '<div id="twiz_add_menu">+</div>';
 
         $menu .= '<div id="twiz_more_menu">&gt;&gt;&gt;</div>';
-        $menu .= '<div id="twiz_add_sections">'. $this->getHtmlAddSection().'</div>'; // private
+        $menu .= '<div id="twiz_add_sections"></div>'; // private
         
         $menu .= '</div>';
         $menu .= '<div class="twiz-clear"></div>';
