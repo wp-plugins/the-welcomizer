@@ -634,6 +634,7 @@ class TwizAjax extends Twiz{
         var textid = $(this).attr("name");
         var numid = textid.substring(13, textid.length);
         $("#twiz_vertical_menu").hide();   
+        $("#twiz_right_panel").css({"position":"relative", "top":$(this).offset().top - 203});
         if((twiz_view_id != numid)&&(twiz_view_id!="edit")){
             $("#twiz_list_tr_action_" + twiz_view_id).css("visibility", "hidden");
             $("#twiz_list_tr_action_" + numid).css("visibility", "visible");
