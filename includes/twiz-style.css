@@ -101,6 +101,7 @@
     border: 1px solid #D1D1D1;
     display: none;
     float: left;
+    z-index: 1;
 }
 #twiz_right_panel img {
     margin-left: auto;
