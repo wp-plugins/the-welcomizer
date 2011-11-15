@@ -402,10 +402,19 @@ class TwizOutput extends Twiz{
         // generates the code
         foreach($this->listarray as $value){
             if( $value[parent::F_ON_EVENT] == '' ){
-
-                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
-                $generatedscript .= $this->linebreak.$this->tab.'$(document).twiz_'.$repeatname.'();';
                 
+                // Excluding repeated animations already running.(manually called are not verified)
+                $pos = strpos($value[parent::F_JAVASCRIPT], "$(document).twizRepeat();");
+                $posa = strpos($value[parent::F_EXTRA_JS_A], "$(document).twizRepeat();");
+                $posb = strpos($value[parent::F_EXTRA_JS_B], "$(document).twizRepeat();");
+
+    // Note our use of ===.  Simply == would not work as expected
+    // because the position of 'a' was the 0th (first) character.
+                if (($pos === false) and ($posa === false) and ($posb === false)) {
+                 
+                    $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+                    $generatedscript .= $this->linebreak.$this->tab.'$(document).twiz_'.$repeatname.'();';
+                }
             }
         }
         $generatedscript .= $this->linebreak.'}'.self::COMPRESS_LINEBREAK;
