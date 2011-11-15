@@ -408,8 +408,6 @@ class TwizOutput extends Twiz{
                 $posa = strpos($value[parent::F_EXTRA_JS_A], "$(document).twizRepeat();");
                 $posb = strpos($value[parent::F_EXTRA_JS_B], "$(document).twizRepeat();");
 
-    // Note our use of ===.  Simply == would not work as expected
-    // because the position of 'a' was the 0th (first) character.
                 if (($pos === false) and ($posa === false) and ($posb === false)) {
                  
                     $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
