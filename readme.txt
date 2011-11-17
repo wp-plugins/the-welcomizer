@@ -85,6 +85,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.8.9 =
 
 * Added a vertical alignment to the right panel.
+* Updated Italian translation
 
 = 1.3.8.8 =
 
@@ -966,5 +967,5 @@ The Welcomizer is currently available in the following languages:
 
 * English 
 * Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 99%
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 100%
 * Español - 85%
