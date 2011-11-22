@@ -275,7 +275,7 @@ jQuery(document).ready(function($) {
     private function updateLibraryValue( $id = '', $field = '', $newvalue = '' ) {
 
         $library = $this->array_library;
-     
+ 
         foreach( $library  as $key => $value ){
         
             if( $value[parent::F_ID] == $id ){
@@ -300,13 +300,15 @@ jQuery(document).ready(function($) {
         $max = '';
         $i = 1;
         
+        // Update/set order
         foreach( $library as $key => $value ){
  
             $array_id[$i] = $value[parent::F_ID];
-
+            
+            // Check the id
             if( $value[parent::F_ID] == $id ){
             
-                $ibase = $i;
+                $ibase = $i; // We keep the key
                 
                 if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1;             
                 $maxkeyorder = $this->getMax( parent::KEY_ORDER );
@@ -324,6 +326,7 @@ jQuery(document).ready(function($) {
             $i++;
         }
         
+        // Switch order
         switch($order){
 
             case parent::LB_ORDER_UP:
@@ -341,12 +344,12 @@ jQuery(document).ready(function($) {
                 break;                    
         }
 
-        if( $ibase < 1 ){
+        if( $ibase < 1 ){ // no actions
         
             return true;
         }
        
-        if( $ibase >= $maxkeyorder ){
+        if( $ibase > $maxkeyorder ){  // no actions
         
             return true;
         }
@@ -358,7 +361,8 @@ jQuery(document).ready(function($) {
            $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
         }
         
-        if(!isset($array_id[$ibase])){
+        if( !isset($array_id[$ibase]) ){
+        
             $ibase = $id;
         }
         
@@ -371,7 +375,6 @@ jQuery(document).ready(function($) {
         array_multisort($array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
         
         return true;
-        
     }    
 }
 ?>

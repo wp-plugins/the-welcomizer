@@ -81,6 +81,13 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
+        // Deactivation
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</td><td class="twiz-form-td-right"></td></tr>';
+        
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+
+        
         $html .= '<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_admin_save_img" name="twiz_admin_save_img" class="twiz-loading-gif twiz-loading-gif-save"> <input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
@@ -94,6 +101,15 @@ jQuery(document).ready(function($) {
         $twiz_register_jquery = ($this->array_admin[parent::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery" name="twiz_register_jquery"'.$twiz_register_jquery.'>';
+                 
+        return $html;
+    }
+    
+    private function getHTMLDeleteAll(){
+    
+        $twiz_delete_all = ($this->array_admin[parent::KEY_DELETE_ALL] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_delete_all" name="twiz_delete_all"'.$twiz_delete_all.'>';
                  
         return $html;
     }
@@ -158,6 +174,15 @@ jQuery(document).ready(function($) {
             $this->array_admin = get_option('twiz_admin');
         }
         
+        // Delete All
+        if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';
+        if( $this->array_admin[parent::KEY_DELETE_ALL] == '' ) {
+        
+            $this->array_admin[parent::KEY_DELETE_ALL] = '0';
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
         // Next option
       
     }
@@ -178,6 +203,10 @@ jQuery(document).ready(function($) {
         
         // Output setting
         $this->array_admin[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
+        
+        // Delete All
+        $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';
+        $this->array_admin[parent::KEY_DELETE_ALL] = $delete_all ;
         
         // Update array
         $code = update_option('twiz_admin', $this->array_admin); 

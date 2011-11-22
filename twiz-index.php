@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.8.9
+Version: 1.3.9
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -49,8 +49,14 @@ License: GPL2
     // uninstall the plugin, drop table etc... 
     function twizUninstall() {
     
-        $myTwiz  = new Twiz();
-        $ok = $myTwiz->uninstall();
+        $array_admin = get_option('twiz_admin');
+        
+        // Check admin option
+        if( $array_admin[Twiz::KEY_DELETE_ALL] == '1' ) {
+        
+            $myTwiz  = new Twiz();
+            $ok = $myTwiz->uninstall();
+        }
     }
 
     // Database version check 

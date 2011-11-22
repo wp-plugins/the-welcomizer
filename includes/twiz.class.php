@@ -150,16 +150,20 @@ class Twiz{
     const F_EXTRA_JS_A             = 'extra_js_a'; 
     const F_EXTRA_JS_B             = 'extra_js_b';     
  
-    
-    /* key field constants */
+    /* Field constants keys */
     const KEY_FILENAME = 'filename';  
     const KEY_ORDER    = 'order';  
     const KEY_TITLE    = 'title'; 
     
-    /* Key output constant */
-    const KEY_REGISTER_JQUERY    = 'register_jquery';
+    /* Output constants keys */
     const KEY_OUTPUT             = 'output';
     const KEY_OUTPUT_COMPRESSION = 'output_compression';
+    
+    /* Default jQuery constant key */
+    const KEY_REGISTER_JQUERY    = 'register_jquery';
+    
+    /* Deactivation constant key */
+    CONST KEY_DELETE_ALL = 'delete_all';
     
     /* Output constants*/  
     const OUTPUT_HEADER = 'wp_head';    
@@ -397,8 +401,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.8.9';
-        $this->dbVersion  = '2.56';
+        $this->version    = '1.3.9';
+        $this->dbVersion  = '2.57';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
@@ -1428,6 +1432,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute'] = '';
         if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '';
+        if( !isset($twiz_position['fixed']) ) $twiz_position['fixed'] = '';
         if( !isset($twiz_position['static']) ) $twiz_position['static'] = '';
         
         if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing'] = '';
@@ -1472,6 +1477,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         /* selected */
         $twiz_position['absolute'] = ( $data[self::F_POSITION] == 'absolute' ) ? ' selected="selected"' : '';
         $twiz_position['relative'] = (( $data[self::F_POSITION] == 'relative' ) or ( $id == '' )) ? ' selected="selected"' : '';
+        $twiz_position['fixed']   = ($data[self::F_POSITION] == 'fixed') ? ' selected="selected"' : '';
         $twiz_position['static']   = ($data[self::F_POSITION] == 'static') ? ' selected="selected"' : '';
       
       
@@ -1553,9 +1559,11 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="" > </option>
         <option value="absolute" '.$twiz_position['absolute'].'>'.__('absolute', 'the-welcomizer').'</option>
         <option value="relative" '.$twiz_position['relative'].'>'.__('relative', 'the-welcomizer').'</option>
+        <option value="fixed" '.$twiz_position['fixed'].'>'.__('fixed', 'the-welcomizer').'</option>
+        <option value="static" '.$twiz_position['static'].'>'.__('static', 'the-welcomizer').'</option>
         </select>
         </td></tr>                
-          <tr><td class="twiz-td-small-left-start">'.__('Z-Index', 'the-welcomizer').':</td><td>
+          <tr><td class="twiz-td-small-left-start">'.__('z-index', 'the-welcomizer').':</td><td>
         <input class="twiz-input-small" id="twiz_'.self::F_ZINDEX.'" name="twiz_'.self::F_ZINDEX.'" type="text" value="'.$data[self::F_ZINDEX].'" maxlength="5">
             </td></tr>            
         </table>
@@ -1692,7 +1700,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>
-             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Z-Index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>
+             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('z-index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>
         </table>
         </td>
         <td valign="top">
