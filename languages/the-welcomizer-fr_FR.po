@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-22 01:55-0500\n"
-"PO-Revision-Date: 2011-11-22 03:13-0500\n"
+"PO-Revision-Date: 2011-11-22 07:28-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Code de sortie accroché à "
 
 #: includes/twiz.admin.class.php:85
 msgid "Delete all when disabling the plugin"
-msgstr "Effacer tout durant la désactivation du plugin "
+msgstr "Tout effacer à la désactivation du plugin "
 
 #: includes/twiz.admin.class.php:91
 #: includes/twiz.class.php:1642
