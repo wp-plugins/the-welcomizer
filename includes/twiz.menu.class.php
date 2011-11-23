@@ -151,7 +151,7 @@ class TwizMenu extends Twiz{
        
         $menu = '<div id="twiz_menu">';
        
-        $statusimg = '<div id="twiz_status_menu_home" class="twiz-status-menu twiz-display-none">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, parent::STATUS_ACTIVE, 'menu' ).'</div>';
+        $statusimg = '<div id="twiz_status_menu_home" class="twiz-status-menu twiz-display-none">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, $hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS], 'menu' ).'</div>';
        
         /* default home section */
         $menu .=  $statusimg . '<div id="twiz_menu_home" class="twiz-menu twiz-menu-selected twiz-display-none">'.__('Home').'</div>';
@@ -207,7 +207,7 @@ class TwizMenu extends Twiz{
         
         $menu = '<div id="twiz_menu">';
        
-       $statusimg = '<div id="twiz_status_vmenu_home" class="twiz-status-menu">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, parent::STATUS_ACTIVE, 'vmenu' ).'</div>';
+       $statusimg = '<div id="twiz_status_vmenu_home" class="twiz-status-menu">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, $hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS], 'vmenu' ).'</div>';
        
         /* default home section */
         $menu .=  $statusimg . '<div id="twiz_vmenu_home" class="twiz-menu">'.__('Home').'</div>';
