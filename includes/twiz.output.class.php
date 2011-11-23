@@ -386,12 +386,9 @@ class TwizOutput extends Twiz{
                 return '';
                 
                 break;       
-                
-            default:
-                
-                // get the active data list array
-                $this->listarray = $listarray_e;
         }
+        
+        $this->listarray = (is_array($this->listarray)) ? $this->listarray : $listarray_e;
         
         return $this->listarray;
     }

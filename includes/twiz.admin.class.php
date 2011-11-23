@@ -15,6 +15,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 class TwizAdmin extends Twiz{
     
     /* variable declaration */
@@ -24,6 +25,14 @@ class TwizAdmin extends Twiz{
     private $array_output = array(parent::OUTPUT_HEADER    
                                  ,parent::OUTPUT_FOOTER  
                                  ); 
+    
+    /* role equivalence array */
+    private $array_role_conversion = array ("administrator" => 'activate_plugins'
+                                           ,"editor"        => 'moderate_comments'
+                                           ,"author"        => 'edit_published_posts'
+                                           ,"contributor"   => 'edit_posts'
+                                           ,"subscriber"    => 'read'
+                                           );
     
     function __construct(){
     
@@ -81,6 +90,12 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
+        // Min role level
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Minimum Role to access this plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</td><td class="twiz-form-td-right"></td></tr>';
+        
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        
         // Deactivation
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</td><td class="twiz-form-td-right"></td></tr>';
@@ -111,6 +126,31 @@ jQuery(document).ready(function($) {
     
         $html = '<input type="checkbox" id="twiz_delete_all" name="twiz_delete_all"'.$twiz_delete_all.'>';
                  
+        return $html;
+    }
+    
+    private function getHTMLMinRoleLevel(){
+    
+    	global $wp_roles;
+        
+        $roles = apply_filters('wp_role_listing', $wp_roles);
+        
+        $html  = '<select name="twiz_min_rolelevel" id="twiz_min_rolelevel">';
+        
+        foreach( $roles->role_names as $key => $rolename ) {
+            
+            $strkey =  strtr($key, $this->array_role_conversion);
+        
+            if(current_user_can($strkey)){
+            
+                $selected = ($strkey == $this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ? ' selected="selected"' : '';
+            
+                $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
+            }
+        }
+    
+		$html .= '</select>';
+        
         return $html;
     }
     
@@ -174,6 +214,15 @@ jQuery(document).ready(function($) {
             $this->array_admin = get_option('twiz_admin');
         }
         
+        // Min role Level
+        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ) $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = '';
+        if( $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
+        
+            $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
         // Delete All
         if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';
         if( $this->array_admin[parent::KEY_DELETE_ALL] == '' ) {
@@ -203,6 +252,11 @@ jQuery(document).ready(function($) {
         
         // Output setting
         $this->array_admin[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
+        
+        // Min role Level
+        if(current_user_can($setting[parent::KEY_MIN_ROLE_LEVEL])){
+            $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
+        }
         
         // Delete All
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';

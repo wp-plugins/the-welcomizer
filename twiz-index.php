@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.9
+Version: 1.3.9.1
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -33,7 +33,7 @@ License: GPL2
     require_once(dirname(__FILE__).'/includes/twiz.library.class.php');     
     require_once(dirname(__FILE__).'/includes/twiz.output.class.php'); 
     require_once(dirname(__FILE__).'/twiz-ajax.php');   
-    
+
     /******************
     * --- Functions ---
     *******************/
@@ -75,7 +75,9 @@ License: GPL2
     // Add a menu link under theme menu.
     function twizAddLinkAdminMenu() {
     
-        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), 'manage_options', 'the-welcomizer', 'twizDisplayMainPage');
+        $array_admin = get_option('twiz_admin'); // get min access level
+        
+        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), $array_admin[Twiz::KEY_MIN_ROLE_LEVEL], 'the-welcomizer', 'twizDisplayMainPage');
     }
         
     // Admin page

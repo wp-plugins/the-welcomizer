@@ -22,6 +22,7 @@
   function twiz_ajax_callback(){
   
    global $wpdb;
+   
     /* Nonce security (number used once) */
     $_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
     $nonce = $_POST['twiz_nonce'];
@@ -52,7 +53,7 @@
             break;
             
         case Twiz::ACTION_MENU_STATUS:
-        
+            
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
         
             $myTwizMenu  = new TwizMenu();
@@ -61,9 +62,7 @@
 
             break;    
         case Twiz::ACTION_VMENU_STATUS:
-        
-            load_default_textdomain();
-          
+
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
             
             $myTwizMenu  = new TwizMenu();
@@ -74,6 +73,9 @@
             
         case Twiz::ACTION_GET_VMENU:
        
+            // Needed for translation
+            load_default_textdomain();
+            
             $myTwizMenu  = new TwizMenu();
             
             $htmlresponse = $myTwizMenu->getHtmlVerticalMenu();
@@ -289,7 +291,10 @@
             break;       
 
         case Twiz::ACTION_ADMIN:
-
+            
+            // Needed for translation
+            load_default_textdomain();
+            
             $myTwizAdmin  = new TwizAdmin();
             $htmlresponse = $myTwizAdmin->getHtmlAdmin();    
             
@@ -301,6 +306,7 @@
             $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
             $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
             $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
+            $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
             
             $myTwizAdmin  = new TwizAdmin();
             $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    

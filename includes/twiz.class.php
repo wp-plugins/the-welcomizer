@@ -16,7 +16,7 @@
 */
 require_once(dirname(__FILE__).'/twiz.admin.class.php'); 
 require_once(dirname(__FILE__).'/twiz.menu.class.php'); 
-    
+  
 class Twiz{
     
     /* variable declaration */
@@ -38,6 +38,9 @@ class Twiz{
     const DEFAULT_SECTION_ALL_CATEGORIES = 'allcategories';
     const DEFAULT_SECTION_ALL_PAGES      = 'allpages';
     const DEFAULT_SECTION_ALL_ARTICLES   = 'allarticles'; // This means allposts.
+    
+    /* default min role level required */
+    const DEFAULT_MIN_ROLE_LEVEL = 'activate_plugins'; // http://codex.wordpress.org/Roles_and_Capabilities
     
     /* element type constants */ 
     const ELEMENT_TYPE_ID    = 'id';
@@ -161,6 +164,9 @@ class Twiz{
     
     /* Default jQuery constant key */
     const KEY_REGISTER_JQUERY    = 'register_jquery';
+    
+    /* Minimal role level constant key */
+    CONST KEY_MIN_ROLE_LEVEL = 'min_role_level';
     
     /* Deactivation constant key */
     CONST KEY_DELETE_ALL = 'delete_all';
@@ -377,7 +383,8 @@ class Twiz{
                                  ,self::F_EXTRA_JS_A          
                                  ,self::F_EXTRA_JS_B           
                                  );                                 
-                                 
+    
+
     /* upload import export path constant*/
     const IMPORT_PATH = '/twiz/';       
     const EXPORT_PATH = 'export/';       
@@ -401,8 +408,8 @@ class Twiz{
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.9';
-        $this->dbVersion  = '2.57';
+        $this->version    = '1.3.9.1';
+        $this->dbVersion  = '2.58';
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';

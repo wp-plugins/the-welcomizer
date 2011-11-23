@@ -440,6 +440,7 @@ class TwizAjax extends Twiz{
          twiz_register_jquery: $("#twiz_register_jquery").is(":checked"),
          twiz_output_compression: $("#twiz_output_compression").is(":checked"),
          twiz_slc_output: $("#twiz_slc_output").val(),
+         twiz_min_rolelevel: $("#twiz_min_rolelevel").val(),
          twiz_delete_all: $("#twiz_delete_all").is(":checked")
     }, function(data) {
         $("#twiz_admin_save_img").fadeOut("fast"); 
@@ -657,6 +658,7 @@ class TwizAjax extends Twiz{
                 $("#twiz_list_tr_action_" + numid).css("visibility", "visible");
                 $("#twiz_right_panel").html(twiz_array_view_id[numid]);
                 bind_twiz_view_show_more();
+                twiz_skip_view = 0;
             }
         }
     }
