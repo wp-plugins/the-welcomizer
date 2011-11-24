@@ -166,6 +166,8 @@ License: GPL2
     // Enqueue style in admin welcomizer page only
     if( ( is_admin() ) 
     and (!preg_match("/plugins.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
+    and (!preg_match("/plugin-install.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
+    and (!preg_match("/update.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
     and ((preg_match("/the-welcomizer/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
     or (preg_match("/admin-ajax/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
     or (preg_match("/php.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
