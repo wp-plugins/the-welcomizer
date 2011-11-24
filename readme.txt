@@ -85,6 +85,7 @@ Useful jQuery plugins to upload through the Library:
 = 1.3.9.2 = 
 
 * Fixed `Home` activation button display.
+* Fixed plugin update.
 
 = 1.3.9.1 = 
 
