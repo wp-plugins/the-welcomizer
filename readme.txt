@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 1.3.9.2
+Stable tag: 1.3.9.3
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -40,6 +40,7 @@ Do you really like this plugin? --> [Share it on Facebook!](http://www.facebook.
 * Build lists for homepage, categories, pages and posts.
 * Optional custom options textbox, for more custom options.
 * Optional custom JavaScript textbox, triggered after each move.
+* Add the number of times to repeat `$(document).twizRepeat(X);`.
 * Clean uninstallation, all the data are erased on plugin deactivation.
 * Automatic recognition of the js and css files under `/wp-content/twiz/`.
 * Preview your data without editing them, with an advanced caching feature.
@@ -81,6 +82,13 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+
+= 1.3.9.3 = 
+
+* Added a new OPTIONAL parameter to $(document).twizRepeat(X);  X = number of times to repeat, BLANK equal infinite repetition.
+* Added current object to `Repeat` & `Replay` functions.
+* Replaced `this` inside the 2 JavaScript textbox.
 
 = 1.3.9.2 = 
 
@@ -607,6 +615,10 @@ Useful jQuery plugins to upload through the Library:
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.3.9.3 = 
+
+* Output optimizations, added a new parameter to the function repeat.
 
 = 1.3.9.2 = 
 
