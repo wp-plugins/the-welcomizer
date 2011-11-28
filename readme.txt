@@ -89,6 +89,7 @@ Useful jQuery plugins to upload through the Library:
 * Added a new OPTIONAL parameter to $(document).twizRepeat(X);  X = number of times to repeat, BLANK equal infinite repetition.
 * Added current object to `Repeat` & `Replay` functions.
 * Replaced `this` inside the 2 JavaScript textbox.
+* Fixed later: Fixed repeat parameter.
 
 = 1.3.9.2 = 
 
