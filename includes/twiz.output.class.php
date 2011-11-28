@@ -83,12 +83,13 @@ class TwizOutput extends Twiz{
                 
                 // repeat animation function 
                 $this->generatedscript .= '$.fn.twiz_'.$repeatname.' = function(twiz_this, twiz_repeat_nbr){ '.$this->linebreak;
+                $this->generatedscript .= 'if(twiz_repeat_'.$repeatname.' == 0){ twiz_repeat_'.$repeatname.' = null; return true;} '.$this->linebreak;
                 $this->generatedscript .= 'if((twiz_repeat_'.$repeatname.' == null) && (twiz_repeat_nbr != null)){ '.$this->linebreak;
                 $this->generatedscript .= 'twiz_repeat_'.$repeatname.' = twiz_repeat_nbr;} '.$this->linebreak;
                 $this->generatedscript .= 'if((twiz_repeat_'.$repeatname.' == null) || (twiz_repeat_'.$repeatname.' > 0)){ '.$this->linebreak; 
                 $this->generatedscript .= 'if(twiz_repeat_'.$repeatname.' > 0){ '.$this->linebreak;
-                $this->generatedscript .= 'twiz_repeat_'.$repeatname.'--;}';
-          
+                $this->generatedscript .= 'twiz_repeat_'.$repeatname.'--;} '.$this->linebreak;;
+
                 if(($value[parent::F_OUTPUT_POS]=='b')or ($value[parent::F_OUTPUT_POS]=='')){ // before
                     
                     $this->generatedscript .= $this->getStartingPositions($value);    
