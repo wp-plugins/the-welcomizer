@@ -90,6 +90,7 @@ Useful jQuery plugins to upload through the Library:
 * Added current object to `Repeat` & `Replay` functions.
 * Replaced `this` inside the 2 JavaScript textbox.
 * Fixed later: Fixed repeat parameter.
+* Updated later: Updated Italian translation.
 
 = 1.3.9.2 = 
 
