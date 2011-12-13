@@ -44,7 +44,7 @@
     
         case Twiz::ACTION_MENU:
         
-            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
         
             $myTwiz  = new Twiz();
             
@@ -70,32 +70,57 @@
             $htmlresponse = $myTwizMenu->switchMenuStatus($twiz_id);
 
             break;  
+
+        case Twiz::ACTION_GET_MENU:
+       
+            // Needed for translation
+            load_default_textdomain();
+            
+            $twiz_section_id = $_POST['twiz_section_id'];
+            
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->getHtmlMenu($twiz_section_id);
+
+            break; 
             
         case Twiz::ACTION_GET_VMENU:
        
             // Needed for translation
             load_default_textdomain();
             
+            $twiz_section_id = $_POST['twiz_section_id'];
+            
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->getHtmlVerticalMenu();
+            $htmlresponse = $myTwizMenu->getHtmlVerticalMenu($twiz_section_id);
 
             break;  
             
-        case Twiz::ACTION_ADD_SECTION:
+        case Twiz::ACTION_SAVE_SECTION:
         
-            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_section_id = $_POST['twiz_section_id'];
+            $twiz_current_section_id = $_POST['twiz_current_section_id'];
+            $twiz_section_name = esc_attr(trim($_POST['twiz_section_name']));
+            $twiz_output_choice = esc_attr($_POST['twiz_output_choice']);
+            $twiz_custom_logic = $_POST['twiz_custom_logic'];
 
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->addSectionMenu($twiz_section_id);
+            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic);
             
             break;
-        case Twiz::ACTION_GET_ADD_SECTION:
+        case Twiz::ACTION_GET_MULTI_SECTION:
 
+            // Needed for translation
+            load_default_textdomain();
+            
+            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $twiz_action_lbl = esc_attr($_POST['twiz_action_lbl']);
+            
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->getHtmlAddSection();
+            $htmlresponse = $myTwizMenu->GetHtmlMultiSectionBoxes($twiz_section_id, $twiz_action_lbl);
             
             break;            
 
@@ -305,6 +330,7 @@
             $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
             $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
             $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
+            $twiz_settings[Twiz::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
             $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
             $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
             

@@ -21,11 +21,11 @@ class Twiz{
     
     /* variable declaration */
     protected $table;
-    protected $import_path_message;
-    protected $DEFAULT_SECTION;
     protected $nonce;    
     protected $version;
     protected $pluginName;
+    protected $DEFAULT_SECTION;
+    protected $import_path_message;
     private $logobigUrl;
     private $logoUrl;
     public $dbVersion;
@@ -42,6 +42,9 @@ class Twiz{
     /* default min role level required */
     const DEFAULT_MIN_ROLE_LEVEL = 'activate_plugins'; // http://codex.wordpress.org/Roles_and_Capabilities
     
+    /* default number of posts to display */
+    CONST DEFAULT_NUMBER_POSTS = '125'; // Last 125 posts
+        
     /* element type constants */ 
     const ELEMENT_TYPE_ID    = 'id';
     const ELEMENT_TYPE_CLASS = 'class';
@@ -69,6 +72,7 @@ class Twiz{
     const ACTION_MENU           = 'menu';
     const ACTION_MENU_STATUS    = 'menustatus';
     const ACTION_VMENU_STATUS   = 'vmenustatus';
+    const ACTION_GET_MENU      = 'getmenu';
     const ACTION_GET_VMENU      = 'getvmenu';
     const ACTION_SAVE           = 'save';
     const ACTION_CANCEL         = 'cancel';
@@ -86,8 +90,8 @@ class Twiz{
     const ACTION_LIBRARY_STATUS = 'libstatus';
     const ACTION_UPLOAD_LIBRARY = 'uploadlib';
     const ACTION_GLOBAL_STATUS  = 'gstatus';
-    const ACTION_ADD_SECTION    = 'addsection';
-    const ACTION_GET_ADD_SECTION= 'getaddsection';
+    const ACTION_SAVE_SECTION      = 'savesection';
+    const ACTION_GET_MULTI_SECTION = 'getmultisection';
     const ACTION_DELETE_SECTION = 'deletesection';
     const ACTION_DELETE_LIBRARY = 'deletelib';
     const ACTION_ORDER_LIBRARY  = 'orderlib';
@@ -170,6 +174,9 @@ class Twiz{
     
     /* Deactivation constant key */
     CONST KEY_DELETE_ALL = 'delete_all';
+    
+    /* Number Posts to display key */
+    CONST KEY_NUMBER_POSTS = 'number_posts';
     
     /* Output constants*/  
     const OUTPUT_HEADER = 'wp_head';    
@@ -405,18 +412,17 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
+        $this->version    = '1.3.9.4';
+        $this->dbVersion  = '2.59';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
-        $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->version    = '1.3.9.3';
-        $this->dbVersion  = '2.58';
-        $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->logoUrl    = '/images/twiz-logo.png';
         $this->logobigUrl = '/images/twiz-logo-big.png';
         $this->nonce      =  wp_create_nonce('twiz-nonce');
-        $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
+        $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
-
+        $this->pluginName = __('The Welcomizer', 'the-welcomizer');
+        $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
     }
     
     function twizIt(){
@@ -429,7 +435,12 @@ class Twiz{
         $html .= $this->getHtmlHeader();
         
         $myTwizMenu = new TwizMenu(); 
-        $html .= $myTwizMenu->getHtmlMenu();
+        $html .= '<div id="twiz_menu"><div id="twiz_ajax_menu">'.$myTwizMenu->getHtmlMenu().'</div>';
+        $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu">&gt;&gt;&gt;</div>';
+        $html .= '<div id="twiz_add_menu">+</div></div>';
+        $html .= '<div id="twiz_loading_menu"></div>';
+        $html .= '<div id="twiz_add_sections"></div>';
+        $html .= '<div class="twiz-clear"></div></div>';
         
         $html .= $this->getHtmlList();
         $html .= $this->getHtmlFooter();
@@ -513,6 +524,7 @@ class Twiz{
         $("#twiz_new").fadeIn("fast");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
+        $("#twiz_edit_menu").fadeIn("fast");
         $("#twiz_delete_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
         $("#twiz_export").fadeIn("fast");
@@ -1371,6 +1383,7 @@ class Twiz{
         $jsscript_hide = '$("#twiz_new").fadeOut("fast");
 $("#twiz_right_panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
+$("#twiz_edit_menu").fadeIn("fast");
 $("#twiz_import").fadeIn("fast");
 $("#twiz_delete_menu").fadeIn("fast");
 $("#qq_upload_list li").remove(); 
@@ -1764,8 +1777,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
         $sql = "SELECT * from ".$this->table.$where;
         
-        $order = ( $order == '' ) ? " order by ".self::F_ON_EVENT.", ".self::F_START_DELAY.", ".self::F_LAYER_ID : $order;
-      
+        $order = ( $order == '' ) ? " order by ".self::F_SECTION_ID.", ".self::F_ON_EVENT.", ".self::F_START_DELAY.", ".self::F_LAYER_ID : $order;
+  
         $rows = $wpdb->get_results($sql.$order, ARRAY_A);
     
         
@@ -2008,6 +2021,10 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-loading.gif" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-save.gif" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-big-loading.gif" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-preload-images">';
     
         return $html;
     
@@ -2276,6 +2293,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         delete_option('twiz_global_status');
         delete_option('twiz_setting_menu');
         delete_option('twiz_sections');
+        delete_option('twiz_multi_sections');
         delete_option('twiz_hardsections');
         delete_option('twiz_library');
         delete_option('twiz_admin');

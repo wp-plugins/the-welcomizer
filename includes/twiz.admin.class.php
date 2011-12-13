@@ -15,7 +15,6 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 class TwizAdmin extends Twiz{
     
     /* variable declaration */
@@ -34,20 +33,34 @@ class TwizAdmin extends Twiz{
                                            ,"subscriber"    => 'read'
                                            );
     
+    /* Number of posts to display */
+    private $array_number_posts;
+                                       
     function __construct(){
     
         parent::__construct();
         
+        /* Number of posts to display */
+        $this->array_number_posts = array ('1'   => '1'
+                                          ,'25'   => '25'
+                                          ,'50'   => '50'
+                                          ,'75'   => '75'
+                                          ,'100'  => '100'
+                                          ,'125'  => '125'
+                                          ,'250'  => '250'
+                                          ,'500'  => '500'
+                                          ,'750'  => '750'
+                                          ,'1000' => '1000'
+                                          ,'-1'   => __('All', 'the-welcomizer')
+                                          );
+        
         $this->loadAdmin();
-
     }
 
     function getHtmlAdmin(){
     
         $html = '<div id="twiz_admin_master">';
-        
         $html .= $this->getHtmlAdminForm();
-
         $html .= '</div>';
         
         return $html;
@@ -61,6 +74,7 @@ class TwizAdmin extends Twiz{
 jQuery(document).ready(function($) {
     $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
+    $("#twiz_edit_menu").fadeOut("slow");
     $("#twiz_delete_menu").fadeOut("slow");
     $("#twiz_library_upload").fadeOut("slow");    
     $("#twiz_import").fadeOut("slow");    
@@ -70,7 +84,6 @@ jQuery(document).ready(function($) {
 });
 //]]>
 </script>';
-
 
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';      
         
@@ -96,6 +109,12 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
+        // Number of posts displayed in lists
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Maximum number of posts in lists', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLNumberPostsInLists().'</td><td class="twiz-form-td-right"></td></tr>';
+        
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        
         // Deactivation
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</td><td class="twiz-form-td-right"></td></tr>';
@@ -108,7 +127,6 @@ jQuery(document).ready(function($) {
         $html.= '</table>'.$jquery;
                  
         return $html;
-        
     }
     
     private function getHTMLjQueryRegister(){
@@ -128,10 +146,27 @@ jQuery(document).ready(function($) {
                  
         return $html;
     }
+   
+    private function getHTMLNumberPostsInLists(){
+        
+        $html  = '<select name="twiz_number_posts" id="twiz_number_posts">';
+        
+        foreach( $this->array_number_posts as $key => $value ) {
+
+            $selected = ($value == $this->array_admin[parent::KEY_NUMBER_POSTS]) ? ' selected="selected"' : '';
+            
+            $html .= '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';
+        }
+    
+        $html .= '</select>';
+        
+        return $html;
+    }
+    
     
     private function getHTMLMinRoleLevel(){
     
-    	global $wp_roles;
+        global $wp_roles;
         
         $roles = apply_filters('wp_role_listing', $wp_roles);
         
@@ -149,7 +184,7 @@ jQuery(document).ready(function($) {
             }
         }
     
-		$html .= '</select>';
+        $html .= '</select>';
         
         return $html;
     }
@@ -178,7 +213,6 @@ jQuery(document).ready(function($) {
         $select .= '</select>';
             
         return $select;
-    
     }
     
     function loadAdmin(){
@@ -223,6 +257,15 @@ jQuery(document).ready(function($) {
             $this->array_admin = get_option('twiz_admin');
         }
         
+        // Number of posts displayed in lists
+        if( !isset($this->array_admin[parent::KEY_NUMBER_POSTS]) ) $this->array_admin[parent::KEY_NUMBER_POSTS] = '';
+        if( $this->array_admin[parent::KEY_NUMBER_POSTS] == '' ) {
+        
+            $this->array_admin[parent::KEY_NUMBER_POSTS] = parent::DEFAULT_NUMBER_POSTS;
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
         // Delete All
         if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';
         if( $this->array_admin[parent::KEY_DELETE_ALL] == '' ) {
@@ -233,7 +276,6 @@ jQuery(document).ready(function($) {
         }
         
         // Next option
-      
     }
     
     function saveAdmin( $setting = '' ){
@@ -257,6 +299,9 @@ jQuery(document).ready(function($) {
         if(current_user_can($setting[parent::KEY_MIN_ROLE_LEVEL])){
             $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
         }
+        
+        // Number of posts displayed in lists
+        $this->array_admin[parent::KEY_NUMBER_POSTS] = $setting[parent::KEY_NUMBER_POSTS];
         
         // Delete All
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';

@@ -48,6 +48,7 @@ class TwizLibrary extends Twiz{
 jQuery(document).ready(function($) {
     $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
+    $("#twiz_edit_menu").fadeOut("slow");
     $("#twiz_delete_menu").fadeOut("slow");
     $("#twiz_add_sections").fadeOut("slow"); 
     $("#twiz_right_panel").fadeOut("slow");

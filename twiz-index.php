@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.9.3
+Version: 1.3.9.4
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -155,6 +155,22 @@ License: GPL2
         }
     }
 
+    function twizAdminEnqueueStyles(){
+        
+        wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+        
+    }
+    
+    function twizAdminEnqueueScripts(){
+    
+        // Admin Ajax script
+        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) ); 
+        
+        // Fileuploader
+        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );   
+    }
+    
     /****************
     * --- Actions ---
     *****************/
@@ -176,16 +192,10 @@ License: GPL2
         load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
         
         $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
-        
-        wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
-        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
-        
-        // Admin Ajax script
-        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) ); 
-        
-        // Fileuploader
-        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );   
 
+        add_action('admin_init', 'twizAdminEnqueueStyles');
+        add_action('admin_init', 'twizAdminEnqueueScripts');
+        
         // Ajax callback
         add_action('wp_ajax_my_action', 'twiz_ajax_callback');
         
@@ -197,7 +207,6 @@ License: GPL2
         
             do_action('wp_ajax_my_action', $_POST['action']);
         }
-
     }
     
     // dbversion check 
@@ -208,5 +217,4 @@ License: GPL2
     
     // Add the menu link
     add_action('admin_menu', 'twizAddLinkAdminMenu');
-    
 ?>
