@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 21:17-0500\n"
-"PO-Revision-Date: 2011-12-13 00:31-0500\n"
+"POT-Creation-Date: 2011-12-13 04:21-0500\n"
+"PO-Revision-Date: 2011-12-13 04:23-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress[at]sebastien-laframboise[dot]com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -21,9 +21,6 @@ msgid "The Welcomizer"
 msgstr "Le Welcomizeur"
 
 #: includes/twiz.admin.class.php:54
-#: includes/twiz.menu.class.php:691
-#: includes/twiz.menu.class.php:695
-#: includes/twiz.menu.class.php:699
 msgid "All"
 msgstr "Toutes"
 
@@ -391,18 +388,22 @@ msgid "Everywhere"
 msgstr "Partout"
 
 #: includes/twiz.menu.class.php:52
+#: includes/twiz.menu.class.php:641
+#: includes/twiz.menu.class.php:691
 msgid "All Categories"
-msgstr "Toutes Catégories"
+msgstr "Toutes les catégories"
 
 #: includes/twiz.menu.class.php:53
 #: includes/twiz.menu.class.php:645
+#: includes/twiz.menu.class.php:695
 msgid "All Pages"
-msgstr "Toutes Pages"
+msgstr "Toutes les pages"
 
 #: includes/twiz.menu.class.php:54
 #: includes/twiz.menu.class.php:649
+#: includes/twiz.menu.class.php:699
 msgid "All Posts"
-msgstr "Toutes Articles "
+msgstr "Tous les articles "
 
 #: includes/twiz.menu.class.php:57
 msgid "Default"
@@ -471,22 +472,6 @@ msgstr "Balises conditionnelles sur WordPress.org"
 msgid "See also Widget Logic plugin page."
 msgstr "Voir aussi la page du plugin Widget Logic."
 
-#: includes/twiz.menu.class.php:641
-msgid " All Categories"
-msgstr "Toutes Catégories"
-
-#: includes/twiz.menu.class.php:691
-msgid "Categories"
-msgstr "Catégories"
-
-#: includes/twiz.menu.class.php:695
-msgid "Pages"
-msgstr "Pages"
-
-#: includes/twiz.menu.class.php:699
-msgid "Posts"
-msgstr "Articles "
-
 #: includes/import/server/php.php:71
 msgid "Getting content length is not supported."
 msgstr "Lire la longueur du contenu n'est pas supporté."
@@ -519,6 +504,18 @@ msgstr "Le fichier est endommagé et illisible, l'importation a été annulée."
 #: includes/import/server/php.php:245
 msgid "Could not save uploaded file. The upload was cancelled, or server error encountered"
 msgstr "Impossible d'enregistrer le fichier. Le transfert a été annulé, ou une erreur serveur a été rencontré"
+
+#~ msgid " All Categories"
+#~ msgstr "Toutes Catégories"
+
+#~ msgid "Categories"
+#~ msgstr "Catégories"
+
+#~ msgid "Pages"
+#~ msgstr "Pages"
+
+#~ msgid "Posts"
+#~ msgstr "Articles "
 
 #~ msgid "Choose and overwrite the section name."
 #~ msgstr "Sélectionner pour écraser le nom de la section."
