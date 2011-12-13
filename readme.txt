@@ -89,6 +89,7 @@ Useful jQuery plugins to upload through the Library:
 * Added support for multiple $(document).twizReplay(); on the same page from different sections.
 * Added Admin option `Maximum number of posts in lists`.
 * Multiple layout adjustements.
+* Fixed later: Menu translation.
 
 = 1.3.9.3 = 
 
