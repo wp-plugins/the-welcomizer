@@ -90,6 +90,7 @@ Useful jQuery plugins to upload through the Library:
 * Added Admin option `Maximum number of posts in lists`.
 * Multiple layout adjustements.
 * Fixed later: Menu translation.
+* Fixed undefined ABSPATH in twiz-ajax.php
 
 = 1.3.9.3 = 
 
