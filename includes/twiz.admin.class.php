@@ -91,8 +91,6 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</td><td class="twiz-form-td-right"></td></tr>';
         
-        $html .= '<tr><td colspan="2"><hr></td></tr>';
-        
         // Output compress
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</td><td class="twiz-form-td-right"></td></tr>';
@@ -101,13 +99,12 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</td><td class="twiz-form-td-right"></td></tr>';
         
-        $html .= '<tr><td colspan="2"><hr></td></tr>';
+
         
         // Min role level
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Minimum Role to access this plugin', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</td><td class="twiz-form-td-right"></td></tr>';
         
-        $html .= '<tr><td colspan="2"><hr></td></tr>';
         
         // Number of posts displayed in lists
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Maximum number of posts in lists', 'the-welcomizer').': ';
@@ -122,7 +119,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
         
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_admin_save_img" name="twiz_admin_save_img" class="twiz-loading-gif twiz-loading-gif-save"> <input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_admin_save_img" name="twiz_admin_save_img" class="twiz-loading-gif twiz-loading-gif-save"> <input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  

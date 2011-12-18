@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.9.4
+Version: 1.3.9.5
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -154,16 +154,16 @@ License: GPL2
             }
         }
     }
-
-    function twizAdminEnqueueStyles(){
-        
-        wp_enqueue_style('twiz-css-a', plugins_url('includes/twiz-style.css', __FILE__ ));
-        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
-        
-    }
     
     function twizAdminEnqueueScripts(){
-    
+        
+        // Current skin
+        $skinurl = get_option('twiz_skin');
+        
+        // stylesheets
+        wp_enqueue_style('twiz-css-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+
         // Admin Ajax script
         wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) ); 
         
@@ -192,9 +192,9 @@ License: GPL2
         load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
         
         $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
-
-        add_action('admin_init', 'twizAdminEnqueueStyles');
-        add_action('admin_init', 'twizAdminEnqueueScripts');
+        
+        // (for the admin dashboard)
+        add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');
         
         // Ajax callback
         add_action('wp_ajax_my_action', 'twiz_ajax_callback');
@@ -212,8 +212,8 @@ License: GPL2
     // dbversion check 
     add_action('plugins_loaded', 'twizUpdateDbCheck');
     
-    // Add init action
-    add_action('init', 'twizInit');
+    // (for the frontend)
+    add_action('wp_enqueue_scripts', 'twizInit');
     
     // Add the menu link
     add_action('admin_menu', 'twizAddLinkAdminMenu');

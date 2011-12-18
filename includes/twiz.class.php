@@ -26,12 +26,12 @@ class Twiz{
     protected $pluginName;
     protected $DEFAULT_SECTION;
     protected $import_path_message;
-    private $logobigUrl;
-    private $logoUrl;
+    private $skinname;
+    public $skin;
     public $dbVersion;
     public $pluginUrl;
     public $pluginDir;
-    
+       
     /* section constants */ 
     const DEFAULT_SECTION_HOME           = 'home';
     const DEFAULT_SECTION_EVERYWHERE     = 'everywhere';
@@ -41,6 +41,10 @@ class Twiz{
     
     /* default min role level required */
     const DEFAULT_MIN_ROLE_LEVEL = 'activate_plugins'; // http://codex.wordpress.org/Roles_and_Capabilities
+
+    /* default skin  constant */ 
+    const DEFAULT_SKIN  = '_default';
+    const SKIN_PATH     = '/skins/';
     
     /* default number of posts to display */
     CONST DEFAULT_NUMBER_POSTS = '125'; // Last 125 posts
@@ -97,6 +101,7 @@ class Twiz{
     const ACTION_ORDER_LIBRARY  = 'orderlib';
     const ACTION_ADMIN          = 'admin';
     const ACTION_SAVE_ADMIN     = 'adminsave';
+    const ACTION_SAVE_SKIN      = 'skinsave';
     
     /* jquery common options constants */ 
     const JQ_HEIGHT            = 'height';
@@ -412,24 +417,35 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.3.9.4';
+        $this->version    = '1.3.9.5';
         $this->dbVersion  = '2.59';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
-        $this->logoUrl    = '/images/twiz-logo.png';
-        $this->logobigUrl = '/images/twiz-logo-big.png';
         $this->nonce      =  wp_create_nonce('twiz-nonce');
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
+        
+        $this->skin = get_option('twiz_skin');
+         
+        if(( $this->skin == '' ) or ( $this->skin == self::SKIN_PATH ) ) {
+        
+            $this->skin = self::SKIN_PATH.self::DEFAULT_SKIN;  
+            $code = update_option('twiz_skin', $this->skin);
+        }
+        
+        $this->skinname = str_replace( self::SKIN_PATH, '', $this->skin );
     }
-    
+
     function twizIt(){
         
         $html = '<div id="twiz_plugin">';
         $html .= '<div id="twiz_background"></div>';
         $html .= '<div id="twiz_master">';
+ 
+        
+        $html .= $this->getHtmlSkinBullets();
         
         $html .= $this->getHtmlGlobalstatus();
         $html .= $this->getHtmlHeader();
@@ -468,9 +484,7 @@ class Twiz{
     
         $twiz_setting_menu_2 = ( $this->DEFAULT_SECTION == self::DEFAULT_SECTION_EVERYWHERE ) ? ' checked="checked"' : '';
         
-        $header = '<div id="twiz_header">
-<div id="twiz_head_logo"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank"><img src="'.$this->pluginUrl.$this->logoUrl.'"/></a></div>
-<span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span><div id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></div> 
+        $header = '<div id="twiz_header"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span><div id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></div> 
 
 </div><div class="twiz-clear"></div>
     ';
@@ -555,7 +569,7 @@ class Twiz{
             
             /* the table row */
             $htmllist.= '
-    <tr class="twiz_list_tr '.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span><div class="twiz_list_tr_action" name="twiz_list_tr_action_'.$value[self::F_ID].'" id="twiz_list_tr_action_'.$value[self::F_ID].'" ><a id="twiz_edit_a_'.$value[self::F_ID].'" name="twiz_edit_a_'.$value[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_a_'.$value[self::F_ID].'" name="twiz_copy_a_'.$value[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_a_'.$value[self::F_ID].'" name="twiz_delete_a_'.$value[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'" class="twiz-td-right twiz-td-duration" nowrap="nowrap"><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap="nowrap"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-edit"/> <img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-copy"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/></td></tr>';
+    <tr class="twiz_list_tr '.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span><div class="twiz_list_tr_action" name="twiz_list_tr_action_'.$value[self::F_ID].'" id="twiz_list_tr_action_'.$value[self::F_ID].'" ><a id="twiz_edit_a_'.$value[self::F_ID].'" name="twiz_edit_a_'.$value[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_a_'.$value[self::F_ID].'" name="twiz_copy_a_'.$value[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_a_'.$value[self::F_ID].'" name="twiz_delete_a_'.$value[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'" class="twiz-td-right twiz-td-duration" nowrap="nowrap"><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap="nowrap"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.$this->skin.'/images/twiz-edit.gif" height="25" class="twiz-edit"/> <img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.$this->skin.'/images/twiz-copy.png" height="25" class="twiz-copy"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.$this->skin.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/></td></tr>';
          
          }
          
@@ -641,7 +655,7 @@ class Twiz{
            $error =  __("You must first create this directory", 'the-welcomizer').':<br>'.$this->import_path_message;
         }
         
-        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.'/images/twiz-download.png"></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
+        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.$this->skin.'/images/twiz-download.png"></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
         
         return $html;
     }
@@ -1181,6 +1195,29 @@ class Twiz{
         return $duration;
     }
     
+    private function getSkinsDirectory(){
+        
+        $dirarray = '';
+        
+        if ( $handle = @opendir($this->pluginDir .self::SKIN_PATH ) ) {
+        
+            while ( false !== ( $file = readdir($handle) ) ) {
+            
+                if ( $file != "." && $file != ".." ) {
+                
+                    $dirarray[] = $file;
+                
+                }
+            }
+            
+            closedir($handle);
+        }
+        
+        if( !is_array($dirarray) ){ $dirarray = array(); }
+         
+        return $dirarray;
+    }
+    
     protected function getImportDirectory( $extensions = array(self::EXT_TWZ, self::EXT_XML) ){
         
         $filearray = '';
@@ -1334,7 +1371,7 @@ class Twiz{
         
         if($direction!=''){ 
            
-            return '<img width="45" height="45" src="'.$this->pluginUrl.'/images/twiz-arrow-'.$direction.'.png">';
+            return '<img width="45" height="45" src="'.$this->pluginUrl.$this->skin.'/images/twiz-arrow-'.$direction.'.png">';
             
         }else{
         
@@ -1659,7 +1696,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
-<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
+<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_save_img" name="twiz_save_img" class="twiz-loading-gif twiz-loading-gif-save"><a name="twiz_cancel" id="twiz_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
 </table>'.$closediv.$jsscript_open.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
     
         return $htmlform;
@@ -1832,7 +1869,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                 }
         }
  
-        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_img_'.$prefix.$id.'" name="twiz_status_img_'.$prefix.$id.'" title="'.$title.'"><img src="'.$this->pluginUrl.'/images/twiz-save.gif" id="twiz_img_status_'.$prefix.$id.'" name="twiz_img_status_'.$prefix.$id.'" class="twiz-loading-gif">';
+        return '<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-'.$status.'.png" id="twiz_status_img_'.$prefix.$id.'" name="twiz_status_img_'.$prefix.$id.'" title="'.$title.'"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_status_'.$prefix.$id.'" name="twiz_img_status_'.$prefix.$id.'" class="twiz-loading-gif">';
 
     }
     
@@ -2012,19 +2049,19 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         foreach( $this->array_arrows as $value ) {
           
-          $html .='<img width="45" height="45" src="'.$this->pluginUrl.'/images/twiz-arrow-'.$value.'.png" class="twiz-preload-images">';
+          $html .='<img width="45" height="45" src="'.$this->pluginUrl.$this->skin.'/images/twiz-arrow-'.$value.'.png" class="twiz-preload-images">';
         
         }
         
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-loading.gif" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-save.gif" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-big-loading.gif" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-download.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-inactive.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-loading.gif" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-big-loading.gif" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-edit-bw.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-edit-color.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-delete-bw.png" class="twiz-preload-images">';
+        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-delete-color.png" class="twiz-preload-images">';
     
         return $html;
     
@@ -2251,6 +2288,24 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 
         return $htmlstatus;
     }
+       
+    private function getHtmlSkinBullets() {
+           
+        $dirarray = $this->getSkinsDirectory();
+        
+        $html_open = '<div id="twiz_skin_bullet">';
+        $html_img = '';
+        $html_close = '</div>';
+        
+        sort($dirarray);
+        
+        foreach($dirarray as $value){
+        
+            $html_img .='<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/twiz-bullet-'.$value.'.png" id="twiz_skin_'.$value.'" class="twiz-skins"/>';
+        }
+
+        return $html_open.$html_img.$html_close;
+    }
     
     function switchStatus( $id ){ 
     
@@ -2297,6 +2352,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         delete_option('twiz_hardsections');
         delete_option('twiz_library');
         delete_option('twiz_admin');
+        delete_option('twiz_skin');
         
         return true;
     }

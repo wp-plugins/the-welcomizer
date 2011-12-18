@@ -347,6 +347,13 @@
             $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
             
             break;             
+            
+        case Twiz::ACTION_SAVE_SKIN:
+           
+            $skin = Twiz::SKIN_PATH.esc_attr(trim($_POST['twiz_skin']));  
+            $code = update_option('twiz_skin', $skin);
+            
+            break;
     }
     
     echo($htmlresponse); // output the result

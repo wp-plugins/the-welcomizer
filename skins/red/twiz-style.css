@@ -11,8 +11,7 @@
 }
 #twiz_library_master {
     width: 500px;
-    display: block;
-    background: #ebebeb;   
+    display: block; 
 }
 #twiz_container {
     width: 500px;
@@ -43,12 +42,13 @@
     width: 84%;
     min-height: 500px;
     position: absolute;
-    background: url(../images/twiz-logo-big.png) top right no-repeat;    
+    background: url(../../skins/red/images/twiz-logo-big.png) top right no-repeat;    
     opacity: 0.15;    
     filter: alpha(opacity=4);
     z-index: -1;
 }
-#twiz_global_status {
+#twiz_global_status,
+#twiz_skin_bullet {
     border-radius: 6px 6px 0px 0px;
     -moz-border-radius-topright: 6px;
     -moz-border-radius-topleft: 6px;
@@ -56,9 +56,11 @@
     -webkit-border-top-left-radius: 6px;    
     -khtml-border-radius-topright: 6px;    
     -khtml-border-radius-topleft: 6px;        
-    background: #E4E4E4;  
-    border: 1px solid #d1d1d1;
+    background: #ff4949;  
+    border: 1px solid #e13232;
     border-bottom: 0px;
+}
+#twiz_global_status {
     margin: 0 0 0 233px;
     width: 25px;
     height: 25px;
@@ -66,8 +68,25 @@
 #twiz_global_status img {
     margin: 3px;
 }
-#twiz_global_status img:hover {
+#twiz_head_logo:hover,
+#twiz_global_status img:hover,
+.twiz-skins:hover {
     cursor: pointer;
+}
+.twiz-skins {
+    padding-top: 6px;
+    margin: 0 2px 0 2px;
+    vertical-align: bottom;
+}
+#twiz_skin_bullet {
+    width: auto;
+    height: 25px;
+    float: left;
+    display: block;
+    margin-left: 15px;
+    position: relative;
+    top: 0px;
+    z-index: -1;
 }
 #twiz_right_panel {
     min-height: 200px;
@@ -76,7 +95,7 @@
     color: #464646;
 }
 #twiz_vertical_menu,
-#twiz_right_panel{
+#twiz_right_panel {
     border-radius: 6px 6px 6px 6px;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
@@ -90,7 +109,7 @@
     -khtml-border-radius-topright: 6px;    
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;        
-    border: 1px solid #ebebeb;
+    border: 1px solid #e13232;
     display: none;
     float: left;
     z-index: 1;
@@ -104,14 +123,28 @@
     clear: both;
 }
 .twiz-panel-loading {
-    width: 415px;
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -khtml-border-radius-topleft: 6px;
+    -khtml-border-radius-topright: 6px;    
+    -khtml-border-radius-bottomleft: 6px;
+    -khtml-border-radius-bottomright: 6px;  
+    border: 1px solid #ffffff;
+    width: 420px;
     height: 200px;
-    padding-top: 120px;
+    padding-top: 125px;
     text-align: center;
     background-color: #FFFFFF;
 }
 #twiz_head_title {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 35px;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     text-shadow: 2px 2px 5px #9b9b9b;
@@ -121,14 +154,11 @@
     text-decoration: none;
 }
 #twiz_head_logo {
-    width: 85px;
+    width: 95px;
+    height: 80px;
+    background: url(../../skins/red/images/twiz-logo.png) center no-repeat;   
     float: left;
     display: block;
-    text-align: center;
-}
-#twiz_head_logo img {
-    width: 85px;
-    display: inline;
 }
 #twiz_head_version {
     font-size: 12px;
@@ -152,7 +182,7 @@
     -webkit-border-top-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
     -khtml-border-radius-topright: 6px;
-    height: 70px;
+    height: 85px;
     display: block;
     overflow: hidden;
 }
@@ -162,8 +192,7 @@
 #twiz_footer {
     width: 500px;
     color: #464646;
-    background: #D7D7D7;
-    border: 1px solid #d1d1d1;
+    border: 1px solid #e13232;
 }
 #twiz_menu,
 #twiz_header, 
@@ -172,11 +201,6 @@
 }
 #twiz_header {
     border-bottom: 0px solid #d7d7d7;
-}
-#twiz_menu,
-#twiz_vertical_menu, {
-    border-bottom: 1px solid #D7D7D7;
-    border-top: 1px solid #ebebeb;
 }
 #twiz_vertical_menu {
   margin: 27px 0 0 15px;  
@@ -197,7 +221,7 @@
 #twiz_add_menu,
 #twiz_delete_menu,
 .twiz-menu  {
-    background-color: #E4E4E4;
+    background-color: #ff4949;
 }
 #twiz_vertical_menu{
     background-color: #ffffff;
@@ -206,10 +230,10 @@
 #twiz_add_menu,
 #twiz_delete_menu,
 #twiz_edit_menu {
-    border-left: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
+    border-left: 1px solid #ff6161;
+    border-right: 1px solid #ff6161;
     width: 20px;
-    color: #a7a7a7;
+    color: #bc2a2a;
     font-size: 14px;
     font-weight: normal;
     text-align: center    
@@ -229,7 +253,7 @@
 .twiz-menu {
     font-size: 12px; 
     text-align: left;
-    border-right: 1px solid #D1D1D1;
+    border-right: 1px solid #ff6161;
     max-width: 415px;
 }
 .twiz-menu:hover {
@@ -253,11 +277,9 @@
 }
 
 #twiz_more_menu:hover {
-    color: #464646;
     font-weight: bold; 
 }
 #twiz_add_menu:hover {
-    color: green;
     font-weight: bold; 
 }
 .twiz-status-menu:hover {
@@ -272,33 +294,35 @@
 #twiz_more_menu:hover,
 #twiz_add_menu:hover,
 #twiz_delete_menu:hover {
+    color: #ffffff;
     cursor: pointer;
-    background-color: #D7D7D7;
+    background-color: #b52828;
 }
 .twiz-menu-selected {
+    color: #ffffff;
     font-weight:bold; 
     font-size: 12px; 
-    background-color: #D7D7D7;  
+    background-color: #b52828;  
 }
 #twiz_more_menu{
     float: right;
     width: 32px;
 }
 #twiz_edit_menu {
-    background: url(../images/twiz-menu-edit-bw.png) center no-repeat;    
+    background: url(../../skins/red/images/twiz-menu-edit-bw.png) center no-repeat;    
 }
 #twiz_edit_menu:hover {
-    background: url(../images/twiz-menu-edit-color.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-menu-edit-color.png) center no-repeat;  
     cursor: pointer;
-    background-color: #D7D7D7;
+    background-color: #b52828;
 }
 #twiz_delete_menu {
-    background: url(../images/twiz-menu-delete-bw.png) center no-repeat;    
+    background: url(../../skins/red/images/twiz-menu-delete-bw.png) center no-repeat;    
 }
 #twiz_delete_menu:hover {
-    background: url(../images/twiz-menu-delete-color.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-menu-delete-color.png) center no-repeat;  
     cursor: pointer;
-    background-color: #D7D7D7;
+    background-color: #b52828;
 }
 #twiz_more_menu,
 #twiz_add_menu {
@@ -325,7 +349,7 @@
     cursor: pointer;
 }
 #twiz_multi_menu {
-    width: 479px;
+    width: 478px;
     display: block;
     font-size: 12px;
     padding: 10px 10px 10px 10px;
@@ -336,9 +360,9 @@
     width: 175px;
 }
 #twiz_output_section {
- width: 479px;
- height: 35px;
- display: block;
+    width: 478px;
+    height: 35px;
+    display: block;
 }
 .twiz-output-choice{
     margin-left: 19px;
@@ -353,17 +377,17 @@
     text-align: right;
 }
 #twiz_slc_multi_sections {
-    width: 479px;
+    width: 478px;
     height: 555px !important;
 }
 #twiz_slc_sections {
-    width: 479px;
+    width: 478px;
 }
 #twiz_custom_logic {
-    width: 479px;
+    width: 478px;
 }
 #twiz_custom_message{
-    width: 479px;
+    width: 478px;
     display: block;
     float: left;
 }
@@ -400,7 +424,7 @@
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
-    background: #e1e1e1;
+    background: #ff6262;
 }    
 .twiz-table-list img:hover {
     cursor: pointer;
@@ -426,7 +450,7 @@
     text-align: right;
 }
 .twiz-row-color-1 {
-    background-color: #F3F3F3;
+    background-color: #ffd0d0;
 }
 .twiz-row-color-2 {
     background-color: #F7F7F7;
@@ -498,7 +522,7 @@
     height: 5px;
     border: 0px;
     margin: 15px 0 15px 0;
-    background-color: #E4E4E4;
+    background-color: #ff4949;
 }
 .twiz-caption {
     height: 30px;
@@ -648,8 +672,8 @@ a.twiz-more-options:hover {
     -khtml-border-radius-bottomright: 6px;    
     -khtml-border-radius-bottomleft: 6px;   
     height: 18px;
-    background: #E4E4E4;     
-    border: 1px solid #d1d1d1;
+    background: #ff4949;  
+    border: 1px solid #e13232;
     border-top: 0px;
     padding: 0 8px 0 8px;
     font-size: 12px;
@@ -659,8 +683,8 @@ a.twiz-more-options:hover {
 #twiz_library:hover, 
 #twiz_admin:hover, 
 #twiz_library_upload:hover {
-    color: #000000;
-    background: #D7D7D7;
+    color: #ffffff;
+    background: #b52828;
     cursor: pointer;
 }
 #twiz_export_url {
