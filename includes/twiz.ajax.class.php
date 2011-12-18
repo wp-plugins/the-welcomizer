@@ -26,7 +26,7 @@ class TwizAjax extends Twiz{
     $header = '
  jQuery(document).ready(function($) {
  var twiz_skin =  "'.$this->skin.'";
- if((twiz_skin == "")||(twiz_skin = "'.parent::SKIN_PATH.'")){ twiz_skin = "'.parent::SKIN_PATH.''.parent::DEFAULT_SKIN.'";}
+ if((twiz_skin == "")||(twiz_skin == "'.parent::SKIN_PATH.'")){ twiz_skin = "'.parent::SKIN_PATH.''.parent::DEFAULT_SKIN.'";}
  var twiz_view_id = null;
  var twiz_current_section_id = "'.$this->DEFAULT_SECTION.'";
  if(twiz_current_section_id == ""){ twiz_current_section_id = "'.parent::DEFAULT_SECTION_HOME.'";}
@@ -1115,6 +1115,7 @@ class TwizAjax extends Twiz{
         var textid = $(this).attr("id");
         var skinname = textid.substring(10, textid.length); 
         skin = "'.$this->pluginUrl.parent::SKIN_PATH.'" + skinname + "/twiz-style.css";
+        twiz_skin = "'.parent::SKIN_PATH.'" + skinname;
         $("#twiz-css-a-css").attr("href",skin);
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",

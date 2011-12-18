@@ -89,6 +89,7 @@ Useful jQuery plugins to upload through the Library:
 * Added hooks for scripts: front-end, and admin panel.
 * Added some skins, click the logo.
 * Fixed stylesheet.
+* Fixed later: js skin var.
 
 = 1.3.9.4 = 
 
