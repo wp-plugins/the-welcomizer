@@ -191,7 +191,7 @@
 #twiz_header, 
 #twiz_footer {
     width: 500px;
-    color: #464646;
+    color: #000000;
     border: 1px solid #d1d1d1;
 }
 #twiz_menu,
@@ -277,7 +277,7 @@
 }
 
 #twiz_more_menu:hover {
-    color: #464646;
+    color: #000000;
     font-weight: bold; 
 }
 #twiz_add_menu:hover {
@@ -677,6 +677,7 @@ a.twiz-more-options:hover {
     border-top: 0px;
     padding: 0 8px 0 8px;
     font-size: 12px;
+    color: #000000;
 }
 #twiz_import:hover,
 #twiz_export:hover,
