@@ -90,6 +90,7 @@ Useful jQuery plugins to upload through the Library:
 * Added some skins, click the logo.
 * Fixed stylesheet.
 * Fixed later: js skin var.
+* Updated later: skins css.
 
 = 1.3.9.4 = 
 
