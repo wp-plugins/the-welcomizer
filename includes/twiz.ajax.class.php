@@ -425,10 +425,6 @@ class TwizAjax extends Twiz{
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
         bind_twiz_More_Options();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();
-        $("#twiz_list_tr_" + numid).animate({opacity:0}, 320); // needs a rebind for add new
-        $("#twiz_list_tr_" + numid).animate({opacity:1}, 320); // needs a rebind for add new
-        $("#twiz_list_tr_" + numid).animate({opacity:0}, 300); // needs a rebind for add new
-        $("#twiz_list_tr_" + numid).animate({opacity:1}, 300); // needs a rebind for add new 
     });
    });
   }

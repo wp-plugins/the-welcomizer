@@ -150,10 +150,9 @@
             
             $myTwiz  = new Twiz();
             
-            if(($saved = $myTwiz->save($twiz_id)) // insert or update
-            or($saved=='0')){ // success, but no differences
+            if($saved_id = $myTwiz->save($twiz_id)){ 
             
-                $htmlresponse.= $myTwiz->getHtmlList($twiz_section_id);        
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $saved_id);        
                 
             }else{
             
