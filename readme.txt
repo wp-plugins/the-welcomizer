@@ -89,6 +89,7 @@ Useful jQuery plugins to upload through the Library:
 * Modified stylesheets.
 * Created ajax gif for skins.
 * Happy holidays to All.
+* Updated later: Italian translation.
 
 = 1.3.9.5 = 
 
