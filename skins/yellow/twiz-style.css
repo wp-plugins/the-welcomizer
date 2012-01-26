@@ -2,7 +2,6 @@
     width: 98%;
     margin-top: 9px;
     margin-bottom: 15px;
-    margin-left: 15px;
 }
 #twiz_master {
     width: 500px;
@@ -423,7 +422,7 @@
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
-    background: #e7e367;
+    background-color: #e7e367;
 }    
 .twiz-table-list img:hover,
 .twiz-arrow-lib-n:hover,

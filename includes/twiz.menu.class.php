@@ -540,10 +540,10 @@ $(".twiz-block-ouput").hide();
 $("#twiz_single_output").show();';                    
             }       
         }else{
-             $jsscript_in = '$(".twiz-custom-message").html("");
-    $("#twiz_output_choice_1").attr("checked", "checked");                    
-    $(".twiz-block-ouput").hide();
-    $("#twiz_single_output").show();';  
+                    $jsscript_in = '$(".twiz-custom-message").html("");
+$("#twiz_output_choice_2").attr("checked", "checked");                    
+$(".twiz-block-ouput").hide();
+$("#twiz_multiple_output").show();';   
 }        
   
         $addsection = '';

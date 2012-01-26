@@ -341,7 +341,8 @@
             $twiz_settings[Twiz::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
             $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
             $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
-            
+            $twiz_settings[Twiz::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_starting_position']));
+
             $myTwizAdmin  = new TwizAdmin();
             $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
             

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.9.7
+Version: 1.3.9.8
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -156,12 +156,23 @@ License: GPL2
     }
     
     function twizAdminEnqueueScripts(){
+               
+        $myTwiz  = new Twiz();
+        $dirarray = $myTwiz->getSkinsDirectory();
+
+        sort($dirarray);
         
+        foreach($dirarray as $value){
+        
+            // Enqueue all stylesheets
+            wp_enqueue_style('twiz-css-a-'.$value, plugins_url(Twiz::SKIN_PATH.$value.'/twiz-style.css', __FILE__ ));
+          
+        }
+
         // Current skin
         $skinurl = get_option('twiz_skin');
-        
-        // stylesheets
         wp_enqueue_style('twiz-css-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
+        
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
 
         // Admin Ajax script
@@ -188,14 +199,13 @@ License: GPL2
     or (preg_match("/admin-ajax/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
     or (preg_match("/php.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
     )){
+
+        $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
+
         // Set the multi-language file, english is the standard.
         load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
         
-        $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
-        
-        // (for the admin dashboard)
-        add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');
-        
+
         // Ajax callback
         add_action('wp_ajax_my_action', 'twiz_ajax_callback');
         
@@ -206,6 +216,11 @@ License: GPL2
         if(($_POST['action']!='')and($_POST['twiz_action']!='')){
         
             do_action('wp_ajax_my_action', $_POST['action']);
+            
+        }else{
+        
+            // (for the admin dashboard)
+            add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');
         }
     }
     

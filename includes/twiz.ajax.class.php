@@ -440,6 +440,7 @@ class TwizAjax extends Twiz{
          twiz_slc_output: $("#twiz_slc_output").val(),
          twiz_number_posts: $("#twiz_number_posts").val(),
          twiz_min_rolelevel: $("#twiz_min_rolelevel").val(),
+         twiz_starting_position: $("#twiz_starting_position").val(),
          twiz_delete_all: $("#twiz_delete_all").is(":checked")
     }, function(data) {
         $("#twiz_admin_save_img").fadeOut("fast"); 
@@ -448,15 +449,6 @@ class TwizAjax extends Twiz{
    });
   }
   var bind_twiz_Number_Restriction = function() {
-    $("input[name^=twiz_input]").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {return false;}}); 
-    $("#twiz_start_delay").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {return false;}}); 
-    $("#twiz_duration").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {return false;}});
     $("#twiz_start_top_pos").keypress(function (e){
     if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
     {return false;}});
@@ -1108,8 +1100,21 @@ class TwizAjax extends Twiz{
         var textid = $(this).attr("id");
         var skinname = textid.substring(10, textid.length); 
         skin = "'.$this->pluginUrl.parent::SKIN_PATH.'" + skinname + "/twiz-style.css";
-        twiz_skin = "'.parent::SKIN_PATH.'" + skinname;
-        $("#twiz-css-a-css").attr("href",skin);
+        twiz_skin = "'.parent::SKIN_PATH.'" + skinname;';
+        
+        $dirarray = $this->getSkinsDirectory();
+
+        sort($dirarray);
+        
+        foreach($dirarray as $value){
+        
+            if( $value != parent::DEFAULT_SKIN ){ 
+            
+                $header.= "\n".'$("#twiz-css-a-'.$value.'-css").attr("href","");';
+            }
+        }
+        
+        $header.= "\n".'$("#twiz-css-a-css").attr("href",skin);
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",
         twiz_skin: skinname, 

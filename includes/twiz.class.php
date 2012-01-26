@@ -182,6 +182,9 @@ class Twiz{
     
     /* Number Posts to display key */
     CONST KEY_NUMBER_POSTS = 'number_posts';
+
+    /* Starting position by default on add new */
+    CONST KEY_STARTING_POSITION = 'starting_position';
     
     /* Output constants*/  
     const OUTPUT_HEADER = 'wp_head';    
@@ -227,6 +230,24 @@ class Twiz{
     const EV_TOGGLE     = 'Toggle'; 
     const EV_UNLOAD     = 'Unload'; 
 
+    /* starting position constants */
+    const POS_NO_POS   = ''; 
+    const POS_ABSOLUTE = 'absolute'; 
+    const POS_RELATIVE = 'relative';
+    const POS_FIXED    = 'fixed';
+    const POS_STATIC   = 'static';
+    
+    /* default starting position on add new */    
+    const DEFAULT_STARTING_POSITION = self::POS_RELATIVE;
+        
+    /* Position array */
+    protected $array_position = array(self::POS_NO_POS
+                                     ,self::POS_ABSOLUTE   
+                                     ,self::POS_RELATIVE
+                                     ,self::POS_FIXED
+                                     ,self::POS_STATIC 
+                                     );
+    
     /* Format array */
     private $array_format = array(self::FORMAT_PIXEL     
                                  ,self::FORMAT_PERCENT  
@@ -417,8 +438,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.3.9.7';
-        $this->dbVersion  = '2.59';
+        $this->version    = '1.3.9.8';
+        $this->dbVersion  = '2.60';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -484,7 +505,7 @@ class Twiz{
     
         $twiz_setting_menu_2 = ( $this->DEFAULT_SECTION == self::DEFAULT_SECTION_EVERYWHERE ) ? ' checked="checked"' : '';
         
-        $header = '<div id="twiz_header"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span><div id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">v'.$this->version.'</a></div> 
+        $header = '<div id="twiz_header"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><span id="twiz_head_addnew"><a class="button-secondary" id="twiz_new" name="twiz_new">'.__('Add New', 'the-welcomizer').'</a></span><div id="twiz_head_version"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/#tabs-1379-0-3" target="_blank">v'.$this->version.'</a></div> 
 
 </div><div class="twiz-clear"></div>
     ';
@@ -509,8 +530,7 @@ class Twiz{
     private function getHtmlFooter(){
 
         $html = '
-<div class="twiz-clear"></div><div id="twiz_footer">
-'.__('Developed by', 'the-welcomizer').' <a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.utf8_encode('Sébastien Laframboise').'</a>. '.__('Licensed under the GPL version 2.0', 'the-welcomizer').'</div>';
+<div class="twiz-clear"></div><div id="twiz_footer">&nbsp;</div>';
         
         return $html;
     }    
@@ -584,7 +604,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
             
             /* the table row */
             $htmllist.= '
-    <tr class="twiz_list_tr '.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'" name="twiz_list_div_element_'.$value[self::F_ID].'">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span></div><div class="twiz_list_tr_action" name="twiz_list_tr_action_'.$value[self::F_ID].'" id="twiz_list_tr_action_'.$value[self::F_ID].'" ><a id="twiz_edit_a_'.$value[self::F_ID].'" name="twiz_edit_a_'.$value[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_a_'.$value[self::F_ID].'" name="twiz_copy_a_'.$value[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_a_'.$value[self::F_ID].'" name="twiz_delete_a_'.$value[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="5"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'" class="twiz-td-right twiz-td-duration" nowrap="nowrap"><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="5"></div></td><td class="twiz-td-right" nowrap="nowrap"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-edit"/> <img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-copy"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/></td></tr>';
+    <tr class="twiz_list_tr '.$rowcolor.'" name="twiz_list_tr_'.$value[self::F_ID].'" id="twiz_list_tr_'.$value[self::F_ID].'" ><td class="twiz-td-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'" name="twiz_list_div_element_'.$value[self::F_ID].'">'.$value[self::F_LAYER_ID].'<span class="twiz-green"> - ['.$elementype.']</span></div><div class="twiz_list_tr_action" name="twiz_list_tr_action_'.$value[self::F_ID].'" id="twiz_list_tr_action_'.$value[self::F_ID].'" ><a id="twiz_edit_a_'.$value[self::F_ID].'" name="twiz_edit_a_'.$value[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_a_'.$value[self::F_ID].'" name="twiz_copy_a_'.$value[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_a_'.$value[self::F_ID].'" name="twiz_delete_a_'.$value[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></td><td class="twiz-blue twiz-td-center">'.$on_event.'</td><td class="twiz-td-delay twiz-td-right"><div id="twiz_ajax_td_val_delay_'.$value[self::F_ID].'">'.$value[self::F_START_DELAY].'</div><div id="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_delay_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_delay_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_delay_'.$value[self::F_ID].'" id="twiz_input_delay_'.$value[self::F_ID].'" value="'.$value[self::F_START_DELAY].'" maxlength="100"></div></td><td name="twiz_ajax_td_duration_'.$value[self::F_ID].'" id="twiz_ajax_td_duration_'.$value[self::F_ID].'" class="twiz-td-right twiz-td-duration" nowrap="nowrap"><div id="twiz_ajax_td_val_duration_'.$value[self::F_ID].'">'.$duration.'</div><div id="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_loading_duration_'.$value[self::F_ID].'"></div><div id="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" name="twiz_ajax_td_edit_duration_'.$value[self::F_ID].'" class="twiz_ajax_td_edit"><input type="text" name="twiz_input_duration_'.$value[self::F_ID].'" id="twiz_input_duration_'.$value[self::F_ID].'" value="'.$value[self::F_DURATION].'" maxlength="100"></div></td><td class="twiz-td-right" nowrap="nowrap"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_edit_'.$value[self::F_ID].'" name="twiz_img_edit_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_edit_'.$value[self::F_ID].'" name="twiz_edit_'.$value[self::F_ID].'" alt="'.__('Edit', 'the-welcomizer').'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-edit"/> <img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_copy_'.$value[self::F_ID].'" name="twiz_img_copy_'.$value[self::F_ID].'" class="twiz-loading-gif-action "><img id="twiz_copy_'.$value[self::F_ID].'" name="twiz_copy_'.$value[self::F_ID].'" alt="'.__('Copy', 'the-welcomizer').'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-copy"/> <img class="twiz-loading-gif-action-d" src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[self::F_ID].'" name="twiz_img_delete_'.$value[self::F_ID].'"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" name="twiz_delete_'.$value[self::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/></td></tr>';
          
          }
          
@@ -740,8 +760,8 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
                 self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."', ". 
                 self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
                 self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".
-                self::F_START_DELAY . " int(5) NOT NULL default 0, ". 
-                self::F_DURATION . " int(5) NOT NULL default 0, ". 
+                self::F_START_DELAY . " varchar(100) NOT NULL default '0', ". 
+                self::F_DURATION . " varchar(100) NOT NULL default '0', ". 
                 self::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
                 self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b', ".
                 self::F_JAVASCRIPT . " text NOT NULL default '', ". 
@@ -949,6 +969,14 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
                     $code = $wpdb->query($altersql);
                 }              
                 
+                
+                //  Alter fields from <= v 1.3.9.8
+                $altersql = "ALTER TABLE ".$this->table 
+                . " MODIFY ". self::F_START_DELAY . " varchar(100) NOT NULL default '0'," 
+                . " MODIFY ". self::F_DURATION . " varchar(100) NOT NULL default '0'";
+                $code = $wpdb->query($altersql);  
+                
+                
                 $tsoption = get_option('twiz_setting_menu'); // home / cat / page
                 
                 if( $tsoption == '' ) {
@@ -1076,6 +1104,12 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
         $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_A]);
         $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_B]);
         
+        $twiz_start_delay = $data[self::F_START_DELAY];
+        $twiz_duration = $data[self::F_DURATION];
+        
+        $twiz_start_delay = ( $twiz_start_delay == '' ) ? '0' : $twiz_start_delay;
+        $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
+        
         // replace section id
         $twiz_javascript = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_JAVASCRIPT]);
         $twiz_extra_js_a = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_EXTRA_JS_A]);
@@ -1157,8 +1191,8 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
              ,'".esc_attr(trim($data[self::F_TYPE]))."'
              ,'".esc_attr(trim($data[self::F_LAYER_ID]))."'
              ,'".esc_attr(trim($data[self::F_ON_EVENT]))."'             
-             ,'0".esc_attr(trim($data[self::F_START_DELAY]))."'
-             ,'0".esc_attr(trim($data[self::F_DURATION]))."'
+             ,'".$twiz_start_delay."'
+             ,'".$twiz_duration."'
              ,'".esc_attr(trim($data[self::F_OUTPUT]))."'
              ,'".esc_attr(trim($data[self::F_OUTPUT_POS]))."'
              ,'".esc_attr($twiz_javascript)."'    
@@ -1210,7 +1244,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
         return $duration;
     }
     
-    private function getSkinsDirectory(){
+    function getSkinsDirectory(){
         
         $dirarray = '';
         
@@ -1403,7 +1437,8 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){});
         $hideimport = '';
         $toggleoptions = '';
         $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;  
-        
+        $array_admin = get_option('twiz_admin');
+                
         if($id!=''){
             
             if(!$data = $this->getRow($id)){return false;}
@@ -1501,11 +1536,11 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if( !isset($data[self::F_MOVE_TOP_POS_FORMAT_B]) ) $data[self::F_MOVE_TOP_POS_FORMAT_B] = '';
         if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_A]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_A] = '';
         if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_B]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_B] = '';
-        
-        if( !isset($twiz_position['absolute'] ) ) $twiz_position['absolute'] = '';
-        if( !isset($twiz_position['relative']) ) $twiz_position['relative'] = '';
-        if( !isset($twiz_position['fixed']) ) $twiz_position['fixed'] = '';
-        if( !isset($twiz_position['static']) ) $twiz_position['static'] = '';
+    
+        if( !isset($twiz_position[self::POS_ABSOLUTE] ) ) $twiz_position[self::POS_ABSOLUTE] = '';
+        if( !isset($twiz_position[self::POS_RELATIVE]) ) $twiz_position[self::POS_RELATIVE] = '';
+        if( !isset($twiz_position[self::POS_FIXED]) ) $twiz_position[self::POS_FIXED] = '';
+        if( !isset($twiz_position[self::POS_STATIC]) ) $twiz_position[self::POS_STATIC] = '';
         
         if( !isset($twiz_start_top_pos_sign['nothing'] ) ) $twiz_start_top_pos_sign['nothing'] = '';
         if( !isset($twiz_start_top_pos_sign['-']) ) $twiz_start_top_pos_sign['-'] = '';
@@ -1545,12 +1580,13 @@ $("textarea[name^=twiz_javascript]").blur(function (){
     
         /* checked */
         $twiz_status = (( $data[self::F_STATUS] == 1 ) or ( $id == '' )) ? ' checked="checked"' : '';
-        
+ 
         /* selected */
-        $twiz_position['absolute'] = ( $data[self::F_POSITION] == 'absolute' ) ? ' selected="selected"' : '';
-        $twiz_position['relative'] = (( $data[self::F_POSITION] == 'relative' ) or ( $id == '' )) ? ' selected="selected"' : '';
-        $twiz_position['fixed']   = ($data[self::F_POSITION] == 'fixed') ? ' selected="selected"' : '';
-        $twiz_position['static']   = ($data[self::F_POSITION] == 'static') ? ' selected="selected"' : '';
+        $twiz_position[self::POS_NO_POS] = (( $data[self::F_POSITION] == self::POS_NO_POS ) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_NO_POS  )) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_ABSOLUTE] = (( $data[self::F_POSITION] == self::POS_ABSOLUTE ) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_ABSOLUTE  )) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_RELATIVE] = (( $data[self::F_POSITION] == self::POS_RELATIVE) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_RELATIVE )) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_FIXED]   = (( $data[self::F_POSITION] == self::POS_FIXED) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_FIXED )) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_STATIC]   = (( $data[self::F_POSITION] == self::POS_STATIC) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_STATIC )) ? ' selected="selected"' : '';
       
       
         $twiz_ouput_pos['ready'] = ($data[self::F_OUTPUT_POS] == 'r') ? ' selected="selected"' : '';
@@ -1607,8 +1643,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right twiz-float-left">'.__('(optional)', 'the-welcomizer').'</td></tr>
 <tr><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
-<tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
-<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="5"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-options">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr id="twiz_tr_starting_config">
     <td valign="top"><hr>
         <table> 
@@ -1628,11 +1664,11 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                 <option value="-" '.$twiz_start_left_pos_sign['-'].'>-</option>
                 </select><input class="twiz-input-small" id="twiz_'.self::F_START_LEFT_POS.'" name="twiz_'.self::F_START_LEFT_POS.'" type="text" value="'.$data[self::F_START_LEFT_POS].'" maxlength="5"> '.$this->getHtmlFormatList(self::F_START_LEFT_POS_FORMAT, $data[self::F_START_LEFT_POS_FORMAT]).'</td></tr>
         <tr><td class="twiz-td-small-left-start">'.__('Position', 'the-welcomizer').':</td><td>
-        <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="" > </option>
-        <option value="absolute" '.$twiz_position['absolute'].'>'.__('absolute', 'the-welcomizer').'</option>
-        <option value="relative" '.$twiz_position['relative'].'>'.__('relative', 'the-welcomizer').'</option>
-        <option value="fixed" '.$twiz_position['fixed'].'>'.__('fixed', 'the-welcomizer').'</option>
-        <option value="static" '.$twiz_position['static'].'>'.__('static', 'the-welcomizer').'</option>
+        <select name="twiz_'.self::F_POSITION.'" id="twiz_'.self::F_POSITION.'"><option value="'.self::POS_NO_POS.'" '.$twiz_position[self::POS_NO_POS].'></option>
+        <option value="'.self::POS_ABSOLUTE.'" '.$twiz_position[self::POS_ABSOLUTE].'>'.__('absolute', 'the-welcomizer').'</option>
+        <option value="'.self::POS_RELATIVE.'" '.$twiz_position[self::POS_RELATIVE].'>'.__('relative', 'the-welcomizer').'</option>
+        <option value="'.self::POS_FIXED.'" '.$twiz_position[self::POS_FIXED].'>'.__('fixed', 'the-welcomizer').'</option>
+        <option value="'.self::POS_STATIC.'" '.$twiz_position[self::POS_STATIC].'>'.__('static', 'the-welcomizer').'</option>
         </select>
         </td></tr>                
           <tr><td class="twiz-td-small-left-start">'.__('z-index', 'the-welcomizer').':</td><td>
@@ -2119,6 +2155,11 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         $twiz_javascript = esc_attr(trim($_POST['twiz_'.self::F_JAVASCRIPT]));
         
+        $twiz_start_delay = esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]));
+        $twiz_duration = esc_attr(trim($_POST['twiz_'.self::F_DURATION]));
+        $twiz_start_delay = ( $twiz_start_delay == '' ) ? '0' : $twiz_start_delay;
+        $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
+                        
         // a simple uniq id
         $exportid = uniqid();
                         
@@ -2168,8 +2209,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."'
                   ,'".$twiz_layer_id."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
-                  ,'0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
-                  ,'0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
+                  ,'".$twiz_start_delay."'
+                  ,'".$twiz_duration."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                   ,'".$twiz_javascript."'
@@ -2218,8 +2259,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                  ,".self::F_TYPE."  = '".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."' 
                  ,".self::F_LAYER_ID." = '".$twiz_layer_id."'
                  ,".self::F_ON_EVENT." = '".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
-                 ,".self::F_START_DELAY." = '0".esc_attr(trim($_POST['twiz_'.self::F_START_DELAY]))."'
-                 ,".self::F_DURATION." = '0".esc_attr(trim($_POST['twiz_'.self::F_DURATION]))."'
+                 ,".self::F_START_DELAY." = '".$twiz_start_delay."'
+                 ,".self::F_DURATION." = '".$twiz_duration."'
                  ,".self::F_OUTPUT." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                  ,".self::F_OUTPUT_POS." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                  ,".self::F_JAVASCRIPT." = '".$twiz_javascript."' 

@@ -2,7 +2,6 @@
     width: 98%;
     margin-top: 9px;
     margin-bottom: 15px;
-    margin-left: 15px;
 }
 #twiz_master {
     width: 500px;
@@ -160,10 +159,6 @@
     height: 80px;
     background: url(../../skins/blue/images/twiz-logo.png) center no-repeat;   
     float: left;
-    display: block;
-}
-#twiz_logo {
-    width: 85px;
     display: block;
 }
 #twiz_head_version {
@@ -426,7 +421,7 @@
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
-    background: #9dd2ea;
+    background-color: #9dd2ea;
 }    
 .twiz-table-list img:hover,
 .twiz-arrow-lib-n:hover,

@@ -99,16 +99,21 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</td><td class="twiz-form-td-right"></td></tr>';
         
-
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
         
-        // Min role level
-        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Minimum Role to access this plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</td><td class="twiz-form-td-right"></td></tr>';
-        
+        // Starting position by default on add new
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLStartingPositionList().'</td><td class="twiz-form-td-right"></td></tr>';
         
         // Number of posts displayed in lists
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Maximum number of posts in lists', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLNumberPostsInLists().'</td><td class="twiz-form-td-right"></td></tr>';
+          
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        
+        // Min role level
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Minimum Role to access this plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</td><td class="twiz-form-td-right"></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
@@ -160,6 +165,21 @@ jQuery(document).ready(function($) {
         return $html;
     }
     
+        private function getHTMLStartingPositionList(){
+        
+        $html  = '<select name="twiz_starting_position" id="twiz_starting_position">';
+
+        foreach( $this->array_position as $value ) {
+
+            $selected = ($value == $this->array_admin[parent::KEY_STARTING_POSITION]) ? ' selected="selected"' : '';
+            
+            $html .= '<option value="'.$value.'"'.$selected.'>'.__($value, 'the-welcomizer').'</option>';
+        }
+    
+        $html .= '</select>';
+        
+        return $html;
+    }
     
     private function getHTMLMinRoleLevel(){
     
@@ -263,6 +283,16 @@ jQuery(document).ready(function($) {
             $this->array_admin = get_option('twiz_admin');
         }
         
+        // Starting position by default on add new
+        if( !isset($this->array_admin[parent::KEY_STARTING_POSITION]) ) $this->array_admin[parent::KEY_STARTING_POSITION] = 'nothing';
+        if( $this->array_admin[parent::KEY_STARTING_POSITION] == 'nothing' ) {
+        
+            $this->array_admin[parent::KEY_STARTING_POSITION] = parent::DEFAULT_STARTING_POSITION;
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+        
+        
         // Delete All
         if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';
         if( $this->array_admin[parent::KEY_DELETE_ALL] == '' ) {
@@ -299,6 +329,9 @@ jQuery(document).ready(function($) {
         
         // Number of posts displayed in lists
         $this->array_admin[parent::KEY_NUMBER_POSTS] = $setting[parent::KEY_NUMBER_POSTS];
+        
+        // Starting position by default on add new
+        $this->array_admin[parent::KEY_STARTING_POSITION] = $setting[parent::KEY_STARTING_POSITION];
         
         // Delete All
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';

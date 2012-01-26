@@ -2,7 +2,6 @@
     width: 98%;
     margin-top: 9px;
     margin-bottom: 15px;
-    margin-left: 15px;
 }
 #twiz_master {
     width: 500px;
@@ -275,9 +274,7 @@
 #twiz_add_menu {
     font-size: 18px;
 }
-
 #twiz_more_menu:hover {
-    color: #000000;
     font-weight: bold; 
 }
 #twiz_add_menu:hover {
@@ -296,11 +293,13 @@
 #twiz_more_menu:hover,
 #twiz_add_menu:hover,
 #twiz_delete_menu:hover {
+    color: #000000;
     cursor: pointer;
     background-color: #D7D7D7;
 }
 .twiz-menu-selected {
-    font-weight:bold; 
+    color: #000000;
+    font-weight: bold; 
     background-color: #D7D7D7;  
 }
 #twiz_more_menu{
@@ -423,7 +422,7 @@
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
-    background: #e1e1e1;
+    background-color: #e1e1e1;
 }    
 .twiz-table-list img:hover,
 .twiz-arrow-lib-n:hover,
