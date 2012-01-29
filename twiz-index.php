@@ -158,19 +158,13 @@ License: GPL2
     function twizAdminEnqueueScripts(){
                
         $myTwiz  = new Twiz();
-        $dirarray = $myTwiz->getSkinsDirectory();
 
-        sort($dirarray);
-        
-        foreach($dirarray as $value){
-        
-            // Enqueue all stylesheets
-            wp_enqueue_style('twiz-css-a-'.$value, plugins_url(Twiz::SKIN_PATH.$value.'/twiz-style.css', __FILE__ ));
-          
-        }
-
-        // Current skin
         $skinurl = get_option('twiz_skin');
+
+        // Enqueue default stylesheet
+        wp_enqueue_style('twiz-css-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
+ 
+        // Current skin
         wp_enqueue_style('twiz-css-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
         
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
