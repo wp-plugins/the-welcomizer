@@ -90,7 +90,7 @@ Useful jQuery plugins to upload through the Library:
 * Added Admin option `Starting position by default`.
 * Changed output type by default to `Multiple`.
 * Modified the data type and validation of `Start delay` and `Duration` to accept variables.
-* Preloaded skins.
+* Preloads the default skin.
 * Minor fixes.
 * Improved the UI speed.
 
