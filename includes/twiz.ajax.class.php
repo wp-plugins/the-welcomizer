@@ -1100,21 +1100,8 @@ class TwizAjax extends Twiz{
         var textid = $(this).attr("id");
         var skinname = textid.substring(10, textid.length); 
         skin = "'.$this->pluginUrl.parent::SKIN_PATH.'" + skinname + "/twiz-style.css";
-        twiz_skin = "'.parent::SKIN_PATH.'" + skinname;';
-        
-        $dirarray = $this->getSkinsDirectory();
-
-        sort($dirarray);
-        
-        foreach($dirarray as $value){
-        
-            if( $value != parent::DEFAULT_SKIN ){ 
-            
-                $header.= "\n".'$("#twiz-css-a-'.$value.'-css").attr("href","");';
-            }
-        }
-        
-        $header.= "\n".'$("#twiz-css-a-css").attr("href",skin);
+        twiz_skin = "'.parent::SKIN_PATH.'" + skinname;
+        $("#twiz-css-a-css").attr("href",skin);
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",
         twiz_skin: skinname, 
