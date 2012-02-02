@@ -93,6 +93,7 @@ Useful jQuery plugins to upload through the Library:
 * Preloads the default skin.
 * Minor fixes.
 * Improved the UI speed.
+* Fixed later: The event bug.
 
 = 1.3.9.7 = 
 
