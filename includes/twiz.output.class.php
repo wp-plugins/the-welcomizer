@@ -573,7 +573,7 @@ class TwizOutput extends Twiz{
     
         $sectionid_temp = '';
         $generatedscript = '';
-        $generatedscript_function = '';
+        $generatedscript_function = array();
         $generatedscript_repeatvar = '';
         
         
