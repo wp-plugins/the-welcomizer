@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -82,7 +82,7 @@ jQuery(document).ready(function($) {
     <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-td-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
     <td class="twiz-table-list-td"><a href="'.WP_CONTENT_URL.parent::IMPORT_PATH.$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
      <td class="twiz-table-list-td twiz-td-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"></div></td>
-    <td class="twiz-table-list-td twiz-td-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/><img class="twiz-loading-gif" src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_img_delete_'.$value[parent::F_ID].'" name="twiz_img_delete_'.$value[parent::F_ID].'"></td></tr>';
+    <td class="twiz-table-list-td twiz-td-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" alt="'.__('Delete', 'the-welcomizer').'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete"/></td></tr>';
             }
         }
         
@@ -229,8 +229,8 @@ jQuery(document).ready(function($) {
     
     private function libraryExists( $filename = '', $id = '' ){
     
-        if( $filename=='' ){return false;}
-        if( $id=='' ){return false;}
+        if( $filename == '' ){return false;}
+        if( $id == '' ){return false;}
         
         $file = WP_CONTENT_DIR.parent::IMPORT_PATH.$filename;
         

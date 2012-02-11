@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.3.9.9
+Version: 1.4
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -9,7 +9,7 @@ Author URI: http://www.sebastien-laframboise.com
 License: GPL2
 */
 
-/*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -158,14 +158,13 @@ License: GPL2
     function twizAdminEnqueueScripts(){
                
         $myTwiz  = new Twiz();
-
         $skinurl = get_option('twiz_skin');
 
         // Enqueue default stylesheet
-        wp_enqueue_style('twiz-css-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
  
         // Current skin
-        wp_enqueue_style('twiz-css-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
         
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
 

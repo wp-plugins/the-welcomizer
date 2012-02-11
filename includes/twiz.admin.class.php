@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -124,7 +124,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
         
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" id="twiz_admin_save_img" name="twiz_admin_save_img" class="twiz-loading-gif twiz-loading-gif-save"> <input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box"  class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  

@@ -17,7 +17,6 @@
     display: none;
 }
 .twiz-loading-gif {
-    display: none;
     width: 20px;
     height: 20px;
     margin: 0px 1px;
@@ -25,14 +24,7 @@
 .twiz-loading-gif-action {
     width: 20px;
     height: 20px;
-    display: none;
     margin: 0px 1px 0 2px;
-}
-.twiz-loading-gif-action-d {
-    width: 20px;
-    height: 20px;
-    display: none;
-    margin: 0px 1px 0 1px;
 }
 .twiz-clear {
     clear: both;
@@ -411,6 +403,7 @@
     width: 500px;
 }    
 .twiz_list_tr_action {
+    height: 20px;
     visibility: hidden;
     display: block;
 }
@@ -653,8 +646,7 @@ a.twiz-more-options:hover {
     font-size: 11px;
 }
 .twiz-loading-gif-save {
-    height: 15px;
-    width: 15px;
+    padding-right: 10px;
 }
 #twiz_td_full_chooseid img {
     margin-right: 5px;

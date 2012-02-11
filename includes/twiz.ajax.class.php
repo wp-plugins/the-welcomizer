@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2011  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -128,8 +128,8 @@ class TwizAjax extends Twiz{
             case "vmenu":
             $(this).hide();
             $("#twiz_status_img_" + numid.replace("vmenu_", "menu_")).hide();
-            $("#twiz_img_status_" + numid).show();  
-            $("#twiz_img_status_" + numid.replace("vmenu_", "menu_")).show();                    
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');            
+            $("#twiz_status_img_" + numid.replace("vmenu_", "menu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');                              
             $.post(ajaxurl, {
             action: "twiz_ajax_callback",
             twiz_nonce: "'.$this->nonce.'", 
@@ -145,8 +145,8 @@ class TwizAjax extends Twiz{
         case "menu_":
             $(this).hide();
             $("#twiz_status_img_" + numid.replace("menu_", "vmenu_")).hide();    
-            $("#twiz_img_status_" + numid).show();   
-            $("#twiz_img_status_" + numid.replace("menu_", "vmenu_")).show();                
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');   
+            $("#twiz_status_img_" + numid.replace("menu_", "vmenu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');   
             $.post(ajaxurl, {
             action: "twiz_ajax_callback",
             twiz_nonce: "'.$this->nonce.'", 
@@ -163,7 +163,7 @@ class TwizAjax extends Twiz{
              switch(numid){
                 case "global":
                     $(this).hide();
-                    $("#twiz_img_status_global").show();        
+                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');        
                     $.post(ajaxurl, {
                     action: "twiz_ajax_callback",
                     twiz_nonce: "'.$this->nonce.'", 
@@ -176,7 +176,7 @@ class TwizAjax extends Twiz{
                     break;
                 default:
                     $(this).hide();
-                    $("#twiz_img_status_" + numid).show();        
+                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif">\');      
                     $.post(ajaxurl, {
                     action: "twiz_ajax_callback",
                     twiz_nonce: "'.$this->nonce.'", 
@@ -228,11 +228,11 @@ class TwizAjax extends Twiz{
         }
         twiz_view_id = "edit";
         if(textidtemp.substring(0,1) == "a"){
-            $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' name="twiz_img_loading_export"\' + \' id="twiz_img_loading_export"\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
+            $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
             
         }else{
             $(this).hide();
-            $("#twiz_img_edit_" + numid).show();    
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action">\');  
         }    
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",
@@ -276,10 +276,10 @@ class TwizAjax extends Twiz{
         }
         twiz_view_id = "edit";
         if(textidtemp.substring(0,1) == "a"){
-            $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' name="twiz_img_loading_export"\' + \' id="twiz_img_loading_export"\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
+            $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
         }else{
             $(this).hide();
-            $("#twiz_img_copy_" + numid).show();    
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action">\'); 
         }  
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",
@@ -327,10 +327,10 @@ class TwizAjax extends Twiz{
                 c_action = "'.parent::ACTION_DELETE_LIBRARY.'";
             }            
             if(textidtemp.substring(0,1) == "a"){
-                $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' name="twiz_img_loading_action"\' + \' id="twiz_img_loading_action"\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
+                $("#twiz_list_tr_action_" + numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
             }else{
                 $(this).hide();
-                $("#twiz_img_delete_" + numid).show();    
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action">\');  
             }  
             $("#twiz_right_panel").fadeOut("slow");
             $.post(ajaxurl, {
@@ -370,7 +370,7 @@ class TwizAjax extends Twiz{
  var bind_twiz_Save = function() {
     $("#twiz_save").click(function(){
     $("#twiz_save").attr({"disabled" : "true"});
-    $("#twiz_save_img").fadeIn("slow");
+    $("#twiz_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');
     var numid = $("#twiz_id").val();
     $.post(ajaxurl, {
          action: "twiz_ajax_callback",
@@ -429,7 +429,8 @@ class TwizAjax extends Twiz{
   var bind_twiz_AdminSave = function() {
     $("#twiz_admin_save").click(function(){
     $("#twiz_admin_save").attr({"disabled" : "true"});
-    $("#twiz_admin_save_img").fadeIn("fast");
+    $("#twiz_admin_save_img_box").show();  
+    $("#twiz_admin_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif">\');   
     var numid = $("#twiz_id").val();
     $.post(ajaxurl, {
          action: "twiz_ajax_callback",
@@ -443,7 +444,8 @@ class TwizAjax extends Twiz{
          twiz_starting_position: $("#twiz_starting_position").val(),
          twiz_delete_all: $("#twiz_delete_all").is(":checked")
     }, function(data) {
-        $("#twiz_admin_save_img").fadeOut("fast"); 
+        $("#twiz_admin_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'>\');    
+        $("#twiz_admin_save_img_box").fadeOut("slow");         
         $("#twiz_admin_save").removeAttr("disabled");
     });
    });
@@ -1101,7 +1103,7 @@ class TwizAjax extends Twiz{
         var skinname = textid.substring(10, textid.length); 
         skin = "'.$this->pluginUrl.parent::SKIN_PATH.'" + skinname + "/twiz-style.css";
         twiz_skin = "'.parent::SKIN_PATH.'" + skinname;
-        $("#twiz-css-a-css").attr("href",skin);
+        $("#twiz-'.$this->cssVersion.'-a-css").attr("href",skin);
         $.post(ajaxurl, {
         action: "twiz_ajax_callback",
         twiz_skin: skinname, 
