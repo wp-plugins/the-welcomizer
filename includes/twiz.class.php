@@ -439,7 +439,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4';
+        $this->version    = '1.4.1';
         $this->cssVersion = '1';
         $this->dbVersion  = '2.60';
         $this->pluginUrl  = $pluginUrl;
@@ -449,7 +449,6 @@ class Twiz{
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
-        
         $this->skin = get_option('twiz_skin');
          
         if(( $this->skin == '' ) or ( $this->skin == self::SKIN_PATH ) ) {
@@ -466,10 +465,8 @@ class Twiz{
         $html = '<div id="twiz_plugin">';
         $html .= '<div id="twiz_background"></div>';
         $html .= '<div id="twiz_master">';
- 
         
         $html .= $this->getHtmlSkinBullets();
-        
         $html .= $this->getHtmlGlobalstatus();
         $html .= $this->getHtmlHeader();
         
@@ -2097,11 +2094,21 @@ $("textarea[name^=twiz_javascript]").blur(function (){
     
     private function preloadImages(){
     
+    
+        $dirarray = $this->getSkinsDirectory();
+
+        sort($dirarray);
+              
         $html = '';
+        
+        foreach( $dirarray as $value ){
+        
+            $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-preload-images">';
+            $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-loading.gif" class="twiz-preload-images">';
+        }
+        
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-loading.gif" class="twiz-preload-images">';
-        $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-save.gif" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-big-loading.gif" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-edit-bw.png" class="twiz-preload-images">';
         $html .='<img src="'.$this->pluginUrl.$this->skin.'/images/twiz-menu-edit-color.png" class="twiz-preload-images">';
