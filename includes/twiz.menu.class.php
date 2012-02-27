@@ -61,13 +61,28 @@ class TwizMenu extends Twiz{
                                     ,self::TYPE_CUSTOM_LOGIC_SHORT => __('Logic', 'the-welcomizer')
                                     );                  
 
-        $this->categories = get_categories('sort_order=asc');
-        $this->pages = get_pages('sort_order=asc'); 
-        $this->allposts = get_posts('sort_order=asc&numberposts=-1'); 
+        $this->categories = get_categories( array('orderby' => 'name', 
+                                                  'order'   => 'ASC') );
+        $this->pages = $this->get_wp('page', 'order by post_title'); 
+        $this->allposts = $this->get_wp('post', 'order by post_date desc'); 
 
         $this->loadSections();
     }
-    
+
+    private function get_wp( $type = '', $order = '' ){
+
+    	global $wpdb;
+        
+		$sql = "SELECT ID, post_title, post_date  
+				FROM ".$wpdb->posts."
+				WHERE post_type='".$type."' 
+                AND post_status <> 'trash' ".$order;
+				
+		$resultarray = $wpdb->get_results($sql, ARRAY_A);
+        
+		return $resultarray;
+    }
+
     protected function getMaxKeyArrayMultiSections(){
         
         $id = '';
@@ -382,25 +397,25 @@ class TwizMenu extends Twiz{
         
             $separator_page = '<option value=""disabled="disabled">------------------------------------------------------</option>';
             
-            if(in_array('p_'.$value->ID, $array_sections) 
+            if(in_array('p_'.$value['ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
                 $selected = ' selected="selected"'; 
-                $select_page .= '<option value="p_'.$value->ID.'"'.$selected .'>'.$value->post_title.'</option>';
+                $select_page .= '<option value="p_'.$value['ID'].'"'.$selected .'>'.$value['post_title'].'</option>';
             }else{
-                if( ((in_array('p_'.$value->ID, $array_sections ) and ($type!= "ms")))
-                or (!array_key_exists('p_'.$value->ID, $sections)) ){
+                if( ((in_array('p_'.$value['ID'], $array_sections ) and ($type!= "ms")))
+                or (!array_key_exists('p_'.$value['ID'], $sections)) ){
                      $selected = '';
-                     $select_page .= '<option value="p_'.$value->ID.'"'.$selected .'>'.$value->post_title.'</option>';
+                     $select_page .= '<option value="p_'.$value['ID'].'"'.$selected .'>'.$value['post_title'].'</option>';
                 }
             }
         }
     
         foreach( $this->allposts as $value ){
      
-            if(in_array('a_'.$value->ID, $array_sections) 
+            if(in_array('a_'.$value['ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
 
-                $selected_post_first .=  '<option value="a_'.$value->ID.'" selected="selected">'. mysql2date('Y-m-d', $value->post_date). ' : '.$value->post_title.'</option>';
+                $selected_post_first .=  '<option value="a_'.$value['ID'].'" selected="selected">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';
             }
         }
             
@@ -412,10 +427,10 @@ class TwizMenu extends Twiz{
             }
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
 
-            if( ((in_array('a_'.$value->ID, $array_sections))and ($type!= "ms"))
-            or(!array_key_exists('a_'.$value->ID, $sections)) ){
+            if( ((in_array('a_'.$value['ID'], $array_sections))and ($type!= "ms"))
+            or(!array_key_exists('a_'.$value['ID'], $sections)) ){
 
-                $select_post .= '<option value="a_'.$value->ID.'">'. mysql2date('Y-m-d', $value->post_date). ' : '.$value->post_title.'</option>';            
+                $select_post .= '<option value="a_'.$value['ID'].'">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';            
             }
             $i++;
         }
@@ -460,15 +475,15 @@ class TwizMenu extends Twiz{
         foreach( $this->pages as $value ){
 
             $separator_page = '<option value="" disabled="disabled">------------------------------------------------------</option>';
-            $selected = (in_array('p_'.$value->ID, $array_sections)) ? ' selected="selected"' : '';
-            $select_page .= '<option value="p_'.$value->ID.'"'. $selected .'>'.$value->post_title.'</option>';
+            $selected = (in_array('p_'.$value['ID'], $array_sections)) ? ' selected="selected"' : '';
+            $select_page .= '<option value="p_'.$value['ID'].'"'. $selected .'>'.$value['post_title'].'</option>';
         }
     
         foreach( $this->allposts as $value ){
             
-            if(in_array('a_'.$value->ID, $array_sections)) { 
+            if(in_array('a_'.$value['ID'], $array_sections)) { 
 
-                $selected_post_first .= '<option value="a_'.$value->ID.'"  selected="selected">'. mysql2date('Y-m-d', $value->post_date). ' : '.$value->post_title.'</option>';
+                $selected_post_first .= '<option value="a_'.$value['ID'].'"  selected="selected">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';
             }
         }
             
@@ -481,9 +496,9 @@ class TwizMenu extends Twiz{
             
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
             
-            if(!in_array('a_'.$value->ID, $array_sections)) { 
+            if(!in_array('a_'.$value['ID'], $array_sections)) { 
             
-                $select_post .= '<option value="a_'.$value->ID.'">'. mysql2date('Y-m-d', $value->post_date). ' : '.$value->post_title.'</option>';
+                $select_post .= '<option value="a_'.$value['ID'].'">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';
             }
             $i++;
         }
