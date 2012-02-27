@@ -76,7 +76,7 @@ class TwizMenu extends Twiz{
 		$sql = "SELECT ID, post_title, post_date  
 				FROM ".$wpdb->posts."
 				WHERE post_type='".$type."' 
-                AND post_status <> 'trash' ".$order;
+                AND post_status NOT IN ('trash', 'auto-draft') ".$order;
 				
 		$resultarray = $wpdb->get_results($sql, ARRAY_A);
         
