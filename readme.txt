@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 1.4.2.1
+Stable tag: 1.4.3
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -45,6 +45,19 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.4.3 =
+
+* Added the ability to sort the list.
+* Added links to twiz functions in the right panel.
+* Added an editable `Event` column.
+* Added random ads in the footer.
+* Modified the display of `More configurations`.
+* Modified the closing of the vertical menu.
+* Sorted items in the vertical menu.
+* Sorted the `Event` column.
+* Solved compatibility with Opera.
+* Various bug fixes, adjusments and code review.
 
 = 1.4.2.1 = 
 
@@ -646,6 +659,10 @@ Useful jQuery plugins to upload through the Library:
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.4.3 =
+
+* Major update. 
 
 = 1.4.2.1 = 
 
