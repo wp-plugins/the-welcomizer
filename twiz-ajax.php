@@ -53,11 +53,13 @@
     
         case Twiz::ACTION_MENU:
         
+            $_POST['twiz_order_by'] = (!isset($_POST['twiz_order_by'])) ? '' : esc_attr($_POST['twiz_order_by']) ;
+            
             $twiz_section_id = esc_attr($_POST['twiz_section_id']);
-        
+                
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
+            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '' , $_POST['twiz_order_by']);
 
             break;
             
@@ -119,6 +121,7 @@
             $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic);
             
             break;
+            
         case Twiz::ACTION_GET_MULTI_SECTION:
 
             // Needed for translation
@@ -224,14 +227,22 @@
             if(($saved = $myTwiz->saveValue($twiz_id, $twiz_column, $twiz_value)) // insert or update
             or($saved=='0')){ // success, but no differences
             
-                if($twiz_column=="duration"){
+                switch($twiz_column){
                 
-                   $htmlresponse = $myTwiz->formatDuration($twiz_id);
-                   
-                }else{
-                
-                   $htmlresponse = $myTwiz->getValue($twiz_id, $twiz_column);
-                   
+                    case "duration":
+                    
+                       $htmlresponse = $myTwiz->formatDuration($twiz_id);
+                       break;
+                       
+                    case 'delay':
+                    
+                       $htmlresponse = $twiz_value;
+                       break;
+                       
+                    case 'on_event':
+                    
+                       $htmlresponse = $myTwiz->format_on_event($twiz_value);
+                       break;
                 }
             }
         
@@ -352,6 +363,23 @@
            
             $skin = Twiz::SKIN_PATH.esc_attr(trim($_POST['twiz_skin']));  
             $code = update_option('twiz_skin', $skin);
+            
+            break;
+            
+        case Twiz::ACTION_GET_MAIN_ADS:
+           
+            $myTwiz  = new Twiz();
+            $htmlresponse = $myTwiz->getHtmlAds();    
+            
+            break;           
+            
+        case Twiz::ACTION_GET_EVENT_LIST:
+           
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_event = esc_attr(trim($_POST['twiz_event']));
+           
+            $myTwiz  = new Twiz();
+            $htmlresponse = $myTwiz->getHTMLEventList($twiz_event, $twiz_id, 'twiz-select-event-list');
             
             break;
     }

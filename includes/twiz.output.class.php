@@ -357,7 +357,7 @@ class TwizOutput extends Twiz{
         return $customlogic;
     }
     
-    private function removeDuplicates($sections)
+    private function removeDuplicates( $sections = '' )
     {
         if( !is_array($sections) ){
         

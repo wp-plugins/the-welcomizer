@@ -603,7 +603,7 @@ $("#twiz_section_name").select();';
         $choices .= '</div>';
         
         //main box
-        $html = '<div id="twiz_multi_menu">'.$default_message.'<div id="twiz_multi_action">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.$action.'</div></div>'.__('Section name', 'the-welcomizer').': <input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'"/> <a name="twiz_cancel_section" id="twiz_cancel_section">'.__('Cancel', 'the-welcomizer').'</a><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"><br><br>';
+        $html = '<div id="twiz_multi_menu">'.$default_message.'<div id="twiz_multi_action">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.$action.'</div></div>'.__('Section name', 'the-welcomizer').': <input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /> <a name="twiz_cancel_section" id="twiz_cancel_section">'.__('Cancel', 'the-welcomizer').'</a><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"><br><br>';
         
         $html .= $choices;
         
@@ -623,7 +623,7 @@ $("#twiz_section_name").select();';
         return $html;
     }
 
-    function getHtmlMenu($selected_id = ''){
+    function getHtmlMenu( $selected_id = '' ){
     
         // retrieve stored sections
         $sections = $this->array_sections;
@@ -672,7 +672,7 @@ $("#twiz_section_name").select();';
         return $menu;
     }
     
-    function getHtmlVerticalMenu($selected_id = ''){
+    function getHtmlVerticalMenu( $selected_id = '' ){
     
         // retrieve stored sections
         $sections = $this->array_sections;
@@ -730,7 +730,7 @@ $("#twiz_section_name").select();';
        return $html;
     }
     
-    private function getHtmlTypeLabel( $section_id = ''){
+    private function getHtmlTypeLabel( $section_id = '' ){
     
         if( $section_id == '' ){return '';}
     
@@ -865,6 +865,7 @@ $("#twiz_section_name").select();';
     
     private function loadSections(){
     
+        $key_title = array();
         $this->array_sections = get_option('twiz_sections');
         $this->array_hardsections = get_option('twiz_hardsections');
         $this->array_multi_sections = get_option('twiz_multi_sections');
@@ -942,10 +943,19 @@ $("#twiz_section_name").select();';
         
         $code = update_option('twiz_hardsections', $this->array_hardsections); 
         
-        ksort($this->array_sections);
+        // Sort by title
+        foreach ($this->array_sections as $key => $value) {
+        
+            $key_title[$key] = $value[parent::KEY_TITLE];
+        }
+        
+        $key_title = array_map('strtolower', $key_title);
+        
+        array_multisort($key_title, SORT_ASC, SORT_STRING, $this->array_sections);
+        
     }  
     
-    function switchMenuStatus($id){ 
+    function switchMenuStatus( $id = '' ){ 
     
        $htmlstatus = '';
        $newstatus = '';

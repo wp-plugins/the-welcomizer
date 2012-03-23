@@ -257,7 +257,7 @@ class qqFileUploader extends TwizLibrary{
             
         case Twiz::ACTION_IMPORT:
         
-            $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_XML);
+            $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_TWIZ, Twiz::EXT_XML);
             
             break;
             

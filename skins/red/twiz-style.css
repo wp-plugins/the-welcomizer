@@ -135,16 +135,18 @@
     background: #FFFFFF url(../../skins/red/images/twiz-big-loading.gif) center no-repeat;   
 }
 #twiz_head_title {
-    font-size: 22px;
-    line-height: 35px;
+    font-size: 20px;
+    line-height: 30px;
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     text-shadow: 2px 2px 5px #9b9b9b;
-    margin-top: 13px;
     display: block;
 }
 #twiz_head_title a {
     color: #333333;
     text-decoration: none;
+}
+#twiz_head_title a:hover {
+    color: #000000;
 }
 #twiz_head_logo {
     width: 95px;
@@ -155,6 +157,7 @@
 }
 #twiz_head_version {
     font-size: 12px;
+    line-height: 12px;
 }
 #twiz_head_version a { 
     text-decoration: none;
@@ -182,7 +185,7 @@
 #twiz_vertical_menu,
 #twiz_header, 
 #twiz_footer {
-    width: 500px;
+    width: 498px;
     color: #333333;
     border: 1px solid #e44141;
 }
@@ -389,14 +392,21 @@
     -webkit-border-bottom-right-radius: 6px;
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;       
+    min-height: 16px;
+    display: block;
     text-align: center;
     font-size: 10px;
+    padding: 6px 0 0 0;
+    line-height: 0px;    
 }
 #twiz_footer a {
     text-decoration: none;
 }
 #twiz_footer a:hover {
-    text-decoration: underline;
+    cursor: pointer;
+}
+.twiz-select-event-list {
+    width: 55px;
 }
 .twiz-table-list,
 .twiz-table-form {
@@ -419,7 +429,8 @@
 }    
 .twiz-table-list img:hover,
 .twiz-arrow-lib-n:hover,
-.twiz-arrow-lib-s:hover {
+.twiz-arrow-lib-s:hover,
+.twiz-table-list-td-h a:hover {
     cursor: pointer;
 }
 .twiz-table-list-td-h {
@@ -449,7 +460,7 @@
     background-color: #F7F7F7;
 }
 .twiz-td-status {
-    width: 40px;
+    width: 42px;
 }
 .twiz-td-action {
     width: 79px;
@@ -622,8 +633,7 @@
 }
 .twiz-input[type=text]:focus,
 .twiz-input-text[type=text]:focus,
-.twiz-input-small[type=text]:focus
- {
+.twiz-input-small[type=text]:focus {
     background-color: lightyellow;
     border: #E6DB55 1px solid;
 }
@@ -634,10 +644,13 @@
 #twiz_tr_starting_config {
     display: none;
 }
-a.twiz-more-options:hover {
+a.twiz-more-configs:hover,
+a.twiz-view-more-configs:hover,
+a.twiz-anim-link:hover {
     cursor: pointer;
 }
-.twiz-more-options {
+.twiz-more-configs,
+.twiz-view-more-configs {
     font-size: 12px;
     padding-top: 5px;
 }
@@ -770,4 +783,29 @@ a.twiz-more-options:hover {
     border-right: 0px;
     padding-bottom: 0px;
     margin-top: 3px;
+}
+#twiz_ads,
+#twiz_more_ads {
+    width: 485px;
+    display: block;
+    margin: 0 auto;  
+}
+#twiz_ads {
+    height: 42px;
+}
+#twiz_more_ads {
+    height: 82px;
+}
+#twiz_footer img{
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+#twiz_show_less_ads,
+#twiz_show_more_ads  {
+    height: 10px;
+    display: none;
+}
+.twiz-ads-sep {
+    height: 10px;
+    display: block;
 }
