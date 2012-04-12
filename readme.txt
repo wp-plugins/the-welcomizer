@@ -48,7 +48,7 @@ Useful jQuery plugins to upload through the Library:
 
 = 1.4.4 = 
 
-* Added [Short code] to the output choices
+* Added [Short code] to the output choices.
 * Fixed offline status of sections with custom logic.
 * Minor fixes.
 
