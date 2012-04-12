@@ -342,7 +342,8 @@ class TwizOutput extends Twiz{
 				
 					case 'cl'; // custom logic
 					
-						if( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE ){
+                        if( ($sectionid == $key)
+                        and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
 						
 							$islogic = $this->evaluateCustomLogic($value);
 						
@@ -357,7 +358,8 @@ class TwizOutput extends Twiz{
 						
 					case 'sc': // short code
 					    
-					    if( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE ){
+                        if( ($sectionid == $key)
+                        and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
 					   
 							if( $shortcode_id != '' ){						
 
@@ -373,7 +375,7 @@ class TwizOutput extends Twiz{
         
         $and_multi_sections .= ( $field_key == '' ) ? ') ' : '';
         $and_multi_sections = str_replace(",)", ")", $and_multi_sections); 
-        
+        print $and_multi_sections;
         return $and_multi_sections;
     
     }
