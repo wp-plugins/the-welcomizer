@@ -115,10 +115,11 @@
             $twiz_section_name = esc_attr(trim($_POST['twiz_section_name']));
             $twiz_output_choice = esc_attr($_POST['twiz_output_choice']);
             $twiz_custom_logic = $_POST['twiz_custom_logic'];
+			$twiz_shortcode = $_POST['twiz_shortcode'];
 
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic);
+            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode);
             
             break;
             

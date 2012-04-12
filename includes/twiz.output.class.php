@@ -27,21 +27,22 @@ class TwizOutput extends Twiz{
     private $sections;
     private $hardsections;
     private $multi_sections;
+	private $shortcode_id;
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
     
-    function __construct(){
+    function __construct( $shortcode_id = '' ){
     
         parent::__construct();
         
-        
+        $this->shortcode_id = $shortcode_id;
         $this->sections = get_option('twiz_sections');
         $this->hardsections = get_option('twiz_hardsections');
         $this->multi_sections = get_option('twiz_multi_sections');
         $this->multi_sections = (is_array($this->multi_sections)) ? $this->multi_sections : array();
         
-        $this->listarray = $this->getCurrentList();
+        $this->listarray = $this->getCurrentList($shortcode_id);
         $admin_option = get_option('twiz_admin');
         
         if($admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
@@ -53,10 +54,17 @@ class TwizOutput extends Twiz{
 
     function generateOutput(){
                 
+	    $this_prefix = '';
+		
         // no data, no output
         if( count($this->listarray) == 0 ){ return ''; }
         
         $gstatus = get_option('twiz_global_status');
+
+		if( $this->shortcode_id != '' ){
+		
+			$this_prefix = '_'.$this->listarray[0][parent::F_SECTION_ID];
+		}
 
         if( $gstatus  == '1' ){
        
@@ -66,7 +74,7 @@ class TwizOutput extends Twiz{
             $this->generatedscript .= '<script type="text/javascript">'.$this->linebreak.'jQuery(document).ready(function($){ '.$this->linebreak;
 
             // this used by javasccript before.
-            $this->generatedscript .= 'var twiz_this = "";';
+            $this->generatedscript .= 'var twiz'.$this_prefix.'_this = "";';
             
             // Get starting positions
             $this->generatedscript .= $this->getStartingPositionsOnReady();
@@ -85,12 +93,12 @@ class TwizOutput extends Twiz{
                 $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
                 
                 // replace this
-                $value[parent::F_JAVASCRIPT] = str_replace("(this)", "(twiz_this)" , $value[parent::F_JAVASCRIPT]);
-                $value[parent::F_EXTRA_JS_A] = str_replace("(this)", "(twiz_this)" , $value[parent::F_EXTRA_JS_A]);
-                $value[parent::F_EXTRA_JS_B] = str_replace("(this)", "(twiz_this)" , $value[parent::F_EXTRA_JS_B]);
+                $value[parent::F_JAVASCRIPT] = str_replace("(this)", "(twiz".$this_prefix."_this)" , $value[parent::F_JAVASCRIPT]);
+                $value[parent::F_EXTRA_JS_A] = str_replace("(this)", "(twiz".$this_prefix."_this)" , $value[parent::F_EXTRA_JS_A]);
+                $value[parent::F_EXTRA_JS_B] = str_replace("(this)", "(twiz".$this_prefix."_this)" , $value[parent::F_EXTRA_JS_B]);
                 
                 // repeat animation function 
-                $this->generatedscript .= '$.fn.twiz_'.$repeatname.' = function(twiz_this, twiz_repeat_nbr, e){ '.$this->linebreak;
+                $this->generatedscript .= '$.fn.twiz_'.$repeatname.' = function(twiz'.$this_prefix.'_this, twiz_repeat_nbr, e){ '.$this->linebreak;
                 $this->generatedscript .= 'if(twiz_repeat_'.$repeatname.' == 0){ twiz_repeat_'.$repeatname.' = null; return true;} '.$this->linebreak;
                 $this->generatedscript .= 'if((twiz_repeat_'.$repeatname.' == null) && (twiz_repeat_nbr != null)){ '.$this->linebreak;
                 $this->generatedscript .= 'twiz_repeat_'.$repeatname.' = twiz_repeat_nbr;} '.$this->linebreak;
@@ -106,10 +114,10 @@ class TwizOutput extends Twiz{
                 if(($value[parent::F_OUTPUT]=='b') or ($value[parent::F_OUTPUT]=='')){ // before
                 
                     // js
-                    $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz_this,' , $value[parent::F_JAVASCRIPT]) : '';
+                    $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]) : '';
                     $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
                     
-                    $this->generatedscript .= str_replace("(twiz_this,)", "(twiz_this, null, e)" , $value[parent::F_JAVASCRIPT]);
+                    $this->generatedscript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT]);
                 }
                 
                 $hasSomething = $this->hasSomething($value);
@@ -128,9 +136,9 @@ class TwizOutput extends Twiz{
                     if( $value[parent::F_OUTPUT] == 'a' ){ // after 
                         
                         // js 
-                        $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz_this,' , $value[parent::F_JAVASCRIPT]);
+                        $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]);
                         $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
-                        $this->generatedscript .= str_replace("(twiz_this,)", "(twiz_this, null, e)" , $value[parent::F_JAVASCRIPT]);
+                        $this->generatedscript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT]);
                         
                     }
                     
@@ -161,9 +169,9 @@ class TwizOutput extends Twiz{
                         $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
             
                         // extra js a
-                        $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz_this,' , $value[parent::F_EXTRA_JS_A]);
+                        $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz'.$this_prefix.'_this,' , $value[parent::F_EXTRA_JS_A]);
                         $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                        
-                        $this->generatedscript .= str_replace("(twiz_this,)", "(twiz_this, null, e)" , $value[parent::F_EXTRA_JS_A]);
+                        $this->generatedscript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A]);
                         
    
                         // b
@@ -207,9 +215,9 @@ class TwizOutput extends Twiz{
                         }
                         
                         // extra js b    
-                        $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat(", $this->tab.$this->tab."$(document).twiz_".$repeatname.'(twiz_this,', $value[parent::F_EXTRA_JS_B]);
+                        $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat(", $this->tab.$this->tab."$(document).twiz_".$repeatname.'(twiz'.$this_prefix.'_this,', $value[parent::F_EXTRA_JS_B]);
                         $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizReplay(", $this->tab.$this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_B]);                          
-                         $this->generatedscript .= str_replace("(twiz_this,)", "(twiz_this, null, e)" , $value[parent::F_EXTRA_JS_B]);
+                         $this->generatedscript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_B]);
                         
                         // closing functions
                         $this->generatedscript .= $this->tab.$this->tab.'});'.$this->linebreak;
@@ -247,7 +255,7 @@ class TwizOutput extends Twiz{
             $this->generatedscript .= $this->getJavaScriptOnReady();
             $this->generatedscript .= $this->generatedscriptonready;
             
-            $this->generatedscript.= $this->linebreak.'});</script>';
+            $this->generatedscript.= $this->linebreak.'}); </script>';
         }
         return $this->generatedscript;
     }
@@ -305,14 +313,12 @@ class TwizOutput extends Twiz{
             
     }
     
-    private function generateSQLMultiSections( $sectionid = ''){
+    private function generateSQLMultiSections( $sectionid = '', $shortcode_id = ''){
         
         $comma = ',';
         $and_multi_sections = '';
         $field_key = parent::F_SECTION_ID.' IN(';
         
-       
-
         foreach($this->multi_sections as $key => $value){
         
             if(is_array($value)){ // multi output
@@ -329,15 +335,39 @@ class TwizOutput extends Twiz{
                         
                     }
                 }
-            }else{ // custom logic
-                
-                $islogic = $this->evaluateCustomLogic($value);
-                
-                if($islogic){
-                
-                    $and_multi_sections .= $field_key."'".$key."'".$comma;
-                    $field_key = '';
-                }
+            }else{ 
+				list( $type, $id ) = split('_', $key);
+				
+                switch ($type){
+				
+					case 'cl'; // custom logic
+					
+						if( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE ){
+						
+							$islogic = $this->evaluateCustomLogic($value);
+						
+							if($islogic){
+						
+								$and_multi_sections .= $field_key."'".$key."'".$comma;
+								$field_key = '';
+								
+							}
+						}
+						break;
+						
+					case 'sc': // short code
+					    
+					    if( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE ){
+					   
+							if( $shortcode_id != '' ){						
+
+								$and_multi_sections .= $field_key."'".$key."'".$comma;
+								$field_key = '';
+								
+							}				
+					    }
+					    break;
+				}
             }
         }
         
@@ -378,193 +408,230 @@ class TwizOutput extends Twiz{
 
         return $sections;
     } 
-
-    private function getCurrentList(){
+	
+	private function GetSectionIdByShortCode( $shortcode_id = '' ){
+	
+		foreach( $this->multi_sections as $key => $value){
+        
+			list( $type, $id ) = split('_', $key);
+			
+			if(($type == 'sc')and($value == $shortcode_id)){ // short code
+				
+				return $key;
+			}		
+		}
+		
+	}
+	
+    private function getCurrentList( $shortcode_id = '' ){
     
         global $post;
                    
         wp_reset_query(); // fix is_home() due to a custom query.
         
         $and_multi_sections = '';
-        
-        $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_EVERYWHERE);
+		$and_shortcode = '';
+        $section_id = '';
+		
+		if($shortcode_id != ''){
+		
+			$section_id = $this->GetSectionIdByShortCode($shortcode_id);
+			
+			$and_shortcode = $this->generateSQLMultiSections($section_id, $shortcode_id);
+			
+			if($and_shortcode != ''){
+			
+				$listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");         
+			}else{
+				$listarray_sc = array();
+			}			
+		}
+		
+		if( $shortcode_id == '' ){
+		
+			$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_EVERYWHERE);
 
-        if($and_multi_sections != ''){
-        
-            $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-        }else{
-            $listarray_e_m = array();
-        }
-        
-        if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
+			if($and_multi_sections != ''){
+			
+				$listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+			}else{
+				$listarray_e_m = array();
+			}
+			
+			if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
 
-            $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
-            
-        }else{
-            $listarray_e = array ();
-        }
-        
-       
-        switch( true ){
+				$listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
+				
+			}else{
+				$listarray_e = array ();
+			}
 
-            case ( is_home() || is_front_page() ):
+		
+			switch( true ){
 
-                $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_HOME);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_h_m = array();
-                }
-        
-                if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
-                
-                    // get the active data list array
-                    $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
-                }else{
-                    $listarray_h = array();
-                }
-   
-                $this->listarray = array_merge($listarray_e, $listarray_e_m, $listarray_h, $listarray_h_m);
-               
-                break;
-                
-            case is_category():
+				case ( is_home() || is_front_page() ):
 
-                $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_CATEGORIES);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_allc_m = array();
-                }
-                
-                $category_id = 'c_'.get_query_var('cat');
-                
-                if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-                
-                    // get the active data list array
-                    $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
-                
-                }else{
-                    $listarray_allc = array();
-                }
-                
-                $and_multi_sections = $this->generateSQLMultiSections($category_id);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_c_m = array();
-                }
-                
-                if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-                if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
-                    $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
-                }else{
-                    $listarray_c = array();
-                }
-                
-                $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_c, $listarray_c_m);
-                $this->listarray = array_merge($listarray_T, $listarray_allc, $listarray_allc_m);
-                
-                break;
-                
-            case is_page():
+					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_HOME);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_h_m = array();
+					}
+			
+					if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
+					
+						// get the active data list array
+						$listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
+					}else{
+						$listarray_h = array();
+					}
+	   
+					$this->listarray = array_merge($listarray_e, $listarray_e_m, $listarray_h, $listarray_h_m);
+				   
+					break;
+					
+				case is_category():
 
-                $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_PAGES);
-                
-                if($and_multi_sections!=''){
+					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_CATEGORIES);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_allc_m = array();
+					}
+					
+					$category_id = 'c_'.get_query_var('cat');
+					
+					if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+					
+						// get the active data list array
+						$listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
+					
+					}else{
+						$listarray_allc = array();
+					}
+					
+					$and_multi_sections = $this->generateSQLMultiSections($category_id);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_c_m = array();
+					}
+					
+					if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+					if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
+						$listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
+					}else{
+						$listarray_c = array();
+					}
+					
+					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_c, $listarray_c_m);
+					$this->listarray = array_merge($listarray_T, $listarray_allc, $listarray_allc_m);
+					
+					break;
+					
+				case is_page():
 
-                    $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_allp_m = array();
-                }
-                
-                $page_id = 'p_'.$post->ID;
-                
-                if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-                
-                    // get the active data list array
-                    $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
-                }else{
-                    $listarray_allp = array();
-                }
+					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_PAGES);
+					
+					if($and_multi_sections!=''){
 
-                $and_multi_sections = $this->generateSQLMultiSections($page_id);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_p_m = array();
-                }
-                
-                if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-                if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
-                    $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
-                }else{
-                    $listarray_p = array();
-                }
-                
-                $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_p, $listarray_p_m);
-                $this->listarray = array_merge($listarray_T, $listarray_allp, $listarray_allp_m);
-                
-                break;
+						$listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_allp_m = array();
+					}
+					
+					$page_id = 'p_'.$post->ID;
+					
+					if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+					
+						// get the active data list array
+						$listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
+					}else{
+						$listarray_allp = array();
+					}
 
-            case is_single(): 
+					$and_multi_sections = $this->generateSQLMultiSections($page_id);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_p_m = array();
+					}
+					
+					if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+					if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
+						$listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
+					}else{
+						$listarray_p = array();
+					}
+					
+					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_p, $listarray_p_m);
+					$this->listarray = array_merge($listarray_T, $listarray_allp, $listarray_allp_m);
+					
+					break;
 
-                $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_ARTICLES);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_alla_m = array();
-                }
-                
-                $post_id = 'a_'.$post->ID;
-                
-                if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-                    // get the active data list array
-                    $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
-                }else{
-                    $listarray_alla = array();
-                }
-                
-                $and_multi_sections = $this->generateSQLMultiSections($post_id);
-                
-                if($and_multi_sections!=''){
-                
-                    $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-                }else{
-                    $listarray_a_m = array();
-                }                
-                
-                if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-                if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
-                    $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
-                }else{
-                    $listarray_a = array();
-                }
-                
-                $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_a, $listarray_a_m);
-                $this->listarray = array_merge($listarray_T, $listarray_alla, $listarray_alla_m);
-                break;
-                
-            case is_feed(): 
-                
-                return '';
-                
-                break;       
-        }
-        
-        $this->listarray = (is_array($this->listarray)) ? $this->listarray : array_merge($listarray_e, $listarray_e_m);
+				case is_single(): 
 
-        $this->listarray = $this->removeDuplicates($this->listarray);
+					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_ARTICLES);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_alla_m = array();
+					}
+					
+					$post_id = 'a_'.$post->ID;
+					
+					if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+						// get the active data list array
+						$listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
+					}else{
+						$listarray_alla = array();
+					}
+					
+					$and_multi_sections = $this->generateSQLMultiSections($post_id);
+					
+					if($and_multi_sections!=''){
+					
+						$listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+					}else{
+						$listarray_a_m = array();
+					}                
+					
+					if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+					if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
+						$listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
+					}else{
+						$listarray_a = array();
+					}
+					
+					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_a, $listarray_a_m);
+					$this->listarray = array_merge($listarray_T, $listarray_alla, $listarray_alla_m);
+					break;
+					
+				case is_feed(): 
+					
+					return '';
+					
+					break;       
+			}
+		
+			$this->listarray = (is_array($this->listarray)) ? $this->listarray : array_merge($listarray_e, $listarray_e_m);
+
+			$this->listarray = $this->removeDuplicates($this->listarray);
+			
+        }else{ // shortcode
+		
+			$this->listarray = $listarray_sc;
+		}
         
         return $this->listarray;
     }

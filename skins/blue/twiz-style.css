@@ -26,9 +26,6 @@
     height: 20px;
     margin: 0px 1px 0 2px;
 }
-.twiz-clear {
-    clear: both;
-}
 #twiz_background {
     width: 84%;
     min-height: 500px;
@@ -259,7 +256,7 @@
     padding: 5px 7px 0 13px;
 }
 .twiz-output-label {
-    width: 45px;
+    width: 62px;
     float: right;
     padding: 0 5px 0 0;
     text-align: center;
@@ -356,13 +353,14 @@
     height: 35px;
     display: block;
 }
-.twiz-output-choice{
-    margin-left: 19px;
+#twiz_shortcode_sample {
+	font-size: 14px;
+	text-align: center;
+	padding: 5px 0 0 5px;
+	color: blue;
 }
-#twiz_single_output,
-#twiz_multiple_output,
-#twiz_logic_output { 
-    display: none;
+.twiz-output-choice{
+    margin-left: 10px;
 }
 #twiz_multi_action {
     float: right;

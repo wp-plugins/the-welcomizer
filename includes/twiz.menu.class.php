@@ -36,7 +36,9 @@ class TwizMenu extends Twiz{
     const TYPE_UNIQUE       = 'unique';      
     const TYPE_MULTIPLE     = 'multiple';      
     const TYPE_CUSTOM_LOGIC = 'custom_logic';      
-    const TYPE_CUSTOM_LOGIC_SHORT = 'logic';     
+    const TYPE_CUSTOM_LOGIC_SHORT = 'logic';    
+    const TYPE_SHORT_CODE   = 'shortcode';    
+	
     
     /* Section name menu max lenght... */
     const MAX_LENGHT_SECTION_NAME = '48';     
@@ -59,6 +61,7 @@ class TwizMenu extends Twiz{
                                     ,self::TYPE_MULTIPLE     => __('Multiple', 'the-welcomizer')
                                     ,self::TYPE_CUSTOM_LOGIC => __('Custom logic', 'the-welcomizer')
                                     ,self::TYPE_CUSTOM_LOGIC_SHORT => __('Logic', 'the-welcomizer')
+                                    ,self::TYPE_SHORT_CODE   => __('Short code', 'the-welcomizer')
                                     );                  
 
         $this->categories = get_categories( array('orderby' => 'name', 
@@ -105,7 +108,7 @@ class TwizMenu extends Twiz{
         return $max;
     }
     
-    function saveSectionMenu( $section_json_id = '', $section_name = '', $current_section_id = '', $output_choice = '', $custom_logic = '' ){
+    function saveSectionMenu( $section_json_id = '', $section_name = '', $current_section_id = '', $output_choice = '', $custom_logic = '', $short_code = '' ){
     
         global $wpdb;
    
@@ -176,6 +179,7 @@ class TwizMenu extends Twiz{
                 
                 // add type replacement
                 if((preg_match("/cl_/i", $current_section_id))
+                or (preg_match("/sc_/i", $current_section_id))
                 or (preg_match("/c_/i", $current_section_id))
                 or (preg_match("/p_/i", $current_section_id))
                 or (preg_match("/a_/i", $current_section_id))){
@@ -239,6 +243,7 @@ class TwizMenu extends Twiz{
                 
                 // add type replacement
                 if((preg_match("/ms_/i", $current_section_id))
+                or (preg_match("/sc_/i", $current_section_id))
                 or (preg_match("/c_/i", $current_section_id))
                 or (preg_match("/p_/i", $current_section_id))
                 or (preg_match("/a_/i", $current_section_id))){
@@ -287,6 +292,69 @@ class TwizMenu extends Twiz{
                 return $section_id;
                 
             break;
+			
+            case 'twiz_shortcode_output':
+            
+                $section = array(parent::F_STATUS  => parent::STATUS_ACTIVE 
+                                ,parent::KEY_TITLE => $section_name
+                                );
+                                         
+                if( !isset($this->array_multi_sections[$current_section_id]) ){}else{ unset($this->array_multi_sections[$current_section_id]); }
+                if( !isset($this->array_sections[$current_section_id]) ){}else{ unset($this->array_sections[$current_section_id]);}
+                    
+                $newprefix = "sc_".($this->getMaxKeyArrayMultiSections() + 1);
+                
+                // add type replacement
+                if((preg_match("/ms_/i", $current_section_id))
+                or (preg_match("/cl_/i", $current_section_id))
+                or (preg_match("/c_/i", $current_section_id))
+                or (preg_match("/p_/i", $current_section_id))
+                or (preg_match("/a_/i", $current_section_id))){
+             
+                    $new_section_id = $newprefix;
+                }
+               
+                // Update or insert
+                if($current_section_id != "") {  // update
+
+                    $section_id = ($new_section_id != "" ) ? $new_section_id : $current_section_id;
+                    
+                }else{ // insert
+
+                    $section_id = $newprefix;
+                }
+ 
+                if((!in_array($current_section_id, $this->array_default_section))
+                or (in_array($$array_section_id[0], $this->array_default_section))
+                and ($current_section_id != "")){
+           
+                    // Replace all section_id.
+                    $updatesql = "UPDATE ".$this->table . " SET
+                     ". parent::F_JAVASCRIPT . " = replace(". parent::F_JAVASCRIPT . ", '_".$current_section_id."', '_".$section_id."') 
+                    ,". parent::F_EXTRA_JS_A . " = replace(". parent::F_EXTRA_JS_A . ", '_".$current_section_id."', '_".$section_id."') 
+                    ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '_".$current_section_id."', '_".$section_id."') 
+                    WHERE ". parent::F_SECTION_ID ." = '".$current_section_id."'";
+                    $code = $wpdb->query($updatesql);   
+                    
+                    // update the section
+                    $sql = "UPDATE ".$this->table." 
+                          SET ".parent::F_SECTION_ID." = '". $section_id ."'               
+                          WHERE ".parent::F_SECTION_ID." = '". $current_section_id ."';";
+                    $code = $wpdb->query($sql);
+                }
+            
+                if( !isset($this->array_multi_sections[$section_id]) ) $this->array_multi_sections[$section_id] = '';
+                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';   
+                               
+                $this->array_multi_sections[$section_id] = $short_code;
+                $this->array_sections[$section_id] = $section;
+
+                $code = update_option('twiz_multi_sections', $this->array_multi_sections);
+                $code = update_option('twiz_sections', $this->array_sections);
+                
+                return $section_id;
+                
+            break;			
         }
     }    
     
@@ -519,6 +587,8 @@ class TwizMenu extends Twiz{
         $jsscript_in = '';
         $default_message = '';
         $twiz_custom_logic ='';
+		$twiz_shortcode = '';
+		$twiz_shortcode_sample = '';
         $array_sections = array();
 
         if( ($section_id!="") and (!in_array($section_id, $this->array_default_section)) ){
@@ -528,6 +598,15 @@ class TwizMenu extends Twiz{
             // get the section array single or multi
             switch($type){
             
+                case 'sc': // is short code
+                
+                    $twiz_shortcode = $this->array_multi_sections[$section_id];
+                    $jsscript_in = '$(".twiz-custom-message").html("");
+$("#twiz_output_choice_0").attr("checked", "checked");                    
+$(".twiz-block-ouput").hide();
+$("#twiz_shortcode_output").show();';
+                    break;                    
+					
                 case 'ms': // is custom multi-sections
                 
                     $array_sections = $this->array_multi_sections[$section_id];
@@ -546,7 +625,8 @@ $("#twiz_output_choice_3").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
 $("#twiz_logic_output").show();';
                     break;
-                    
+					
+					
                 default:
                     $array_sections = array($section_id);
                     $jsscript_in = '$(".twiz-custom-message").html("");
@@ -556,9 +636,9 @@ $("#twiz_single_output").show();';
             }       
         }else{
                     $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_2").attr("checked", "checked");                    
+$("#twiz_output_choice_0").attr("checked", "checked");                    
 $(".twiz-block-ouput").hide();
-$("#twiz_multiple_output").show();';   
+$("#twiz_shortcode_output").show();';   
 }        
   
         $addsection = '';
@@ -570,6 +650,8 @@ $("#twiz_multiple_output").show();';
         $twiz_section_name = str_replace('<span class="twiz-status-red">', '', $twiz_section_name );
         $twiz_section_name = str_replace('</span>', '', $twiz_section_name );
         
+		$twiz_shortcode_sample = ( $twiz_shortcode != '' ) ? '[twiz id="'.$twiz_shortcode.'"]' : '[twiz id="'. __('Example').'"]';
+		
         if(( in_array($twiz_section_name, $this->array_section_conversion) )
         and ($type!= 'ms') ){
         
@@ -586,9 +668,10 @@ $("#twiz_multiple_output").show();';
         
             $twiz_section_name = __('Give the section a name', 'the-welcomizer');
             
-            $jsscript .= '
-$("#twiz_section_name").select();';
         }
+
+        $jsscript .= '
+$("#twiz_section_name").focus();';
         
         $jsscript .= $jsscript_in;
 
@@ -597,7 +680,10 @@ $("#twiz_section_name").select();';
 </script>';
         
         // radio menu choice
-        $choices = '<div id="twiz_output_section">'.__('Output type', 'the-welcomizer').':<input type="radio" id="twiz_output_choice_1" name="twiz_output_choice" class="twiz-output-choice" value="twiz_single_output"> <label for="twiz_output_choice_1">'.__('Unique', 'the-welcomizer').'</label>';
+        $choices = '<div id="twiz_output_section">'.__('Output type', 'the-welcomizer').': ';
+		
+   	    $choices .= '<input type="radio" id="twiz_output_choice_0" name="twiz_output_choice" class="twiz-output-choice" value="twiz_shortcode_output"> <label for="twiz_output_choice_0">'.__('Short code', 'the-welcomizer').'</label>';
+		$choices .= '<input type="radio" id="twiz_output_choice_1" name="twiz_output_choice" class="twiz-output-choice" value="twiz_single_output"> <label for="twiz_output_choice_1">'.__('Unique', 'the-welcomizer').'</label>';
         $choices .= '<input type="radio" id="twiz_output_choice_2" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_multiple_output"> <label for="twiz_output_choice_2">'.__('Multiple', 'the-welcomizer').'</label>';
         $choices .= '<input type="radio" id="twiz_output_choice_3" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_logic_output"> <label for="twiz_output_choice_3">'.__('Custom logic', 'the-welcomizer').'</label>';
         $choices .= '</div>';
@@ -607,6 +693,9 @@ $("#twiz_section_name").select();';
         
         $html .= $choices;
         
+         // Shortcode section box
+        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Paste the short code in posts, pages and text widgets.', 'the-welcomizer').'<br><div id="twiz_shortcode_sample">'.$twiz_shortcode_sample.'</div></div><br><div id="twiz_custom_message_0" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'"></div>';
+		
         // single section box
         $html .= '<div id="twiz_single_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_UNIQUE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Select to overwrite the section name.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_1" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlSingleSection($section_id).'</div>';
         
@@ -618,6 +707,7 @@ $("#twiz_section_name").select();';
         
         </div>';
         
+		
         $html .= $jsscript;
         
         return $html;
@@ -738,6 +828,12 @@ $("#twiz_section_name").select();';
         
         switch($type){
          
+            case 'sc': // is short code
+            
+                return '<div class="twiz-output-label">'.$this->array_output[self::TYPE_SHORT_CODE].'</div>';
+            
+                break;
+				
             case 'ms': // is custom multi-sections
             
                 return '<div class="twiz-output-label">'.$this->array_output[self::TYPE_MULTIPLE].'</div>';
@@ -749,7 +845,7 @@ $("#twiz_section_name").select();';
                 return '<div class="twiz-output-label">'.$this->array_output[self::TYPE_CUSTOM_LOGIC_SHORT].'</div>';
             
                 break;
-            
+
             default:
             
                 return '<div class="twiz-output-label">'.$this->array_output[self::TYPE_UNIQUE].'</div>';
@@ -798,6 +894,12 @@ $("#twiz_section_name").select();';
         
         switch($type){
         
+			case 'sc': // is short code
+            
+                $name = $this->array_sections[$key][parent::KEY_TITLE];
+            
+                break;
+				
             case 'ms': // is custom multi-sections
             
                 $name = $this->array_sections[$key][parent::KEY_TITLE];
@@ -809,7 +911,7 @@ $("#twiz_section_name").select();';
                 $name = $this->array_sections[$key][parent::KEY_TITLE];
             
                 break;
-                
+
             case 'c': // is category
             
                 $wpname = get_cat_name($id);

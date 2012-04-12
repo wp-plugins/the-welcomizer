@@ -48,7 +48,7 @@ class Twiz{
     const SKIN_PATH     = '/skins/';
     
     /* default number of posts to display */
-    CONST DEFAULT_NUMBER_POSTS = '125'; // Last 125 posts
+    const DEFAULT_NUMBER_POSTS = '125'; // Last 125 posts
         
     /* element type constants */ 
     const ELEMENT_TYPE_ID    = 'id';
@@ -178,16 +178,16 @@ class Twiz{
     const KEY_REGISTER_JQUERY    = 'register_jquery';
     
     /* Minimal role level constant key */
-    CONST KEY_MIN_ROLE_LEVEL = 'min_role_level';
+    const KEY_MIN_ROLE_LEVEL = 'min_role_level';
     
     /* Deactivation constant key */
-    CONST KEY_DELETE_ALL = 'delete_all';
+    const KEY_DELETE_ALL = 'delete_all';
     
     /* Number Posts to display key */
-    CONST KEY_NUMBER_POSTS = 'number_posts';
+    const KEY_NUMBER_POSTS = 'number_posts';
 
     /* Starting position by default on add new */
-    CONST KEY_STARTING_POSITION = 'starting_position';
+    const KEY_STARTING_POSITION = 'starting_position';
     
     /* Output constants*/  
     const OUTPUT_HEADER = 'wp_head';    
@@ -442,8 +442,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.3';
-        $this->cssVersion = '1-1';
+        $this->version    = '1.4.4';
+        $this->cssVersion = '1-2';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1536,7 +1536,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
             
             if( $action == self::ACTION_COPY ){
             
-                $hideimport .= '$("#twiz_export").fadeOut("fast");';
+                $hideimport = '$("#twiz_export").fadeOut("fast");';
             }
         }else{
         
@@ -1558,7 +1558,8 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
         $jsscript_moreoptions = '$(".twiz-table-more-options").toggle();';
         
         /* hide element */
-        $jsscript_hide = '$("#twiz_new").fadeOut("fast");
+        $jsscript_hide = '$("#twiz_layer_id").focus();
+$("#twiz_new").fadeOut("fast");
 $("#twiz_right_panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
 $("#twiz_edit_menu").fadeIn("fast");
@@ -2548,7 +2549,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
     private function getHtmlSkinBullets() {
            
         $dirarray = $this->getSkinsDirectory();
-        //<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=223&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=24077487353" scrolling="no" frameborder="0" style="float: right;border:none; overflow:hidden; width:223px; height:21px; top: 86px; left: 137px;position:absolute;" allowTransparency="true"></iframe>
+		
         $html_open = '<div id="twiz_skin_bullet">';
         $html_img = '';
         $html_close = '</div>';

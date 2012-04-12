@@ -841,7 +841,10 @@ class TwizAjax extends Twiz{
         });
   }
   var bind_twiz_Save_Section = function() {
-        $("input[name=twiz_output_choice]").click(function(){
+    $("#twiz_shortcode").keyup(function (e){
+	    $("#twiz_shortcode_sample").html("[twiz id=\"" + $("#twiz_shortcode").val() + "\"]");
+    });
+    $("input[name=twiz_output_choice]").click(function(){
         var twiz_blockid = $(this).val();
         $(".twiz-custom-message").html("");
         $(".twiz-block-ouput").hide();
@@ -878,6 +881,15 @@ class TwizAjax extends Twiz{
             twiz_sectiontovalid = $(this).val();
         }});
         switch(twiz_sectiontovalid){
+            case "twiz_shortcode_output":
+                if($("#twiz_shortcode").val()== ""){
+                    $("#twiz_custom_message_0").html("' .__('Please type a short code.', 'the-welcomizer').'");
+                    $("#twiz_loading_menu").html("");
+                     twiz_validsection = false;
+                }else{
+                    $("#twiz_custom_message_0").html("");
+                }              
+                break; 				
             case "twiz_single_output":
                 twiz_sectionid[0] = $("#twiz_slc_sections").val();
                 if(twiz_sectionid[0] == ""){
@@ -910,7 +922,7 @@ class TwizAjax extends Twiz{
                 }else{
                     $("#twiz_custom_message_3").html("");
                 }              
-                break;            
+                break;    
         }
         if(twiz_validsection == true){
             $("#twiz_loading_menu").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><img\' + \' name="twiz_img_loading_add_sections"\' + \' id="twiz_img_loading_add_sections"\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" /></div>\');
@@ -924,6 +936,7 @@ class TwizAjax extends Twiz{
                  "twiz_current_section_id": $("#twiz_section_id").val(),
                  "twiz_output_choice": $("input[name=twiz_output_choice]:checked").val(),
                  "twiz_custom_logic": $("#twiz_custom_logic").val(),
+                 "twiz_shortcode": $("#twiz_shortcode").val(),
                  "twiz_section_id": JSON.stringify(twiz_sectionid)
                 }, function(data) {
                     twiz_current_section_id = data; 
