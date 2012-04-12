@@ -341,8 +341,8 @@ class TwizOutput extends Twiz{
                 switch ($type){
 				
 					case 'cl'; // custom logic
-					
-                        if( ($sectionid == $key)
+
+                        if( ( $shortcode_id == '' )
                         and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
 						
 							$islogic = $this->evaluateCustomLogic($value);
