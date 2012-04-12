@@ -375,7 +375,7 @@ class TwizOutput extends Twiz{
         
         $and_multi_sections .= ( $field_key == '' ) ? ') ' : '';
         $and_multi_sections = str_replace(",)", ")", $and_multi_sections); 
-        print $and_multi_sections;
+
         return $and_multi_sections;
     
     }
