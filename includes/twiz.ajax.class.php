@@ -23,8 +23,7 @@ class TwizAjax extends Twiz{
     }
 
     function getAjaxHeader(){
-    $header = '
- jQuery(document).ready(function($) {
+    $header = 'jQuery(document).ready(function($) {
  $.ajaxSetup({ cache: false });
  var twiz_skin =  "'.$this->skin.'";
  if((twiz_skin == "")||(twiz_skin == "'.parent::SKIN_PATH.'")){ twiz_skin = "'.parent::SKIN_PATH.''.parent::DEFAULT_SKIN.'";}

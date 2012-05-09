@@ -442,7 +442,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4';
+        $this->version    = '1.4.4.1';
         $this->cssVersion = '1-2';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
@@ -2301,7 +2301,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         return true;
     }
     
-    private function UpdateTwizFunctions( $current_value = '', $new_value = '') {
+    private function UpdateTwizFunctions( $current_value = '', $new_value = '', $section_id = '') {
 
         global $wpdb;
             
@@ -2312,7 +2312,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
             $current_value = str_replace("-", "_", $current_value);
             $new_value = str_replace("-", "_", $new_value);
 
-            $sql = "SELECT * from ".$this->table;
+            $sql = "SELECT * from ".$this->table. " WHERE ".self::F_SECTION_ID." = '".$section_id."'";
             $rows = $wpdb->get_results($sql, ARRAY_A);
 
             foreach ( $rows as $row ) {
@@ -2334,6 +2334,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $twiz_status = esc_attr(trim($_POST['twiz_'.self::F_STATUS]));
         $twiz_status = ($twiz_status=='true') ? 1 : 0;
         
+		$twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
+		 
         $twiz_layer_id = esc_attr(trim($_POST['twiz_'.self::F_LAYER_ID]));
         $twiz_layer_id = ($twiz_layer_id=='') ? '' : $twiz_layer_id;
         
@@ -2408,7 +2410,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                   ,".self::F_EXTRA_JS_A."
                   ,".self::F_EXTRA_JS_B."         
                   )values('".$exportid."'
-                  ,'".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
+                  ,'".$twiz_section_id."'
                   ,'".$twiz_status."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."'
                   ,'".$twiz_layer_id."'
@@ -2461,7 +2463,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
             $current_value = $wpdb->get_row($sql, ARRAY_A);
         
             $sql = "UPDATE ".$this->table." 
-                  SET ".self::F_SECTION_ID." = '".esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]))."'
+                  SET ".self::F_SECTION_ID." = '".$twiz_section_id."'
                  ,".self::F_STATUS." = '".$twiz_status."'
                  ,".self::F_TYPE."  = '".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."' 
                  ,".self::F_LAYER_ID." = '".$twiz_layer_id."'
@@ -2501,7 +2503,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                     
             $code = $wpdb->query($sql);
             
-            $ok = $this->UpdateTwizFunctions( $current_value, $twiz_layer_id );
+            $ok = $this->UpdateTwizFunctions( $current_value, $twiz_layer_id, $twiz_section_id);
                
             return $id;
         }
