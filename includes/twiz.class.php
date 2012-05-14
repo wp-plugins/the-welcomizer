@@ -442,8 +442,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.1';
-        $this->cssVersion = '1-2';
+        $this->version    = '1.4.4.2';
+        $this->cssVersion = '1-21';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -565,17 +565,7 @@ class Twiz{
             . $ads[1] . $extraspaces 
             . $ads[2] . $extraspaces 
             . $ads[3]
-            .'</div><div id="twiz_more_ads">' 
-            . $ads[4] . $extraspaces 
-            . $ads[5] . $extraspaces 
-            . $ads[6] . $extraspaces 
-            . $ads[7] 
-            .'<div class="twiz-ads-sep"></div>'
-            . $ads[8] . $extraspaces 
-            . $ads[9] . $extraspaces 
-            . $ads[10] . $extraspaces 
-            . $ads[11]
-            .'</div><div id="twiz_show_more_ads"><a>'.__('More suggestions', 'the-welcomizer').'</a></div><div id="twiz_show_less_ads"><a>'.__('Fewer suggestions', 'the-welcomizer').'</a></div>';
+            .'</div>';
         
         return $html;
     
@@ -1558,8 +1548,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
         $jsscript_moreoptions = '$(".twiz-table-more-options").toggle();';
         
         /* hide element */
-        $jsscript_hide = '$("#twiz_layer_id").focus();
-$("#twiz_new").fadeOut("fast");
+        $jsscript_hide = '$("#twiz_new").fadeOut("fast");
 $("#twiz_right_panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
 $("#twiz_edit_menu").fadeIn("fast");
@@ -2334,8 +2323,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $twiz_status = esc_attr(trim($_POST['twiz_'.self::F_STATUS]));
         $twiz_status = ($twiz_status=='true') ? 1 : 0;
         
-		$twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
-		 
+        $twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
+         
         $twiz_layer_id = esc_attr(trim($_POST['twiz_'.self::F_LAYER_ID]));
         $twiz_layer_id = ($twiz_layer_id=='') ? '' : $twiz_layer_id;
         
@@ -2551,7 +2540,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
     private function getHtmlSkinBullets() {
            
         $dirarray = $this->getSkinsDirectory();
-		
+        
         $html_open = '<div id="twiz_skin_bullet">';
         $html_img = '';
         $html_close = '</div>';

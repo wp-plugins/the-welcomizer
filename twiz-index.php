@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.4.1
+Version: 1.4.4.2
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -94,25 +94,25 @@ License: GPL2
         echo($myTwizOutput->generateOutput());
     }
     
-	// do short code
-	function twizReplaceShortCode( $shortcode = '' ){
-	
+    // do short code
+    function twizReplaceShortCode( $shortcode = '' ){
+    
         $admin_option = get_option('twiz_admin');
-		
+        
         $myTwizOutput  = new TwizOutput($shortcode['id']);
-		
-        return($myTwizOutput->generateOutput());		
-	}
-	
+        
+        return($myTwizOutput->generateOutput());        
+    }
+    
     function twizInit(){
-		
+        
         $gstatus = get_option('twiz_global_status');
      
         if (( !is_admin() ) and ( $gstatus == '1' ) 
         and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
         and (!preg_match("/wp-login/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
         ) {
-			
+            
             $myTwizLibrary  = new TwizLibrary();
             
             // get output setting
@@ -120,9 +120,9 @@ License: GPL2
             
             if( $admin_option[Twiz::KEY_OUTPUT] !=  '' ){
 
-				add_shortcode('twiz','twizReplaceShortCode');
-				add_filter('widget_text', 'do_shortcode', 11);
-				
+                add_shortcode('twiz','twizReplaceShortCode');
+                add_filter('widget_text', 'do_shortcode', 11);
+                
                 // add the Frontend generated code
                 add_filter($admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
             }

@@ -16,10 +16,10 @@
 */
 
 class TwizLibrary extends Twiz{
-	
+    
     /* variable declaration */
     public $array_library;
-	
+    
     function __construct(){
     
         parent::__construct();
@@ -253,8 +253,8 @@ jQuery(document).ready(function($) {
         
         if( $id=='' ){return false;}
     
-		$cleanid = str_replace('library_','',$id);
-		   
+        $cleanid = str_replace('library_','',$id);
+           
         $value = $this->getLibraryValue($cleanid, parent::F_STATUS);
         
         $newstatus = ( $value == '1' ) ? '0' : '1'; // swicth the status value

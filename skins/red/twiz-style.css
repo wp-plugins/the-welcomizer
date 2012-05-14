@@ -74,7 +74,7 @@
     margin-left: 15px;
     position: relative;
     top: 0px;
-    z-index: -1;
+    z-index: 1;
 }
 #twiz_right_panel {
     min-height: 200px;
@@ -782,28 +782,13 @@ a.twiz-anim-link:hover {
     padding-bottom: 0px;
     margin-top: 3px;
 }
-#twiz_ads,
-#twiz_more_ads {
+#twiz_ads {
     width: 485px;
+    height: 37px;
     display: block;
     margin: 0 auto;  
-}
-#twiz_ads {
-    height: 42px;
-}
-#twiz_more_ads {
-    height: 82px;
 }
 #twiz_footer img{
     opacity: 0.3;
     filter: alpha(opacity=30);
-}
-#twiz_show_less_ads,
-#twiz_show_more_ads  {
-    height: 10px;
-    display: none;
-}
-.twiz-ads-sep {
-    height: 10px;
-    display: block;
 }

@@ -27,7 +27,7 @@ class TwizOutput extends Twiz{
     private $sections;
     private $hardsections;
     private $multi_sections;
-	private $shortcode_id;
+    private $shortcode_id;
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
@@ -54,17 +54,17 @@ class TwizOutput extends Twiz{
 
     function generateOutput(){
                 
-	    $this_prefix = '';
-		
+        $this_prefix = '';
+        
         // no data, no output
         if( count($this->listarray) == 0 ){ return ''; }
         
         $gstatus = get_option('twiz_global_status');
 
-		if( $this->shortcode_id != '' ){
-		
-			$this_prefix = '_'.$this->listarray[0][parent::F_SECTION_ID];
-		}
+        if( $this->shortcode_id != '' ){
+        
+            $this_prefix = '_'.$this->listarray[0][parent::F_SECTION_ID];
+        }
 
         if( $gstatus  == '1' ){
        
@@ -336,40 +336,40 @@ class TwizOutput extends Twiz{
                     }
                 }
             }else{ 
-				list( $type, $id ) = split('_', $key);
-				
+                list( $type, $id ) = split('_', $key);
+                
                 switch ($type){
-				
-					case 'cl'; // custom logic
+                
+                    case 'cl'; // custom logic
 
                         if( ( $shortcode_id == '' )
                         and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
-						
-							$islogic = $this->evaluateCustomLogic($value);
-						
-							if($islogic){
-						
-								$and_multi_sections .= $field_key."'".$key."'".$comma;
-								$field_key = '';
-								
-							}
-						}
-						break;
-						
-					case 'sc': // short code
-					    
+                        
+                            $islogic = $this->evaluateCustomLogic($value);
+                        
+                            if($islogic){
+                        
+                                $and_multi_sections .= $field_key."'".$key."'".$comma;
+                                $field_key = '';
+                                
+                            }
+                        }
+                        break;
+                        
+                    case 'sc': // short code
+                        
                         if( ($sectionid == $key)
                         and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
-					   
-							if( $shortcode_id != '' ){						
+                       
+                            if( $shortcode_id != '' ){                        
 
-								$and_multi_sections .= $field_key."'".$key."'".$comma;
-								$field_key = '';
-								
-							}				
-					    }
-					    break;
-				}
+                                $and_multi_sections .= $field_key."'".$key."'".$comma;
+                                $field_key = '';
+                                
+                            }                
+                        }
+                        break;
+                }
             }
         }
         
@@ -410,21 +410,21 @@ class TwizOutput extends Twiz{
 
         return $sections;
     } 
-	
-	private function GetSectionIdByShortCode( $shortcode_id = '' ){
-	
-		foreach( $this->multi_sections as $key => $value){
+    
+    private function GetSectionIdByShortCode( $shortcode_id = '' ){
+    
+        foreach( $this->multi_sections as $key => $value){
         
-			list( $type, $id ) = split('_', $key);
-			
-			if(($type == 'sc')and($value == $shortcode_id)){ // short code
-				
-				return $key;
-			}		
-		}
-		
-	}
-	
+            list( $type, $id ) = split('_', $key);
+            
+            if(($type == 'sc')and($value == $shortcode_id)){ // short code
+                
+                return $key;
+            }        
+        }
+        
+    }
+    
     private function getCurrentList( $shortcode_id = '' ){
     
         global $post;
@@ -432,208 +432,208 @@ class TwizOutput extends Twiz{
         wp_reset_query(); // fix is_home() due to a custom query.
         
         $and_multi_sections = '';
-		$and_shortcode = '';
+        $and_shortcode = '';
         $section_id = '';
-		
-		if($shortcode_id != ''){
-		
-			$section_id = $this->GetSectionIdByShortCode($shortcode_id);
-			
-			$and_shortcode = $this->generateSQLMultiSections($section_id, $shortcode_id);
-			
-			if($and_shortcode != ''){
-			
-				$listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");         
-			}else{
-				$listarray_sc = array();
-			}			
-		}
-		
-		if( $shortcode_id == '' ){
-		
-			$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_EVERYWHERE);
+        
+        if($shortcode_id != ''){
+        
+            $section_id = $this->GetSectionIdByShortCode($shortcode_id);
+            
+            $and_shortcode = $this->generateSQLMultiSections($section_id, $shortcode_id);
+            
+            if($and_shortcode != ''){
+            
+                $listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");         
+            }else{
+                $listarray_sc = array();
+            }            
+        }
+        
+        if( $shortcode_id == '' ){
+        
+            $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_EVERYWHERE);
 
-			if($and_multi_sections != ''){
-			
-				$listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-			}else{
-				$listarray_e_m = array();
-			}
-			
-			if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
+            if($and_multi_sections != ''){
+            
+                $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+            }else{
+                $listarray_e_m = array();
+            }
+            
+            if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
 
-				$listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
-				
-			}else{
-				$listarray_e = array ();
-			}
+                $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
+                
+            }else{
+                $listarray_e = array ();
+            }
 
-		
-			switch( true ){
+        
+            switch( true ){
 
-				case ( is_home() || is_front_page() ):
+                case ( is_home() || is_front_page() ):
 
-					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_HOME);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_h_m = array();
-					}
-			
-					if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
-					
-						// get the active data list array
-						$listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
-					}else{
-						$listarray_h = array();
-					}
-	   
-					$this->listarray = array_merge($listarray_e, $listarray_e_m, $listarray_h, $listarray_h_m);
-				   
-					break;
-					
-				case is_category():
+                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_HOME);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_h_m = array();
+                    }
+            
+                    if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    
+                        // get the active data list array
+                        $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
+                    }else{
+                        $listarray_h = array();
+                    }
+       
+                    $this->listarray = array_merge($listarray_e, $listarray_e_m, $listarray_h, $listarray_h_m);
+                   
+                    break;
+                    
+                case is_category():
 
-					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_CATEGORIES);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_allc_m = array();
-					}
-					
-					$category_id = 'c_'.get_query_var('cat');
-					
-					if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-					
-						// get the active data list array
-						$listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
-					
-					}else{
-						$listarray_allc = array();
-					}
-					
-					$and_multi_sections = $this->generateSQLMultiSections($category_id);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_c_m = array();
-					}
-					
-					if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-					if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
-						$listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
-					}else{
-						$listarray_c = array();
-					}
-					
-					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_c, $listarray_c_m);
-					$this->listarray = array_merge($listarray_T, $listarray_allc, $listarray_allc_m);
-					
-					break;
-					
-				case is_page():
+                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_CATEGORIES);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_allc_m = array();
+                    }
+                    
+                    $category_id = 'c_'.get_query_var('cat');
+                    
+                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    
+                        // get the active data list array
+                        $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
+                    
+                    }else{
+                        $listarray_allc = array();
+                    }
+                    
+                    $and_multi_sections = $this->generateSQLMultiSections($category_id);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_c_m = array();
+                    }
+                    
+                    if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+                    if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
+                        $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
+                    }else{
+                        $listarray_c = array();
+                    }
+                    
+                    $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_c, $listarray_c_m);
+                    $this->listarray = array_merge($listarray_T, $listarray_allc, $listarray_allc_m);
+                    
+                    break;
+                    
+                case is_page():
 
-					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_PAGES);
-					
-					if($and_multi_sections!=''){
+                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_PAGES);
+                    
+                    if($and_multi_sections!=''){
 
-						$listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_allp_m = array();
-					}
-					
-					$page_id = 'p_'.$post->ID;
-					
-					if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-					
-						// get the active data list array
-						$listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
-					}else{
-						$listarray_allp = array();
-					}
+                        $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_allp_m = array();
+                    }
+                    
+                    $page_id = 'p_'.$post->ID;
+                    
+                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    
+                        // get the active data list array
+                        $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
+                    }else{
+                        $listarray_allp = array();
+                    }
 
-					$and_multi_sections = $this->generateSQLMultiSections($page_id);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_p_m = array();
-					}
-					
-					if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-					if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
-						$listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
-					}else{
-						$listarray_p = array();
-					}
-					
-					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_p, $listarray_p_m);
-					$this->listarray = array_merge($listarray_T, $listarray_allp, $listarray_allp_m);
-					
-					break;
+                    $and_multi_sections = $this->generateSQLMultiSections($page_id);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_p_m = array();
+                    }
+                    
+                    if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+                    if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
+                        $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
+                    }else{
+                        $listarray_p = array();
+                    }
+                    
+                    $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_p, $listarray_p_m);
+                    $this->listarray = array_merge($listarray_T, $listarray_allp, $listarray_allp_m);
+                    
+                    break;
 
-				case is_single(): 
+                case is_single(): 
 
-					$and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_ARTICLES);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_alla_m = array();
-					}
-					
-					$post_id = 'a_'.$post->ID;
-					
-					if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
-						// get the active data list array
-						$listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
-					}else{
-						$listarray_alla = array();
-					}
-					
-					$and_multi_sections = $this->generateSQLMultiSections($post_id);
-					
-					if($and_multi_sections!=''){
-					
-						$listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
-					}else{
-						$listarray_a_m = array();
-					}                
-					
-					if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
-					if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
-						$listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
-					}else{
-						$listarray_a = array();
-					}
-					
-					$listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_a, $listarray_a_m);
-					$this->listarray = array_merge($listarray_T, $listarray_alla, $listarray_alla_m);
-					break;
-					
-				case is_feed(): 
-					
-					return '';
-					
-					break;       
-			}
-		
-			$this->listarray = (is_array($this->listarray)) ? $this->listarray : array_merge($listarray_e, $listarray_e_m);
+                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_ARTICLES);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_alla_m = array();
+                    }
+                    
+                    $post_id = 'a_'.$post->ID;
+                    
+                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                        // get the active data list array
+                        $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
+                    }else{
+                        $listarray_alla = array();
+                    }
+                    
+                    $and_multi_sections = $this->generateSQLMultiSections($post_id);
+                    
+                    if($and_multi_sections!=''){
+                    
+                        $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                    }else{
+                        $listarray_a_m = array();
+                    }                
+                    
+                    if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
+                    if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
+                        $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
+                    }else{
+                        $listarray_a = array();
+                    }
+                    
+                    $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_a, $listarray_a_m);
+                    $this->listarray = array_merge($listarray_T, $listarray_alla, $listarray_alla_m);
+                    break;
+                    
+                case is_feed(): 
+                    
+                    return '';
+                    
+                    break;       
+            }
+        
+            $this->listarray = (is_array($this->listarray)) ? $this->listarray : array_merge($listarray_e, $listarray_e_m);
 
-			$this->listarray = $this->removeDuplicates($this->listarray);
-			
+            $this->listarray = $this->removeDuplicates($this->listarray);
+            
         }else{ // shortcode
-		
-			$this->listarray = $listarray_sc;
-		}
+        
+            $this->listarray = $listarray_sc;
+        }
         
         return $this->listarray;
     }
