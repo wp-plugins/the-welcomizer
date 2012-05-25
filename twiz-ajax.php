@@ -16,7 +16,7 @@
 */
 
   // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
-  
+
   if ( defined('ABSPATH') ){
   
     require_once(ABSPATH .'wp-includes/pluggable.php'); 

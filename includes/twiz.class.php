@@ -442,8 +442,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.2';
-        $this->cssVersion = '1-21';
+        $this->version    = '1.4.4.3';
+        $this->cssVersion = '1-22';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -564,7 +564,6 @@ class Twiz{
             . $ads[0] . $extraspaces 
             . $ads[1] . $extraspaces 
             . $ads[2] . $extraspaces 
-            . $ads[3]
             .'</div>';
         
         return $html;

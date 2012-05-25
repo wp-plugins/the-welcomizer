@@ -692,7 +692,7 @@ $("#twiz_section_name").focus();';
         $html .= $choices;
         
          // Shortcode section box
-        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Paste the short code in posts, pages and text widgets.', 'the-welcomizer').'<br><div id="twiz_shortcode_sample">'.$twiz_shortcode_sample.'</div></div><br><div id="twiz_custom_message_0" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'"></div>';
+        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'<br><div id="twiz_shortcode_sample">'.$twiz_shortcode_sample.'</div></div><br><div id="twiz_custom_message_0" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'"></div>';
         
         // single section box
         $html .= '<div id="twiz_single_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_UNIQUE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Select to overwrite the section name.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_1" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlSingleSection($section_id).'</div>';
