@@ -442,7 +442,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.4';
+        $this->version    = '1.4.4.5';
         $this->cssVersion = '1-22';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
@@ -588,7 +588,7 @@ class Twiz{
       
         foreach( $listarray as $value ){
         
-            $searchstring = "$(document).twiz_".$value[self::F_SECTION_ID]."_".str_replace("-","_",$value[self::F_LAYER_ID])."_".$value[self::F_EXPORT_ID]."();";
+            $searchstring = "$(document).twiz_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
        
             if(preg_match( "/".preg_quote($searchstring)."/i", $javascript)){
             
