@@ -442,7 +442,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.3';
+        $this->version    = '1.4.4.4';
         $this->cssVersion = '1-22';
         $this->dbVersion  = '2.61';
         $this->pluginUrl  = $pluginUrl;
@@ -1873,9 +1873,9 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $extra_js_a = str_replace("\n", "<br>", $data[self::F_EXTRA_JS_A]);
         $extra_js_b = str_replace("\n", "<br>", $data[self::F_EXTRA_JS_B]);
         
-        $javascript = $this->add_animation_link($data[self::F_JAVASCRIPT]);
-        $extra_js_a = $this->add_animation_link($data[self::F_EXTRA_JS_A]);
-        $extra_js_b = $this->add_animation_link($data[self::F_EXTRA_JS_B]);
+        $javascript = $this->add_animation_link($javascript);
+        $extra_js_a = $this->add_animation_link($extra_js_a);
+        $extra_js_b = $this->add_animation_link($extra_js_b);
         
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
@@ -2077,7 +2077,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         foreach ( $listarray as $value ){
        
-            $functionnames = 'twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",$value[self::F_LAYER_ID]).'_'.$value[self::F_EXPORT_ID].'();';
+            $functionnames = 'twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].'();';
             $select .= '<option value="$(document).'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         
@@ -2296,8 +2296,11 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if($new_value==''){return false;}
         
         if( $current_value != $new_value ) {
-        
-            $current_value = str_replace("-", "_", $current_value);
+                       
+            $current_value[self::F_LAYER_ID] = ($current_value[self::F_LAYER_ID] != '') ? sanitize_title_with_dashes($current_value[self::F_LAYER_ID]) : '';
+            $new_value = ($new_value != '') ? sanitize_title_with_dashes($new_value) : '';
+            
+            $current_value[self::F_LAYER_ID] = str_replace("-", "_", $current_value[self::F_LAYER_ID]);
             $new_value = str_replace("-", "_", $new_value);
 
             $sql = "SELECT * from ".$this->table. " WHERE ".self::F_SECTION_ID." = '".$section_id."'";

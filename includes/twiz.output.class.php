@@ -84,8 +84,8 @@ class TwizOutput extends Twiz{
 
                 $have_active = '';
                
-                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
-                $repeatname_var = str_replace("-","_", $value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
+                $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
                 
                 $this->newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
                 
@@ -269,7 +269,7 @@ class TwizOutput extends Twiz{
                             
             if( $value[parent::F_OUTPUT] == 'r' ){ // ready 
                 
-                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
                 
                 // replace numeric entities
                 $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
@@ -667,7 +667,7 @@ class TwizOutput extends Twiz{
                 if (($pos === false) and ($posa === false) and ($posb === false)) {
 
                         $newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
-                        $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+                        $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
                         
                         $generatedscript_repeatvar[$value[parent::F_SECTION_ID]] .= $this->linebreak.$this->tab.'twiz_repeat_'.$repeatname.' = null;';
                         $generatedscript[$value[parent::F_SECTION_ID]] .= $this->linebreak.$this->tab.'$(document).twiz_'.$repeatname.'($("'.$newElementFormat.'"), null);';
@@ -736,10 +736,10 @@ class TwizOutput extends Twiz{
         // generates the code starting positions 
         foreach($this->listarray as $value){   
             
-            $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",$value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+            $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
             $generatedscript_repeat .= $this->linebreak.'var twiz_repeat_'.$repeatname.' = null;';
             
-            $repeatname_var = str_replace("-","_", $value[parent::F_LAYER_ID])."_".$value[parent::F_EXPORT_ID];
+            $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
             $generatedscript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
 
             if( $value[parent::F_OUTPUT_POS] == 'r' ){ // ready
