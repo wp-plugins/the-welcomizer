@@ -362,6 +362,7 @@ class TwizAjax extends Twiz{
         $("img[name^=twiz_status_img]").unbind("click");
         $("#twiz_cancel").unbind("click");
         $("#twiz_save").unbind("click");
+        $("#twiz_on_event").unbind("change");
         $("#twiz_container").html(data);
         $("#twiz_container").slideToggle("fast");
         twiz_view_id = "";
@@ -373,6 +374,15 @@ class TwizAjax extends Twiz{
    });
  }
  var bind_twiz_Save = function() {
+    $("#twiz_on_event").change(function() {
+    if(($(this).val() != "")&&($(this).val() != "Manually")){
+         $("#twiz_div_lock_event").show();
+         $("#twiz_div_no_event").hide();
+    }else{
+         $("#twiz_div_lock_event").hide();
+         $("#twiz_div_no_event").show();
+    }
+    });
     $("#twiz_save").click(function(){
     $("#twiz_save").attr({"disabled" : "true"});
     $("#twiz_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
@@ -409,7 +419,12 @@ class TwizAjax extends Twiz{
                  
                     $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
                     break;
-                                      
+
+                 case parent::F_LOCK_EVENT:
+                 
+                    $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").is(":checked")'.$comma;
+                    break;
+                    
                  default:
                  
                     $header.= '"twiz_'.$value.'": $("#twiz_'.$value.'").val()'.$comma;
@@ -422,6 +437,7 @@ class TwizAjax extends Twiz{
         $("img[name^=twiz_status_img]").unbind("click");
         $("#twiz_cancel").unbind("click");
         $("#twiz_save").unbind("click");
+        $("#twiz_on_event").unbind("change");
         $("#twiz_container").html(data);
         twiz_array_view_id[twiz_numid] = undefined;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
@@ -823,6 +839,7 @@ class TwizAjax extends Twiz{
             $("#twiz_cancel").unbind("click");
             $("a[id^=twiz_order_by_]").unbind("click");
             $("#twiz_save").unbind("click");
+            $("#twiz_on_event").unbind("change");            
             $(".twiz-edit").unbind("click");
             $("img[name^=twiz_edit]").unbind("mouseover");
             $(".twiz-copy").unbind("click");

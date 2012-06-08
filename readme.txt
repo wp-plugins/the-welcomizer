@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.3.2
-Stable tag: 1.4.4.5
+Stable tag: 1.4.4.6
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -25,7 +25,7 @@ The Welcomizer has Spirit!
 
 == Installation ==
 
-1. Create and make those directories writable: /wp-content/twiz/export/
+1. Create and make those directories writable: /wp-content/**twiz**/**export**/
 2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 4. Find the plugin under the menu Appearance,
@@ -45,6 +45,12 @@ Useful jQuery plugins to upload through the Library:
 2. Panel when viewing data. (Right click - View image) 
 
 == Changelog ==
+
+= 1.4.4.6 = 
+
+* Added a new checkbox to lock an event or not.
+* The current object is now used for event triggered animations.
+* Modified installation procedure, and removed the code to create directories.
 
 = 1.4.4.5 = 
 
@@ -686,6 +692,10 @@ Useful jQuery plugins to upload through the Library:
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.4.4.6 = 
+
+* Current object for event animations, and new installation procedure.
 
 = 1.4.4.5 = 
 

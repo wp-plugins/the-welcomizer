@@ -1,5 +1,6 @@
 <?php
-define('WP_ADMIN', true);
+
+define('WP_DEBUG', false);
 
 $_SERVER['PHP_SELF'] = $PHP_SELF = '/wp-admin/'.preg_replace( '/(\?.*)?$/', '', $_SERVER["REQUEST_URI"] );
 
@@ -148,10 +149,6 @@ class qqFileUploader extends TwizLibrary{
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
                            
         /* twiz class */
-        if (!is_writable($uploadDirectory)){
-            @mkdir($uploadDirectory, 755); 
-        }
-        
         if (!is_writable($uploadDirectory)){
             return array('error' => __('You must first create this directory', 'the-welcomizer')." '".$this->import_path_message."'");
         }

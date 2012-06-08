@@ -104,7 +104,8 @@ class TwizOutput extends Twiz{
                 $this->generatedscript .= 'twiz_repeat_'.$repeatname.' = twiz_repeat_nbr;} '.$this->linebreak;
                 $this->generatedscript .= 'if((twiz_repeat_'.$repeatname.' == null) || (twiz_repeat_'.$repeatname.' > 0)){ '.$this->linebreak; 
                 $this->generatedscript .= 'if(twiz_repeat_'.$repeatname.' > 0){ '.$this->linebreak;
-                $this->generatedscript .= 'twiz_repeat_'.$repeatname.'--;} '.$this->linebreak;;
+                $this->generatedscript .= 'twiz_repeat_'.$repeatname.'--;} '.$this->linebreak;
+                $this->generatedscript .= 'if(e==undefined){var twiz_element_'.$repeatname.' = "'. $this->newElementFormat . '";}else{var twiz_element_'.$repeatname.' = twiz'.$this_prefix.'_this;}'.$this->linebreak;
 
                 if(($value[parent::F_OUTPUT_POS]=='b')or ($value[parent::F_OUTPUT_POS]=='')){ // before
                     
@@ -153,7 +154,7 @@ class TwizOutput extends Twiz{
                     if($hasMovements == true ){
                         
                         // animate jquery a 
-                        $this->generatedscript .= $this->linebreak.$this->tab.'$("'. $this->newElementFormat . '").animate({';
+                        $this->generatedscript .= $this->linebreak.$this->tab.'$(twiz_element_'.$repeatname.').animate({';
 
                         $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                         $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
@@ -168,6 +169,7 @@ class TwizOutput extends Twiz{
                         // replace numeric entities
                         $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
             
+                        
                         // extra js a
                         $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$repeatname.'(twiz'.$this_prefix.'_this,' , $value[parent::F_EXTRA_JS_A]);
                         $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                        
@@ -187,7 +189,7 @@ class TwizOutput extends Twiz{
                         
                         // animate jquery b
                         
-                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'$("'. $this->newElementFormat . '").animate({';
+                        $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'$(twiz_element_'.$repeatname.').animate({';
 
                         $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                         $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
@@ -295,10 +297,20 @@ class TwizOutput extends Twiz{
            if( $value[parent::F_ON_EVENT] != parent::EV_MANUAL ){
            
                $generatedscript .= 'var twiz_event_'.$repeatname.' = (function(e){'.$this->linebreak;
-               $generatedscript .= $this->tab.'if(twiz_active_'.$repeatname_var.' == 0){'.$this->linebreak;
-               $generatedscript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 1;'.$this->linebreak;
-               $generatedscript .= $this->tab.$this->tab.'$(document).twiz_'.$repeatname.'(this, null, e);'.$this->linebreak.$this->tab.'}';
+               
+                if( ( $value[parent::F_LOCK_EVENT] == '1' ) and ( ( $value[parent::F_ON_EVENT] !='') and ( $value[parent::F_ON_EVENT] !='Manually') ) ){ 
+                
+                   $generatedscript .= $this->tab.'if(twiz_active_'.$repeatname_var.' == 0){'.$this->linebreak;
+                   $generatedscript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 1;'.$this->linebreak;
+                   $generatedscript .= $this->tab.$this->tab.'$(document).twiz_'.$repeatname.'(this, null, e);'.$this->linebreak.$this->tab.'}';
+                   
+                }else{  
+                
+                   $generatedscript .= $this->tab.$this->tab.'$(document).twiz_'.$repeatname.'(this, null, e);'.$this->linebreak;                
+                }
+                
                $generatedscript .= $this->linebreak.'});'.$this->linebreak;
+               
                $generatedscript .= '$("'.$this->newElementFormat.'").bind("'.strtolower($value[parent::F_ON_EVENT]).'", twiz_event_'.$repeatname.');'.$this->linebreak;
                        
            }

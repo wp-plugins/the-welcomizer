@@ -25,6 +25,7 @@ class Twiz{
     protected $pluginName;
     protected $DEFAULT_SECTION;
     protected $import_path_message;
+    protected $export_path_message;
     protected $version;
     private $skinname;
     public $skin;
@@ -133,6 +134,7 @@ class Twiz{
     const F_TYPE                   = 'type';  
     const F_LAYER_ID               = 'layer_id'; // TODO Rename layer_id -> element
     const F_ON_EVENT               = 'on_event';  
+    const F_LOCK_EVENT             = 'lock_event';  
     const F_START_DELAY            = 'start_delay';  
     const F_DURATION               = 'duration';  
     const F_OUTPUT                 = 'output';  
@@ -347,6 +349,7 @@ class Twiz{
                                       ,self::F_TYPE                     => 'BL' 
                                       ,self::F_LAYER_ID                 => 'CC'    
                                       ,self::F_ON_EVENT                 => 'DA'
+                                      ,self::F_LOCK_EVENT               => 'DB'
                                       ,self::F_START_DELAY              => 'DD'
                                       ,self::F_DURATION                 => 'EE'
                                       ,self::F_OUTPUT                   => 'EG'
@@ -387,7 +390,8 @@ class Twiz{
                                  ,self::F_STATUS 
                                  ,self::F_TYPE                                   
                                  ,self::F_LAYER_ID 
-                                 ,self::F_ON_EVENT                             
+                                 ,self::F_ON_EVENT   
+                                 ,self::F_LOCK_EVENT                                 
                                  ,self::F_START_DELAY          
                                  ,self::F_DURATION    
                                  ,self::F_OUTPUT  
@@ -442,9 +446,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.5';
+        $this->version    = '1.4.4.6';
         $this->cssVersion = '1-22';
-        $this->dbVersion  = '2.61';
+        $this->dbVersion  = '2.7';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -452,6 +456,7 @@ class Twiz{
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
+        $this->export_path_message = '/wp-content'.self::IMPORT_PATH.self::EXPORT_PATH;
         $this->skin = get_option('twiz_skin');
          
         if(( $this->skin == '' ) or ( $this->skin == self::SKIN_PATH ) ) {
@@ -738,10 +743,6 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
         $filefullpathdir = $filepathdir.$filename;
         $filefullpathurl = WP_CONTENT_URL.$filepath.$filename;
  
-        if (!is_writable($filepathdir)) {
-            @mkdir($filepathdir, 755); 
-        }
- 
         if (is_writable($filepathdir)) {
 
             if (!$handle = fopen($filefullpathdir, 'w')) {
@@ -757,7 +758,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
             fclose($handle);
 
         } else {
-           $error =  __("You must first create this directory", 'the-welcomizer').':<br>'.$this->import_path_message;
+           $error =  __("You must first create this directory", 'the-welcomizer').':<br>'.$this->export_path_message;
         }
         
         $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.'/images/twiz-download.png" /></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
@@ -830,6 +831,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                 self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."', ". 
                 self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
                 self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".
+                self::F_LOCK_EVENT . " tinyint(3) NOT NULL default 1, ". 
                 self::F_START_DELAY . " varchar(100) NOT NULL default '0', ". 
                 self::F_DURATION . " varchar(100) NOT NULL default '0', ". 
                 self::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
@@ -896,49 +898,49 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                 
                 if( !in_array(self::F_SECTION_ID, $array_describe) ){
                 
-                    /* Add the new field from <= v.1.3.2.3 */
+                    // Add the new field from <= v.1.3.2.3
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."' after ".self::F_ID."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_ON_EVENT, $array_describe) ){    
                 
-                    /* Add the new field from <= v 1.3.5.7 */
+                    // Add the new field from <= v 1.3.5.7
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_JAVASCRIPT, $array_describe) ){
                 
-                    /* Add the new field from <= v 1.3.5.8 */
+                    // Add the new field from <= v 1.3.5.8
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_JAVASCRIPT . " text NOT NULL default '' after ".self::F_DURATION."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_ZINDEX, $array_describe) ){
                 
-                    /* Add the new field from <= v 1.3.5.8 */
+                    // Add the new field from <= v 1.3.5.8
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_ZINDEX . " varchar(5) NOT NULL default '' after ".self::F_POSITION."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_TYPE, $array_describe) ){        
                 
-                    /* Add the new field from <= v 1.3.6.1 */
+                    // Add the new field from <= v 1.3.6.1 */
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."' after ".self::F_STATUS."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_OUTPUT, $array_describe) ){
                 
-                    /* Add the new field from <= v 1.3.6.6 */
+                    // Add the new field from <= v 1.3.6.6
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_OUTPUT . " varchar(1) NOT NULL default 'b' after ".self::F_DURATION."";
                     $code = $wpdb->query($altersql);
                 }
                 if( !in_array(self::F_OUTPUT_POS, $array_describe) ){
                 
-                    /* Add the new field from <= v 1.3.7 */
+                    // Add the new field from <= v 1.3.7
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b' after ".self::F_OUTPUT."";
                     $code = $wpdb->query($altersql);
@@ -999,7 +1001,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                     }                    
                 }
                 
-                /* Add the new field from <= v 1.3.7.9  */
+                // Add the new field from <= v 1.3.7.9
                 if( !in_array(self::F_START_TOP_POS_FORMAT, $array_describe) ){
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". self::F_START_TOP_POS_FORMAT . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_START_TOP_POS."";
@@ -1054,7 +1056,15 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                 
                     $code = update_option('twiz_order_by', self::F_ON_EVENT);
                 }                
+
+                // Add the new field from <= v 1.4.4.5 
+                if( !in_array(self::F_LOCK_EVENT, $array_describe) ){
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". self::F_LOCK_EVENT . " tinyint(3) NOT NULL default 1 after ".self::F_ON_EVENT."";
+                    $code = $wpdb->query($altersql);
+                }
                 
+                // Selected menu
                 $twiz_setting_menu = get_option('twiz_setting_menu'); // home / cat / page
                 
                 if( $twiz_setting_menu == '' ) {
@@ -1062,14 +1072,13 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                     $code = update_option('twiz_setting_menu', self::DEFAULT_SECTION_HOME); // home / cat / page
                 }
                  
-                
-                /* Admin Settings */
+                // Admin Settings
                 $code = new TwizAdmin(); // Default settings
                 
-                /* Menu reformating */
+                // Menu reformating
                 $myTwizMenu  = new TwizMenu();
                         
-                /* db version */
+                // db version
                 $code = update_option('twiz_db_version', $this->dbVersion);
                 
             }
@@ -1149,6 +1158,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
                         
         /* Fields added after */
         if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '';
+        if( !isset($data[self::F_LOCK_EVENT]) ) $data[self::F_LOCK_EVENT] = '';
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '';
         if( !isset($data[self::F_ZINDEX]) ) $data[self::F_ZINDEX] = '';
         if( !isset($data[self::F_TYPE]) ) $data[self::F_TYPE] = '';
@@ -1183,11 +1193,17 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
         $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_A]);
         $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_B]);
         
-        $twiz_start_delay = $data[self::F_START_DELAY];
-        $twiz_duration = $data[self::F_DURATION];
+        $twiz_status = esc_attr(trim($data[self::F_STATUS]));
+        $twiz_lock_event = esc_attr(trim($data[self::F_LOCK_EVENT]));
+        $twiz_start_delay = esc_attr(trim($data[self::F_START_DELAY]));
+        $twiz_duration = esc_attr(trim($data[self::F_DURATION]));
         
+        $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
+        $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[self::F_ON_EVENT] !='') and ( $data[self::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
+        $twiz_lock_event = ( $twiz_lock_event == '' ) ? '0' : $twiz_lock_event;
         $twiz_start_delay = ( $twiz_start_delay == '' ) ? '0' : $twiz_start_delay;
         $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
+        
         
         // replace section id
         $twiz_javascript = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $data[self::F_JAVASCRIPT]);
@@ -1233,6 +1249,7 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
              ,".self::F_TYPE."
              ,".self::F_LAYER_ID."
              ,".self::F_ON_EVENT."
+             ,".self::F_LOCK_EVENT."
              ,".self::F_START_DELAY."
              ,".self::F_DURATION."
              ,".self::F_OUTPUT."
@@ -1266,10 +1283,11 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
              ,".self::F_EXTRA_JS_B."       
              )values('".esc_attr(trim($data[self::F_EXPORT_ID]))."'
              ,'".$newsectionid."'
-             ,'".esc_attr(trim($data[self::F_STATUS]))."'
+             ,'".$twiz_status."'
              ,'".esc_attr(trim($data[self::F_TYPE]))."'
              ,'".esc_attr(trim($data[self::F_LAYER_ID]))."'
              ,'".esc_attr(trim($data[self::F_ON_EVENT]))."'             
+             ,'".$twiz_lock_event."'             
              ,'".$twiz_start_delay."'
              ,'".$twiz_duration."'
              ,'".esc_attr(trim($data[self::F_OUTPUT]))."'
@@ -1556,7 +1574,7 @@ $("#twiz_delete_menu").fadeIn("fast");
 $("#qq_upload_list li").remove(); 
 $("#twiz_export_url").html(""); 
         '.$hideimport;
-
+         
         /* Text Area auto expand */
         $jsscript_autoexpand = '
 textarea = new Object();
@@ -1580,7 +1598,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
              $opendiv = '<div id="twiz_container">';
              $closediv = '</div>';
         }
-        
+
         if( !isset($data[self::F_OPTIONS_A]) ) $data[self::F_OPTIONS_A] = '';
         if( !isset($data[self::F_OPTIONS_B]) ) $data[self::F_OPTIONS_B] = '';
         if( !isset($data[self::F_EXTRA_JS_A]) ) $data[self::F_EXTRA_JS_A] = '';
@@ -1600,6 +1618,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if( !isset($data[self::F_LAYER_ID]) ) $data[self::F_LAYER_ID] = '';
         if( !isset($data[self::F_START_DELAY]) ) $data[self::F_START_DELAY] = '';
         if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '';
+        if( !isset($data[self::F_LOCK_EVENT]) ) $data[self::F_LOCK_EVENT] = '';
         if( !isset($data[self::F_DURATION]) ) $data[self::F_DURATION] = '';
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '';
         if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '';
@@ -1646,7 +1665,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         if( !isset($twiz_easing_b['swing']) ) $twiz_easing_b['swing'] = '';
         if( !isset($twiz_easing_b['linear']) ) $twiz_easing_b['linear'] = '';
         
-
+        $jsscript_hide .= (($data[self::F_ON_EVENT]!='')and($data[self::F_ON_EVENT]!='Manually')) ? '$("#twiz_div_lock_event").show();' : '$("#twiz_div_no_event").show();';
+                        
         $hasStartingConfigs = $this->hasStartingConfigs($data);
 
         /* toggle starting config if we have values */        
@@ -1664,6 +1684,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
     
         /* checked */
         $twiz_status = (( $data[self::F_STATUS] == 1 ) or ( $id == '' )) ? ' checked="checked"' : '';
+        $twiz_lock_event = (( $data[self::F_LOCK_EVENT] == 1 ) or ( $id == '' )) ? ' checked="checked"' : '';
  
         /* selected */
         $twiz_position[self::POS_NO_POS] = (( $data[self::F_POSITION] == self::POS_NO_POS ) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_NO_POS  )) ? ' selected="selected"' : '';
@@ -1718,14 +1739,14 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         /* Added to be recognized by the translator */
         $ttcopy = __('Copy', 'the-welcomizer');
         
-        $eventlist = $this->getHtmlEventList($data[self::F_ON_EVENT]);
+        $eventlist = $this->getHtmlEventList($data[self::F_ON_EVENT],'','',false);
         $element_type_list = $this->getHtmlElementTypeList($data[self::F_TYPE]);
         
         /* creates the form */
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'></div></td>
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right twiz-float-left">'.__('(optional)', 'the-welcomizer').'</td></tr>
+<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right twiz-float-left"><div id="twiz_div_no_event" class="twiz-display-none">'.__('(optional)', 'the-welcomizer').'</div><div id="twiz_div_lock_event"  class="twiz-display-none"><input type="checkbox" id="twiz_'.self::F_LOCK_EVENT.'" name="twiz_'.self::F_LOCK_EVENT.'" '.$twiz_lock_event.'><label for="twiz_'.self::F_LOCK_EVENT.'"> '.__('Locked', 'the-welcomizer').'</label></div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
 <tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-configs">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
@@ -1857,6 +1878,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         $move_left_pos_b = ($data[self::F_MOVE_LEFT_POS_B]!='') ? $data[self::F_MOVE_LEFT_POS_SIGN_B].$data[self::F_MOVE_LEFT_POS_B].' '.$data[self::F_MOVE_LEFT_POS_FORMAT_B] : '';
         
         $titleclass = ($data[self::F_STATUS]=='1') ? 'twiz-status-green' : 'twiz-status-red';
+        $event_locked = (($data[self::F_LOCK_EVENT]=='1') and ( ( $data[self::F_ON_EVENT] !='') and ( $data[self::F_ON_EVENT] !='Manually') ) )  ?  __('Locked', 'the-welcomizer'): '';
         
         $imagemove_a = $this->getDirectionalImage($data, 'a');
         $imagemove_b = $this->getDirectionalImage($data, 'b');
@@ -1879,13 +1901,13 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap">';
+        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap"><div class="twiz-blue">'.$event_locked.'</div>';
         
         if( ($hasStartingConfigs) or ((!$hasStartingConfigs) and (!$hasMovements)) ) {
         
             $hideclass = '';
         }else{
-            $htmlview .='<a id="twiz_view_show_more_'.$data[self::F_ID].'" name="twiz_view_show_more_'.$data[self::F_ID].'" class="twiz-view-more-configs">'.__('More configurations', 'the-welcomizer').' &#187;</a>';
+            // $htmlview .='<a id="twiz_view_show_more_'.$data[self::F_ID].'" name="twiz_view_show_more_'.$data[self::F_ID].'" class="twiz-view-more-configs">'.__('More configurations', 'the-welcomizer').' &#187;</a>'; // Obselete
             $hideclass = 'class="twiz-tr-view-more"';
         }
 
@@ -2102,13 +2124,14 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         return $select;
     }  
     
-    function getHtmlEventList( $event = '', $extraid = '', $extraclass = ''  ){
+    function getHtmlEventList( $event = '', $extraid = '', $extraclass = '', $name = true  ){
     
         $valuelbl = '';
         $extraid = ($extraid == '') ? '' : '_'.$extraid;
         $extraclass = ($extraclass == '') ? '' : 'class="'.$extraclass.'"';
+        $name = ( $name == true ) ? 'name="twiz_'.self::F_ON_EVENT.$extraid.'"' : '';
         
-        $select = '<select name="twiz_'.self::F_ON_EVENT.$extraid.'" id="twiz_'.self::F_ON_EVENT.$extraid.'" '.$extraclass.'>';
+        $select = '<select '.$name.' id="twiz_'.self::F_ON_EVENT.$extraid.'" '.$extraclass.'>';
         $select .= '<option value=""></option>';
             
         foreach ($this->array_on_event as $value){
@@ -2323,7 +2346,10 @@ $("textarea[name^=twiz_javascript]").blur(function (){
         global $wpdb;
 
         $twiz_status = esc_attr(trim($_POST['twiz_'.self::F_STATUS]));
-        $twiz_status = ($twiz_status=='true') ? 1 : 0;
+        $twiz_status = ($twiz_status=='true') ? 1 : 0;        
+        
+        $twiz_lock_event = esc_attr(trim($_POST['twiz_'.self::F_LOCK_EVENT]));
+        $twiz_lock_event = ($twiz_lock_event=='true') ? 1 : 0;
         
         $twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
          
@@ -2369,6 +2395,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                   ,".self::F_TYPE."
                   ,".self::F_LAYER_ID."
                   ,".self::F_ON_EVENT."                  
+                  ,".self::F_LOCK_EVENT."                  
                   ,".self::F_START_DELAY."
                   ,".self::F_DURATION."
                   ,".self::F_OUTPUT."
@@ -2406,6 +2433,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."'
                   ,'".$twiz_layer_id."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
+                  ,'".$twiz_lock_event."'
                   ,'".$twiz_start_delay."'
                   ,'".$twiz_duration."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
@@ -2459,6 +2487,7 @@ $("textarea[name^=twiz_javascript]").blur(function (){
                  ,".self::F_TYPE."  = '".esc_attr(trim($_POST['twiz_'.self::F_TYPE]))."' 
                  ,".self::F_LAYER_ID." = '".$twiz_layer_id."'
                  ,".self::F_ON_EVENT." = '".esc_attr(trim($_POST['twiz_'.self::F_ON_EVENT]))."'
+                 ,".self::F_LOCK_EVENT." = '".$twiz_lock_event."'
                  ,".self::F_START_DELAY." = '".$twiz_start_delay."'
                  ,".self::F_DURATION." = '".$twiz_duration."'
                  ,".self::F_OUTPUT." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
