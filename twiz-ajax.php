@@ -225,12 +225,17 @@
             
             $myTwiz  = new Twiz();
                        
+            if(($twiz_column == 'duration') or ($twiz_column == 'delay')){
+            
+                $twiz_value = ( $twiz_value == '' ) ? '0' : $twiz_value;
+            }        
+            
             if(($saved = $myTwiz->saveValue($twiz_id, $twiz_column, $twiz_value)) // insert or update
             or($saved=='0')){ // success, but no differences
             
                 switch($twiz_column){
                 
-                    case "duration":
+                    case 'duration':
                     
                        $htmlresponse = $myTwiz->formatDuration($twiz_id);
                        break;

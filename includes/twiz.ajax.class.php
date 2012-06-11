@@ -599,7 +599,6 @@ class TwizAjax extends Twiz{
         var twiz_columnName = "on_event";
         var twiz_txtval = $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).html();
         $("#twiz_ajax_td_edit_" + twiz_columnName + "_" + twiz_numid).hide();
-        $("#twiz_input_duration" + twiz_columnName + "_" + twiz_numid).attr({"value" : twiz_txtval});
         $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).fadeIn("fast");  
     }); 
     $("input[name^=twiz_input]").blur(function (){
@@ -617,7 +616,6 @@ class TwizAjax extends Twiz{
         }
         var twiz_txtval = $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).html();
         $("#twiz_ajax_td_edit_" + twiz_columnName + "_" + twiz_numid).hide();
-        $("#twiz_input_duration" + twiz_columnName + "_" + twiz_numid).attr({"value" : twiz_txtval});
         $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).fadeIn("fast");   
     });
     $("input[name^=twiz_input]").keypress(function (e){
@@ -682,14 +680,14 @@ class TwizAjax extends Twiz{
                 twiz_numid = twiz_textid.substring(23,twiz_textid.length);
                 $("#twiz_ajax_td_val_" + twiz_columnRealName + "_" + twiz_numid).hide();
                 $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).fadeIn("fast");                
-                $("#twiz_input_" + twiz_columnRealName + "_" + twiz_numid).focus();
+                $("#twiz_input_" + twiz_columnRealName + "_" + twiz_numid).select();
                 break;
             case "durat":
                 twiz_columnRealName = "duration";            
                 twiz_numid = twiz_textid.substring(26,twiz_textid.length);
                 $("#twiz_ajax_td_val_" + twiz_columnRealName + "_" + twiz_numid).hide();
                 $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).fadeIn("fast");         
-                $("#twiz_input_" + twiz_columnRealName + "_" + twiz_numid).focus();                
+                $("#twiz_input_" + twiz_columnRealName + "_" + twiz_numid).select();                
                 break;
             case "on_ev":
                 twiz_columnRealName = "on_event"; 

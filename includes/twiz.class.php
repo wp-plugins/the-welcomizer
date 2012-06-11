@@ -446,7 +446,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.4.6';
+        $this->version    = '1.4.4.7';
         $this->cssVersion = '1-22';
         $this->dbVersion  = '2.7';
         $this->pluginUrl  = $pluginUrl;
@@ -2536,8 +2536,8 @@ $("textarea[name^=twiz_javascript]").blur(function (){
             if( $id == '' ){return false;}
             if( $column == '' ){return false;}
             
-            $column = ($column=="delay") ? self::F_START_DELAY : $column;
-            
+            $column = ($column=="delay") ? self::F_START_DELAY : $column;    
+        
             $sql = "UPDATE ".$this->table." 
                     SET ".$column." = '".$value."'                 
                     WHERE ".self::F_ID." = '".$id."';";
