@@ -44,7 +44,7 @@
     -webkit-border-top-left-radius: 6px;    
     -khtml-border-radius-topright: 6px;    
     -khtml-border-radius-topleft: 6px;        
-    background: #8ecbe7;  
+    background-color: #8ecbe7;  
     border: 1px solid #5dbae5;
     border-bottom: 0px;
 }
@@ -478,6 +478,9 @@
 .twiz-td-event {
     width: 50px;
 }
+.twiz-black {
+    color: #000000 !important;
+}
 .twiz-blue {
     font-size: 11px;
     color: blue;
@@ -542,7 +545,7 @@
 }
 .twiz-table-form, 
 .twiz-table-view {
-    background: #ffffff;  
+    background-color: #ffffff;  
     padding-top: 10px;
     padding-bottom: 12px;
 }
@@ -625,8 +628,17 @@
     width: 50px;
     text-align: right;
 }
+.twiz-wrap-input-large {
+    height: 50px;
+    position: relative;
+    margin-bottom: 3px;
+}
 .twiz-input-large {
     height: 50px;
+    position: absolute;
+}
+.twiz-input-large-z {
+    z-index: 1;
 }
 .twiz-input[type=text]:focus,
 .twiz-input-text[type=text]:focus,
@@ -634,24 +646,28 @@
     background-color: lightyellow;
     border: #E6DB55 1px solid;
 }
-.twiz-slc-options {
+.twiz-slc-options ,
+.twiz-slc-js-features {
     width: 230px;
 }
 .twiz-table-more-options,
+.twiz-slc-js-features,
 #twiz_tr_starting_config {
     display: none;
 }
 a.twiz-more-configs:hover,
-a.twiz-view-more-configs:hover,
-a.twiz-anim-link:hover {
+a.twiz-anim-link:hover ,
+.twiz-js-features a:hover {
     cursor: pointer;
 }
-.twiz-more-configs,
-.twiz-view-more-configs {
+.twiz-more-configs {
     font-size: 12px;
     padding-top: 5px;
 }
-.twiz-td-e-g {
+.twiz-js-features  {
+    width: 239px;
+}
+.twiz-js-features a {
     line-height: 15px;
     font-size: 11px;
 }
@@ -715,7 +731,7 @@ a.twiz-anim-link:hover {
     -khtml-border-radius-bottomright: 6px;    
     -khtml-border-radius-bottomleft: 6px;   
     height: 18px;
-    background: #8ecbe7;     
+    background-color: #8ecbe7;     
     border: 1px solid #5dbae5;
     border-top: 0px;
     padding: 0 8px 0 8px;
@@ -728,7 +744,7 @@ a.twiz-anim-link:hover {
 #twiz_admin:hover, 
 #twiz_library_upload:hover {
     color: #ffffff;
-    background: #2A98CB;
+    background-color: #2A98CB;
     cursor: pointer;
 }
 #twiz_export_url {

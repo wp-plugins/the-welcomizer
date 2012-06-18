@@ -89,7 +89,7 @@ class TwizAjax extends Twiz{
             $("#twiz_container").slideToggle("fast");
             twiz_view_id = null;
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-            bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+            bind_twiz_More_Configs();bind_twiz_Choose_Options();
             bind_twiz_DynArrows();
         });
     });
@@ -251,12 +251,12 @@ class TwizAjax extends Twiz{
             $("img[name^=twiz_copy]").unbind("mouseover");              
             $(".twiz-delete").unbind("click");
             $("img[name^=twiz_delete]").unbind("mouseover");            
-            $("#twiz_cancel").unbind("click");
+            $("[name^=twiz_cancel_]").unbind("click");
             $("#twiz_container").html(data);
             twiz_view_id = null;
             $("#twiz_container").show("slow");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-            bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+            bind_twiz_More_Configs();bind_twiz_Choose_Options();
             bind_twiz_DynArrows();
         });
     });
@@ -299,12 +299,12 @@ class TwizAjax extends Twiz{
             $("img[name^=twiz_copy]").unbind("mouseover");            
             $(".twiz-delete").unbind("click");
             $("img[name^=twiz_delete]").unbind("mouseover");
-            $("#twiz_cancel").unbind("click");
+            $("[name^=twiz_cancel_]").unbind("click");
             $("#twiz_container").html(data);
             twiz_view_id = null;
             $("#twiz_container").show("slow");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-            bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+            bind_twiz_More_Configs();bind_twiz_Choose_Options();
             bind_twiz_DynArrows();
         });
     });
@@ -351,7 +351,7 @@ class TwizAjax extends Twiz{
    });
  }
  var bind_twiz_Cancel = function() {
-    $("#twiz_cancel").click(function(){
+    $("[name^=twiz_cancel_]").click(function(){
     $("#twiz_container").slideToggle("fast");
     $.post(ajaxurl, {
     "action": "twiz_ajax_callback",
@@ -360,20 +360,42 @@ class TwizAjax extends Twiz{
     "twiz_section_id": twiz_current_section_id
     }, function(data) {
         $("img[name^=twiz_status_img]").unbind("click");
-        $("#twiz_cancel").unbind("click");
-        $("#twiz_save").unbind("click");
+        $("[name^=twiz_cancel_]").unbind("click");
+        $("[name^=twiz_save_]").unbind("click");
         $("#twiz_on_event").unbind("change");
         $("#twiz_container").html(data);
         $("#twiz_container").slideToggle("fast");
         twiz_view_id = "";
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+        bind_twiz_More_Configs();bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Order_by(); 
     });
    });
  }
  var bind_twiz_Save = function() {
+    $(".twiz-slc-js-features").change(function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_charid = twiz_textid.substring(14,twiz_textid.length);    
+        var twiz_current_js_id = "";
+        if($(this).val()!=""){
+            var twiz_optionstring =  $(this).val();
+            switch(twiz_charid){
+                case "javascript":
+                    twiz_current_js_id = "#twiz_javascript";
+                    break;              
+                case "javascript_a":
+                    twiz_current_js_id = "#twiz_extra_js_a";
+                    break;            
+                case "javascript_b":
+                    twiz_current_js_id = "#twiz_extra_js_b";
+                    break;
+            }
+            var twiz_curval = $(twiz_current_js_id).val();
+            if(twiz_curval!=""){ twiz_curval = twiz_curval + "\n";}
+            $(twiz_current_js_id).attr({"value" : twiz_curval + twiz_optionstring});
+        }
+    });  
     $("#twiz_on_event").change(function() {
     if(($(this).val() != "")&&($(this).val() != "Manually")){
          $("#twiz_div_lock_event").show();
@@ -383,8 +405,36 @@ class TwizAjax extends Twiz{
          $("#twiz_div_no_event").show();
     }
     });
-    $("#twiz_save").click(function(){
-    $("#twiz_save").attr({"disabled" : "true"});
+    $(".twiz-js-features a").click(function() {
+        var twiz_textid = $(this).closest("div").attr("id");
+        var twiz_charid = twiz_textid.substring(17,twiz_textid.length);
+        $("#" + twiz_textid + " a").attr("class", "");
+        $(this).attr("class", "twiz-black");
+        $("#twiz_slc_code_" + twiz_charid).hide();  
+        $("#twiz_slc_stop_" + twiz_charid).hide();  
+        $("#twiz_slc_unbi_" + twiz_charid).hide();  
+        $("#twiz_slc_bind_" + twiz_charid).hide(); 
+        $("#twiz_slc_func_" + twiz_charid).hide();   
+        switch($(this).html()){
+            case "'.__('Functions', 'the-welcomizer').'":
+                $("#twiz_slc_func_" + twiz_charid).show();            
+                break;
+            case "'.__('Code Snippets', 'the-welcomizer').'":
+                $("#twiz_slc_code_" + twiz_charid).show();            
+                break;
+            case "'.__('Stop', 'the-welcomizer').'":
+                $("#twiz_slc_stop_" + twiz_charid).show();            
+                break;
+            case "'.__('Unbind', 'the-welcomizer').'":
+                $("#twiz_slc_unbi_" + twiz_charid).show();            
+                break;
+            case "'.__('Bind', 'the-welcomizer').'":
+                $("#twiz_slc_bind_" + twiz_charid).show();            
+               break;
+        }
+    });    
+    $("[name^=twiz_save_]").click(function(){
+    $(this).attr({"disabled" : "true"});
     $("#twiz_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
     var twiz_numid = $("#twiz_id").val();
     $.post(ajaxurl, {
@@ -435,14 +485,14 @@ class TwizAjax extends Twiz{
          
         $header.= '}, function(data) {
         $("img[name^=twiz_status_img]").unbind("click");
-        $("#twiz_cancel").unbind("click");
-        $("#twiz_save").unbind("click");
+        $("[name^=twiz_cancel_]").unbind("click");
+        $("[name^=twiz_save_]").unbind("click");
         $("#twiz_on_event").unbind("change");
         $("#twiz_container").html(data);
         twiz_array_view_id[twiz_numid] = undefined;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+        bind_twiz_More_Configs();bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Order_by(); 
     });
    });
@@ -503,12 +553,7 @@ class TwizAjax extends Twiz{
             $(".twiz-table-more-options").toggle();
         }
     });
-  }
-  var bind_twiz_Select_Id = function() {
-    $("#twiz_slc_id").change(function(){
-        $("#twiz_layer_id").attr({"value" : $(this).val()});
-    });
-  }    
+  }   
   var bind_twiz_Choose_Options = function() {
     $("a[name^=twiz_choose_options]").click(function(){
         var twiz_textid = $(this).attr("name");
@@ -534,32 +579,6 @@ class TwizAjax extends Twiz{
             $("#twiz_options_" + twiz_charid).attr({"value" : twiz_curval + twiz_optionstring}) 
         }
     });    
-  }    
-  var bind_twiz_Select_Functions = function() {
-    $("#twiz_slc_functions_javascript").change(function(){
-        var twiz_curval = $("#twiz_javascript").val();
-        if($(this).val()!=""){
-            if(twiz_curval!=""){ twiz_curval = twiz_curval + "\n";}
-            var twiz_optionstring =  $(this).val();
-            $("#twiz_javascript").attr({"value" : twiz_curval + twiz_optionstring}) 
-        }
-    });   
-    $("#twiz_slc_functions_javascript_a").change(function(){
-        var twiz_curval = $("#twiz_extra_js_a").val();
-        if($(this).val()!=""){
-            if(twiz_curval!=""){ twiz_curval = twiz_curval + "\n";}
-            var twiz_optionstring =  $(this).val();
-            $("#twiz_extra_js_a").attr({"value" : twiz_curval + twiz_optionstring}) 
-        }
-    }); 
-    $("#twiz_slc_functions_javascript_b").change(function(){
-        var twiz_curval = $("#twiz_extra_js_b").val();
-        if($(this).val()!=""){
-            if(twiz_curval!=""){ twiz_curval = twiz_curval + "\n";}
-            var twiz_optionstring =  $(this).val();
-            $("#twiz_extra_js_b").attr({"value" : twiz_curval + twiz_optionstring}) 
-        }
-    });     
   }    
   var bind_twiz_Ajax_TD = function() {
     $("div[id^=twiz_ajax_td_val]").mouseover(function(){
@@ -834,9 +853,9 @@ class TwizAjax extends Twiz{
         "twiz_order_by": twiz_order_by
         }, function(data) {
             $("img[name^=twiz_status_img]").unbind("click");
-            $("#twiz_cancel").unbind("click");
+            $("[name^=twiz_cancel_]").unbind("click");
             $("a[id^=twiz_order_by_]").unbind("click");
-            $("#twiz_save").unbind("click");
+            $("[name^=twiz_save_]").unbind("click");
             $("#twiz_on_event").unbind("change");            
             $(".twiz-edit").unbind("click");
             $("img[name^=twiz_edit]").unbind("mouseover");
@@ -850,7 +869,7 @@ class TwizAjax extends Twiz{
             twiz_array_view_id = new Array();
             bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
             bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-            bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+            bind_twiz_More_Configs();bind_twiz_Choose_Options();
             bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Order_by();          
         });
   }
@@ -1194,12 +1213,12 @@ class TwizAjax extends Twiz{
             $("img[name^=twiz_copy]").unbind("mouseover");              
             $(".twiz-delete").unbind("click");
             $("img[name^=twiz_delete]").unbind("mouseover");            
-            $("#twiz_cancel").unbind("click");
+            $("[name^=twiz_cancel_]").unbind("click");
             $("#twiz_container").html(data);
             twiz_view_id = null;
             $("#twiz_container").show("slow");
             bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-            bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Select_Functions();
+            bind_twiz_More_Configs();bind_twiz_Choose_Options();
             bind_twiz_DynArrows();
         });
     });    
@@ -1285,7 +1304,7 @@ class TwizAjax extends Twiz{
   bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
   bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Order_by();
   bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Menu();
-  bind_twiz_Save_Section();bind_twiz_FooterMenu();bind_twiz_Select_Functions();
+  bind_twiz_Save_Section();bind_twiz_FooterMenu();
   $("#twiz_container").slideToggle("slow");
  });';
        return $header;

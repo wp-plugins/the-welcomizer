@@ -680,9 +680,9 @@ $("#twiz_section_name").focus();';
         // radio menu choice
         $choices = '<div id="twiz_output_section">'.__('Output type', 'the-welcomizer').': ';
         
-        $choices .= '<input type="radio" id="twiz_output_choice_0" name="twiz_output_choice" class="twiz-output-choice" value="twiz_shortcode_output"> <label for="twiz_output_choice_0">'.__('Short code', 'the-welcomizer').'</label>';
-        $choices .= '<input type="radio" id="twiz_output_choice_1" name="twiz_output_choice" class="twiz-output-choice" value="twiz_single_output"> <label for="twiz_output_choice_1">'.__('Unique', 'the-welcomizer').'</label>';
-        $choices .= '<input type="radio" id="twiz_output_choice_2" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_multiple_output"> <label for="twiz_output_choice_2">'.__('Multiple', 'the-welcomizer').'</label>';
+        $choices .= '<input type="radio" id="twiz_output_choice_0" name="twiz_output_choice" class="twiz-output-choice" value="twiz_shortcode_output"> <label for="twiz_output_choice_0">'.__('Short code', 'the-welcomizer').'</label> ';
+        $choices .= '<input type="radio" id="twiz_output_choice_1" name="twiz_output_choice" class="twiz-output-choice" value="twiz_single_output"> <label for="twiz_output_choice_1">'.__('Unique', 'the-welcomizer').'</label> ';
+        $choices .= '<input type="radio" id="twiz_output_choice_2" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_multiple_output"> <label for="twiz_output_choice_2">'.__('Multiple', 'the-welcomizer').'</label> ';
         $choices .= '<input type="radio" id="twiz_output_choice_3" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_logic_output"> <label for="twiz_output_choice_3">'.__('Custom logic', 'the-welcomizer').'</label>';
         $choices .= '</div>';
         
