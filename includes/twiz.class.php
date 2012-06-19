@@ -450,7 +450,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.5.1';
+        $this->version    = '1.4.5.2';
         $this->cssVersion = '1-24';
         $this->dbVersion  = '2.7';
         $this->pluginUrl  = $pluginUrl;
@@ -2119,7 +2119,7 @@ $("textarea[name^=twiz_options]").blur(function (){
  
         foreach ( $listarray as $value ){
 
-            $functionnames = '$(\'#sampleid\').unbind(\'click\', twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
+            $functionnames = '$(\'#sampleid\').unbind(\'click\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
             $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         $html .= '</select>';    
@@ -2130,7 +2130,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         foreach ( $listarray as $value ){
        
-            $functionnames = '$(\'#sampleid\').bind(\'click\', twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
+            $functionnames = '$(\'#sampleid\').bind(\'click\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
             $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         $html .= '</select>';

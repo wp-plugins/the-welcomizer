@@ -1,7 +1,7 @@
 <?php
 
 // Some plugins errors are causing problems.
-define('WP_DEBUG', false);
+
  
 if ( defined('ABSPATH') ){
     require_once(ABSPATH . 'wp-load.php');
