@@ -363,6 +363,8 @@ class TwizAjax extends Twiz{
         $("[name^=twiz_cancel_]").unbind("click");
         $("[name^=twiz_save_]").unbind("click");
         $("#twiz_on_event").unbind("change");
+        $(".twiz-slc-js-features").unbind("change");
+        $(".twiz-js-features a").unbind("click");
         $("#twiz_container").html(data);
         $("#twiz_container").slideToggle("fast");
         twiz_view_id = "";
@@ -434,13 +436,18 @@ class TwizAjax extends Twiz{
         }
     });    
     $("[name^=twiz_save_]").click(function(){
+    var twiz_textid = $(this).attr("name");
+    var twiz_charid = twiz_textid.substring(10,twiz_textid.length);   
+    var twiz_stay = $("#twiz_stay").is(":checked");    
     $(this).attr({"disabled" : "true"});
-    $("#twiz_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+    $("#twiz_save_img_box_" + twiz_charid).html("").show();
+    $("#twiz_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
     var twiz_numid = $("#twiz_id").val();
     $.post(ajaxurl, {
          "action": "twiz_ajax_callback",
          "twiz_nonce": "'.$this->nonce.'", 
-         "twiz_action": "'.parent::ACTION_SAVE.'", ';
+         "twiz_action": "'.parent::ACTION_SAVE.'",
+         "twiz_stay": $("#twiz_stay").is(":checked"), ';
          
          $i=0;
          $count_array = count($this->array_fields);
@@ -488,12 +495,21 @@ class TwizAjax extends Twiz{
         $("[name^=twiz_cancel_]").unbind("click");
         $("[name^=twiz_save_]").unbind("click");
         $("#twiz_on_event").unbind("change");
+        $(".twiz-slc-js-features").unbind("change");
+        $(".twiz-js-features a").unbind("click");        
         $("#twiz_container").html(data);
         twiz_array_view_id[twiz_numid] = undefined;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
         bind_twiz_More_Configs();bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Order_by(); 
+        if(twiz_stay ==  true){
+            $("#twiz_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\'); 
+            $("#twiz_save_img_box_" + twiz_charid).fadeOut("slow"); 
+            if(twiz_charid==2){
+                $("#twiz_stay").focus(); 
+            }
+        }
     });
    });
   }
@@ -772,7 +788,7 @@ class TwizAjax extends Twiz{
     });
   } 
   var bind_twiz_Menu = function() {
-    $("#twiz_cancel_section").click(function(){
+    $("#twiz_section_cancel").click(function(){
         $("#twiz_add_sections").slideToggle("fast");  
     });
     $("#twiz_add_menu").click(function(){    
@@ -856,7 +872,9 @@ class TwizAjax extends Twiz{
             $("[name^=twiz_cancel_]").unbind("click");
             $("a[id^=twiz_order_by_]").unbind("click");
             $("[name^=twiz_save_]").unbind("click");
-            $("#twiz_on_event").unbind("change");            
+            $("#twiz_on_event").unbind("change");   
+            $(".twiz-slc-js-features").unbind("change");
+            $(".twiz-js-features a").unbind("click");            
             $(".twiz-edit").unbind("click");
             $("img[name^=twiz_edit]").unbind("mouseover");
             $(".twiz-copy").unbind("click");
@@ -1151,7 +1169,7 @@ class TwizAjax extends Twiz{
                     $("div[id^=twiz_vmenu_]").unbind("click");
                     $("#twiz_add_menu").unbind("click");
                     $("#twiz_delete_menu").unbind("click");
-                    $("#twiz_cancel_section").unbind("click");
+                    $("#twiz_section_cancel").unbind("click");
                     $("#twiz_vertical_menu").html(data);
                     $("img[name^=twiz_status_img]").unbind("click");
                     bind_twiz_Menu(); 
@@ -1177,7 +1195,7 @@ class TwizAjax extends Twiz{
             $("#twiz_add_menu").unbind("click");
             $("#twiz_edit_menu").unbind("click");
             $("#twiz_delete_menu").unbind("click");
-            $("#twiz_cancel_section").unbind("click");
+            $("#twiz_section_cancel").unbind("click");
             $("#twiz_save_section").unbind("click");
             $("#twiz_section_name").unbind("click");
             $("#twiz_slc_sections").unbind("change");

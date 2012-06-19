@@ -450,8 +450,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.5';
-        $this->cssVersion = '1-23';
+        $this->version    = '1.4.5.1';
+        $this->cssVersion = '1-24';
         $this->dbVersion  = '2.7';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1538,6 +1538,8 @@ $("#twiz_list_div_element_'.$id.'").animate({opacity:1}, 300, function(){
         $hideimport = '';
         $toggleoptions = '';
         $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;  
+        $_POST['twiz_stay'] = (!isset($_POST['twiz_stay'])) ? '' : $_POST['twiz_stay'] ;  
+        $twiz_stay = esc_attr(trim($_POST['twiz_stay']));
         $array_admin = get_option('twiz_admin');
                 
         if($id!=''){
@@ -1691,6 +1693,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         /* checked */
         $twiz_status = (( $data[self::F_STATUS] == 1 ) or ( $id == '' )) ? ' checked="checked"' : '';
         $twiz_lock_event = (( $data[self::F_LOCK_EVENT] == 1 ) or ( $id == '' )) ? ' checked="checked"' : '';
+        $twiz_stay = ( $twiz_stay == 'true' ) ? ' checked="checked"' : '';
  
         /* selected */
         $twiz_position[self::POS_NO_POS] = (( $data[self::F_POSITION] == self::POS_NO_POS ) or ($array_admin[self::KEY_STARTING_POSITION] == self::POS_NO_POS  )) ? ' selected="selected"' : '';
@@ -1752,7 +1755,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'></div></td>
 <td class="twiz-form-td-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></td></tr>
-<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right"><div id="twiz_div_no_event" class="twiz-display-none twiz-float-left">'.__('(optional)', 'the-welcomizer').'</div><div id="twiz_div_lock_event"  class="twiz-display-none twiz-float-left"><input type="checkbox" id="twiz_'.self::F_LOCK_EVENT.'" name="twiz_'.self::F_LOCK_EVENT.'" '.$twiz_lock_event.'><label for="twiz_'.self::F_LOCK_EVENT.'"> '.__('Locked', 'the-welcomizer').'</label></div><div class="twiz-float-right twiz-td-save"><a name="twiz_cancel_1" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_1" id="twiz_save_1" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></div></td></tr>
+<tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right"><div id="twiz_div_no_event" class="twiz-display-none twiz-float-left"></div><div id="twiz_div_lock_event"  class="twiz-display-none twiz-float-left"><input type="checkbox" id="twiz_'.self::F_LOCK_EVENT.'" name="twiz_'.self::F_LOCK_EVENT.'" '.$twiz_lock_event.'><label for="twiz_'.self::F_LOCK_EVENT.'"> '.__('Locked', 'the-welcomizer').'</label></div><div class="twiz-float-right twiz-td-save"><span id="twiz_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_cancel_1" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_1" id="twiz_save_1" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"></td></tr>
 <tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-configs">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="100"><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
@@ -1850,7 +1853,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         </table>
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
-<tr><td class="twiz-td-save" colspan="2"><span id="twiz_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_cancel_2" id="twiz_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_2" id="twiz_save_2" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'"/><input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
+<tr><td class="twiz-td-save" colspan="2"><span id="twiz_save_img_box_2" class="twiz-loading-gif-save"></span><a name="twiz_cancel_2" id="twiz_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_2" id="twiz_save_2" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'"/> <label for="twiz_stay">'.__('& Stay', 'the-welcomizer').'</label>  <input type="checkbox" id="twiz_stay" name="twiz_stay" '.$twiz_stay.'> <input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"></td></tr>
 </table>'.$closediv.$jsscript_open.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
     
         return $htmlform;

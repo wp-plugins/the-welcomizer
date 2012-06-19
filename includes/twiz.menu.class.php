@@ -687,7 +687,7 @@ $("#twiz_section_name").focus();';
         $choices .= '</div>';
         
         //main box
-        $html = '<div id="twiz_multi_menu">'.$default_message.'<div id="twiz_multi_action">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></div>'.__('Section name', 'the-welcomizer').': <input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"> <a name="twiz_cancel_section" id="twiz_cancel_section">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"><br><br>';
+        $html = '<div id="twiz_multi_menu">'.$default_message.'<div id="twiz_multi_action">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></div>'.__('Section name', 'the-welcomizer').': <input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"> <a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"><br><br>';
         
         $html .= $choices;
         

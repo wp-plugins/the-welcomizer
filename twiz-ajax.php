@@ -43,6 +43,7 @@
 
     /* actions */
     $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;   
+    $_POST['twiz_stay'] = (!isset($_POST['twiz_stay'])) ? '' : $_POST['twiz_stay'] ;  
     $action = $_POST['twiz_action'];
     
     $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
@@ -151,13 +152,23 @@
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_stay = esc_attr(trim($_POST['twiz_stay']));
             
             $myTwiz  = new Twiz();
             
             if($saved_id = $myTwiz->save($twiz_id)){ 
             
-                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $saved_id);        
+                if($twiz_stay != 'true'){
                 
+                    $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $saved_id);   
+                    
+                }else{
+                
+                    if($htmlresponse = $myTwiz->getHtmlForm($saved_id, Twiz::ACTION_EDIT, $twiz_section_id)){}else{
+                    
+                        $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
+                    }
+                }
             }else{
             
                 $htmlresponse = $myTwiz->getHtmlForm();

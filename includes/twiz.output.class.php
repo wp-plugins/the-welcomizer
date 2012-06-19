@@ -210,10 +210,12 @@ class TwizOutput extends Twiz{
                         // replace numeric entities
                         $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]).$this->linebreak;
                         
-                        if($have_b){
-                        
-                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
-                            $have_active = true;
+                        if( ( $value[parent::F_LOCK_EVENT] == '1' ) and ( ( $value[parent::F_ON_EVENT] !='') and ( $value[parent::F_ON_EVENT] !='Manually') ) ){                          
+                            if($have_b){
+                            
+                                 $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
+                                 $have_active = true;
+                            }
                         }
                         
                         // extra js b    
@@ -223,11 +225,12 @@ class TwizOutput extends Twiz{
                         
                         // closing functions
                         $this->generatedscript .= $this->tab.$this->tab.'});'.$this->linebreak;
-                            
-                        if( !$have_b ){
                         
-                            $this->generatedscript .= $this->tab.'twiz_active_'.$repeatname_var.' = 0;'.$this->linebreak;
-                            $have_active = true;
+                        if( ( $value[parent::F_LOCK_EVENT] == '1' ) and ( ( $value[parent::F_ON_EVENT] !='') and ( $value[parent::F_ON_EVENT] !='Manually') ) ){   
+                            if( !$have_b ){                       
+                                $this->generatedscript .= $this->tab.'twiz_active_'.$repeatname_var.' = 0;'.$this->linebreak;
+                                $have_active = true;
+                            }
                         }
                         
                         $this->generatedscript .= $this->tab.'});'.$this->linebreak;
@@ -238,11 +241,12 @@ class TwizOutput extends Twiz{
 
                 }
                 
-                if( $have_active != true ){
-               
-                    $this->generatedscript .= $this->linebreak.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
+                if( ( $value[parent::F_LOCK_EVENT] == '1' ) and ( ( $value[parent::F_ON_EVENT] !='') and ( $value[parent::F_ON_EVENT] !='Manually') ) ){                   
+                    if( $have_active != true ){
+                   
+                        $this->generatedscript .= $this->linebreak.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
+                    }
                 }
-                
                 
                 // closing functions
                 $this->generatedscript .= '}}'.self::COMPRESS_LINEBREAK;
@@ -751,9 +755,12 @@ class TwizOutput extends Twiz{
             $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
             $generatedscript_repeat .= $this->linebreak.'var twiz_repeat_'.$repeatname.' = null;';
             
-            $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-            $generatedscript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
-
+            if( ( $value[parent::F_LOCK_EVENT] == '1' ) and ( ( $value[parent::F_ON_EVENT] !='') and ( $value[parent::F_ON_EVENT] !='Manually') ) ){             
+            
+                $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
+                $generatedscript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
+            
+            }
             if( $value[parent::F_OUTPUT_POS] == 'r' ){ // ready
             
                 $generatedscript_pos .= $this->getStartingPositions($value);
