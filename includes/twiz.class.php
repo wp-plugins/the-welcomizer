@@ -450,7 +450,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.5.2';
+        $this->version    = '1.4.5.3';
         $this->cssVersion = '1-24';
         $this->dbVersion  = '2.7';
         $this->pluginUrl  = $pluginUrl;
@@ -2118,9 +2118,13 @@ $("textarea[name^=twiz_options]").blur(function (){
         $html .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
  
         foreach ( $listarray as $value ){
-
-            $functionnames = '$(\'#sampleid\').unbind(\'click\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
-            $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+           if( $value[self::F_ON_EVENT] != '' ){
+               if( $value[self::F_ON_EVENT] != self::EV_MANUAL ){
+               
+                   $functionnames = '$(\'#sampleid\').unbind(\''.strtolower($value[self::F_ON_EVENT]).'\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
+                    $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+                }
+            }
         }
         $html .= '</select>';    
 
@@ -2129,9 +2133,13 @@ $("textarea[name^=twiz_options]").blur(function (){
         $html .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
         
         foreach ( $listarray as $value ){
-       
-            $functionnames = '$(\'#sampleid\').bind(\'click\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
-            $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+           if( $value[self::F_ON_EVENT] != '' ){
+               if( $value[self::F_ON_EVENT] != self::EV_MANUAL ){
+                      
+                  $functionnames = '$(\'#sampleid\').bind(\''.strtolower($value[self::F_ON_EVENT]).'\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
+                  $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+              }
+           }
         }
         $html .= '</select>';
        
