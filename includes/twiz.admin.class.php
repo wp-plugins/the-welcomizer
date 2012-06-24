@@ -89,37 +89,44 @@ jQuery(document).ready(function($) {
         
         // default jquery registration
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</td><td class="twiz-form-td-right"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"></td></tr>';
         
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        
+        // Protected
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Disable \'ajax, post, and cookie\'', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>'; 
         // Output compress
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</td><td class="twiz-form-td-right"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output code hook
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</td><td class="twiz-form-td-right"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputList().'</div></td><td class="twiz-form-td-left"></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
+       
         
-        // Starting position by default on add new
-        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLStartingPositionList().'</td><td class="twiz-form-td-right"></td></tr>';
         
         // Number of posts displayed in lists
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Maximum number of posts in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLNumberPostsInLists().'</td><td class="twiz-form-td-right"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLNumberPostsInLists().'</div></td><td class="twiz-form-td-right"></td></tr>';
+            
+        // Starting position by default on add new
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLStartingPositionList().'</div></td><td class="twiz-form-td-right"></td></tr>';
           
         $html .= '<tr><td colspan="2"><hr></td></tr>';
+  
         
         // Min role level
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Minimum Role to access this plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</td><td class="twiz-form-td-right"></td></tr>';
-        
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleLevel().'</div></td><td class="twiz-form-td-right"></td></tr>';
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
         // Deactivation
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</td><td class="twiz-form-td-right"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
@@ -232,6 +239,15 @@ jQuery(document).ready(function($) {
         return $select;
     }
     
+    private function getHTMLOutputProtected(){
+    
+        $twiz_output_protected = ($this->array_admin[parent::KEY_OUTPUT_PROTECTED] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_output_protected" name="twiz_output_protected"'.$twiz_output_protected.'>';
+                 
+        return $html;
+    }
+    
     function loadAdmin(){
 
         $this->array_admin = get_option('twiz_admin');
@@ -251,7 +267,7 @@ jQuery(document).ready(function($) {
         if( !isset($this->array_admin[parent::KEY_OUTPUT_COMPRESSION]) ) $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '';
         if( $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '' ) {
         
-            $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '0';
+            $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '1';
             $code = update_option('twiz_admin', $this->array_admin); 
             $this->array_admin = get_option('twiz_admin');
         }
@@ -261,15 +277,6 @@ jQuery(document).ready(function($) {
         if( $this->array_admin[parent::KEY_OUTPUT] == '' ) {
         
             $this->array_admin[parent::KEY_OUTPUT] = parent::OUTPUT_HEADER;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
-        }
-        
-        // Min role Level
-        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ) $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = '';
-        if( $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
-        
-            $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
             $code = update_option('twiz_admin', $this->array_admin); 
             $this->array_admin = get_option('twiz_admin');
         }
@@ -292,6 +299,23 @@ jQuery(document).ready(function($) {
             $this->array_admin = get_option('twiz_admin');
         }
         
+        // Min role Level
+        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ) $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = '';
+        if( $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
+        
+            $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
+
+        // Output Protected
+        if( !isset($this->array_admin[parent::KEY_OUTPUT_PROTECTED]) ) $this->array_admin[parent::KEY_OUTPUT_PROTECTED] = '';
+        if( $this->array_admin[parent::KEY_OUTPUT_PROTECTED] == '' ) {
+        
+            $this->array_admin[parent::KEY_OUTPUT_PROTECTED] =  '1';
+            $code = update_option('twiz_admin', $this->array_admin); 
+            $this->array_admin = get_option('twiz_admin');
+        }
         
         // Delete All
         if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';

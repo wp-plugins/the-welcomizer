@@ -372,7 +372,7 @@
 }
 #twiz_slc_multi_sections {
     width: 478px;
-    height: 555px !important;
+    height: 355px !important;
 }
 #twiz_slc_sections {
     width: 478px;
@@ -479,8 +479,11 @@
 .twiz-td-duration input {
     width: 55px;
 }
+.twiz-td-element {
+    min-width: 150px;
+}
 .twiz-td-event {
-    width: 50px;
+    width: 70px;
 }
 .twiz-black {
     color: #000000 !important;
@@ -579,7 +582,7 @@
     font-size: 12px;
 }
 .twiz-admin-form-td-left {
-    width: 335px;
+    width: 65%;
     padding: 3px;
     font-size: 12px;
 }
@@ -613,7 +616,13 @@
 .twiz-td-small-left-start {
     width: 60px;
     font-size: 12px;
-}                             
+}                    
+#twiz_save_box_1 {
+    margin: 5px 6px 0 0;
+}
+#twiz_action_box {
+    width: 50px;
+}         
 .twiz-td-save {
     height: 25px;
     font-size: 12px;
@@ -630,6 +639,10 @@
 }
 .twiz-input-small {
     width: 50px;
+    text-align: right;
+}
+.twiz-input-small-d {
+    width: 75px;
     text-align: right;
 }
 .twiz-wrap-input-large {
@@ -752,7 +765,7 @@ a.twiz-anim-link:hover,
     cursor: pointer;
 }
 #twiz_export_url {
-    margin-left: 70px;
+    margin: 22px 0 0 75px;
     font-size: 12px;
     clear: both;
 }

@@ -659,7 +659,7 @@ $("#twiz_shortcode_output").show();';
         if(( in_array($twiz_section_name, $this->array_section_conversion) )
         and ($type!= 'ms') ){
         
-          return   '<div id="twiz_multi_menu"><div id="twiz_custom_message" class="twiz-red">'.__('Default sections cannot be modified.', 'the-welcomizer').'<br>'.__('To create a new custom section, click on the + menu.', 'the-welcomizer').' <a name="twiz_cancel_section" id="twiz_cancel_section">['.__('Close', 'the-welcomizer').']</a></div></div>';
+          return   '<div id="twiz_multi_menu"><div id="twiz_custom_message" class="twiz-red">'.__('Default sections cannot be modified.', 'the-welcomizer').'<br>'.__('To create a new custom section, click on the + menu.', 'the-welcomizer').' <a name="twiz_section_cancel_home" id="twiz_section_cancel_home">['.__('Close', 'the-welcomizer').']</a></div></div>';
           
         } 
                         
@@ -1035,8 +1035,14 @@ $("#twiz_section_name").focus();';
             
             if( $this->array_hardsections[$key] == '' ) {
             
-                $section = array( parent::F_STATUS => parent::STATUS_ACTIVE);
-                              
+                if($key == parent::DEFAULT_SECTION_HOME ) {
+                
+                    $section = array( parent::F_STATUS => parent::STATUS_ACTIVE);
+                }else{
+                
+                    $section = array( parent::F_STATUS => parent::STATUS_INACTIVE);
+                }
+          
                 $this->array_hardsections[$key] = $section; // Activated by default
             }
         }
