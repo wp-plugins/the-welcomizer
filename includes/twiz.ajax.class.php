@@ -79,8 +79,8 @@ class TwizAjax extends Twiz{
      twiz_view_id = "edit";
      $(this).fadeOut("fast");
      $("#twiz_container").css("display", "block");       
-     $("#twiz_container").slideToggle("fast");
      $("#twiz_container").html("");  
+     $("#twiz_container").slideToggle("fast");
         $.post(ajaxurl,  {
         "action": "twiz_ajax_callback",
         "twiz_action": "'.parent::ACTION_NEW.'",
@@ -866,8 +866,8 @@ class TwizAjax extends Twiz{
    $("#twiz_library_menu").attr({"class" : "twiz-menu twiz-display-none"});
    $("#twiz_admin_menu").attr({"class" : "twiz-menu twiz-display-none"});
    $("#twiz_container").css("display", "block");    
-   $("#twiz_container").slideToggle("fast"); 
    $("#twiz_container").html("");
+   $("#twiz_container").slideToggle("fast"); 
    $("#twiz_library_upload").fadeOut("fast");
    $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
@@ -1121,8 +1121,8 @@ class TwizAjax extends Twiz{
       $("#twiz_add_sections").hide();
       twizSwitchFooterMenu();
       $("#twiz_container").css("display", "block");    
-      $("#twiz_container").slideToggle("fast"); 
       $("#twiz_container").html("");
+      $("#twiz_container").slideToggle("fast"); 
       $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
@@ -1148,8 +1148,8 @@ class TwizAjax extends Twiz{
   }  
   function twizPostLibrary(){
       $("#twiz_container").css("display", "block");    
-      $("#twiz_container").slideToggle("fast"); 
       $("#twiz_container").html("");
+      $("#twiz_container").slideToggle("fast"); 
       $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 

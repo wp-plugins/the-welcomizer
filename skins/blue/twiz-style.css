@@ -1,5 +1,5 @@
 #wpbody-content {
-    width: 120% !important;
+    width: 150% !important;
 }
 #twiz_plugin {
     width: 98%;
@@ -81,7 +81,6 @@
 }
 #twiz_right_panel {
     min-height: 200px;
-    min-width: 415px;
     margin: 27px 0 0 15px;   
     color: #464646;
 }
@@ -656,6 +655,12 @@
 .twiz-input-large-z {
     z-index: 1;
 }
+.twiz-input-large-zz {
+    z-index: 2;
+}
+.twiz-input-large-zzz {
+    z-index: 3;
+}
 .twiz-input[type=text]:focus,
 .twiz-input-text[type=text]:focus,
 .twiz-input-small[type=text]:focus {
@@ -697,7 +702,6 @@ a.twiz-anim-link:hover ,
     margin-right: 5px;
 }
 .twiz-table-view {
-    width: 415px;
     padding: 10px;
     margin: 1px;
 }
