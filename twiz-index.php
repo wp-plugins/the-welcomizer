@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.6.1
+Version: 1.4.7
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -76,7 +76,7 @@ License: GPL2
     function twizAddLinkAdminMenu() {
     
         $array_admin = get_option('twiz_admin'); // get min access level
-        
+
         add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), $array_admin[Twiz::KEY_MIN_ROLE_LEVEL], 'the-welcomizer', 'twizDisplayMainPage');
     }
         
@@ -107,7 +107,8 @@ License: GPL2
     function twizInit(){
         
         $gstatus = get_option('twiz_global_status');
-     
+        $css_transform_included = false;
+        
         if (( !is_admin() ) and ( $gstatus == '1' ) 
         and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
         and (!preg_match("/wp-login/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
@@ -128,13 +129,70 @@ License: GPL2
             }
             
             if( $admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
-     
-                // register frontend default jQuery lib 
+
                 wp_deregister_script( 'jquery' );  
                 wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
                 wp_enqueue_script( 'jquery' );  
             }
             
+            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
+            
+                wp_deregister_script( 'the-welcomizer-css-transform' ); 
+                wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
+                wp_enqueue_script( 'the-welcomizer-css-transform' );  
+                
+                wp_deregister_script( 'the-welcomizer-rotate3di' ); 
+                wp_register_script( 'the-welcomizer-rotate3di', plugin_dir_url( __FILE__ ) .'includes/jquery/rotate3di/rotate3Di.js');  
+                wp_enqueue_script( 'the-welcomizer-rotate3di' );  
+                
+                $css_transform_included = true;
+            }
+            
+            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
+                
+                if( $css_transform_included == false ){
+                    wp_deregister_script( 'the-welcomizer-css-transform' ); 
+                    wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
+                    wp_enqueue_script( 'the-welcomizer-css-transform' );  
+                } 
+                
+                wp_deregister_script( 'the-welcomizer-jquery-animate-css-rotate-scale' );  
+                wp_register_script( 'the-welcomizer-jquery-animate-css-rotate-scale', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-animate-css-rotate-scale/jquery-animate-css-rotate-scale.js');  
+                wp_enqueue_script( 'the-welcomizer-jquery-animate-css-rotate-scale' ); 
+
+            }
+
+            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
+     
+                wp_deregister_script( 'the-welcomizer-transform-1' ); 
+                wp_deregister_script( 'the-welcomizer-transform-2' ); 
+                wp_deregister_script( 'the-welcomizer-transform-3' ); 
+                wp_deregister_script( 'the-welcomizer-transform-4' ); 
+                wp_deregister_script( 'the-welcomizer-transform-5' ); 
+                wp_deregister_script( 'the-welcomizer-transform-6' ); 
+                wp_deregister_script( 'the-welcomizer-transform-7' ); 
+                wp_register_script( 'the-welcomizer-transform-1', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.js');  
+                wp_register_script( 'the-welcomizer-transform-2', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.js');  
+                wp_register_script( 'the-welcomizer-transform-3', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.calculations.js');  
+                wp_register_script( 'the-welcomizer-transform-4', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.angle.js');  
+                wp_register_script( 'the-welcomizer-transform-5', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.animate.js');  
+                wp_register_script( 'the-welcomizer-transform-6', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.functions.js');  
+                wp_register_script( 'the-welcomizer-transform-7', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.attributes.js');  
+                wp_enqueue_script( 'the-welcomizer-transform-1' );  
+                wp_enqueue_script( 'the-welcomizer-transform-2' );  
+                wp_enqueue_script( 'the-welcomizer-transform-3' );  
+                wp_enqueue_script( 'the-welcomizer-transform-4' );  
+                wp_enqueue_script( 'the-welcomizer-transform-5' );  
+                wp_enqueue_script( 'the-welcomizer-transform-6' );  
+                wp_enqueue_script( 'the-welcomizer-transform-7' );  
+            }
+
+            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
+
+                wp_deregister_script( 'the-welcomizer-transit' );  
+                wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');  
+                wp_enqueue_script( 'the-welcomizer-transit' );  
+            }
             foreach( $myTwizLibrary->array_library as $key => $value ){
             
                 if( $value[Twiz::F_STATUS] == "1" ){

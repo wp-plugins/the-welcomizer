@@ -29,6 +29,9 @@ class TwizOutput extends Twiz{
     private $multi_sections;
     private $shortcode_id;
     private $admin_option;
+    private $animate;
+    private $top;
+    private $left;
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
@@ -53,6 +56,19 @@ class TwizOutput extends Twiz{
             $this->linebreak = self::COMPRESS_LINEBREAK;
             $this->tab = self::COMPRESS_TAB;
         }       
+        
+        if($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1'){
+        
+            $this->animate = 'transition';
+            $this->top = 'y';
+            $this->left = 'x';
+            
+        }else{
+        
+            $this->animate = 'animate';
+            $this->top = 'top';
+            $this->left = 'left';        
+        }
     }
     
     function generateOutput(){
@@ -163,14 +179,14 @@ class TwizOutput extends Twiz{
                         if($hasMovements == true ){
                             
                             // animate jquery a 
-                            $this->generatedscript .= $this->linebreak.$this->tab.'$(twiz_element_'.$repeatname.').animate({';
+                            $this->generatedscript .= $this->linebreak.$this->tab.'$(twiz_element_'.$repeatname.').'.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
 
-                            $this->generatedscript .= ($value[parent::F_MOVE_LEFT_POS_A]!="") ? 'left: "'.$value[parent::F_MOVE_LEFT_POS_SIGN_A].$value[parent::F_MOVE_LEFT_POS_A].$value[parent::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
+                            $this->generatedscript .= ($value[parent::F_MOVE_LEFT_POS_A]!="") ? $this->left.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_A].$value[parent::F_MOVE_LEFT_POS_A].$value[parent::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
                             $this->generatedscript .= (($value[parent::F_MOVE_LEFT_POS_A]!="") and ($value[parent::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                            $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? 'top: "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
+                            $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? $this->top.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                             $this->generatedscript .= $value[parent::F_OPTIONS_A];
                             
                             $this->generatedscript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){';
@@ -198,14 +214,14 @@ class TwizOutput extends Twiz{
                             
                             // animate jquery b
                             
-                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'$(twiz_element_'.$repeatname.').animate({';
+                            $this->generatedscript .= $this->linebreak.$this->tab.$this->tab.'$(twiz_element_'.$repeatname.').'.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
 
-                            $this->generatedscript .= ($value[parent::F_MOVE_LEFT_POS_B]!="") ? 'left: "'.$value[parent::F_MOVE_LEFT_POS_SIGN_B].$value[parent::F_MOVE_LEFT_POS_B].$value[parent::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
+                            $this->generatedscript .= ($value[parent::F_MOVE_LEFT_POS_B]!="") ? $this->left.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_B].$value[parent::F_MOVE_LEFT_POS_B].$value[parent::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
                             $this->generatedscript .= (($value[parent::F_MOVE_LEFT_POS_B]!="") and ($value[parent::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                            $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_B]!="") ? 'top: "'.$value[parent::F_MOVE_TOP_POS_SIGN_B].$value[parent::F_MOVE_TOP_POS_B].$value[parent::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
+                            $this->generatedscript .= ($value[parent::F_MOVE_TOP_POS_B]!="") ? $this->top.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_B].$value[parent::F_MOVE_TOP_POS_B].$value[parent::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
                             $this->generatedscript .=  $value[parent::F_OPTIONS_B];
                             
                             // set to sero

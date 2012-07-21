@@ -163,7 +163,7 @@
 }
 #twiz_head_addnew {
     display: block;
-    margin-right: 15px;
+    margin-right: 80px;
     height: 20px;
     width: 73px;
     float: right;
@@ -670,6 +670,9 @@
 .twiz-slc-options ,
 .twiz-slc-js-features {
     width: 230px;
+}
+.twiz-slc-easing {
+    width: 85px;
 }
 .twiz-table-more-options,
 .twiz-slc-js-features,

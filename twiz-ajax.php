@@ -38,7 +38,7 @@
     
     if (!wp_verify_nonce($nonce, 'twiz-nonce') ) {
     
-        die("Security check"); 
+        die("You are not logged in."); 
     }
 
     /* actions */
@@ -49,7 +49,7 @@
     $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
 
     $htmlresponse = '';
-
+    
     switch(esc_attr(trim($action))){ 
     
         case Twiz::ACTION_MENU:
@@ -188,11 +188,13 @@
 
         case Twiz::ACTION_OPTIONS:
         
-            $twiz_charid = esc_attr(trim($_POST['twiz_charid']));
+            $admin_option = get_option('twiz_admin'); 
+            
+            $twiz_charid = esc_attr(trim($_POST['twiz_charid']));        
             
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlOptionList($twiz_charid);
+            $htmlresponse = $myTwiz->getHtmlOptionList($twiz_charid, $admin_option);
             
             break;                        
             
@@ -314,65 +316,106 @@
             break;             
             
         case Twiz::ACTION_LIBRARY:
-
-            $myTwizLibrary  = new TwizLibrary();
-            $htmlresponse = $myTwizLibrary->getHtmlLibrary();    
+        
+            $admin_option = get_option('twiz_admin'); 
+        
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
             
+                $myTwizLibrary  = new TwizLibrary();
+                $htmlresponse = $myTwizLibrary->getHtmlLibrary();    
+            
+            }
             break;    
             
         case Twiz::ACTION_LIBRARY_STATUS:
+        
+            $admin_option = get_option('twiz_admin'); 
+        
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
             
-            $twiz_id = esc_attr(trim($_POST['twiz_id']));
-            
-            $myTwizLibrary  = new TwizLibrary();
-            $htmlresponse = $myTwizLibrary->switchLibraryStatus($twiz_id);    
-            
+                $twiz_id = esc_attr(trim($_POST['twiz_id']));
+                
+                $myTwizLibrary  = new TwizLibrary();
+                $htmlresponse = $myTwizLibrary->switchLibraryStatus($twiz_id);    
+            }
             break;   
             
        case Twiz::ACTION_DELETE_LIBRARY:
+       
+            $admin_option = get_option('twiz_admin'); 
             
-            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
+                
+                $twiz_id = esc_attr(trim($_POST['twiz_id']));
+                
+                $myTwizLibrary  = new TwizLibrary();
+                $htmlresponse = $myTwizLibrary->deleteLibrary($twiz_id);    
             
-            $myTwizLibrary  = new TwizLibrary();
-            $htmlresponse = $myTwizLibrary->deleteLibrary($twiz_id);    
-            
+            }
             break; 
             
        case Twiz::ACTION_ORDER_LIBRARY:
+       
+            $admin_option = get_option('twiz_admin'); 
             
-            $twiz_id = esc_attr(trim($_POST['twiz_id']));
-            $twiz_order = esc_attr(trim($_POST['twiz_order']));
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
             
-            $myTwizLibrary  = new TwizLibrary();
-            
-            if( $updated =  $myTwizLibrary->updateLibraryOrder($twiz_id, $twiz_order) ) {
-                $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
+                $twiz_id = esc_attr(trim($_POST['twiz_id']));
+                $twiz_order = esc_attr(trim($_POST['twiz_order']));
+                
+                $myTwizLibrary  = new TwizLibrary();
+                
+                if( $updated =  $myTwizLibrary->updateLibraryOrder($twiz_id, $twiz_order) ) {
+                    $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
+                }
             }
-            
             break;       
 
         case Twiz::ACTION_ADMIN:
+        
+            $admin_option = get_option('twiz_admin'); 
             
-            // Needed for translation
-            load_default_textdomain();
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_ADMIN]))){            
             
-            $myTwizAdmin  = new TwizAdmin();
-            $htmlresponse = $myTwizAdmin->getHtmlAdmin();    
-            
+                // Needed for translation
+                load_default_textdomain();
+                
+                $myTwizAdmin  = new TwizAdmin();
+                $htmlresponse = $myTwizAdmin->getHtmlAdmin();    
+            }
             break;     
 
         case Twiz::ACTION_SAVE_ADMIN:
+        
+            $admin_option = get_option('twiz_admin'); 
            
-            $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
-            $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
-            $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
-            $twiz_settings[Twiz::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
-            $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
-            $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
-            $twiz_settings[Twiz::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_starting_position']));
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_ADMIN]))){
 
-            $myTwizAdmin  = new TwizAdmin();
-            $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
+                $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
+                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_TRANSIT] = esc_attr(trim($_POST['twiz_register_jquery_transit']));
+                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] = esc_attr(trim($_POST['twiz_register_jquery_transform']));
+                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] = esc_attr(trim($_POST['twiz_register_jquery_rotate3di']));
+                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = esc_attr(trim($_POST['twiz_register_jquery_animatecssrotatescale']));
+                $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
+                $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
+                $twiz_settings[Twiz::KEY_OUTPUT_PROTECTED] = esc_attr(trim($_POST['twiz_output_protected']));
+                $twiz_settings[Twiz::KEY_EXTRA_EASING] = esc_attr(trim($_POST['twiz_extra_easing']));
+                $twiz_settings[Twiz::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
+                $twiz_settings[Twiz::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_starting_position']));
+                $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
+                $twiz_settings[Twiz::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_min_roleadmin']));
+                $twiz_settings[Twiz::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_min_rolelibrary']));
+                $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
+
+                $myTwizAdmin  = new TwizAdmin();
+                $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
+            }
             
             break;             
             

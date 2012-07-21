@@ -643,8 +643,6 @@ $(".twiz-block-ouput").hide();
 $("#twiz_shortcode_output").show();';
 }        
   
-
-  
         $addsection = '';
         
         // a checker explode array sectionid si old etc.
@@ -701,10 +699,7 @@ $("#twiz_section_name").focus();';
         $html .= '<div id="twiz_multiple_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_MULTIPLE].':<div class="twiz-float-right twiz-text-right twiz-green">'.__('DoubleClick to overwrite the section name.', 'the-welcomizer').'<br>'.__('Press CTRL to select multiple output choices.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_2" class="twiz-red twiz-custom-message"></div>'.$this->GetHtmlMultiSection($section_id, $array_sections).'</div>';
 
          // Custom Logic section box
-        $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'">e.g.<br>is_page(\'32\') || is_category(\'55\') || is_post(\'345\')<br>!is_page(\'32\') && !is_category(\'55\') && !is_post(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a> | <a href="http://wordpress.org/extend/plugins/widget-logic/other_notes/" target="_blank">'.__('See also Widget Logic plugin page.', 'the-welcomizer').'</a>
-        
-        </div>';
-        
+        $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'">e.g.<br>is_page(\'32\') || is_category(\'55\') || is_post(\'345\')<br>!is_page(\'32\') && !is_category(\'55\') && !is_post(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a></div>';
         
         $html .= $jsscript;
         

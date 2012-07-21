@@ -4,18 +4,18 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.4.1
-Stable tag: 1.4.6.1
+Stable tag: 1.4.7
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 
 == Description ==
 
-Quickly add animations to your WordPress blog. 
+Quickly create animations for your WordPress blog using jQuery effects.
     
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
-[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Learn by Example & Useful Tips
+[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Basic examples
 
 Stay tuned, and do your updates...
 
@@ -25,26 +25,28 @@ The Welcomizer has Spirit!
 
 == Installation ==
 
-1. Create and make those directories writable: /wp-content/**twiz**/**export**/
-2. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
-3. Activate the plugin through the Plugins menu in WordPress.
-4. Find the plugin under the menu Appearance,
-5. Configure and save your first movement, or Import a sample twz/xml file.
+1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the Plugins menu in WordPress.
+3. Find the plugin under the menu Appearance. 
+4. Optional - Create and make those directories writable: /wp-content/**twiz**/**export**/
 
-
-Useful jQuery plugins to upload through the Library:
-- 
-- jQuery UI/Effects - [Download page](http://jqueryui.com/download) 
-- Rotate3Di - [Download page](https://github.com/zachstronaut/rotate3Di) 
-- jquery-animate-css-rotate-scale - [Download page](https://github.com/zachstronaut/jquery-animate-css-rotate-scale)
-- transform  - [Download page](https://github.com/heygrady/transform/)
+Enjoy!
 
 == Screenshots ==
 
 1. Panel when adding a new movement. 
-2. Panel when viewing data. (Right click - View image) 
+2. Panel when viewing data. 
 
 == Changelog ==
+
+= 1.4.7 = 
+
+* Added a second save button in admin section.
+* Added an extra easing option in admin section.
+* Added 2 more Minimum Role option in admin section.
+* Adjusted and fixed layout.
+* Fixed a missing saved value in admin section.
+* Integrated some libraries as options in admin section.
 
 = 1.4.6.1 = 
 
@@ -731,6 +733,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.4.7 = 
+
+* Mega update.
+
 = 1.4.6.1 = 
 
 * Fixed z-index of textareas.
@@ -1225,5 +1231,5 @@ The Welcomizer is currently available in the following languages:
 
 * English 
 * Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 95%
-* Español - 65%
+* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 70%
+* Español - 40%

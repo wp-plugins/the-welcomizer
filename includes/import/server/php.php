@@ -34,7 +34,7 @@ $action = ($_POST['twiz_action'] == '') ? $_GET['twiz_action'] : $_POST['twiz_ac
 
 /* Nonce security import security check */
 if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
-    die("Security check"); 
+    die("You are not logged in."); 
 }
 
 /**
