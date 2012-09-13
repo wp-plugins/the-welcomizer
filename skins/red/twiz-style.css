@@ -1,10 +1,26 @@
+body {
+    font-family: sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.4em !important;
+    min-width: 600px !important;
+}
+td, textarea, input, select {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+}
+td, textarea {
+    line-height: inherit !important;
+}
+input.button-primary, button.button-primary, a.button-primary {
+    font-weight: bold !important;
+}
 #wpbody-content {
     width: 150% !important;
 }
 #twiz_plugin {
     width: 98%;
-    margin-top: 9px;
-    margin-bottom: 15px;
+    margin: 9px 0 15px 5px;
 }
 #twiz_master {
     width: 500px;
@@ -349,17 +365,19 @@
     background-color: #E4E4E4; 
 }
 #twiz_section_name {
-    width: 175px;
+    width: 300px;
 }
 #twiz_output_section {
     width: 478px;
     height: 35px;
     display: block;
 }
+#twiz_shortcode {
+    width: 151px;
+}
 #twiz_shortcode_sample {
+    width: 295px;
 	font-size: 14px;
-	text-align: center;
-	padding: 5px 0 0 5px;
 	color: blue;
 }
 .twiz-output-choice{
@@ -445,7 +463,7 @@
     text-align: center;
 }
 .twiz-td-left {
-    text-align: left;
+    text-align: left !important;
 }
 .twiz-td-right {
     text-align: right;
@@ -488,7 +506,7 @@
     color: #000000 !important;
 }
 .twiz-blue {
-    font-size: 11px;
+    font-size: 11px !important;
     color: blue;
 }
 .twiz-green {
@@ -720,7 +738,7 @@ a.twiz-anim-link:hover,
     text-align: left;
 }            
 .twiz-bold {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 .twiz-tr-view-more {
     display: none;

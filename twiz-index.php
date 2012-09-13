@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.7
+Version: 1.4.8
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -116,8 +116,8 @@ License: GPL2
             
             $myTwizLibrary  = new TwizLibrary();
             
-            // get output setting
             $admin_option = get_option('twiz_admin');
+            $cookie_option = get_option('twiz_cookie_js_status'); 
             
             if( $admin_option[Twiz::KEY_OUTPUT] !=  '' ){
 
@@ -134,7 +134,14 @@ License: GPL2
                 wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
                 wp_enqueue_script( 'jquery' );  
             }
+  
+            if( $cookie_option == true ){
             
+                wp_deregister_script( 'the-welcomizer-jquery-cookie' );  
+                wp_register_script( 'the-welcomizer-jquery-cookie',plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-cookie/jquery.cookie.js');  
+                wp_enqueue_script( 'the-welcomizer-jquery-cookie' );              
+            }
+                 
             if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
             
                 wp_deregister_script( 'the-welcomizer-css-transform' ); 
@@ -151,6 +158,7 @@ License: GPL2
             if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
                 
                 if( $css_transform_included == false ){
+                
                     wp_deregister_script( 'the-welcomizer-css-transform' ); 
                     wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
                     wp_enqueue_script( 'the-welcomizer-css-transform' );  
@@ -193,6 +201,7 @@ License: GPL2
                 wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');  
                 wp_enqueue_script( 'the-welcomizer-transit' );  
             }
+            
             foreach( $myTwizLibrary->array_library as $key => $value ){
             
                 if( $value[Twiz::F_STATUS] == "1" ){

@@ -1,22 +1,15 @@
 <?php
-
 define('WP_DEBUG', false);
 
 $_SERVER['PHP_SELF'] = $PHP_SELF = '/wp-admin/'.preg_replace( '/(\?.*)?$/', '', $_SERVER["REQUEST_URI"] );
 
-if ( defined('ABSPATH') ){
-    require_once(ABSPATH . 'wp-load.php');
-}
-else{
-    require_once('../../../../../../wp-load.php');
-}
+require_once('../../../../../../wp-load.php');
         
 // Set the multi-language file, english is the standard.
 load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/../../../languages/' ); 
 
-
 // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
-require_once(ABSPATH .'wp-includes/pluggable.php'); 
+require_once( '../../../../../../wp-includes/pluggable.php'); 
 
 /* Require Twiz Class */
 require_once(dirname(__FILE__).'/../../twiz.class.php'); 

@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
         
         // default jquery registration
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save_top" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
@@ -96,22 +96,22 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
                       
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-float-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('And/Or', 'the-welcomizer').'</strong></td></tr>';
                 
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('jquery-animate-css-rotate-scale', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-float-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-float-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
         // transition
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('jQuery Transit', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-float-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit">'.__('(different easing)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit">'.__('(different easing)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         $html .= '<tr><td colspan="2"><strong>'.__('Output code settings', 'the-welcomizer').'</strong></td></tr>';
@@ -119,10 +119,10 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
         // Protected
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Disable \'ajax, post, and cookie\'', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>'; 
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>'; 
         // Output compress
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output code hook
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
@@ -142,7 +142,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';        
         // extra easing
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-float-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/demos/effect/easing.html" target="_blank">'. __('(requires jQuery easing)', 'the-welcomizer').'</a></label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-td-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/demos/effect/easing.html" target="_blank">'. __('(requires jQuery easing)', 'the-welcomizer').'</a></label></td></tr>';
                    
         // Starting position by default on add new
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
@@ -169,12 +169,12 @@ jQuery(document).ready(function($) {
         
         // Deactivation
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-float-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
         
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><span name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  
@@ -185,7 +185,7 @@ jQuery(document).ready(function($) {
     
         $twiz_register_jquery = ($this->array_admin[parent::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_register_jquery" name="twiz_register_jquery"'.$twiz_register_jquery.'>';
+        $html = '<input type="checkbox" id="twiz_register_jquery" name="twiz_register_jquery"'.$twiz_register_jquery.'/>';
                  
         return $html;
     }
@@ -194,7 +194,7 @@ jQuery(document).ready(function($) {
     
         $twiz_register_jquery_transit = ($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_register_jquery_transit" name="twiz_register_jquery_transit"'.$twiz_register_jquery_transit.'>';
+        $html = '<input type="checkbox" id="twiz_register_jquery_transit" name="twiz_register_jquery_transit"'.$twiz_register_jquery_transit.'/>';
                  
         return $html;
     }
@@ -203,7 +203,7 @@ jQuery(document).ready(function($) {
     
         $twiz_register_jquery_transform = ($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_register_jquery_transform" name="twiz_register_jquery_transform"'.$twiz_register_jquery_transform.'>';
+        $html = '<input type="checkbox" id="twiz_register_jquery_transform" name="twiz_register_jquery_transform"'.$twiz_register_jquery_transform.'/>';
                  
         return $html;
     }
@@ -212,7 +212,7 @@ jQuery(document).ready(function($) {
     
         $twiz_register_jquery_rotate3di = ($this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_register_jquery_rotate3di" name="twiz_register_jquery_rotate3di"'.$twiz_register_jquery_rotate3di.'>';
+        $html = '<input type="checkbox" id="twiz_register_jquery_rotate3di" name="twiz_register_jquery_rotate3di"'.$twiz_register_jquery_rotate3di.'/>';
                  
         return $html;
     }
@@ -221,7 +221,7 @@ jQuery(document).ready(function($) {
     
         $twiz_register_jquery_animatecssrotatescale = ($this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_register_jquery_animatecssrotatescale" name="twiz_register_jquery_animatecssrotatescale"'.$twiz_register_jquery_animatecssrotatescale.'>';
+        $html = '<input type="checkbox" id="twiz_register_jquery_animatecssrotatescale" name="twiz_register_jquery_animatecssrotatescale"'.$twiz_register_jquery_animatecssrotatescale.'/>';
                  
         return $html;
     }    
@@ -230,7 +230,7 @@ jQuery(document).ready(function($) {
     
         $twiz_extra_easing = ($this->array_admin[parent::KEY_EXTRA_EASING] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_extra_easing" name="twiz_extra_easing"'.$twiz_extra_easing.'>';
+        $html = '<input type="checkbox" id="twiz_extra_easing" name="twiz_extra_easing"'.$twiz_extra_easing.'/>';
                  
         return $html;
     }
@@ -239,7 +239,7 @@ jQuery(document).ready(function($) {
     
         $twiz_delete_all = ($this->array_admin[parent::KEY_DELETE_ALL] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_delete_all" name="twiz_delete_all"'.$twiz_delete_all.'>';
+        $html = '<input type="checkbox" id="twiz_delete_all" name="twiz_delete_all"'.$twiz_delete_all.'/>';
                  
         return $html;
     }
@@ -356,7 +356,7 @@ jQuery(document).ready(function($) {
     
         $twiz_output_compression = ($this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_output_compression" name="twiz_output_compression"'.$twiz_output_compression.'>';
+        $html = '<input type="checkbox" id="twiz_output_compression" name="twiz_output_compression"'.$twiz_output_compression.'/>';
                  
         return $html;
     }
@@ -382,7 +382,7 @@ jQuery(document).ready(function($) {
     
         $twiz_output_protected = ($this->array_admin[parent::KEY_OUTPUT_PROTECTED] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_output_protected" name="twiz_output_protected"'.$twiz_output_protected.'>';
+        $html = '<input type="checkbox" id="twiz_output_protected" name="twiz_output_protected"'.$twiz_output_protected.'/>';
                  
         return $html;
     }

@@ -16,7 +16,6 @@
 */
 
   // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
-
   if ( defined('ABSPATH') ){
   
     require_once(ABSPATH .'wp-includes/pluggable.php'); 
@@ -110,17 +109,27 @@
             break;  
             
         case Twiz::ACTION_SAVE_SECTION:
+
+            $_POST['twiz_section_name'] = (!isset($_POST['twiz_section_name'])) ? '' : $_POST['twiz_section_name'] ;  
+            $_POST['twiz_output_choice'] = (!isset($_POST['twiz_output_choice'])) ? '' : $_POST['twiz_output_choice'] ;  
+            $_POST['twiz_custom_logic'] = (!isset($_POST['twiz_custom_logic'])) ? '' : $_POST['twiz_custom_logic'] ;  
+            $_POST['twiz_shortcode'] = (!isset($_POST['twiz_shortcode'])) ? '' : $_POST['twiz_shortcode'] ;  
         
-            $twiz_section_id = $_POST['twiz_section_id'];
-            $twiz_current_section_id = $_POST['twiz_current_section_id'];
+            $twiz_section_status = esc_attr(trim($_POST['twiz_section_status']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_current_section_id = esc_attr(trim($_POST['twiz_current_section_id']));
             $twiz_section_name = esc_attr(trim($_POST['twiz_section_name']));
-            $twiz_output_choice = esc_attr($_POST['twiz_output_choice']);
-            $twiz_custom_logic = $_POST['twiz_custom_logic'];
-			$twiz_shortcode = $_POST['twiz_shortcode'];
+            $twiz_output_choice = esc_attr(trim($_POST['twiz_output_choice']));
+            $twiz_custom_logic = esc_attr(trim($_POST['twiz_custom_logic']));
+			$twiz_shortcode = esc_attr(trim($_POST['twiz_shortcode']));
+			$twiz_cookie_name = esc_attr(trim($_POST['twiz_cookie_name']));
+			$twiz_cookie_option_1 = esc_attr(trim($_POST['twiz_cookie_option_1']));
+			$twiz_cookie_option_2 = esc_attr(trim($_POST['twiz_cookie_option_2']));
+			$twiz_cookie_with = esc_attr(trim($_POST['twiz_cookie_with']));
 
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode);
+            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_status, $twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode, $twiz_cookie_name, $twiz_cookie_option_1, $twiz_cookie_option_2, $twiz_cookie_with);
             
             break;
             
