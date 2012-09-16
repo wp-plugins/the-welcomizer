@@ -1080,7 +1080,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = $time + 3600;
                 
-                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                if( $type == 'js' ){
                 
                     $expiration = $expiration / $time / 24;
                 }    
@@ -1091,7 +1091,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = $time + 3600*24;
                 
-                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                if( $type == 'js' ){
                 
                     $expiration = $expiration / $time - 0.0000641049165;
                 }    
@@ -1102,7 +1102,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = $time + 3600*24*7;
                 
-                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                if( $type == 'js' ){
                 
                     $expiration = $expiration / $time * 7 - 0.0031411405859;
                 }    
@@ -1113,7 +1113,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = $time + 3600*24*30;
 
-                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                if( $type == 'js' ){
                 
                     $expiration = $expiration / $time * 30 - 0.057694417213;
                 }                    
@@ -1124,7 +1124,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = $time + 3600*24*365;
                 
-                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                if( $type == 'js' ){
                 
                     $expiration = $expiration / $time * 365 - 8.54037574923;
                 }        
