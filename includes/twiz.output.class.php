@@ -953,7 +953,7 @@ class TwizOutput extends Twiz{
 
         $cookiename = 'twiz_cookie_php_'.$section_id.'_'.sanitize_title_with_dashes($cookieprefix);
         
-        $expiration_option = $this->formatCookieExpiration( $option_2 );
+        $expiration_option = $this->formatCookieExpiration( $option_2, 'php' );
         
         if( !isset($_COOKIE[$cookiename]) ){
 
@@ -1012,16 +1012,16 @@ class TwizOutput extends Twiz{
         }
         
         $jscookie = 'var twiz_'.$section_id.'_cookiename = "twiz_cookie_js_'.$section_id.'_'.sanitize_title_with_dashes($cookieprefix).'";'.$this->linebreak;
-        $jscookie .= 'var twiz_'.$section_id.'_cookie_expiration_option = "'.$this->formatCookieExpiration( $option_2 ).'";'.$this->linebreak;
+        $jscookie .= 'var twiz_'.$section_id.'_cookie_expiration_option = '.$this->formatCookieExpiration( $option_2, 'js' ).';'.$this->linebreak;
         $jscookie .= 'var twiz_'.$section_id.'_cookie_Max = false; '.$this->linebreak;
-        $jscookie .= 'if( $.cookie(twiz_'.$section_id.'_cookiename) == null){'.$this->linebreak;
+        $jscookie .= 'if($.cookie(twiz_'.$section_id.'_cookiename) == null){'.$this->linebreak;
         $jscookie .= $this->tab.'$.cookie(twiz_'.$section_id.'_cookiename, "1_" + twiz_'.$section_id.'_cookie_expiration_option, { expires: twiz_'.$section_id.'_cookie_expiration_option });'.$this->linebreak;
         $jscookie .= '}else{'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_value = $.cookie(twiz_'.$section_id.'_cookiename).split("_");'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_counter = parseInt(twiz_'.$section_id.'_cookie_value[0]);'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_old = twiz_'.$section_id.'_cookie_value[1];'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_diff = twiz_'.$section_id.'_cookie_expiration_option - twiz_'.$section_id.'_cookie_expiration_old;'.$this->linebreak;
-        $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_new = twiz_'.$section_id.'_cookie_expiration_old - twiz_'.$section_id.'_cookie_expiration_diff ;'.$this->linebreak;
+        $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_new = twiz_'.$section_id.'_cookie_expiration_old - twiz_'.$section_id.'_cookie_expiration_diff;'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_option_1 = '.$this->getCookieVal($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]).';'.$this->linebreak;
         $jscookie .= $this->tab.'if(twiz_'.$section_id.'_cookie_counter < twiz_'.$section_id.'_cookie_option_1){'.$this->linebreak;
         $jscookie .= $this->tab.$this->tab.'twiz_'.$section_id.'_cookie_Max = false;'.$this->linebreak;
@@ -1063,9 +1063,10 @@ class TwizOutput extends Twiz{
         return $value;
     }    
     
-    private function formatCookieExpiration( $value = '' ){
+    private function formatCookieExpiration( $value = '', $type = '' ){
     
         $expiration = '';
+        $time = time();
     
         switch($value){
         
@@ -1077,35 +1078,60 @@ class TwizOutput extends Twiz{
                 
             case 'perhour':
             
-                $expiration = time()+3600;
+                $expiration = $time + 3600;
+                
+                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                
+                    $expiration = $expiration / $time / 24;
+                }    
                 
                 break;        
                 
             case 'perday':
             
-                $expiration = time()+3600*24;
+                $expiration = $time + 3600*24;
                 
+                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                
+                    $expiration = $expiration / $time - 0.0000641049165;
+                }    
+
                 break;        
                 
             case 'perweek':
             
-                $expiration = time()+3600*24*7;
+                $expiration = $time + 3600*24*7;
                 
+                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                
+                    $expiration = $expiration / $time * 7 - 0.0031411405859;
+                }    
+
                 break;        
                 
             case 'permonth':
             
-                $expiration = time()+3600*24*30;
+                $expiration = $time + 3600*24*30;
+
+                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                
+                    $expiration = $expiration / $time * 30 - 0.057694417213;
+                }                    
                 
                 break;
                 
             case 'peryear':
             
-                $expiration = time()+3600*24*365;
+                $expiration = $time + 3600*24*365;
                 
+                if( ( $type == 'js' ) and ( $value != 'pervisit' ) ){
+                
+                    $expiration = $expiration / $time * 365 - 8.54037574923;
+                }        
+
                 break;
         }
-        
+
         return $expiration;
     }    
 }?>
