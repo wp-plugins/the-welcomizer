@@ -126,10 +126,11 @@
 			$twiz_cookie_option_1 = esc_attr(trim($_POST['twiz_cookie_option_1']));
 			$twiz_cookie_option_2 = esc_attr(trim($_POST['twiz_cookie_option_2']));
 			$twiz_cookie_with = esc_attr(trim($_POST['twiz_cookie_with']));
+			$twiz_cookie_scope = esc_attr(trim($_POST['twiz_cookie_scope']));
 
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_status, $twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode, $twiz_cookie_name, $twiz_cookie_option_1, $twiz_cookie_option_2, $twiz_cookie_with);
+            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_status, $twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode, $twiz_cookie_name, $twiz_cookie_option_1, $twiz_cookie_option_2, $twiz_cookie_with, $twiz_cookie_scope);
             
             break;
             

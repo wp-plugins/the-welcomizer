@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.8.1
+Version: 1.4.8.2
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -110,8 +110,8 @@ License: GPL2
         $css_transform_included = false;
         
         if (( !is_admin() ) and ( $gstatus == '1' ) 
-        and (!preg_match("/wp-admin/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
-        and (!preg_match("/wp-login/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+        and (!preg_match("/wp-admin/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
+        and (!preg_match("/wp-login/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
         ) {
             
             $myTwizLibrary  = new TwizLibrary();
@@ -266,12 +266,12 @@ License: GPL2
      
     // Enqueue style in admin welcomizer page only
     if( ( is_admin() ) 
-    and (!preg_match("/plugins.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
-    and (!preg_match("/plugin-install.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
-    and (!preg_match("/update.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])) 
-    and ((preg_match("/the-welcomizer/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
-    or (preg_match("/admin-ajax/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
-    or (preg_match("/php.php/i", $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))
+    and (!preg_match("/plugins.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
+    and (!preg_match("/plugin-install.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
+    and (!preg_match("/update.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
+    and ((preg_match("/the-welcomizer/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/admin-ajax/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/php.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
     )){
 
         $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];

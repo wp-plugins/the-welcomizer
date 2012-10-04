@@ -108,7 +108,7 @@ class TwizMenu extends Twiz{
         return $max;
     }
     
-    function saveSectionMenu( $section_status, $section_json_id = '', $section_name = '', $current_section_id = '', $output_choice = '', $custom_logic = '', $short_code = '', $cookie_name = '', $cookie_option_1 = '', $cookie_option_2 = '' ,$cookie_with = ''){
+    function saveSectionMenu( $section_status, $section_json_id = '', $section_name = '', $current_section_id = '', $output_choice = '', $custom_logic = '', $short_code = '', $cookie_name = '', $cookie_option_1 = '', $cookie_option_2 = '' ,$cookie_with = '', $cookie_scope = ''){
     
         global $wpdb;
    
@@ -136,6 +136,7 @@ class TwizMenu extends Twiz{
                                                             ,parent::KEY_COOKIE_OPTION_1 => $cookie_option_1                 
                                                             ,parent::KEY_COOKIE_OPTION_2 => $cookie_option_2 
                                                             ,parent::KEY_COOKIE_WITH     => $cookie_with  
+                                                            ,parent::KEY_COOKIE_SCOPE => $cookie_scope  
                                                             )                               
                                 );
 
@@ -182,6 +183,7 @@ class TwizMenu extends Twiz{
                                                             ,parent::KEY_COOKIE_OPTION_1 => $cookie_option_1                 
                                                             ,parent::KEY_COOKIE_OPTION_2 => $cookie_option_2 
                                                             ,parent::KEY_COOKIE_WITH     => $cookie_with  
+                                                            ,parent::KEY_COOKIE_SCOPE => $cookie_scope
                                                             )                                        
                                 );
                
@@ -253,6 +255,7 @@ class TwizMenu extends Twiz{
                                                             ,parent::KEY_COOKIE_OPTION_1 => $cookie_option_1                 
                                                             ,parent::KEY_COOKIE_OPTION_2 => $cookie_option_2 
                                                             ,parent::KEY_COOKIE_WITH     => $cookie_with  
+                                                            ,parent::KEY_COOKIE_SCOPE => $cookie_scope  
                                                             )                                      
                                 );
                                          
@@ -322,6 +325,7 @@ class TwizMenu extends Twiz{
                                                             ,parent::KEY_COOKIE_OPTION_1 => $cookie_option_1                 
                                                             ,parent::KEY_COOKIE_OPTION_2 => $cookie_option_2 
                                                             ,parent::KEY_COOKIE_WITH     => $cookie_with  
+                                                            ,parent::KEY_COOKIE_SCOPE => $cookie_scope 
                                                             )                                        
                                 );
                                          
@@ -393,6 +397,7 @@ class TwizMenu extends Twiz{
                                                            ,parent::KEY_COOKIE_OPTION_1 => $cookie_option_1                 
                                                            ,parent::KEY_COOKIE_OPTION_2 => $cookie_option_2 
                                                            ,parent::KEY_COOKIE_WITH     => $cookie_with  
+                                                           ,parent::KEY_COOKIE_SCOPE => $cookie_scope  
                                                            )                                      
                                 );    
               $this->array_hardsections[$section_id] = $section;                                  
@@ -766,6 +771,8 @@ $("#twiz_shortcode_output").show();';
         if( !isset($twiz_slc_cookie_option['permonth']) ) $twiz_slc_cookie_option['permonth'] = '';
         if( !isset($twiz_slc_cookie_option['perweek']) ) $twiz_slc_cookie_option['perweek'] = '';
         if( !isset($twiz_slc_cookie_option['peryear']) ) $twiz_slc_cookie_option['peryear'] = '';
+        if( !isset($twiz_slc_cookie_option['perwebsite']) ) $twiz_slc_cookie_option['perwebsite'] = '';
+        if( !isset($twiz_slc_cookie_option['perdirectory']) ) $twiz_slc_cookie_option['perdirectory'] = '';
         if( !isset($twiz_slc_cookie_with['all']) ) $twiz_slc_cookie_with['all'] = '';
         if( !isset($twiz_slc_cookie_with['js']) ) $twiz_slc_cookie_with['js'] = '';
         if( !isset($twiz_slc_cookie_with['php']) ) $twiz_slc_cookie_with['php'] = '';
@@ -790,6 +797,9 @@ $("#twiz_shortcode_output").show();';
             $twiz_slc_cookie_option['perweek'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] == 'perweek') ? ' selected="selected"' : '';
             $twiz_slc_cookie_option['permonth'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] == 'permonth') ? ' selected="selected"' : '';
             $twiz_slc_cookie_option['peryear'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] == 'peryear') ? ' selected="selected"' : '';
+            
+            $twiz_slc_cookie_option['perwebsite'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] == 'perwebsite') ? ' selected="selected"' : '';
+            $twiz_slc_cookie_option['perdirectory'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] == 'perdirectory') ? ' selected="selected"' : '';
             
             $twiz_slc_cookie_with['all'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] == 'all') ? ' selected="selected"' : '';
             $twiz_slc_cookie_with['js'] = ($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] == 'js') ? ' selected="selected"' : '';
@@ -888,11 +898,14 @@ $("#twiz_section_name").focus();';
         $html .= '<div id="twiz_div_cookie_with" class="twiz-float-left twiz-display-none"><select id="twiz_slc_cookie_with">
         <option value="js"'.$twiz_slc_cookie_with['js'].'>'.__('with', 'the-welcomizer').' JS</option>
         <option value="php"'.$twiz_slc_cookie_with['php'].'>'.__('with', 'the-welcomizer').' PHP</option>
-        <option value="all"'.$twiz_slc_cookie_with['all'].'>'.__('with', 'the-welcomizer').' JS &amp; PHP</option>
+        <option value="all"'.$twiz_slc_cookie_with['all'].'>'.__('with', 'the-welcomizer').' '.utf8_encode('PHP & JS').'</option>
         </select></div>';
         
         // cookie name
-        $html .= '<div class="twiz-clear"></div><div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> </div>';
+        $html .= '<div class="twiz-clear"></div><div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> <select id="twiz_slc_cookie_scope">
+        <option value="perwebsite"'.$twiz_slc_cookie_option['perwebsite'].'>'.__('per website', 'the-welcomizer').'</option>
+        <option value="perdirectory"'.$twiz_slc_cookie_option['perdirectory'].'>'.__('per directory', 'the-welcomizer').'</option>
+        </select></div>';
         
          // cancel and save button
         $html .= '<div class="twiz-clear"></div><div class="twiz-text-right"><span id="twiz_menu_save_img_box" name="twiz_menu_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"/></div>';
@@ -1199,6 +1212,7 @@ $("#twiz_section_name").focus();';
                                                                 ,parent::KEY_COOKIE_OPTION_1 => ''
                                                                 ,parent::KEY_COOKIE_OPTION_2 => ''
                                                                 ,parent::KEY_COOKIE_WITH     => '' 
+                                                                ,parent::KEY_COOKIE_SCOPE => '' 
                                                                 )   
                                     ); // new array
                    
@@ -1210,9 +1224,10 @@ $("#twiz_section_name").focus();';
             
                     if( !isset($this->array_sections[$key][parent::KEY_COOKIE]) ) $this->array_sections[$key][parent::KEY_COOKIE] = ''; 
                     if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = ''; 
                     if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = ''; 
                     if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = ''; 
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = ''; 
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = ''; 
                  
                     if( !isset($this->array_sections[$key][parent::F_SECTION_ID]) ){ // Always update the title, this array has been cleaned already
                         
@@ -1234,6 +1249,7 @@ $("#twiz_section_name").focus();';
                                                                      ,parent::KEY_COOKIE_OPTION_1 => ''
                                                                      ,parent::KEY_COOKIE_OPTION_2 => ''
                                                                      ,parent::KEY_COOKIE_WITH     => '' 
+                                                                     ,parent::KEY_COOKIE_SCOPE => '' 
                                                                      )                                         
                                          ); // new array
                         
@@ -1276,6 +1292,7 @@ $("#twiz_section_name").focus();';
                                                                 ,parent::KEY_COOKIE_OPTION_1 => ''
                                                                 ,parent::KEY_COOKIE_OPTION_2 => ''
                                                                 ,parent::KEY_COOKIE_WITH     => '' 
+                                                                ,parent::KEY_COOKIE_SCOPE => ''  
                                                                 )     
                                     );
                 }else{
@@ -1286,6 +1303,7 @@ $("#twiz_section_name").focus();';
                                                                 ,parent::KEY_COOKIE_OPTION_1 => ''
                                                                 ,parent::KEY_COOKIE_OPTION_2 => ''
                                                                 ,parent::KEY_COOKIE_WITH     => '' 
+                                                                ,parent::KEY_COOKIE_SCOPE => '' 
                                                                 )     
                                     );
                 }
@@ -1299,6 +1317,7 @@ $("#twiz_section_name").focus();';
                 if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = ''; 
                 if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = ''; 
                 if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = '';             
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = '';             
                 
             }
         }

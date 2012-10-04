@@ -256,7 +256,8 @@ class Twiz{
     const KEY_COOKIE_NAME   = 'cookie_name'; 
     const KEY_COOKIE_OPTION_1 = 'cookie_option_1'; 
     const KEY_COOKIE_OPTION_2 = 'cookie_option_2'; 
-    const KEY_COOKIE_WITH   = 'cookie_with'; 
+    const KEY_COOKIE_WITH     = 'cookie_with'; 
+    const KEY_COOKIE_SCOPE    = 'cookie_scope'; 
     
     /* Output constants keys */
     const KEY_OUTPUT             = 'output';
@@ -711,9 +712,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.8.1';
-        $this->cssVersion = '1-28';
-        $this->dbVersion  = '2.73';
+        $this->version    = '1.4.8.2';
+        $this->cssVersion = '1-29';
+        $this->dbVersion  = '2.74';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');

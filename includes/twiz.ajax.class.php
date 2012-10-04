@@ -933,7 +933,11 @@ class TwizAjax extends Twiz{
         $("#twiz_shortcode_sample").attr({"value" :"[twiz id=\"" + $("#twiz_shortcode").val() + "\"]"});
     });
     $("#twiz_shortcode_sample").keypress(function (e){
-        return false;
+        if(e.ctrlKey || e.metaKey){
+            return true;
+        }else{
+            return false;
+        }
     });
     $("input[name=twiz_output_choice]").click(function(){
         var twiz_blockid = $(this).val();
@@ -1055,7 +1059,8 @@ class TwizAjax extends Twiz{
                  "twiz_cookie_option_1": $("#twiz_slc_cookie_option_1").val(),
                  "twiz_cookie_option_2": $("#twiz_slc_cookie_option_2").val(),
                  "twiz_cookie_with": $("#twiz_slc_cookie_with").val(),
-                 "twiz_cookie_name": $("#twiz_cookie_name").val()
+                 "twiz_cookie_name": $("#twiz_cookie_name").val(),
+                 "twiz_cookie_scope": $("#twiz_slc_cookie_scope").val()                 
                 }, function(data) { 
                     $("#twiz_add_sections").hide();
                     twiz_current_section_id = data; 
