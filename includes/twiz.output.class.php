@@ -34,10 +34,10 @@ class TwizOutput extends Twiz{
     private $top;
     private $left;
     private $generatedCookie;
-    private $PHPCookieMax;
+    private $PHPCookieMax = array();
     private $array_cookie;
     private $cookieLooped = array();
-    private $CookieMaxjQueryValidation;
+    private $CookieMaxjQueryValidation = array();
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
@@ -65,7 +65,6 @@ class TwizOutput extends Twiz{
         
         $this->listarray = $this->getCurrentList($shortcode_id);
         $this->admin_option = get_option('twiz_admin');
-        $this->PHPCookieMax = false;
         
         if($this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
         
@@ -116,21 +115,13 @@ class TwizOutput extends Twiz{
             
             // generates the code
             foreach($this->listarray as $value){
-            
-                $sections = $this->GetSectionArray($value[parent::F_SECTION_ID]);
-                $with = $sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];   
-            
+                               
                 // Check for post, get, cookies.
                 $hasRestrictedCode = $this->SearchforRestrictedCode($value);
-                
-                // Generates and validates cookie
-                $this->generatedCookie .= $this->generateCookies($value[parent::F_SECTION_ID]);
-               
+
                 if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) )
-                or ($this->PHPCookieMax == true) ){
-                
-                    $this->generatedScript  = ''; // reset output
-                    
+                or ($this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true) ){
+                // Nothing
                 }else{                
 
                     $have_active = '';
@@ -150,7 +141,7 @@ class TwizOutput extends Twiz{
                     
                     // repeat animation function 
                     $this->generatedScript .= '$.fn.twiz_'.$repeatname.' = function(twiz'.$this_prefix.'_this, twiz_repeat_nbr, e){ '.$this->linebreak;
-                    $this->generatedScript .= str_replace("[REPEAT_VAR]", 'twiz_repeat_'.$repeatname, $this->CookieMaxjQueryValidation);
+                    $this->generatedScript .= str_replace("[REPEAT_VAR]", 'twiz_repeat_'.$repeatname, $this->CookieMaxjQueryValidation[$value[parent::F_SECTION_ID]]);
                     $this->generatedScript .= 'if(twiz_repeat_'.$repeatname.' == 0){ twiz_repeat_'.$repeatname.' = null; return true;} '.$this->linebreak;
                     $this->generatedScript .= 'if((twiz_repeat_'.$repeatname.' == null) && (twiz_repeat_nbr != null)){ '.$this->linebreak;
                     $this->generatedScript .= 'twiz_repeat_'.$repeatname.' = twiz_repeat_nbr;} '.$this->linebreak;
@@ -322,8 +313,7 @@ class TwizOutput extends Twiz{
             $this->generatedScript .= $this->generatedScriptonevent;
             $this->generatedScript .= $this->getJavaScriptOnReady();
             $this->generatedScript .= $this->generatedScriptonready;
-           
-            $this->generatedScript .= ( $this->generatedScript  != '' ) ? $this->linebreak.'}); </script>' : '';
+            $this->generatedScript .= $this->linebreak.'}); </script>';
             
         }
 
@@ -336,11 +326,8 @@ class TwizOutput extends Twiz{
         
         // generates the code
         foreach($this->listarray as $value){   
-                            
-            $sections = $this->GetSectionArray($value[parent::F_SECTION_ID]);
-            $with = $sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];  
 
-            if( $this->PHPCookieMax == true ){}else{
+            if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){
              
                 if( $value[parent::F_OUTPUT] == 'r' ){ // onready 
                     
@@ -397,10 +384,7 @@ class TwizOutput extends Twiz{
            
         } else{
         
-            $sections = $this->GetSectionArray($value[parent::F_SECTION_ID]);
-            $with = $sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];  
-            
-            if( $this->PHPCookieMax == true ){}else{
+            if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){
             
                 // trigger the animation if not on event
                 $this->generatedScriptonready .=  $this->linebreak.'$(document).twiz_'.$repeatname.'($("'.$this->newElementFormat.'"), null);';
@@ -409,7 +393,6 @@ class TwizOutput extends Twiz{
         }  
         
         return $generatedScript;
-            
     }
     
     private function generateSQLMultiSections( $sectionid = '', $shortcode_id = ''){
@@ -476,7 +459,6 @@ class TwizOutput extends Twiz{
         $and_multi_sections = str_replace(",)", ")", $and_multi_sections); 
 
         return $and_multi_sections;
-    
     }
     
     private function evaluateCustomLogic( $customlogic = '' ) {
@@ -492,7 +474,7 @@ class TwizOutput extends Twiz{
     {
         if( !is_array($sections) ){
         
-               return $sections;
+            return $sections;
         }
         
         foreach($sections as &$value ){
@@ -751,11 +733,8 @@ class TwizOutput extends Twiz{
 
         // generates the code
         foreach($this->listarray as $value){
-        
-            $sections = $this->GetSectionArray($value[parent::F_SECTION_ID]);
-            $with = $sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];  
-            
-            if( $this->PHPCookieMax == true ){}else{
+
+            if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){
         
                 if( $value[parent::F_ON_EVENT] == '' ){
                     // Excluding only repeated animations that are running forever.(manually called are not verified)
@@ -845,26 +824,36 @@ class TwizOutput extends Twiz{
         
         // generates the code starting positions 
         foreach($this->listarray as $value){   
+        
+            // Generates and validates cookie
+            $this->generatedCookie .= $this->generateCookies($value[parent::F_SECTION_ID]);
+                
+            if( !isset($this->CookieMaxjQueryValidation[$value[parent::F_SECTION_ID]]) ){$this->CookieMaxjQueryValidation[$value[parent::F_SECTION_ID]] = '';}
+            if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]]) ){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
+            $this->PHPCookieMax[$value[parent::F_SECTION_ID]] = ($this->PHPCookieMax[$value[parent::F_SECTION_ID]] == '') ? false : $this->PHPCookieMax[$value[parent::F_SECTION_ID]];
             
-            $generatedCondition = $this->generateJSCookieCondition($value[parent::F_SECTION_ID]);
-             
-            $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-            $generatedScript_repeat .= $this->linebreak.'var twiz_repeat_'.$repeatname.' = null;';
+            if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){            
             
-            if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
-            and ( ( $value[parent::F_ON_EVENT] != '') 
-            and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){             
-            
-                $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-                $generatedScript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
-            
-            }
-            
-            if( $value[parent::F_OUTPUT_POS] == 'r' ){ // onready
-            
-                $generatedScript_pos .= $generatedCondition['open'].$this->getStartingPositions($value).$generatedCondition['close'];
-            
-            }           
+                $generatedCondition = $this->generateJSCookieCondition($value[parent::F_SECTION_ID]);
+                 
+                $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
+                $generatedScript_repeat .= $this->linebreak.'var twiz_repeat_'.$repeatname.' = null;';
+                
+                if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
+                and ( ( $value[parent::F_ON_EVENT] != '') 
+                and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){             
+                
+                    $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
+                    $generatedScript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
+                
+                }
+                
+                if( $value[parent::F_OUTPUT_POS] == 'r' ){ // onready
+                
+                    $generatedScript_pos .= $generatedCondition['open'].$this->getStartingPositions($value).$generatedCondition['close'];
+                
+                }    
+            }            
         }
         
         $this->generatedScript .= $generatedScript_repeat.$generatedScript_active;
@@ -874,34 +863,34 @@ class TwizOutput extends Twiz{
     
     private function replacejElementType ( $type = '', $element = '' ){
             
-            switch($type){
+        switch($type){
+        
+            case parent::ELEMENT_TYPE_ID:
             
-                case parent::ELEMENT_TYPE_ID:
-                
-                    return '#'.$element;
-     
-                break;
+                return '#'.$element;
+ 
+            break;
 
-                case parent::ELEMENT_TYPE_CLASS:
-                
-                    return '.'.$element;
-                    
-                break;
-
-                case parent::ELEMENT_TYPE_NAME:
-                    
-                    return '[name='.$element.']';
-                    
-                break; 
-                
-                case parent::ELEMENT_TYPE_TAG:
-                    
-                    return ''.$element.'';
-                    
-                break; 
-            }
+            case parent::ELEMENT_TYPE_CLASS:
             
-            return '#'.$element;
+                return '.'.$element;
+                
+            break;
+
+            case parent::ELEMENT_TYPE_NAME:
+                
+                return '[name='.$element.']';
+                
+            break; 
+            
+            case parent::ELEMENT_TYPE_TAG:
+                
+                return ''.$element.'';
+                
+            break; 
+        }
+        
+        return '#'.$element;
     }
     
     private function replaceNumericEntities( $value = '' ){
@@ -941,7 +930,6 @@ class TwizOutput extends Twiz{
         if($section_id == ''){ return $generatedCondition; }
 
         $this->cookieLooped[] = $section_id;
-        $this->CookieMaxjQueryValidation = ''; 
         
         $sections = $this->GetSectionArray($section_id);
         
@@ -988,7 +976,6 @@ class TwizOutput extends Twiz{
         }else{
              
             $this->cookieLooped[] = $section_id;
-            $this->CookieMaxjQueryValidation = ''; 
             
             $sections = $this->GetSectionArray($section_id);
             
@@ -1018,7 +1005,7 @@ class TwizOutput extends Twiz{
                     
                         $phpcookie = $this->getPHPCookie($section_id, $option_1, $option_2);
                         
-                        if( $this->PHPCookieMax == false ){
+                        if( $this->PHPCookieMax[$section_id] == false ){
                         
                             $jscookie = $this->getJSCookie($section_id, $option_1, $option_2);
                             
@@ -1051,7 +1038,7 @@ class TwizOutput extends Twiz{
             
             setcookie($cookiename, '1_'.$expiration_option, $expiration_option, $arrayscope['path'],$arrayscope['domain']);  
             
-            $this->PHPCookieMax = false;
+            $this->PHPCookieMax[$section_id] = false;
         
         }else{
 
@@ -1067,11 +1054,11 @@ class TwizOutput extends Twiz{
             // validate counter
             if( $counter < $cookie_max_val ){
             
-                $this->PHPCookieMax = false;
+                $this->PHPCookieMax[$section_id] = false;
                 
             }else{
             
-                $this->PHPCookieMax = true;
+                $this->PHPCookieMax[$section_id] = true;
             }
             
             $counter = $counter + 1;
@@ -1116,7 +1103,7 @@ class TwizOutput extends Twiz{
         $jscookie .= $this->tab.'twiz_'.$section_id.'_cookie_counter = twiz_'.$section_id.'_cookie_counter + 1;'.$this->linebreak;
         $jscookie .= $this->tab.'$.cookie(twiz_'.$section_id.'_cookiename, twiz_'.$section_id.'_cookie_counter + "_" + twiz_'.$section_id.'_cookie_expiration_new, { expires: twiz_'.$section_id.'_cookie_expiration_new, path: "'.$arrayscope['path'].'", domain: "'.$arrayscope['domain'].'"});'.$this->linebreak;
         $jscookie .= '}';
-        $this->CookieMaxjQueryValidation = 'if(twiz_'.$section_id.'_cookie_Max == true){ [REPEAT_VAR] = 0;}';
+        $this->CookieMaxjQueryValidation[$section_id] = 'if(twiz_'.$section_id.'_cookie_Max == true){ [REPEAT_VAR] = 0;}';
         
         return $jscookie;
     }
@@ -1152,7 +1139,6 @@ class TwizOutput extends Twiz{
         }
 
         return $arrayscope;
-        
     }
     
     private function formatCookieExpiration( $value = '', $type = '' ){
