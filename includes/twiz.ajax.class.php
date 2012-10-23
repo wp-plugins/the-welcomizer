@@ -411,6 +411,13 @@ class TwizAjax extends Twiz{
          $("#twiz_div_no_event").show();
     }
     });
+    $("#twiz_lock_event").change(function() {
+    if($(this).is(":checked")){
+         $("#twiz_lock_event_type").show();
+    }else{
+         $("#twiz_lock_event_type").hide();
+    }
+    });    
     $(".twiz-js-features a").click(function() {
         var twiz_textid = $(this).closest("div").attr("id");
         var twiz_charid = twiz_textid.substring(17,twiz_textid.length);
@@ -418,8 +425,8 @@ class TwizAjax extends Twiz{
         $(this).attr("class", "twiz-black");
         $("#twiz_slc_code_" + twiz_charid).hide();  
         $("#twiz_slc_stop_" + twiz_charid).hide();  
-        $("#twiz_slc_unbi_" + twiz_charid).hide();  
         $("#twiz_slc_bind_" + twiz_charid).hide(); 
+        $("#twiz_slc_unlo_" + twiz_charid).hide(); 
         $("#twiz_slc_func_" + twiz_charid).hide();   
         switch($(this).html()){
             case "'.__('Functions', 'the-welcomizer').'":
@@ -431,10 +438,10 @@ class TwizAjax extends Twiz{
             case "'.__('Stop', 'the-welcomizer').'":
                 $("#twiz_slc_stop_" + twiz_charid).show();            
                 break;
-            case "'.__('Unbind', 'the-welcomizer').'":
-                $("#twiz_slc_unbi_" + twiz_charid).show();            
+            case "Unlock":
+                $("#twiz_slc_unlo_" + twiz_charid).show();            
                 break;
-            case "'.__('Bind', 'the-welcomizer').'":
+            case "Bind":
                 $("#twiz_slc_bind_" + twiz_charid).show();            
                break;
         }

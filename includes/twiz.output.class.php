@@ -124,11 +124,10 @@ class TwizOutput extends Twiz{
                 // Nothing
                 }else{                
 
-                    $have_active = '';
+                    $has_active = '';
                    
                     $repeatname = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-                    $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-                    
+
                     $this->newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
                     
                     // replace numeric entities
@@ -254,11 +253,12 @@ class TwizOutput extends Twiz{
                             $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]).$this->linebreak;
                             
                             if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
-                            and ( ( $value[parent::F_ON_EVENT] != '') 
+                            and ( ( $value[parent::F_LOCK_EVENT_TYPE] == 'auto') 
+                            and ( $value[parent::F_ON_EVENT] != '') 
                             and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){                          
                                 if($has_b){
                                 
-                                     $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
+                                     $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'if((twiz_repeat_'.$repeatname.' == 0) || (twiz_repeat_'.$repeatname.' == null)){ twiz_active_'.$repeatname.' = 0;} ';
                                      $has_active = true;
                                 }
                             }
@@ -273,10 +273,11 @@ class TwizOutput extends Twiz{
                             $this->generatedScript .= $this->tab.$this->tab.'});'.$this->linebreak;
                             
                             if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
-                            and ( ( $value[parent::F_ON_EVENT] != '') 
+                            and ( ( $value[parent::F_LOCK_EVENT_TYPE] == 'auto') 
+                            and ( $value[parent::F_ON_EVENT] != '') 
                             and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){   
                                 if( !$has_b ){                       
-                                    $this->generatedScript .= $this->tab.'twiz_active_'.$repeatname_var.' = 0;'.$this->linebreak;
+                                    $this->generatedScript .= $this->tab.'if((twiz_repeat_'.$repeatname.' == 0) || (twiz_repeat_'.$repeatname.' == null)){ twiz_active_'.$repeatname.' = 0;} '.$this->linebreak;
                                     $has_active = true;
                                 }
                             }
@@ -290,19 +291,20 @@ class TwizOutput extends Twiz{
                     }
                     
                     if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
-                    and ( ( $value[parent::F_ON_EVENT] != '') 
+                    and ( ( $value[parent::F_LOCK_EVENT_TYPE] == 'auto') 
+                    and ( $value[parent::F_ON_EVENT] != '') 
                     and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){                   
                     
                         if( $has_active != true ){
                        
-                            $this->generatedScript .= $this->linebreak.$this->tab.'twiz_active_'.$repeatname_var.' = 0;';
+                            $this->generatedScript .= $this->linebreak.$this->tab.'if((twiz_repeat_'.$repeatname.' == 0) || (twiz_repeat_'.$repeatname.' == null)){twiz_active_'.$repeatname.' = 0;}';
                         }
                     }
                     
                     // closing functions
                     $this->generatedScript .= '}}'.self::COMPRESS_LINEBREAK;
                     
-                    $this->generatedScriptonevent .= $this->getOnEventFunction( $value, $repeatname, $repeatname_var );
+                    $this->generatedScriptonevent .= $this->getOnEventFunction( $value, $repeatname );
                     
                 } // End if hasDisabledCode
                 
@@ -351,7 +353,7 @@ class TwizOutput extends Twiz{
         return $generatedScript;
     }      
     
-    private function getOnEventFunction( $value = '' , $repeatname = '', $repeatname_var = '' ){
+    private function getOnEventFunction( $value = '' , $repeatname = '' ){
     
         $generatedScript = '';
     
@@ -366,8 +368,8 @@ class TwizOutput extends Twiz{
                 and ( ( $value[parent::F_ON_EVENT] != '') 
                 and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){ 
                    
-                   $generatedScript .= $this->tab.'if(twiz_active_'.$repeatname_var.' == 0){'.$this->linebreak;
-                   $generatedScript .= $this->tab.$this->tab.'twiz_active_'.$repeatname_var.' = 1;'.$this->linebreak;
+                   $generatedScript .= $this->tab.'if(twiz_active_'.$repeatname.' == 0){'.$this->linebreak;
+                   $generatedScript .= $this->tab.$this->tab.'twiz_active_'.$repeatname.' = 1;'.$this->linebreak;
                    $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$repeatname.'(this, null, e);'.$this->linebreak.$this->tab.'}';
                    
                    
@@ -843,8 +845,7 @@ class TwizOutput extends Twiz{
                 and ( ( $value[parent::F_ON_EVENT] != '') 
                 and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){             
                 
-                    $repeatname_var = str_replace("-","_", sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
-                    $generatedScript_active .= $this->linebreak.'var twiz_active_'.$repeatname_var.' = 0;';
+                    $generatedScript_active .= $this->linebreak.'var twiz_active_'.$repeatname.' = 0;';
                 
                 }
                 
