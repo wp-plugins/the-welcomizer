@@ -715,7 +715,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.4.8.4';
+        $this->version    = '1.4.8.5';
         $this->cssVersion = '1-29';
         $this->dbVersion  = '2.75';
         $this->pluginUrl  = $pluginUrl;
@@ -2041,7 +2041,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 <tr><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input type="checkbox" id="twiz_'.self::F_STATUS.'" name="twiz_'.self::F_STATUS.'" '.$twiz_status.'/></div></td>
 <td class="twiz-form-td-right"><div id="twiz_action_box"  class="twiz-float-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></div><div id="twiz_save_box_1" class="twiz-float-right twiz-td-save"><span id="twiz_save_img_box_1" name="twiz_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save_1" class="button-primary twiz-save" value="'.__('Save', 'the-welcomizer').'" /></div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Trigger by Event', 'the-welcomizer').': <div id="twiz_div_choose_event" class="twiz-float-right">'.$eventlist.'</div><td class="twiz-form-td-right"><div id="twiz_div_no_event" class="twiz-display-none twiz-float-left"></div><div id="twiz_div_lock_event"  class="twiz-display-none twiz-float-left"><input type="checkbox" id="twiz_'.self::F_LOCK_EVENT.'" name="twiz_'.self::F_LOCK_EVENT.'" '.$twiz_lock_event.'/><label for="twiz_'.self::F_LOCK_EVENT.'"> '.__('Locked', 'the-welcomizer').'</label> <select name="twiz_'.self::F_LOCK_EVENT_TYPE.'" id="twiz_'.self::F_LOCK_EVENT_TYPE.'">
-        <option value="auto" '.$twiz_lock_type['auto'].'>'.__('Automatic unlock ', 'the-welcomizer').'</option>
+        <option value="auto" '.$twiz_lock_type['auto'].'>'.__('Automatic unlock', 'the-welcomizer').'</option>
         <option value="manu" '.$twiz_lock_type['manu'].'>'.__('Manual unlock', 'the-welcomizer').'</option>
         </select></div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input-text" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"/></td></tr>
@@ -2382,7 +2382,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         foreach ( $listarray as $value ){
        
             $functionnames = 'twiz_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].'();';
-            $html .= '<option value="$(document).'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+            $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
+            $html .= '<option value="$(document).'.$functionnames.'"'.$bold.'>'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         
         $html .= '</select>';
@@ -2394,7 +2395,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         foreach ( $listarray as $value ){
        
             $functionnames = 'twiz_active_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].' = 0;';
-            $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+            $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
+            $html .= '<option value="'.$functionnames.'"'.$bold.'>'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         $html .= '</select>';
 
@@ -2405,7 +2407,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         foreach ( $listarray as $value ){
        
             $functionnames = 'twiz_repeat_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].' = 0;';
-            $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+            $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
+            $html .= '<option value="'.$functionnames.'"'.$bold.'>'.$value[self::F_ID].' - '.$functionnames.'</option>';
         }
         
         $html .= '</select>';
@@ -2422,7 +2425,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                if( $value[self::F_ON_EVENT] != self::EV_MANUAL ){
                       
                   $functionnames = '$(\'#sampleid\').bind(\''.strtolower($value[self::F_ON_EVENT]).'\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
-                  $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+                  $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
+                  $html .= '<option value="'.$functionnames.'"'.$bold.'>'.$value[self::F_ID].' - '.$functionnames.'</option>';
               }
            }
         }
@@ -2437,7 +2441,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                if( $value[self::F_ON_EVENT] != self::EV_MANUAL ){
                
                    $functionnames = '$(\'#sampleid\').unbind(\''.strtolower($value[self::F_ON_EVENT]).'\', twiz_event_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].');';
-                    $html .= '<option value="'.$functionnames.'">'.$value[self::F_ID].' - '.$functionnames.'</option>';
+                    $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
+                    $html .= '<option value="'.$functionnames.'"'.$bold.'>'.$value[self::F_ID].' - '.$functionnames.'</option>';
                 }
             }
         }
@@ -2446,8 +2451,15 @@ $("textarea[name^=twiz_options]").blur(function (){
         $html .= '</select>';
        
         // Code Snippets
-        $html .= $this->getHTMLCodeSnippets( $name, $admin_option);
-       
+        $codesnippets = $this->getHTMLCodeSnippets( $name, $admin_option);
+        if( $id != '' ){
+            $layer_id = $this->getValue( $id, self::F_LAYER_ID );
+            $export_id = $this->getValue( $id, self::F_EXPORT_ID );
+            $repeatname = $section_id ."_".str_replace("-","_",sanitize_title_with_dashes($layer_id))."_".$export_id;
+            $html .= str_replace("[SNIPPETS_REPEAT_CONDITION]","<option value=\"if(twiz_repeat_".$repeatname." == 0){}\" class=\"twiz-bold\">if(twiz_repeat_".$repeatname." == 0){}</option>", $codesnippets);
+        }else{
+            $html .= str_replace("[SNIPPETS_REPEAT_CONDITION]","", $codesnippets);
+        }
        
         // Menu
         $html .=  '<br><div id="twiz_js_features_'.$name.'" class="twiz-js-features"><a id="twiz_jsf_code_snippets_'.$name.'" class="twiz-black">'.__('Code Snippets', 'the-welcomizer').'</a> | <a id="twiz_jsf_functions_'.$name.'" class="">'.__('Functions', 'the-welcomizer').'</a> | <a id="twiz_jsf_bind_'.$name.'" class="">Bind</a> | <a id="twiz_jsf_unlock_'.$name.'" class="">Unlock</a> | <a id="twiz_jsf_stop_'.$name.'" class="">'.__('Stop', 'the-welcomizer').'</a></div>';
@@ -2540,6 +2552,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         $select = '<select class="twiz-slc-js-features" name="twiz_slc_code_'.$name.'" id="twiz_slc_code_'.$name.'">';
         
         $select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option><optgroup label="Twiz">';
+        $select .= '[SNIPPETS_REPEAT_CONDITION]';
         $select .= '<option value="$(document).twizRepeat();">$(document).twizRepeat();</option>';
         $select .= '<option value="$(document).twizRepeat(10);">$(document).twizRepeat(10);</option>';
         $select .= '<option value="$(document).twizReplay();">$(document).twizReplay();</option>';

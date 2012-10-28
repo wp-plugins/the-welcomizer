@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-23 00:02-0500\n"
-"PO-Revision-Date: 2012-10-23 00:02-0500\n"
+"POT-Creation-Date: 2012-10-27 00:37-0500\n"
+"PO-Revision-Date: 2012-10-27 00:38-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Mya\n"
 "MIME-Version: 1.0\n"
@@ -332,15 +332,16 @@ msgid "Trigger by Event"
 msgstr "Trigger by Event"
 
 #: includes/twiz.class.php:2043
-#: includes/twiz.class.php:2166
 msgid "Locked"
 msgstr "Locked"
 
 #: includes/twiz.class.php:2044
-msgid "Automatic unlock "
-msgstr "Automatic unlock "
+#: includes/twiz.class.php:2166
+msgid "Automatic unlock"
+msgstr "Automatic unlock"
 
 #: includes/twiz.class.php:2045
+#: includes/twiz.class.php:2167
 msgid "Manual unlock"
 msgstr "Manual unlock"
 
