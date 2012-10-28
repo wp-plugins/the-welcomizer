@@ -1,0 +1,830 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Welcomizer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-27 00:37-0500\n"
+"PO-Revision-Date: 2012-10-27 00:38-0500\n"
+"Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
+"Language-Team: Mya\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: twiz-index.php:80
+#: includes/twiz.class.php:726
+msgid "The Welcomizer"
+msgstr "El Bienvenidor"
+
+#: includes/twiz.admin.class.php:54
+msgid "All"
+msgstr "All"
+
+#: includes/twiz.admin.class.php:89
+msgid "Register jQuery default library"
+msgstr "Register jQuery default library"
+
+#: includes/twiz.admin.class.php:90
+#: includes/twiz.admin.class.php:177
+#: includes/twiz.class.php:2042
+#: includes/twiz.class.php:2140
+#: includes/twiz.menu.class.php:911
+msgid "Save"
+msgstr "Guardar"
+
+#: includes/twiz.admin.class.php:94
+msgid "Built-in jQuery packages"
+msgstr "Built-in jQuery packages"
+
+#: includes/twiz.admin.class.php:98
+msgid "rotate3Di"
+msgstr "rotate3Di"
+
+#: includes/twiz.admin.class.php:99
+#: includes/twiz.admin.class.php:104
+#: includes/twiz.admin.class.php:109
+#: includes/twiz.admin.class.php:114
+msgid "More info"
+msgstr "More info"
+
+#: includes/twiz.admin.class.php:99
+#: includes/twiz.admin.class.php:104
+msgid "(ignored by IE < 9)"
+msgstr "(ignored by IE < 9)"
+
+#: includes/twiz.admin.class.php:101
+msgid "And/Or"
+msgstr "And/Or"
+
+#: includes/twiz.admin.class.php:103
+msgid "jquery-animate-css-rotate-scale"
+msgstr "jquery-animate-css-rotate-scale"
+
+#: includes/twiz.admin.class.php:106
+#: includes/twiz.admin.class.php:111
+msgid "Or"
+msgstr "Or"
+
+#: includes/twiz.admin.class.php:108
+msgid "transform"
+msgstr "transform"
+
+#: includes/twiz.admin.class.php:113
+msgid "jQuery Transit"
+msgstr "jQuery Transit"
+
+#: includes/twiz.admin.class.php:114
+msgid "(different easing)"
+msgstr "(different easing)"
+
+#: includes/twiz.admin.class.php:117
+msgid "Output code settings"
+msgstr "Output code settings"
+
+#: includes/twiz.admin.class.php:121
+msgid "Disable 'ajax, post, and cookie'"
+msgstr "Disable 'ajax, post, and cookie'"
+
+#: includes/twiz.admin.class.php:122
+#: includes/twiz.admin.class.php:125
+msgid "(recommended)"
+msgstr "(recommended)"
+
+#: includes/twiz.admin.class.php:124
+msgid "Compress Output code"
+msgstr "Compress Output code"
+
+#: includes/twiz.admin.class.php:128
+msgid "Output code hooked to"
+msgstr "Output code hooked to"
+
+#: includes/twiz.admin.class.php:132
+msgid "Menu settings"
+msgstr "Menu settings"
+
+#: includes/twiz.admin.class.php:136
+msgid "Maximum number of posts in lists"
+msgstr "Maximum number of posts in lists"
+
+#: includes/twiz.admin.class.php:140
+msgid "Edition settings"
+msgstr "Edition settings"
+
+#: includes/twiz.admin.class.php:144
+msgid "Display extra easing in lists"
+msgstr "Display extra easing in lists"
+
+#: includes/twiz.admin.class.php:145
+msgid "(requires jQuery easing)"
+msgstr "(requires jQuery easing)"
+
+#: includes/twiz.admin.class.php:148
+msgid "Starting position by default"
+msgstr "Starting position by default"
+
+#: includes/twiz.admin.class.php:152
+msgid "Access level settings"
+msgstr "Access level settings"
+
+#: includes/twiz.admin.class.php:157
+msgid "Minimum Role to access this plugin"
+msgstr "Minimum Role to access this plugin"
+
+#: includes/twiz.admin.class.php:161
+msgid "Minimum Role to access the Library"
+msgstr "Minimum Role to access the Library"
+
+#: includes/twiz.admin.class.php:165
+msgid "Minimum Role to access the Admin"
+msgstr "Minimum Role to access the Admin"
+
+#: includes/twiz.admin.class.php:171
+msgid "Delete all when disabling the plugin"
+msgstr "Delete all when disabling the plugin"
+
+#: includes/twiz.admin.class.php:172
+msgid "(not recommended)"
+msgstr "(not recommended)"
+
+#: includes/twiz.ajax.class.php:44
+#: includes/twiz.class.php:794
+msgid "Import"
+msgstr "Import"
+
+#: includes/twiz.ajax.class.php:51
+#: includes/twiz.ajax.class.php:71
+msgid "{file} has invalid extension. Only {extensions} are allowed."
+msgstr "{file} has invalid extension. Only {extensions} are allowed."
+
+#: includes/twiz.ajax.class.php:52
+#: includes/twiz.ajax.class.php:72
+msgid "{file} is too large, maximum file size is {sizeLimit}."
+msgstr "{file} is too large, maximum file size is {sizeLimit}."
+
+#: includes/twiz.ajax.class.php:53
+#: includes/twiz.ajax.class.php:73
+msgid "{file} is too small, minimum file size is {minSizeLimit}."
+msgstr "{file} is too small, minimum file size is {minSizeLimit}."
+
+#: includes/twiz.ajax.class.php:54
+#: includes/twiz.ajax.class.php:74
+msgid "{file} is empty, please select files again without it."
+msgstr "{file} is empty, please select files again without it."
+
+#: includes/twiz.ajax.class.php:55
+#: includes/twiz.ajax.class.php:75
+msgid "The files are being uploaded, if you leave now the upload will be cancelled."
+msgstr "The files are being uploaded, if you leave now the upload will be cancelled."
+
+#: includes/twiz.ajax.class.php:64
+#: includes/twiz.class.php:796
+msgid "Upload"
+msgstr "Upload"
+
+#: includes/twiz.ajax.class.php:325
+#: includes/twiz.ajax.class.php:833
+msgid "Are you sure to delete?"
+msgstr "¿Está usted seguro que quiere borrar?"
+
+#: includes/twiz.ajax.class.php:432
+#: includes/twiz.class.php:2453
+msgid "Functions"
+msgstr "Functions"
+
+#: includes/twiz.ajax.class.php:435
+#: includes/twiz.class.php:2453
+msgid "Code Snippets"
+msgstr "Code Snippets"
+
+#: includes/twiz.ajax.class.php:438
+#: includes/twiz.class.php:2453
+msgid "Stop"
+msgstr "Stop"
+
+#: includes/twiz.ajax.class.php:624
+#: includes/twiz.class.php:947
+msgid "Edit"
+msgstr "Edición"
+
+#: includes/twiz.ajax.class.php:968
+#: includes/twiz.ajax.class.php:990
+#: includes/twiz.ajax.class.php:992
+msgid "Give the section a name."
+msgstr "Give the section a name."
+
+#: includes/twiz.ajax.class.php:974
+#: includes/twiz.ajax.class.php:996
+#: includes/twiz.ajax.class.php:998
+msgid "Please type a name."
+msgstr "Please type a name."
+
+#: includes/twiz.ajax.class.php:980
+#: includes/twiz.ajax.class.php:1008
+#: includes/twiz.ajax.class.php:1009
+msgid "Please type a short code."
+msgstr "Please type a short code."
+
+#: includes/twiz.ajax.class.php:1020
+msgid "Please choose an output option."
+msgstr "Please choose an output option."
+
+#: includes/twiz.ajax.class.php:1034
+msgid "Please select at least one option."
+msgstr "Please select at least one option."
+
+#: includes/twiz.ajax.class.php:1043
+msgid "Please type a custom logic."
+msgstr "Please type a custom logic."
+
+#: includes/twiz.class.php:784
+msgid "Add New"
+msgstr "Añadir nuevo"
+
+#: includes/twiz.class.php:795
+msgid "Export"
+msgstr "Export"
+
+#: includes/twiz.class.php:797
+#: includes/twiz.menu.class.php:971
+msgid "Library"
+msgstr "Library"
+
+#: includes/twiz.class.php:798
+#: includes/twiz.menu.class.php:973
+msgid "Admin"
+msgstr "Admin"
+
+#: includes/twiz.class.php:926
+#: includes/twiz.class.php:2041
+#: includes/twiz.library.class.php:62
+#: includes/twiz.menu.class.php:867
+msgid "Status"
+msgstr "Estado"
+
+#: includes/twiz.class.php:926
+#: includes/twiz.class.php:2047
+msgid "Element"
+msgstr "Elemento"
+
+#: includes/twiz.class.php:926
+msgid "Event"
+msgstr "Event"
+
+#: includes/twiz.class.php:926
+msgid "Delay"
+msgstr "Retraso"
+
+#: includes/twiz.class.php:926
+#: includes/twiz.class.php:2049
+msgid "Duration"
+msgstr "Duración"
+
+#: includes/twiz.class.php:926
+#: includes/twiz.class.php:2042
+#: includes/twiz.library.class.php:65
+#: includes/twiz.menu.class.php:867
+msgid "Action"
+msgstr "Acción"
+
+#: includes/twiz.class.php:947
+#: includes/twiz.class.php:2030
+msgid "Copy"
+msgstr "Copy"
+
+#: includes/twiz.class.php:947
+#: includes/twiz.library.class.php:83
+msgid "Delete"
+msgstr "Borrar"
+
+#: includes/twiz.class.php:1014
+msgid "Cannot open file"
+msgstr "Cannot open file"
+
+#: includes/twiz.class.php:1019
+msgid "Cannot write to file"
+msgstr "Cannot write to file"
+
+#: includes/twiz.class.php:1026
+#: includes/import/server/php.php:146
+msgid "You must first create this directory"
+msgstr "You must first create this directory"
+
+#: includes/twiz.class.php:1029
+msgid "Right-click, Save Target As/Save Link As"
+msgstr "Right-click, Save Target As/Save Link As"
+
+#: includes/twiz.class.php:1029
+msgid "Download file"
+msgstr "Download file"
+
+#: includes/twiz.class.php:2042
+#: includes/twiz.class.php:2140
+#: includes/twiz.menu.class.php:911
+msgid "Cancel"
+msgstr "Anular"
+
+#: includes/twiz.class.php:2043
+msgid "Trigger by Event"
+msgstr "Trigger by Event"
+
+#: includes/twiz.class.php:2043
+msgid "Locked"
+msgstr "Locked"
+
+#: includes/twiz.class.php:2044
+#: includes/twiz.class.php:2166
+msgid "Automatic unlock"
+msgstr "Automatic unlock"
+
+#: includes/twiz.class.php:2045
+#: includes/twiz.class.php:2167
+msgid "Manual unlock"
+msgstr "Manual unlock"
+
+#: includes/twiz.class.php:2048
+msgid "Start delay"
+msgstr "Temporizador de inicio"
+
+#: includes/twiz.class.php:2048
+#: includes/twiz.class.php:2049
+msgid "sec"
+msgstr "seg"
+
+#: includes/twiz.class.php:2049
+msgid "More configurations"
+msgstr "More configurations"
+
+#: includes/twiz.class.php:2053
+#: includes/twiz.class.php:2203
+msgid "Starting Positions"
+msgstr "posiciones de partida"
+
+#: includes/twiz.class.php:2054
+#: includes/twiz.class.php:2085
+#: includes/twiz.class.php:2717
+msgid "OnReady"
+msgstr "OnReady"
+
+#: includes/twiz.class.php:2055
+#: includes/twiz.class.php:2086
+#: includes/twiz.class.php:2720
+msgid "Before the delay"
+msgstr "Before the delay"
+
+#: includes/twiz.class.php:2056
+#: includes/twiz.class.php:2087
+#: includes/twiz.class.php:2723
+msgid "After the delay"
+msgstr "After the delay"
+
+#: includes/twiz.class.php:2058
+#: includes/twiz.class.php:2097
+#: includes/twiz.class.php:2119
+#: includes/twiz.class.php:2205
+#: includes/twiz.class.php:2228
+#: includes/twiz.class.php:2241
+msgid "Top"
+msgstr "Top "
+
+#: includes/twiz.class.php:2063
+#: includes/twiz.class.php:2103
+#: includes/twiz.class.php:2125
+#: includes/twiz.class.php:2206
+#: includes/twiz.class.php:2229
+#: includes/twiz.class.php:2242
+msgid "Left"
+msgstr "Left "
+
+#: includes/twiz.class.php:2068
+#: includes/twiz.class.php:2207
+msgid "Position"
+msgstr "Posición"
+
+#: includes/twiz.class.php:2070
+msgid "absolute"
+msgstr "absoluto"
+
+#: includes/twiz.class.php:2071
+msgid "relative"
+msgstr "relativo"
+
+#: includes/twiz.class.php:2072
+msgid "fixed"
+msgstr "fixed"
+
+#: includes/twiz.class.php:2073
+msgid "static"
+msgstr "statique"
+
+#: includes/twiz.class.php:2076
+#: includes/twiz.class.php:2208
+msgid "z-index"
+msgstr "z-index"
+
+#: includes/twiz.class.php:2084
+#: includes/twiz.class.php:2213
+msgid "JavaScript"
+msgstr "JavaScript"
+
+#: includes/twiz.class.php:2096
+#: includes/twiz.class.php:2226
+msgid "First Move"
+msgstr "Primer Movimiento"
+
+#: includes/twiz.class.php:2108
+#: includes/twiz.class.php:2130
+msgid "More Options"
+msgstr "Más Opciones"
+
+#: includes/twiz.class.php:2110
+#: includes/twiz.class.php:2133
+msgid "Personalized options"
+msgstr "Opciones personalizadas"
+
+#: includes/twiz.class.php:2111
+#: includes/twiz.class.php:2134
+msgid "Pick from List"
+msgstr "Eligir de la lista"
+
+#: includes/twiz.class.php:2113
+#: includes/twiz.class.php:2136
+msgid "Extra JavaScript"
+msgstr "JavaScript Extra"
+
+#: includes/twiz.class.php:2118
+#: includes/twiz.class.php:2239
+msgid "Second Move"
+msgstr "Segundo Movimiento"
+
+#: includes/twiz.class.php:2140
+msgid "& Stay"
+msgstr "& Stay"
+
+#: includes/twiz.class.php:2354
+msgid "Global"
+msgstr "Global"
+
+#: includes/twiz.class.php:2380
+#: includes/twiz.class.php:2392
+#: includes/twiz.class.php:2403
+#: includes/twiz.class.php:2415
+#: includes/twiz.class.php:2542
+#: includes/twiz.class.php:2605
+msgid "Choose"
+msgstr "Elegir"
+
+#: includes/twiz.class.php:2494
+msgid "(Optional)"
+msgstr "(opcional)"
+
+#: includes/twiz.class.php:2734
+msgid "Swing"
+msgstr "Swing"
+
+#: includes/twiz.class.php:2737
+msgid "Linear"
+msgstr "Linear"
+
+#: includes/twiz.library.class.php:63
+msgid "Filename"
+msgstr "Filename"
+
+#: includes/twiz.library.class.php:64
+msgid "Order"
+msgstr "Order"
+
+#: includes/twiz.menu.class.php:52
+#: includes/twiz.menu.class.php:942
+#: includes/twiz.menu.class.php:993
+msgid "Home"
+msgstr "Home"
+
+#: includes/twiz.menu.class.php:53
+#: includes/twiz.menu.class.php:957
+#: includes/twiz.menu.class.php:1007
+msgid "Everywhere"
+msgstr "Everywhere"
+
+#: includes/twiz.menu.class.php:54
+#: includes/twiz.menu.class.php:961
+#: includes/twiz.menu.class.php:1011
+msgid "All Categories"
+msgstr "All Categories"
+
+#: includes/twiz.menu.class.php:55
+#: includes/twiz.menu.class.php:965
+#: includes/twiz.menu.class.php:1015
+msgid "All Pages"
+msgstr "All Pages"
+
+#: includes/twiz.menu.class.php:56
+#: includes/twiz.menu.class.php:969
+#: includes/twiz.menu.class.php:1019
+msgid "All Posts"
+msgstr "All Posts"
+
+#: includes/twiz.menu.class.php:59
+#: includes/twiz.menu.class.php:854
+msgid "Default"
+msgstr "Default"
+
+#: includes/twiz.menu.class.php:60
+#: includes/twiz.menu.class.php:859
+msgid "Unique"
+msgstr "Unique"
+
+#: includes/twiz.menu.class.php:61
+#: includes/twiz.menu.class.php:860
+msgid "Multiple"
+msgstr "Multiple"
+
+#: includes/twiz.menu.class.php:62
+#: includes/twiz.menu.class.php:861
+msgid "Custom logic"
+msgstr "Custom logic"
+
+#: includes/twiz.menu.class.php:63
+msgid "Logic"
+msgstr "Logic"
+
+#: includes/twiz.menu.class.php:64
+#: includes/twiz.menu.class.php:858
+msgid "Short code"
+msgstr "Short code"
+
+#: includes/twiz.menu.class.php:124
+msgid "Give the section a name"
+msgstr "Give the section a name"
+
+#: includes/twiz.menu.class.php:544
+msgid "Choose the output"
+msgstr "Choose the output"
+
+#: includes/twiz.menu.class.php:834
+msgid "Example"
+msgstr "Example"
+
+#: includes/twiz.menu.class.php:850
+msgid "Output type"
+msgstr "Output type"
+
+#: includes/twiz.menu.class.php:867
+msgid "Section name"
+msgstr "Section name"
+
+#: includes/twiz.menu.class.php:880
+msgid "Cookie options"
+msgstr "Cookie options"
+
+#: includes/twiz.menu.class.php:881
+msgid "Disabled"
+msgstr "Disabled"
+
+#: includes/twiz.menu.class.php:882
+msgid "Only once"
+msgstr "Only once"
+
+#: includes/twiz.menu.class.php:883
+msgid "Only twice"
+msgstr "Only twice"
+
+#: includes/twiz.menu.class.php:884
+msgid "Only thrice"
+msgstr "Only thrice"
+
+#: includes/twiz.menu.class.php:889
+msgid "per visit"
+msgstr "per visit"
+
+#: includes/twiz.menu.class.php:890
+msgid "per hour"
+msgstr "per hour"
+
+#: includes/twiz.menu.class.php:891
+msgid "per day"
+msgstr "per day"
+
+#: includes/twiz.menu.class.php:892
+msgid "per week"
+msgstr "per week"
+
+#: includes/twiz.menu.class.php:893
+msgid "per month"
+msgstr "per month"
+
+#: includes/twiz.menu.class.php:894
+msgid "per year"
+msgstr "per year"
+
+#: includes/twiz.menu.class.php:899
+#: includes/twiz.menu.class.php:900
+#: includes/twiz.menu.class.php:901
+msgid "with"
+msgstr "with"
+
+#: includes/twiz.menu.class.php:905
+msgid "Cookie name"
+msgstr "Cookie name"
+
+#: includes/twiz.menu.class.php:906
+msgid "per website"
+msgstr "per website"
+
+#: includes/twiz.menu.class.php:907
+msgid "per directory"
+msgstr "per directory"
+
+#: includes/twiz.menu.class.php:916
+msgid "Copy and paste this into a post, page or text widget."
+msgstr "Copy and paste this into a post, page or text widget."
+
+#: includes/twiz.menu.class.php:919
+msgid "Select to overwrite the section name."
+msgstr "Select to overwrite the section name."
+
+#: includes/twiz.menu.class.php:922
+msgid "DoubleClick to overwrite the section name."
+msgstr "DoubleClick to overwrite the section name."
+
+#: includes/twiz.menu.class.php:922
+msgid "Press CTRL to select multiple output choices."
+msgstr "Press CTRL to select multiple output choices."
+
+#: includes/twiz.menu.class.php:925
+msgid "Conditional Tags on WordPress.org"
+msgstr "Conditional Tags on WordPress.org"
+
+#: includes/import/server/php.php:65
+msgid "Getting content length is not supported."
+msgstr "Getting content length is not supported."
+
+#: includes/import/server/php.php:124
+msgid "php.ini increase post_max_size and upload_max_filesize to "
+msgstr "php.ini increase post_max_size and upload_max_filesize to "
+
+#: includes/import/server/php.php:150
+msgid "No files were uploaded."
+msgstr "No files were uploaded."
+
+#: includes/import/server/php.php:156
+msgid "File is empty"
+msgstr "File is empty"
+
+#: includes/import/server/php.php:160
+msgid "File is too large"
+msgstr "File is too large"
+
+#: includes/import/server/php.php:170
+msgid "File has an invalid extension, it should be one of "
+msgstr "File has an invalid extension, it should be one of "
+
+#: includes/import/server/php.php:196
+#: includes/import/server/php.php:213
+msgid "File is corrupted and unreadable, the import was cancelled."
+msgstr "File is corrupted and unreadable, the import was cancelled."
+
+#: includes/import/server/php.php:235
+msgid "Could not save uploaded file. The upload was cancelled, or server error encountered"
+msgstr "Could not save uploaded file. The upload was cancelled, or server error encountered"
+
+#~ msgid "Unlock"
+#~ msgstr "Unlock"
+
+#~ msgid "Bind"
+#~ msgstr "Bind"
+
+#~ msgid "Unbind"
+#~ msgstr "Unbind"
+
+#~ msgid "or"
+#~ msgstr "or"
+
+#~ msgid "related to domain name"
+#~ msgstr "related to domain name"
+
+#~ msgid "related to directories"
+#~ msgstr "related to directories"
+
+#~ msgid "for ever"
+#~ msgstr "for ever"
+
+#~ msgid "Once Only"
+#~ msgstr "Once Only"
+
+#~ msgid "Twice Only"
+#~ msgstr "Twice Only"
+
+#~ msgid "Thrice Only"
+#~ msgstr "Thrice Only"
+
+#~ msgid "Default sections cannot be modified."
+#~ msgstr "Default sections cannot be modified."
+
+#~ msgid "To create a new custom section, click on the + menu."
+#~ msgstr "To create a new custom section, click on the + menu."
+
+#~ msgid "Close"
+#~ msgstr "Close"
+
+#~ msgid "(easing file may be required)"
+#~ msgstr "(easing file may be required)"
+
+#~ msgid "See also Widget Logic plugin page."
+#~ msgstr "See also Widget Logic plugin page."
+
+#~ msgid "Developed by"
+#~ msgstr "Desarrollado por"
+
+#~ msgid "Licensed under the GPL version 2.0"
+#~ msgstr "Registrado bajo licencia GPL versión 2.0"
+
+#~ msgid "e.g."
+#~ msgstr "Ej."
+
+#~ msgid "All animations"
+#~ msgstr "All animations"
+
+#~ msgid "Z-Index"
+#~ msgstr "Z-Index"
+
+#~ msgid "Category"
+#~ msgstr "Category"
+
+#~ msgid "Page"
+#~ msgstr "Page"
+
+#~ msgid "Post"
+#~ msgstr "Post"
+
+#~ msgid "This section is under construction."
+#~ msgstr "This section is under construction."
+
+#~ msgid "px"
+#~ msgstr "px"
+
+#~ msgid "Articles"
+#~ msgstr "Articles"
+
+#~ msgid "Server error. Upload directory isn't writable: "
+#~ msgstr "Server error. Upload directory isn't writable: "
+
+#~ msgid "Include"
+#~ msgstr "Include"
+
+#~ msgid "JavaScript Before"
+#~ msgstr "JavaScript Before"
+
+#~ msgid "Saved!"
+#~ msgstr "Guardar!"
+
+#~ msgid "Learn more about jQuery .animate() properties"
+#~ msgstr "Más información sobre jQuery .animate()"
+
+#~ msgid "Welcome!"
+#~ msgstr "¡Bienvenido!"
+
+#~ msgid "Layer ID"
+#~ msgstr "ID du layer "
+
+#~ msgid "seconds"
+#~ msgstr "secondes"
+
+#~ msgid "Message"
+#~ msgstr "Message "
+
+#~ msgid "Speed"
+#~ msgstr "Vitesse "
+
+#~ msgid "Move"
+#~ msgstr "Déplacement "
+
+#~ msgid "A"
+#~ msgstr "A "
+
+#~ msgid "B"
+#~ msgstr "B "
+
+#~ msgid "Start"
+#~ msgstr "Début"
+
+#~ msgid "Travel"
+#~ msgstr "Déplacement"
+
+#~ msgid "Deleted!"
+#~ msgstr "Effacé!"
+
+#~ msgid "End"
+#~ msgstr "Arrivé"
+
+#~ msgid "Active"
+#~ msgstr "Actif "
+
+#~ msgid "Initial style"
+#~ msgstr "Style initial "
+
+#~ msgid "End Left position"
+#~ msgstr "Position d'arrivé Left "
