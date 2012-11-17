@@ -682,7 +682,8 @@ input.button-primary, button.button-primary, a.button-primary {
 }
 .twiz-input[type=text]:focus,
 .twiz-input-text[type=text]:focus,
-.twiz-input-small[type=text]:focus {
+.twiz-input-small[type=text]:focus,
+.twiz-input-small-d[type="text"]:focus {
     background-color: lightyellow;
     border: #E6DB55 1px solid;
 }

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.8.5
+Version: 1.4.8.6
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -263,38 +263,42 @@ License: GPL2
     // register installation hooks and action
     register_activation_hook( __FILE__,  'twizInstall' );
     register_deactivation_hook( __FILE__,  'twizUninstall' );    
-     
-    // Enqueue style in admin welcomizer page only
+   
+    
     if( ( is_admin() ) 
     and (!preg_match("/plugins.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
     and (!preg_match("/plugin-install.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
     and (!preg_match("/update.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
     and ((preg_match("/the-welcomizer/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
-    or (preg_match("/admin-ajax/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
+    or (preg_match("/admin-ajax.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
     or (preg_match("/php.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
     )){
 
         $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
 
-        // Set the multi-language file, english is the standard.
-        load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+        $_POST_action = (!isset($_POST['action'])) ? '' : $_POST['action'];
+        $_POST_twiz_action = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
         
-
-        // Ajax callback
-        add_action('wp_ajax_my_action', 'twiz_ajax_callback');
-        
-        $_POST['action'] = (!isset($_POST['action'])) ? '' : $_POST['action'];
-        $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
-         
         // Do WP Ajax
-        if(($_POST['action']!='')and($_POST['twiz_action']!='')){
+        if( ( $_POST_action == 'twiz_ajax_callback' ) and ( $_POST_twiz_action != '' ) ){
         
+            // Set the multi-language file, english is the standard.
+            load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+
+            // Ajax callback
+            add_action('wp_ajax_my_action', 'twiz_ajax_callback');
             do_action('wp_ajax_my_action', $_POST['action']);
             
         }else{
         
-            // (for the admin dashboard)
-            add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');
+            if(preg_match("/the-welcomizer/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])){
+                
+                // Set the multi-language file, english is the standard.
+                load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+            
+                // (for the admin dashboard)
+                add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');
+            }
         }
     }
     
