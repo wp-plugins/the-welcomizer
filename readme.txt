@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.4.2
-Stable tag: 1.4.8.6
+Stable tag: 1.4.9
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -34,6 +34,14 @@ Enjoy!
 2. Panel when viewing data. 
 
 == Changelog ==
+
+= 1.4.9 = 
+
+* Added a find and replace (simple or precise).
+* Added support for importing a twz file more than once.
+* Added 2 new admin options. (1. Remove ads. 2. Find & Replace method.)
+* Removed unmaintained and obsolete translation files.
+* Various UI adjusments.
 
 = 1.4.8.6 = 
 
@@ -768,6 +776,10 @@ Yes, I will include your translation in future releases. E-mail me at `wordpress
 
 == Upgrade Notice ==
 
+= 1.4.9 = 
+
+* Added a find and replace.
+
 = 1.4.8.6 = 
 
 * Fixed bugs.
@@ -1293,6 +1305,4 @@ First release!
 The Welcomizer is currently available in the following languages:
 
 * English 
-* Français - 100%
-* Italiano ([by Gianni Diurno](http://gidibao.net/)) - 50%
-* Español - 20%
+* Français

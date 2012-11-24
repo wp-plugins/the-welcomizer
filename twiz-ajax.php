@@ -110,27 +110,11 @@
             
         case Twiz::ACTION_SAVE_SECTION:
 
-            $_POST['twiz_section_name'] = (!isset($_POST['twiz_section_name'])) ? '' : $_POST['twiz_section_name'] ;  
-            $_POST['twiz_output_choice'] = (!isset($_POST['twiz_output_choice'])) ? '' : $_POST['twiz_output_choice'] ;  
-            $_POST['twiz_custom_logic'] = (!isset($_POST['twiz_custom_logic'])) ? '' : $_POST['twiz_custom_logic'] ;  
-            $_POST['twiz_shortcode'] = (!isset($_POST['twiz_shortcode'])) ? '' : $_POST['twiz_shortcode'] ;  
-        
-            $twiz_section_status = esc_attr(trim($_POST['twiz_section_status']));
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
-            $twiz_current_section_id = esc_attr(trim($_POST['twiz_current_section_id']));
-            $twiz_section_name = esc_attr(trim($_POST['twiz_section_name']));
-            $twiz_output_choice = esc_attr(trim($_POST['twiz_output_choice']));
-            $twiz_custom_logic = esc_attr(trim($_POST['twiz_custom_logic']));
-			$twiz_shortcode = esc_attr(trim($_POST['twiz_shortcode']));
-			$twiz_cookie_name = esc_attr(trim($_POST['twiz_cookie_name']));
-			$twiz_cookie_option_1 = esc_attr(trim($_POST['twiz_cookie_option_1']));
-			$twiz_cookie_option_2 = esc_attr(trim($_POST['twiz_cookie_option_2']));
-			$twiz_cookie_with = esc_attr(trim($_POST['twiz_cookie_with']));
-			$twiz_cookie_scope = esc_attr(trim($_POST['twiz_cookie_scope']));
 
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->saveSectionMenu($twiz_section_status, $twiz_section_id, $twiz_section_name, $twiz_current_section_id, $twiz_output_choice, $twiz_custom_logic, $twiz_shortcode, $twiz_cookie_name, $twiz_cookie_option_1, $twiz_cookie_option_2, $twiz_cookie_with, $twiz_cookie_scope);
+            $htmlresponse = $myTwizMenu->saveSectionMenu( $twiz_section_id );
             
             break;
             
@@ -157,6 +141,48 @@
             $htmlresponse = $myTwizMenu->deleteSectionMenu($twiz_section_id);
             
             break;
+
+        case Twiz::ACTION_GET_FINDANDREPLACE:
+
+            require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
+        
+            // Needed for translation
+            load_default_textdomain();
+            
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $myTwizFindAndReplace  = new TwizFindAndReplace();
+            
+            $htmlresponse = $myTwizFindAndReplace->GetHtmlFormFindAndReplace( $twiz_section_id );
+            
+            break;  
+
+        case Twiz::ACTION_FAR_FIND:
+
+            require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
+        
+            // Needed for translation
+            load_default_textdomain();
+            
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $myTwizFindAndReplace  = new TwizFindAndReplace();
+            
+            $htmlresponse = $myTwizFindAndReplace->Find( $twiz_section_id );
+            
+            break; 
+            
+        case Twiz::ACTION_FAR_REPLACE:
+
+            require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
+        
+            // Needed for translation
+            load_default_textdomain();
+            
+            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $myTwizFindAndReplace  = new TwizFindAndReplace();
+            
+            $htmlresponse = $myTwizFindAndReplace->Replace( $twiz_section_id );
+            
+            break; 
             
         case Twiz::ACTION_SAVE:
         
@@ -197,14 +223,12 @@
             break;
 
         case Twiz::ACTION_OPTIONS:
-        
-            $admin_option = get_option('twiz_admin'); 
             
             $twiz_charid = esc_attr(trim($_POST['twiz_charid']));        
             
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlOptionList($twiz_charid, $admin_option);
+            $htmlresponse = $myTwiz->getHtmlOptionList( $twiz_charid );
             
             break;                        
             
@@ -407,24 +431,8 @@
             if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
             and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_ADMIN]))){
 
-                $twiz_settings[Twiz::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
-                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_TRANSIT] = esc_attr(trim($_POST['twiz_register_jquery_transit']));
-                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] = esc_attr(trim($_POST['twiz_register_jquery_transform']));
-                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] = esc_attr(trim($_POST['twiz_register_jquery_rotate3di']));
-                $twiz_settings[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = esc_attr(trim($_POST['twiz_register_jquery_animatecssrotatescale']));
-                $twiz_settings[Twiz::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
-                $twiz_settings[Twiz::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
-                $twiz_settings[Twiz::KEY_OUTPUT_PROTECTED] = esc_attr(trim($_POST['twiz_output_protected']));
-                $twiz_settings[Twiz::KEY_EXTRA_EASING] = esc_attr(trim($_POST['twiz_extra_easing']));
-                $twiz_settings[Twiz::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
-                $twiz_settings[Twiz::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_starting_position']));
-                $twiz_settings[Twiz::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
-                $twiz_settings[Twiz::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_min_roleadmin']));
-                $twiz_settings[Twiz::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_min_rolelibrary']));
-                $twiz_settings[Twiz::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
-
                 $myTwizAdmin  = new TwizAdmin();
-                $htmlresponse = $myTwizAdmin->saveAdmin($twiz_settings);    
+                $htmlresponse = $myTwizAdmin->saveAdmin();    
             }
             
             break;             

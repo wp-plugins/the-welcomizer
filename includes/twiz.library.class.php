@@ -46,7 +46,6 @@ class TwizLibrary extends Twiz{
          $jquery = '<script>
 //<![CDATA[
 jQuery(document).ready(function($) {
-    $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
     $("#twiz_add_sections").fadeOut("slow"); 
     $("#twiz_right_panel").fadeOut("slow");
@@ -59,10 +58,10 @@ jQuery(document).ready(function($) {
         $html = '<table class="twiz-table-list" cellspacing="0">';
         
         $html.= '<tr class="twiz-table-list-tr-h">
-<td class="twiz-table-list-td-h twiz-td-center twiz-td-status">'.__('Status', 'the-welcomizer').'</td>
-<td class="twiz-table-list-td-h twiz-td-left">'.__('Filename', 'the-welcomizer').'</td>
-<td class="twiz-table-list-td-h twiz-td-lib-order twiz-td-center">'.__('Order', 'the-welcomizer').'</td>
-<td class="twiz-table-list-td-h twiz-td-lib-action twiz-td-right">'.__('Action', 'the-welcomizer').'</td>
+<td class="twiz-table-list-td-h twiz-text-center twiz-td-status">'.__('Status', 'the-welcomizer').'</td>
+<td class="twiz-table-list-td-h twiz-text-left">'.__('Filename', 'the-welcomizer').'</td>
+<td class="twiz-table-list-td-h twiz-td-lib-order twiz-text-center">'.__('Order', 'the-welcomizer').'</td>
+<td class="twiz-table-list-td-h twiz-td-lib-action twiz-text-right">'.__('Action', 'the-welcomizer').'</td>
 </tr>';
       
         
@@ -77,10 +76,10 @@ jQuery(document).ready(function($) {
                 $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE, 'library');
                         
                 $html.= '
-    <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-td-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
+    <tr class="'.$rowcolor.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
     <td class="twiz-table-list-td"><a href="'.WP_CONTENT_URL.parent::IMPORT_PATH.$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
-     <td class="twiz-table-list-td twiz-td-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"></div></td>
-    <td class="twiz-table-list-td twiz-td-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" /></td></tr>';
+     <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"></div></td>
+    <td class="twiz-table-list-td twiz-text-right"><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" /></td></tr>';
             }
         }
         

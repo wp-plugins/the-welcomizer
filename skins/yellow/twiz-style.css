@@ -15,6 +15,12 @@ td, textarea {
 input.button-primary, button.button-primary, a.button-primary {
     font-weight: bold !important;
 }
+div a, td a {
+    text-decoration: none;
+}
+div a:hover, td a:hover {
+    cursor: pointer;
+}
 #wpbody-content {
     width: 150% !important;
 }
@@ -158,7 +164,6 @@ input.button-primary, button.button-primary, a.button-primary {
 }
 #twiz_head_title a {
     color: #333333;
-    text-decoration: none;
 }
 #twiz_head_title a:hover {
     color: #000000;
@@ -173,16 +178,6 @@ input.button-primary, button.button-primary, a.button-primary {
 #twiz_head_version {
     font-size: 12px;
     line-height: 12px;
-}
-#twiz_head_version a { 
-    text-decoration: none;
-}
-#twiz_head_addnew {
-    display: block;
-    margin-right: 80px;
-    height: 20px;
-    width: 73px;
-    float: right;
 }
 #twiz_header {
     border-radius: 6px 6px 0px 0px;
@@ -284,10 +279,7 @@ input.button-primary, button.button-primary, a.button-primary {
 #twiz_add_menu {
     font-size: 18px;
 }
-
-#twiz_more_menu:hover {
-    font-weight: bold; 
-}
+#twiz_more_menu:hover,
 #twiz_add_menu:hover {
     font-weight: bold; 
 }
@@ -347,30 +339,29 @@ input.button-primary, button.button-primary, a.button-primary {
 }
 #twiz_add_sections {
     display: none;
-    width: 494px;
+    width: 500px;
     background-color: #E4E4E4; 
-}
-#twiz_multi_menu {
-    border-top: 1px solid #d7d7d7;
-}    
+}  
 #twiz_add_sections a:hover {
     cursor: pointer;
 }
-#twiz_multi_menu {
-    width: 478px;
-    display: block;
+.twiz-box-menu {
+    width: 480px;
     font-size: 12px;
-    padding: 10px 10px 10px 10px;
+    display: block;
     float: left;
     background-color: #E4E4E4; 
+    padding: 10px 10px 10px 10px;
 }
 #twiz_section_name {
     width: 300px;
 }
-#twiz_output_section {
-    width: 478px;
+.twiz-box-fieldset {
     height: 35px;
     display: block;
+    border: 1px solid #D7D7D7;
+    padding: 8px;
+    margin-bottom: 10px;    
 }
 #twiz_shortcode {
     width: 151px;
@@ -381,26 +372,27 @@ input.button-primary, button.button-primary, a.button-primary {
 	color: blue;
 }
 .twiz-output-choice{
-    margin-left: 10px;
-}
-#twiz_multi_action {
-    float: right;
-    text-align: right;
+    margin-left: 15px !important;
 }
 #twiz_slc_multi_sections {
-    width: 478px;
+    width: 480px;
     height: 355px !important;
 }
-#twiz_slc_sections {
-    width: 478px;
-}
+#twiz_slc_sections,
 #twiz_custom_logic {
-    width: 478px;
+    width: 480px;
 }
 #twiz_custom_message{
-    width: 478px;
+    width: 480px;
     display: block;
     float: left;
+}
+#twiz_listmenu {
+    text-align: right;
+    padding: 4px;
+}
+#twiz_far_matches {
+    width : 255px;
 }
 #twiz_footer {
     border-radius: 0px 0px 6px 6px;
@@ -410,18 +402,12 @@ input.button-primary, button.button-primary, a.button-primary {
     -webkit-border-bottom-right-radius: 6px;
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;       
-    min-height: 16px;
+    min-height: 37px;
     display: block;
     text-align: center;
     font-size: 10px;
     padding: 6px 0 0 0;
     line-height: 0px;    
-}
-#twiz_footer a {
-    text-decoration: none;
-}
-#twiz_footer a:hover {
-    cursor: pointer;
 }
 .twiz-select-event-list {
     width: 55px;
@@ -430,6 +416,9 @@ input.button-primary, button.button-primary, a.button-primary {
 .twiz-table-form {
     width: 500px;
 }    
+.twiz-table-far{
+    width: 480px;
+}
 .twiz_list_tr_action {
     height: 20px;
     visibility: hidden;
@@ -459,23 +448,23 @@ input.button-primary, button.button-primary, a.button-primary {
     padding: 2px;
     font-size: 14px;
 }
-.twiz-td-center {
+.twiz-text-center {
     text-align: center;
 }
-.twiz-td-left {
-    text-align: left !important;
-}
-.twiz-td-right {
-    text-align: right;
-}
 .twiz-text-right {
-    text-align: right;
+    text-align: right !important;
+}
+.twiz-text-left {
+    text-align: left !important;
 }
 .twiz-row-color-1 {
     background-color: #fbf89f;
 }
 .twiz-row-color-2 {
     background-color: #F7F7F7;
+}
+.twiz-row-color-3 {
+    background-color: #e7e367;
 }
 .twiz-td-status {
     width: 42px;
@@ -490,9 +479,7 @@ input.button-primary, button.button-primary, a.button-primary {
 .twiz-td-action img {
     padding: 2px;
 }
-.twiz-td-duration {
-    width: 55px;
-}
+.twiz-td-duration,
 .twiz-td-duration input {
     width: 55px;
 }
@@ -648,8 +635,8 @@ input.button-primary, button.button-primary, a.button-primary {
 .twiz-td-save a:hover {
     cursor: pointer;
 }
-.twiz-input-text {
-    width: 230px;
+.twiz-input-far {
+    width: 160px;
 }
 .twiz-input {
     width: 230px;
@@ -667,6 +654,9 @@ input.button-primary, button.button-primary, a.button-primary {
     position: relative;
     margin-bottom: 13px;
 }
+.twiz-wrap-input-large-far {
+    width: 162px;
+}
 .twiz-input-large {
     height: 50px;
     position: absolute;
@@ -680,12 +670,24 @@ input.button-primary, button.button-primary, a.button-primary {
 .twiz-input-large-zzz {
     z-index: 3;
 }
-.twiz-input[type=text]:focus,
-.twiz-input-text[type=text]:focus,
-.twiz-input-small[type=text]:focus, 
-.twiz-input-small-d[type="text"]:focus {
-    background-color: lightyellow;
-    border: #E6DB55 1px solid;
+.twiz-input-large-zzzz {
+    z-index: 4;
+}
+.twiz-input-large-zzzzz {
+    z-index: 5;
+}
+.twiz-input-large-zzzzzz {
+    z-index: 6;
+}
+.twiz-input-large-zzzzzzz{
+    z-index: 7;
+}
+.twiz-input-large-zzzzzzzz {
+    z-index: 8;
+}
+.twiz-input-focus:focus {
+    background-color: lightyellow !important;
+    border: #E6DB55 1px solid !important;
 }
 .twiz-slc-options ,
 .twiz-slc-js-features {
@@ -718,10 +720,8 @@ a.twiz-anim-link:hover,
 .twiz-loading-gif-save {
     padding-right: 10px;
 }
-#twiz_td_full_chooseid img {
-    margin-right: 5px;
-}
-#twiz_td_full_chooseid a {
+#twiz_td_full_chooseid img,
+#twiz_td_full_chooseid a  {
     margin-right: 5px;
 }
 .twiz-table-view {
@@ -813,12 +813,6 @@ a.twiz-anim-link:hover,
 #twiz_admin {
     float: right;
     margin-right: 8px;
-}
-#twiz_library_upload {
-    display: none;
-}
-.twiz-preload-images {
-    display: none;
 }
 #twiz_promo {
     height: 200px;

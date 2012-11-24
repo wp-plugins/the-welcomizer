@@ -16,10 +16,7 @@
 */
 
 class TwizAdmin extends Twiz{
-    
-    /* variable declaration */
-    private $array_admin;
-
+   
     /* Output array */
     private $array_output = array(parent::OUTPUT_HEADER    
                                  ,parent::OUTPUT_FOOTER  
@@ -72,7 +69,6 @@ class TwizAdmin extends Twiz{
         $jquery = '<script>
 //<![CDATA[
 jQuery(document).ready(function($) {
-    $("#twiz_new").fadeOut("slow");
     $("#twiz_add_menu").fadeOut("slow");
     $("#twiz_library_upload").fadeOut("slow");    
     $("#twiz_import").fadeOut("slow");    
@@ -96,22 +92,22 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
                       
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('And/Or', 'the-welcomizer').'</strong></td></tr>';
                 
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('jquery-animate-css-rotate-scale', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
         // transition
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('jQuery Transit', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-td-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit">'.__('(different easing)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit">'.__('(different easing)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         $html .= '<tr><td colspan="2"><strong>'.__('Output code settings', 'the-welcomizer').'</strong></td></tr>';
@@ -119,10 +115,10 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
         // Protected
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Disable \'ajax, post, and cookie\'', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>'; 
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>'; 
         // Output compress
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output code hook
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
@@ -137,12 +133,22 @@ jQuery(document).ready(function($) {
         $html .= '<div class="twiz-float-right">'.$this->getHTMLNumberPostsInLists().'</div></td><td class="twiz-form-td-right"></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
+        $html .= '<tr><td colspan="2"><strong>'.__('Find & Replace Settings', 'the-welcomizer').'</strong></td></tr>';
+        
+        $html .= '<tr><td colspan="2">&nbsp;</td></tr>'; 
+        
+        // Prefered Method
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Prefered Method', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLPreferedMethod().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
+        
+        
+        $html .= '<tr><td colspan="2"><hr></td></tr>';
         $html .= '<tr><td colspan="2"><strong>'.__('Edition settings', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';        
         // extra easing
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-td-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/demos/effect/easing.html" target="_blank">'. __('(requires jQuery easing)', 'the-welcomizer').'</a></label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/demos/effect/easing.html" target="_blank">'. __('(requires jQuery easing)', 'the-welcomizer').'</a></label></td></tr>';
                    
         // Starting position by default on add new
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
@@ -166,10 +172,17 @@ jQuery(document).ready(function($) {
         $html .= '<div class="twiz-float-right">'.$this->getHTMLMinRoleAdmin().'</div></td><td class="twiz-form-td-right"></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
+        $html .= '<tr><td colspan="2"><strong>'.__('Other settings', 'the-welcomizer').'</strong></td></tr>';
+        
+        $html .= '<tr><td colspan="2">&nbsp;</td></tr>'; 
+        
+        // Footer Ads
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Remove plugin footer ads', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
         
         // Deactivation
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-td-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
@@ -183,7 +196,7 @@ jQuery(document).ready(function($) {
     
     private function getHTMLjQueryRegister(){
     
-        $twiz_register_jquery = ($this->array_admin[parent::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
+        $twiz_register_jquery = ($this->admin_option[parent::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery" name="twiz_register_jquery"'.$twiz_register_jquery.'/>';
                  
@@ -192,7 +205,7 @@ jQuery(document).ready(function($) {
     
     private function getHTMLjQueryTransit(){
     
-        $twiz_register_jquery_transit = ($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1') ? ' checked="checked"' : '';
+        $twiz_register_jquery_transit = ($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery_transit" name="twiz_register_jquery_transit"'.$twiz_register_jquery_transit.'/>';
                  
@@ -201,7 +214,7 @@ jQuery(document).ready(function($) {
 
     private function getHTMLjQuerytransform(){
     
-        $twiz_register_jquery_transform = ($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] == '1') ? ' checked="checked"' : '';
+        $twiz_register_jquery_transform = ($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery_transform" name="twiz_register_jquery_transform"'.$twiz_register_jquery_transform.'/>';
                  
@@ -210,7 +223,7 @@ jQuery(document).ready(function($) {
    
     private function getHTMLjQueryRotate3Di(){
     
-        $twiz_register_jquery_rotate3di = ($this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == '1') ? ' checked="checked"' : '';
+        $twiz_register_jquery_rotate3di = ($this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery_rotate3di" name="twiz_register_jquery_rotate3di"'.$twiz_register_jquery_rotate3di.'/>';
                  
@@ -219,7 +232,7 @@ jQuery(document).ready(function($) {
 
     private function getHTMLjQueryanimatecssrotatescale(){
     
-        $twiz_register_jquery_animatecssrotatescale = ($this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == '1') ? ' checked="checked"' : '';
+        $twiz_register_jquery_animatecssrotatescale = ($this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_register_jquery_animatecssrotatescale" name="twiz_register_jquery_animatecssrotatescale"'.$twiz_register_jquery_animatecssrotatescale.'/>';
                  
@@ -228,7 +241,7 @@ jQuery(document).ready(function($) {
     
     private function getHTMLjQueryExtraEasing(){
     
-        $twiz_extra_easing = ($this->array_admin[parent::KEY_EXTRA_EASING] == '1') ? ' checked="checked"' : '';
+        $twiz_extra_easing = ($this->admin_option[parent::KEY_EXTRA_EASING] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_extra_easing" name="twiz_extra_easing"'.$twiz_extra_easing.'/>';
                  
@@ -237,20 +250,30 @@ jQuery(document).ready(function($) {
     
     private function getHTMLDeleteAll(){
     
-        $twiz_delete_all = ($this->array_admin[parent::KEY_DELETE_ALL] == '1') ? ' checked="checked"' : '';
+        $twiz_delete_all = ($this->admin_option[parent::KEY_DELETE_ALL] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_delete_all" name="twiz_delete_all"'.$twiz_delete_all.'/>';
                  
         return $html;
     }
    
+    
+    private function getHTMLFooterAds(){
+    
+        $twiz_footer_ads = ($this->admin_option[parent::KEY_FOOTER_ADS] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_footer_ads" name="twiz_footer_ads"'.$twiz_footer_ads.'/>';
+                 
+        return $html;
+    }
+    
     private function getHTMLNumberPostsInLists(){
         
         $html  = '<select name="twiz_number_posts" id="twiz_number_posts">';
         
         foreach( $this->array_number_posts as $key => $value ) {
 
-            $selected = ($value == $this->array_admin[parent::KEY_NUMBER_POSTS]) ? ' selected="selected"' : '';
+            $selected = ($value == $this->admin_option[parent::KEY_NUMBER_POSTS]) ? ' selected="selected"' : '';
             
             $html .= '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';
         }
@@ -260,13 +283,28 @@ jQuery(document).ready(function($) {
         return $html;
     }
     
-        private function getHTMLStartingPositionList(){
+    private function getHTMLPreferedMethod(){
+    
+        $select = '<select class="twiz-slc-output" name="twiz_prefered_method" id="twiz_prefered_method">';
+         
+        $twiz_far_simple = ('twiz_far_simple' == $this->admin_option[parent::KEY_PREFERED_METHOD]) ? ' selected="selected"' : '';
+        $twiz_far_precise = ('twiz_far_precise' == $this->admin_option[parent::KEY_PREFERED_METHOD]) ? ' selected="selected"' : '';
+            
+        $select .= '<option value="twiz_far_simple"'.$twiz_far_simple.'>'.__('Simple', 'the-welcomizer').'</option>';
+        $select .= '<option value="twiz_far_precise"'.$twiz_far_precise.'>'.__('Precise', 'the-welcomizer').'</option>';
+
+        $select .= '</select>';
+            
+        return $select;
+    }
+        
+    private function getHTMLStartingPositionList(){
         
         $html  = '<select name="twiz_starting_position" id="twiz_starting_position">';
 
         foreach( $this->array_position as $value ) {
 
-            $selected = ($value == $this->array_admin[parent::KEY_STARTING_POSITION]) ? ' selected="selected"' : '';
+            $selected = ($value == $this->admin_option[parent::KEY_STARTING_POSITION]) ? ' selected="selected"' : '';
             
             $html .= '<option value="'.$value.'"'.$selected.'>'.__($value, 'the-welcomizer').'</option>';
         }
@@ -290,7 +328,7 @@ jQuery(document).ready(function($) {
             
                 $strkey =  strtr($key, $this->array_role_conversion);
             
-                $selected = ($strkey == $this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ? ' selected="selected"' : '';
+                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_LEVEL]) ? ' selected="selected"' : '';
                 
                 $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
             }
@@ -315,7 +353,7 @@ jQuery(document).ready(function($) {
            
                 $strkey =  strtr($key, $this->array_role_conversion);
             
-                $selected = ($strkey == $this->array_admin[parent::KEY_MIN_ROLE_ADMIN]) ? ' selected="selected"' : '';
+                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_ADMIN]) ? ' selected="selected"' : '';
                 
                 $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
             }
@@ -341,7 +379,7 @@ jQuery(document).ready(function($) {
            
                 $strkey =  strtr($key, $this->array_role_conversion);
             
-                $selected = ($strkey == $this->array_admin[parent::KEY_MIN_ROLE_LIBRARY]) ? ' selected="selected"' : '';
+                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY]) ? ' selected="selected"' : '';
                 
                 $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
             }
@@ -354,7 +392,7 @@ jQuery(document).ready(function($) {
     
     private function getHTMLOutputCompression(){
     
-        $twiz_output_compression = ($this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '1') ? ' checked="checked"' : '';
+        $twiz_output_compression = ($this->admin_option[parent::KEY_OUTPUT_COMPRESSION] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_output_compression" name="twiz_output_compression"'.$twiz_output_compression.'/>';
                  
@@ -367,7 +405,7 @@ jQuery(document).ready(function($) {
          
         foreach ($this->array_output as $value){
 
-            $selected = ($value == $this->array_admin[parent::KEY_OUTPUT]) ? ' selected="selected"' : '';
+            $selected = ($value == $this->admin_option[parent::KEY_OUTPUT]) ? ' selected="selected"' : '';
             
             $select .= '<option value="'.$value.'"'.$selected.'>'.$value.' </option>';
             
@@ -376,11 +414,11 @@ jQuery(document).ready(function($) {
         $select .= '</select>';
             
         return $select;
-    }
+    }   
     
     private function getHTMLOutputProtected(){
     
-        $twiz_output_protected = ($this->array_admin[parent::KEY_OUTPUT_PROTECTED] == '1') ? ' checked="checked"' : '';
+        $twiz_output_protected = ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_output_protected" name="twiz_output_protected"'.$twiz_output_protected.'/>';
                  
@@ -389,212 +427,249 @@ jQuery(document).ready(function($) {
     
     function loadAdmin(){
 
-        $this->array_admin = get_option('twiz_admin');
-
         // Add new settings right here and below...
     
         // Register jQuery
-        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY] = '';
-        if( $this->array_admin[parent::KEY_REGISTER_JQUERY] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY] = '';
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY] == '' ) {
         
-            $this->array_admin[parent::KEY_REGISTER_JQUERY] = '1'; // Activated by default
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_REGISTER_JQUERY] = '1'; // Activated by default
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
  
         // Register jQuery transition
-        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] = '';
-        if( $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] = '';
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] == '' ) {
         
-            $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] = '0'; // Activated by default
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] = '0'; // Activated by default
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Register jQuery transform
-        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] = '';
-        if( $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] = '';
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] == '' ) {
         
-            $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] = '0'; // Activated by default
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] = '0'; // Activated by default
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
 
         // Register jQuery rotate3Di
-        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = '';
-        if( $this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = '';
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == '' ) {
         
-            $this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = '0'; // Activated by default
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = '0'; // Activated by default
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
 
         // Register jQuery animate-css-rotate-scale
-        if( !isset($this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE]) ) $this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = '';
-        if( $this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = '';
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == '' ) {
         
-            $this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = '0'; // Activated by default
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = '0'; // Activated by default
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }        
         
         // Output compresssion
-        if( !isset($this->array_admin[parent::KEY_OUTPUT_COMPRESSION]) ) $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '';
-        if( $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_OUTPUT_COMPRESSION]) ) $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] = '';
+        if( $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] == '' ) {
         
-            $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = '1';
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] = '1';
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
 
         // Output setting 
-        if( !isset($this->array_admin[parent::KEY_OUTPUT]) ) $this->array_admin[parent::KEY_OUTPUT] = '';
-        if( $this->array_admin[parent::KEY_OUTPUT] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_OUTPUT]) ) $this->admin_option[parent::KEY_OUTPUT] = '';
+        if( $this->admin_option[parent::KEY_OUTPUT] == '' ) {
         
-            $this->array_admin[parent::KEY_OUTPUT] = parent::OUTPUT_HEADER;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_OUTPUT] = parent::OUTPUT_HEADER;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Extra Easing
-        if( !isset($this->array_admin[parent::KEY_EXTRA_EASING]) ) $this->array_admin[parent::KEY_EXTRA_EASING] = '';
-        if( $this->array_admin[parent::KEY_EXTRA_EASING] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_EXTRA_EASING]) ) $this->admin_option[parent::KEY_EXTRA_EASING] = '';
+        if( $this->admin_option[parent::KEY_EXTRA_EASING] == '' ) {
         
-            $this->array_admin[parent::KEY_EXTRA_EASING] = '0'; 
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_EXTRA_EASING] = '0'; 
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Number of posts displayed in lists
-        if( !isset($this->array_admin[parent::KEY_NUMBER_POSTS]) ) $this->array_admin[parent::KEY_NUMBER_POSTS] = '';
-        if( $this->array_admin[parent::KEY_NUMBER_POSTS] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_NUMBER_POSTS]) ) $this->admin_option[parent::KEY_NUMBER_POSTS] = '';
+        if( $this->admin_option[parent::KEY_NUMBER_POSTS] == '' ) {
         
-            $this->array_admin[parent::KEY_NUMBER_POSTS] = parent::DEFAULT_NUMBER_POSTS;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_NUMBER_POSTS] = parent::DEFAULT_NUMBER_POSTS;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
+        }
+                
+        // Prefered Find & replace method
+        if( !isset($this->admin_option[parent::KEY_PREFERED_METHOD]) ) $this->admin_option[parent::KEY_PREFERED_METHOD] = '';
+        if( $this->admin_option[parent::KEY_PREFERED_METHOD] == '' ) {
+        
+            $this->admin_option[parent::KEY_PREFERED_METHOD] = 'twiz_far_simple';
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Starting position by default on add new
-        if( !isset($this->array_admin[parent::KEY_STARTING_POSITION]) ) $this->array_admin[parent::KEY_STARTING_POSITION] = 'nothing';
-        if( $this->array_admin[parent::KEY_STARTING_POSITION] == 'nothing' ) {
+        if( !isset($this->admin_option[parent::KEY_STARTING_POSITION]) ) $this->admin_option[parent::KEY_STARTING_POSITION] = 'nothing';
+        if( $this->admin_option[parent::KEY_STARTING_POSITION] == 'nothing' ) {
         
-            $this->array_admin[parent::KEY_STARTING_POSITION] = parent::DEFAULT_STARTING_POSITION;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_STARTING_POSITION] = parent::DEFAULT_STARTING_POSITION;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Min role Level
-        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_LEVEL]) ) $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = '';
-        if( $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_MIN_ROLE_LEVEL]) ) $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = '';
+        if( $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
         
-            $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
 
         // Min role Library
-        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_LIBRARY]) ) $this->array_admin[parent::KEY_MIN_ROLE_LIBRARY] = '';
-        if( $this->array_admin[parent::KEY_MIN_ROLE_LIBRARY] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_MIN_ROLE_LIBRARY]) ) $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = '';
+        if( $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] == '' ) {
         
-            $this->array_admin[parent::KEY_MIN_ROLE_LIBRARY] = parent::DEFAULT_MIN_ROLE_LEVEL;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Min role Admin
-        if( !isset($this->array_admin[parent::KEY_MIN_ROLE_ADMIN]) ) $this->array_admin[parent::KEY_MIN_ROLE_ADMIN] = '';
-        if( $this->array_admin[parent::KEY_MIN_ROLE_ADMIN] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_MIN_ROLE_ADMIN]) ) $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = '';
+        if( $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] == '' ) {
         
-            $this->array_admin[parent::KEY_MIN_ROLE_ADMIN] = parent::DEFAULT_MIN_ROLE_LEVEL;
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Output Protected
-        if( !isset($this->array_admin[parent::KEY_OUTPUT_PROTECTED]) ) $this->array_admin[parent::KEY_OUTPUT_PROTECTED] = '';
-        if( $this->array_admin[parent::KEY_OUTPUT_PROTECTED] == '' ) {
+        if( !isset($this->admin_option[parent::KEY_OUTPUT_PROTECTED]) ) $this->admin_option[parent::KEY_OUTPUT_PROTECTED] = '';
+        if( $this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '' ) {
         
-            $this->array_admin[parent::KEY_OUTPUT_PROTECTED] =  '1';
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_OUTPUT_PROTECTED] =  '1';
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
-        // Delete All
-        if( !isset($this->array_admin[parent::KEY_DELETE_ALL]) ) $this->array_admin[parent::KEY_DELETE_ALL] = '';
-        if( $this->array_admin[parent::KEY_DELETE_ALL] == '' ) {
+        // Footer ads
+        if( !isset($this->admin_option[parent::KEY_FOOTER_ADS]) ) $this->admin_option[parent::KEY_FOOTER_ADS] = '';
+        if( $this->admin_option[parent::KEY_FOOTER_ADS] == '' ) {
         
-            $this->array_admin[parent::KEY_DELETE_ALL] = '0';
-            $code = update_option('twiz_admin', $this->array_admin); 
-            $this->array_admin = get_option('twiz_admin');
+            $this->admin_option[parent::KEY_FOOTER_ADS] = '0';
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
+        }     
+        
+        // Delete All
+        if( !isset($this->admin_option[parent::KEY_DELETE_ALL]) ) $this->admin_option[parent::KEY_DELETE_ALL] = '';
+        if( $this->admin_option[parent::KEY_DELETE_ALL] == '' ) {
+        
+            $this->admin_option[parent::KEY_DELETE_ALL] = '0';
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
         }
         
         // Next option
     }
     
-    function saveAdmin( $setting = '' ){
+    function saveAdmin(){
     
-        $code = false;
-        
-        if( $setting == '' ){ return $code;}
+        $setting[parent::KEY_REGISTER_JQUERY] = esc_attr(trim($_POST['twiz_register_jquery']));
+        $setting[parent::KEY_REGISTER_JQUERY_TRANSIT] = esc_attr(trim($_POST['twiz_register_jquery_transit']));
+        $setting[parent::KEY_REGISTER_JQUERY_TRANSFORM] = esc_attr(trim($_POST['twiz_register_jquery_transform']));
+        $setting[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = esc_attr(trim($_POST['twiz_register_jquery_rotate3di']));
+        $setting[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = esc_attr(trim($_POST['twiz_register_jquery_animatecssrotatescale']));
+        $setting[parent::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_output_compression']));
+        $setting[parent::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_slc_output']));
+        $setting[parent::KEY_OUTPUT_PROTECTED] = esc_attr(trim($_POST['twiz_output_protected']));
+        $setting[parent::KEY_EXTRA_EASING] = esc_attr(trim($_POST['twiz_extra_easing']));
+        $setting[parent::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_number_posts']));
+        $setting[parent::KEY_PREFERED_METHOD] = esc_attr(trim($_POST['twiz_prefered_method']));
+        $setting[parent::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_starting_position']));
+        $setting[parent::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_min_rolelevel']));
+        $setting[parent::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_min_roleadmin']));
+        $setting[parent::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_min_rolelibrary']));
+        $setting[parent::KEY_FOOTER_ADS] = esc_attr(trim($_POST['twiz_footer_ads']));
+        $setting[parent::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_delete_all']));
         
         // Add new settings right here and above...
 
         // Register jQuery
         $register_jquery = ($setting[parent::KEY_REGISTER_JQUERY] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_REGISTER_JQUERY] = $register_jquery ;
+        $this->admin_option[parent::KEY_REGISTER_JQUERY] = $register_jquery ;
 
         // Register jQuery transition
         $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_TRANSIT] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSIT] = $twiz_register_jquery_transit ;
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] = $twiz_register_jquery_transit ;
         
         // Register jQuery transform
         $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_TRANSFORM] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_REGISTER_JQUERY_TRANSFORM] = $twiz_register_jquery_transit ;
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] = $twiz_register_jquery_transit ;
 
         // Register jQuery rotate3Di
         $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = $twiz_register_jquery_transit ;
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = $twiz_register_jquery_transit ;
 
         // Register jQuery animate-css-rotate-scale
         $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = $twiz_register_jquery_transit ;
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = $twiz_register_jquery_transit ;
         
         // Extra Easing
         $extra_easing = ($setting[parent::KEY_EXTRA_EASING] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_EXTRA_EASING] = $extra_easing ;
+        $this->admin_option[parent::KEY_EXTRA_EASING] = $extra_easing ;
         
         // Number of posts displayed in lists
-        $this->array_admin[parent::KEY_NUMBER_POSTS] = $setting[parent::KEY_NUMBER_POSTS];
+        $this->admin_option[parent::KEY_NUMBER_POSTS] = $setting[parent::KEY_NUMBER_POSTS];    
+        
+        // Prefered Find & replace method
+        $this->admin_option[parent::KEY_PREFERED_METHOD] = $setting[parent::KEY_PREFERED_METHOD];
         
         // Starting position by default on add new
-        $this->array_admin[parent::KEY_STARTING_POSITION] = $setting[parent::KEY_STARTING_POSITION];
+        $this->admin_option[parent::KEY_STARTING_POSITION] = $setting[parent::KEY_STARTING_POSITION];
         
         // Output compresssion
         $output_compression = ($setting[parent::KEY_OUTPUT_COMPRESSION] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_OUTPUT_COMPRESSION] = $output_compression ;
+        $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] = $output_compression ;
         
         // Output setting
-        $this->array_admin[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
+        $this->admin_option[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
         
         // Min role Level
-        $this->array_admin[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
+        $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
         
         // Min role Library
-        $this->array_admin[parent::KEY_MIN_ROLE_LIBRARY] = $setting[parent::KEY_MIN_ROLE_LIBRARY];
+        $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = $setting[parent::KEY_MIN_ROLE_LIBRARY];
         
         // Min role Admin
-        $this->array_admin[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
+        $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
         
         // Output Protected
         $output_protected = ($setting[parent::KEY_OUTPUT_PROTECTED] == 'true') ? '1' : '0';        
-        $this->array_admin[parent::KEY_OUTPUT_PROTECTED] = $output_protected;
+        $this->admin_option[parent::KEY_OUTPUT_PROTECTED] = $output_protected;
+        
+        // Footer ads
+        $footer_ads = ($setting[parent::KEY_FOOTER_ADS] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;        
         
         // Delete All
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';
-        $this->array_admin[parent::KEY_DELETE_ALL] = $delete_all ;
+        $this->admin_option[parent::KEY_DELETE_ALL] = $delete_all ;
         
         // Update array
-        $code = update_option('twiz_admin', $this->array_admin); 
+        $code = update_option('twiz_admin', $this->admin_option); 
 
         return $code;
     }    

@@ -24,7 +24,6 @@ class TwizMenu extends Twiz{
     private $array_output;
     private $array_sections;
     private $array_hardsections; 
-    private $array_admin_option;
     private $array_multi_sections;
     private $array_section_conversion;
     
@@ -46,9 +45,7 @@ class TwizMenu extends Twiz{
     function __construct(){
     
         parent::__construct();
-        
-        $this->array_admin_option = get_option('twiz_admin');
-                 
+
         $this->array_section_conversion = array (parent::DEFAULT_SECTION_HOME           => __('Home', 'the-welcomizer')
                                                 ,parent::DEFAULT_SECTION_EVERYWHERE     => __('Everywhere', 'the-welcomizer')
                                                 ,parent::DEFAULT_SECTION_ALL_CATEGORIES => __('All Categories', 'the-welcomizer')
@@ -108,13 +105,32 @@ class TwizMenu extends Twiz{
         return $max;
     }
     
-    function saveSectionMenu( $section_status, $section_json_id = '', $section_name = '', $current_section_id = '', $output_choice = '', $custom_logic = '', $short_code = '', $cookie_name = '', $cookie_option_1 = '', $cookie_option_2 = '' ,$cookie_with = '', $cookie_scope = ''){
+    function saveSectionMenu( $section_json_id = '' ){
     
         global $wpdb;
    
         $html = '';
         $new_section_id = '';
+        
+        $_POST['twiz_section_name'] = (!isset($_POST['twiz_section_name'])) ? '' : $_POST['twiz_section_name'] ;  
+        $_POST['twiz_output_choice'] = (!isset($_POST['twiz_output_choice'])) ? '' : $_POST['twiz_output_choice'] ;  
+        $_POST['twiz_custom_logic'] = (!isset($_POST['twiz_custom_logic'])) ? '' : $_POST['twiz_custom_logic'] ;  
+        $_POST['twiz_shortcode'] = (!isset($_POST['twiz_shortcode'])) ? '' : $_POST['twiz_shortcode'] ;  
+    
+        $section_status = esc_attr(trim($_POST['twiz_section_status']));
+        $current_section_id = esc_attr(trim($_POST['twiz_current_section_id']));
+        $section_name = esc_attr(trim($_POST['twiz_section_name']));
+        $output_choice = esc_attr(trim($_POST['twiz_output_choice']));
+        $custom_logic = esc_attr(trim($_POST['twiz_custom_logic']));
+        $shortcode = esc_attr(trim($_POST['twiz_shortcode']));
+        $cookie_name = esc_attr(trim($_POST['twiz_cookie_name']));
+        $cookie_option_1 = esc_attr(trim($_POST['twiz_cookie_option_1']));
+        $cookie_option_2 = esc_attr(trim($_POST['twiz_cookie_option_2']));
+        $cookie_with = esc_attr(trim($_POST['twiz_cookie_with']));
+        $cookie_scope = esc_attr(trim($_POST['twiz_cookie_scope']));
+            
         $section_status = ($section_status=='true') ? parent::STATUS_ACTIVE : parent::STATUS_INACTIVE;    
+            
             
         if( $section_json_id == '' ){return '';}
         if( $section_json_id == '' ){return '';}
@@ -376,7 +392,7 @@ class TwizMenu extends Twiz{
                 if( !isset($this->array_multi_sections[$section_id]) ) $this->array_multi_sections[$section_id] = '';
                 if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';   
                                
-                $this->array_multi_sections[$section_id] = $short_code;
+                $this->array_multi_sections[$section_id] = $shortcode;
                 $this->array_sections[$section_id] = $section;
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
@@ -590,7 +606,7 @@ class TwizMenu extends Twiz{
         $i = 1;
         foreach( $this->allposts as $value ){
         
-            if($i > $this->array_admin_option[parent::KEY_NUMBER_POSTS]){
+            if($i > $this->admin_option[parent::KEY_NUMBER_POSTS]){
                 break;   
             }
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
@@ -658,7 +674,7 @@ class TwizMenu extends Twiz{
         $i = 1;
         foreach( $this->allposts as $value ){
         
-            if($i > $this->array_admin_option[parent::KEY_NUMBER_POSTS]){
+            if($i > $this->admin_option[parent::KEY_NUMBER_POSTS]){
                 break;   
             }
             
@@ -837,7 +853,7 @@ $("#twiz_div_cookie_option_2").show();';
  //<![CDATA[
  jQuery(document).ready(function($) { ';
  
-        $jsscript .= '
+        $jsscript .= '$("#twiz_far_matches").html("");
 $("#twiz_section_name").focus();';
         
         $jsscript .= $jsscript_in;
@@ -847,7 +863,8 @@ $("#twiz_section_name").focus();';
 </script>';
 
         // radio menu choice
-        $choices = '<div id="twiz_output_section">'.__('Output type', 'the-welcomizer').': ';
+        $choices = ' <fieldset class="twiz-box-fieldset">
+<legend>'.__('Output type', 'the-welcomizer').'</legend>';
 
         if(in_array($section_id, $this->array_default_section)){
         
@@ -861,19 +878,19 @@ $("#twiz_section_name").focus();';
             $choices .= '<input type="radio" id="twiz_output_choice_3" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_logic_output"/> <label for="twiz_output_choice_3">'.__('Custom logic', 'the-welcomizer').'</label>';
         }
         
-        $choices .= '</div>';
+        $choices .= '</fieldset>';
         
         // main box section name
-        $html = '<div id="twiz_multi_menu">'.$default_message.'<div id="twiz_multi_action">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></div>'.__('Status', 'the-welcomizer').': <input type="checkbox" id="twiz_section_'.self::F_STATUS.'" name="twiz_section_'.self::F_STATUS.'" '.$twiz_section_status.'/><br>'.__('Section name', 'the-welcomizer').': ';
+        $html = '<div class="twiz-box-menu">'.$default_message.'<div class="twiz-text-right twiz-float-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.__($action, 'the-welcomizer').'</div></div>'.__('Status', 'the-welcomizer').': <input type="checkbox" id="twiz_section_'.self::F_STATUS.'" name="twiz_section_'.self::F_STATUS.'" '.$twiz_section_status.'/><br>'.__('Section name', 'the-welcomizer').': ';
 
         
         if(in_array($section_id, $this->array_default_section)){
         
-            $html .= ''.$twiz_section_name.'<input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255" class="twiz-display-none"/><br>';
+            $html .= ''.$twiz_section_name.'<input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255" class="twiz-display-none twiz-input-focus"/><br>';
             
         }else{  
         
-            $html .=  '<input type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"/>';
+            $html .=  '<input class="twiz-input-focus" type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"/>';
         }
  
         // cookie option1
@@ -902,7 +919,7 @@ $("#twiz_section_name").focus();';
         </select></div>';
         
         // cookie name
-        $html .= '<div class="twiz-clear"></div><div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> <select id="twiz_slc_cookie_scope">
+        $html .= '<div class="twiz-clear"></div><div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input class="twiz-input-focus" type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> <select id="twiz_slc_cookie_scope">
         <option value="perwebsite"'.$twiz_slc_cookie_option['perwebsite'].'>'.__('per website', 'the-welcomizer').'</option>
         <option value="perdirectory"'.$twiz_slc_cookie_option['perdirectory'].'>'.__('per directory', 'the-welcomizer').'</option>
         </select></div>';
@@ -913,7 +930,7 @@ $("#twiz_section_name").focus();';
         $html .= $choices;
         
          // Shortcode section box
-        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/></div><div class="twiz-float-left"><input type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <strong>&gt;&gt;</strong></div></div>';
+        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input class="twiz-input-focus" id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/></div><div class="twiz-float-left"><input class="twiz-input-focus" type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <strong>&gt;&gt;</strong></div></div>';
         
         // single section box
         $html .= '<div id="twiz_single_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_UNIQUE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Select to overwrite the section name.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_1" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlSingleSection($section_id).'</div>';
@@ -922,7 +939,7 @@ $("#twiz_section_name").focus();';
         $html .= '<div id="twiz_multiple_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_MULTIPLE].':<div class="twiz-float-right twiz-text-right twiz-green">'.__('DoubleClick to overwrite the section name.', 'the-welcomizer').'<br>'.__('Press CTRL to select multiple output choices.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_2" class="twiz-red twiz-custom-message"></div>'.$this->GetHtmlMultiSection($section_id, $array_sections).'</div>';
 
          // Custom Logic section box
-        $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'"/>e.g.<br>is_page(\'32\') || is_category(\'55\') || is_post(\'345\')<br>!is_page(\'32\') && !is_category(\'55\') && !is_post(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a></div>';
+        $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input class="twiz-input-focus" type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'"/>e.g.<br>is_page(\'32\') || is_category(\'55\') || is_post(\'345\')<br>!is_page(\'32\') && !is_category(\'55\') && !is_post(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a></div>';
         
         $html .= $jsscript;
         return $html;

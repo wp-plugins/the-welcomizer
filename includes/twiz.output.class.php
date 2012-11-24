@@ -29,7 +29,6 @@ class TwizOutput extends Twiz{
     private $hardsections;
     private $multi_sections;
     private $shortcode_id;
-    private $admin_option;
     private $animate;
     private $top;
     private $left;
@@ -64,7 +63,6 @@ class TwizOutput extends Twiz{
         $this->multi_sections = (is_array($this->multi_sections)) ? $this->multi_sections : array();
         
         $this->listarray = $this->getCurrentList($shortcode_id);
-        $this->admin_option = get_option('twiz_admin');
         
         if($this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
         
