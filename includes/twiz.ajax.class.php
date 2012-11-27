@@ -132,7 +132,7 @@ class TwizAjax extends Twiz{
         $("#twiz_container").css("display", "block");  
     });  
     $("#twiz_far_matches").mouseenter(function(){
-        $("#twiz_far_matches").animate({"opacity":0},500,function(){$("#twiz_far_matches").html("");});
+        $("#twiz_far_matches").stop().animate({"opacity":0},500,function(){$("#twiz_far_matches").html("");});
     });  
     $("input[name^=twiz_far_find]").click(function(){
         var twiz_textid = $(this).attr("id");
@@ -160,7 +160,7 @@ class TwizAjax extends Twiz{
                 twiz_ListMenu_Unbind();
                 bind_twiz_ListMenu();
                 twizPostMenu_ReBind();
-                $("#twiz_far_matches").animate({"opacity":1},0,function(){
+                $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                     switch(true){
                         case ( data.result > 1 ):
                         $("#twiz_far_matches").html(data.result + " '.__('results found.', 'the-welcomizer').'");
@@ -226,7 +226,7 @@ class TwizAjax extends Twiz{
                 twiz_ListMenu_Unbind();
                 bind_twiz_ListMenu();
                 twizPostMenu_ReBind();
-                $("#twiz_far_matches").animate({"opacity":1},0,function(){
+                $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                     switch(true){
                         case ( data.result > 1 ):
                         $("#twiz_far_matches").html(data.result + " '.__('results found.', 'the-welcomizer').'");
@@ -267,7 +267,7 @@ class TwizAjax extends Twiz{
                 twiz_ListMenu_Unbind();
                 bind_twiz_ListMenu();
                 twizPostMenu(twiz_current_section_id);
-                $("#twiz_far_matches").animate({"opacity":1},0,function(){
+                $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                     switch(true){
                         case ( data > 1 ):
                         $("#twiz_far_matches").html(data + " '.__('results modified.', 'the-welcomizer').'");
@@ -363,7 +363,7 @@ class TwizAjax extends Twiz{
                 twiz_ListMenu_Unbind();
                 bind_twiz_ListMenu();
                 twizPostMenu(twiz_current_section_id);
-                $("#twiz_far_matches").animate({"opacity":1},0,function(){
+                $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                  switch(true){
                     case ( data > 1 ):
                     $("#twiz_far_matches").html(data + " '.__('results modified.', 'the-welcomizer').'");
