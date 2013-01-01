@@ -26,7 +26,7 @@ div a:hover, td a:hover {
 }
 #twiz_plugin {
     width: 98%;
-    margin: 9px 0 15px 5px;
+    margin: 9px 0 15px 30px;
 }
 #twiz_master {
     width: 500px;
@@ -98,8 +98,6 @@ div a:hover, td a:hover {
     display: block;
     margin-left: 15px;
     position: relative;
-    top: 0px;
-    z-index: 1;
 }
 #twiz_right_panel {
     min-height: 200px;
@@ -353,7 +351,8 @@ div a:hover, td a:hover {
     background-color: #E4E4E4; 
     padding: 10px 10px 10px 10px;
 }
-#twiz_section_name {
+#twiz_section_name,
+#twiz_lib_dir {
     width: 300px;
 }
 .twiz-box-fieldset {
@@ -366,7 +365,7 @@ div a:hover, td a:hover {
 #twiz_shortcode {
     width: 151px;
 }
-#twiz_shortcode_sample {
+.twiz-shortcode-sample {
     width: 295px;
 	font-size: 14px;
 	color: blue;
@@ -387,12 +386,12 @@ div a:hover, td a:hover {
     display: block;
     float: left;
 }
-#twiz_listmenu {
-    text-align: right;
+#twiz_listmenu,
+#twiz_lib_menu {
     padding: 4px;
 }
 #twiz_far_matches {
-    width : 255px;
+    width : 190px;
 }
 #twiz_footer {
     border-radius: 0px 0px 6px 6px;
@@ -409,32 +408,55 @@ div a:hover, td a:hover {
     padding: 6px 0 0 0;
     line-height: 0px;    
 }
+.twiz-td-v-line {
+    width: 1px;
+}
+.twiz-toggle-img,
+.twiz-toggle-img-admin  {
+    position: absolute;
+    left: -25px;
+    top: -10px;
+}
+.twiz-toggle-img-admin {
+    top: -2px;
+}
+.twiz-toggle-img-far {
+    position: absolute;
+    left: -38px;
+    top: -2px;
+}
 .twiz-select-event-list {
     width: 55px;
 }
 .twiz-table-list,
-.twiz-table-form {
+.twiz-table-form,
+.twiz-list-tr {
     width: 500px;
 }    
-.twiz-table-far{
+.twiz-table-far {
     width: 480px;
 }
-.twiz_list_tr_action {
+.twiz-border-bottom {
+    border-bottom: 1px #F7F7F7 solid;
+}
+.twiz-list-tr-action {
     height: 20px;
     visibility: hidden;
     display: block;
 }
-.twiz_list_tr_action a {
+.twiz-list-tr-action a {
     font-size: 11px;
 }
-.twiz_list_tr_action a:hover{
+.twiz-list-tr-action a:hover{
     cursor: pointer;
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
     background-color: #e7e367;
 }    
+.twiz-table-far img:hover,
 .twiz-table-list img:hover,
+.twiz-table-form img:hover,
 .twiz-arrow-lib-n:hover,
 .twiz-arrow-lib-s:hover,
 .twiz-table-list-td-h a:hover {
@@ -579,6 +601,9 @@ div a:hover, td a:hover {
     border: 0px;
     margin: 15px 0 15px 0;
     background-color: #e2dc40;
+}
+.twiz-table-form tr {
+    height: 15px;
 }
 .twiz-caption {
     height: 30px;
@@ -761,6 +786,12 @@ a.twiz-anim-link:hover,
 .twiz-float-right {
     float: right;
 }
+.twiz-relative {
+    position: relative;
+}
+.twiz-absolute {
+    position: absolute;
+}
 #twiz_import,
 #twiz_export,
 #twiz_library, 
@@ -833,6 +864,9 @@ a.twiz-anim-link:hover,
     border-right: 0px;
     padding-bottom: 0px;
     margin-top: 3px;
+}
+.twiz-italic {
+    font-style: italic;
 }
 #twiz_ads {
     width: 485px;

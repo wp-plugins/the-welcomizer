@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -55,8 +55,8 @@ $("#twiz_listmenu").css("display", "none");';
         $jsscript .= '});
  //]]>
 </script>';
-        $eventlist1 = $this->getHtmlEventList('','far_1','',false);
-        $eventlist2 = $this->getHtmlEventList('','far_2','',false);
+        $eventlist1 = $this->getHtmlEventList('','far_1','');
+        $eventlist2 = $this->getHtmlEventList('','far_2','');
         
         /* easing */
         $easing_a1 = $this->getHtmlEasingOptions('', parent::F_EASING_A, 'far_1');
@@ -64,19 +64,25 @@ $("#twiz_listmenu").css("display", "none");';
         $easing_b1 = $this->getHtmlEasingOptions('', parent::F_EASING_B, 'far_1');
         $easing_b2 = $this->getHtmlEasingOptions('', parent::F_EASING_B, 'far_2');
 
-        $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" name="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_1" id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_1" id="twiz_far_find_1" class="button-primary twiz-save" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_1" id="twiz_far_replace_1" class="button-primary twiz-save" value="'.__('Replace', 'the-welcomizer').'"/></div>';
+        $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" name="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_1" id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_1" id="twiz_far_find_1" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_1" id="twiz_far_replace_1" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
             
         $choices = $buttons . ' <fieldset class="twiz-box-fieldset">
 <legend>'.__('Method', 'the-welcomizer').'</legend>';
 
-
-        if('twiz_far_simple' == $this->admin_option[parent::KEY_PREFERED_METHOD]) { 
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] = '' ;
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] = '' ;
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] = '' ;
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] = '' ;
+                
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD] = '';
+         
+        if('twiz_far_simple' == $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD]) { 
             $twiz_far_simple =  ' checked="checked"';
             $twiz_far_precise =  '';
             $twiz_display_far_simple = '';
             $twiz_display_far_precise = ' twiz-display-none';
         }
-        if('twiz_far_precise' == $this->admin_option[parent::KEY_PREFERED_METHOD]) { 
+        if('twiz_far_precise' == $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD]) { 
             $twiz_far_precise =  ' checked="checked"';
             $twiz_far_simple =  '';
             $twiz_display_far_precise = '';            
@@ -111,10 +117,23 @@ $("#twiz_listmenu").css("display", "none");';
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Delay', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_START_DELAY.'_far_1" name="twiz_'.parent::F_START_DELAY.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_START_DELAY.'_far_2" name="twiz_'.parent::F_START_DELAY.'_far_2" type="text" value="" maxlength="50"/></td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_1" name="twiz_'.parent::F_DURATION.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_2" name="twiz_'.parent::F_DURATION.'_far_2" type="text" value="" maxlength="50"/></td></tr>
+<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_1" name="twiz_'.parent::F_DURATION.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_2" name="twiz_'.parent::F_DURATION.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
 
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-bold" colspan="2">'.__('Starting Positions', 'the-welcomizer').'</td></tr>
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT_POS.'_far_1" id="twiz_'.parent::F_OUTPUT_POS.'_far_1">
+    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] == '1' ){
+
+        $hide = '';
+        $toggleimg = 'minus';
+        $boldclass = ' twiz-bold';
+
+    }else{
+
+        $hide = ' twiz-display-none';
+        $toggleimg = 'plus';
+        $boldclass = '';
+    }
+        
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar0" name="twiz_far_img_twizfar0" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar0" name="twiz_far_e_a_twizfar0" class="twiz-toggle-far'.$boldclass.'">'.__('Starting Positions', 'the-welcomizer').'</a></td></tr>
+<tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT_POS.'_far_1" id="twiz_'.parent::F_OUTPUT_POS.'_far_1">
         <option value=""></option>
         <option value="r">'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b">'.__('Before the delay', 'the-welcomizer').'</option>
@@ -126,7 +145,7 @@ $("#twiz_listmenu").css("display", "none");';
         <option value="a">'.__('After the delay', 'the-welcomizer').'</option>
         </select></td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1" id="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1">
+<tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1" id="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1">
                 <option value="">+</option>
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_START_TOP_POS.'_far_1" name="twiz_'.parent::F_START_TOP_POS.'_far_1" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_START_TOP_POS_FORMAT, '','far_1').'</div></td><td class="twiz-form-td-left"><select name="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_2" id="twiz_'.parent::F_START_TOP_POS_SIGN.'_far_2">
@@ -134,7 +153,7 @@ $("#twiz_listmenu").css("display", "none");';
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_START_TOP_POS.'_far_2" name="twiz_'.parent::F_START_TOP_POS.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_START_TOP_POS_FORMAT, '','far_2').'</td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_1" id="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_1">
+<tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_1" id="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_1">
                 <option value="">+</option>
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_START_LEFT_POS.'_far_1" name="twiz_'.parent::F_START_LEFT_POS.'_far_1" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_START_LEFT_POS_FORMAT, '','far_1').'</div></td><td class="twiz-form-td-left"><select name="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_2" id="twiz_'.parent::F_START_LEFT_POS_SIGN.'_far_2">
@@ -143,7 +162,7 @@ $("#twiz_listmenu").css("display", "none");';
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_START_LEFT_POS.'_far_2" name="twiz_'.parent::F_START_LEFT_POS.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_START_LEFT_POS_FORMAT, '','far_2').'</td></tr>
 
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Position', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_POSITION.'_far_1" id="twiz_'.parent::F_POSITION.'_far_1">
+<tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('Position', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_POSITION.'_far_1" id="twiz_'.parent::F_POSITION.'_far_1">
         <option value="'.parent::POS_NO_POS.'"></option>
         <option value="'.parent::POS_ABSOLUTE.'">'.__('absolute', 'the-welcomizer').'</option>
         <option value="'.parent::POS_RELATIVE.'">'.__('relative', 'the-welcomizer').'</option>
@@ -157,11 +176,24 @@ $("#twiz_listmenu").css("display", "none");';
         <option value="'.parent::POS_STATIC.'">'.__('static', 'the-welcomizer').'</option>
         </select></td></tr>
         
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('z-index', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_1" name="twiz_'.parent::F_ZINDEX.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_2" name="twiz_'.parent::F_ZINDEX.'_far_2" type="text" value="" maxlength="50"/></td></tr>
-        
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-bold" colspan="2">'.__('JavaScript', 'the-welcomizer').'</td></tr>
+<tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('z-index', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_1" name="twiz_'.parent::F_ZINDEX.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_2" name="twiz_'.parent::F_ZINDEX.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT.'_far_1" id="twiz_'.parent::F_OUTPUT.'_far_1">
+    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] == '1' ){
+
+        $hide = '';
+        $toggleimg = 'minus';
+        $boldclass = ' twiz-bold';
+
+    }else{
+
+        $hide = ' twiz-display-none';
+        $toggleimg = 'plus';
+        $boldclass = '';
+    }
+                
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar1" name="twiz_far_img_twizfar1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar1" name="twiz_far_e_a_twizfar1" class="twiz-toggle-far">'.__('JavaScript', 'the-welcomizer').'</a></td></tr>
+
+<tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT.'_far_1" id="twiz_'.parent::F_OUTPUT.'_far_1">
         <option value=""></option>
         <option value="r">'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b">'.__('Before the delay', 'the-welcomizer').'</option>
@@ -173,14 +205,26 @@ $("#twiz_listmenu").css("display", "none");';
         <option value="a">'.__('After the delay', 'the-welcomizer').'</option>
         </select></td></tr>
         
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_1" name="twiz_'.parent::F_JAVASCRIPT.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_2" name="twiz_'.parent::F_JAVASCRIPT.'_far_2" type="text" ></textarea></div></td></tr>
+<tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_1" name="twiz_'.parent::F_JAVASCRIPT.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_2" name="twiz_'.parent::F_JAVASCRIPT.'_far_2" type="text" ></textarea></div></td></tr>';
                 
+    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
 
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-bold" colspan="2">'.__('First Move', 'the-welcomizer').'</td></tr>
+        $hide = '';
+        $toggleimg = 'minus';
+        $boldclass = ' twiz-bold';
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_a1.'</div></td><td class="twiz-form-td-left">'.$easing_a2.'</td></tr>
+    }else{
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1" id="twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1">
+        $hide = ' twiz-display-none';
+        $toggleimg = 'plus';
+        $boldclass = '';
+    }
+    
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar2" name="twiz_far_img_twizfar2" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar2" name="twiz_far_e_a_twizfar2" class="twiz-toggle-far'.$boldclass.'">'.__('First Move', 'the-welcomizer').'</a></td></tr>
+
+<tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_a1.'</div></td><td class="twiz-form-td-left">'.$easing_a2.'</td></tr>
+
+<tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1" id="twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1">
                 <option value=""></option>
                 <option value="+">+</option>
                 <option value="-">-</option>
@@ -190,7 +234,7 @@ $("#twiz_listmenu").css("display", "none");';
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_MOVE_TOP_POS_A.'_far_2" name="twiz_'.parent::F_MOVE_TOP_POS_A.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_MOVE_TOP_POS_FORMAT_A, '','far_2').'</td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_A.'_far_1" id="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_A.'_far_1">
+<tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_A.'_far_1" id="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_A.'_far_1">
                 <option value=""></option>
                 <option value="+">+</option>
                 <option value="-">-</option>
@@ -200,15 +244,28 @@ $("#twiz_listmenu").css("display", "none");';
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_MOVE_LEFT_POS_A.'_far_2" name="twiz_'.parent::F_MOVE_LEFT_POS_A.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_MOVE_LEFT_POS_FORMAT_A, '','far_2').'</td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Options', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_A.'_far_1" name="twiz_'.parent::F_OPTIONS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_A.'_far_2" name="twiz_'.parent::F_OPTIONS_A.'_far_2" type="text" ></textarea></div></td></tr>
+<tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Options', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_A.'_far_1" name="twiz_'.parent::F_OPTIONS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_A.'_far_2" name="twiz_'.parent::F_OPTIONS_A.'_far_2" type="text" ></textarea></div></td></tr>
                 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_1" name="twiz_'.parent::F_EXTRA_JS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_2" name="twiz_'.parent::F_EXTRA_JS_A.'_far_2" type="text" ></textarea></div></td></tr>
+<tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_1" name="twiz_'.parent::F_EXTRA_JS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_2" name="twiz_'.parent::F_EXTRA_JS_A.'_far_2" type="text" ></textarea></div></td></tr>';
 
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-bold" colspan="2">'.__('Second Move', 'the-welcomizer').'</td></tr>
+   if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_b1.'</div></td><td class="twiz-form-td-left">'.$easing_b2.'</td></tr>
+        $hide = '';
+        $toggleimg = 'minus';
+        $boldclass = ' twiz-bold';
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1" id="twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1">
+    }else{
+
+        $hide = ' twiz-display-none';
+        $toggleimg = 'plus';
+        $boldclass = '';
+    }
+    
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar3" name="twiz_far_img_twizfar3" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar3" name="twiz_far_e_a_twizfar3" class="twiz-toggle-far'.$boldclass.'">'.__('Second Move', 'the-welcomizer').'</a></td></tr>
+
+<tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_b1.'</div></td><td class="twiz-form-td-left">'.$easing_b2.'</td></tr>
+
+<tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('Top', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1" id="twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1">
                 <option value=""></option>
                 <option value="+">+</option>
                 <option value="-">-</option>
@@ -218,7 +275,7 @@ $("#twiz_listmenu").css("display", "none");';
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_MOVE_TOP_POS_B.'_far_2" name="twiz_'.parent::F_MOVE_TOP_POS_B.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_MOVE_TOP_POS_FORMAT_B, '','far_2').'</td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_B.'_far_1" id="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_B.'_far_1">
+<tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('Left', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_B.'_far_1" id="twiz_'.parent::F_MOVE_LEFT_POS_SIGN_B.'_far_1">
                 <option value=""></option>
                 <option value="+">+</option>
                 <option value="-">-</option>
@@ -228,14 +285,14 @@ $("#twiz_listmenu").css("display", "none");';
                 <option value="-">-</option>
                 </select><input class="twiz-input-small twiz-input-focus" id="twiz_'.parent::F_MOVE_LEFT_POS_B.'_far_2" name="twiz_'.parent::F_MOVE_LEFT_POS_B.'_far_2" type="text" value="" maxlength="50"/>'.$this->getHtmlFormatList(parent::F_MOVE_LEFT_POS_FORMAT_B, '','far_2').'</td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Options', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_B.'_far_1" name="twiz_'.parent::F_OPTIONS_B.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_B.'_far_2" name="twiz_'.parent::F_OPTIONS_B.'_far_2" type="text" ></textarea></div></td></tr>
+<tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('Options', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_B.'_far_1" name="twiz_'.parent::F_OPTIONS_B.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzz twiz-input-focus" id="twiz_'.parent::F_OPTIONS_B.'_far_2" name="twiz_'.parent::F_OPTIONS_B.'_far_2" type="text" ></textarea></div></td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_B.'_far_1" name="twiz_'.parent::F_EXTRA_JS_B.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-z twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_B.'_far_2" name="twiz_'.parent::F_EXTRA_JS_B.'_far_2" type="text" ></textarea></div></td></tr>
+<tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_B.'_far_1" name="twiz_'.parent::F_EXTRA_JS_B.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-z twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_B.'_far_2" name="twiz_'.parent::F_EXTRA_JS_B.'_far_2" type="text" ></textarea></div></td></tr>
 
 <tr><td colspan="2">&nbsp;</td></tr>
 </table>';
 
-    $form .= '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_2" name="twiz_far_save_img_box_2" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_2" id="twiz_far_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_2" id="twiz_far_find_2" class="button-primary twiz-save" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_2" id="twiz_far_replace_2" class="button-primary twiz-save" value="'.__('Replace', 'the-welcomizer').'"/></div>';
+    $form .= '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_2" name="twiz_far_save_img_box_2" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_2" id="twiz_far_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_2" id="twiz_far_find_2" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_2" id="twiz_far_replace_2" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
 
         $html = '<div class="twiz-box-menu">'.$form.'</div>'.$jsscript;
        
@@ -541,7 +598,7 @@ $("#twiz_listmenu").css("display", "none");';
       
         if( $or != '' ){
         
-            $wheresql .= ") and (".parent::F_SECTION_ID." = '".$section_id."'))";
+            $wheresql .= ") and (".parent::F_SECTION_ID." = '".$section_id."') and (".parent::F_TYPE." <> '".parent::ELEMENT_TYPE_GROUP."'))";
         
         }else{
         
@@ -553,16 +610,17 @@ $("#twiz_listmenu").css("display", "none");';
 
         if( $count == 0 ){ //reset query
              
-            $wheresql = " where ".parent::F_SECTION_ID." = '".$section_id."'";
+            $wheresql = " where ".parent::F_SECTION_ID." = '".$section_id."' ";
       
             $listarray = $this->getListArray( $wheresql, '' ); 
-            
-            $jsonlistarray = json_encode( array('result' => $count, 'html'=>  html_entity_decode($this->createHtmlList($listarray, $section_id)))); 
+            $html = $this->createHtmlList($listarray, $section_id );
+            $jsonlistarray = json_encode( array('result' => $count, 'html'=>  $html )); 
             return $jsonlistarray; 
             
         }else{ 
 
-            $jsonlistarray = json_encode( array('result' => $count, 'html'=>  html_entity_decode($this->createHtmlList($listarray, $section_id)))); 
+            $html = $this->createHtmlList($listarray, $section_id, '', parent::ACTION_FAR_FIND);
+            $jsonlistarray = json_encode( array('result' => $count, 'html'=> $html )); // Exclude groups from results.
                 
             return $jsonlistarray; 
         }
@@ -620,7 +678,7 @@ $("#twiz_listmenu").css("display", "none");';
                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$everywhere_1."', '".$everywhere_2."')"; 
-                   $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."'";
+                   $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'";
                     
                     $code = $wpdb->query($updatesql);
                     
@@ -741,7 +799,7 @@ $("#twiz_listmenu").css("display", "none");';
                 $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$twiz_move_left_pos_format_b_1."', '".$twiz_move_left_pos_format_b_2."')"; 
                 $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$twiz_options_b_1."', '".$twiz_options_b_2."')"; 
                 $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$twiz_js_b_2."', '".$twiz_js_b_2."')"; 
-                $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."'";
+                $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'";
                 
                 $code = $wpdb->query($updatesql);
                 

@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -32,7 +32,7 @@
    global $wpdb;
    
     /* Nonce security (number used once) */
-    $_POST['twiz_nonce'] = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'] ;
+    if(!isset($_POST['twiz_nonce'])) $_POST['twiz_nonce'] =  '';
     $nonce = $_POST['twiz_nonce'];
     
     if (!wp_verify_nonce($nonce, 'twiz-nonce') ) {
@@ -41,16 +41,33 @@
     }
 
     /* actions */
-    $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'] ;   
-    $_POST['twiz_stay'] = (!isset($_POST['twiz_stay'])) ? '' : $_POST['twiz_stay'] ;  
-    $action = $_POST['twiz_action'];
+    if(!isset($_POST['twiz_action'])) $_POST['twiz_action'] =  '';   
+    if(!isset($_POST['twiz_stay'])) $_POST['twiz_stay'] =  '';   
+
+    $twiz_action = $_POST['twiz_action'];
     
-    $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'] ;
+    if(!isset($_POST['twiz_section_id'])) $_POST['twiz_section_id'] =  '';   
 
     $htmlresponse = '';
     
-    switch(esc_attr(trim($action))){ 
+    switch(esc_attr(trim($twiz_action))){ 
     
+       case Twiz::ACTION_TOGGLE:
+       
+            $twiz_charid = esc_attr(trim($_POST['twiz_charid']));  
+            $twiz_toggle_type = esc_attr(trim($_POST['twiz_toggle_type']));  
+            $twiz_toggle_status = esc_attr(trim($_POST['twiz_toggle_status']));  
+            
+            $myTwiz  = new Twiz();
+            
+            if(!isset($myTwiz->toggle_option[$myTwiz->userid][$twiz_toggle_type][$twiz_charid])) $myTwiz->toggle_option[$myTwiz->userid][$twiz_toggle_type][$twiz_charid] = '';
+            
+            $myTwiz->toggle_option[$myTwiz->userid][$twiz_toggle_type][$twiz_charid] = $twiz_toggle_status;
+
+            $code = update_option('twiz_toggle', $myTwiz->toggle_option);
+
+            break;
+            
         case Twiz::ACTION_MENU:
         
             $_POST['twiz_order_by'] = (!isset($_POST['twiz_order_by'])) ? '' : esc_attr($_POST['twiz_order_by']) ;
@@ -59,7 +76,7 @@
                 
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '' , $_POST['twiz_order_by']);
+            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '' , $_POST['twiz_order_by'], '', $twiz_action);
 
             break;
             
@@ -145,10 +162,7 @@
         case Twiz::ACTION_GET_FINDANDREPLACE:
 
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
-        
-            // Needed for translation
-            load_default_textdomain();
-            
+
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             $myTwizFindAndReplace  = new TwizFindAndReplace();
             
@@ -159,9 +173,6 @@
         case Twiz::ACTION_FAR_FIND:
 
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
-        
-            // Needed for translation
-            load_default_textdomain();
             
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             $myTwizFindAndReplace  = new TwizFindAndReplace();
@@ -169,13 +180,10 @@
             $htmlresponse = $myTwizFindAndReplace->Find( $twiz_section_id );
             
             break; 
-            
+    
         case Twiz::ACTION_FAR_REPLACE:
 
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php'); 
-        
-            // Needed for translation
-            load_default_textdomain();
             
             $twiz_section_id = esc_attr($_POST['twiz_section_id']);
             $myTwizFindAndReplace  = new TwizFindAndReplace();
@@ -184,41 +192,143 @@
             
             break; 
             
+        case Twiz::ACTION_SAVE_FAR_PREF_METHOD:
+        
+            $myTwiz  = new Twiz();
+            $twiz_far_choice = esc_attr(trim($_POST['twiz_far_choice']));
+        
+            $myTwiz  = new Twiz();
+            
+            if(!isset($myTwiz->toggle_option[$myTwiz->userid][Twiz::KEY_PREFERED_METHOD])) $myTwiz->toggle_option[$myTwiz->userid][Twiz::KEY_PREFERED_METHOD] = '';
+            
+            $myTwiz->toggle_option[$myTwiz->userid][Twiz::KEY_PREFERED_METHOD] = $twiz_far_choice;
+
+            $code = update_option('twiz_toggle', $myTwiz->toggle_option);
+                    
+            break;
+            
+        case Twiz::ACTION_DROP_ROW:
+        
+            if(!isset($_POST['twiz_from_id'])) $_POST['twiz_from_id'] = '';
+            if(!isset($_POST['twiz_to_id'])) $_POST['twiz_to_id'] = '';
+            $twiz_section_id = esc_attr($_POST['twiz_section_id']);     
+            $twiz_from_id = esc_attr(trim($_POST['twiz_from_id']));
+            $twiz_to_id = esc_attr(trim($_POST['twiz_to_id']));
+            
+            $myTwiz  = new Twiz();
+            
+            $parentid = $myTwiz->getValue($twiz_from_id, Twiz::F_PARENT_ID);
+            
+            if($save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_PARENT_ID,  $twiz_to_id )){ 
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,$twiz_from_id, '', $twiz_to_id, $twiz_action);     
+                
+            }
+
+            break; 
+            
+        case Twiz::ACTION_GET_GROUP:
+
+            require_once(dirname(__FILE__).'/includes/twiz.group.class.php'); 
+                
+            if(!isset($_POST['twiz_group_id'])) $_POST['twiz_group_id'] = '';
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $myTwizGroup  = new TwizGroup();
+            
+            $htmlresponse = $myTwizGroup->GetHtmlFormGroup( $twiz_group_id, $twiz_section_id );
+            
+            break; 
+            
+        case Twiz::ACTION_SAVE_GROUP:
+
+            require_once(dirname(__FILE__).'/includes/twiz.group.class.php'); 
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            
+            $myTwiz  = new Twiz();
+            $myTwizGroup  = new TwizGroup();
+            
+            if($save = $myTwizGroup->SaveGroup( $twiz_group_id )){ 
+
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $save['id'], '','' , $twiz_action);   
+            }
+            
+            $htmlresponse = json_encode( array('result' => $save['result'], 'html' =>  $htmlresponse)); 
+            
+            break; 
+            
+        case Twiz::ACTION_COPY_GROUP:
+
+            require_once(dirname(__FILE__).'/includes/twiz.group.class.php'); 
+            
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $myTwiz  = new Twiz();
+            $myTwizGroup  = new TwizGroup();
+            
+            if( $parentid = $myTwizGroup->CopyGroup( $twiz_group_id )){
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $parentid, '', '', $twiz_action);  
+            }
+            
+            break; 
+            
+        case Twiz::ACTION_DELETE_GROUP:
+
+            require_once(dirname(__FILE__).'/includes/twiz.group.class.php'); 
+            
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $myTwiz  = new Twiz();
+            $myTwizGroup  = new TwizGroup();
+            
+            if( $code = $myTwizGroup->DeleteGroup( $twiz_group_id ) ){
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);  
+            }
+            
+            break; 
+            
         case Twiz::ACTION_SAVE:
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_parent_id = esc_attr(trim($_POST['twiz_parent_id']));
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             $twiz_stay = esc_attr(trim($_POST['twiz_stay']));
             
             $myTwiz  = new Twiz();
             
-            if($saved_id = $myTwiz->save($twiz_id)){ 
+            if($save = $myTwiz->save($twiz_id)){ 
             
                 if($twiz_stay != 'true'){
-                
-                    $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $saved_id);   
+              
+                    $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $save['id'], '', $twiz_parent_id, $twiz_action);   
                     
                 }else{
-                
-                    if($htmlresponse = $myTwiz->getHtmlForm($saved_id, Twiz::ACTION_EDIT, $twiz_section_id)){}else{
+                    if($htmlresponse = $myTwiz->getHtmlForm($save['id'], Twiz::ACTION_EDIT, $twiz_section_id)){}else{
                     
-                        $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
+                        $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', $twiz_parent_id, $twiz_action);
                     }
                 }
+                
             }else{
             
                 $htmlresponse = $myTwiz->getHtmlForm();
-                
             }
+            
+            $htmlresponse = json_encode( array('id' => $save['id'],'result' => $save['result'], 'html' => $htmlresponse )); 
+                
             break;
             
         case Twiz::ACTION_CANCEL:
         
+            $twiz_parent_id = esc_attr(trim($_POST['twiz_parent_id']));
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);       
+            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', $twiz_parent_id, $twiz_action);       
             
             break;
 
@@ -247,7 +357,8 @@
             $myTwiz  = new Twiz();
             
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
-            $htmlresponse = $myTwiz->getHtmlForm('', Twiz::ACTION_NEW, $twiz_section_id);     
+            $twiz_parent_id = esc_attr(trim($_POST['twiz_parent_id']));
+            $htmlresponse = $myTwiz->getHtmlForm('', Twiz::ACTION_NEW, $twiz_section_id, $twiz_parent_id);     
             
             break;
 
@@ -259,7 +370,8 @@
             $myTwiz  = new Twiz();
             
             if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_EDIT, $twiz_section_id)){}else{
-                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
             }
             
             break;
@@ -285,16 +397,19 @@
                     case 'duration':
                     
                        $htmlresponse = $myTwiz->formatDuration($twiz_id);
+                       
                        break;
                        
                     case 'delay':
                     
                        $htmlresponse = $twiz_value;
+                       
                        break;
                        
                     case 'on_event':
                     
                        $htmlresponse = $myTwiz->format_on_event($twiz_value);
+                       
                        break;
                 }
             }
@@ -309,7 +424,8 @@
             $myTwiz  = new Twiz();
             
             if($htmlresponse = $myTwiz->getHtmlForm($twiz_id, Twiz::ACTION_COPY, $twiz_section_id)){}else{
-                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id);
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
             }
     
             break;
@@ -317,9 +433,12 @@
         case Twiz::ACTION_DELETE:
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
-        
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_parent_id = esc_attr(trim($_POST['twiz_parent_id']));
+            
             $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->delete($twiz_id);
+            $ok = $myTwiz->delete($twiz_id);
+            $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', $twiz_parent_id, $twiz_action);       
     
             break;
 
@@ -358,9 +477,58 @@
             
                 $myTwizLibrary  = new TwizLibrary();
                 $htmlresponse = $myTwizLibrary->getHtmlLibrary();    
-            
             }
+            
             break;    
+        
+        case Twiz::ACTION_GET_LIBRARY_DIR:
+        
+            $admin_option = get_option('twiz_admin'); 
+        
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
+            
+                $myTwizLibrary  = new TwizLibrary();
+                $htmlresponse = $myTwizLibrary->GetHtmlFormLibrary();    
+            }
+            
+            break;          
+            
+        case Twiz::ACTION_LINK_LIBRARY_DIR:
+        
+            $admin_option = get_option('twiz_admin'); 
+        
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
+            
+                $twiz_lib_dir = esc_attr(trim($_POST['twiz_lib_dir']));
+                $myTwizLibrary  = new TwizLibrary();
+                
+                if( $dir = $myTwizLibrary->linkLibraryDir($twiz_lib_dir ) ){
+                
+                    $htmlresponse = $myTwizLibrary->getHtmlLibrary( $dir );      
+                }                
+            }
+            
+            break;          
+            
+        case Twiz::ACTION_UNLINK_LIBRARY_DIR:
+        
+            $admin_option = get_option('twiz_admin'); 
+        
+            if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
+            and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
+            
+                $twiz_id = esc_attr(trim($_POST['twiz_id']));
+                $myTwizLibrary  = new TwizLibrary();
+                
+                if( $ok = $myTwizLibrary->unlinkLibraryDir( $twiz_id ) ){
+                
+                    $htmlresponse = $myTwizLibrary->getHtmlLibrary( );      
+                }                
+            }
+            
+            break;  
             
         case Twiz::ACTION_LIBRARY_STATUS:
         
@@ -374,6 +542,7 @@
                 $myTwizLibrary  = new TwizLibrary();
                 $htmlresponse = $myTwizLibrary->switchLibraryStatus($twiz_id);    
             }
+            
             break;   
             
        case Twiz::ACTION_DELETE_LIBRARY:
@@ -386,9 +555,11 @@
                 $twiz_id = esc_attr(trim($_POST['twiz_id']));
                 
                 $myTwizLibrary  = new TwizLibrary();
-                $htmlresponse = $myTwizLibrary->deleteLibrary($twiz_id);    
-            
+                if($ok = $myTwizLibrary->deleteLibrary($twiz_id)){
+                    $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
+                }
             }
+            
             break; 
             
        case Twiz::ACTION_ORDER_LIBRARY:
@@ -404,9 +575,11 @@
                 $myTwizLibrary  = new TwizLibrary();
                 
                 if( $updated =  $myTwizLibrary->updateLibraryOrder($twiz_id, $twiz_order) ) {
+                
                     $htmlresponse = $myTwizLibrary->getHtmlLibrary(); 
                 }
             }
+            
             break;       
 
         case Twiz::ACTION_ADMIN:
@@ -415,13 +588,11 @@
             
             if((current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LEVEL]))
             and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_ADMIN]))){            
-            
-                // Needed for translation
-                load_default_textdomain();
-                
+
                 $myTwizAdmin  = new TwizAdmin();
                 $htmlresponse = $myTwizAdmin->getHtmlAdmin();    
             }
+            
             break;     
 
         case Twiz::ACTION_SAVE_ADMIN:
@@ -437,10 +608,37 @@
             
             break;             
             
+        case Twiz::ACTION_BULLET_UP:
+        
+            $myTwiz  = new Twiz();
+            $bullet = get_option('twiz_bullet'); 
+            
+            if(!isset($bullet[$myTwiz->userid])) $bullet[$myTwiz->userid] =  '';
+            $bullet[$myTwiz->userid] = Twiz::LB_ORDER_UP;
+
+            $code = update_option('twiz_bullet', $bullet);
+            
+            break;
+            
+        case Twiz::ACTION_BULLET_DOWN:
+
+            $myTwiz  = new Twiz();
+            $bullet = get_option('twiz_bullet'); 
+            
+            if(!isset($bullet[$myTwiz->userid])) $bullet[$myTwiz->userid] =  '';
+            $bullet[$myTwiz->userid] = Twiz::LB_ORDER_DOWN;
+
+            $code = update_option('twiz_bullet', $bullet);
+
+            break;
+                        
         case Twiz::ACTION_SAVE_SKIN:
-           
-            $skin = Twiz::SKIN_PATH.esc_attr(trim($_POST['twiz_skin']));  
-            $code = update_option('twiz_skin', $skin);
+                    
+            $myTwiz  = new Twiz();
+            $twiz_skin = esc_attr(trim($_POST['twiz_skin']));
+            
+            $myTwiz->skin[$myTwiz->userid] = Twiz::SKIN_PATH.$twiz_skin;  
+            $code = update_option('twiz_skin', $myTwiz->skin);
             
             break;
             

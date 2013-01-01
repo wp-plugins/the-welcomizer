@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.4.9.1
+Version: 1.5
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -9,7 +9,7 @@ Author URI: http://www.sebastien-laframboise.com
 License: GPL2
 */
 
-/*  Copyright 2012  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -114,19 +114,18 @@ License: GPL2
             
             $myTwizLibrary  = new TwizLibrary();
             
-            $admin_option = get_option('twiz_admin');
             $cookie_option = get_option('twiz_cookie_js_status'); 
             
-            if( $admin_option[Twiz::KEY_OUTPUT] !=  '' ){
+            if( $myTwizLibrary->admin_option[Twiz::KEY_OUTPUT] !=  '' ){
 
                 add_shortcode('twiz','twizReplaceShortCode');
                 add_filter('widget_text', 'do_shortcode', 11);
                 
                 // add the Frontend generated code
-                add_filter($admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
+                add_filter($myTwizLibrary->admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
             }
             
-            if( $admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
 
                 wp_deregister_script( 'jquery' );  
                 wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
@@ -140,7 +139,7 @@ License: GPL2
                 wp_enqueue_script( 'the-welcomizer-jquery-cookie' );              
             }
                  
-            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
             
                 wp_deregister_script( 'the-welcomizer-css-transform' ); 
                 wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
@@ -153,7 +152,7 @@ License: GPL2
                 $css_transform_included = true;
             }
             
-            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
                 
                 if( $css_transform_included == false ){
                 
@@ -168,7 +167,7 @@ License: GPL2
 
             }
 
-            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
      
                 wp_deregister_script( 'the-welcomizer-transform-1' ); 
                 wp_deregister_script( 'the-welcomizer-transform-2' ); 
@@ -193,40 +192,62 @@ License: GPL2
                 wp_enqueue_script( 'the-welcomizer-transform-7' );  
             }
 
-            if( $admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
 
                 wp_deregister_script( 'the-welcomizer-transit' );  
                 wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');  
                 wp_enqueue_script( 'the-welcomizer-transit' );  
+            }            
+            
+            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_EASING] ==  '1' ){
+
+                wp_deregister_script( 'the-welcomizer-jquery-easing' );  
+                wp_register_script( 'the-welcomizer-jquery-easing', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-easing/jquery.easing-1.3.pack.js');  
+                wp_enqueue_script( 'the-welcomizer-jquery-easing' );  
             }
             
-            foreach( $myTwizLibrary->array_library as $key => $value ){
+            $siteurl = get_site_url().'/';
+
+            if($myTwizLibrary->admin_option[Twiz::KEY_SORT_LIB_DIR] == 'reversed' ){
             
-                if( $value[Twiz::F_STATUS] == "1" ){
+               $library_dir_array = array_reverse($myTwizLibrary->array_library_dir, true);
+               
+            }else{
+            
+               $library_dir_array = $myTwizLibrary->array_library_dir;
+            }
+ 
+            foreach( $library_dir_array as $directory ){
+            
+                foreach( $myTwizLibrary->array_library as $key => $value ){
                 
-                    $file = Twiz::IMPORT_PATH . $value[Twiz::KEY_FILENAME];
+                    if( ( $value[Twiz::F_STATUS] == "1" ) 
+                    and ( $value[Twiz::KEY_DIRECTORY] == $directory )){
                     
-                    if( @file_exists( WP_CONTENT_DIR.$file ) ) {
-                    
-                        $fileinfo = pathinfo(WP_CONTENT_URL.$file);
+                        $file = $directory.$value[Twiz::KEY_FILENAME];
                         
-                        switch($fileinfo['extension']){
+                        if( @file_exists( ABSPATH.$file ) ) {
                         
-                            // Enqueue js files
-                            case Twiz::EXT_JS: 
+                            $fileinfo = pathinfo($siteurl.$file);
                             
-                                wp_deregister_script( 'the-welcomizer'.$key );
-                                wp_register_script( 'the-welcomizer'.$key, WP_CONTENT_URL.$file);
-                                wp_enqueue_script( 'the-welcomizer'.$key );
+                            switch($fileinfo['extension']){
                             
-                                break;
+                                // Enqueue js files
+                                case Twiz::EXT_JS: 
                                 
-                            // Enqueue css files
-                            case Twiz::EXT_CSS:
-                            
-                                wp_enqueue_style('twiz-css-'.str_replace('.'.Twiz::EXT_CSS, '', $value[Twiz::KEY_FILENAME] ), WP_CONTENT_URL.$file , __FILE__ );
+                                    wp_deregister_script( 'the-welcomizer'.$key );
+                                    wp_register_script( 'the-welcomizer'.$key, $siteurl.$file);
+                                    wp_enqueue_script( 'the-welcomizer'.$key );
                                 
-                                break;
+                                    break;
+                                    
+                                // Enqueue css files
+                                case Twiz::EXT_CSS:
+                                
+                                    wp_enqueue_style('twiz-css-'.str_replace('.'.Twiz::EXT_CSS, '', $value[Twiz::KEY_FILENAME] ), $siteurl.$file , __FILE__ );
+                                    
+                                    break;
+                            }
                         }
                     }
                 }
@@ -237,13 +258,19 @@ License: GPL2
     function twizAdminEnqueueScripts(){
                
         $myTwiz  = new Twiz();
-        $skinurl = get_option('twiz_skin');
-
+        
+        // Drag&Drop
+        wp_enqueue_script('twiz-jquery.ui.core.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.core.min.js'); 
+        wp_enqueue_script('twiz-jquery.ui.widget.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.widget.min.js'); 
+        wp_enqueue_script('twiz-jquery.ui.mouse.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.mouse.min.js'); 
+        wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.draggable.min.js'); 
+        wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.droppable.min.js'); 
+                
         // Enqueue default stylesheet
         wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
  
         // Current skin
-        wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a', plugins_url($skinurl.'/twiz-style.css', __FILE__ ));
+        wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a', plugins_url($myTwiz->skin[$myTwiz->userid].'/twiz-style.css', __FILE__ ));
         
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
 
@@ -271,7 +298,7 @@ License: GPL2
     or (preg_match("/php.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
     )){
 
-        $_POST['page'] = (!isset($_POST['page'])) ? '' : $_POST['page'];
+        if(!isset($_POST['page'])) $_POST['page'] = '';
 
         $_POST_action = (!isset($_POST['action'])) ? '' : $_POST['action'];
         $_POST_twiz_action = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];

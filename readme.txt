@@ -3,8 +3,8 @@ Contributors: sebwordpress
 Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
-Tested up to: 3.4.2
-Stable tag: 1.4.9.1
+Tested up to: 3.5
+Stable tag: 1.5
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog using jQuery effects. (100% AJAX) + .js/.css Includer.
@@ -27,13 +27,24 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 4. Optional - Create and make those directories writable: /wp-content/**twiz**/**export**/
 
 Enjoy!
-
+ 
 == Screenshots ==
 
-1. Panel when adding a new movement. 
-2. Panel when viewing data. 
+1. Panel when viewing data. 
+2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 1.5 = 
+
+* Added the ability to create smart groups (rows are draggable).
+* Added the ability to link additional directories to the Library.
+* Added an option jQuery Easing under Built-in jQuery packages.
+* Renamed twiz_active variables to twiz_locked.
+* Prepared Library section for the bext version.
+* Various UI improvements and bug fixes etc...
+* Modified UI preferences, added per user.
+* Modified section context.
 
 = 1.4.9.1 = 
 
@@ -779,6 +790,10 @@ Enjoy!
 Yes, I will include your translation in future releases. E-mail me at `wordpress [at] sebastien-laframboise [dot] com`
 
 == Upgrade Notice ==
+
+= 1.5 = 
+
+* Added the ability to create smart groups.
 
 = 1.4.9.1 = 
 
