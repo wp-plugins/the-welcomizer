@@ -778,9 +778,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.5.4';
+        $this->version    = '1.5.5';
         $this->cssVersion = '1-32';
-        $this->dbVersion  = '2.8';
+        $this->dbVersion  = '2.81';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -1617,6 +1617,14 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
                     $twiz_order_by[$this->userid] = ($twiz_order_by_old != '') ? $twiz_order_by_old : self::F_ON_EVENT;
                     $code = update_option('twiz_order_by', $twiz_order_by);
                 }    
+                
+                // from <= v 1.5.5
+                if( ( $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] == '1' )
+                and ( $this->admin_option[self::KEY_EXTRA_EASING] != '1' ) ){
+                
+                    $this->admin_option[self::KEY_EXTRA_EASING] = '1';
+                    $code = update_option('twiz_admin', $this->admin_option);
+                }
                 
                 // option cookie js 
                 $twiz_cookie_js_status = get_option('twiz_cookie_js_status'); 
