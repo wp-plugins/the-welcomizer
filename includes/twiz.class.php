@@ -417,17 +417,19 @@ class Twiz{
     const EASEOUTBOUNCE   = 'easeOutBounce'; 
     const EASEINOUTBOUNCE = 'easeInOutBounce'; 
 
+
      /* transit easing constants */
-    const TRANSIT_LINEAR = 'linear';
-    const TRANSIT_IN     = 'in';
     const TRANSIT_EASE   = 'ease';
+    const TRANSIT_IN     = 'in';
     const TRANSIT_OUT    = 'out';
     const TRANSIT_IN_OUT = 'in-out';
     const TRANSIT_SNAP   = 'snap';
 
+    
     /* default starting position on add new */    
     const DEFAULT_STARTING_POSITION = self::POS_RELATIVE;
-        
+
+                                         
     /* extra easing array */
     protected $array_extra_easing = array(self::EASEINQUAD
                                          ,self::EASEOUTQUAD
@@ -461,10 +463,19 @@ class Twiz{
                                          ,self::EASEINOUTBOUNCE
                                          );
 
+    /* transit excluded extra easing */
+    protected $array_transit_excluded_extra_easing = array(self::EASEINCUBIC
+                                                          ,self::EASEINELASTIC
+                                                          ,self::EASEOUTELASTIC
+                                                          ,self::EASEINOUTELASTIC
+                                                          ,self::EASEINBOUNCE
+                                                          ,self::EASEOUTBOUNCE 
+                                                          ,self::EASEINOUTBOUNCE
+                                                          );
+                                         
     /* transit easing array */
-    protected $array_transit_easing = array(self::TRANSIT_LINEAR
+    protected $array_transit_easing = array(self::TRANSIT_EASE
                                            ,self::TRANSIT_IN
-                                           ,self::TRANSIT_EASE
                                            ,self::TRANSIT_OUT
                                            ,self::TRANSIT_IN_OUT
                                            ,self::TRANSIT_SNAP
@@ -767,7 +778,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.5.2';
+        $this->version    = '1.5.3';
         $this->cssVersion = '1-32';
         $this->dbVersion  = '2.8';
         $this->pluginUrl  = $pluginUrl;
@@ -938,7 +949,7 @@ class Twiz{
       
     private function getHtmlListMenu(){
     
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create a Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a></span></div></div>';
+        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a></span></div></div>';
 
         return $html;
     }
@@ -3085,17 +3096,21 @@ $("textarea[name^=twiz_options]").blur(function (){
         $suffix = ($suffix == '') ? '' : '_'.$suffix;
         $twiz_easing['swing'] = ($easing_value == 'swing') ? ' selected="selected"' : '';
         $twiz_easing['linear'] = ($easing_value == 'linear') ? ' selected="selected"' : '';
+
         
+        $options = '<optgroup label="Easing"><option value="linear" '.$twiz_easing['linear'].'>'.$this->getOutputEasingLabel('linear').'</option>';
         
         if( $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] != '1' ){
-        
-            $options = '<optgroup label="Easing"><option value="linear" '.$twiz_easing['linear'].'>'.$this->getOutputEasingLabel('linear').'</option><option value="swing" '.$twiz_easing['swing'].'>'.$this->getOutputEasingLabel('swing').'</option></optgroup>';
-            $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] == '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value ) : '';
+                
+            $options .='<option value="swing" '.$twiz_easing['swing'].'>'.$this->getOutputEasingLabel('swing').'</option></optgroup>';
 
         }else{
         
-            $options = $this->getHtmlTransitEasingOptions( $easing_value );
+            $options .= $this->getHtmlTransitEasingOptions( $easing_value );
+            $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] != '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value, 'transit') : '';            
         }
+
+        $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] == '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value ) : '';
         
         $select = '<select name="twiz_'.$fieldname.$suffix.'" id="twiz_'.$fieldname.$suffix.'" class="twiz-slc-easing">';
         
@@ -3110,15 +3125,23 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $select;
     }    
     
-    private function getHtmlExtraEasingOptions( $easing_value = '' ){
+    private function getHtmlExtraEasingOptions( $easing_value = '', $type = '' ){
         
         $options = '';
         $options .= '<optgroup label="Extra easing">';   
         
         foreach ( $this->array_extra_easing as $value ){
         
-            $selected = ($easing_value == $value) ? ' selected="selected"' : '';
-            $options .= '<option value="'.$value.'"'.$selected .'>'.$this->getOutputEasingLabel($value).'</option>';
+            if( ( $type == 'transit')
+            and ( in_array( $value, $this->array_transit_excluded_extra_easing ) ) ){
+            
+                // nothing
+                 
+            }else{
+            
+                $selected = ($easing_value == $value) ? ' selected="selected"' : '';
+                $options .= '<option value="'.$value.'"'.$selected .'>'.$this->getOutputEasingLabel($value).'</option>';            
+            }
         }
         
         $options .= '</optgroup>';  

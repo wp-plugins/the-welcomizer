@@ -113,6 +113,11 @@ jQuery(document).ready(function($) {
         // jquery.easing
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jQuery Easing', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';       
+        
+         // extra easing
+        $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-righSt twiz-text-left"><label for="twiz_extra_easing">'.__('(automatically applied)', 'the-welcomizer').'</label></td></tr>';   
+        
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
@@ -132,7 +137,7 @@ jQuery(document).ready(function($) {
         
         // transition
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jQuery Transit', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit">'.__('(different easing)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit"></label></td></tr>';
 
 
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin1'] == '1' ){
@@ -225,11 +230,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
         $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin4" name="twiz_admin_img_twizadmin4" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin4" name="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
         
-        $html .= '<tr class="twizadmin4'.$hide.'"><td colspan="2">&nbsp;</td></tr>';        
-        
-         // extra easing
-        $html .= '<tr class="twizadmin4'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';        
+        $html .= '<tr class="twizadmin4'.$hide.'"><td colspan="2">&nbsp;</td></tr>';           
         
         // Starting position by default on add new
         $html .= '<tr class="twizadmin4'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
@@ -772,6 +773,7 @@ jQuery(document).ready(function($) {
         // Extra Easing
         $extra_easing = ($setting[parent::KEY_EXTRA_EASING] == 'true') ? '1' : '0';
         $extra_easing = ($twiz_register_jquery_easing == '1') ? '1' : $extra_easing;
+        $extra_easing = ($twiz_register_jquery_transit == '1') ? '1' : $extra_easing;
         $this->admin_option[parent::KEY_EXTRA_EASING] = $extra_easing ;
         
         // Number of posts displayed in lists
