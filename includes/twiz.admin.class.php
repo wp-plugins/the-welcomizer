@@ -744,16 +744,16 @@ jQuery(document).ready(function($) {
         $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] = $twiz_register_jquery_transit ;
         
         // Register jQuery transform
-        $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_TRANSFORM] == 'true') ? '1' : '0';
-        $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] = $twiz_register_jquery_transit ;
+        $twiz_register_jquery_transform = ($setting[parent::KEY_REGISTER_JQUERY_TRANSFORM] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSFORM] = $twiz_register_jquery_transform ;
 
         // Register jQuery rotate3Di
-        $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == 'true') ? '1' : '0';
-        $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = $twiz_register_jquery_transit ;
+        $twiz_register_jquery_rotate3Di = ($setting[parent::KEY_REGISTER_JQUERY_ROTATE3DI] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_ROTATE3DI] = $twiz_register_jquery_rotate3Di ;
 
         // Register jQuery animate-css-rotate-scale
-        $twiz_register_jquery_transit = ($setting[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == 'true') ? '1' : '0';
-        $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = $twiz_register_jquery_transit ;        
+        $twiz_register_jquery_animate_css_rotate_scale = ($setting[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] = $twiz_register_jquery_animate_css_rotate_scale ;        
         
         // Register jQuery easing
         $twiz_register_jquery_easing = ($setting[parent::KEY_REGISTER_JQUERY_EASING] == 'true') ? '1' : '0';

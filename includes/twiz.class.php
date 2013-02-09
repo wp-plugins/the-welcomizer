@@ -778,7 +778,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.5.3';
+        $this->version    = '1.5.4';
         $this->cssVersion = '1-32';
         $this->dbVersion  = '2.8';
         $this->pluginUrl  = $pluginUrl;
@@ -3103,14 +3103,15 @@ $("textarea[name^=twiz_options]").blur(function (){
         if( $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] != '1' ){
                 
             $options .='<option value="swing" '.$twiz_easing['swing'].'>'.$this->getOutputEasingLabel('swing').'</option></optgroup>';
-
+            $type = '';
+            
         }else{
         
             $options .= $this->getHtmlTransitEasingOptions( $easing_value );
-            $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] != '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value, 'transit') : '';            
+            $type = 'transit';            
         }
 
-        $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] == '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value ) : '';
+        $options .= ( $this->admin_option[self::KEY_EXTRA_EASING] == '1' ) ? $this->getHtmlExtraEasingOptions( $easing_value , $type) : '';
         
         $select = '<select name="twiz_'.$fieldname.$suffix.'" id="twiz_'.$fieldname.$suffix.'" class="twiz-slc-easing">';
         
