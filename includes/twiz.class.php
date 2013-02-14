@@ -778,9 +778,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.5.6';
+        $this->version    = '1.5.7';
         $this->cssVersion = '1-32';
-        $this->dbVersion  = '2.81';
+        $this->dbVersion  = '2.82';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -1619,6 +1619,10 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
                 }    
                 
                 // from <= v 1.5.5
+                
+                if(!isset($this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT])) $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] = '';
+                if(!isset($this->admin_option[self::KEY_EXTRA_EASING])) $this->admin_option[self::KEY_EXTRA_EASING] = '';
+                
                 if( ( $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] == '1' )
                 and ( $this->admin_option[self::KEY_EXTRA_EASING] != '1' ) ){
                 
