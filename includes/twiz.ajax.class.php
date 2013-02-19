@@ -484,14 +484,9 @@ class TwizAjax extends Twiz{
             $("#twiz_far_e_a_" + twiz_charid).attr("class","twiz-toggle-far twiz-bold");       
             $("." + twiz_charid).show("fast");  
             twiz_toggle_status = 1;             
-            twiz_parent_id = twiz_charid;
         }else{
             $("#twiz_far_img_" + twiz_charid).attr({"src" : "'.$this->pluginUrl.'" + "/images/twiz-plus.gif"});
             $("#twiz_far_e_a_" + twiz_charid).attr("class","twiz-toggle-far"); 
-            if(twiz_charid==twiz_parent_id){
-            $("#twiz_admin_e_a_" + twiz_parent_id).attr("class","twiz-toggle-far");                      
-            twiz_parent_id = twiz_charid;       
-            }
             $("." + twiz_charid).hide("fast");   
         }
         $.post(ajaxurl, { 
@@ -1071,14 +1066,9 @@ class TwizAjax extends Twiz{
             $("#twiz_admin_e_a_" + twiz_charid).attr("class","twiz-toggle-admin twiz-bold");       
             $("." + twiz_charid).show("fast");  
             twiz_toggle_status = 1;
-            twiz_parent_id = twiz_charid;
         }else{
             $("#twiz_admin_img_" + twiz_charid).attr({"src" : "'.$this->pluginUrl.'" + "/images/twiz-plus.gif"});
             $("#twiz_admin_e_a_" + twiz_charid).attr("class","twiz-toggle-admin"); 
-            if(twiz_charid==twiz_parent_id){
-            $("#twiz_admin_e_a_" + twiz_parent_id).attr("class","twiz-toggle-admin");                      
-            twiz_parent_id = twiz_charid;       
-            }
             $("." + twiz_charid).hide("fast");   
         }
         $.post(ajaxurl, { 
@@ -1907,14 +1897,9 @@ class TwizAjax extends Twiz{
             $("#twiz_library_e_a_" + twiz_charid).attr("class","twiz-toggle-library twiz-bold");       
             $("." + twiz_charid).show("fast"); 
             twiz_toggle_status = 1;            
-            twiz_parent_id = twiz_charid;
         }else{
             $("#twiz_library_img_" + twiz_charid).attr({"src" : "'.$this->pluginUrl.'" + "/images/twiz-plus.gif"});
             $("#twiz_library_e_a_" + twiz_charid).attr("class","twiz-toggle-library"); 
-            if(twiz_charid==twiz_parent_id){
-            $("#twiz_element_e_a_" + twiz_parent_id).attr("class","twiz-toggle-library");                      
-            twiz_parent_id = twiz_charid;       
-            }
             $("." + twiz_charid).hide("fast");   
         }
         $.post(ajaxurl, { 
