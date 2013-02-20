@@ -778,9 +778,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.5.8';
+        $this->version    = '1.5.9';
         $this->cssVersion = '1-32';
-        $this->dbVersion  = '2.82';
+        $this->dbVersion  = '2.83';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -1630,6 +1630,11 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
                     $code = update_option('twiz_admin', $this->admin_option);
                 }
                 
+                // from <= v 1.5.9
+                $updatesql = "UPDATE ".$this->table . " SET ".  self::F_PARENT_ID . " = ''
+                WHERE ". self::F_PARENT_ID ." LIKE 'twiz%'";
+                $code = $wpdb->query($updatesql);
+                        
                 // option cookie js 
                 $twiz_cookie_js_status = get_option('twiz_cookie_js_status'); 
                 
