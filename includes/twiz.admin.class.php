@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
         
          // extra easing
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-righSt twiz-text-left"><label for="twiz_extra_easing">'.__('(automatically applied)', 'the-welcomizer').'</label></td></tr>';   
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-righSt twiz-text-left"><label for="twiz_extra_easing"></label></td></tr>';   
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr></td></tr>';
         
@@ -830,7 +830,7 @@ $("#twiz_footer").html("");
            $rebind = '1';
         }
         
-        $json = json_encode( array('rebind' => $rebind, 'html' =>  $htmlresponse)); 
+        $json = json_encode( array('extra_easing' => $extra_easing, 'rebind' => $rebind, 'html' =>  $htmlresponse)); 
 
         return $json;
     }    

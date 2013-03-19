@@ -191,7 +191,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         $boldclass = '';
     }
                 
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar1" name="twiz_far_img_twizfar1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar1" name="twiz_far_e_a_twizfar1" class="twiz-toggle-far">'.__('JavaScript', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar1" name="twiz_far_img_twizfar1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar1" name="twiz_far_e_a_twizfar1" class="twiz-toggle-far '.$boldclass.'">'.__('JavaScript', 'the-welcomizer').'</a></td></tr>
 
 <tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT.'_far_1" id="twiz_'.parent::F_OUTPUT.'_far_1">
         <option value=""></option>
