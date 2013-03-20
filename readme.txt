@@ -38,6 +38,7 @@ Enjoy!
 = 1.6.1 = 
 
 * Fixed comments within the JavaScript text box.
+* Fixed comments within the JavaScript text box.
 
 = 1.6 = 
 
