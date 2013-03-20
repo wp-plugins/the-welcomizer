@@ -160,7 +160,7 @@ class TwizOutput extends Twiz{
                         $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]) : '';
                         $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
                         
-                        $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT]);
+                        $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
                     }
                     
                     $hasSomething = $this->hasSomething($value);
@@ -181,7 +181,7 @@ class TwizOutput extends Twiz{
                             // js 
                             $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]);
                             $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT]);
+                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
                             
                         }
                         
@@ -206,16 +206,16 @@ class TwizOutput extends Twiz{
                             $this->generatedScript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? $this->top.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                             $this->generatedScript .= $value[parent::F_OPTIONS_A];
                             
-                            $this->generatedScript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){';
-                            $value[parent::F_EXTRA_JS_A] = ($value[parent::F_EXTRA_JS_A] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_A] : $value[parent::F_EXTRA_JS_A];
+                            $this->generatedScript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){ ';
+                            $value[parent::F_EXTRA_JS_A] = ($value[parent::F_EXTRA_JS_A] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_A].self::COMPRESS_LINEBREAK : '';
                             // replace numeric entities
-                            $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]).$this->linebreak;
+                            $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]);
                 
                             
                             // extra js a
                             $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_EXTRA_JS_A]);
                             $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                        
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A]);
+                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A].self::COMPRESS_LINEBREAK);
                             
        
                             // b
@@ -223,7 +223,7 @@ class TwizOutput extends Twiz{
                             $has_b = (($value[parent::F_MOVE_TOP_POS_B] !='' ) or ( $value[parent::F_MOVE_LEFT_POS_B] !='' ) or ( $value[parent::F_OPTIONS_B] !='' ) or ( $value[parent::F_EXTRA_JS_B] !='' )) ? true : false;
                             
                             // add a coma between each options 
-                            $value[parent::F_OPTIONS_B] = (($value[parent::F_OPTIONS_B]!='') and ((($value[parent::F_MOVE_LEFT_POS_B]!="") or ($value[parent::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[parent::F_OPTIONS_B] : $value[parent::F_OPTIONS_B];
+                            $value[parent::F_OPTIONS_B] = (($value[parent::F_OPTIONS_B] != '') and ((($value[parent::F_MOVE_LEFT_POS_B]!="") or ($value[parent::F_MOVE_TOP_POS_B]!="")))) ? ','.$value[parent::F_OPTIONS_B] : $value[parent::F_OPTIONS_B];
                             $value[parent::F_OPTIONS_B] = str_replace(self::COMPRESS_LINEBREAK, $this->linebreak.$this->tab.$this->tab."," , $value[parent::F_OPTIONS_B]);
                             
                             // replace numeric entities              
@@ -245,12 +245,12 @@ class TwizOutput extends Twiz{
                             $value[parent::F_DURATION] = (!$has_b)? '0' : $value[parent::F_DURATION];
                             $value[parent::F_EASING_B] = (!$has_b)? '' : $value[parent::F_EASING_B];
                             
-                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_B].'", function(){';
+                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_B].'", function(){ ';
                                 
-                            $value[parent::F_EXTRA_JS_B] = ($value[parent::F_EXTRA_JS_B] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_B] : $value[parent::F_EXTRA_JS_B];
+                            $value[parent::F_EXTRA_JS_B] = ($value[parent::F_EXTRA_JS_B] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_B].self::COMPRESS_LINEBREAK : '';
                    
                             // replace numeric entities
-                            $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]).$this->linebreak;
+                            $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]);
                             
                             if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
                             and ( ( $value[parent::F_LOCK_EVENT_TYPE] == 'auto') 
@@ -352,7 +352,7 @@ class TwizOutput extends Twiz{
                     // js 
                     $generatedScript .= $generatedCondition['open'].str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'($("'.$this->newElementFormat.'", null, e)' , $value[parent::F_JAVASCRIPT]);
                   
-                    $generatedScript .= $generatedCondition['close'];
+                    $generatedScript .= self::COMPRESS_LINEBREAK.$generatedCondition['close'];
                 }   
             }
         }
