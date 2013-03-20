@@ -215,7 +215,7 @@ class TwizOutput extends Twiz{
                             // extra js a
                             $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_EXTRA_JS_A]);
                             $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                        
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A].self::COMPRESS_LINEBREAK);
+                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A]);
                             
        
                             // b
