@@ -666,6 +666,12 @@ div a:hover, td a:hover {
 .twiz-input {
     width: 230px;
 }
+.twiz-input-e {
+    width: 145px !important;
+}
+.twiz-td-move-e {
+    width: 100px !important;
+}
 .twiz-input-small {
     width: 50px;
     text-align: right;

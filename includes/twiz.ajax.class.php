@@ -113,7 +113,7 @@ class TwizAjax extends Twiz{
                 $("#twiz_container").css("display", "block"); 
                 twiz_view_id = null;
                 bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-                bind_twiz_More_Configs();bind_twiz_Choose_Options();
+                bind_twiz_Choose_Options();
                 bind_twiz_DynArrows();
                 $("#twiz_loading_menu").html("");
             });
@@ -183,7 +183,7 @@ class TwizAjax extends Twiz{
                 }
                 bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
                 bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-                bind_twiz_More_Configs();bind_twiz_Choose_Options();
+                bind_twiz_Choose_Options();
                 bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Order_by(); 
                 twiz_ListMenu_Unbind();
                 bind_twiz_ListMenu();
@@ -283,6 +283,7 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_START_DELAY.'_far_1": $("#twiz_'.parent::F_START_DELAY.'_far_1").val(),
             "twiz_'.parent::F_DURATION.'_far_1": $("#twiz_'.parent::F_DURATION.'_far_1").val(),
             "twiz_'.parent::F_OUTPUT_POS.'_far_1": $("#twiz_'.parent::F_OUTPUT_POS.'_far_1").val(),   
+            "twiz_'.parent::F_START_ELEMENT.'_far_1": $("#twiz_'.parent::F_START_ELEMENT.'_far_1").val(),
             "twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1": $("#twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1").val(),
             "twiz_'.parent::F_START_TOP_POS.'_far_1": $("#twiz_'.parent::F_START_TOP_POS.'_far_1").val(),
             "twiz_'.parent::F_START_TOP_POS_FORMAT.'_far_1": $("#twiz_'.parent::F_START_TOP_POS_FORMAT.'_far_1").val(),
@@ -294,6 +295,7 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_OUTPUT.'_far_1": $("#twiz_'.parent::F_OUTPUT.'_far_1").val(),   
             "twiz_'.parent::F_JAVASCRIPT.'_far_1": $("#twiz_'.parent::F_JAVASCRIPT.'_far_1").val(),   
             "twiz_'.parent::F_EASING_A.'_far_1": $("#twiz_'.parent::F_EASING_A.'_far_1").val(),   
+            "twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1": $("#twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_A.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_A.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_FORMAT_A.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_FORMAT_A.'_far_1").val(),
@@ -303,6 +305,7 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_OPTIONS_A.'_far_1": $("#twiz_'.parent::F_OPTIONS_A.'_far_1").val(),
             "twiz_'.parent::F_EXTRA_JS_A.'_far_1": $("#twiz_'.parent::F_EXTRA_JS_A.'_far_1").val(),
             "twiz_'.parent::F_EASING_B.'_far_1": $("#twiz_'.parent::F_EASING_B.'_far_1").val(),   
+            "twiz_'.parent::F_MOVE_ELEMENT_B.'_far_1": $("#twiz_'.parent::F_MOVE_ELEMENT_B.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_B.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_B.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_FORMAT_B.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_FORMAT_B.'_far_1").val(),
@@ -399,6 +402,8 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_DURATION.'_far_2": $("#twiz_'.parent::F_DURATION.'_far_2").val(),
             "twiz_'.parent::F_OUTPUT_POS.'_far_1": $("#twiz_'.parent::F_OUTPUT_POS.'_far_1").val(),   
             "twiz_'.parent::F_OUTPUT_POS.'_far_2": $("#twiz_'.parent::F_OUTPUT_POS.'_far_2").val(),         
+            "twiz_'.parent::F_START_ELEMENT.'_far_1": $("#twiz_'.parent::F_START_ELEMENT.'_far_1").val(),
+            "twiz_'.parent::F_START_ELEMENT.'_far_2": $("#twiz_'.parent::F_START_ELEMENT.'_far_2").val(),
             "twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1": $("#twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1").val(),
             "twiz_'.parent::F_START_TOP_POS_SIGN.'_far_2": $("#twiz_'.parent::F_START_TOP_POS_SIGN.'_far_2").val(),
             "twiz_'.parent::F_START_TOP_POS.'_far_1": $("#twiz_'.parent::F_START_TOP_POS.'_far_1").val(),
@@ -421,6 +426,8 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_JAVASCRIPT.'_far_2": $("#twiz_'.parent::F_JAVASCRIPT.'_far_2").val(),         
             "twiz_'.parent::F_EASING_A.'_far_1": $("#twiz_'.parent::F_EASING_A.'_far_1").val(),   
             "twiz_'.parent::F_EASING_A.'_far_2": $("#twiz_'.parent::F_EASING_A.'_far_2").val(),           
+            "twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1": $("#twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1").val(),
+            "twiz_'.parent::F_MOVE_ELEMENT_A.'_far_2": $("#twiz_'.parent::F_MOVE_ELEMENT_A.'_far_2").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_2": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_2").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_A.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_A.'_far_1").val(),
@@ -439,6 +446,8 @@ class TwizAjax extends Twiz{
             "twiz_'.parent::F_EXTRA_JS_A.'_far_2": $("#twiz_'.parent::F_EXTRA_JS_A.'_far_2").val(), 
             "twiz_'.parent::F_EASING_B.'_far_1": $("#twiz_'.parent::F_EASING_B.'_far_1").val(),   
             "twiz_'.parent::F_EASING_B.'_far_2": $("#twiz_'.parent::F_EASING_B.'_far_2").val(),  
+            "twiz_'.parent::F_MOVE_ELEMENT_B.'_far_1": $("#twiz_'.parent::F_MOVE_ELEMENT_B.'_far_1").val(),
+            "twiz_'.parent::F_MOVE_ELEMENT_B.'_far_2": $("#twiz_'.parent::F_MOVE_ELEMENT_B.'_far_2").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_1").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_2": $("#twiz_'.parent::F_MOVE_TOP_POS_SIGN_B.'_far_2").val(),
             "twiz_'.parent::F_MOVE_TOP_POS_B.'_far_1": $("#twiz_'.parent::F_MOVE_TOP_POS_B.'_far_1").val(),
@@ -625,7 +634,7 @@ class TwizAjax extends Twiz{
  function twiz_Action_Edit_Copy_Rebind(){
     twiz_view_id = null;
     bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
-    bind_twiz_More_Configs();bind_twiz_Choose_Options();
+    bind_twiz_Choose_Options();
     bind_twiz_DynArrows();    
  }
  var bind_twiz_Edit = function() {  
@@ -858,7 +867,7 @@ class TwizAjax extends Twiz{
             }, function(data) {              
                 $("#twiz_container").html(data);
                 if(twiz_current_section_id=="library"){
-                    binb_twiz_Link_dir(); bind_twiz_Library();
+                    twizLibrary_Bind();
                 }else{     
                     twiz_array_view_id[twiz_numid] = undefined;            
                     twizList_ReBind();  
@@ -910,12 +919,18 @@ class TwizAjax extends Twiz{
         twiz_view_id = null;
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();bind_twiz_DynArrows();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Configs();bind_twiz_Choose_Options();
+        bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Order_by(); 
     });
    });
  }
  var bind_twiz_Save = function() {
+    $(".twiz-add-element").click(function() {
+        var twiz_textid = $(this).attr("id");
+        var twiz_charid = twiz_textid.substring(9,twiz_textid.length);  
+        $("#twiz_tr_add_" + twiz_charid).hide();
+        $("#twiz_tr_" + twiz_charid).fadeIn("fast");
+    });   
     $(".twiz-slc-js-features").change(function(){
         var twiz_textid = $(this).attr("id");
         var twiz_charid = twiz_textid.substring(14,twiz_textid.length);    
@@ -1052,7 +1067,7 @@ class TwizAjax extends Twiz{
         }
         bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
         bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-        bind_twiz_More_Configs();bind_twiz_Choose_Options();
+        bind_twiz_Choose_Options();
         bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Order_by(); 
         if(twiz_stay ==  true){
             $("#twiz_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\'); 
@@ -1121,9 +1136,11 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_DELETE_ALL.'": $("#twiz_'.parent::KEY_DELETE_ALL.'").is(":checked")
     }, function(data) {
         data = JSON.parse(data);
-        $("#twiz_footer").html(data.html);
-        if(data.rebind == "1"){
+        if(data.rebind == "rebind"){
+            $("#twiz_footer").html(data.html);
             bind_twiz_ads();
+        }else if(data.rebind == "remove"){
+            $("#twiz_footer").html(data.html);
         }
         if(data.extra_easing == "1"){
             $("#twiz_'.parent::KEY_EXTRA_EASING.'").attr({"checked":"checked"}); 
@@ -1158,16 +1175,6 @@ class TwizAjax extends Twiz{
     if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
     {return false;}});
   }
-  var bind_twiz_More_Configs = function() {
-    $(".twiz-more-configs").click(function(){
-        var twiz_textname = $(this).attr("name");
-        if(twiz_textname == "twiz_starting_config"){
-            $("#twiz_tr_starting_config").toggle();
-        }else{
-            $(".twiz-table-more-options").toggle();
-        }
-    });
-  }   
   var bind_twiz_Choose_Options = function() {
     $("a[name^=twiz_choose_options]").click(function(){
         var twiz_textid = $(this).attr("name");
@@ -1487,8 +1494,7 @@ class TwizAjax extends Twiz{
     $(".twiz-list-group-tr").unbind("droppable");
     $(".twiz-table-list-tr-h").unbind("droppable");
     bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
-    bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-    bind_twiz_More_Configs();bind_twiz_Choose_Options();
+    bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();bind_twiz_Choose_Options();
     bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Order_by();    
   }  
   function twizPostMenu(twiz_section_id, twiz_order_by){
@@ -1756,8 +1762,7 @@ class TwizAjax extends Twiz{
             $("div[name^=twiz_new_order_down]").unbind("click");
             $(".twiz-delete").unbind("click");            
             $("#twiz_container").html(data);
-            bind_twiz_Status();bind_twiz_Delete();
-            bind_twiz_Library();bind_twiz_Library_New_Order();
+            twizLibrary_Bind();
         });   
   }
   var bind_twiz_FooterMenu = function() {
@@ -2170,7 +2175,7 @@ class TwizAjax extends Twiz{
   $("#twiz_vmenu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
   bind_twiz_Status();bind_twiz_ListMenu();bind_twiz_Edit();bind_twiz_Copy();bind_twiz_Delete();
   bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();
-  bind_twiz_More_Configs();bind_twiz_Choose_Options();bind_twiz_Order_by();
+  bind_twiz_Choose_Options();bind_twiz_Order_by();
   bind_twiz_Ajax_TD();bind_twiz_DynArrows();bind_twiz_TR_View();bind_twiz_Menu();
   bind_twiz_Save_Section();bind_twiz_FooterMenu();
   $("#twiz_container").slideToggle("slow");

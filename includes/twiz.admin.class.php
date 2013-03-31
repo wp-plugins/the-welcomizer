@@ -286,7 +286,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>'; 
         
         // Footer Ads
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove plugin footer ads', 'the-welcomizer').': ';
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove plugin footer ads for this version', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
         
         // Deactivation
@@ -806,28 +806,30 @@ jQuery(document).ready(function($) {
         // Update array
         $code = update_option('twiz_admin', $this->admin_option); 
         
-        $rebind = '0';
+        $rebind = '';
         $htmlresponse = '';
-         
+ 
         if(( $footer_ads == '1' ) 
         and ( $footer_ads_before == '0' ) ){    
-        $htmlresponse = '<script>
+        
+            $htmlresponse = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {';
  
-        $htmlresponse .= '
+            $htmlresponse .= '
 $("#twiz_footer").html("");
 ';
-        $htmlresponse .= '});
+            $htmlresponse .= '});
  //]]>
 </script>';
+            $rebind = 'remove';
         }
         
         if(( $footer_ads == '0' ) 
         and ( $footer_ads_before == '1' ) ){
         
            $htmlresponse = $this->getHtmlAds();
-           $rebind = '1';
+           $rebind = 'rebind';
         }
         
         $json = json_encode( array('extra_easing' => $extra_easing, 'rebind' => $rebind, 'html' =>  $htmlresponse)); 

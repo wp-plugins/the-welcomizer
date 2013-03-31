@@ -464,7 +464,8 @@
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
         
             $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->export($twiz_section_id, $twiz_id);    
+            $TwizImportExport  = new TwizImportExport();
+            $htmlresponse = $TwizImportExport->export($twiz_section_id, $twiz_id);    
             
             break;             
             

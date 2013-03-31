@@ -164,8 +164,9 @@ class TwizOutput extends Twiz{
                     }
                     
                     $hasSomething = $this->hasSomething($value);
+                    $hasStartingConfigsAfter = $this->hasStartingConfigsAfter($value);
                     
-                    if( $hasSomething == true ){
+                    if( ( $hasSomething == true ) or ( $hasStartingConfigsAfter == true ) ){
                         
                         // start delay 
                         $this->generatedScript .= $this->linebreak.$this->tab.'setTimeout(function(){'; 
@@ -195,8 +196,17 @@ class TwizOutput extends Twiz{
                         
                         if( $hasMovements == true ){
                             
+                            if($value[parent::F_MOVE_ELEMENT_A] == ''){
+                            
+                                $moveElementFormat_a = 'twiz_element_'.$name;
+                                
+                            }else{ // Attach a different element.
+                            
+                                $moveElementFormat_a = '"'.$this->replacejElementType($value[parent::F_MOVE_ELEMENT_TYPE_A], $value[parent::F_MOVE_ELEMENT_A]).'"';
+                            }
+            
                             // animate jquery a 
-                            $this->generatedScript .= $this->linebreak.$this->tab.'$(twiz_element_'.$name.').'.$this->animate.'({';
+                            $this->generatedScript .= $this->linebreak.$this->tab.'$('.$moveElementFormat_a.').'.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
@@ -230,8 +240,15 @@ class TwizOutput extends Twiz{
                             $value[parent::F_OPTIONS_B] = $this->replaceNumericEntities($value[parent::F_OPTIONS_B]);
                             
                             // animate jquery b
+                            if($value[parent::F_MOVE_ELEMENT_B] == ''){
                             
-                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'$(twiz_element_'.$name.').'.$this->animate.'({';
+                                $moveElementFormat_b = 'twiz_element_'.$name;
+                                
+                            }else{ // Attach a different element.
+                            
+                                $moveElementFormat_b = '"'.$this->replacejElementType($value[parent::F_MOVE_ELEMENT_TYPE_B], $value[parent::F_MOVE_ELEMENT_B]).'"';
+                            }
+                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'$('.$moveElementFormat_b.').'.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
@@ -849,7 +866,14 @@ class TwizOutput extends Twiz{
         or ($value[parent::F_START_LEFT_POS]!='') 
         or ($value[parent::F_START_TOP_POS]!='')) {
 
-            $this->newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
+            if($value[parent::F_START_ELEMENT] == ''){
+            
+                $this->newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
+                
+            }else{ // Attach a different element.
+            
+                $this->newElementFormat = $this->replacejElementType($value[parent::F_START_ELEMENT_TYPE], $value[parent::F_START_ELEMENT]);
+            }
                 
             if($value[parent::F_POSITION]!=''){
             

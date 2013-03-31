@@ -13,6 +13,7 @@ require_once( '../../../../../../wp-includes/pluggable.php');
 
 /* Require Twiz Class */
 require_once(dirname(__FILE__).'/../../twiz.class.php'); 
+require_once(dirname(__FILE__).'/../../twiz.importexport.class.php'); 
 require_once(dirname(__FILE__).'/../../twiz.library.class.php'); 
 
 $_POST['twiz_nonce']      = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'];
@@ -90,6 +91,7 @@ class qqUploadedFileForm {
 }
 
 class qqFileUploader extends TwizLibrary{
+
     private $allowedExtensions = array();
     private $sizeLimit = 8388608;
     private $file;
@@ -206,9 +208,10 @@ class qqFileUploader extends TwizLibrary{
                     
                      /* get section id */
                      $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
-
+                    
+                    $TwizImportExport  = new TwizImportExport();
                     /* import list data */
-                    if( !$code = $this->import($sectionid)){
+                    if( !$code = $TwizImportExport->import($sectionid)){
                     
                         $return_array = array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
                     }

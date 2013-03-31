@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.6.1
+Version: 1.7
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -30,6 +30,8 @@ License: GPL2
     ***********************/
 
     require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
+    require_once(dirname(__FILE__).'/includes/twiz.installation.class.php'); 
+    require_once(dirname(__FILE__).'/includes/twiz.importexport.class.php'); 
     require_once(dirname(__FILE__).'/includes/twiz.library.class.php');     
     require_once(dirname(__FILE__).'/includes/twiz.output.class.php'); 
     require_once(dirname(__FILE__).'/twiz-ajax.php');   
@@ -42,8 +44,8 @@ License: GPL2
     // Create the necessary for the installation
     function twizInstall() {
         
-        $myTwiz  = new Twiz();
-        $ok = $myTwiz->install();
+        $TwizInstallation  = new TwizInstallation();
+        $ok = $TwizInstallation->proceed();
     }
     
     // uninstall the plugin, drop table etc... 
@@ -54,21 +56,21 @@ License: GPL2
         // Check admin option
         if( $array_admin[Twiz::KEY_DELETE_ALL] == '1' ) {
         
-            $myTwiz  = new Twiz();
-            $ok = $myTwiz->uninstall();
+            $TwizInstallation  = new TwizInstallation();
+            $ok = $TwizInstallation->uninstall();
         }
     }
 
     // Database version check 
     function twizUpdateDbCheck() {
     
-        $myTwiz  = new Twiz();
+        $TwizInstallation  = new TwizInstallation();
        
         $dbversion = get_option('twiz_db_version');
 
-        if( $dbversion  != $myTwiz->dbVersion ){
+        if( $dbversion  != $TwizInstallation->dbVersion ){
         
-            $ok = $myTwiz->install();
+            $ok = $TwizInstallation->proceed();
         }
     }
     

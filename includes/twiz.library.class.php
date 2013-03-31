@@ -122,7 +122,7 @@ jQuery(document).ready(function($) {
      
             if ( $dir  == $directory ) {
                 // Set Toggle On
-                $twiz_toggle[$this->userid][self::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = 1;
+                $twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = 1;
                 $this->toggle_option = $twiz_toggle;
             }
             
@@ -169,7 +169,7 @@ jQuery(document).ready(function($) {
                         $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE, 'library');
                                 
                         $html.= '
-            <tr class="twizlib'.$key.' '.$rowcolor.$hide.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-v-line twiz-row-color-3"></td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
+            <tr class="twizlib'.$key.' '.$rowcolor.$hide.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$value[parent::KEY_ORDER].'&nbsp;</td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
             <td class="twiz-table-list-td"><a href="'.get_site_url().'/'.$value[parent::KEY_DIRECTORY].$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
              <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"></div></td>
             <td class="twiz-table-list-td twiz-text-right">';
@@ -229,7 +229,9 @@ jQuery(document).ready(function($) {
     }
     
     function unlinkLibraryDir( $id = '' ){
+    
         $twiz_toggle = '';
+        $library = $this->array_library;
         $library_dir = $this->array_library_dir;
  
         foreach( $library_dir as $key => $directory ){
@@ -241,15 +243,29 @@ jQuery(document).ready(function($) {
                 
                 // Unset Toggle
                 $twiz_toggle = get_option('twiz_toggle');
-                $twiz_toggle[$this->userid][self::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
-                unset($twiz_toggle[$this->userid][self::KEY_TOGGLE_LIBRARY]['twizlib'.$key]);
+                $twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
+                unset($twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key]);
                 $this->toggle_option = $twiz_toggle;
+                
+                        
+                foreach( $library as $key => $value ){
+                 
+                    if( $value[parent::KEY_DIRECTORY] == $directory ){
+          
+                        $this->array_library[$key] = '';
+                        
+                        unset($this->array_library[$key]);
+                    }
+                }
             }
         }
         $code = update_option('twiz_toggle', $twiz_toggle);  
+        $code = update_option('twiz_library', $this->array_library);
         $code = update_option('twiz_library_dir', $this->array_library_dir);
+       
+        $ok = $this->rebuildOrderKeys();
         
-        return $code;
+        return true;
     }
         
     function deleteLibrary( $id = '' ){
@@ -273,10 +289,14 @@ jQuery(document).ready(function($) {
                 
                 $code = update_option('twiz_library', $this->array_library);
                 
+                $ok = $this->rebuildOrderKeys();
+                
                 return $code;
 
             }
         }
+        
+        $ok = $this->rebuildOrderKeys();
         
         return true;
     }
@@ -407,10 +427,9 @@ jQuery(document).ready(function($) {
             }
         }
         
-        // get library order array 
-        $array_order = $this->getLibraryArrayKey(parent::KEY_ORDER);
+        $ok = $this->rebuildOrderKeys();
         
-        array_multisort($array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
+        return true;
     }
     
     private function libraryExists( $path_filename = '', $id = '' ){
@@ -438,9 +457,42 @@ jQuery(document).ready(function($) {
                 }
             }
             
+            $ok = $this->rebuildOrderKeys();
+        
             return false;
         }
     }
+    
+    private function rebuildOrderKeys(){
+    
+        // get library order array 
+        $array_order = $this->getLibraryArrayKey(parent::KEY_ORDER);
+        $array_order_dir = $this->getLibraryArrayKey(parent::KEY_DIRECTORY);
+        
+        if( $this->admin_option[parent::KEY_SORT_LIB_DIR] == 'original' ){
+            // resort Library 
+            array_multisort($array_order_dir, SORT_ASC, SORT_STRING,
+                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);    
+        }else{
+            // resort Library 
+            array_multisort($array_order_dir, SORT_DESC, SORT_STRING,
+                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);    
+        
+        }
+        
+        $library = $this->array_library;
+        $i = 1;
+        
+        foreach( $library as $key => $value ){
+        
+            $this->array_library[$key][parent::KEY_ORDER] = $i;
+            $i = $i + 1;
+        }
+        
+        $code = update_option('twiz_library', $this->array_library);    
+        
+        return true;
+    }   
     
     function switchLibraryStatus( $id = '' ){ 
     
@@ -562,12 +614,8 @@ jQuery(document).ready(function($) {
         }
         
         $ok = $this->updateLibraryValue( $array_id[$ibase] , parent::KEY_ORDER, $neworder);
+        $ok = $this->rebuildOrderKeys();
 
-        // get library order array 
-        $array_order = $this->getLibraryArrayKey(parent::KEY_ORDER);
-        
-        // resort Library 
-        array_multisort($array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
         
         return true;
     }    

@@ -650,6 +650,12 @@ div a:hover, td a:hover {
     width: 60px;
     font-size: 12px;
 }                             
+#twiz_save_box_1 {
+    margin: 5px 6px 0 0;
+}
+#twiz_action_box {
+    width: 50px;
+}
 .twiz-td-save {
     height: 25px;
     font-size: 12px;
@@ -658,17 +664,17 @@ div a:hover, td a:hover {
 .twiz-td-save a:hover {
     cursor: pointer;
 }
-#twiz_save_box_1 {
-    margin: 5px 6px 0 0;
-}
-#twiz_action_box {
-    width: 50px;
-}
 .twiz-input-far {
     width: 160px;
 }
 .twiz-input {
     width: 230px;
+}
+.twiz-input-e {
+    width: 145px !important;
+}
+.twiz-td-move-e {
+    width: 100px !important;
 }
 .twiz-input-small {
     width: 50px;

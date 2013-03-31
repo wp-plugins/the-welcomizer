@@ -222,6 +222,8 @@ class Twiz{
     const CS_TRANSIT_SKEWY       = '$(\'#sampleid\').css({ skewY: \'10deg\' });';
     const CS_TRANSIT_TRANSITION  = '$(\'#sampleid\').transition({ opacity: 0.1, scale: 0.5, 1000, \'in\', function() { });';
     
+    
+    
     /* jquery Rotate3Di code snippet constants */ 
     const CS_ROTATE3DI = '$(\'#sampleid\').rotate3Di(\'+=180\', 2000);';
     
@@ -241,6 +243,8 @@ class Twiz{
     const F_OUTPUT                 = 'output';  
     const F_OUTPUT_POS             = 'output_pos';
     const F_JAVASCRIPT             = 'javascript';
+    const F_START_ELEMENT_TYPE     = 'start_element_type';  
+    const F_START_ELEMENT          = 'start_element';  
     const F_START_TOP_POS_SIGN     = 'start_top_pos_sign';        
     const F_START_TOP_POS          = 'start_top_pos';  
     const F_START_TOP_POS_FORMAT   = 'start_top_pos_format';
@@ -251,12 +255,16 @@ class Twiz{
     const F_ZINDEX                 = 'zindex';  
     const F_EASING_A               = 'easing_a';
     const F_EASING_B               = 'easing_b';
+    const F_MOVE_ELEMENT_TYPE_A    = 'move_element_type_a';  
+    const F_MOVE_ELEMENT_A         = 'move_element_a';      
     const F_MOVE_TOP_POS_SIGN_A    = 'move_top_pos_sign_a';  
     const F_MOVE_TOP_POS_A         = 'move_top_pos_a'; 
     const F_MOVE_TOP_POS_FORMAT_A  = 'move_top_pos_format_a'; 
     const F_MOVE_LEFT_POS_SIGN_A   = 'move_left_pos_sign_a';  
     const F_MOVE_LEFT_POS_A        = 'move_left_pos_a';  
     const F_MOVE_LEFT_POS_FORMAT_A = 'move_left_pos_format_a'; 
+    const F_MOVE_ELEMENT_TYPE_B    = 'move_element_type_b';  
+    const F_MOVE_ELEMENT_B         = 'move_element_b';     
     const F_MOVE_TOP_POS_SIGN_B    = 'move_top_pos_sign_b';  
     const F_MOVE_TOP_POS_B         = 'move_top_pos_b';  
     const F_MOVE_TOP_POS_FORMAT_B  = 'move_top_pos_format_b'; 
@@ -668,10 +676,28 @@ class Twiz{
                                                  ,self::JQ_TRANSIT_SCALE2
                                                  ,self::JQ_TRANSIT_SKEWX
                                                  ,self::JQ_TRANSIT_SKEWY
-                                                 );                                         
+                                                 );
+                                           
+    /* twiz options array */
+    private $array_twiz_snippets  = array('$(document).twizRepeat();'
+                                         ,'$(document).twizRepeat(10);'
+                                         ,'$(document).twizReplay();'
+                                         );                                                    
+    /* jquery options array */ 
+    private $array_jQuery_snippets  = array('$(\'#sampleid\').attr({\'value\':\'Hello\'});'
+                                           ,'$(\'#sampleid\').css({\'display\':\'block\'});'
+                                           ,'$(\'#sampleid\').fadeIn(\'slow\',function(){});'
+                                           ,'$(\'#sampleid\').fadeOut(\'slow\',function(){});'
+                                           ,'$(\'#sampleid\').hide(\'slow\',function(){});'
+                                           ,'$(\'#sampleid\').show(\'slow\',function(){});'
+                                           ,'$(\'#sampleid\').hover(function(){},function(){});'
+                                           ,'$(\'#sampleid\').toggle(\'slow\',function(){});'
+                                           ,'$(\'#sampleid\').animate({\'opacity\':0}, 1000, \'linear\', function(){});'
+                                           ,'$(\'#sampleid\').stop().animate({\'opacity\':0}, 1000, \'linear\', function(){});'
+                                           );                                           
 
     /* XML MULTI-VERSION mapping values */
-    private $array_twz_mapping = array(self::F_PARENT_ID                => 'AP'
+    protected $array_twz_mapping = array(self::F_PARENT_ID              => 'AP'
                                       ,self::F_EXPORT_ID                => 'AA'
                                       ,self::F_SECTION_ID               => 'AH' 
                                       ,self::F_STATUS                   => 'BB'
@@ -685,6 +711,8 @@ class Twiz{
                                       ,self::F_OUTPUT                   => 'EG'
                                       ,self::F_OUTPUT_POS               => 'EJ'
                                       ,self::F_JAVASCRIPT               => 'EL'
+                                      ,self::F_START_ELEMENT_TYPE       => 'FA'
+                                      ,self::F_START_ELEMENT            => 'FB'
                                       ,self::F_START_TOP_POS_SIGN       => 'FF'
                                       ,self::F_START_TOP_POS            => 'GG'    
                                       ,self::F_START_TOP_POS_FORMAT     => 'GF'  
@@ -695,13 +723,17 @@ class Twiz{
                                       ,self::F_ZINDEX                   => 'JL'
                                       ,self::F_EASING_A                 => 'KD'
                                       ,self::F_EASING_B                 => 'KH'
+                                      ,self::F_MOVE_ELEMENT_TYPE_A      => 'KA'
+                                      ,self::F_MOVE_ELEMENT_A           => 'KB'
                                       ,self::F_MOVE_TOP_POS_SIGN_A      => 'KK'    
                                       ,self::F_MOVE_TOP_POS_A           => 'LL'
                                       ,self::F_MOVE_TOP_POS_FORMAT_A    => 'LF'
                                       ,self::F_MOVE_LEFT_POS_SIGN_A     => 'MM'
                                       ,self::F_MOVE_LEFT_POS_A          => 'OO'
                                       ,self::F_MOVE_LEFT_POS_FORMAT_A   => 'OF'
-                                      ,self::F_MOVE_TOP_POS_SIGN_B      => 'PP'    
+                                      ,self::F_MOVE_ELEMENT_TYPE_B      => 'PA'
+                                      ,self::F_MOVE_ELEMENT_B           => 'PB'
+                                      ,self::F_MOVE_TOP_POS_SIGN_B      => 'PP'
                                       ,self::F_MOVE_TOP_POS_B           => 'QQ'
                                       ,self::F_MOVE_TOP_POS_FORMAT_B    => 'QF'
                                       ,self::F_MOVE_LEFT_POS_SIGN_B     => 'RR'
@@ -729,6 +761,8 @@ class Twiz{
                                    ,self::F_OUTPUT  
                                    ,self::F_OUTPUT_POS
                                    ,self::F_JAVASCRIPT   
+                                   ,self::F_START_ELEMENT_TYPE
+                                   ,self::F_START_ELEMENT                                
                                    ,self::F_START_TOP_POS_SIGN 
                                    ,self::F_START_TOP_POS           
                                    ,self::F_START_TOP_POS_FORMAT   
@@ -738,13 +772,17 @@ class Twiz{
                                    ,self::F_POSITION             
                                    ,self::F_ZINDEX     
                                    ,self::F_EASING_A
-                                   ,self::F_EASING_B     
+                                   ,self::F_EASING_B   
+                                   ,self::F_MOVE_ELEMENT_TYPE_A
+                                   ,self::F_MOVE_ELEMENT_A
                                    ,self::F_MOVE_TOP_POS_SIGN_A      
                                    ,self::F_MOVE_TOP_POS_A      
                                    ,self::F_MOVE_TOP_POS_FORMAT_A   
                                    ,self::F_MOVE_LEFT_POS_SIGN_A 
                                    ,self::F_MOVE_LEFT_POS_A      
-                                   ,self::F_MOVE_LEFT_POS_FORMAT_A   
+                                   ,self::F_MOVE_LEFT_POS_FORMAT_A
+                                   ,self::F_MOVE_ELEMENT_TYPE_B
+                                   ,self::F_MOVE_ELEMENT_B                                   
                                    ,self::F_MOVE_TOP_POS_SIGN_B     
                                    ,self::F_MOVE_TOP_POS_B      
                                    ,self::F_MOVE_TOP_POS_FORMAT_B  
@@ -778,9 +816,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.6.1';
-        $this->cssVersion = '1-32';
-        $this->dbVersion  = '2.83';
+        $this->version    = '1.7';
+        $this->cssVersion = '1-33';
+        $this->dbVersion  = '2.9';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -901,9 +939,7 @@ class Twiz{
         $ads['1and1'] = '<a href="http://www.anrdoezrs.net/dp101vpyvpxCIJLIMFFCEDHFLMDJ" target="_blank" title="1and1.com"><img src="http://www.ftjcfx.com/h7104ltxlrpAGHJGKDDACBFDJKBH" border="0" class="twiz-ads-img"/></a>';
       
         $ads['All-Battery'] = '<a href="http://www.tkqlhce.com/g8104nmvsmu9FGIFJCC9BAGADEJH" target="_blank" title="All-Battery.com"><img src="http://www.tqlkg.com/4c106jy1qwuFLMOLPIIFHGMGJKPN" border="0" class="twiz-ads-img"/></a>';
-      
-        $ads['Cell Phone Shop'] = '<a href="http://www.dpbolvw.net/97115tenkem178A7B441326B6779" target="_blank" title="Cell Phone Shop"><img src="http://www.awltovhc.com/id102h48x20MSTVSWPPMONRWRSSU" border="0" class="twiz-ads-img"/></a>';
-      
+
         $ads['bluehost'] = '<a href="http://www.bluehost.com/track/affordable_web_hosting/" target="_blank" title="bluehost.com"><img border="0" src="'.$this->pluginUrl.'/images/ads/bh_88x31_04.gif" class="twiz-ads-img"/></a>';
         
         $ads['watches'] = '<a href="http://www.dpbolvw.net/1h66r09608OUVXUYRROQPXSSWRU" target="_blank" title="Free Shipping on ALL orders!"><img src="http://www.lduhtrp.net/b8103kpthnl6CDFCG99687FAAE9C" border="0" class="twiz-ads-img"/></a>';
@@ -922,6 +958,12 @@ class Twiz{
         
         $ads['AccessoryGeeks'] = '<a href="http://www.dpbolvw.net/ka108iqzwqyDJKMJNGGDFEIIKHNE" target="_blank" title="Shop AccessoryGeeks.com!"><img src="http://www.awltovhc.com/47102snrflj4ABDAE7746599B8E5" border="0" class="twiz-ads-img"/></a>';
         
+       $ads['Swimsuitsforall'] = '<a href="http://www.jdoqocy.com/st76cy63y5LRSURVOOLNNPPOTMS" target="_blank"><img src="http://www.ftjcfx.com/3l104r6Az42OUVXUYRROQQSSRWPV" alt="" border="0" class="twiz-ads-img"/></a>';
+       
+        $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" alt="Sears Canada" border="0" class="twiz-ads-img"/></a>';
+        
+        $ads['Lids'] = '<a href="http://www.tkqlhce.com/gf102js0ys-FLMOLPIIFHGKHMJKN" target="_blank"><img src="http://www.ftjcfx.com/ck77p59y31NTUWTXQQNPOSPURSV" alt="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
+       
         $ok = shuffle($ads);
         
         $html = '<div id="twiz_ads">'
@@ -1132,85 +1174,7 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         
         return $rowcount;
     }
-    
-    function export( $section_id = '', $id = '' ){
-  
-        $sectionname = '';
-        $error = '';
-        
-        if( $id != '' ) {
-        
-           $where = " WHERE ".self::F_ID." = '".$id."'";
-           $id = "_".$id;
-        }else{
-        
-            $where = ($section_id != '') ? " WHERE ".self::F_SECTION_ID." = '".$section_id."'" : " WHERE ".self::F_SECTION_ID." = '".$this->DEFAULT_SECTION[$this->userid]."'";
-        }
-     
-        $listarray = $this->getListArray( $where ); 
-
-        $filedata = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-        
-        $filedata .= '<TWIZ>'."\n";
-
-        foreach( $listarray as $value ){
-
-              if ( $sectionname == '' ) {
-              
-                  $myTwizMenu  = new TwizMenu(); 
-                  $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($value[self::F_SECTION_ID]));
-              }
-              
-              $filedata .= '<ROW>'."\n";
-              
-              $count_array = count($this->array_fields);
-                    
-              /* loop fields array */
-              foreach( $this->array_fields as $key ){
-              
-                  if( $key != self::F_ID ){
-             
-                     $filedata .= '<'.$this->array_twz_mapping[$key].'>'.$value[$key].'</'.$this->array_twz_mapping[$key].'>'."\n";
-                  }
-              }
-                
-              $filedata .= '</ROW>'."\n";
-        }
-
-        $filedata .= '</TWIZ>'."\n";
-        
-        $sectionname = ($sectionname == '') ? $sectionname = $section_id.$id : $sectionname.$id;
-        $sectionname =  str_replace(self::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname);
-       
-        $filename = urldecode($sectionname).".".self::EXT_TWIZ;
-        $filepath = self::IMPORT_PATH.self::EXPORT_PATH;
-        $filepathdir = WP_CONTENT_DIR.$filepath;
-        $filefullpathdir = $filepathdir.$filename;
-        $filefullpathurl = WP_CONTENT_URL.$filepath.$filename;
- 
-        if (is_writable($filepathdir)) {
-
-            if (!$handle = fopen($filefullpathdir, 'w')) {
-                $error =  __("Cannot open file", 'the-welcomizer').' ('.$filename.')';
-                exit;
-            }
-
-            if (fwrite($handle, $filedata) === FALSE) {
-                $error = __("Cannot write to file", 'the-welcomizer').' ('.$filename.')';
-                exit;
-            }
-
-            fclose($handle);
-
-        } else {
-           $error =  __("You must first create this directory", 'the-welcomizer').':<br>'.$this->export_path_message;
-        }
-        
-        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.'/images/twiz-download.png" /></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
-        
-        return $html;
-    }
-   
+      
     private function utf8_strlen( $string = '' ) {
     
         $char = strlen($string); 
@@ -1290,680 +1254,6 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         
         return $in_multi_array;
     } 
-    
-    function install(){ 
-    
-        global $wpdb;
-
-        $sql = "CREATE TABLE ".$this->table." (". 
-                self::F_ID . " int NOT NULL AUTO_INCREMENT, ". 
-                self::F_PARENT_ID . " varchar(13) NOT NULL default '', ". 
-                self::F_EXPORT_ID . " varchar(13) NOT NULL default '', ". 
-                self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."', ". 
-                self::F_STATUS . " tinyint(3) NOT NULL default 0, ". 
-                self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."', ". 
-                self::F_LAYER_ID . " varchar(50) NOT NULL default '', ". 
-                self::F_ON_EVENT . " varchar(15) NOT NULL default '', ".
-                self::F_LOCK_EVENT . " tinyint(3) NOT NULL default 1, ". 
-                self::F_LOCK_EVENT_TYPE . " varchar(4) NOT NULL default 'auto', ". 
-                self::F_START_DELAY . " varchar(100) NOT NULL default '0', ". 
-                self::F_DURATION . " varchar(100) NOT NULL default '0', ". 
-                self::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
-                self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b', ".
-                self::F_JAVASCRIPT . " text NOT NULL default '', ". 
-                self::F_START_TOP_POS_SIGN . " varchar(1) NOT NULL default '', ". 
-                self::F_START_TOP_POS . " int(5) default NULL, ". 
-                self::F_START_TOP_POS_FORMAT . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_START_LEFT_POS_SIGN . " varchar(1) NOT NULL default '', ". 
-                self::F_START_LEFT_POS . " int(5) default NULL, ". 
-                self::F_START_LEFT_POS_FORMAT . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_POSITION . " varchar(8) NOT NULL default '', ". 
-                self::F_ZINDEX . " varchar(5) NOT NULL default '', ". 
-                self::F_EASING_A . " varchar(20) NOT NULL default 'swing', ". 
-                self::F_EASING_B . " varchar(20) NOT NULL default 'swing', ". 
-                self::F_MOVE_TOP_POS_SIGN_A . " varchar(1) NOT NULL default '', ". 
-                self::F_MOVE_TOP_POS_A . " int(5) default NULL, ". 
-                self::F_MOVE_TOP_POS_FORMAT_A . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_MOVE_LEFT_POS_SIGN_A . " varchar(1) NOT NULL default '', ". 
-                self::F_MOVE_LEFT_POS_A . " int(5) default NULL, ". 
-                self::F_MOVE_LEFT_POS_FORMAT_A . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_MOVE_TOP_POS_SIGN_B . " varchar(1) NOT NULL default '', ". 
-                self::F_MOVE_TOP_POS_B . " int(5) default NULL, ". 
-                self::F_MOVE_TOP_POS_FORMAT_B . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_MOVE_LEFT_POS_SIGN_B . " varchar(1) NOT NULL default '', ". 
-                self::F_MOVE_LEFT_POS_B . " int(5) default NULL, ". 
-                self::F_MOVE_LEFT_POS_FORMAT_B . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."', ". 
-                self::F_OPTIONS_A . " text NOT NULL default '', ". 
-                self::F_OPTIONS_B . " text NOT NULL default '', ". 
-                self::F_EXTRA_JS_A . " text NOT NULL default '', ". 
-                self::F_EXTRA_JS_B . " text NOT NULL default '', " .  
-                self::F_ROW_LOCKED . " tinyint(3) NOT NULL default 0, " .  
-                "PRIMARY KEY (". self::F_ID . ")
-                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
-                
-                
-        if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
-
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        
-            dbDelta($sql);
-        
-            $code = update_option('twiz_db_version', $this->dbVersion);
-            $code = update_option('twiz_global_status', '1');
-            $code = update_option('twiz_cookie_js_status', false);  
-            
-            $code = new TwizAdmin(); 
-            
-            if(!isset($setting_menu[$this->userid])) $setting_menu[$this->userid] = '';
-            $setting_menu[$this->userid] = self::DEFAULT_SECTION_HOME ; 
-            $code = update_option('twiz_setting_menu', $setting_menu);   
-            
-            if(!isset($bullet[$this->userid])) $bullet[$this->userid] = '';
-            $bullet[$this->userid] = self::LB_ORDER_DOWN ; 
-            $code = update_option('twiz_bullet', $bullet);   
-        
-            if(!isset($twiz_order_by[$this->userid])) $twiz_order_by[$this->userid] = '';       
-            $twiz_order_by[$this->userid] =  self::F_ON_EVENT;
-            $code = update_option('twiz_order_by',  $twiz_order_by);
-            
-            if(!isset($this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = '';
-            $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = 'twiz_far_simple';
-            $code = update_option('twiz_toggle',  $this->toggle_option);
-            
-        }else{
-            
-           $dbversion = get_option('twiz_db_version');
-           $array_describe = '';       
-           
-            if( $dbversion != $this->dbVersion ){
-                
-                
-                /* Describe table */
-                $describe = "DESCRIBE ".$this->table ."";
-                $describe_rows = $wpdb->get_results($describe, ARRAY_A);
-                
-                foreach($describe_rows as $values){
-                
-                    $array_describe[] = $values['Field'];
-                }
-                
-                if( !in_array(self::F_SECTION_ID, $array_describe) ){
-                
-                    // Add the new field from <= v.1.3.2.3
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_SECTION_ID . " varchar(22) NOT NULL default '".self::DEFAULT_SECTION_HOME."' after ".self::F_ID."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_ON_EVENT, $array_describe) ){    
-                
-                    // Add the new field from <= v 1.3.5.7
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ".self::F_ON_EVENT." varchar(15) NOT NULL default '' after ".self::F_LAYER_ID."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_JAVASCRIPT, $array_describe) ){
-                
-                    // Add the new field from <= v 1.3.5.8
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_JAVASCRIPT . " text NOT NULL default '' after ".self::F_DURATION."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_ZINDEX, $array_describe) ){
-                
-                    // Add the new field from <= v 1.3.5.8
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_ZINDEX . " varchar(5) NOT NULL default '' after ".self::F_POSITION."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_TYPE, $array_describe) ){        
-                
-                    // Add the new field from <= v 1.3.6.1 */
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_TYPE . " varchar(5) NOT NULL default '".self::ELEMENT_TYPE_ID."' after ".self::F_STATUS."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_OUTPUT, $array_describe) ){
-                
-                    // Add the new field from <= v 1.3.6.6
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_OUTPUT . " varchar(1) NOT NULL default 'b' after ".self::F_DURATION."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_OUTPUT_POS, $array_describe) ){
-                
-                    // Add the new field from <= v 1.3.7
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b' after ".self::F_OUTPUT."";
-                    $code = $wpdb->query($altersql);
-                }
-                
-              
-                /*
-                * HOTFIX - Export ID
-                *
-                * Adds the new field export_id and applies a Hotfix for updating and replacing ids.
-                */
-                if( !in_array(self::F_EXPORT_ID, $array_describe) ){
-                    
-
-                    // Add the new field from <= v 1.3.7.6 
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ".  self::F_EXPORT_ID . " varchar(13) NOT NULL default '' after ". self::F_ID ."";
-                    $code = $wpdb->query($altersql);
-                    
-                    // Select all the table
-                    $sql = "SELECT * from ".$this->table;
-                    $rows = $wpdb->get_results($sql, ARRAY_A);                    
-                    
-                    foreach ( $rows as $value ){
-                        
-                        // wait for 1/10 second
-                        usleep(100000);
-                        
-                        // a simple uniq id
-                        $exportid = uniqid();
-                        
-                        // array temp
-                        if( !isset($array_ids[$value[self::F_ID]]) ) $array_ids[$value[self::F_ID]] = '' ;
-                        $array_ids[$value[self::F_ID]] = $exportid;
-                        
-                        // update each row with the unique id and removes section_id.
-                        $updatesql = "UPDATE ".$this->table . " SET ".  self::F_EXPORT_ID . " = '".$exportid."'
-                        WHERE ". self::F_ID ." = '".$value[self::F_ID]."'";
-                        $code = $wpdb->query($updatesql);
-
-                    }
-                    
-                    // loops the previous temp array
-                    foreach ( $array_ids as $t_id => $t_export_id ){
-                    
-                        // loop all rows again and again
-                        foreach ( $rows as $value ){
-                        
-                            // Replace all current ids. all functions and activations vars included
-                            $updatesql = "UPDATE ".$this->table . " SET
-                             ". self::F_JAVASCRIPT . " = replace(". self::F_JAVASCRIPT . ", '_".$t_id."', '_".$t_export_id."') 
-                            ,". self::F_EXTRA_JS_A . " = replace(". self::F_EXTRA_JS_A . ", '_".$t_id."', '_".$t_export_id."') 
-                            ,". self::F_EXTRA_JS_B . " = replace(". self::F_EXTRA_JS_B . ", '_".$t_id."', '_".$t_export_id."') 
-                            WHERE ". self::F_ID ." = '".$value[self::F_ID]."'";
-                            $code = $wpdb->query($updatesql);
-                            
-                        }
-                    }                    
-                }
-                
-                // Add the new field from <= v 1.3.7.9
-                if( !in_array(self::F_START_TOP_POS_FORMAT, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_START_TOP_POS_FORMAT . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_START_TOP_POS."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_START_LEFT_POS_FORMAT, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_START_LEFT_POS_FORMAT . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_START_LEFT_POS."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_MOVE_TOP_POS_FORMAT_A, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_MOVE_TOP_POS_FORMAT_A . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_MOVE_TOP_POS_A."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_MOVE_LEFT_POS_FORMAT_A, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_MOVE_LEFT_POS_FORMAT_A . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_MOVE_LEFT_POS_A."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_MOVE_TOP_POS_FORMAT_B, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_MOVE_TOP_POS_FORMAT_B . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_MOVE_TOP_POS_B."";
-                    $code = $wpdb->query($altersql);
-                }
-                if( !in_array(self::F_MOVE_LEFT_POS_FORMAT_B, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_MOVE_LEFT_POS_FORMAT_B . " varchar(2) NOT NULL default '".self::FORMAT_PIXEL."' after ".self::F_MOVE_LEFT_POS_B."";
-                    $code = $wpdb->query($altersql);
-                }
-                
-                //  Add the new field from <= v 1.3.8.5
-                if( !in_array(self::F_EASING_A, $array_describe) ){
-
-                    $altersql = "ALTER TABLE ".$this->table 
-                    . " ADD ". self::F_EASING_B . " varchar(20) NOT NULL default 'swing' after ".self::F_ZINDEX."," 
-                    . " ADD ". self::F_EASING_A . " varchar(20) NOT NULL default 'swing' after ".self::F_ZINDEX."";
-                    $code = $wpdb->query($altersql);
-                }              
-                
-                
-                //  Alter fields from <= v 1.3.9.8
-                $altersql = "ALTER TABLE ".$this->table 
-                . " MODIFY ". self::F_START_DELAY . " varchar(100) NOT NULL default '0'," 
-                . " MODIFY ". self::F_DURATION . " varchar(100) NOT NULL default '0'";
-                $code = $wpdb->query($altersql);  
-                            
-
-                // Add the new field from <= v 1.4.4.5 
-                if( !in_array(self::F_LOCK_EVENT, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_LOCK_EVENT . " tinyint(3) NOT NULL default 1 after ".self::F_ON_EVENT."";
-                    $code = $wpdb->query($altersql);
-                }
-                
-                // Add the new field from <= v 1.4.8.4 
-                if( !in_array(self::F_LOCK_EVENT_TYPE, $array_describe) ){
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ". self::F_LOCK_EVENT_TYPE . " varchar(4) NOT NULL default 'auto' after ".self::F_LOCK_EVENT."";
-                    $code = $wpdb->query($altersql);
-                }
-
-                // Add the new field from <= v 1.5 
-                if( !in_array(self::F_PARENT_ID, $array_describe) ){
-
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ".  self::F_PARENT_ID . " varchar(13) NOT NULL default '' after ". self::F_ID ."";
-                    $code = $wpdb->query($altersql);
-                    
-                    // Rename the twiz_active variable to twiz_locked
-                    $updatesql = "UPDATE ".$this->table . " SET
-                     ". self::F_JAVASCRIPT . " = replace(". self::F_JAVASCRIPT . ", 'twiz_active', 'twiz_locked') 
-                    ,". self::F_EXTRA_JS_A . " = replace(". self::F_EXTRA_JS_A . ", 'twiz_active', 'twiz_locked') 
-                    ,". self::F_EXTRA_JS_B . " = replace(". self::F_EXTRA_JS_B . ", 'twiz_active', 'twiz_locked')";
-                    $code = $wpdb->query($updatesql);
-                    
-                }
-                if( !in_array(self::F_ROW_LOCKED, $array_describe) ){                
-                    $altersql = "ALTER TABLE ".$this->table .
-                    " ADD ".  self::F_ROW_LOCKED . " tinyint(3) NOT NULL default 0 after ". self::F_EXTRA_JS_B ."";
-                    $code = $wpdb->query($altersql);
-                }
-                
-                
-                // Bullet menu from <= v 1.5 
-                $bullet = get_option('twiz_bullet'); 
-                $bullet = ( !is_array($bullet) ) ? '' : $bullet;
-                
-                if( $bullet == '' ) {
-                
-                    $bullet[$this->userid] = self::LB_ORDER_UP ; // same setting as before
-                    $code = update_option('twiz_bullet', $bullet);      
-                
-                    // Plus admin & toggle key changes from <= v 1.5 
-                    if(!isset($this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = '';
-
-                    if(!isset($this->admin_option[self::KEY_PREFERED_METHOD])){
-                    
-                        $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] =  'twiz_far_simple';
-                        
-                    }else{
-                    
-                        $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = $this->admin_option[self::KEY_PREFERED_METHOD];
-                        $this->admin_option[self::KEY_PREFERED_METHOD] = '';
-                        unset($this->admin_option[self::KEY_PREFERED_METHOD]);
-                    }
-                    
-                    $code = update_option('twiz_admin', $this->admin_option);
-                    $code = update_option('twiz_toggle', $this->toggle_option);
-      
-                }
-                
-                // from <= v 1.4.3 and <= v 1.5 
-                $twiz_order_by = get_option('twiz_order_by'); 
-                
-                $twiz_order_by_old = ( !is_array($twiz_order_by) ) ? $twiz_order_by : ''; // Migrate setting
-                $twiz_order_by = ( !is_array($twiz_order_by) ) ? '' : $twiz_order_by;
-                 
-                if( $twiz_order_by == '' ) {
-                
-                    if(!isset($twiz_order_by[$this->userid])) $twiz_order_by[$this->userid] = '';
-                    $twiz_order_by[$this->userid] = ($twiz_order_by_old != '') ? $twiz_order_by_old : self::F_ON_EVENT;
-                    $code = update_option('twiz_order_by', $twiz_order_by);
-                }    
-                
-                // from <= v 1.5.5
-                
-                if(!isset($this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT])) $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] = '';
-                if(!isset($this->admin_option[self::KEY_EXTRA_EASING])) $this->admin_option[self::KEY_EXTRA_EASING] = '';
-                
-                if( ( $this->admin_option[self::KEY_REGISTER_JQUERY_TRANSIT] == '1' )
-                and ( $this->admin_option[self::KEY_EXTRA_EASING] != '1' ) ){
-                
-                    $this->admin_option[self::KEY_EXTRA_EASING] = '1';
-                    $code = update_option('twiz_admin', $this->admin_option);
-                }
-                
-                // from <= v 1.5.9
-                $updatesql = "UPDATE ".$this->table . " SET ".  self::F_PARENT_ID . " = ''
-                WHERE ". self::F_PARENT_ID ." LIKE 'twiz%'";
-                $code = $wpdb->query($updatesql);
-                        
-                // option cookie js 
-                $twiz_cookie_js_status = get_option('twiz_cookie_js_status'); 
-                
-                if( $twiz_cookie_js_status == '' ) {
-                
-                    $code = update_option('twiz_cookie_js_status', false); 
-                }                
-                 
-                // Admin Settings
-                $code = new TwizAdmin(); // Default settings
-                
-                // Menu reformating
-                $myTwizMenu  = new TwizMenu();
-                        
-                // db version
-                $code = update_option('twiz_db_version', $this->dbVersion);
-                
-            }
-        }
-        
-        return true;
-    }
-    
-    protected function import( $sectionid = self::DEFAULT_SECTION_HOME ){
-    
-        $filearray = $this->getFileDirectory(array(self::EXT_TWZ, self::EXT_TWIZ, self::EXT_XML), WP_CONTENT_DIR.self::IMPORT_PATH);
-        
-        foreach( $filearray as $filename ){
-            
-            if( $code = $this->importData($filename, $sectionid) ){
- 
-                return true;
-            }
-        }
-        
-        return true;
-    }
-    
-    private function importData( $filename = '', $sectionid = self::DEFAULT_SECTION_HOME ){
- 
-        /* full file path */
-        $file = WP_CONTENT_DIR.self::IMPORT_PATH.$filename;
-        $rows = '';
-        if ( @file_exists($file) ) {
-        
-            if( $twz = @simplexml_load_file($file) ){
-
-               /* flip array mapping value to match */
-               $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
-               
-                /* loop xml entities */              
-                foreach( $twz->children() as $twzrow ) { 
-                
-                    $row = array();
-                    $row[self::F_SECTION_ID] = $sectionid; 
-                    
-                    foreach( $twzrow->children() as $twzfield ) {
-                    
-                        $fieldname = '';
-                        $fieldvalue = '';
-                        
-                        $fieldname = strtr($twzfield->getName(), $reverse_array_twz_mapping);
-
-                        if( $fieldname != "" ) {                        
-
-                            /* get the real name of the field */
-                            $fieldvalue = $twzfield;
-
-                            /* build record array */
-                            $row[$fieldname] = $fieldvalue;
-                        }
-                    }
-                    $rows[] = $row;
-                }
-                if(count($rows > 0 )){
-                    /* insert row  */
-                    if( !$code = $this->importInsert($rows, $sectionid) ){
-                        
-                        return false;
-                    }
-                }
-                /* imported */     
-                return  true;
-            }
-        }
-        
-        return false;
-    }
-    
-    private function importInsert( $rows = array(), $newsectionid = self::DEFAULT_SECTION_HOME  ){
-        
-        global $wpdb;
-        
-        $newrows = '';
-        $tempdata = '';
-        $updatesql = '';
-        
-        foreach( $rows as $data ){
-        
-            usleep(100000);
-            
-            $exportid = uniqid();
-            
-            $data[self::F_EXPORT_ID] = ($data[self::F_EXPORT_ID]=='')? $exportid : $data[self::F_EXPORT_ID];
-            
-            $exportidExists = $this->ExportidExists( $data[self::F_EXPORT_ID] );
-            
-            if( !isset($data[self::F_EXPORT_ID.'_old']) ) $data[self::F_EXPORT_ID.'_old'] = '';
-            
-            if( $exportidExists == true ){
-                
-                // New values
-                $data[self::F_EXPORT_ID.'_old'] = $data[self::F_EXPORT_ID];
-                $data[self::F_EXPORT_ID] = $exportid;
-            }
-           
-            $newrows['key_'.$data[self::F_EXPORT_ID]] = $data;
-            $tempdata['key_'.$data[self::F_EXPORT_ID]] = $data;
-        }
-        
-        $newrows = ( !is_array($newrows) ) ? array() : $newrows;
-         
-        foreach( $newrows as $data ){ 
-                      
-            foreach( $newrows as $exportid => $newdata ){
-            
-                if($data[self::F_EXPORT_ID.'_old'] !=''){ 
-
-                    $newdata[self::F_JAVASCRIPT] = str_replace($data[self::F_EXPORT_ID.'_old'], $data[self::F_EXPORT_ID], $newdata[self::F_JAVASCRIPT]);
-                    $newdata[self::F_EXTRA_JS_A] = str_replace($data[self::F_EXPORT_ID.'_old'], $data[self::F_EXPORT_ID], $newdata[self::F_EXTRA_JS_A]);
-                    $newdata[self::F_EXTRA_JS_B] = str_replace($data[self::F_EXPORT_ID.'_old'], $data[self::F_EXPORT_ID], $newdata[self::F_EXTRA_JS_B]); 
- 
-                    $tempdata[$exportid] = $newdata;
-                }
-                $newrows = $tempdata;
-            }
-        }
-
-        $rows = ( !is_array($tempdata) ) ? array() : $tempdata;
-       
-        foreach( $rows as $data ){
-        
-            /* Fields added after */
-            if( !isset($data[self::F_ON_EVENT]) ) $data[self::F_ON_EVENT] = '';
-            if( !isset($data[self::F_LOCK_EVENT]) ) $data[self::F_LOCK_EVENT] = '';
-            if( !isset($data[self::F_LOCK_EVENT_TYPE]) ) $data[self::F_LOCK_EVENT_TYPE] = '';
-            if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '';
-            if( !isset($data[self::F_ZINDEX]) ) $data[self::F_ZINDEX] = '';
-            if( !isset($data[self::F_TYPE]) ) $data[self::F_TYPE] = '';
-            if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '';
-            if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '';
-            if( !isset($data[self::F_PARENT_ID]) ) $data[self::F_PARENT_ID] = '';
-            if( !isset($data[self::F_EXPORT_ID]) ) $data[self::F_EXPORT_ID] = '';
-            if( !isset($data[self::F_SECTION_ID]) ) $data[self::F_SECTION_ID] = '';
-            if( !isset($data[self::F_START_TOP_POS_FORMAT]) ) $data[self::F_START_TOP_POS_FORMAT] = '';
-            if( !isset($data[self::F_START_LEFT_POS_FORMAT]) ) $data[self::F_START_LEFT_POS_FORMAT] = '';
-            if( !isset($data[self::F_MOVE_TOP_POS_FORMAT_A]) ) $data[self::F_MOVE_TOP_POS_FORMAT_A] = '';
-            if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_A]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_A] = '';
-            if( !isset($data[self::F_MOVE_TOP_POS_FORMAT_B]) ) $data[self::F_MOVE_TOP_POS_FORMAT_B] = '';
-            if( !isset($data[self::F_MOVE_LEFT_POS_FORMAT_B]) ) $data[self::F_MOVE_LEFT_POS_FORMAT_B] = '';
-            if( !isset($data[self::F_EASING_A]) ) $data[self::F_EASING_A] = '';
-            if( !isset($data[self::F_EASING_B]) ) $data[self::F_EASING_B] = '';
-            
-            $twiz_move_top_pos_a  = esc_attr(trim($data[self::F_MOVE_TOP_POS_A]));
-            $twiz_move_left_pos_a = esc_attr(trim($data[self::F_MOVE_LEFT_POS_A]));
-            $twiz_move_top_pos_b  = esc_attr(trim($data[self::F_MOVE_TOP_POS_B]));
-            $twiz_move_left_pos_b = esc_attr(trim($data[self::F_MOVE_LEFT_POS_B]));
-            $twiz_start_top_pos   = esc_attr(trim($data[self::F_START_TOP_POS]));
-            $twiz_start_left_pos  = esc_attr(trim($data[self::F_START_LEFT_POS]));
-            
-            $twiz_move_top_pos_a  = ($twiz_move_top_pos_a=='') ? 'NULL' : $twiz_move_top_pos_a;
-            $twiz_move_left_pos_a = ($twiz_move_left_pos_a=='') ? 'NULL' : $twiz_move_left_pos_a;
-            $twiz_move_top_pos_b  = ($twiz_move_top_pos_b=='') ? 'NULL' : $twiz_move_top_pos_b;
-            $twiz_move_left_pos_b = ($twiz_move_left_pos_b=='') ? 'NULL' : $twiz_move_left_pos_b;
-            $twiz_start_top_pos   = ($twiz_start_top_pos=='') ? 'NULL' : $twiz_start_top_pos;
-            $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;
-          
-            $twiz_javascript = str_replace("\\", "\\\\" , $data[self::F_JAVASCRIPT]);
-            $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_A]);
-            $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[self::F_EXTRA_JS_B]);
-            
-            $twiz_status = esc_attr(trim($data[self::F_STATUS]));
-            $twiz_lock_event = esc_attr(trim($data[self::F_LOCK_EVENT]));
-            $twiz_lock_event_type = esc_attr(trim($data[self::F_LOCK_EVENT_TYPE]));
-            $twiz_start_delay = esc_attr(trim($data[self::F_START_DELAY]));
-            $twiz_duration = esc_attr(trim($data[self::F_DURATION]));
-            
-            $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
-            $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[self::F_ON_EVENT] !='') and ( $data[self::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
-            $twiz_lock_event = ( $twiz_lock_event == '' ) ? '0' : $twiz_lock_event;
-            $twiz_lock_event_type = ( $twiz_lock_event_type == '' ) ? 'auto' : $twiz_lock_event_type;
-            $twiz_start_delay = ( $twiz_start_delay == '' ) ? '0' : $twiz_start_delay;
-            $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
-            
-            $group = '';
-    
-            // replace section id
-            $twiz_javascript = str_replace("$(document).twiz_group_".$data[self::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[self::F_JAVASCRIPT]);
-            $twiz_extra_js_a = str_replace("$(document).twiz_group_".$data[self::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[self::F_EXTRA_JS_A]);
-            $twiz_extra_js_b = str_replace("$(document).twiz_group_".$data[self::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[self::F_EXTRA_JS_B]);  
-            
-            // replace section id part2
-            $twiz_javascript = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_javascript);
-            $twiz_extra_js_a = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_a);
-            $twiz_extra_js_b = str_replace("$(document).twiz_".$data[self::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_b);
-            
-            // default output pos for older export files. b r default, because no backward v to check
-            $data[self::F_OUTPUT] = ($data[self::F_OUTPUT] == '')? 'b' : $data[self::F_OUTPUT];
-            $data[self::F_OUTPUT_POS] = ($data[self::F_OUTPUT_POS] == '') ? 'r' : $data[self::F_OUTPUT_POS];
-            $data[self::F_START_TOP_POS_FORMAT] = ($data[self::F_START_TOP_POS_FORMAT] == '') ? self::FORMAT_PIXEL : $data[self::F_START_TOP_POS_FORMAT];
-            $data[self::F_START_LEFT_POS_FORMAT] = ($data[self::F_START_LEFT_POS_FORMAT] == '') ? self::FORMAT_PIXEL : $data[self::F_START_LEFT_POS_FORMAT];
-            $data[self::F_MOVE_TOP_POS_FORMAT_A] = ($data[self::F_MOVE_TOP_POS_FORMAT_A] == '') ? self::FORMAT_PIXEL : $data[self::F_MOVE_TOP_POS_FORMAT_A];
-            $data[self::F_MOVE_LEFT_POS_FORMAT_A] = ($data[self::F_MOVE_LEFT_POS_FORMAT_A] == '') ? self::FORMAT_PIXEL : $data[self::F_MOVE_LEFT_POS_FORMAT_A];
-            $data[self::F_MOVE_TOP_POS_FORMAT_B] = ($data[self::F_MOVE_TOP_POS_FORMAT_B] == '') ? self::FORMAT_PIXEL : $data[self::F_MOVE_TOP_POS_FORMAT_B];
-            $data[self::F_MOVE_LEFT_POS_FORMAT_B] = ($data[self::F_MOVE_LEFT_POS_FORMAT_B] == '') ? self::FORMAT_PIXEL : $data[self::F_MOVE_LEFT_POS_FORMAT_B];
-            
-            $data[self::F_EASING_A] = ($data[self::F_EASING_A] == '')? 'swing' : $data[self::F_EASING_A];
-            $data[self::F_EASING_B] = ($data[self::F_EASING_B] == '')? 'swing' : $data[self::F_EASING_B];
-  
-                    
-            $sql = "INSERT INTO ".$this->table." 
-                 (".self::F_PARENT_ID."
-                 ,".self::F_EXPORT_ID."
-                 ,".self::F_SECTION_ID."
-                 ,".self::F_STATUS."
-                 ,".self::F_TYPE."
-                 ,".self::F_LAYER_ID."
-                 ,".self::F_ON_EVENT."
-                 ,".self::F_LOCK_EVENT."
-                 ,".self::F_LOCK_EVENT_TYPE."
-                 ,".self::F_START_DELAY."
-                 ,".self::F_DURATION."
-                 ,".self::F_OUTPUT."
-                 ,".self::F_OUTPUT_POS."
-                 ,".self::F_JAVASCRIPT."
-                 ,".self::F_START_TOP_POS_SIGN."
-                 ,".self::F_START_TOP_POS."
-                 ,".self::F_START_TOP_POS_FORMAT."
-                 ,".self::F_START_LEFT_POS_SIGN."
-                 ,".self::F_START_LEFT_POS."    
-                 ,".self::F_START_LEFT_POS_FORMAT."    
-                 ,".self::F_POSITION."    
-                 ,".self::F_ZINDEX."    
-                 ,".self::F_EASING_A."  
-                 ,".self::F_EASING_B."               
-                 ,".self::F_MOVE_TOP_POS_SIGN_A."
-                 ,".self::F_MOVE_TOP_POS_A."
-                 ,".self::F_MOVE_TOP_POS_FORMAT_A."
-                 ,".self::F_MOVE_LEFT_POS_SIGN_A."
-                 ,".self::F_MOVE_LEFT_POS_A."
-                 ,".self::F_MOVE_LEFT_POS_FORMAT_A."
-                 ,".self::F_MOVE_TOP_POS_SIGN_B."
-                 ,".self::F_MOVE_TOP_POS_B."
-                 ,".self::F_MOVE_TOP_POS_FORMAT_B."
-                 ,".self::F_MOVE_LEFT_POS_SIGN_B."
-                 ,".self::F_MOVE_LEFT_POS_B."
-                 ,".self::F_MOVE_LEFT_POS_FORMAT_B."
-                 ,".self::F_OPTIONS_A."
-                 ,".self::F_OPTIONS_B."
-                 ,".self::F_EXTRA_JS_A."
-                 ,".self::F_EXTRA_JS_B."       
-                 ,".self::F_ROW_LOCKED."       
-                 )VALUES('".esc_attr(trim($data[self::F_PARENT_ID]))."'
-                 ,'".esc_attr(trim($data[self::F_EXPORT_ID]))."'
-                 ,'".$newsectionid."'
-                 ,'".$twiz_status."'
-                 ,'".esc_attr(trim($data[self::F_TYPE]))."'
-                 ,'".esc_attr(trim($data[self::F_LAYER_ID]))."'
-                 ,'".esc_attr(trim($data[self::F_ON_EVENT]))."'             
-                 ,'".$twiz_lock_event."'             
-                 ,'".$twiz_lock_event_type."'             
-                 ,'".$twiz_start_delay."'
-                 ,'".$twiz_duration."'
-                 ,'".esc_attr(trim($data[self::F_OUTPUT]))."'
-                 ,'".esc_attr(trim($data[self::F_OUTPUT_POS]))."'
-                 ,'".esc_attr($twiz_javascript)."'    
-                 ,'".esc_attr(trim($data[self::F_START_TOP_POS_SIGN]))."'    
-                 ,".$twiz_start_top_pos."
-                 ,'".esc_attr(trim($data[self::F_START_TOP_POS_FORMAT]))."'   
-                 ,'".esc_attr(trim($data[self::F_START_LEFT_POS_SIGN]))."'    
-                 ,".$twiz_start_left_pos."
-                 ,'".esc_attr(trim($data[self::F_START_LEFT_POS_FORMAT]))."'    
-                 ,'".esc_attr(trim($data[self::F_POSITION]))."'
-                 ,'".esc_attr(trim($data[self::F_ZINDEX]))."'                      
-                 ,'".esc_attr(trim($data[self::F_EASING_A]))."'  
-                 ,'".esc_attr(trim($data[self::F_EASING_B]))."'               
-                 ,'".esc_attr(trim($data[self::F_MOVE_TOP_POS_SIGN_A]))."'    
-                 ,".$twiz_move_top_pos_a."
-                 ,'".esc_attr(trim($data[self::F_MOVE_TOP_POS_FORMAT_A]))."'    
-                 ,'".esc_attr(trim($data[self::F_MOVE_LEFT_POS_SIGN_A]))."'    
-                 ,".$twiz_move_left_pos_a."
-                 ,'".esc_attr(trim($data[self::F_MOVE_LEFT_POS_FORMAT_A]))."'    
-                 ,'".esc_attr(trim($data[self::F_MOVE_TOP_POS_SIGN_B]))."'                     
-                 ,".$twiz_move_top_pos_b."
-                 ,'".esc_attr(trim($data[self::F_MOVE_TOP_POS_FORMAT_B]))."'                     
-                 ,'".esc_attr(trim($data[self::F_MOVE_LEFT_POS_SIGN_B]))."'    
-                 ,".$twiz_move_left_pos_b."
-                 ,'".esc_attr(trim($data[self::F_MOVE_LEFT_POS_FORMAT_B]))."'    
-                 ,'".esc_attr(trim($data[self::F_OPTIONS_A]))."'                             
-                 ,'".esc_attr(trim($data[self::F_OPTIONS_B]))."'
-                 ,'".esc_attr($twiz_extra_js_a)."'                             
-                 ,'".esc_attr($twiz_extra_js_b)."'                 
-                 ,'3'                
-                 );"; // Lock
-                
-                $code = $wpdb->query($sql);
-                
-                $exportidExists = $this->ExportidExists( $data[self::F_EXPORT_ID.'_old'] );
-
-                if( $exportidExists == true ){
-
-                    // Update new parent_id
-                    $updatesql[] = "UPDATE ".$this->table . " SET
-                    ". self::F_PARENT_ID . " = '".$data[self::F_EXPORT_ID] ."' 
-                    WHERE ". self::F_PARENT_ID . " = '".$data[self::F_EXPORT_ID.'_old']."' 
-                    AND ". self::F_ROW_LOCKED . " = '3';";
-                }                
-            }
-                     
-            // Update new parent_id
-            $updatesql = ( !is_array($updatesql) ) ? array() : $updatesql;
-            foreach( $updatesql as $sql ){ 
-                $code = $wpdb->query($sql);
-            }
-           
-            $code = $this->UnlockRows(3);
- 
-            return true;
-    }
 
     protected function UnlockRows( $value = '' ){
     
@@ -2040,6 +1330,20 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         return $filearray;
     }
        
+    function hasStartingConfigsAfter( $value = array() ){
+
+        if( ( ($value[self::F_OUTPUT_POS]=='a') or ($value[self::F_OUTPUT] == 'a') )
+         and (($value[self::F_START_TOP_POS]!='') or ($value[self::F_START_LEFT_POS]!='')
+         or($value[self::F_ZINDEX]!='') or ($value[self::F_JAVASCRIPT]!='')
+         or ($value[self::F_POSITION]!=''))){
+         
+             return true;
+        }
+        
+        return false;
+    
+    }    
+    
     function hasStartingConfigs( $value = array() ){
 
         if(($value[self::F_START_TOP_POS]!='') or ($value[self::F_START_LEFT_POS]!='')
@@ -2204,13 +1508,35 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         
         $jsscript_open = '<script>
  //<![CDATA[
- jQuery(document).ready(function($) {';
+ jQuery(document).ready(function($) {
+';
  
-        $jsscript_close = '});
+        $jsscript_close = '$(".twiz-more-configs").click(function(){
+        var twiz_textname = $(this).attr("name");
+        if(twiz_textname == "twiz_starting_config"){
+            if ( twiz_showOrHide_more_config == false ) {
+                $("#" + twiz_textname).html("'.__('Less configurations', 'the-welcomizer').' &#187;"); 
+                twiz_showOrHide_more_config = true;
+            } else if ( twiz_showOrHide_more_config == true ) {
+                $("#" + twiz_textname).html("'.__('More configurations', 'the-welcomizer').' &#187;"); 
+                twiz_showOrHide_more_config = false;
+            }
+            $("#twiz_tr_starting_config").toggle(twiz_showOrHide_more_config);
+        }else{
+            if ( twiz_showOrHide_more_options == false ) {
+                $("a[name=twiz_more_options]").html("'.__('Less Options', 'the-welcomizer').' &#187;"); 
+                twiz_showOrHide_more_options = true;
+            } else if ( twiz_showOrHide_more_options == true ) {
+                $("a[name=twiz_more_options]").html("'.__('More Options', 'the-welcomizer').' &#187;"); 
+                twiz_showOrHide_more_options = false;
+            }        
+            $(".twiz-table-more-options").toggle(twiz_showOrHide_more_options);
+        }
+    });});
  //]]>
 </script>';
         
-        /* Toggle starting config */
+        /* Toggle starting config */ 
         $jsscript_starting_config = '$("#twiz_tr_starting_config").toggle();';
         
         /* Toggle More Options */
@@ -2280,8 +1606,14 @@ $("textarea[name^=twiz_options]").blur(function (){
         if( !isset($data[self::F_OUTPUT]) ) $data[self::F_OUTPUT] = '';
         if( !isset($data[self::F_OUTPUT_POS]) ) $data[self::F_OUTPUT_POS] = '';
         if( !isset($data[self::F_JAVASCRIPT]) ) $data[self::F_JAVASCRIPT] = '';
+        if( !isset($data[self::F_START_ELEMENT_TYPE]) ) $data[self::F_START_ELEMENT_TYPE] = '';
+        if( !isset($data[self::F_START_ELEMENT]) ) $data[self::F_START_ELEMENT] = '';        
         if( !isset($data[self::F_START_TOP_POS]) ) $data[self::F_START_TOP_POS] = '';
         if( !isset($data[self::F_START_LEFT_POS]) ) $data[self::F_START_LEFT_POS] = '';
+        if( !isset($data[self::F_MOVE_ELEMENT_TYPE_A]) ) $data[self::F_MOVE_ELEMENT_TYPE_A] = '';
+        if( !isset($data[self::F_MOVE_ELEMENT_A]) ) $data[self::F_MOVE_ELEMENT_A] = '';  
+        if( !isset($data[self::F_MOVE_ELEMENT_TYPE_B]) ) $data[self::F_MOVE_ELEMENT_TYPE_B] = '';
+        if( !isset($data[self::F_MOVE_ELEMENT_B]) ) $data[self::F_MOVE_ELEMENT_B] = ''; 
         if( !isset($data[self::F_MOVE_TOP_POS_A]) ) $data[self::F_MOVE_TOP_POS_A] = '';
         if( !isset($data[self::F_MOVE_TOP_POS_B]) ) $data[self::F_MOVE_TOP_POS_B] = '';
         if( !isset($data[self::F_MOVE_LEFT_POS_A]) ) $data[self::F_MOVE_LEFT_POS_A] = '';
@@ -2330,7 +1662,15 @@ $("textarea[name^=twiz_options]").blur(function (){
         /* toggle starting config if we have values */        
         if($hasStartingConfigs){
         
+            $lbl_more_config = __('Less configurations', 'the-welcomizer');
+            $jsscript_open .= 'var twiz_showOrHide_more_config = true;';
             $toggleoptions = $jsscript_starting_config;
+            
+        }else{
+        
+            $lbl_more_config = __('More configurations', 'the-welcomizer');
+            $jsscript_open .= 'var twiz_showOrHide_more_config = false;';            
+            $jsscript_open .= '';
         }
         
         /* toggle more options by default if we have values */        
@@ -2338,6 +1678,14 @@ $("textarea[name^=twiz_options]").blur(function (){
          or($data[self::F_OPTIONS_B]!='')or($data[self::F_EXTRA_JS_B]!='')){
          
             $toggleoptions .= $jsscript_moreoptions;
+            $lbl_more_options = __('Less Options', 'the-welcomizer');
+            $jsscript_open .= 'var twiz_showOrHide_more_options = true;';            
+            
+        }else{
+        
+            $lbl_more_options = __('More Options', 'the-welcomizer');
+            $jsscript_open .= 'var twiz_showOrHide_more_options = false;';               
+            $jsscript_open .= '';              
         }
        
         $twiz_export_id = (($data[self::F_EXPORT_ID] == '' ) or ( $action == self::ACTION_COPY ) or ( $action == self::ACTION_NEW )) ? uniqid() : $data[self::F_EXPORT_ID];
@@ -2402,13 +1750,26 @@ $("textarea[name^=twiz_options]").blur(function (){
         $data[self::F_ON_EVENT] = (($parent_id != '')and($data[self::F_ON_EVENT] == '')) ? 'Manually' : $data[self::F_ON_EVENT];
         
         $eventlist = $this->getHtmlEventList($data[self::F_ON_EVENT],'','');
-        $element_type_list = $this->getHtmlElementTypeList($data[self::F_TYPE]);
+        $element_type_list = $this->getHtmlElementTypeList($data[self::F_TYPE], self::F_TYPE);
+        $element_type_list_start = $this->getHtmlElementTypeList($data[self::F_START_ELEMENT_TYPE], self::F_START_ELEMENT_TYPE);
+        $element_type_list_move_a = $this->getHtmlElementTypeList($data[self::F_MOVE_ELEMENT_TYPE_A], self::F_MOVE_ELEMENT_TYPE_A);
+        $element_type_list_move_b = $this->getHtmlElementTypeList($data[self::F_MOVE_ELEMENT_TYPE_B], self::F_MOVE_ELEMENT_TYPE_B);
         
         /* easing */
         $easing_a = $this->getHtmlEasingOptions($data[self::F_EASING_A], self::F_EASING_A);
         $easing_b = $this->getHtmlEasingOptions($data[self::F_EASING_B], self::F_EASING_B);
         
         $twiz_parent_id = ($parent_id != '') ? $parent_id : $data[self::F_PARENT_ID];
+        
+        $hide_start_element = ($data[self::F_START_ELEMENT] == '')? ' class="twiz-display-none"' : '';
+        $hide_move_element_a = ($data[self::F_MOVE_ELEMENT_A] == '')? ' class="twiz-display-none"' : '';
+        $hide_move_element_b = ($data[self::F_MOVE_ELEMENT_B] == '')? ' class="twiz-display-none"' : '';
+
+        $show_add_start_element = ($data[self::F_START_ELEMENT] == '')? '' : ' class="twiz-display-none"';
+        $show_add_move_element_a = ($data[self::F_MOVE_ELEMENT_A] == '')? '' : ' class="twiz-display-none"';
+        $show_add_move_element_b = ($data[self::F_MOVE_ELEMENT_B] == '')? '' : ' class="twiz-display-none"';
+        
+
         
         /* creates the form */
         $htmlform = $opendiv.'<table class="twiz-table-form" cellspacing="0" cellpadding="0">
@@ -2420,7 +1781,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         </select></div></td></tr>
 <tr><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right">'.$element_type_list.'</div></td><td  class="twiz-form-td-right twiz-float-left"><input class="twiz-input twiz-input-focus" id="twiz_'.self::F_LAYER_ID.'" name="twiz_'.self::F_LAYER_ID.'" type="text" value="'.$data[self::F_LAYER_ID].'" maxlength="50"/></td></tr>
 <tr><td class="twiz-form-td-left"></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Start delay', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.self::F_START_DELAY.'" name="twiz_'.self::F_START_DELAY.'" type="text" value="'.$data[self::F_START_DELAY].'" maxlength="100"/><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
-<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-configs">'.__('More configurations', 'the-welcomizer').' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small-d twiz-input-focus" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="100"/><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
+<tr><td class="twiz-form-td-left"><a name="twiz_starting_config" id="twiz_starting_config" class="twiz-more-configs">'.$lbl_more_config.' &#187;</a></td><td class="twiz-form-td-right"><div class="twiz-float-left">'.__('Duration', 'the-welcomizer').':</div> <div class="twiz-green twiz-float-right">2x <input class="twiz-input-small-d twiz-input-focus" id="twiz_'.self::F_DURATION.'" name="twiz_'.self::F_DURATION.'" type="text" value="'.$data[self::F_DURATION].'" maxlength="100"/><small>1000 = 1 '.__('sec', 'the-welcomizer').'</small></div></td></tr>
 <tr id="twiz_tr_starting_config">
     <td valign="top"><hr>
         <table> 
@@ -2428,7 +1789,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         <option value="r" '.$twiz_ouput_pos['ready'].'>'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b" '.$twiz_ouput_pos['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
         <option value="a" '.$twiz_ouput_pos['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
-        </select></td></tr>        
+        </select></td></tr> 
+<tr id="twiz_tr_add_'.self::F_START_ELEMENT.'"'.$show_add_start_element.'><td colspan="2" nowrap="nowrap"><a name="twiz_add_'.self::F_START_ELEMENT.'" id="twiz_add_'.self::F_START_ELEMENT.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>    
+<tr id="twiz_tr_'.self::F_START_ELEMENT.'"'.$hide_start_element.'><td colspan="2" nowrap="nowrap">'.$element_type_list_start.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_START_ELEMENT.'" name="twiz_'.self::F_START_ELEMENT.'" type="text" value="'.$data[self::F_START_ELEMENT].'" maxlength="50"/></td></tr>
             <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
                 <option value="" '.$twiz_start_top_pos_sign['nothing'].'>+</option>
@@ -2468,6 +1831,8 @@ $("textarea[name^=twiz_options]").blur(function (){
 <tr><td valign="top">
         <table>
             <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b> '.$easing_a.'</td></tr>
+<tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_A.'"'.$show_add_move_element_a.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_A.'" id="twiz_add_'.self::F_MOVE_ELEMENT_A.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>              
+<tr id="twiz_tr_'.self::F_MOVE_ELEMENT_A.'"'.$hide_move_element_a.'><td class="twiz-td-move-e" colspan="3" nowrap="nowrap">'.$element_type_list_move_a.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_A.'" name="twiz_'.self::F_MOVE_ELEMENT_A.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_A].'" maxlength="50"/></td></tr>            
             <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'">
             <option value="" '.$twiz_move_top_pos_sign_a[' '].'> </option>
@@ -2479,7 +1844,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             <option value="" '.$twiz_move_left_pos_sign_a[' '].'> </option>
             <option value="+" '.$twiz_move_left_pos_sign_a['+'].'>+</option>
             <option value="-" '.$twiz_move_left_pos_sign_a['-'].'>-</option>
-            </select><input class="twiz-input twiz-input-small twiz-input-focus" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"/> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_A, $data[self::F_MOVE_LEFT_POS_FORMAT_A]).'</td></tr><tr><td></td><td><a name="twiz_more_options_a" id="twiz_more_options_a"  class="twiz-more-configs">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr></table>
+            </select><input class="twiz-input twiz-input-small twiz-input-focus" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"/> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_A, $data[self::F_MOVE_LEFT_POS_FORMAT_A]).'</td></tr><tr><td></td><td colspan="2"><a name="twiz_more_options" id="twiz_more_options_a"  class="twiz-more-configs">'.$lbl_more_options.' &#187;</a></td></tr></table>
             <table class="twiz-table-more-options">
                 <tr><td><hr></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large twiz-input-large-zzz twiz-input-focus" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></div></td></tr>
                 <tr><td id="twiz_td_full_option_a" class="twiz-td-picklist twiz-float-left"><a id="twiz_choose_options_a" name="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>      
@@ -2490,6 +1855,8 @@ $("textarea[name^=twiz_options]").blur(function (){
 <td valign="top">    
     <table>
         <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b> '.$easing_b.'</td></tr>
+        <tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_B.'"'.$show_add_move_element_b.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_B.'" id="twiz_add_'.self::F_MOVE_ELEMENT_B.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>   
+        <tr id="twiz_tr_'.self::F_MOVE_ELEMENT_B.'"'.$hide_move_element_b.'><td class="twiz-td-move-e"  colspan="3" nowrap="nowrap">'.$element_type_list_move_b.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_B.'" name="twiz_'.self::F_MOVE_ELEMENT_B.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_B].'" maxlength="50"/></td></tr>          
         <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'">
         <option value="" '.$twiz_move_top_pos_sign_b[' '].'> </option>
@@ -2501,7 +1868,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         <option value="" '.$twiz_move_left_pos_sign_b[' '].'> </option>
         <option value="-" '.$twiz_move_left_pos_sign_b['-'].'>-</option>
         <option value="+" '.$twiz_move_left_pos_sign_b['+'].'>+</option>
-        </select><input class="twiz-input twiz-input-small twiz-input-focus" id="twiz_'.self::F_MOVE_LEFT_POS_B.'" name="twiz_'.self::F_MOVE_LEFT_POS_B.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"/> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_B, $data[self::F_MOVE_LEFT_POS_FORMAT_B]).'</td></tr><tr><td></td><td><a name="twiz_more_options_b" id="twiz_more_options_b" class="twiz-more-configs">'.__('More Options', 'the-welcomizer').' &#187;</a></td></tr>
+        </select><input class="twiz-input twiz-input-small twiz-input-focus" id="twiz_'.self::F_MOVE_LEFT_POS_B.'" name="twiz_'.self::F_MOVE_LEFT_POS_B.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_B].'" maxlength="5"/> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_B, $data[self::F_MOVE_LEFT_POS_FORMAT_B]).'</td></tr><tr><td></td><td colspan="2"><a name="twiz_more_options" id="twiz_more_options_b" class="twiz-more-configs">'.$lbl_more_options.' &#187;</a></td></tr>
         </table>
         <table class="twiz-table-more-options">
             <tr><td><hr></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input twiz-input-large twiz-input-large-zz twiz-input-focus" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></div></td></tr>
@@ -2543,6 +1910,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         $imagemove_b = $this->getDirectionalImage($data, 'b');
         $elementype = ($data[self::F_TYPE] == '') ? self::ELEMENT_TYPE_ID : $data[self::F_TYPE];
         
+        $element_start = ($data[self::F_START_ELEMENT] != '') ? '<span class="'.$titleclass.'">'.$data[self::F_START_ELEMENT_TYPE].'</span> = '.$data[self::F_START_ELEMENT]: '';
+        $element_move_a = ($data[self::F_MOVE_ELEMENT_A] != '') ? '<span class="'.$titleclass.'">'.$data[self::F_MOVE_ELEMENT_TYPE_A].'</span> = '.$data[self::F_MOVE_ELEMENT_A]: '';
+        $element_move_b = ($data[self::F_MOVE_ELEMENT_B] != '') ?'<span class="'.$titleclass.'">'.$data[self::F_MOVE_ELEMENT_TYPE_B].'</span> = '.$data[self::F_MOVE_ELEMENT_B]: '';
         
         $output_starting_pos = $this->getOutputLabel($data[self::F_OUTPUT_POS]);
         $output_javascript = $this->getOutputLabel($data[self::F_OUTPUT]);
@@ -2578,8 +1948,14 @@ $("textarea[name^=twiz_options]").blur(function (){
         <tr '.$hideclass.'><td valign="top">
         <table>
          <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Starting Positions', 'the-welcomizer').'</b>
-         <div class="twiz-green">'.$output_starting_pos.'</div><div class="twiz-spacer"></div></td></tr>
-            <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
+         <div class="twiz-green">'.$output_starting_pos.'</div><div class="twiz-spacer"></div></td></tr>';
+         
+        if($element_start != ''){
+        
+            $htmlview .= '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_start.'</td></tr>';
+        }
+        
+        $htmlview .= '<tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>'.$start_top_pos.'</td></tr>
             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Left', 'the-welcomizer').':</td><td>'.$start_left_pos.'</td></tr>
             <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>
              <tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('z-index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>
@@ -2601,8 +1977,13 @@ $("textarea[name^=twiz_options]").blur(function (){
             <tr><td valign="top">
                     <table>
                         <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b>
-                        <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>
-                        <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
+                        <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>';
+            if($element_move_a != ''){
+            
+                $htmlview .= '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_move_a.'</td></tr>';
+            }   
+            
+            $htmlview .= '<tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
                         <tr><td class="twiz-view-td-small-left"  nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_a .'</td></tr></table>
                         <table class="twiz-view-table-more-options">
                             <tr><td><hr></td></tr>
@@ -2614,8 +1995,14 @@ $("textarea[name^=twiz_options]").blur(function (){
             <td valign="top">    
                 <table>
                     <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Second Move', 'the-welcomizer').'</b>
-                    <div class="twiz-green">'.$easing_b.'</div><div class="twiz-spacer"></div></td></tr>
-                    <tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_b.'</td><td rowspan="2" align="center" width="95">'.$imagemove_b.'</td></tr>
+                    <div class="twiz-green">'.$easing_b.'</div><div class="twiz-spacer"></div></td></tr>';
+                    
+            if($element_move_b != ''){
+            
+                $htmlview .= '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_move_b.'</td></tr>';
+            }   
+            
+            $htmlview .= '<tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_b.'</td><td rowspan="2" align="center" width="95">'.$imagemove_b.'</td></tr>
                     <tr><td class="twiz-view-td-small-left" nowrap="nowrap" valign="top">'.__('Left', 'the-welcomizer').':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_b .'</td></tr>
                     </table>
                     <table class="twiz-view-table-more-options">
@@ -2910,9 +2297,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $html;
     }
     
-    private function getHtmlElementTypeList( $type = self::ELEMENT_TYPE_ID ){
+    private function getHtmlElementTypeList( $type = self::ELEMENT_TYPE_ID , $field = self::F_TYPE ){
         
-        $select = '<select name="twiz_'.self::F_TYPE.'" id="twiz_'.self::F_TYPE.'">';
+        $select = '<select name="twiz_'.$field.'" id="twiz_'.$field.'">';
          
         foreach ($this->array_element_type as $value){
 
@@ -2971,7 +2358,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         if( $suffix != '' ){
         
-                $select .= '<option value=""></option>';
+            $select .= '<option value=""></option>';
         }
          
         foreach ( $this->array_format as $value ){
@@ -2990,21 +2377,27 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         $select = '<select class="twiz-slc-js-features" name="twiz_slc_code_'.$name.'" id="twiz_slc_code_'.$name.'">';
         
-        $select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option><optgroup label="Twiz">';
-        $select .= '[SNIPPETS_REPEAT_CONDITION]';
-        $select .= '<option value="$(document).twizRepeat();">$(document).twizRepeat();</option>';
-        $select .= '<option value="$(document).twizRepeat(10);">$(document).twizRepeat(10);</option>';
-        $select .= '<option value="$(document).twizReplay();">$(document).twizReplay();</option>';
-        $select .= '</optgroup>';
+        $select .= '<option value="">'.__('Choose', 'the-welcomizer').'</option>';
+
+        
+        $select .= '<optgroup label="Twiz">[SNIPPETS_REPEAT_CONDITION]';
+            
+        foreach ( $this->array_twiz_snippets as $value ){
+                    
+            $select .= '<option value="'.$value.'">'.$value.'</option>';
+        }
+              
+        $select .= '</optgroup>';   
+        
         if( $this->admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
         
             $select .= '<optgroup label="rotate3Di">';
                      
-             $select .= '<option value="'.self::CS_ROTATE3DI.'">'.self::CS_ROTATE3DI.'</option>';
-           
-            
+            $select .= '<option value="'.self::CS_ROTATE3DI.'">'.self::CS_ROTATE3DI.'</option>';
+
             $select .= '</optgroup>';   
         }   
+        
         if( $this->admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
         
             $select .= '<optgroup label="jquery-animate-css-rotate-scale">';
@@ -3016,6 +2409,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             
             $select .= '</optgroup>';
         }
+        
         if( $this->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
         
             $select .= '<optgroup label="transform">';
@@ -3027,6 +2421,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             
             $select .= '</optgroup>';            
         }        
+        
         if( $this->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
         
             $select .= '<optgroup label="jQuery Transit">';
@@ -3039,10 +2434,15 @@ $("textarea[name^=twiz_options]").blur(function (){
             $select .= '</optgroup>';   
         }     
         
-        $select .= '<optgroup label="jQuery"><option value="$(\'#sampleid\').css({\'display\':\'block\'});">$(\'#sampleid\').css({\'display\':\'block\'});</option>';
-        $select .= '<option value="$(\'#sampleid\').attr({\'value\':\'Hello\'});">$(\'#sampleid\').attr({\'value\':\'Hello\'});</option>';
-        $select .= '<option value="$(\'#sampleid\').hover(function(){},function(){});">$(\'#sampleid\').hover(function(){},function(){});</option>';
-        $select .= '<option value="$(\'#sampleid\').animate({\'opacity\':0}, 1000, function(){});">$(\'#sampleid\').animate({\'opacity\':0}, 1000, \'linear\', function(){});</option>';
+        $select .= '<optgroup label="jQuery">';
+            
+        foreach ( $this->array_jQuery_snippets as $value ){
+                    
+            $select .= '<option value="'.$value.'">'.$value.'</option>';
+        }
+              
+        $select .= '</optgroup>';   
+        
         $select .= '</select>';   
         
         return $select;
@@ -3281,7 +2681,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $value;
     }
     
-    private function ExportidExists( $exportid = '' ){ 
+    protected function ExportidExists( $exportid = '' ){ 
     
         global $wpdb;
         
@@ -3387,6 +2787,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         $_POST['twiz_'.self::F_START_DELAY] = (!isset($_POST['twiz_'.self::F_START_DELAY])) ? '' : $_POST['twiz_'.self::F_START_DELAY];
         $_POST['twiz_'.self::F_DURATION] = (!isset($_POST['twiz_'.self::F_DURATION])) ? '' :  $_POST['twiz_'.self::F_DURATION];
         $_POST['twiz_'.self::F_OUTPUT_POS] = (!isset($_POST['twiz_'.self::F_OUTPUT_POS])) ? '' : $_POST['twiz_'.self::F_OUTPUT_POS];
+        $_POST['twiz_'.self::F_START_ELEMENT_TYPE] = (!isset($_POST['twiz_'.self::F_START_ELEMENT_TYPE])) ? '' : $_POST['twiz_'.self::F_START_ELEMENT_TYPE];
+        $_POST['twiz_'.self::F_START_ELEMENT] = (!isset($_POST['twiz_'.self::F_START_ELEMENT])) ? '' : $_POST['twiz_'.self::F_START_ELEMENT];                        
         $_POST['twiz_'.self::F_START_TOP_POS_SIGN] = (!isset($_POST['twiz_'.self::F_START_TOP_POS_SIGN])) ? '' : $_POST['twiz_'.self::F_START_TOP_POS_SIGN];
         $_POST['twiz_'.self::F_START_TOP_POS] = (!isset($_POST['twiz_'.self::F_START_TOP_POS])) ? '' : $_POST['twiz_'.self::F_START_TOP_POS];
         $_POST['twiz_'.self::F_START_TOP_POS_FORMAT] = (!isset($_POST['twiz_'.self::F_START_TOP_POS_FORMAT])) ? '' : $_POST['twiz_'.self::F_START_TOP_POS_FORMAT];
@@ -3398,6 +2800,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         $_POST['twiz_'.self::F_OUTPUT] = (!isset($_POST['twiz_'.self::F_OUTPUT])) ? '' : $_POST['twiz_'.self::F_OUTPUT];
         $_POST['twiz_'.self::F_JAVASCRIPT] = (!isset($_POST['twiz_'.self::F_JAVASCRIPT])) ? '' : $_POST['twiz_'.self::F_JAVASCRIPT];
         $_POST['twiz_'.self::F_EASING_A] = (!isset($_POST['twiz_'.self::F_EASING_A])) ? '' : $_POST['twiz_'.self::F_EASING_A];
+        $_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_A] = (!isset($_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_A])) ? '' : $_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_A];
+        $_POST['twiz_'.self::F_MOVE_ELEMENT_A] = (!isset($_POST['twiz_'.self::F_MOVE_ELEMENT_A])) ? '' : $_POST['twiz_'.self::F_MOVE_ELEMENT_A];          
         $_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A];
         $_POST['twiz_'.self::F_MOVE_TOP_POS_A] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_A])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_A];
         $_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_A] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_A])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_A];
@@ -3407,6 +2811,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         $_POST['twiz_'.self::F_OPTIONS_A] = (!isset($_POST['twiz_'.self::F_OPTIONS_A])) ? '' : $_POST['twiz_'.self::F_OPTIONS_A];
         $_POST['twiz_'.self::F_EXTRA_JS_A] = (!isset($_POST['twiz_'.self::F_EXTRA_JS_A])) ? '' : $_POST['twiz_'.self::F_EXTRA_JS_A];
         $_POST['twiz_'.self::F_EASING_B] = (!isset($_POST['twiz_'.self::F_EASING_B])) ? '' : $_POST['twiz_'.self::F_EASING_B];
+        $_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_B] = (!isset($_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_B])) ? '' : $_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_B];
+        $_POST['twiz_'.self::F_MOVE_ELEMENT_B] = (!isset($_POST['twiz_'.self::F_MOVE_ELEMENT_B])) ? '' : $_POST['twiz_'.self::F_MOVE_ELEMENT_B];            
         $_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B];
         $_POST['twiz_'.self::F_MOVE_TOP_POS_B] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_B])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_B];
         $_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_B] = (!isset($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_B])) ? '' : $_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_B];
@@ -3428,10 +2834,18 @@ $("textarea[name^=twiz_options]").blur(function (){
         $twiz_parent_id = esc_attr(trim($_POST['twiz_'.self::F_PARENT_ID]));
         $twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
          
+        $twiz_type = esc_attr(trim($_POST['twiz_'.self::F_TYPE]));
+        
         $twiz_layer_id = esc_attr(trim($_POST['twiz_'.self::F_LAYER_ID]));
         $twiz_layer_id = ($twiz_layer_id=='') ? '' : $twiz_layer_id;
         
-        $twiz_type = esc_attr(trim($_POST['twiz_'.self::F_TYPE]));
+        $twiz_start_element_type = esc_attr(trim($_POST['twiz_'.self::F_START_ELEMENT_TYPE]));
+        $twiz_start_element = esc_attr(trim($_POST['twiz_'.self::F_START_ELEMENT]));        
+        $twiz_move_element_type_a = esc_attr(trim($_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_A]));
+        $twiz_move_element_a = esc_attr(trim($_POST['twiz_'.self::F_MOVE_ELEMENT_A]));        
+        $twiz_move_element_type_b = esc_attr(trim($_POST['twiz_'.self::F_MOVE_ELEMENT_TYPE_B]));
+        $twiz_move_element_b = esc_attr(trim($_POST['twiz_'.self::F_MOVE_ELEMENT_B]));
+        
         $twiz_move_top_pos_a  = esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_A]));
         $twiz_move_top_pos_b  = esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_B]));
@@ -3482,6 +2896,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                   ,".self::F_OUTPUT."
                   ,".self::F_OUTPUT_POS."
                   ,".self::F_JAVASCRIPT."
+                  ,".self::F_START_ELEMENT_TYPE."
+                  ,".self::F_START_ELEMENT."
                   ,".self::F_START_TOP_POS_SIGN."
                   ,".self::F_START_TOP_POS."
                   ,".self::F_START_TOP_POS_FORMAT."
@@ -3492,12 +2908,16 @@ $("textarea[name^=twiz_options]").blur(function (){
                   ,".self::F_ZINDEX."    
                   ,".self::F_EASING_A." 
                   ,".self::F_EASING_B." 
+                  ,".self::F_MOVE_ELEMENT_TYPE_A."
+                  ,".self::F_MOVE_ELEMENT_A."                   
                   ,".self::F_MOVE_TOP_POS_SIGN_A."
                   ,".self::F_MOVE_TOP_POS_A."
                   ,".self::F_MOVE_TOP_POS_FORMAT_A."
                   ,".self::F_MOVE_LEFT_POS_SIGN_A."
                   ,".self::F_MOVE_LEFT_POS_A."
                   ,".self::F_MOVE_LEFT_POS_FORMAT_A."
+                  ,".self::F_MOVE_ELEMENT_TYPE_B."
+                  ,".self::F_MOVE_ELEMENT_B."                  
                   ,".self::F_MOVE_TOP_POS_SIGN_B."
                   ,".self::F_MOVE_TOP_POS_B."
                   ,".self::F_MOVE_TOP_POS_FORMAT_B."
@@ -3522,6 +2942,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                   ,'".$twiz_javascript."'
+                  ,'".$twiz_start_element_type."'
+                  ,'".$twiz_start_element."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'    
                   ,".$twiz_start_top_pos."
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_FORMAT]))."'    
@@ -3531,13 +2953,17 @@ $("textarea[name^=twiz_options]").blur(function (){
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_POSITION]))."'                     
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_ZINDEX]))."'
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_EASING_A]))."'
-                  ,'".esc_attr(trim($_POST['twiz_'.self::F_EASING_B]))."'                  
+                  ,'".esc_attr(trim($_POST['twiz_'.self::F_EASING_B]))."'
+                  ,'".$twiz_move_element_type_a."'
+                  ,'".$twiz_move_element_a."'                  
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A]))."'    
                   ,".$twiz_move_top_pos_a."
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_A]))."'  
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_A]))."'    
                   ,".$twiz_move_left_pos_a."
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_FORMAT_A]))."' 
+                  ,'".$twiz_move_element_type_b."'
+                  ,'".$twiz_move_element_b."'                    
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B]))."'                     
                   ,".$twiz_move_top_pos_b."
                   ,'".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_B]))."'
@@ -3576,6 +3002,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                  ,".self::F_OUTPUT." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT]))."'
                  ,".self::F_OUTPUT_POS." = '".esc_attr(trim($_POST['twiz_'.self::F_OUTPUT_POS]))."'
                  ,".self::F_JAVASCRIPT." = '".$twiz_javascript."' 
+                 ,".self::F_START_ELEMENT_TYPE." = '".$twiz_start_element_type."' 
+                 ,".self::F_START_ELEMENT." = '".$twiz_start_element."'                
                  ,".self::F_START_TOP_POS_SIGN." = '".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_SIGN]))."'
                  ,".self::F_START_TOP_POS." = ".$twiz_start_top_pos."
                  ,".self::F_START_TOP_POS_FORMAT." = '".esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS_FORMAT]))."'
@@ -3585,13 +3013,17 @@ $("textarea[name^=twiz_options]").blur(function (){
                  ,".self::F_POSITION."  = '".esc_attr(trim($_POST['twiz_'.self::F_POSITION]))."'                 
                  ,".self::F_ZINDEX."  = '".esc_attr(trim($_POST['twiz_'.self::F_ZINDEX]))."' 
                  ,".self::F_EASING_A."  = '".esc_attr(trim($_POST['twiz_'.self::F_EASING_A]))."' 
-                 ,".self::F_EASING_B."  = '".esc_attr(trim($_POST['twiz_'.self::F_EASING_B]))."'                  
+                 ,".self::F_EASING_B."  = '".esc_attr(trim($_POST['twiz_'.self::F_EASING_B]))."'    
+                 ,".self::F_MOVE_ELEMENT_TYPE_A." = '".$twiz_move_element_type_a."' 
+                 ,".self::F_MOVE_ELEMENT_A." = '".$twiz_move_element_a."' 
                  ,".self::F_MOVE_TOP_POS_SIGN_A." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_A]))."'
                  ,".self::F_MOVE_TOP_POS_A." = ".$twiz_move_top_pos_a."
                  ,".self::F_MOVE_TOP_POS_FORMAT_A." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_A]))."'
                  ,".self::F_MOVE_LEFT_POS_SIGN_A." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_SIGN_A]))."'
                  ,".self::F_MOVE_LEFT_POS_A." = ".$twiz_move_left_pos_a."
                  ,".self::F_MOVE_LEFT_POS_FORMAT_A." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_FORMAT_A]))."'
+                 ,".self::F_MOVE_ELEMENT_TYPE_B." = '".$twiz_move_element_type_b."' 
+                 ,".self::F_MOVE_ELEMENT_B." = '".$twiz_move_element_b."'                  
                  ,".self::F_MOVE_TOP_POS_SIGN_B." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_SIGN_B]))."'
                  ,".self::F_MOVE_TOP_POS_B." = ".$twiz_move_top_pos_b."
                  ,".self::F_MOVE_TOP_POS_FORMAT_B." = '".esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_FORMAT_B]))."'
@@ -3724,32 +3156,5 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $htmlstatus;
     }
     
-    function uninstall(){
-    
-        global $wpdb;
-
-        if ($wpdb->get_var( "SHOW TABLES LIKE '".$this->table."'" ) == $this->table) {
-        
-            $sql = "DROP TABLE ". $this->table;
-            $wpdb->query($sql);
-        }
-        
-        delete_option('twiz_db_version');
-        delete_option('twiz_global_status');
-        delete_option('twiz_cookie_js_status');
-        delete_option('twiz_sections');
-        delete_option('twiz_multi_sections');
-        delete_option('twiz_hardsections');
-        delete_option('twiz_library');
-        delete_option('twiz_library_dir');
-        delete_option('twiz_admin');
-        delete_option('twiz_setting_menu'); // v1.5+ converted per user
-        delete_option('twiz_skin');         // v1.5+ converted per user
-        delete_option('twiz_order_by');     // v1.5+ converted per user
-        delete_option('twiz_bullet');       // v1.5+ converted per user
-        delete_option('twiz_toggle');       // v1.5+ converted per user
-        
-        return true;
-    }
 }
 ?>
