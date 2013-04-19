@@ -816,7 +816,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.7';
+        $this->version    = '1.7.1';
         $this->cssVersion = '1-33';
         $this->dbVersion  = '2.9';
         $this->pluginUrl  = $pluginUrl;
@@ -1697,11 +1697,11 @@ $("textarea[name^=twiz_options]").blur(function (){
         $twiz_stay = ( $twiz_stay == 'true' ) ? ' checked="checked"' : '';
  
         /* selected */
-        $twiz_position[self::POS_NO_POS] = (( $data[self::F_POSITION] == self::POS_NO_POS ) or ($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_NO_POS  )) ? ' selected="selected"' : '';
-        $twiz_position[self::POS_ABSOLUTE] = (( $data[self::F_POSITION] == self::POS_ABSOLUTE ) or ($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_ABSOLUTE  )) ? ' selected="selected"' : '';
-        $twiz_position[self::POS_RELATIVE] = (( $data[self::F_POSITION] == self::POS_RELATIVE) or ($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_RELATIVE )) ? ' selected="selected"' : '';
-        $twiz_position[self::POS_FIXED]   = (( $data[self::F_POSITION] == self::POS_FIXED) or ($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_FIXED )) ? ' selected="selected"' : '';
-        $twiz_position[self::POS_STATIC]   = (( $data[self::F_POSITION] == self::POS_STATIC) or ($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_STATIC )) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_NO_POS] = (( $data[self::F_POSITION] == self::POS_NO_POS ) or (($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_NO_POS  )and ( $id == '' ))) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_ABSOLUTE] = (( $data[self::F_POSITION] == self::POS_ABSOLUTE ) or (($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_ABSOLUTE  ) and ( $id == '' ))) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_RELATIVE] = (( $data[self::F_POSITION] == self::POS_RELATIVE) or (($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_RELATIVE )and ( $id == '' ))) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_FIXED]   = (( $data[self::F_POSITION] == self::POS_FIXED) or (($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_FIXED )and ( $id == '' ))) ? ' selected="selected"' : '';
+        $twiz_position[self::POS_STATIC]   = (( $data[self::F_POSITION] == self::POS_STATIC) or (($this->admin_option[self::KEY_STARTING_POSITION] == self::POS_STATIC )and ( $id == '' ))) ? ' selected="selected"' : '';
         
         $twiz_lock_type['auto'] = ($data[self::F_LOCK_EVENT_TYPE] == 'auto') ? ' selected="selected"' : '';
         $twiz_lock_type['manu'] = ($data[self::F_LOCK_EVENT_TYPE] == 'manu') ? ' selected="selected"' : '';
