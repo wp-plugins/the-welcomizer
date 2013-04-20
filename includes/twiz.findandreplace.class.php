@@ -78,6 +78,7 @@ $("#twiz_listmenu").css("display", "none");';
 
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] = '' ;
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] = '' ;
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'] = '' ;
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] = '' ;
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] = '' ;
                 
