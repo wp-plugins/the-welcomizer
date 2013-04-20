@@ -37,16 +37,23 @@ textarea.expand = function(textbox){
     textbox.style.width = (textbox.scrollWidth + 8) + "px";
 } 
 function twizsizeOrig(textbox){
-    $(textbox).css({"height":"50px", "width" : "160px"});
+    $(textbox).css({"z-index":10, "height":"50px", "width" : "160px"});
 }
 $("textarea[name^=twiz_javascript]").blur(function (){
    twizsizeOrig(this);
+   $(this).css({"z-index":1});
+});
+$("textarea[name^=twiz_css]").blur(function (){
+   twizsizeOrig(this);
+   $(this).css({"z-index":1});   
 });
 $("textarea[name^=twiz_options]").blur(function (){
    twizsizeOrig(this);
+   $(this).css({"z-index":1});   
 });
  $("textarea[name^=twiz_extra]").blur(function (){
    twizsizeOrig(this);
+   $(this).css({"z-index":1});   
 });';
 
         $jsscript .= '
@@ -209,6 +216,22 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         </select></td></tr>
         
 <tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_1" name="twiz_'.parent::F_JAVASCRIPT.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_2" name="twiz_'.parent::F_JAVASCRIPT.'_far_2" type="text" ></textarea></div></td></tr>';
+
+    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'] == '1' ){
+
+        $hide = '';
+        $toggleimg = 'minus';
+        $boldclass = ' twiz-bold';
+
+    }else{
+
+        $hide = ' twiz-display-none';
+        $toggleimg = 'plus';
+        $boldclass = '';
+    }
+                
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar12" name="twiz_far_img_twizfar12" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar12" name="twiz_far_e_a_twizfar12" class="twiz-toggle-far '.$boldclass.'">'.__('CSS Styles', 'the-welcomizer').'</a></td></tr>
+<tr class="twiz-row-color-2 twizfar12'.$hide.'"><td class="twiz-form-td-left">'.__('CSS Styles', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzzz twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_1" name="twiz_'.parent::F_CSS.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_2" name="twiz_'.parent::F_CSS.'_far_2" type="text" ></textarea></div></td></tr>';
                 
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
 
@@ -253,7 +276,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 
 <tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('JavaScript', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_1" name="twiz_'.parent::F_EXTRA_JS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzz twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_2" name="twiz_'.parent::F_EXTRA_JS_A.'_far_2" type="text" ></textarea></div></td></tr>';
 
-   if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
+   if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] == '1' ){
 
         $hide = '';
         $toggleimg = 'minus';
@@ -339,6 +362,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                     $wheresql .= $or .parent::F_ZINDEX." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_OUTPUT." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_JAVASCRIPT." LIKE '%".$everywhere_1."%'";
+                    $wheresql .= $or .parent::F_CSS." LIKE '%".$everywhere_1."%'";
                     $wheresql .= $or .parent::F_EASING_A." LIKE '%".$everywhere_1."%'";
                     $wheresql .= $or .parent::F_MOVE_ELEMENT_A." LIKE '%".$everywhere_1."%'";
         //          $wheresql .= $or .parent::F_MOVE_TOP_POS_SIGN_A." = '".$everywhere_1."'";
@@ -382,6 +406,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_zindex = esc_attr(trim($_POST['twiz_'.parent::F_ZINDEX.'_far_1']));
                 $twiz_output = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT.'_far_1']));
                 $twiz_javascript = esc_attr(trim($_POST['twiz_'.parent::F_JAVASCRIPT.'_far_1']));
+                $twiz_css = esc_attr(trim($_POST['twiz_'.parent::F_CSS.'_far_1']));
                 $twiz_easing_a= esc_attr(trim($_POST['twiz_'.parent::F_EASING_A.'_far_1']));
                 $twiz_move_element_a = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1']));
                 $twiz_move_top_pos_sign_a = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1']));
@@ -502,6 +527,12 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 }                          
                 if( $twiz_javascript != '' ){
                     $wheresql.=  $where.$or.$open.parent::F_JAVASCRIPT." LIKE '%".$twiz_javascript."%'";
+                    $or = ' or ';
+                    $open = '';                    
+                    $where = '';
+                }                 
+                if( $twiz_css != '' ){
+                    $wheresql.=  $where.$or.$open.parent::F_CSS." LIKE '%".$twiz_css."%'";
                     $or = ' or ';
                     $open = '';                    
                     $where = '';
@@ -693,6 +724,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                    $updatesql .= " ,". parent::F_ZINDEX . " = replace(". parent::F_ZINDEX . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_OUTPUT . " = replace(". parent::F_OUTPUT . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_JAVASCRIPT . " = replace(". parent::F_JAVASCRIPT . ", '".$everywhere_1."', '".$everywhere_2."')"; 
+                   $updatesql .= " ,". parent::F_CSS . " = replace(". parent::F_CSS . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_EASING_A . " = replace(". parent::F_EASING_A . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_MOVE_ELEMENT_A . " = replace(". parent::F_MOVE_ELEMENT_A . ", '".$everywhere_1."', '".$everywhere_2."')";                      
                 //   $updatesql .= " ,". parent::F_MOVE_TOP_POS_SIGN_A . " = replace(". parent::F_MOVE_TOP_POS_SIGN_A . ", '".$everywhere_1."', '".$everywhere_2."')"; 
@@ -745,6 +777,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_zindex_1 = esc_attr(trim($_POST['twiz_'.parent::F_ZINDEX.'_far_1']));
                 $twiz_output_1 = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT.'_far_1']));
                 $twiz_javascript_1 = esc_attr(trim($_POST['twiz_'.parent::F_JAVASCRIPT.'_far_1']));
+                $twiz_css_1 = esc_attr(trim($_POST['twiz_'.parent::F_CSS.'_far_1']));
                 $twiz_easing_a_1= esc_attr(trim($_POST['twiz_'.parent::F_EASING_A.'_far_1']));
                 $twiz_move_element_a_1 = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_ELEMENT_A.'_far_1']));
                 $twiz_move_top_pos_sign_a_1 = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_1']));
@@ -785,6 +818,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_zindex_2 = esc_attr(trim($_POST['twiz_'.parent::F_ZINDEX.'_far_2']));
                 $twiz_output_2 = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT.'_far_2']));
                 $twiz_javascript_2 = esc_attr(trim($_POST['twiz_'.parent::F_JAVASCRIPT.'_far_2']));
+                $twiz_css_2 = esc_attr(trim($_POST['twiz_'.parent::F_CSS.'_far_2']));
                 $twiz_easing_a_2= esc_attr(trim($_POST['twiz_'.parent::F_EASING_A.'_far_2']));
                 $twiz_move_element_a_2 = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_ELEMENT_A.'_far_2']));
                 $twiz_move_top_pos_sign_a_2 = esc_attr(trim($_POST['twiz_'.parent::F_MOVE_TOP_POS_SIGN_A.'_far_2']));
@@ -825,6 +859,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $updatesql .= " ,". parent::F_ZINDEX . " = replace(". parent::F_ZINDEX . ", '".$twiz_zindex_1."', '".$twiz_zindex_2."')"; 
                 $updatesql .= " ,". parent::F_OUTPUT . " = replace(". parent::F_OUTPUT . ", '".$twiz_output_1."', '".$twiz_output_2."')"; 
                 $updatesql .= " ,". parent::F_JAVASCRIPT . " = replace(". parent::F_JAVASCRIPT . ", '".$twiz_javascript_1."', '".$twiz_javascript_2."')"; 
+                $updatesql .= " ,". parent::F_CSS . " = replace(". parent::F_CSS . ", '".$twiz_css_1."', '".$twiz_css_2."')"; 
                 $updatesql .= " ,". parent::F_EASING_A . " = replace(". parent::F_EASING_A . ", '".$twiz_easing_a_1."', '".$twiz_easing_a_2."')"; 
                 $updatesql .= " ,". parent::F_MOVE_ELEMENT_A . " = replace(". parent::F_MOVE_ELEMENT_A . ", '".$twiz_move_element_a_1."', '".$twiz_move_element_a_2."')"; 
                 $updatesql .= " ,". parent::F_MOVE_TOP_POS_SIGN_A . " = replace(". parent::F_MOVE_TOP_POS_SIGN_A . ", '".$twiz_move_top_pos_sign_a_1."', '".$twiz_move_top_pos_sign_a_2."')"; 

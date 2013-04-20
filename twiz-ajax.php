@@ -323,6 +323,7 @@
             
         case Twiz::ACTION_CANCEL:
         
+            if(!isset($_POST['twiz_parent_id'])) $_POST['twiz_parent_id'] = '';
             $twiz_parent_id = esc_attr(trim($_POST['twiz_parent_id']));
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             

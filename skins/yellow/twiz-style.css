@@ -458,8 +458,7 @@ div a:hover, td a:hover {
 .twiz-table-list img:hover,
 .twiz-table-form img:hover,
 .twiz-arrow-lib-n:hover,
-.twiz-arrow-lib-s:hover,
-.twiz-table-list-td-h a:hover {
+.twiz-arrow-lib-s:hover {
     cursor: pointer;
 }
 .twiz-table-list-td-h {
@@ -576,6 +575,39 @@ div a:hover, td a:hover {
 .twiz-arrow-nw {
     background: url(../../skins/yellow/images/twiz-arrow-nw.png) center no-repeat;  
 }
+.twiz-table-js-css {
+    width: 238px;
+}
+#twiz_tab_line{
+    width: 231px;
+    height: 0px;
+    border-bottom:3px solid #9B9717;
+    margin: 24px 0px 7px 0px;
+    position: absolute;    
+}
+.twiz-tab:hover{
+    cursor: pointer;
+}
+.twiz-tab {
+    display: block;
+    float: left;
+    border: 1px solid #9B9717;
+    padding: 4px 8px 4px 8px;
+    margin: 0px 5px 8px 0px;
+    background-color: #E2DC40;
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -khtml-border-radius-topleft: 6px;
+    -khtml-border-radius-topright: 6px;   
+}
+.twiz-tab-selected {
+    color: #ffffff;
+    background-color: #9B9717;
+    font-weight: bold;
+}
 .twiz-table-form, 
 .twiz-table-view {
     background-color: #ffffff;  
@@ -631,9 +663,6 @@ div a:hover, td a:hover {
     text-align: left;
     padding: 2px 0 2px 0;
 }
-.twiz-td-picklist a:hover {
-    cursor: pointer;
-}
 .twiz-td-small-left {
     min-width: 25px;
     font-size: 12px;
@@ -656,9 +685,6 @@ div a:hover, td a:hover {
     height: 25px;
     font-size: 12px;
     text-align: right;
-}
-.twiz-td-save a:hover {
-    cursor: pointer;
 }
 .twiz-input-far {
     width: 160px;
@@ -685,6 +711,11 @@ div a:hover, td a:hover {
     position: relative;
     margin-bottom: 13px;
 }
+.twiz-wrap-input-large-css{
+    height: 93px;
+    position: relative;
+    margin-bottom: 13px;
+}
 .twiz-wrap-input-large-far {
     width: 162px;
 }
@@ -692,35 +723,16 @@ div a:hover, td a:hover {
     height: 50px;
     position: absolute;
 }
-.twiz-input-large-z {
-    z-index: 1;
-}
-.twiz-input-large-zz {
-    z-index: 2;
-}
-.twiz-input-large-zzz {
-    z-index: 3;
-}
-.twiz-input-large-zzzz {
-    z-index: 4;
-}
-.twiz-input-large-zzzzz {
-    z-index: 5;
-}
-.twiz-input-large-zzzzzz {
-    z-index: 6;
-}
-.twiz-input-large-zzzzzzz{
-    z-index: 7;
-}
-.twiz-input-large-zzzzzzzz {
-    z-index: 8;
+.twiz-input-large-css {
+    height: 93px;
+    position: absolute;
 }
 .twiz-input-focus:focus {
     background-color: lightyellow !important;
     border: #E6DB55 1px solid !important;
 }
-.twiz-slc-options ,
+.twiz-slc-options,
+.twiz-slc-js-features-css,
 .twiz-slc-js-features {
     width: 230px;
 }
@@ -732,17 +744,12 @@ div a:hover, td a:hover {
 #twiz_tr_starting_config {
     display: none;
 }
-a.twiz-more-configs:hover,
-a.twiz-anim-link:hover,
-.twiz-js-features a:hover {
-    cursor: pointer;
-}
 .twiz-more-configs {
     font-size: 12px;
     padding-top: 5px;
 }
 .twiz-js-features  {
-    width: 239px;
+    width: 230px;
 }
 .twiz-js-features a{
     line-height: 15px;
@@ -771,9 +778,6 @@ a.twiz-anim-link:hover,
 }            
 .twiz-bold {
     font-weight: bold !important;
-}
-.twiz-tr-view-more {
-    display: none;
 }
 .twiz-view-table-more-options {
     width: 200px;

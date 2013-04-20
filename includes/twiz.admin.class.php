@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
         
         // default jquery registration
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr></td></tr>';
         
@@ -130,7 +130,7 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
         
-        $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').': ';
+        $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').' - <span class="twiz-green">'.__('(No Longer Maintained)', 'the-welcomizer').'</span>: ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
@@ -296,7 +296,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2"><hr></td></tr>';
 
         
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  

@@ -334,11 +334,37 @@ class TwizOutput extends Twiz{
             $this->generatedScript .= $this->getJavaScriptOnReady();
             $this->generatedScript .= $this->generatedScriptonready;
             $this->generatedScript .= $this->linebreak.'}); </script>';
+            $this->generatedScript .= $this->getStyleCSS();
             
         }
 
         return $this->generatedScript;
     }
+    
+    private function getStyleCSS(){
+    
+        $generatedScript = $this->linebreak.'<style type="text/css">';
+        
+        // generates the code
+        foreach( $this->listarray as $value ){   
+
+            $hasRestrictedCode = $this->SearchforRestrictedCode($value);
+            $hasValidParendId = $this->ValidateParentId($value[parent::F_PARENT_ID]);
+
+            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+            or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+            // Nothing to do
+            }else if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
+             
+                $generatedScript .= $this->linebreak.$value[parent::F_CSS];
+            }
+        }
+        
+        $generatedScript = $generatedScript.$this->linebreak.'</style>'.$this->linebreak;
+        
+        return $generatedScript;
+    }       
       
     private function getJavaScriptOnReady(){
     
@@ -917,6 +943,7 @@ class TwizOutput extends Twiz{
             $hasRestrictedCode = $this->SearchforRestrictedCode($value);
             $hasValidParendId = $this->ValidateParentId($value[parent::F_PARENT_ID]);
 
+            // This line must be inside the first output loop
             if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]]) ){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 

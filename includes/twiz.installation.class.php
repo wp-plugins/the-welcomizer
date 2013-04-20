@@ -45,6 +45,7 @@ class TwizInstallation extends Twiz{
                 parent::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
                 parent::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b', ".
                 parent::F_JAVASCRIPT . " text NOT NULL default '', ". 
+                parent::F_CSS . " text NOT NULL default '', ". 
                 parent::F_START_ELEMENT_TYPE . " varchar(5) NOT NULL default '".parent::ELEMENT_TYPE_ID."', ". 
                 parent::F_START_ELEMENT . " varchar(50) NOT NULL default '', ".                 
                 parent::F_START_TOP_POS_SIGN . " varchar(1) NOT NULL default '', ". 
@@ -433,6 +434,13 @@ class TwizInstallation extends Twiz{
                     
                 }
 
+                // from <= v 1.8
+                if( !in_array(parent::F_CSS, $array_describe) ){
+                
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". parent::F_CSS . " text NOT NULL default '' after ".parent::F_JAVASCRIPT."";
+                    $code = $wpdb->query($altersql);
+                }
                 
                 // option cookie js 
                 $twiz_cookie_js_status = get_option('twiz_cookie_js_status'); 

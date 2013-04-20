@@ -151,6 +151,7 @@ class TwizImportExport extends Twiz{
             if( !isset($data[parent::F_LOCK_EVENT]) ) $data[parent::F_LOCK_EVENT] = '';
             if( !isset($data[parent::F_LOCK_EVENT_TYPE]) ) $data[parent::F_LOCK_EVENT_TYPE] = '';
             if( !isset($data[parent::F_JAVASCRIPT]) ) $data[parent::F_JAVASCRIPT] = '';
+            if( !isset($data[parent::F_CSS]) ) $data[parent::F_CSS] = '';
             if( !isset($data[parent::F_ZINDEX]) ) $data[parent::F_ZINDEX] = '';
             if( !isset($data[parent::F_TYPE]) ) $data[parent::F_TYPE] = '';
             if( !isset($data[parent::F_OUTPUT]) ) $data[parent::F_OUTPUT] = '';
@@ -195,6 +196,7 @@ class TwizImportExport extends Twiz{
             $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;
           
             $twiz_javascript = str_replace("\\", "\\\\" , $data[parent::F_JAVASCRIPT]);
+            $twiz_css = str_replace("\\", "\\\\" , $data[parent::F_CSS]);
             $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[parent::F_EXTRA_JS_A]);
             $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[parent::F_EXTRA_JS_B]);
             
@@ -252,6 +254,7 @@ class TwizImportExport extends Twiz{
                  ,".parent::F_OUTPUT."
                  ,".parent::F_OUTPUT_POS."
                  ,".parent::F_JAVASCRIPT."
+                 ,".parent::F_CSS."
                  ,".parent::F_START_ELEMENT_TYPE."
                  ,".parent::F_START_ELEMENT."                 
                  ,".parent::F_START_TOP_POS_SIGN."
@@ -299,6 +302,7 @@ class TwizImportExport extends Twiz{
                  ,'".esc_attr(trim($data[parent::F_OUTPUT]))."'
                  ,'".esc_attr(trim($data[parent::F_OUTPUT_POS]))."'
                  ,'".esc_attr($twiz_javascript)."'   
+                 ,'".esc_attr($twiz_css)."'   
                  ,'".$twiz_start_element_type."'
                  ,'".$twiz_start_element."'                 
                  ,'".esc_attr(trim($data[parent::F_START_TOP_POS_SIGN]))."'    

@@ -4,7 +4,7 @@ Donate link: http://www.sebastien-laframboise.com/the-welcomizer-souvenir-shop/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 1.7.1
+Stable tag: 1.8
 License: GPLv2
 
 This Ajax powered plugin allows you to quickly animate your WordPress blog using jQuery effects.
@@ -34,6 +34,18 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 1.8 = 
+
+* Added the possibility to add CSS styles in each animation.
+* Added some CSS snippets.
+* Added new fields to the database.
+* Added Cancel links in admin section.
+* Fixed a find&replace tab bug.
+* Modified the view.
+* Modified Find & Replace.
+* Modified and optimized UI.
+* Optimized some source code.
 
 = 1.7.1 = 
 
@@ -854,6 +866,10 @@ Enjoy!
 * First release!
 
 == Upgrade Notice ==
+
+= 1.8 = 
+
+* Added the possibility to add CSS styles in each animation.
 
 = 1.7.1 = 
 
