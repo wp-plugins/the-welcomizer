@@ -343,6 +343,7 @@ class TwizOutput extends Twiz{
     
     private function getStyleCSS(){
     
+        $looped = 0;
         $generatedScript = $this->linebreak.'<style type="text/css">';
         
         // generates the code
@@ -352,16 +353,18 @@ class TwizOutput extends Twiz{
             $hasValidParendId = $this->ValidateParentId($value[parent::F_PARENT_ID]);
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
-            or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
             // Nothing to do
             }else if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
              
                 $generatedScript .= $this->linebreak.$value[parent::F_CSS];
+                $looped = 1;
             }
         }
         
         $generatedScript = $generatedScript.$this->linebreak.'</style>'.$this->linebreak;
+        
+        $generatedScript = ( $looped == 1 ) ? $generatedScript : '';
         
         return $generatedScript;
     }       
