@@ -1039,7 +1039,8 @@ class TwizOutput extends Twiz{
 
             foreach( $this->array_fields as $field ){
                     
-                if( preg_match($string, $value[$field]) ){
+                if( ( preg_match($string, $value[$field] ) )
+                and ( $field != parent::F_CSS ) ){
                 
                    return true;
                 }
