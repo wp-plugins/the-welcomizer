@@ -100,7 +100,6 @@ div a:hover, td a:hover {
     position: relative;
 }
 #twiz_right_panel {
-    min-height: 160px;
     margin: 19px 0 0 15px;   
     color: #464646;
 }
