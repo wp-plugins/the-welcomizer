@@ -824,7 +824,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.5.1';
+        $this->version    = '1.8.5.2';
         $this->cssVersion = '1-42';
         $this->dbVersion  = '3.0';
         $this->pluginUrl  = $pluginUrl;
@@ -2039,11 +2039,22 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
 </td>
 </tr>';
     
+       if ( ($element_move_b != '')
+            or ( $data[self::F_MOVE_LEFT_POS_B] != '' ) 
+            or ( $data[self::F_MOVE_TOP_POS_B] != '' )
+            or ( $data[self::F_OPTIONS_B] != '' )
+            or ( $extra_js_b != '' ) ){
+             
+             $colspan2 = '';
+       }else{
+        
+            $colspan2 = ' colspan="2"';
+       }
     
         if($hasMovements) {
 
             $htmlview .= '<tr><td colspan="2"><hr></td></tr>
-<tr><td valign="top">
+<tr><td valign="top"'.$colspan2.'>
 <table>
     <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b>
     <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>';
