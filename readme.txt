@@ -37,7 +37,7 @@ Enjoy!
 
 = 1.8.5.2 = 
 
-* Layout adjustement.
+* Layout adjustment.
 
 = 1.8.5.1 = 
 
