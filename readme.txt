@@ -38,7 +38,7 @@ Enjoy!
 = 1.8.5.3 = 
 
 * Fixed copy group feature.
-* Layout adjustement.
+* Layout adjustment.
 
 = 1.8.5.2 = 
 
@@ -140,7 +140,7 @@ Enjoy!
 = 1.5.3 = 
 
 * Updated jQuery Transit.
-* Minor adjustements.
+* Minor adjustments.
 
 = 1.5.2 = 
 
@@ -370,7 +370,7 @@ Enjoy!
 * Added the ability to create custom menu.
 * Added support for multiple $(document).twizReplay(); on the same page from different sections.
 * Added Admin option `Maximum number of posts in lists`.
-* Multiple layout adjustements.
+* Multiple layout adjustments.
 * Fixed later: Menu translation.
 * Fixed undefined ABSPATH in twiz-ajax.php
 
@@ -470,7 +470,7 @@ Enjoy!
 
 * Reordered the animations list by ID.
 * Fixed Twiz functions calls.
-* Minor adjustements.
+* Minor adjustments.
 
 = 1.3.7.7 =
 
@@ -498,7 +498,7 @@ Enjoy!
 * Added the ability to easily call manually triggered animations and others into the JavaScript.
 * The id of each row is displayed on status image.
 * Simplified the right panel view.
-* Layout adjustements.
+* Layout adjustments.
 
 = 1.3.7.3 =
 
@@ -518,7 +518,7 @@ Enjoy!
 * Added the ability to output the JavaScript also OnReady.
 * Export files are created and moved to /wp-content/twiz/export/
 * All scripts are enqueued only on plugin page.
-* Layout adjustements.
+* Layout adjustments.
 * Minor fixes.
 
 = 1.3.6.9 =
@@ -556,7 +556,7 @@ Enjoy!
 = 1.3.6.2 =
 
 * Added the layout of the admin button.
-* Layout adjustements.
+* Layout adjustments.
 * Minor fixes.
 
 = 1.3.6.1 =
@@ -565,7 +565,7 @@ Enjoy!
 * Pick an ID from list has been removed, get Firebug.
 * Adjusted textarea resize behavior.
 * Added New field to the database. 
-* Layout adjustements.
+* Layout adjustments.
 * Minor fixes.
 
 = 1.3.6 =
@@ -580,7 +580,7 @@ Enjoy!
 * Added a Z-Index textbox to the editing panel.
 * Added the ability to export only one animation.
 * Added New fields to the database. 
-* Layout adjustements.
+* Layout adjustments.
 * Minor fixes.
 
 = 1.3.5.8 =
@@ -597,7 +597,7 @@ Enjoy!
 
 * Added `Copy` action and action label.
 * Ordered the list by `Delay` and by `Element Id`.
-* Layout adjustements and fixes.
+* Layout adjustments and fixes.
 
 = 1.3.5.5 = 
 
@@ -612,7 +612,7 @@ Enjoy!
 * Added ability to upload `.css` files into the Library.
 * Added ability to `reorder` the Library.
 * The menu is displayed in alphabetical order.
-* Textarea auto-resizing adjustements.
+* Textarea auto-resizing adjustments.
 
 = 1.3.5.2 = 
 
@@ -841,7 +841,7 @@ Enjoy!
 = 1.2.9 =
 
 * Optimized Stylesheet. (twiz-style.css)
-* Minor layout adjustements.
+* Minor layout adjustments.
 
 = 1.2.8 =
 
@@ -874,7 +874,7 @@ Enjoy!
 = 1.2.3 =
 
 * Added 2 New `Easy Pick List` under `Personalized Options`.
-* Some minor, and major layout adjustements.
+* Some minor, and major layout adjustments.
 * Auto-size textarea(in height).
 
 = 1.2.2 =
@@ -908,7 +908,7 @@ Enjoy!
 
 = 1.8.5.2 = 
 
-* Layout adjustement.
+* Layout adjustment.
 
 = 1.8.5.1 = 
 
@@ -1492,7 +1492,7 @@ New DataPreview Panel, larger layout.
 
 = 1.2.5 =
 
-Major fixes, and adjustements.
+Major fixes, and adjustments.
 
 = 1.2.4 =
 
