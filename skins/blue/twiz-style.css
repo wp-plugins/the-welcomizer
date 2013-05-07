@@ -607,6 +607,9 @@ div a:hover, td a:hover {
     background-color: #2A98CB;
     font-weight: bold;
 }
+.twiz-add-element {
+   color: #AAAAAA;
+}
 .twiz-table-form, 
 .twiz-table-view {
     background-color: #ffffff;  

@@ -79,6 +79,7 @@ $("#twiz_listmenu").css("display", "none");
         $old_exportid = $this->getValue($groupid, parent::F_EXPORT_ID);
         $new_export_id = uniqid();
         
+                       
         $sql = "INSERT INTO ".$this->table." 
                SELECT NULL
               ,IF(".self::F_PARENT_ID." = '". $old_exportid ."','". $new_export_id ."','')
@@ -95,6 +96,9 @@ $("#twiz_listmenu").css("display", "none");
               ,".self::F_OUTPUT."
               ,".self::F_OUTPUT_POS."
               ,".self::F_JAVASCRIPT."
+              ,".self::F_CSS."
+              ,".self::F_START_ELEMENT_TYPE."
+              ,".self::F_START_ELEMENT."
               ,".self::F_START_TOP_POS_SIGN."
               ,".self::F_START_TOP_POS."
               ,".self::F_START_TOP_POS_FORMAT."
@@ -105,12 +109,16 @@ $("#twiz_listmenu").css("display", "none");
               ,".self::F_ZINDEX."    
               ,".self::F_EASING_A." 
               ,".self::F_EASING_B." 
+              ,".self::F_MOVE_ELEMENT_TYPE_A."
+              ,".self::F_MOVE_ELEMENT_A."                   
               ,".self::F_MOVE_TOP_POS_SIGN_A."
               ,".self::F_MOVE_TOP_POS_A."
               ,".self::F_MOVE_TOP_POS_FORMAT_A."
               ,".self::F_MOVE_LEFT_POS_SIGN_A."
               ,".self::F_MOVE_LEFT_POS_A."
               ,".self::F_MOVE_LEFT_POS_FORMAT_A."
+              ,".self::F_MOVE_ELEMENT_TYPE_B."
+              ,".self::F_MOVE_ELEMENT_B."                  
               ,".self::F_MOVE_TOP_POS_SIGN_B."
               ,".self::F_MOVE_TOP_POS_B."
               ,".self::F_MOVE_TOP_POS_FORMAT_B."
