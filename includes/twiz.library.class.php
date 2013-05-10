@@ -53,7 +53,8 @@ class TwizLibrary extends Twiz{
 
         $jsscript = '<script>
  //<![CDATA[
- jQuery(document).ready(function($) {';
+ jQuery(document).ready(function($) {
+';
  
         $jsscript .= '
 $("#twiz_lib_menu").css("display", "none");

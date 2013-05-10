@@ -30,6 +30,7 @@ class TwizOutput extends Twiz{
     private $multi_sections;
     private $shortcode_id;
     private $animate;
+    private $stop;
     private $top;
     private $left;
     private $generatedCookie;
@@ -141,12 +142,11 @@ class TwizOutput extends Twiz{
                     // repeat animation function 
                     $this->generatedScript .= '$.fn.twiz_'.$name.' = function(twiz'.$this_prefix.'_this, twiz_repeat_nbr, e){ '.$this->linebreak;
                     $this->generatedScript .= str_replace("[REPEAT_VAR]", 'twiz_repeat_'.$name, $this->CookieMaxjQueryValidation[$value[parent::F_SECTION_ID]]);
-                    $this->generatedScript .= 'if(twiz_repeat_'.$name.' == 0){ twiz_repeat_'.$name.' = null; return true;} '.$this->linebreak;
-                    $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) && (twiz_repeat_nbr != null)){ '.$this->linebreak;
-                    $this->generatedScript .= 'twiz_repeat_'.$name.' = twiz_repeat_nbr;} '.$this->linebreak;
+                    $this->generatedScript .= 'if(twiz_repeat_'.$name.' == 0){'.$this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null; '.$this->linebreak.$this->tab.'return true;'.$this->linebreak.'} '.$this->linebreak;
+                    $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) && (twiz_repeat_nbr != null)){ ';
+                    $this->generatedScript .=  $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = twiz_repeat_nbr;'.$this->linebreak.'} '.$this->linebreak;
                     $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) || (twiz_repeat_'.$name.' > 0)){ '.$this->linebreak; 
-                    $this->generatedScript .= 'if(twiz_repeat_'.$name.' > 0){ '.$this->linebreak;
-                    $this->generatedScript .= 'twiz_repeat_'.$name.'--;} '.$this->linebreak;
+   
                     $this->generatedScript .= 'if(e==undefined){var twiz_element_'.$name.' = "'. $this->newElementFormat . '";}else{var twiz_element_'.$name.' = twiz'.$this_prefix.'_this;}';
                     
                     if(($value[parent::F_OUTPUT_POS]=='b')or ($value[parent::F_OUTPUT_POS]=='')){ // before
@@ -156,11 +156,20 @@ class TwizOutput extends Twiz{
                     
                     if(($value[parent::F_OUTPUT]=='b') or ($value[parent::F_OUTPUT]=='')){ // before
                     
-                        // js
-                        $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]) : '';
-                        $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
-                        
-                        $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
+                            // Replace parameters
+                            $pattern = "/twizRepeat\((.*?)\)/";
+                            preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
+                            if (!isset($params[1])){$params[1] = '';}
+                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                
+                            // js     
+                            $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]) : '';
+                            
+                            $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
+                            
+                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);                          
+                            
+                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];  
                     }
                     
                     $hasSomething = $this->hasSomething($value);
@@ -179,10 +188,20 @@ class TwizOutput extends Twiz{
                     
                         if( $value[parent::F_OUTPUT] == 'a' ){ // after 
                             
-                            // js 
-                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_JAVASCRIPT]);
-                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
+                            // Replace parameters
+                            $pattern = "/twizRepeat\((.*?)\)/";
+                            preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
+                            if (!isset($params[1])){$params[1] = '';}
+                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                
+                            // js     
+                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]);
+                            
+                            $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
+                            
+                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);                          
+                            
+                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];   
                             
                         }
                         
@@ -206,7 +225,7 @@ class TwizOutput extends Twiz{
                             }
             
                             // animate jquery a 
-                            $this->generatedScript .= $this->linebreak.$this->tab.'$('.$moveElementFormat_a.').'.$this->animate.'({';
+                            $this->generatedScript .= $this->linebreak.$this->tab.'$('.$moveElementFormat_a.').'.$this->stop.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
@@ -221,11 +240,21 @@ class TwizOutput extends Twiz{
                             // replace numeric entities
                             $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]);
                 
+
+                            // Replace parameters
+                            $pattern = "/twizRepeat\((.*?)\)/";
+                            preg_match($pattern, $value[parent::F_EXTRA_JS_A], $params);
+                            if (!isset($params[1])){$params[1] = '';}
+                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                
+                            // extra js a    
+                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_EXTRA_JS_A]);
                             
-                            // extra js a
-                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,' , $value[parent::F_EXTRA_JS_A]);
-                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                        
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_A]);
+                            $value[parent::F_EXTRA_JS_A] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_EXTRA_JS_A]);
+                            
+                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                          
+                            
+                            $this->generatedScript .= $value[parent::F_EXTRA_JS_A];                     
                             
        
                             // b
@@ -248,7 +277,7 @@ class TwizOutput extends Twiz{
                             
                                 $moveElementFormat_b = '"'.$this->replacejElementType($value[parent::F_MOVE_ELEMENT_TYPE_B], $value[parent::F_MOVE_ELEMENT_B]).'"';
                             }
-                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'$('.$moveElementFormat_b.').'.$this->animate.'({';
+                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'$('.$moveElementFormat_b.').'.$this->stop.$this->animate.'({';
 
                             $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
@@ -275,16 +304,31 @@ class TwizOutput extends Twiz{
                             and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){                          
                                 if($has_b){
                                 
-                                     $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'if((twiz_repeat_'.$name.' == 0) || (twiz_repeat_'.$name.' == null)){ twiz_locked_'.$name.' = 0;} ';
+                                     $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.$this->tab.'if((twiz_repeat_'.$name.' == 0) || (twiz_repeat_'.$name.' == null)){ '.$this->linebreak.$this->tab.$this->tab.$this->tab.$this->tab.'twiz_locked_'.$name.' = 0;'.$this->linebreak.$this->tab.$this->tab.$this->tab.' } ';
                                      $has_active = true;
                                 }
                             }
                             
+                            // Replace parameters
+                            $pattern = "/twizRepeat\((.*?)\)/";
+                            preg_match($pattern, $value[parent::F_EXTRA_JS_B], $params);
+                            if (!isset($params[1])){$params[1] = '';}
+                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                
                             // extra js b    
-                            $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat(", $this->tab.$this->tab."$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,', $value[parent::F_EXTRA_JS_B]);
+                            $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat(", $this->tab.$this->tab."$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_EXTRA_JS_B]);
+                            
+                            $value[parent::F_EXTRA_JS_B] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_EXTRA_JS_B]);
+                            
                             $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizReplay(", $this->tab.$this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_B]);                          
                             
-                            $this->generatedScript .= str_replace("(twiz".$this_prefix."_this,)", "(twiz".$this_prefix."_this, null, e)" , $value[parent::F_EXTRA_JS_B]);
+                            $this->generatedScript .= $value[parent::F_EXTRA_JS_B];
+                            
+                            // substract repeat var
+                            if( $has_b ){  
+                                $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.$this->tab.'if(twiz_repeat_'.$name.' > 0){ ';
+                                $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.$this->tab.$this->tab.'twiz_repeat_'.$name.'--;'.$this->linebreak.$this->tab.$this->tab.$this->tab.'}'.$this->linebreak;
+                            }
                             
                             // closing functions
                             $this->generatedScript .= $this->tab.$this->tab.'});'.$this->linebreak;
@@ -294,10 +338,16 @@ class TwizOutput extends Twiz{
                             and ( $value[parent::F_ON_EVENT] != '') 
                             and ( $value[parent::F_ON_EVENT] != 'Manually') ) ){   
                                 if( !$has_b ){                       
-                                    $this->generatedScript .= $this->tab.'if((twiz_repeat_'.$name.' == 0) || (twiz_repeat_'.$name.' == null)){ twiz_locked_'.$name.' = 0;} '.$this->linebreak;
+                                    $this->generatedScript .= $this->tab.'if((twiz_repeat_'.$name.' == 0) || (twiz_repeat_'.$name.' == null)){ twiz_locked_'.$name.' = 0;}'.$this->linebreak;
                                     $has_active = true;
                                 }
                             }
+                            
+                            // substract repeat var
+                            if( !$has_b ){  
+                                $this->generatedScript .= $this->linebreak.'if(twiz_repeat_'.$name.' > 0){ ';
+                                $this->generatedScript .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.'--;'.$this->linebreak.$this->tab.'}'.$this->linebreak;
+                            }                            
                             
                             $this->generatedScript .= $this->tab.'});'.$this->linebreak;
                         }
@@ -315,8 +365,10 @@ class TwizOutput extends Twiz{
                         if( $has_active != true ){
                        
                             $this->generatedScript .= $this->linebreak.$this->tab.'if((twiz_repeat_'.$name.' == 0) || (twiz_repeat_'.$name.' == null)){twiz_locked_'.$name.' = 0;}';
+                            
                         }
                     }
+
                     
                     // closing functions
                     $this->generatedScript .= '}}'.self::COMPRESS_LINEBREAK;
@@ -333,7 +385,7 @@ class TwizOutput extends Twiz{
             $this->generatedScript .= $this->generatedScriptonevent;
             $this->generatedScript .= $this->getJavaScriptOnReady();
             $this->generatedScript .= $this->generatedScriptonready;
-            $this->generatedScript .= $this->linebreak.'}); </script>';
+            $this->generatedScript .= $this->linebreak.'});</script>';
             $this->generatedScript .= $this->getStyleCSS();
             
         }
@@ -372,7 +424,13 @@ class TwizOutput extends Twiz{
     private function getJavaScriptOnReady(){
     
         $generatedScript = '';
+        $this_prefix = '';
         
+        if( $this->shortcode_id != '' ){
+
+            $this_prefix = '_'.$this->listarray[0][parent::F_SECTION_ID];
+        }
+                    
         // generates the code
         foreach( $this->listarray as $value ){   
 
@@ -395,9 +453,21 @@ class TwizOutput extends Twiz{
                     $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
                     $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$value[parent::F_JAVASCRIPT] : '';
                     
-                    // js 
-                    $generatedScript .= $generatedCondition['open'].str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'($("'.$this->newElementFormat.'", null, e)' , $value[parent::F_JAVASCRIPT]);
-                  
+                    // Replace parameters
+                    $pattern = "/twizRepeat\((.*?)\)/";
+                    preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
+                    if (!isset($params[1])){$params[1] = '';}
+                    if ( $params[1] == '' ) { $params[1] = 'null'; }
+
+                    // js     
+                    $value[parent::F_JAVASCRIPT] = $generatedCondition['open'].str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]);
+                    
+                    $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
+                    
+                    $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);                          
+                    
+                    $generatedScript .= $value[parent::F_JAVASCRIPT]; 
+                            
                     $generatedScript .= self::COMPRESS_LINEBREAK.$generatedCondition['close'];
                 }   
             }
@@ -423,12 +493,11 @@ class TwizOutput extends Twiz{
                    
                    $generatedScript .= $this->tab.'if(twiz_locked_'.$name.' == 0){'.$this->linebreak;
                    $generatedScript .= $this->tab.$this->tab.'twiz_locked_'.$name.' = 1;'.$this->linebreak;
-                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this, null, e);'.$this->linebreak.$this->tab.'}';
-                   
+                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this,null,e);'.$this->linebreak.$this->tab.'}';
                    
                 }else{  
                 
-                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this, null, e);'.$this->linebreak;                
+                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this,null,e);'.$this->linebreak;                
                 }
                 
                $generatedScript .= $this->linebreak.'});'.$this->linebreak;
@@ -442,7 +511,7 @@ class TwizOutput extends Twiz{
             if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){
             
                 // trigger the animation if not on event
-                $this->generatedScriptonready .=  $this->linebreak.'$(document).twiz_'.$name.'($("'.$this->newElementFormat.'"), null);';
+                $this->generatedScriptonready .=  $this->linebreak.'$(document).twiz_'.$name.'($("'.$this->newElementFormat.'"),null);';
                 
             }
         }  
@@ -993,17 +1062,23 @@ class TwizOutput extends Twiz{
         
             case parent::ELEMENT_TYPE_ID:
             
+                $this->stop = '';
+                
                 return '#'.$element;
  
                 break;
 
             case parent::ELEMENT_TYPE_CLASS:
-            
+                
+                $this->stop = 'stop().';
+                
                 return '.'.$element;
                 
                 break;
 
             case parent::ELEMENT_TYPE_NAME:
+                
+                $this->stop = 'stop().';
                 
                 return '[name='.$element.']';
                 
@@ -1011,10 +1086,14 @@ class TwizOutput extends Twiz{
             
             case parent::ELEMENT_TYPE_TAG:
                 
+                $this->stop = 'stop().';
+                
                 return ''.$element.'';
                 
                 break; 
         }
+        
+        $this->stop = '';
         
         return '#'.$element;
     }

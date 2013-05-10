@@ -117,6 +117,7 @@ class TwizAjax extends Twiz{
                 bind_twiz_Choose_Options();
                 bind_twiz_DynArrows();
                 $("#twiz_loading_menu").html("");
+                $("#twiz_layer_id").focus();
             });
      });
      $("#twiz_create_group").click(function(){
@@ -615,6 +616,7 @@ class TwizAjax extends Twiz{
     bind_twiz_Status();bind_twiz_Save();bind_twiz_Cancel();bind_twiz_Number_Restriction();
     bind_twiz_Choose_Options();
     bind_twiz_DynArrows();    
+    $("#twiz_layer_id").focus();
  }
  var bind_twiz_Edit = function() {  
         var twiz_c = {};
@@ -735,6 +737,7 @@ class TwizAjax extends Twiz{
             $("#twiz_container").css("display", "none"); 
             twiz_ListMenu_Unbind();
             bind_twiz_ListMenu();
+            $("#twiz_group_name").focus();
         });
     });       
     $(".twiz-edit").click(function(){
@@ -968,7 +971,21 @@ class TwizAjax extends Twiz{
                break;
         }
     });    
+    $("#twiz_layer_id").click(function(){
+        if($("#twiz_layer_id").val() == "'.__('Please type a main element.', 'the-welcomizer').'"){
+            $("#twiz_layer_id").attr({"value" : ""});
+            $("#twiz_layer_id").css("color", "#333333");
+        }
+    });   
     $("[name=twiz_save]").click(function(){
+    var twiz_valid_element = true;
+    if(($("#twiz_layer_id").val() == "'.__('Please type a main element.', 'the-welcomizer').'")
+    || ($("#twiz_layer_id").val() == "")){
+        $("#twiz_layer_id").val("'.__('Please type a main element.', 'the-welcomizer').'");
+        $("#twiz_layer_id").css("color", "#BC0B0B");
+        twiz_valid_element = false;
+    }
+    if(twiz_valid_element == true){
     var twiz_textid = $(this).attr("id");
     var twiz_charid = twiz_textid.substring(10,twiz_textid.length);   
     var twiz_stay = $("#twiz_stay").is(":checked");    
@@ -1047,7 +1064,7 @@ class TwizAjax extends Twiz{
         }
         $("[name=twiz_save]").css({"color" : "#ffffff"});
     });
-   });
+   }});
   }
   var bind_twiz_AdminSave = function() {
      $(".twiz-toggle-admin").click(function(){
@@ -1879,6 +1896,7 @@ class TwizAjax extends Twiz{
                 $("#twiz_sub_container").show();   
                 binb_twiz_Link_dir();                
                 $("#twiz_loading_menu").html("");
+                $("#twiz_lib_dir").focus();
             });   
      });
      $(".twiz-toggle-library").click(function(){

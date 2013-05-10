@@ -824,7 +824,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.5.3';
+        $this->version    = '1.8.6';
         $this->cssVersion = '1-43';
         $this->dbVersion  = '3.0';
         $this->pluginUrl  = $pluginUrl;
@@ -1701,8 +1701,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         }else{
         
             $lbl_more_config = __('More configurations', 'the-welcomizer');
-            $jsscript_open .= 'var twiz_showOrHide_more_config = false;';            
-            $jsscript_open .= '';
+            $jsscript_open .= 'var twiz_showOrHide_more_config = false;'; 
         }
         
         /* toggle more options by default if we have values */        
@@ -1716,8 +1715,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         }else{
         
             $lbl_more_options = __('More options', 'the-welcomizer');
-            $jsscript_open .= 'var twiz_showOrHide_more_options = false;';               
-            $jsscript_open .= '';              
+            $jsscript_open .= 'var twiz_showOrHide_more_options = false;';          
         }
        
         $twiz_export_id = (($data[self::F_EXPORT_ID] == '' ) or ( $action == self::ACTION_COPY ) or ( $action == self::ACTION_NEW )) ? uniqid() : $data[self::F_EXPORT_ID];
@@ -1986,16 +1984,18 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
         or ($data[self::F_CSS] != '') 
         or ((!$hasStartingConfigs) and (!$hasMovements) ) ) {
         
-            $hideclass = '';
+            $hidetop = '';
             
         }else{
         
-            $hideclass = 'class="twiz-display-none"';
+            $hidetop = '1';
         }
 
-        $htmlview .='</td></tr>
-<tr '.$hideclass.'><td colspan="2"><hr></td></tr>
-<tr '.$hideclass.'>';
+        $htmlview .='</td></tr>';
+        
+        if($hidetop == ''){
+$htmlview .='<tr><td colspan="2"><hr></td></tr>
+<tr>';
 
         if ( ($element_start != '')
         or ( $start_top_pos != '' )
@@ -2038,6 +2038,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
 </table>    
 </td>
 </tr>';
+        }
     
        if ( ($element_move_b != '')
             or ( $data[self::F_MOVE_LEFT_POS_B] != '' ) 
