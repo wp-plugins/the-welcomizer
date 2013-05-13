@@ -611,14 +611,14 @@ div a:hover, td a:hover {
 .twiz-add-element {
    color: #AAAAAA;
 }
-.twiz-table-form, 
-.twiz-table-view {
+.twiz-table-form {
     background-color: #ffffff;  
     padding-top: 10px;
     padding-bottom: 12px;
 }
 .twiz-table-form hr, 
-.twiz-table-view hr {
+.twiz-table-view hr ,
+.twiz-table-view-b hr {
     border-radius: 2px 2px 2px 2px;
     -moz-border-radius-topleft: 2px;
     -moz-border-radius-topright: 2px;
@@ -766,12 +766,16 @@ div a:hover, td a:hover {
     margin-right: 5px;
 }
 .twiz-table-view {
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
+    margin: 1px;
+}
+.twiz-table-view-b {
+    padding: 0px 10px 10px 10px;
     margin: 1px;
 }
 .twiz-view-td-left {
     width: 200px;
-    padding: 2px 20px 2px 2px;
+    padding: 0px 20px 0px 2px;
     font-size: 13px;
 }
 .twiz-view-td-right {

@@ -824,8 +824,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.7';
-        $this->cssVersion = '1-44';
+        $this->version    = '1.8.7.1';
+        $this->cssVersion = '1-45';
         $this->dbVersion  = '3.01';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -2056,7 +2056,7 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
     
         if($hasMovements) {
 
-            $htmlview .= '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
+            $htmlview .= '<table class="twiz-table-view-b" cellspacing="0" cellpadding="0">
         <tr><td colspan="2"><hr></td></tr>
 <tr><td class="twiz-view-td-left" valign="top"'.$colspan2.'>
 <table>
