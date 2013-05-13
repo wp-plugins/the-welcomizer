@@ -102,6 +102,7 @@ div a:hover, td a:hover {
 #twiz_right_panel {
     margin: 19px 0 0 15px;   
     color: #464646;
+    background-color: #ffffff;
 }
 #twiz_vertical_menu,
 #twiz_right_panel {
@@ -594,7 +595,7 @@ div a:hover, td a:hover {
 .twiz-tab {
     display: block;
     float: left;
-    border: 1px solid #D7D7D7;
+    border: 1px solid #D1D1D1;
     padding: 4px 8px 4px 8px;
     margin: 0px 5px 8px 0px;
     background-color: #E4E4E4;
@@ -772,8 +773,8 @@ div a:hover, td a:hover {
     margin: 1px;
 }
 .twiz-view-td-left {
-    width: 242px;
-    padding: 2px;
+    width: 200px;
+    padding: 2px 20px 2px 2px;
     font-size: 13px;
 }
 .twiz-view-td-right {

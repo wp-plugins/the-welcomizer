@@ -2073,6 +2073,7 @@ class TwizAjax extends Twiz{
             $("#twiz_container").css("display", "none"); 
             twiz_ListMenu_Unbind();
             bind_twiz_ListMenu();
+            $("#twiz_group_name").focus();
         });
     });       
     $("[name^=twiz_group_anim_link]").hover(function(){

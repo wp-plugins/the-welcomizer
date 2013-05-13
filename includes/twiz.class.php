@@ -824,9 +824,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.6';
-        $this->cssVersion = '1-43';
-        $this->dbVersion  = '3.0';
+        $this->version    = '1.8.7';
+        $this->cssVersion = '1-44';
+        $this->dbVersion  = '3.01';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -971,6 +971,8 @@ class Twiz{
         $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" alt="Sears Canada" border="0" class="twiz-ads-img"/></a>';
         
         $ads['Lids'] = '<a href="http://www.tkqlhce.com/gf102js0ys-FLMOLPIIFHGKHMJKN" target="_blank"><img src="http://www.ftjcfx.com/ck77p59y31NTUWTXQQNPOSPURSV" alt="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
+        
+        $ads['Scoutmob Shoppe'] = '<a href="http://www.anrdoezrs.net/sd70biroiq5BCEBF885779BBACD" target="_blank"><img src="http://www.ftjcfx.com/2i108tkocig178A7B44133577689" alt="" border="0" class="twiz-ads-img"/></a>';
        
         $ok = shuffle($ads);
         
@@ -2004,7 +2006,7 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
         or ( $data[self::F_ZINDEX] != '' ) ){
     
             $colspan2 = ''; 
-            $htmlview .='<td valign="top"><table>
+            $htmlview .='<td class="twiz-view-td-left" valign="top"><table>
          <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Starting Positions', 'the-welcomizer').'</b>
          <div class="twiz-green">'.$output_starting_pos.'</div><div class="twiz-spacer"></div></td></tr>';
      
@@ -2029,15 +2031,15 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
 <td valign="top"'.$colspan2.'>
 <table>';
         
-        $htmlview .= ( $javascript != '' ) ? '<tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('JavaScript', 'the-welcomizer').'</b><div class="twiz-green">'.$output_javascript.'</div><div class="twiz-spacer"></div></td></tr><tr><td>'.$javascript.'</td></tr><tr><td><div class="twiz-spacer"></div></td></tr>' : '';
+        $htmlview .= ( $javascript != '' ) ? '<tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('JavaScript', 'the-welcomizer').'</b><div class="twiz-green">'.$output_javascript.'</div><div class="twiz-spacer"></div></td></tr><tr><td nowrap="nowrap">'.$javascript.'</td></tr><tr><td><div class="twiz-spacer"></div></td></tr>' : '';
 
-        $htmlview .= ( $css != '' ) ? '<tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('CSS Styles', 'the-welcomizer').'</b><div class="twiz-spacer"></div></td></tr>
-<tr><td>'.$css.'</td></tr>' : '';   
+        $htmlview .= ( $css != '' ) ? '<tr><td class="twiz-caption" nowrap="nowrap"><b>'.__('CSS Styles', 'the-welcomizer').'</b><div class="twiz-spacer"></div></td></tr>
+<tr><td nowrap="nowrap">'.$css.'</td></tr>' : '';   
         
         $htmlview .= '
 </table>    
 </td>
-</tr>';
+</tr></table>';
         }
     
        if ( ($element_move_b != '')
@@ -2054,8 +2056,9 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
     
         if($hasMovements) {
 
-            $htmlview .= '<tr><td colspan="2"><hr></td></tr>
-<tr><td valign="top"'.$colspan2.'>
+            $htmlview .= '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
+        <tr><td colspan="2"><hr></td></tr>
+<tr><td class="twiz-view-td-left" valign="top"'.$colspan2.'>
 <table>
     <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b>
     <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>';
@@ -2068,11 +2071,11 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
         
             $htmlview .= '</table><table class="twiz-view-table-more-options"><tr><td><hr></td></tr>';
 
-            $htmlview .= ( $data[self::F_OPTIONS_A] != '' ) ? '<tr><td>'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>' : '';
+            $htmlview .= ( $data[self::F_OPTIONS_A] != '' ) ? '<tr><td nowrap="nowrap">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>' : '';
 
             $htmlview .= '<tr><td><hr></td></tr>';
 
-            $htmlview .= ( $extra_js_a != '' ) ? '<tr><td>'.$extra_js_a.'</td></tr>' : '';
+            $htmlview .= ( $extra_js_a != '' ) ? '<tr><td nowrap="nowrap">'.$extra_js_a.'</td></tr>' : '';
         
             $htmlview .= '</table>';
     
@@ -2098,11 +2101,11 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
             
                 $htmlview .= '</table><table class="twiz-view-table-more-options"><tr><td><hr></td></tr>';
                 
-                $htmlview .= ( $data[self::F_OPTIONS_B] != '' ) ? '<tr><td>'.str_replace("\n", "<br>",$data[self::F_OPTIONS_B]).'</td></tr>' : '';
+                $htmlview .= ( $data[self::F_OPTIONS_B] != '' ) ? '<tr><td nowrap="nowrap">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_B]).'</td></tr>' : '';
 
                 $htmlview .= '<tr><td><hr></td></tr>';
                 
-                $htmlview .= ( $extra_js_b != '' ) ? '<tr><td>'.$extra_js_b.'</td></tr>' : '';
+                $htmlview .= ( $extra_js_b != '' ) ? '<tr><td nowrap="nowrap">'.$extra_js_b.'</td></tr>' : '';
 
                 $htmlview .= '</table>';
             }
