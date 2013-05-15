@@ -824,7 +824,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.7.2';
+        $this->version    = '1.8.8';
         $this->cssVersion = '1-45';
         $this->dbVersion  = '3.01';
         $this->pluginUrl  = $pluginUrl;
@@ -1738,15 +1738,16 @@ $("textarea[name^=twiz_options]").blur(function (){
         $twiz_lock_type['auto'] = ($data[self::F_LOCK_EVENT_TYPE] == 'auto') ? ' selected="selected"' : '';
         $twiz_lock_type['manu'] = ($data[self::F_LOCK_EVENT_TYPE] == 'manu') ? ' selected="selected"' : '';
         
+        $twiz_ouput_pos['css'] = ($data[self::F_OUTPUT_POS] == 'c') ? ' selected="selected"' : '';
         $twiz_ouput_pos['ready'] = ($data[self::F_OUTPUT_POS] == 'r') ? ' selected="selected"' : '';
         $twiz_ouput_pos['before'] = ($data[self::F_OUTPUT_POS] == 'b') ? ' selected="selected"' : '';
         $twiz_ouput_pos['after'] = ($data[self::F_OUTPUT_POS] == 'a') ? ' selected="selected"' : '';
-        $twiz_ouput_pos['ready'] = ($data[self::F_OUTPUT_POS] == '') ? ' selected="selected"' : $twiz_ouput_pos['ready'];
+        $twiz_ouput_pos['css'] = ($data[self::F_OUTPUT_POS] == '') ? ' selected="selected"' : $twiz_ouput_pos['css'];
         
         $twiz_ouput['ready'] = ($data[self::F_OUTPUT] == 'r') ? ' selected="selected"' : '';
         $twiz_ouput['before'] = ($data[self::F_OUTPUT] == 'b') ? ' selected="selected"' : '';
         $twiz_ouput['after'] = ($data[self::F_OUTPUT] == 'a') ? ' selected="selected"' : '';
-        $twiz_ouput['before'] = ($data[self::F_OUTPUT] == '') ? ' selected="selected"' : $twiz_ouput['before'];
+        $twiz_ouput['after'] = ($data[self::F_OUTPUT] == '') ? ' selected="selected"' : $twiz_ouput['after'];
         
         $twiz_start_top_pos_sign['nothing']  = ($data[self::F_START_TOP_POS_SIGN] == '') ? ' selected="selected"' : '';
         $twiz_start_top_pos_sign['-']        = ($data[self::F_START_TOP_POS_SIGN] == '-') ? ' selected="selected"' : '';
@@ -1824,6 +1825,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
     <td valign="top">
         <table class="twiz-table-js-css"><tr><td colspan="2"><hr></td></tr>
  <tr><td colspan="2" class="twiz-caption"><b>'.__('Starting Positions', 'the-welcomizer').'</b> <select name="twiz_'.self::F_OUTPUT_POS.'" id="twiz_'.self::F_OUTPUT_POS.'">
+        <option value="c" '.$twiz_ouput_pos['css'].'>'.__('CSS Styles', 'the-welcomizer').'</option> 
         <option value="r" '.$twiz_ouput_pos['ready'].'>'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b" '.$twiz_ouput_pos['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
         <option value="a" '.$twiz_ouput_pos['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
@@ -2719,6 +2721,11 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
             case 'a':
             
                 return ''.__('After the delay', 'the-welcomizer').'';    
+                
+                break;          
+            case 'c':
+            
+                return ''.__('CSS Styles', 'the-welcomizer').'';    
                 
                 break;
         }

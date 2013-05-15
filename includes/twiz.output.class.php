@@ -396,6 +396,7 @@ class TwizOutput extends Twiz{
     private function getStyleCSS(){
     
         $looped = 0;
+        $newElementFormat = '';
         $generatedScript = $this->linebreak.'<style type="text/css">';
         
         // generates the code
@@ -407,10 +408,57 @@ class TwizOutput extends Twiz{
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
             // Nothing to do
-            }else if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
-             
-                $generatedScript .= $this->linebreak.$value[parent::F_CSS];
-                $looped = 1;
+            }else{
+
+                if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
+                 
+                    $generatedScript .= $this->linebreak.$value[parent::F_CSS];
+                    $looped = 1;
+                }
+            
+                if( ( $hasValidParendId == true )and( $value[parent::F_OUTPUT_POS] == 'c' ) ){ 
+                
+                    if(($value[parent::F_POSITION]!='') 
+                    or ($value[parent::F_ZINDEX]!='') 
+                    or ($value[parent::F_START_LEFT_POS]!='') 
+                    or ($value[parent::F_START_TOP_POS]!='')) {
+
+                        if($value[parent::F_START_ELEMENT] == ''){
+                        
+                            $newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
+                            
+                        }else{ // Attach a different element.
+                        
+                            $newElementFormat = $this->replacejElementType($value[parent::F_START_ELEMENT_TYPE], $value[parent::F_START_ELEMENT]);
+                        }
+
+                        $generatedScript .= $this->linebreak.$newElementFormat.'{';
+                        
+                        if($value[parent::F_POSITION]!=''){
+                        
+                            $generatedScript .= $this->linebreak.$this->tab.'position:'.$value[parent::F_POSITION].';'; 
+                        }
+                        
+                        if($value[parent::F_ZINDEX]!=''){
+                        
+                            $generatedScript .= $this->linebreak.$this->tab.'z-index:'.$value[parent::F_ZINDEX].';'; 
+                        }
+                        
+                        if($value[parent::F_START_LEFT_POS]!=''){
+                        
+                            $generatedScript .=  $this->linebreak.$this->tab.'left:'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].';'; 
+                        }
+                        
+                        if($value[parent::F_START_TOP_POS]!=''){
+                        
+                            $generatedScript .= $this->linebreak.$this->tab.'top:'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].';'; 
+                        }
+                        
+                        $generatedScript .= $this->linebreak.'}';
+                        
+                        $looped = 1;
+                    }       
+                }                
             }
         }
         
