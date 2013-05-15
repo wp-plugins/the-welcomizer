@@ -824,7 +824,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.7.1';
+        $this->version    = '1.8.7.2';
         $this->cssVersion = '1-45';
         $this->dbVersion  = '3.01';
         $this->pluginUrl  = $pluginUrl;
@@ -1828,7 +1828,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
         <option value="b" '.$twiz_ouput_pos['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
         <option value="a" '.$twiz_ouput_pos['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
         </select></td></tr> 
-<tr id="twiz_tr_add_'.self::F_START_ELEMENT.'"'.$show_add_start_element.'><td colspan="2" nowrap="nowrap"><a name="twiz_add_'.self::F_START_ELEMENT.'" id="twiz_add_'.self::F_START_ELEMENT.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>    
+<tr id="twiz_tr_add_'.self::F_START_ELEMENT.'"'.$show_add_start_element.'><td colspan="2" nowrap="nowrap"><a name="twiz_add_'.self::F_START_ELEMENT.'" id="twiz_add_'.self::F_START_ELEMENT.'" class="twiz-add-element">'.__('Assign a different element', 'the-welcomizer').' &#187;</a></td></tr>    
 <tr id="twiz_tr_'.self::F_START_ELEMENT.'"'.$hide_start_element.'><td colspan="2" nowrap="nowrap">'.$element_type_list_start.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_START_ELEMENT.'" name="twiz_'.self::F_START_ELEMENT.'" type="text" value="'.$data[self::F_START_ELEMENT].'" maxlength="50"/></td></tr>
             <tr><td class="twiz-td-small-left-start" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td>
             <select name="twiz_'.self::F_START_TOP_POS_SIGN.'" id="twiz_'.self::F_START_TOP_POS_SIGN.'">
@@ -1872,7 +1872,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
 <tr><td valign="top">
         <table>
             <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b> '.$easing_a.'</td></tr>
-<tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_A.'"'.$show_add_move_element_a.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_A.'" id="twiz_add_'.self::F_MOVE_ELEMENT_A.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>              
+<tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_A.'"'.$show_add_move_element_a.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_A.'" id="twiz_add_'.self::F_MOVE_ELEMENT_A.'" class="twiz-add-element">'.__('Assign a different element', 'the-welcomizer').' &#187;</a></td></tr>              
 <tr id="twiz_tr_'.self::F_MOVE_ELEMENT_A.'"'.$hide_move_element_a.'><td class="twiz-td-move-e" colspan="3" nowrap="nowrap">'.$element_type_list_move_a.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_A.'" name="twiz_'.self::F_MOVE_ELEMENT_A.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_A].'" maxlength="50"/></td></tr>            
             <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
             <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_A.'">
@@ -1896,7 +1896,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
 <td valign="top">    
     <table>
         <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b> '.$easing_b.'</td></tr>
-        <tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_B.'"'.$show_add_move_element_b.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_B.'" id="twiz_add_'.self::F_MOVE_ELEMENT_B.'" class="twiz-add-element">'.__('Attach a different element', 'the-welcomizer').' &#187;</a></td></tr>   
+        <tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_B.'"'.$show_add_move_element_b.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_B.'" id="twiz_add_'.self::F_MOVE_ELEMENT_B.'" class="twiz-add-element">'.__('Assign a different element', 'the-welcomizer').' &#187;</a></td></tr>   
         <tr id="twiz_tr_'.self::F_MOVE_ELEMENT_B.'"'.$hide_move_element_b.'><td class="twiz-td-move-e"  colspan="3" nowrap="nowrap">'.$element_type_list_move_b.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_B.'" name="twiz_'.self::F_MOVE_ELEMENT_B.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_B].'" maxlength="50"/></td></tr>          
         <tr><td class="twiz-td-small-left" nowrap="nowrap">'.__('Top', 'the-welcomizer').':</td><td nowrap="nowrap">
         <select name="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'" id="twiz_'.self::F_MOVE_TOP_POS_SIGN_B.'">

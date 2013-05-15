@@ -958,6 +958,7 @@ class TwizOutput extends Twiz{
    
         $generatedScript_block = '';
         $generatedScript_pos = '';
+        $newElementFormat = '';
         
         if(($value[parent::F_POSITION]!='') 
         or ($value[parent::F_ZINDEX]!='') 
@@ -966,11 +967,11 @@ class TwizOutput extends Twiz{
 
             if($value[parent::F_START_ELEMENT] == ''){
             
-                $this->newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
+                $newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
                 
             }else{ // Attach a different element.
             
-                $this->newElementFormat = $this->replacejElementType($value[parent::F_START_ELEMENT_TYPE], $value[parent::F_START_ELEMENT]);
+                $newElementFormat = $this->replacejElementType($value[parent::F_START_ELEMENT_TYPE], $value[parent::F_START_ELEMENT]);
             }
                 
             if($value[parent::F_POSITION]!=''){
@@ -997,7 +998,7 @@ class TwizOutput extends Twiz{
         
         if(is_array($generatedScript_pos)){
         
-            $generatedScript_block .= $this->linebreak.'$("'. $this->newElementFormat . '").css({'.implode(",", $generatedScript_pos).'});';
+            $generatedScript_block .= $this->linebreak.'$("'. $newElementFormat . '").css({'.implode(",", $generatedScript_pos).'});';
         }
         
         return $generatedScript_block;  
