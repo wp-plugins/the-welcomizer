@@ -117,10 +117,12 @@ class TwizOutput extends Twiz{
                                
                 // Check for post, get, cookies.
                 $hasRestrictedCode = $this->SearchforRestrictedCode($value);
+                $hasOnlyCSS = $this->hasOnlyCSS($value);
                 $hasValidParendId = $this->ValidateParentId($value[parent::F_PARENT_ID]);
                 
                 if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
                 or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
+                or ( $hasOnlyCSS  == true ) // Nothing but CSS Styles 
                 or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
                 // Nothing to do
                 }else if($hasValidParendId == true){                
@@ -1462,7 +1464,35 @@ class TwizOutput extends Twiz{
 
         return $expiration;
     }    
+    private function hasOnlyCSS( $value = array() ){
     
+        if( ($value[parent::F_OPTIONS_A]=='') 
+        and ($value[parent::F_JAVASCRIPT]=='')
+        and ($value[parent::F_MOVE_ELEMENT_A]=='')
+        and ($value[parent::F_MOVE_TOP_POS_A]=='')
+        and ($value[parent::F_MOVE_LEFT_POS_A]=='')
+        and ($value[parent::F_OPTIONS_A]=='')
+        and ($value[parent::F_EXTRA_JS_A]=='')
+        and ($value[parent::F_MOVE_ELEMENT_B]=='')
+        and ($value[parent::F_MOVE_TOP_POS_B]=='')
+        and ($value[parent::F_MOVE_LEFT_POS_B]=='')
+        and ($value[parent::F_OPTIONS_B]=='')
+        and ($value[parent::F_EXTRA_JS_B]=='')
+        and ( ( $value[parent::F_CSS]!='') 
+        or  ($value[parent::F_OUTPUT_POS] == 'c') 
+        and ( ($value[parent::F_START_ELEMENT_TYPE]!='')
+        or ($value[parent::F_START_ELEMENT]!='')
+        or ($value[parent::F_START_TOP_POS]!='')
+        or ($value[parent::F_START_LEFT_POS]!='' ) 
+        or ($value[parent::F_POSITION]!='')
+        or ($value[parent::F_ZINDEX]!='') )
+        )
+        ){
+             return true;
+        }
+    
+        return false;
+    }
     private function ValidateParentId( $parentid = '' ){ 
     
         global $wpdb;

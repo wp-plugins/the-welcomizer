@@ -687,6 +687,7 @@ class Twiz{
     /* jquery options array */ 
     private $array_jQuery_snippets  = array('$(\'#sampleid\').attr({\'value\':\'Hello\'});'
                                            ,'$(\'#sampleid\').css({\'display\':\'block\'});'
+                                           ,'$(\'#sampleid\').css({\'visibility\':\'visible\'});'
                                            ,'$(\'#sampleid\').fadeIn(\'slow\',function(){});'
                                            ,'$(\'#sampleid\').fadeOut(\'slow\',function(){});'
                                            ,'$(\'#sampleid\').hide(\'slow\',function(){});'
@@ -824,9 +825,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.8.8';
-        $this->cssVersion = '1-45';
-        $this->dbVersion  = '3.01';
+        $this->version    = '1.9';
+        $this->cssVersion = '1-46';
+        $this->dbVersion  = '3.02';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -904,7 +905,7 @@ class Twiz{
         
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
-        $html .= '<div id="twiz_right_panel"></div>';
+        $html .= '<div id="twiz_right_panel_box"></div>';
         
         $html .= $this->preloadImages();
         $html .= '</div>'; 
@@ -1001,22 +1002,22 @@ class Twiz{
         return $html;
     }
     
-    private function add_animation_link( $javascript = '', $listarray = array() ){
+    private function add_animation_link( $javascript = '', $listarray = array(), $level = 1 ){
         
         if( $javascript == ''){return '';}
         
         $searchstring = '';
         $htmllink = '';
-
+        $level++;
+        
         foreach( $listarray as $value ){
         
             $group = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
             
             $searchstring = "$(document).twiz".$group."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
             
-            $htmllink = '<a id="twiz'.$group.'_anim_link_'.$value[self::F_ID].'" name="twiz'.$group.'_anim_link_'.$value[self::F_EXPORT_ID].'" class="twiz-anim-link">'.$searchstring.'</a>';
+            $htmllink = '<span id="twiz'.$group.'_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$group.'_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring.'</a>';
         
-       
             $javascript = str_replace($searchstring, $htmllink, $javascript);
         }
         
@@ -1390,7 +1391,7 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         return false;
     
     }
-    
+
     private function getDirectionalImage( $data = '', $ab = ''){
     
         if($data==''){return '';}
@@ -1564,7 +1565,7 @@ $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
         /* hide element */
         $jsscript_hide = '$("#twiz_far_matches").html("");
 $("#twiz_listmenu").css("display", "none"); 
-$("#twiz_right_panel").fadeOut("fast");
+$(".twiz-right-panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
 $("#twiz_import").fadeIn("fast");
 $("#qq_upload_list li").remove(); 
@@ -1927,7 +1928,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
         return $htmlform;
     }
 
-    function getHtmlView( $id ){ 
+    function getHtmlView( $id, $level = 0 ){ 
         
         $data = '';
         
@@ -1976,9 +1977,9 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
         $where = " WHERE ".self::F_SECTION_ID." = '".$data[self::F_SECTION_ID]."'";
         $listarray = $this->getListArray($where); 
         
-        $javascript = $this->add_animation_link($javascript, $listarray);
-        $extra_js_a = $this->add_animation_link($extra_js_a, $listarray);
-        $extra_js_b = $this->add_animation_link($extra_js_b, $listarray);
+        $javascript = $this->add_animation_link($javascript, $listarray, $level);
+        $extra_js_a = $this->add_animation_link($extra_js_a, $listarray, $level);
+        $extra_js_b = $this->add_animation_link($extra_js_b, $listarray, $level);
         
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">

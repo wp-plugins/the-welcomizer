@@ -346,10 +346,11 @@
         case Twiz::ACTION_VIEW:
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_view_level = esc_attr(trim($_POST['twiz_view_level']));
             
             $myTwiz  = new Twiz();
             
-            $htmlresponse = $myTwiz->getHtmlView($twiz_id);    
+            $htmlresponse = $myTwiz->getHtmlView($twiz_id, $twiz_view_level);    
             
             break;
             

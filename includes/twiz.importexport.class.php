@@ -405,6 +405,7 @@ class TwizImportExport extends Twiz{
               }
                 
               $filedata .= '</ROW>'."\n";
+              $id = ($id == '') ? '' : $id.'_'.sanitize_title_with_dashes($value[parent::F_LAYER_ID]);
         }
 
         $filedata .= '</TWIZ>'."\n";

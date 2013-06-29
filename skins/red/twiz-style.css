@@ -22,7 +22,7 @@ div a:hover, td a:hover {
     cursor: pointer;
 }
 #wpbody-content {
-    width: 150% !important;
+    width: 1500% !important;
 }
 #twiz_plugin {
     width: 98%;
@@ -99,13 +99,13 @@ div a:hover, td a:hover {
     margin-left: 15px;
     position: relative;
 }
-#twiz_right_panel {
+.twiz-right-panel {
     margin: 19px 0 0 15px;   
     color: #464646;
     background-color: #ffffff;    
 }
 #twiz_vertical_menu,
-#twiz_right_panel {
+.twiz-right-panel {
     border-radius: 6px 6px 6px 6px;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
@@ -124,7 +124,7 @@ div a:hover, td a:hover {
     float: left;
     z-index: 1;
 }
-#twiz_right_panel img {
+.twiz-right-panel img {
     margin-left: auto;
     margin-right: auto;
 }
