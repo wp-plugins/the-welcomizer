@@ -603,7 +603,7 @@ class TwizAjax extends Twiz{
                     }, function(data) { 
                         $("img[name^=twiz_status_img]").unbind("click");
                         $("#twiz_td_status_" + twiz_numid).html(data);
-                        twiz_array_view_id[twiz_numid + "_1"] = undefined;
+                        twiz_array_view_id = new Array();
                         bind_twiz_Status();
                     });
                     break;
@@ -808,7 +808,7 @@ class TwizAjax extends Twiz{
         "twiz_parent_id": twiz_parent_id
         }, function(data) {           
             $("#twiz_container").html(data);
-            twiz_array_view_id[twiz_numid + "_1"] = undefined;        
+            twiz_array_view_id = new Array();      
             twizList_ReBind();
         });
     });      
@@ -844,7 +844,7 @@ class TwizAjax extends Twiz{
                 if(twiz_library_active == true){
                     twizLibrary_Bind();
                 }else{     
-                    twiz_array_view_id[twiz_numid + "_1"] = undefined;            
+                    twiz_array_view_id = new Array();          
                     twizList_ReBind();  
                 }
             });
@@ -867,7 +867,7 @@ class TwizAjax extends Twiz{
             "twiz_parent_id": twiz_parent_id
             }, function(data) {     
                 $("#twiz_container").html(data);
-                twiz_array_view_id[twiz_numid + "_1"] = undefined;            
+                twiz_array_view_id = new Array();            
                 twizList_ReBind();
             });
         }
@@ -1219,6 +1219,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_val_on_event_" + twiz_numid).fadeIn("fast");
                     $("#twiz_ajax_td_val_on_event_" + twiz_numid).css({"color":"green"});
                     bind_twiz_Ajax_TD();bind_twiz_TR_View();
+                    twiz_array_view_id = new Array();
                 });
     });    
     $("[name^=twiz_on_event]").focusout(function (){
@@ -1289,6 +1290,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).fadeIn("fast");
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).css({color:"green"});
                     bind_twiz_Ajax_TD();bind_twiz_TR_View();
+                    twiz_array_view_id = new Array();
                 });
             break;
         }            
