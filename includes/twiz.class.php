@@ -829,7 +829,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.9.1';
+        $this->version    = '1.9.1.1';
         $this->cssVersion = '1-47';
         $this->dbVersion  = '3.03';
         $this->pluginUrl  = $pluginUrl;
@@ -2008,7 +2008,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
             $hidetop = '1';
         }
 
-        $htmlview .='</td></tr><tr><td class="twiz-view-td-left" valign="top" ><div class="twiz-blue">'.$on_event.'</div><div class="twiz-add-element">'.$event_locked.'</div></td><td class="twiz-view-td-right" nowrap="nowrap"><table><tr><td>'.__('Delay', 'the-welcomizer').'</td><td>: '.$data[self::F_START_DELAY].'</td></tr><tr><td>'.__('Duration', 'the-welcomizer').'</td><td>: '.$data[self::F_DURATION].'</td></tr></table></td></tr>';
+        $htmlview .='</td></tr><tr><td class="twiz-view-td-left" valign="top" ><div class="twiz-blue">'.$on_event.'</div><div class="twiz-add-element">'.$event_locked.'</div></td><td class="twiz-view-td-right" nowrap="nowrap"><table><tr><td>'.__('Delay', 'the-welcomizer').'</td><td>: '.$data[self::F_START_DELAY].'</td></tr><tr><td>'.__('Duration', 'the-welcomizer').'</td><td>: '.$this->formatDuration($data[self::F_ID], $data).'</td></tr></table></td></tr>';
         
         if($hidetop == ''){
 $htmlview .='<tr><td colspan="2"><hr></td></tr>
