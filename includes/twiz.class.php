@@ -133,6 +133,8 @@ class Twiz{
     const JQ_HEIGHT            = 'height: \'10px\'';
     const JQ_OPACITY           = 'opacity: 0.5';
     const JQ_FONTSIZE          = 'fontSize: \'10px\'';    
+    const JQ_SCROLLLEFT        = 'scrollLeft: 0';
+    const JQ_SCROLLTOP         = 'scrollTop: 0';
     const JQ_MARGINTOP         = 'marginTop: \'10px\'';
     const JQ_MARGINBOTTOM      = 'marginBottom: \'10px\'';
     const JQ_MARGINLEFT        = 'marginLeft: \'10px\'';
@@ -625,6 +627,8 @@ class Twiz{
                                          ,self::JQ_HEIGHT
                                          ,self::JQ_OPACITY
                                          ,self::JQ_FONTSIZE
+                                         ,self::JQ_SCROLLLEFT
+                                         ,self::JQ_SCROLLTOP
                                          ,self::JQ_MARGINTOP
                                          ,self::JQ_MARGINBOTTOM
                                          ,self::JQ_MARGINLEFT
@@ -825,9 +829,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.9';
-        $this->cssVersion = '1-46';
-        $this->dbVersion  = '3.02';
+        $this->version    = '1.9.1';
+        $this->cssVersion = '1-47';
+        $this->dbVersion  = '3.03';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -905,7 +909,7 @@ class Twiz{
         
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
-        $html .= '<div id="twiz_right_panel_box"></div>';
+        $html .= '<div id="twiz_view_box"></div>';
         
         $html .= $this->preloadImages();
         $html .= '</div>'; 
@@ -1054,12 +1058,19 @@ class Twiz{
         /* save effect */
         if( $saved_id != '' ){
 
-            $saveeffect .= '$("#twiz_list_div_element_'.$saved_id.'").animate({opacity:0}, 300, 
-function(){
-$("#twiz_list_div_element_'.$saved_id.'").css({"color":"green"});
-$("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, function(){
-});
-}); ';
+            $saveeffect .= 'if($("#twiz_list_div_element_'.$saved_id.'").offset().top > $(window).height()-20){$("html, body").animate({ scrollTop: $("#twiz_list_div_element_'.$saved_id.'").offset().top - 300 }, "slow", function(){
+    $("#twiz_list_div_element_'.$saved_id.'").css({"color":"green"});
+    $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:0}, 300, 
+    function(){$("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, 
+    function(){});
+});});
+}else{
+    $("#twiz_list_div_element_'.$saved_id.'").css({"color":"green"});
+        $("#twiz_list_div_element_'.$saved_id.'").animate({opacity:0}, 300, 
+        function(){$("#twiz_list_div_element_'.$saved_id.'").animate({opacity:1}, 300, 
+        function(){});
+    }); 
+}';
         }
         
         if( (( $action == self::ACTION_SAVE_GROUP ) 
@@ -1980,10 +1991,11 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
         $javascript = $this->add_animation_link($javascript, $listarray, $level);
         $extra_js_a = $this->add_animation_link($extra_js_a, $listarray, $level);
         $extra_js_b = $this->add_animation_link($extra_js_b, $listarray, $level);
-        
+        $on_event = $this->format_on_event($data[self::F_ON_EVENT]);
         /* creates the view */
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'</td><td class="twiz-view-td-right" nowrap="nowrap"><div class="twiz-blue">'.$event_locked.'</div>';
+        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'
+        </td><td class="twiz-view-td-right" nowrap="nowrap"><div class="twiz-list-tr-action" name="twiz_view_tr_action_'.$level.'" id="twiz_view_tr_action_'.$level.'" ><a id="twiz_edit_v_'.$data[self::F_ID].'" name="twiz_edit_v_'.$data[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_v_'.$data[self::F_ID].'" name="twiz_copy_v_'.$data[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_v_'.$data[self::F_ID].'" name="twiz_delete_v_'.$data[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></div>';
         
         if( ($hasStartingConfigs) 
         or ($data[self::F_CSS] != '') 
@@ -1996,7 +2008,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
             $hidetop = '1';
         }
 
-        $htmlview .='</td></tr>';
+        $htmlview .='</td></tr><tr><td class="twiz-view-td-left" valign="top" ><div class="twiz-blue">'.$on_event.'</div><div class="twiz-add-element">'.$event_locked.'</div></td><td class="twiz-view-td-right" nowrap="nowrap"><table><tr><td>'.__('Delay', 'the-welcomizer').'</td><td>: '.$data[self::F_START_DELAY].'</td></tr><tr><td>'.__('Duration', 'the-welcomizer').'</td><td>: '.$data[self::F_DURATION].'</td></tr></table></td></tr>';
         
         if($hidetop == ''){
 $htmlview .='<tr><td colspan="2"><hr></td></tr>
@@ -2429,7 +2441,6 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
         foreach ($this->array_on_event as $value){
 
             $selected = ($event == $value) ? ' selected="selected"' : '';
-            $on = ($value != self::EV_MANUAL) ? 'On': '';
             $valuelbl = $this->format_on_event($value);
             $select .= '<option value="'.$value.'"'.$selected.'>'.$valuelbl.'</option>';
         }
@@ -2846,13 +2857,13 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-delete.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-copy.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';        
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
     
         return $html;
     }

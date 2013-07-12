@@ -307,18 +307,18 @@ div a:hover, td a:hover {
     width: 32px;
 }
 #twiz_edit_menu {
-    background: url(../../skins/green/images/twiz-menu-edit-bw.png) center no-repeat;    
+    background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;    
 }
 #twiz_edit_menu:hover {
-    background: url(../../skins/green/images/twiz-menu-edit-color.png) center no-repeat;  
+    background: url(../../images/twiz-menu-edit-color.png) center no-repeat;  
     cursor: pointer;
     background-color: #5a9c14;
 }
 #twiz_delete_menu {
-    background: url(../../skins/green/images/twiz-menu-delete-bw.png) center no-repeat;    
+    background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;    
 }
 #twiz_delete_menu:hover {
-    background: url(../../skins/green/images/twiz-menu-delete-color.png) center no-repeat;  
+    background: url(../../images/twiz-menu-delete-color.png) center no-repeat;  
     cursor: pointer;
     background-color: #5a9c14;
 }
@@ -767,7 +767,7 @@ div a:hover, td a:hover {
 }
 .twiz-table-view {
     padding: 10px 10px 0px 10px;
-    margin: 1px;
+    margin: 5px;
 }
 .twiz-table-view-b {
     padding: 0px 10px 10px 10px;

@@ -254,7 +254,7 @@
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $save['id'], '','' , $twiz_action);   
             }
             
-            $htmlresponse = json_encode( array('result' => $save['result'], 'html' =>  $htmlresponse)); 
+            $htmlresponse = json_encode( array('id' => $save['id'], 'result' => $save['result'], 'html' =>  $htmlresponse)); 
             
             break; 
             
