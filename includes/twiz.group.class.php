@@ -46,7 +46,8 @@ class TwizGroup extends Twiz{
     
             $jsscript = '<script>
  //<![CDATA[
- jQuery(document).ready(function($) {';
+ jQuery(document).ready(function($) {
+ twiz_view_id = null;';
  
         $jsscript .= '
 $("#twiz_listmenu").css("display", "none");
