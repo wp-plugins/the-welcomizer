@@ -679,13 +679,13 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
             $wheresql = " where ".parent::F_SECTION_ID." = '".$section_id."' ";
       
             $listarray = $this->getListArray( $wheresql, '' ); 
-            $html = $this->createHtmlList($listarray, $section_id );
+            $html = $this->createHtmlList($listarray, '' );
             $jsonlistarray = json_encode( array('result' => $count, 'html'=>  $html )); 
             return $jsonlistarray; 
             
         }else{ 
 
-            $html = $this->createHtmlList($listarray, $section_id, '', parent::ACTION_FAR_FIND);
+            $html = $this->createHtmlList($listarray, '', '', parent::ACTION_FAR_FIND);
             $jsonlistarray = json_encode( array('result' => $count, 'html'=> $html )); // Exclude groups from results.
                 
             return $jsonlistarray; 

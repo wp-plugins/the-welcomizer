@@ -225,6 +225,11 @@ class TwizImportExport extends Twiz{
             $twiz_extra_js_a = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_a);
             $twiz_extra_js_b = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_b);
             
+           // replace section id part3
+            $twiz_javascript = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_javascript);
+            $twiz_extra_js_a = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_extra_js_a);
+            $twiz_extra_js_b = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_extra_js_b);
+            
             // default output pos for older export files. b r default, because no backward v to check
             $data[parent::F_OUTPUT] = ($data[parent::F_OUTPUT] == '')? 'b' : $data[parent::F_OUTPUT];
             $data[parent::F_OUTPUT_POS] = ($data[parent::F_OUTPUT_POS] == '') ? 'r' : $data[parent::F_OUTPUT_POS];

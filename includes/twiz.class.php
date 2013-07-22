@@ -128,7 +128,9 @@ class Twiz{
     
     /* jquery common options constants */ 
     const JQ_TOP               = 'top: \'10px\'';
+    const JQ_BOTTOM            = 'bottom: \'10px\'';
     const JQ_LEFT              = 'left: \'10px\'';
+    const JQ_RIGHT             = 'right: \'10px\'';
     const JQ_WITDH             = 'width: \'10px\'';
     const JQ_HEIGHT            = 'height: \'10px\'';
     const JQ_OPACITY           = 'opacity: 0.5';
@@ -622,7 +624,9 @@ class Twiz{
 
     /* jQuery common options array */
     private $array_jQuery_options = array(self::JQ_TOP
+                                         ,self::JQ_BOTTOM
                                          ,self::JQ_LEFT
+                                         ,self::JQ_RIGHT
                                          ,self::JQ_WITDH
                                          ,self::JQ_HEIGHT
                                          ,self::JQ_OPACITY
@@ -829,7 +833,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.9.2.2';
+        $this->version    = '1.9.3';
         $this->cssVersion = '1-47';
         $this->dbVersion  = '3.03';
         $this->pluginUrl  = $pluginUrl;
@@ -1010,7 +1014,8 @@ class Twiz{
         
         if( $javascript == ''){return '';}
         
-        $searchstring = '';
+        $searchstring_1 = '';
+        $searchstring_2 = '';
         $htmllink = '';
         $level++;
         
@@ -1018,11 +1023,16 @@ class Twiz{
         
             $group = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
             
-            $searchstring = "$(document).twiz".$group."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
+            $searchstring_1 = "$(document).twiz".$group."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
             
-            $htmllink = '<span id="twiz'.$group.'_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$group.'_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring.'</a>';
+            $searchstring_2 = "twiz_event_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."";
+                       
+            $htmllink_1 = '<span id="twiz'.$group.'_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$group.'_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring_1.'</a>';
+            
+            $htmllink_2 = '<span id="twiz_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring_2.'</a>';
         
-            $javascript = str_replace($searchstring, $htmllink, $javascript);
+            $javascript = str_replace($searchstring_1, $htmllink_1, $javascript);
+            $javascript = str_replace($searchstring_2, $htmllink_2, $javascript);
         }
         
         return $javascript;
@@ -1871,7 +1881,7 @@ $tabhiddenjs = (($data[self::F_CSS] != '' )and($data[self::F_JAVASCRIPT] == '' )
 <table class="twiz-table-js-css"><tr><td><hr></td></tr>
 <tr><td class="twiz-caption">
 <div id="twiz_tab_line"></div>
-<div class="twiz-clear"></div><div class="twiz-tab'.$tabselectedjs.'">'.__('JavaScript', 'the-welcomizer').'</div> <div class="twiz-tab'.$tabselectedcss.'">'.__('CSS Styles', 'the-welcomizer').'</div><div id="twiz_tab_js" class="'.$tabhiddenjs.'"><select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
+<div class="twiz-clear"></div><div class="twiz-tab'.$tabselectedjs.'">'.__('JavaScript', 'the-welcomizer').'</div> <div class="twiz-tab'.$tabselectedcss.'">'.__('Extra CSS', 'the-welcomizer').'</div><div id="twiz_tab_js" class="'.$tabhiddenjs.'"><select name="twiz_'.self::F_OUTPUT.'" id="twiz_'.self::F_OUTPUT.'">
         <option value="r" '.$twiz_ouput['ready'].'>'.__('OnReady', 'the-welcomizer').'</option>
         <option value="b" '.$twiz_ouput['before'].'>'.__('Before the delay', 'the-welcomizer').'</option>
         <option value="a" '.$twiz_ouput['after'].'>'.__('After the delay', 'the-welcomizer').'</option>
@@ -2048,7 +2058,7 @@ $htmlview .='<tr><td colspan="2"><hr></td></tr>
         
         $htmlview .= ( $javascript != '' ) ? '<tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('JavaScript', 'the-welcomizer').'</b><div class="twiz-green">'.$output_javascript.'</div><div class="twiz-spacer"></div></td></tr><tr><td nowrap="nowrap">'.$javascript.'</td></tr><tr><td><div class="twiz-spacer"></div></td></tr>' : '';
 
-        $htmlview .= ( $css != '' ) ? '<tr><td class="twiz-caption" nowrap="nowrap"><b>'.__('CSS Styles', 'the-welcomizer').'</b><div class="twiz-spacer"></div></td></tr>
+        $htmlview .= ( $css != '' ) ? '<tr><td class="twiz-caption" nowrap="nowrap"><b>'.__('Extra CSS', 'the-welcomizer').'</b><div class="twiz-spacer"></div></td></tr>
 <tr><td nowrap="nowrap">'.$css.'</td></tr>' : '';   
         
         $htmlview .= '
