@@ -125,7 +125,7 @@ $("#twiz_listmenu").css("display", "none");';
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Delay', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_START_DELAY.'_far_1" name="twiz_'.parent::F_START_DELAY.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_START_DELAY.'_far_2" name="twiz_'.parent::F_START_DELAY.'_far_2" type="text" value="" maxlength="50"/></td></tr>
 
-<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_1" name="twiz_'.parent::F_DURATION.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_2" name="twiz_'.parent::F_DURATION.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
+<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_1" name="twiz_'.parent::F_DURATION.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_2" name="twiz_'.parent::F_DURATION.'_far_2" type="text" value="" maxlength="50"/></td></tr><tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Second duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION_B.'_far_1" name="twiz_'.parent::F_DURATION_B.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION_B.'_far_2" name="twiz_'.parent::F_DURATION_B.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
 
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] == '1' ){
 
@@ -353,6 +353,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                     $wheresql .= $or .parent::F_LAYER_ID." LIKE '%".$everywhere_1."%'";
                     $wheresql .= $or .parent::F_START_DELAY." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_DURATION." = '".$everywhere_1."' ";
+                    $wheresql .= $or .parent::F_DURATION_B." = '".$everywhere_1."' ";
                     $wheresql .= $or .parent::F_OUTPUT_POS." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_START_ELEMENT." LIKE '%".$everywhere_1."%'";
         //          $wheresql .= $or .parent::F_START_TOP_POS_SIGN." = '".$everywhere_1."'";
@@ -397,6 +398,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_layer_id = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_1']));
                 $twiz_start_delay = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_1']));
                 $twiz_duration = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_1']));
+                $twiz_duration_b = esc_attr(trim($_POST['twiz_'.parent::F_DURATION_B.'_far_1']));
                 $twiz_output_pos = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT_POS.'_far_1']));
                 $twiz_start_element = esc_attr(trim($_POST['twiz_'.parent::F_START_ELEMENT.'_far_1']));
                 $twiz_start_top_pos_sign = esc_attr(trim($_POST['twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1']));
@@ -458,6 +460,12 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 }
                 if( $twiz_duration != '' ){
                     $wheresql.=  $where.$or.$open.parent::F_DURATION." = '".$twiz_duration."'";
+                    $or = ' or ';
+                    $open = '';
+                    $where = '';
+                }                
+                if( $twiz_duration_b != '' ){
+                    $wheresql.=  $where.$or.$open.parent::F_DURATION_B." = '".$twiz_duration_b."'";
                     $or = ' or ';
                     $open = '';
                     $where = '';
@@ -715,6 +723,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                    $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$everywhere_1."', '".$everywhere_2."')"; 
+                   $updatesql .= " ,". parent::F_DURATION_B . " = replace(". parent::F_DURATION_B . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_OUTPUT_POS . " = replace(". parent::F_OUTPUT_POS . ", '".$everywhere_1."', '".$everywhere_2."')"; 
                    $updatesql .= " ,". parent::F_START_ELEMENT . " = replace(". parent::F_START_ELEMENT . ", '".$everywhere_1."', '".$everywhere_2."')";                    
                 //   $updatesql .= " ,". parent::F_START_TOP_POS_SIGN . " = replace(". parent::F_START_TOP_POS_SIGN . ", '".$everywhere_1."', '".$everywhere_2."')"; 
@@ -768,6 +777,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_layer_id_1 = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_1']));
                 $twiz_start_delay_1 = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_1']));
                 $twiz_duration_1 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_1']));
+                $twiz_duration_b_1 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION_B.'_far_1']));
                 $twiz_output_pos_1 = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT_POS.'_far_1']));
                 $twiz_start_element_1 = esc_attr(trim($_POST['twiz_'.parent::F_START_ELEMENT.'_far_1']));
                 $twiz_start_top_pos_sign_1 = esc_attr(trim($_POST['twiz_'.parent::F_START_TOP_POS_SIGN.'_far_1']));
@@ -809,6 +819,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_layer_id_2 = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_2']));
                 $twiz_start_delay_2 = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_2']));
                 $twiz_duration_2 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_2']));
+                $twiz_duration_b_2 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION_B.'_far_2']));
                 $twiz_output_pos_2 = esc_attr(trim($_POST['twiz_'.parent::F_OUTPUT_POS.'_far_2']));
                 $twiz_start_element_2 = esc_attr(trim($_POST['twiz_'.parent::F_START_ELEMENT.'_far_2']));
                 $twiz_start_top_pos_sign_2 = esc_attr(trim($_POST['twiz_'.parent::F_START_TOP_POS_SIGN.'_far_2']));
@@ -850,6 +861,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$twiz_layer_id_1."', '".$twiz_layer_id_2."')"; 
                 $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$twiz_start_delay_1."', '".$twiz_start_delay_2."')"; 
                 $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$twiz_duration_1."', '".$twiz_duration_2."')"; 
+                $updatesql .= " ,". parent::F_DURATION_B . " = replace(". parent::F_DURATION_B . ", '".$twiz_duration_b_1."', '".$twiz_duration_b_2."')"; 
                 $updatesql .= " ,". parent::F_OUTPUT_POS . " = replace(". parent::F_OUTPUT_POS . ", '".$twiz_output_pos_1."', '".$twiz_output_pos_2."')"; 
                 $updatesql .= " ,". parent::F_START_ELEMENT . " = replace(". parent::F_START_ELEMENT . ", '".$twiz_start_element_1."', '".$twiz_start_element_2."')"; 
                 $updatesql .= " ,". parent::F_START_TOP_POS_SIGN . " = replace(". parent::F_START_TOP_POS_SIGN . ", '".$twiz_start_top_pos_sign_1."', '".$twiz_start_top_pos_sign_2."')"; 

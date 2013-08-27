@@ -94,6 +94,7 @@ $("#twiz_listmenu").css("display", "none");
               ,".self::F_LOCK_EVENT_TYPE."                  
               ,".self::F_START_DELAY."
               ,".self::F_DURATION."
+              ,".self::F_DURATION_B."
               ,".self::F_OUTPUT."
               ,".self::F_OUTPUT_POS."
               ,".self::F_JAVASCRIPT."

@@ -147,6 +147,7 @@ class TwizImportExport extends Twiz{
         
   
             /* Fields added after */
+            if( !isset($data[parent::F_DURATION_B]) ) $data[parent::F_DURATION_B] = '';
             if( !isset($data[parent::F_ON_EVENT]) ) $data[parent::F_ON_EVENT] = '';
             if( !isset($data[parent::F_LOCK_EVENT]) ) $data[parent::F_LOCK_EVENT] = '';
             if( !isset($data[parent::F_LOCK_EVENT_TYPE]) ) $data[parent::F_LOCK_EVENT_TYPE] = '';
@@ -205,6 +206,7 @@ class TwizImportExport extends Twiz{
             $twiz_lock_event_type = esc_attr(trim($data[parent::F_LOCK_EVENT_TYPE]));
             $twiz_start_delay = esc_attr(trim($data[parent::F_START_DELAY]));
             $twiz_duration = esc_attr(trim($data[parent::F_DURATION]));
+            $twiz_duration_b = esc_attr(trim($data[parent::F_DURATION_B]));
             
             $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
             $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[parent::F_ON_EVENT] !='') and ( $data[parent::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
@@ -256,6 +258,7 @@ class TwizImportExport extends Twiz{
                  ,".parent::F_LOCK_EVENT_TYPE."
                  ,".parent::F_START_DELAY."
                  ,".parent::F_DURATION."
+                 ,".parent::F_DURATION_B."
                  ,".parent::F_OUTPUT."
                  ,".parent::F_OUTPUT_POS."
                  ,".parent::F_JAVASCRIPT."
@@ -304,6 +307,7 @@ class TwizImportExport extends Twiz{
                  ,'".$twiz_lock_event_type."'             
                  ,'".$twiz_start_delay."'
                  ,'".$twiz_duration."'
+                 ,'".$twiz_duration_b."'
                  ,'".esc_attr(trim($data[parent::F_OUTPUT]))."'
                  ,'".esc_attr(trim($data[parent::F_OUTPUT_POS]))."'
                  ,'".esc_attr($twiz_javascript)."'   

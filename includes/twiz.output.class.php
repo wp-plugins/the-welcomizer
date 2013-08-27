@@ -62,7 +62,8 @@ class TwizOutput extends Twiz{
         $this->hardsections = get_option('twiz_hardsections');
         $this->multi_sections = get_option('twiz_multi_sections');
         $this->multi_sections = (is_array($this->multi_sections)) ? $this->multi_sections : array();
-        
+        $this->upload_dir = wp_upload_dir(); 
+
         $this->listarray = $this->getCurrentList($shortcode_id);
         
         if($this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
@@ -293,7 +294,10 @@ class TwizOutput extends Twiz{
                             $value[parent::F_DURATION] = (!$has_b)? '0' : $value[parent::F_DURATION];
                             $value[parent::F_EASING_B] = (!$has_b)? '' : $value[parent::F_EASING_B];
                             
-                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_B].'", function(){ ';
+                            // set same duration(or 0) if second one is empty
+                            $duration_b = ($value[parent::F_DURATION_B] != "") ? $value[parent::F_DURATION_B] : $value[parent::F_DURATION];
+                            
+                            $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'},'.$duration_b.',"'.$value[parent::F_EASING_B].'", function(){ ';
                                 
                             $value[parent::F_EXTRA_JS_B] = ($value[parent::F_EXTRA_JS_B] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_B].self::COMPRESS_LINEBREAK : '';
                    
@@ -414,7 +418,7 @@ class TwizOutput extends Twiz{
 
                 if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
                  
-                    $generatedScript .= $this->linebreak.$value[parent::F_CSS];
+                    $generatedScript .= $this->linebreak.$this->replaceNumericEntities($value[parent::F_CSS]);
                     $looped = 1;
                 }
             
@@ -1160,6 +1164,8 @@ class TwizOutput extends Twiz{
         $value = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $value);
         $newvalue = strtr($value, $trans_tbl);
         
+        $newvalue = str_replace(parent::SC_WP_UPLOAD_DIR, $this->upload_dir['baseurl'],  $newvalue);
+        
         return $newvalue;
     }
     
@@ -1169,8 +1175,7 @@ class TwizOutput extends Twiz{
 
             foreach( $this->array_fields as $field ){
                     
-                if( ( preg_match($string, $value[$field] ) )
-                and ( $field != parent::F_CSS ) ){
+                if( preg_match($string, $value[$field] ) ) {
                 
                    return true;
                 }

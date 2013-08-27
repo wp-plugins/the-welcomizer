@@ -42,6 +42,7 @@ class TwizInstallation extends Twiz{
                 parent::F_LOCK_EVENT_TYPE . " varchar(4) NOT NULL default 'auto', ". 
                 parent::F_START_DELAY . " varchar(100) NOT NULL default '0', ". 
                 parent::F_DURATION . " varchar(100) NOT NULL default '0', ". 
+                parent::F_DURATION_B . " varchar(100) NOT NULL default '', ". 
                 parent::F_OUTPUT . " varchar(1) NOT NULL default 'b', ".
                 parent::F_OUTPUT_POS . " varchar(1) NOT NULL default 'b', ".
                 parent::F_JAVASCRIPT . " text NOT NULL default '', ". 
@@ -439,6 +440,14 @@ class TwizInstallation extends Twiz{
                 
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". parent::F_CSS . " text NOT NULL default '' after ".parent::F_JAVASCRIPT."";
+                    $code = $wpdb->query($altersql);
+                }
+                
+                // from <= v 1.9.4
+                if( !in_array(parent::F_DURATION_B, $array_describe) ){
+                
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". parent::F_DURATION_B . "  varchar(100) NOT NULL default '' after ".parent::F_DURATION."";
                     $code = $wpdb->query($altersql);
                 }
                 
