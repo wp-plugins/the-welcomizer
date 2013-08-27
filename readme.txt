@@ -38,7 +38,7 @@ Enjoy!
 = 1.9.4 = 
 
 * Added the ability to specify an optional duration.
-* Added shortcode twiz_wp_upload_dir.
+* Added shortcode [twiz_wp_upload_dir].
 * Fixed quote character in Extra CSS.
 * Various UI adjustments.
 * Other minor fixes.
