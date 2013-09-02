@@ -851,7 +851,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.9.5.2';
+        $this->version    = '1.9.5.3';
         $this->cssVersion = '1-47';
         $this->dbVersion  = '3.21';
         $this->pluginUrl  = $pluginUrl;
@@ -1817,7 +1817,91 @@ $("textarea[name^=twiz_options]").blur(function (){
  $("textarea[name^=twiz_extra]").blur(function (){
    twizsizeOrig(this);
    $(this).css({"z-index":1});
-});';
+});';        
+
+        /* Dynamic arrows */
+        $jsscript_arrows = '   $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_A.']").change(function(){twizChangeDirectionImage("a");});  
+   $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_A.']").change(function(){twizChangeDirectionImage("a");});   
+   $("input[name^=twiz_'.self::F_MOVE_TOP_POS_A.']").blur(function(){twizChangeDirectionImage("a");});
+   $("input[name^=twiz_'.self::F_MOVE_LEFT_POS_A.']").blur(function(){twizChangeDirectionImage("a");}); 
+   $("select[id^=twiz_'.self::F_MOVE_LEFT_POS_SIGN_B.']").change(function(){twizChangeDirectionImage("b");});
+   $("select[id^=twiz_'.self::F_MOVE_TOP_POS_SIGN_B.']").change(function(){twizChangeDirectionImage("b");});
+   $("input[name^=twiz_'.self::F_MOVE_TOP_POS_B.']").blur(function(){twizChangeDirectionImage("b");});
+   $("input[name^=twiz_'.self::F_MOVE_LEFT_POS_B.']").blur(function(){twizChangeDirectionImage("b");});    
+   function twizChangeDirectionImage(ab) {
+      var twiz_top_sign  = $("#twiz_move_top_pos_sign_" + ab).val();
+      var twiz_top_val   = $("#twiz_move_top_pos_" + ab).val();
+      var twiz_left_sign = $("#twiz_move_left_pos_sign_" + ab).val();
+      var twiz_left_val  = $("#twiz_move_left_pos_" + ab).val();
+      var twiz_direction = "";
+      var twiz_htmlimage = "";
+      if((twiz_top_sign!="=")&&(twiz_left_sign!="=")){';
+      
+      if($this->label_x == __('Left', 'the-welcomizer') ){
+      
+          $jsscript_arrows.= 'switch(true){
+             case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val=="")): 
+                twiz_direction = "'.self::DIMAGE_N.'";
+                break;
+             case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="+")):
+                twiz_direction = "'.self::DIMAGE_NE.'";
+                break;        
+             case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
+                twiz_direction = "'.self::DIMAGE_E.'";
+                break;         
+             case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
+                twiz_direction = "'.self::DIMAGE_SE.'";    
+                break;     
+             case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val=="")): 
+                twiz_direction = "'.self::DIMAGE_S.'";    
+                break; 
+             case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                twiz_direction = "'.self::DIMAGE_SW.'";    
+                break;    
+             case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                twiz_direction = "'.self::DIMAGE_W.'";    
+                break;          
+             case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                twiz_direction = "'.self::DIMAGE_NW.'";    
+                break;           
+          }';
+         
+         }else{
+         
+              $jsscript_arrows.= 'switch(true){
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val=="")): 
+                    twiz_direction = "'.self::DIMAGE_N.'";
+                    break;
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="+")):
+                    twiz_direction = "'.self::DIMAGE_NW.'";
+                    break;        
+                 case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
+                    twiz_direction = "'.self::DIMAGE_W.'";
+                    break;         
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
+                    twiz_direction = "'.self::DIMAGE_SW.'";    
+                    break;     
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val=="")): 
+                    twiz_direction = "'.self::DIMAGE_S.'";    
+                    break; 
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                    twiz_direction = "'.self::DIMAGE_SE.'";    
+                    break;    
+                 case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                    twiz_direction = "'.self::DIMAGE_E.'";    
+                    break;          
+                 case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
+                    twiz_direction = "'.self::DIMAGE_NE.'";    
+                    break;           
+              }';
+          
+          }
+          $jsscript_arrows.= ' if(twiz_direction!=""){ 
+              twiz_htmlimage = \'<div\' + \' class="twiz-arrow twiz-arrow-\' + twiz_direction + \'"></div>\';
+          }
+      }
+      $("#twiz_td_arrow_" + ab).html(twiz_htmlimage);
+    }';
 
         /* ajax container */ 
         if(!in_array($_POST['twiz_action'], $this->array_action_excluded)){
@@ -2188,7 +2272,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 </td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td class="twiz-td-save" colspan="2"><span id="twiz_save_img_box_2" name="twiz_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_cancel" id="twiz_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'"/> <label for="twiz_stay">'.__('& Stay', 'the-welcomizer').'</label>  <input type="checkbox" id="twiz_stay" name="twiz_stay" '.$twiz_stay.'> <input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"/><input type="hidden" name="twiz_'.self::F_PARENT_ID.'" id="twiz_'.self::F_PARENT_ID.'" value="'.$twiz_parent_id.'"/><input type="hidden" name="twiz_'.self::F_EXPORT_ID.'" id="twiz_'.self::F_EXPORT_ID.'" value="'.$twiz_export_id.'"/></td></tr>
-</table>'.$closediv.$jsscript_open.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
+</table>'.$closediv.$jsscript_open.$jsscript_arrows.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
     
         return $htmlform;
     }
