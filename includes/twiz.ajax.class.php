@@ -1740,25 +1740,25 @@ class TwizAjax extends Twiz{
                 twiz_direction = "'.parent::DIMAGE_N.'";
                 break;
              case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="+")):
-                twiz_direction = "'.parent::DIMAGE_NE.'";
+                twiz_direction = "'.parent::DIMAGE_NW.'";
                 break;        
              case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
-                twiz_direction = "'.parent::DIMAGE_E.'";
+                twiz_direction = "'.parent::DIMAGE_W.'";
                 break;         
              case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="+")): 
-                twiz_direction = "'.parent::DIMAGE_SE.'";    
+                twiz_direction = "'.parent::DIMAGE_SW.'";    
                 break;     
              case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val=="")): 
                 twiz_direction = "'.parent::DIMAGE_S.'";    
                 break; 
              case ((twiz_top_val!="")&&(twiz_top_sign=="+")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
-                twiz_direction = "'.parent::DIMAGE_SW.'";    
+                twiz_direction = "'.parent::DIMAGE_SE.'";    
                 break;    
              case ((twiz_top_val=="")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
-                twiz_direction = "'.parent::DIMAGE_W.'";    
+                twiz_direction = "'.parent::DIMAGE_E.'";    
                 break;          
              case ((twiz_top_val!="")&&(twiz_top_sign=="-")&&(twiz_left_val!="")&&(twiz_left_sign=="-")): 
-                twiz_direction = "'.parent::DIMAGE_NW.'";    
+                twiz_direction = "'.parent::DIMAGE_NE.'";    
                 break;           
           }
           if(twiz_direction!=""){ 
