@@ -851,9 +851,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         /* Twiz variable configuration */
-        $this->version    = '1.9.5';
+        $this->version    = '1.9.5.1';
         $this->cssVersion = '1-47';
-        $this->dbVersion  = '3.2';
+        $this->dbVersion  = '3.21';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -1534,77 +1534,155 @@ class Twiz{
         and ($data['move_top_pos_sign_'.$ab] != '') and ($data['move_left_pos_'.$ab] != ''))
         ){
         
-            /* true super fast logical switch */
-            switch(true){
+            if($this->label_x == __('Left', 'the-welcomizer') ){
             
-                case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '-') 
-                     and ($data['move_left_pos_'.$ab]== '') ): // N
-                     
-                     $direction = self::DIMAGE_N;
-                     
-                    break;
-                    
-                case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '-') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
-                     
-                    $direction = self::DIMAGE_NE;
+                /* true super fast logical switch */
+                switch(true){
                 
-                    break;       
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]== '') ): // N
+                         
+                         $direction = self::DIMAGE_N;
+                         
+                        break;
+                        
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
+                         
+                        $direction = self::DIMAGE_NE;
                     
-                case (($data['move_top_pos_'.$ab]== '') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
-                     
-                    $direction = self::DIMAGE_E;
-                
-                    break;    
+                        break;       
+                        
+                    case (($data['move_top_pos_'.$ab]== '') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
+                         
+                        $direction = self::DIMAGE_E;
                     
-                case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '+') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
-                     
-                    $direction = self::DIMAGE_SE;
-                
-                    break;  
+                        break;    
+                        
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
+                         
+                        $direction = self::DIMAGE_SE;
                     
-               case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '+') 
-                     and ($data['move_left_pos_'.$ab]== '') ): // S
-                     
-                    $direction = self::DIMAGE_S;                 
-                
-                    break;  
+                        break;  
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]== '') ): // S
+                         
+                        $direction = self::DIMAGE_S;                 
                     
-               case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '+') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
-                     
-                     $direction = self::DIMAGE_SW;
-                
-                    break; 
+                        break;  
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
+                         
+                         $direction = self::DIMAGE_SW;
                     
-               case (($data['move_top_pos_'.$ab]== '') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
-                     
-                     $direction = self::DIMAGE_W;
-                
-                    break;      
+                        break; 
+                        
+                   case (($data['move_top_pos_'.$ab]== '') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
+                         
+                         $direction = self::DIMAGE_W;
                     
-               case (($data['move_top_pos_'.$ab]!= '') 
-                     and ($data['move_top_pos_sign_'.$ab] == '-') 
-                     and ($data['move_left_pos_'.$ab]!= '') 
-                     and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
-                     
-                    $direction = self::DIMAGE_NW;
+                        break;      
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
+                         
+                        $direction = self::DIMAGE_NW;
+                    
+                        break;     
+                }
                 
-                    break;     
+            }else{ // positioning method Top & Right
+            
+                /* true super fast logical switch */
+                switch(true){
+                
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]== '') ): // N
+                         
+                         $direction = self::DIMAGE_N;
+                         
+                        break;
+                        
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // NE
+                         
+                        $direction = self::DIMAGE_NW;
+                    
+                        break;       
+                        
+                    case (($data['move_top_pos_'.$ab]== '') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // E
+                         
+                        $direction = self::DIMAGE_W;
+                    
+                        break;    
+                        
+                    case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '+' ) ): // SE
+                         
+                        $direction = self::DIMAGE_SW;
+                    
+                        break;  
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]== '') ): // S
+                         
+                        $direction = self::DIMAGE_S;                 
+                    
+                        break;  
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '+') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // SW
+                         
+                         $direction = self::DIMAGE_SE;
+                    
+                        break; 
+                        
+                   case (($data['move_top_pos_'.$ab]== '') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // W
+                         
+                         $direction = self::DIMAGE_E;
+                    
+                        break;      
+                        
+                   case (($data['move_top_pos_'.$ab]!= '') 
+                         and ($data['move_top_pos_sign_'.$ab] == '-') 
+                         and ($data['move_left_pos_'.$ab]!= '') 
+                         and ($data['move_left_pos_sign_'.$ab] == '-' ) ): // NW
+                         
+                        $direction = self::DIMAGE_NE;
+                    
+                        break;     
+                }            
             }
+            
         }
         
         if($direction!=''){ 

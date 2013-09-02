@@ -667,8 +667,7 @@ jQuery(document).ready(function($) {
         }
         
         // Starting position by default on add new
-        if( !isset($this->admin_option[parent::KEY_STARTING_POSITION]) ) $this->admin_option[parent::KEY_STARTING_POSITION] = '';
-        if( $this->admin_option[parent::KEY_STARTING_POSITION] == '' ) $this->admin_option[parent::KEY_STARTING_POSITION] = 'nothing';
+        if( !isset($this->admin_option[parent::KEY_STARTING_POSITION]) ) $this->admin_option[parent::KEY_STARTING_POSITION] = 'nothing';
         if( $this->admin_option[parent::KEY_STARTING_POSITION] == 'nothing' ) {
         
             $this->admin_option[parent::KEY_STARTING_POSITION] = parent::DEFAULT_STARTING_POSITION;
