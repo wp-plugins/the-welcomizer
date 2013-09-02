@@ -31,8 +31,10 @@ class TwizOutput extends Twiz{
     private $shortcode_id;
     private $animate;
     private $stop;
-    private $top;
-    private $left;
+    private $y;
+    private $x;
+    private $css_y;
+    private $css_x;
     private $generatedCookie;
     private $PHPCookieMax = array();
     private $array_cookie;
@@ -41,7 +43,7 @@ class TwizOutput extends Twiz{
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
-    
+
     private $array_restricted = array("/\.ajax/i"
                                      ,"/\.post/i"
                                      ,"/\.cookie/i"
@@ -61,28 +63,54 @@ class TwizOutput extends Twiz{
         $this->sections = get_option('twiz_sections');
         $this->hardsections = get_option('twiz_hardsections');
         $this->multi_sections = get_option('twiz_multi_sections');
-        $this->multi_sections = (is_array($this->multi_sections)) ? $this->multi_sections : array();
+        $this->multi_sections = ( is_array($this->multi_sections) ) ? $this->multi_sections : array();
         $this->upload_dir = wp_upload_dir(); 
 
         $this->listarray = $this->getCurrentList($shortcode_id);
         
-        if($this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1'){
+        if( $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1' ){
         
             $this->linebreak = self::COMPRESS_LINEBREAK;
             $this->tab = self::COMPRESS_TAB;
         }       
         
-        if($this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1'){
+        if( $this->admin_option[parent::KEY_REGISTER_JQUERY_TRANSIT] == '1' ){
         
             $this->animate = 'transition';
-            $this->top = 'y';
-            $this->left = 'x';
+            
+            if( $this->admin_option[parent::KEY_POSITIONING_METHOD] == parent::POS_TOP_LEFT ){
+            
+                $this->y = 'y';
+                $this->x = 'x';                  
+                $this->css_y = 'top';
+                $this->css_x = 'left';  
+
+            }else{  
+            
+                $this->y = 'y';
+                $this->x = 'right';   
+                $this->css_y = 'top';
+                $this->css_x = 'right';                  
+            }    
             
         }else{
-        
+            
             $this->animate = 'animate';
-            $this->top = 'top';
-            $this->left = 'left';        
+            
+            if( $this->admin_option[parent::KEY_POSITIONING_METHOD] == parent::POS_TOP_LEFT ){
+                
+                $this->y = 'top';
+                $this->x = 'left';   
+                $this->css_y = 'top';
+                $this->css_x = 'left';                   
+
+            }else{  
+            
+                $this->y = 'top';
+                $this->x = 'right';  
+                $this->css_y = 'top';
+                $this->css_x = 'right';                   
+            }      
         }
     }
     
@@ -233,9 +261,9 @@ class TwizOutput extends Twiz{
                             $value[parent::F_MOVE_TOP_POS_SIGN_A] = ($value[parent::F_MOVE_TOP_POS_SIGN_A]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_A].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_A] = ($value[parent::F_MOVE_LEFT_POS_SIGN_A]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_A].'=' : '';
 
-                            $this->generatedScript .= ($value[parent::F_MOVE_LEFT_POS_A]!="") ? $this->left.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_A].$value[parent::F_MOVE_LEFT_POS_A].$value[parent::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
+                            $this->generatedScript .= ($value[parent::F_MOVE_LEFT_POS_A]!="") ? $this->x.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_A].$value[parent::F_MOVE_LEFT_POS_A].$value[parent::F_MOVE_LEFT_POS_FORMAT_A].'"' : '';
                             $this->generatedScript .= (($value[parent::F_MOVE_LEFT_POS_A]!="") and ($value[parent::F_MOVE_TOP_POS_A]!="")) ? ',' : '';
-                            $this->generatedScript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? $this->top.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
+                            $this->generatedScript .= ($value[parent::F_MOVE_TOP_POS_A]!="") ? $this->y.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_A].$value[parent::F_MOVE_TOP_POS_A].$value[parent::F_MOVE_TOP_POS_FORMAT_A].'"' : '';
                             $this->generatedScript .= $value[parent::F_OPTIONS_A];
                             
                             $this->generatedScript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){ ';
@@ -285,9 +313,9 @@ class TwizOutput extends Twiz{
                             $value[parent::F_MOVE_TOP_POS_SIGN_B] = ($value[parent::F_MOVE_TOP_POS_SIGN_B]!='')? $value[parent::F_MOVE_TOP_POS_SIGN_B].'=' : '';
                             $value[parent::F_MOVE_LEFT_POS_SIGN_B] = ($value[parent::F_MOVE_LEFT_POS_SIGN_B]!='')? $value[parent::F_MOVE_LEFT_POS_SIGN_B].'=' : '';
 
-                            $this->generatedScript .= ($value[parent::F_MOVE_LEFT_POS_B]!="") ? $this->left.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_B].$value[parent::F_MOVE_LEFT_POS_B].$value[parent::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
+                            $this->generatedScript .= ($value[parent::F_MOVE_LEFT_POS_B]!="") ? $this->x.': "'.$value[parent::F_MOVE_LEFT_POS_SIGN_B].$value[parent::F_MOVE_LEFT_POS_B].$value[parent::F_MOVE_LEFT_POS_FORMAT_B].'"' : '';
                             $this->generatedScript .= (($value[parent::F_MOVE_LEFT_POS_B]!="") and ($value[parent::F_MOVE_TOP_POS_B]!="")) ? ',' : '';
-                            $this->generatedScript .= ($value[parent::F_MOVE_TOP_POS_B]!="") ? $this->top.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_B].$value[parent::F_MOVE_TOP_POS_B].$value[parent::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
+                            $this->generatedScript .= ($value[parent::F_MOVE_TOP_POS_B]!="") ? $this->y.': "'.$value[parent::F_MOVE_TOP_POS_SIGN_B].$value[parent::F_MOVE_TOP_POS_B].$value[parent::F_MOVE_TOP_POS_FORMAT_B].'"' : '';
                             $this->generatedScript .=  $value[parent::F_OPTIONS_B];
                             
                             // set to sero
@@ -452,12 +480,12 @@ class TwizOutput extends Twiz{
                         
                         if($value[parent::F_START_LEFT_POS]!=''){
                         
-                            $generatedScript .=  $this->linebreak.$this->tab.'left:'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].';'; 
+                            $generatedScript .=  $this->linebreak.$this->tab.$this->css_x.':'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].';'; 
                         }
                         
                         if($value[parent::F_START_TOP_POS]!=''){
                         
-                            $generatedScript .= $this->linebreak.$this->tab.'top:'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].';'; 
+                            $generatedScript .= $this->linebreak.$this->tab.$this->css_y.':'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].';'; 
                         }
                         
                         $generatedScript .= $this->linebreak.'}';
@@ -1469,35 +1497,7 @@ class TwizOutput extends Twiz{
 
         return $expiration;
     }    
-    private function hasOnlyCSS( $value = array() ){
-    
-        if( ($value[parent::F_OPTIONS_A]=='') 
-        and ($value[parent::F_JAVASCRIPT]=='')
-        and ($value[parent::F_MOVE_ELEMENT_A]=='')
-        and ($value[parent::F_MOVE_TOP_POS_A]=='')
-        and ($value[parent::F_MOVE_LEFT_POS_A]=='')
-        and ($value[parent::F_OPTIONS_A]=='')
-        and ($value[parent::F_EXTRA_JS_A]=='')
-        and ($value[parent::F_MOVE_ELEMENT_B]=='')
-        and ($value[parent::F_MOVE_TOP_POS_B]=='')
-        and ($value[parent::F_MOVE_LEFT_POS_B]=='')
-        and ($value[parent::F_OPTIONS_B]=='')
-        and ($value[parent::F_EXTRA_JS_B]=='')
-        and ( ( $value[parent::F_CSS]!='') 
-        or  ($value[parent::F_OUTPUT_POS] == 'c') 
-        and ( ($value[parent::F_START_ELEMENT_TYPE]!='')
-        or ($value[parent::F_START_ELEMENT]!='')
-        or ($value[parent::F_START_TOP_POS]!='')
-        or ($value[parent::F_START_LEFT_POS]!='' ) 
-        or ($value[parent::F_POSITION]!='')
-        or ($value[parent::F_ZINDEX]!='') )
-        )
-        ){
-             return true;
-        }
-    
-        return false;
-    }
+
     private function ValidateParentId( $parentid = '' ){ 
     
         global $wpdb;

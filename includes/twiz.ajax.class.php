@@ -1123,6 +1123,7 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_NUMBER_POSTS.'": $("#twiz_'.parent::KEY_NUMBER_POSTS.'").val(),
          "twiz_'.parent::KEY_SORT_LIB_DIR.'": $("#twiz_'.parent::KEY_SORT_LIB_DIR.'").val(),
          "twiz_'.parent::KEY_STARTING_POSITION.'": $("#twiz_'.parent::KEY_STARTING_POSITION.'").val(),
+         "twiz_'.parent::KEY_POSITIONING_METHOD.'": $("#twiz_'.parent::KEY_POSITIONING_METHOD.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_LEVEL.'": $("#twiz_'.parent::KEY_MIN_ROLE_LEVEL.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_ADMIN.'": $("#twiz_'.parent::KEY_MIN_ROLE_ADMIN.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'": $("#twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'").val(),

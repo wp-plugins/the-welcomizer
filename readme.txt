@@ -35,6 +35,15 @@ Enjoy!
 
 == Changelog ==
 
+= 1.9.5 = 
+
+* Optimized jQuery transit integration.
+* Added a new optional positioning method (for right to left websites).
+* Added date and time to export filename.
+* Modified the view.
+* Modified admin panel.
+* Modified some labels.
+
 = 1.9.4 = 
 
 * Added the ability to specify an optional duration.
@@ -981,6 +990,10 @@ Enjoy!
 * First release!
 
 == Upgrade Notice ==
+
+= 1.9.5 = 
+
+* Added a new optional positioning method.
 
 = 1.9.4 = 
 

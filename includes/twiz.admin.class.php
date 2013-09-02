@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
         
          // extra easing
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-righSt twiz-text-left"><label for="twiz_extra_easing"></label></td></tr>';   
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">'.__('More info', 'the-welcomizer').'</a></label></td></tr>';   
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr></td></tr>';
         
@@ -236,6 +236,10 @@ jQuery(document).ready(function($) {
         $html .= '<tr class="twizadmin4'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Starting position by default', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLStartingPositionList().'</div></td><td class="twiz-form-td-right"></td></tr>';
           
+        // Positioning method
+        $html .= '<tr class="twizadmin4'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Positioning method', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLPositioningMethod().'</div></td><td class="twiz-form-td-right"></td></tr>';
+                    
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin5'] == '1' ){
         
             $hide = '';
@@ -425,6 +429,22 @@ jQuery(document).ready(function($) {
             $selected = ($value == $this->admin_option[parent::KEY_STARTING_POSITION]) ? ' selected="selected"' : '';
             
             $html .= '<option value="'.$value.'"'.$selected.'>'.__($value, 'the-welcomizer').'</option>';
+        }
+    
+        $html .= '</select>';
+        
+        return $html;
+    }        
+    
+    private function getHTMLPositioningMethod(){
+        
+        $html  = '<select name="twiz_'.parent::KEY_POSITIONING_METHOD.'" id="twiz_'.parent::KEY_POSITIONING_METHOD.'">';
+
+        foreach( $this->array_positioning_method as $value ) {
+
+            $selected = ($value == $this->admin_option[parent::KEY_POSITIONING_METHOD]) ? ' selected="selected"' : '';
+            
+            $html .= '<option value="'.$value.'"'.$selected.'>'.$value.'</option>';
         }
     
         $html .= '</select>';
@@ -647,13 +667,23 @@ jQuery(document).ready(function($) {
         }
         
         // Starting position by default on add new
-        if( !isset($this->admin_option[parent::KEY_STARTING_POSITION]) ) $this->admin_option[parent::KEY_STARTING_POSITION] = 'nothing';
+        if( !isset($this->admin_option[parent::KEY_STARTING_POSITION]) ) $this->admin_option[parent::KEY_STARTING_POSITION] = '';
+        if( $this->admin_option[parent::KEY_STARTING_POSITION] == '' ) $this->admin_option[parent::KEY_STARTING_POSITION] = 'nothing';
         if( $this->admin_option[parent::KEY_STARTING_POSITION] == 'nothing' ) {
         
             $this->admin_option[parent::KEY_STARTING_POSITION] = parent::DEFAULT_STARTING_POSITION;
             $code = update_option('twiz_admin', $this->admin_option); 
             $this->admin_option = get_option('twiz_admin');
-        }
+        }        
+        
+        // Positioning method
+        if( !isset($this->admin_option[parent::KEY_POSITIONING_METHOD]) ) $this->admin_option[parent::KEY_POSITIONING_METHOD] = '';
+        if( $this->admin_option[parent::KEY_POSITIONING_METHOD] == '' ) {
+        
+            $this->admin_option[parent::KEY_POSITIONING_METHOD] =  parent::DEFAULT_POSITIONING_METHOD; 
+            $code = update_option('twiz_admin', $this->admin_option); 
+            $this->admin_option = get_option('twiz_admin');
+        }        
         
         // Min role Level
         if( !isset($this->admin_option[parent::KEY_MIN_ROLE_LEVEL]) ) $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = '';
@@ -727,6 +757,7 @@ jQuery(document).ready(function($) {
         $setting[parent::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_'.parent::KEY_NUMBER_POSTS]));
         $setting[parent::KEY_SORT_LIB_DIR] = esc_attr(trim($_POST['twiz_'.parent::KEY_SORT_LIB_DIR]));
         $setting[parent::KEY_STARTING_POSITION] = esc_attr(trim($_POST['twiz_'.parent::KEY_STARTING_POSITION]));
+        $setting[parent::KEY_POSITIONING_METHOD] = esc_attr(trim($_POST['twiz_'.parent::KEY_POSITIONING_METHOD]));
         $setting[parent::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LEVEL]));
         $setting[parent::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_ADMIN]));
         $setting[parent::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LIBRARY]));
@@ -783,7 +814,10 @@ jQuery(document).ready(function($) {
         $this->admin_option[parent::KEY_SORT_LIB_DIR] = $setting[parent::KEY_SORT_LIB_DIR];
         
         // Starting position by default on add new
-        $this->admin_option[parent::KEY_STARTING_POSITION] = $setting[parent::KEY_STARTING_POSITION];
+        $this->admin_option[parent::KEY_STARTING_POSITION] = $setting[parent::KEY_STARTING_POSITION];    
+        
+        // Positioning method
+        $this->admin_option[parent::KEY_POSITIONING_METHOD] = $setting[parent::KEY_POSITIONING_METHOD];
         
         // Min role Level
         $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];

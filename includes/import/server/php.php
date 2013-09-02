@@ -145,7 +145,7 @@ class qqFileUploader extends TwizLibrary{
                            
         /* twiz class */
         if (!is_writable($uploadDirectory)){
-            return array('error' => __('You must first create this directory', 'the-welcomizer')." '".$this->import_path_message."'");
+            return array('error' => __('You must first create this directory and make it writable', 'the-welcomizer').": ".$this->import_path_message);
         }
         
         if (!$this->file){
@@ -155,11 +155,11 @@ class qqFileUploader extends TwizLibrary{
         $size = $this->file->getSize();
         
         if ($size == 0) {
-            return array('error' => __('File is empty', 'the-welcomizer') );
+            return array('error' => __('File is empty.', 'the-welcomizer') );
         }
         
         if ($size > $this->sizeLimit) {
-            return array('error' => __('File is too large', 'the-welcomizer'));
+            return array('error' => __('File is too large.', 'the-welcomizer'));
         }
         
         $pathinfo = pathinfo($this->file->getName());
