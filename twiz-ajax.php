@@ -398,7 +398,7 @@
                 
                     case 'duration':
                     
-                       $htmlresponse = $myTwiz->formatDuration($twiz_id);
+                       $htmlresponse = $myTwiz->formatListDuration($twiz_id);
                        
                        break;
                        
