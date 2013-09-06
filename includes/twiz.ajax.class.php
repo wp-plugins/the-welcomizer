@@ -1299,7 +1299,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_val_on_event_" + twiz_numid).html(data);
                     $("#twiz_ajax_td_val_on_event_" + twiz_numid).fadeIn("fast");
                     $("#twiz_ajax_td_val_on_event_" + twiz_numid).css({"color":"green"});
-                    bind_twiz_Ajax_TD();bind_twiz_TR_View();
+                    bind_twiz_Ajax_TD();twiz_TR_View_ReBind();
                     twiz_unset_array_view_id(twiz_numid);
                 }).fail(function() { twiz_ajax_locked = false;  }); 
     }});    
@@ -1373,7 +1373,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).html(data);
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).fadeIn("fast");
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).css({color:"green"});
-                    bind_twiz_Ajax_TD();bind_twiz_TR_View();
+                    bind_twiz_Ajax_TD();twiz_TR_View_ReBind();
                     twiz_unset_array_view_id(twiz_numid);
                 }).fail(function() { twiz_ajax_locked = false;  }); 
             break;
@@ -1426,7 +1426,7 @@ class TwizAjax extends Twiz{
                     $("input[name^=twiz_input]").unbind("blur");
                     $("div[id^=twiz_ajax_td_val]").unbind("click");
                     $("div[id^=twiz_ajax_td_val]").unbind("mouseover");
-                    bind_twiz_Ajax_TD();bind_twiz_TR_View();                  
+                    bind_twiz_Ajax_TD();twiz_TR_View_ReBind();                  
                     $("#twiz_" + twiz_columnRealName + "_" + twiz_numid).focus();
                 }).fail(function() { twiz_ajax_locked = false;  });  
                 break;                
@@ -1499,6 +1499,11 @@ class TwizAjax extends Twiz{
           return false;
       }
     }}
+  function twiz_TR_View_ReBind(){
+    $(".twiz-list-tr").unbind("mouseenter");
+    $(".twiz-list-group-tr").unbind("mouseover");
+    bind_twiz_TR_View();  
+  }      
   var bind_twiz_TR_View = function() {    
     $(".twiz-list-tr").mouseenter(function(e){
     if(twiz_library_active == false){
@@ -1617,7 +1622,7 @@ class TwizAjax extends Twiz{
     $(".twiz-table-list-tr-h").unbind("droppable");
     bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
     bind_twiz_Cancel();bind_twiz_Save();bind_twiz_Number_Restriction();bind_twiz_Choose_Options();
-    bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Order_by();    
+    bind_twiz_Ajax_TD();twiz_TR_View_ReBind();bind_twiz_Order_by();    
   }  
   function twizPostMenu(twiz_section_id, twiz_order_by){
    if( twiz_ajax_locked == false ) {  

@@ -1006,13 +1006,16 @@ $("#twiz_section_name").focus();';
         $hardsections = $this->array_hardsections;
         
         $menu = '';
-        
-        $output_type_default = '<div class="twiz-output-label">'.$this->array_output[self::TYPE_DEFAULT].'</div>';
-         
+
+        $header = '<div class="twiz-menu-header"><div id="twiz_menuheader_status" class="twiz-text-left twiz-float-left">'.__('Status', 'the-welcomizer').'</div>';
+        $header .='<div id="twiz_menuheader_section" class="twiz-text-left twiz-float-left">'.__('Section', 'the-welcomizer').'';
+        $header .='<div id="twiz_menuheader_type" class="twiz-text-center twiz-float-right ">'.__('Type', 'the-welcomizer').'</div></div></div>';
+       
         $statusimg = '<div id="twiz_status_vmenu_home" class="twiz-status-menu">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_HOME, $hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS], 'vmenu' ).'</div>';
+        $output_type_default = '<div class="twiz-output-label">'.$this->array_output[self::TYPE_DEFAULT].'</div>';
        
         // default home section
-        $menu .=  $statusimg . '<div id="twiz_vmenu_home" class="twiz-menu">'.__('Home'). $output_type_default .'</div>';
+        $menu .=  $header.$statusimg . '<div id="twiz_vmenu_home" class="twiz-menu">'.__('Home'). $output_type_default .'</div>';
        
         // generate the section menu
         foreach( $sections as $key => $value ){
@@ -1097,9 +1100,9 @@ $("#twiz_section_name").focus();';
        if( $section_name == '' ){return '';}
        
        $selected = ($selected_id == $section_id ) ? ' twiz-menu-selected' : '';
-       
        $statusimg = '<div id="twiz_status_vmenu_'.$section_id.'" class="twiz-status-menu twiz-display-block">'.$this->getHtmlImgStatus( $section_id, $status, 'vmenu' ).'</div>';
        $section_name = (strlen($section_name)>49)? mb_substr($section_name, 0, self::MAX_LENGHT_SECTION_NAME,'UTF-8').'...': $section_name;
+       
        $html = $statusimg.'<div id="twiz_vmenu_'.$section_id.'" class="twiz-menu twiz-display-block'.$selected.'">'.$section_name.$this->getHtmlTypeLabel($section_id).'</div>';
             
        return $html;

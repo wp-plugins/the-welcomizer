@@ -104,6 +104,22 @@ div a:hover, td a:hover {
     color: #464646;
     background-color: #ffffff;    
 }
+.twiz-menu-header{
+    font-size: 12px; 
+    height: 19px;    
+    padding: 5px;
+    width: 98%;
+    background-color: #afe17a;      
+}
+#twiz_menuheader_status {
+    width: 40px;
+}
+#twiz_menuheader_section {
+    width: 91%;
+}
+#twiz_menuheader_type {
+    width: 75px;
+}
 #twiz_vertical_menu,
 .twiz-right-panel {
     border-radius: 6px 6px 6px 6px;
@@ -324,13 +340,13 @@ div a:hover, td a:hover {
 }
 #twiz_more_menu,
 #twiz_add_menu {
-    min-height: 19px;
+    height: 19px;
 }
 #twiz_delete_menu,
 #twiz_edit_menu,
 .twiz-menu {
     float: left;
-    min-height: 19px;
+    height: 19px;
 }
 #twiz_add_menu {
     float: right;
