@@ -6,29 +6,29 @@ $_SERVER['PHP_SELF'] = $PHP_SELF = '/wp-admin/'.preg_replace( '/(\?.*)?$/', '', 
 require_once('../../../../../../wp-load.php');
         
 // Set the multi-language file, english is the standard.
-load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/../../../languages/' ); 
+load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/../../../languages/' );
 
 // Info: http://wordpress.org/support/topic/fatal-error-call-to-undefined-function-wp_verify_nonce
-require_once( '../../../../../../wp-includes/pluggable.php'); 
+require_once( '../../../../../../wp-includes/pluggable.php');
 
-/* Require Twiz Class */
-require_once(dirname(__FILE__).'/../../twiz.class.php'); 
-require_once(dirname(__FILE__).'/../../twiz.importexport.class.php'); 
-require_once(dirname(__FILE__).'/../../twiz.library.class.php'); 
+// Require Twiz Class 
+require_once(dirname(__FILE__).'/../../twiz.class.php');
+require_once(dirname(__FILE__).'/../../twiz.importexport.class.php');
+require_once(dirname(__FILE__).'/../../twiz.library.class.php');
 
 $_POST['twiz_nonce']      = (!isset($_POST['twiz_nonce'])) ? '' : $_POST['twiz_nonce'];
 $_GET['twiz_nonce']       = (!isset($_GET['twiz_nonce'])) ? '' : $_GET['twiz_nonce'];
 $_POST['twiz_action']     = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
-$_GET['twiz_action']      = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action']; 
+$_GET['twiz_action']      = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action'];
 $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'];
-$_GET['twiz_section_id']  = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id']; 
+$_GET['twiz_section_id']  = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id'];
 
 $nonce = ($_POST['twiz_nonce'] == '') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
 $action = ($_POST['twiz_action'] == '') ? $_GET['twiz_action'] : $_POST['twiz_action'];
 
-/* Nonce security import security check */
+// Nonce security import security check 
 if (! wp_verify_nonce($nonce, 'twiz-nonce') ) {
-    die("You are not logged in."); 
+    die("You are not logged in.");
 }
 
 /**
@@ -49,7 +49,7 @@ class qqUploadedFileXhr {
             return false;
         }
         
-        $target = fopen($path, "w");        
+        $target = fopen($path, "w");
         fseek($temp, 0, SEEK_SET);
         stream_copy_to_stream($temp, $target);
         fclose($target);
@@ -61,7 +61,7 @@ class qqUploadedFileXhr {
     }
     function getSize() {
         if (isset($_SERVER["CONTENT_LENGTH"])){
-            return (int)$_SERVER["CONTENT_LENGTH"];            
+            return (int)$_SERVER["CONTENT_LENGTH"];
         } else {
             throw new Exception( __('Getting content length is not supported.', 'the-welcomizer'));
         }      
@@ -103,27 +103,27 @@ class qqFileUploader extends TwizLibrary{
         
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
             
-        $this->allowedExtensions = $allowedExtensions;        
+        $this->allowedExtensions = $allowedExtensions;
         $this->sizeLimit = $sizeLimit;
         $this->action = $action;
-        $this->checkServerSettings();       
+        $this->checkServerSettings();
 
         if (isset($_GET['qqfile'])) {
             $this->file = new qqUploadedFileXhr();
         } elseif (isset($_FILES['qqfile'])) {
             $this->file = new qqUploadedFileForm();
         } else {
-            $this->file = false; 
+            $this->file = false;
         }
     }
     
     private function checkServerSettings(){        
         $postSize = $this->toBytes(ini_get('post_max_size'));
-        $uploadSize = $this->toBytes(ini_get('upload_max_filesize'));        
+        $uploadSize = $this->toBytes(ini_get('upload_max_filesize'));
         
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
-            $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';             
-            die("{'error':'".__('php.ini increase post_max_size and upload_max_filesize to ', 'the-welcomizer').$size."'}");    
+            $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
+            die("{'error':'".__('php.ini increase post_max_size and upload_max_filesize to ', 'the-welcomizer').$size."'}");
         }      
     }
     
@@ -133,7 +133,7 @@ class qqFileUploader extends TwizLibrary{
         switch($last) {
             case 'g': $val *= 1024;
             case 'm': $val *= 1024;
-            case 'k': $val *= 1024;        
+            case 'k': $val *= 1024;
         }
         return $val;
     }
@@ -143,7 +143,7 @@ class qqFileUploader extends TwizLibrary{
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
                            
-        /* twiz class */
+        // twiz class 
         if (!is_writable($uploadDirectory)){
             return array('error' => __('You must first create this directory and make it writable', 'the-welcomizer').": ".$this->import_path_message);
         }
@@ -163,7 +163,7 @@ class qqFileUploader extends TwizLibrary{
         }
         
         $pathinfo = pathinfo($this->file->getName());
-        $filename = $this->file->getName(); 
+        $filename = $this->file->getName();
         
         $ext = $pathinfo['extension'];
 
@@ -206,11 +206,11 @@ class qqFileUploader extends TwizLibrary{
                 
                     $return_array = 'w';
                     
-                     /* get section id */
+                     // get section id 
                      $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
                     
                     $TwizImportExport  = new TwizImportExport();
-                    /* import list data */
+                    // import list data 
                     if( !$code = $TwizImportExport->import($sectionid)){
                     
                         $return_array = array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
@@ -229,7 +229,7 @@ class qqFileUploader extends TwizLibrary{
             } 
         }
         
-        /* delete file */
+        // delete file 
         if(@file_exists($uploadDirectory . $filename)) {
         
             unlink($uploadDirectory . $filename );
@@ -266,7 +266,7 @@ class qqFileUploader extends TwizLibrary{
     $result = $uploader->handleUpload(WP_CONTENT_DIR.Twiz::IMPORT_PATH);
 
     // to pass data through iframe you will need to encode all html tags
-    $htmlresponse = htmlspecialchars(json_encode($result), ENT_NOQUOTES); 
+    $htmlresponse = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
     
     echo($htmlresponse);
 ?>

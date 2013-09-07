@@ -17,30 +17,30 @@
  
 class TwizMenu extends Twiz{
         
-    /* variable declaration */
+    // variable declaration 
     private $pages;
     private $allposts;
     private $categories;
     private $array_output;
     private $array_sections;
-    private $array_hardsections; 
+    private $array_hardsections;
     private $array_multi_sections;
     private $array_section_conversion;
     
-    /* key menu constants */
-    const KEY_STATUS = 'status';     
+    // key menu constants 
+    const KEY_STATUS = 'status';
     
-    /* output type constants */
-    const TYPE_DEFAULT      = 'default';      
-    const TYPE_UNIQUE       = 'unique';      
-    const TYPE_MULTIPLE     = 'multiple';      
-    const TYPE_CUSTOM_LOGIC = 'custom_logic';      
-    const TYPE_CUSTOM_LOGIC_SHORT = 'logic';    
-    const TYPE_SHORT_CODE   = 'shortcode';    
+    // output type constants 
+    const TYPE_DEFAULT      = 'default';
+    const TYPE_UNIQUE       = 'unique';
+    const TYPE_MULTIPLE     = 'multiple';
+    const TYPE_CUSTOM_LOGIC = 'custom_logic';
+    const TYPE_CUSTOM_LOGIC_SHORT = 'logic';
+    const TYPE_SHORT_CODE   = 'shortcode';
     
     
-    /* Section name menu max lenght... */
-    const MAX_LENGHT_SECTION_NAME = '47';     
+    // Section name menu max lenght... 
+    const MAX_LENGHT_SECTION_NAME = '47';
                          
     function __construct(){
     
@@ -59,12 +59,12 @@ class TwizMenu extends Twiz{
                                     ,self::TYPE_CUSTOM_LOGIC => __('Custom logic', 'the-welcomizer')
                                     ,self::TYPE_CUSTOM_LOGIC_SHORT => __('Logic', 'the-welcomizer')
                                     ,self::TYPE_SHORT_CODE   => __('Short code', 'the-welcomizer')
-                                    );                  
+                                    );
         
         $this->categories = get_categories( array('orderby' => 'name', 
                                                   'order'   => 'ASC') );
-        $this->pages = $this->get_wp('page', 'order by post_title'); 
-        $this->allposts = $this->get_wp('post', 'order by post_date desc'); 
+        $this->pages = $this->get_wp('page', 'order by post_title');
+        $this->allposts = $this->get_wp('post', 'order by post_date desc');
 
         $this->loadSections();
     }
@@ -112,10 +112,10 @@ class TwizMenu extends Twiz{
         $html = '';
         $new_section_id = '';
         
-        if(!isset($_POST['twiz_section_name'])) $_POST['twiz_section_name'] = '';  
-        if(!isset($_POST['twiz_output_choice']))  $_POST['twiz_output_choice'] = '';  
-        if(!isset($_POST['twiz_custom_logic'])) $_POST['twiz_custom_logic'] = '';  
-        if(!isset($_POST['twiz_shortcode'])) $_POST['twiz_shortcode'] = '';  
+        if(!isset($_POST['twiz_section_name'])) $_POST['twiz_section_name'] = '';
+        if(!isset($_POST['twiz_output_choice']))  $_POST['twiz_output_choice'] = '';
+        if(!isset($_POST['twiz_custom_logic'])) $_POST['twiz_custom_logic'] = '';
+        if(!isset($_POST['twiz_shortcode'])) $_POST['twiz_shortcode'] = '';
     
         $section_status = esc_attr(trim($_POST['twiz_section_status']));
         $current_section_id = esc_attr(trim($_POST['twiz_current_section_id']));
@@ -129,7 +129,7 @@ class TwizMenu extends Twiz{
         $cookie_with = esc_attr(trim($_POST['twiz_cookie_with']));
         $cookie_scope = esc_attr(trim($_POST['twiz_cookie_scope']));
             
-        $section_status = ($section_status=='true') ? parent::STATUS_ACTIVE : parent::STATUS_INACTIVE;    
+        $section_status = ($section_status=='true') ? parent::STATUS_ACTIVE : parent::STATUS_INACTIVE;
             
             
         if( $section_json_id == '' ){return '';}
@@ -178,7 +178,7 @@ class TwizMenu extends Twiz{
                     $code = $wpdb->query($sql);
                 }
 
-                if( !isset($this->array_sections[$array_section_id[0]]) ) $this->array_sections[$array_section_id[0]] = '';              
+                if( !isset($this->array_sections[$array_section_id[0]]) ) $this->array_sections[$array_section_id[0]] = '';
                 
                 $this->array_sections[$array_section_id[0]] = $section;
                 
@@ -250,7 +250,7 @@ class TwizMenu extends Twiz{
                 }
                 
                 if( !isset($this->array_multi_sections[$section_id]) ) $this->array_multi_sections[$section_id] = '';
-                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';   
+                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';
                               
                 $this->array_multi_sections[$section_id] = $array_section_id;
                 $this->array_sections[$section_id] = $section;
@@ -310,7 +310,7 @@ class TwizMenu extends Twiz{
                     ,". parent::F_EXTRA_JS_A . " = replace(". parent::F_EXTRA_JS_A . ", '_".$current_section_id."', '_".$section_id."') 
                     ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '_".$current_section_id."', '_".$section_id."') 
                     WHERE ". parent::F_SECTION_ID ." = '".$current_section_id."'";
-                    $code = $wpdb->query($updatesql);   
+                    $code = $wpdb->query($updatesql);
                     
                     // update the section
                     $sql = "UPDATE ".$this->table." 
@@ -320,7 +320,7 @@ class TwizMenu extends Twiz{
                 }
             
                 if( !isset($this->array_multi_sections[$section_id]) ) $this->array_multi_sections[$section_id] = '';
-                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';   
+                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';
                                
                 $this->array_multi_sections[$section_id] = $custom_logic;
                 $this->array_sections[$section_id] = $section;
@@ -380,7 +380,7 @@ class TwizMenu extends Twiz{
                     ,". parent::F_EXTRA_JS_A . " = replace(". parent::F_EXTRA_JS_A . ", '_".$current_section_id."', '_".$section_id."') 
                     ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '_".$current_section_id."', '_".$section_id."') 
                     WHERE ". parent::F_SECTION_ID ." = '".$current_section_id."'";
-                    $code = $wpdb->query($updatesql);   
+                    $code = $wpdb->query($updatesql);
                     
                     // update the section
                     $sql = "UPDATE ".$this->table." 
@@ -390,7 +390,7 @@ class TwizMenu extends Twiz{
                 }
             
                 if( !isset($this->array_multi_sections[$section_id]) ) $this->array_multi_sections[$section_id] = '';
-                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';   
+                if( !isset($this->array_sections[$section_id]) ) $this->array_sections[$section_id] = '';
                                
                 $this->array_multi_sections[$section_id] = $shortcode;
                 $this->array_sections[$section_id] = $section;
@@ -401,7 +401,7 @@ class TwizMenu extends Twiz{
                 
                 return $section_id;
                 
-            break;         
+            break;
             
             case 'twiz_default':
             
@@ -415,12 +415,12 @@ class TwizMenu extends Twiz{
                                                            ,parent::KEY_COOKIE_WITH     => $cookie_with  
                                                            ,parent::KEY_COOKIE_SCOPE => $cookie_scope  
                                                            )                                      
-                                );    
-              $this->array_hardsections[$section_id] = $section;                                  
+                                );
+              $this->array_hardsections[$section_id] = $section;
               $code = update_option('twiz_hardsections', $this->array_hardsections);
               $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
  
-              return $section_id;              
+              return $section_id;
             
               break;
         }
@@ -431,7 +431,7 @@ class TwizMenu extends Twiz{
         if( ($cookie_option_1 != '')
         and(($cookie_with == 'js') or ($cookie_with == 'all')) ){
         
-            $code = update_option('twiz_cookie_js_status', true);  
+            $code = update_option('twiz_cookie_js_status', true);
             
         }else{
         
@@ -439,7 +439,7 @@ class TwizMenu extends Twiz{
             
             if($hasOtherSectionCookies == false){
             
-                $code = update_option('twiz_cookie_js_status', false);  
+                $code = update_option('twiz_cookie_js_status', false);
             }
         }
         
@@ -570,7 +570,7 @@ class TwizMenu extends Twiz{
             
             if(in_array('c_'.$value->cat_ID, $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
-                $selected = ' selected="selected"'; 
+                $selected = ' selected="selected"';
                 $select_cat .= '<option value="c_'.$value->cat_ID.'"'.$selected .'>'.$value->cat_name.'</option>';
             }else{
                 if( ((in_array('c_'.$value->cat_ID, $array_sections)and ($type!= "ms")))
@@ -587,7 +587,7 @@ class TwizMenu extends Twiz{
             
             if(in_array('p_'.$value['ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
-                $selected = ' selected="selected"'; 
+                $selected = ' selected="selected"';
                 $select_page .= '<option value="p_'.$value['ID'].'"'.$selected .'>'.$value['post_title'].'</option>';
             }else{
                 if( ((in_array('p_'.$value['ID'], $array_sections ) and ($type!= "ms")))
@@ -611,19 +611,19 @@ class TwizMenu extends Twiz{
         foreach( $this->allposts as $value ){
         
             if($i > $this->admin_option[parent::KEY_NUMBER_POSTS]){
-                break;   
+                break;
             }
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
 
             if( ((in_array('a_'.$value['ID'], $array_sections))and ($type!= "ms"))
             or(!array_key_exists('a_'.$value['ID'], $sections)) ){
 
-                $select_post .= '<option value="a_'.$value['ID'].'">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';            
+                $select_post .= '<option value="a_'.$value['ID'].'">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';
             }
             $i++;
         }
         
-        /* close select */
+        // close select 
         $html =  $select.$separator_cat.$select_cat.$separator_page.$select_page.$separator_post.$selected_post_first.$select_post.'</select>';
         
         return $html;
@@ -679,7 +679,7 @@ class TwizMenu extends Twiz{
         foreach( $this->allposts as $value ){
         
             if($i > $this->admin_option[parent::KEY_NUMBER_POSTS]){
-                break;   
+                break;
             }
             
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
@@ -728,10 +728,10 @@ class TwizMenu extends Twiz{
                 
                     $twiz_shortcode = $this->array_multi_sections[$section_id];
                     $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_0").attr("checked", "checked");                    
+$("#twiz_output_choice_0").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
 $("#twiz_shortcode_output").show();';
-                    break;                    
+                    break;
                     
                 case 'ms': // is custom multi-sections
                 
@@ -747,7 +747,7 @@ $("#twiz_multiple_output").show();';
                 
                     $twiz_custom_logic = $this->array_multi_sections[$section_id];
                     $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_3").attr("checked", "checked");                    
+$("#twiz_output_choice_3").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
 $("#twiz_logic_output").show();';
                     break;
@@ -759,7 +759,7 @@ $("#twiz_logic_output").show();';
                     $array_sections = array($section_id);
                     
                     $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_0").attr("checked", "checked");                    
+$("#twiz_output_choice_0").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
 $("#twiz_logic_output").hide();
 $("#twiz_shortcode_output").hide();';
@@ -769,15 +769,15 @@ $("#twiz_shortcode_output").hide();';
                 
                     $array_sections = array($section_id);
                     $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_1").attr("checked", "checked");                    
+$("#twiz_output_choice_1").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
-$("#twiz_single_output").show();';                    
+$("#twiz_single_output").show();';
             }
             
         }else{
             
                 $jsscript_in = '$(".twiz-custom-message").html("");
-$("#twiz_output_choice_0").attr("checked", "checked");                    
+$("#twiz_output_choice_0").attr("checked", "checked");
 $(".twiz-block-ouput").hide();
 $("#twiz_shortcode_output").show();';
         }        
@@ -851,8 +851,8 @@ $("#twiz_div_cookie_option_2").show();';
         $twiz_section_name = str_replace('<span class="twiz-status-red">', '', $twiz_section_name );
         $twiz_section_name = str_replace('</span>', '', $twiz_section_name );
         
-        $twiz_shortcode_sample = ( $twiz_shortcode != '' ) ? '[twiz id="'.$twiz_shortcode.'"]' : '[twiz id="'. __('Example', 'the-welcomizer').'"]';    
-        $twiz_shortcode_sample_theme = ( $twiz_shortcode != '' ) ? '<?php echo do_shortcode( \'[twiz id="'.$twiz_shortcode.'"]\' ); ?>' : '<?php echo do_shortcode( \'[twiz id="'. __('Example', 'the-welcomizer').'"]\' ); ?>';    
+        $twiz_shortcode_sample = ( $twiz_shortcode != '' ) ? '[twiz id="'.$twiz_shortcode.'"]' : '[twiz id="'. __('Example', 'the-welcomizer').'"]';
+        $twiz_shortcode_sample_theme = ( $twiz_shortcode != '' ) ? '<?php echo do_shortcode( \'[twiz id="'.$twiz_shortcode.'"]\' ); ?>' : '<?php echo do_shortcode( \'[twiz id="'. __('Example', 'the-welcomizer').'"]\' ); ?>';
                 
         $jsscript = '<script>
  //<![CDATA[
@@ -1199,7 +1199,7 @@ $("#twiz_section_name").focus();';
 
                     $name = '<span class="twiz-status-red">'.$name.'</span>';
                 }
-                break;   
+                break;
         }
         
         return $name;
@@ -1229,7 +1229,7 @@ $("#twiz_section_name").focus();';
 
                 if( !is_array($sections[$key]) ){ // reformat array for the first time
                     
-                    if( !isset($this->array_sections[$value]) ) $this->array_sections[$value] = ''; 
+                    if( !isset($this->array_sections[$value]) ) $this->array_sections[$value] = '';
                     
                     $section = array(parent::F_STATUS   => parent::STATUS_ACTIVE
                                     ,parent::KEY_TITLE  => $this->getSectionName($key)
@@ -1247,12 +1247,12 @@ $("#twiz_section_name").focus();';
                     
                 }else{ 
             
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE]) ) $this->array_sections[$key][parent::KEY_COOKIE] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = ''; 
-                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = ''; 
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE]) ) $this->array_sections[$key][parent::KEY_COOKIE] = '';
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] = '';
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = '';
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = '';
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = '';
+                    if( !isset($this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_sections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = '';
                  
                     if( !isset($this->array_sections[$key][parent::F_SECTION_ID]) ){ // Always update the title, this array has been cleaned already
                         
@@ -1266,7 +1266,7 @@ $("#twiz_section_name").focus();';
                         $newkey = $this->array_sections[$key][parent::F_SECTION_ID]; // New key from array
                         $samestatus = $this->array_sections[$key][parent::F_STATUS]; // Same status
                         
-                        if( !isset($this->array_sections[$newkey]) ) $this->array_sections[$newkey] = ''; 
+                        if( !isset($this->array_sections[$newkey]) ) $this->array_sections[$newkey] = '';
                         
                         $section = array( parent::F_STATUS   => $samestatus
                                          ,parent::KEY_TITLE  => $this->getSectionName($newkey)
@@ -1285,7 +1285,7 @@ $("#twiz_section_name").focus();';
                 }
             }
             
-            $code = update_option('twiz_sections', $this->array_sections); 
+            $code = update_option('twiz_sections', $this->array_sections);
         }
    
           // Sort by title
@@ -1337,17 +1337,17 @@ $("#twiz_section_name").focus();';
                 
             }else{
             
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE]) ) $this->array_hardsections[$key][parent::KEY_COOKIE] = ''; 
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] = ''; 
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = ''; 
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = ''; 
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = '';             
-                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = '';             
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE]) ) $this->array_hardsections[$key][parent::KEY_COOKIE] = '';
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] = '';
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = '';
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2] = '';
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH] = '';
+                if( !isset($this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE]) ) $this->array_hardsections[$key][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE] = '';
                 
             }
         }
         
-        $code = update_option('twiz_hardsections', $this->array_hardsections); 
+        $code = update_option('twiz_hardsections', $this->array_hardsections);
 
     }  
     

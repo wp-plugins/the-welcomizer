@@ -15,7 +15,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-    require_once(dirname(__FILE__).'/twiz.menu.class.php'); 
+    require_once(dirname(__FILE__).'/twiz.menu.class.php');
     
 
 class TwizImportExport extends Twiz{
@@ -43,21 +43,21 @@ class TwizImportExport extends Twiz{
     
     function importData( $filename = '', $sectionid = parent::DEFAULT_SECTION_HOME ){
  
-        /* full file path */
+        // full file path 
         $file = WP_CONTENT_DIR.parent::IMPORT_PATH.$filename;
         $rows = '';
         if ( @file_exists($file) ) {
         
             if( $twz = @simplexml_load_file($file) ){
 
-               /* flip array mapping value to match */
+               // flip array mapping value to match 
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
                
-                /* loop xml entities */              
+                // loop xml entities               
                 foreach( $twz->children() as $twzrow ) { 
                 
                     $row = array();
-                    $row[parent::F_SECTION_ID] = $sectionid; 
+                    $row[parent::F_SECTION_ID] = $sectionid;
                     
                     foreach( $twzrow->children() as $twzfield ) {
                     
@@ -68,23 +68,23 @@ class TwizImportExport extends Twiz{
 
                         if( $fieldname != "" ) {                        
 
-                            /* get the real name of the field */
+                            // get the real name of the field 
                             $fieldvalue = $twzfield;
 
-                            /* build record array */
+                            // build record array 
                             $row[$fieldname] = $fieldvalue;
                         }
                     }
                     $rows[] = $row;
                 }
                 if(count($rows > 0 )){
-                    /* insert row  */
+                    // insert row  
                     if( !$code = $this->importInsert($rows, $sectionid) ){
                         
                         return false;
                     }
                 }
-                /* imported */     
+                // imported      
                 return  true;
             }
         }
@@ -133,7 +133,7 @@ class TwizImportExport extends Twiz{
 
                     $newdata[parent::F_JAVASCRIPT] = str_replace($data[parent::F_EXPORT_ID.'_old'], $data[parent::F_EXPORT_ID], $newdata[parent::F_JAVASCRIPT]);
                     $newdata[parent::F_EXTRA_JS_A] = str_replace($data[parent::F_EXPORT_ID.'_old'], $data[parent::F_EXPORT_ID], $newdata[parent::F_EXTRA_JS_A]);
-                    $newdata[parent::F_EXTRA_JS_B] = str_replace($data[parent::F_EXPORT_ID.'_old'], $data[parent::F_EXPORT_ID], $newdata[parent::F_EXTRA_JS_B]); 
+                    $newdata[parent::F_EXTRA_JS_B] = str_replace($data[parent::F_EXPORT_ID.'_old'], $data[parent::F_EXPORT_ID], $newdata[parent::F_EXTRA_JS_B]);
  
                     $tempdata[$exportid] = $newdata;
                 }
@@ -146,7 +146,7 @@ class TwizImportExport extends Twiz{
         foreach( $rows as $data ){
         
   
-            /* Fields added after */
+            // Fields added after 
             if( !isset($data[parent::F_DURATION_B]) ) $data[parent::F_DURATION_B] = '';
             if( !isset($data[parent::F_ON_EVENT]) ) $data[parent::F_ON_EVENT] = '';
             if( !isset($data[parent::F_LOCK_EVENT]) ) $data[parent::F_LOCK_EVENT] = '';
@@ -165,20 +165,20 @@ class TwizImportExport extends Twiz{
             if( !isset($data[parent::F_START_TOP_POS_FORMAT]) ) $data[parent::F_START_TOP_POS_FORMAT] = '';
             if( !isset($data[parent::F_START_LEFT_POS_FORMAT]) ) $data[parent::F_START_LEFT_POS_FORMAT] = '';
             if( !isset($data[parent::F_MOVE_ELEMENT_TYPE_A]) ) $data[parent::F_MOVE_ELEMENT_TYPE_A] = '';
-            if( !isset($data[parent::F_MOVE_ELEMENT_A]) ) $data[parent::F_MOVE_ELEMENT_A] = '';               
+            if( !isset($data[parent::F_MOVE_ELEMENT_A]) ) $data[parent::F_MOVE_ELEMENT_A] = '';
             if( !isset($data[parent::F_MOVE_TOP_POS_FORMAT_A]) ) $data[parent::F_MOVE_TOP_POS_FORMAT_A] = '';
             if( !isset($data[parent::F_MOVE_LEFT_POS_FORMAT_A]) ) $data[parent::F_MOVE_LEFT_POS_FORMAT_A] = '';
             if( !isset($data[parent::F_MOVE_ELEMENT_TYPE_B]) ) $data[parent::F_MOVE_ELEMENT_TYPE_B] = '';
-            if( !isset($data[parent::F_MOVE_ELEMENT_B]) ) $data[parent::F_MOVE_ELEMENT_B] = '';            
+            if( !isset($data[parent::F_MOVE_ELEMENT_B]) ) $data[parent::F_MOVE_ELEMENT_B] = '';
             if( !isset($data[parent::F_MOVE_TOP_POS_FORMAT_B]) ) $data[parent::F_MOVE_TOP_POS_FORMAT_B] = '';
             if( !isset($data[parent::F_MOVE_LEFT_POS_FORMAT_B]) ) $data[parent::F_MOVE_LEFT_POS_FORMAT_B] = '';
             if( !isset($data[parent::F_EASING_A]) ) $data[parent::F_EASING_A] = '';
             if( !isset($data[parent::F_EASING_B]) ) $data[parent::F_EASING_B] = '';
             
             $twiz_start_element_type = esc_attr(trim($data[parent::F_START_ELEMENT_TYPE]));
-            $twiz_start_element = esc_attr(trim($data[parent::F_START_ELEMENT]));        
+            $twiz_start_element = esc_attr(trim($data[parent::F_START_ELEMENT]));
             $twiz_move_element_type_a = esc_attr(trim($data[parent::F_MOVE_ELEMENT_TYPE_A]));
-            $twiz_move_element_a = esc_attr(trim($data[parent::F_MOVE_ELEMENT_A]));        
+            $twiz_move_element_a = esc_attr(trim($data[parent::F_MOVE_ELEMENT_A]));
             $twiz_move_element_type_b = esc_attr(trim($data[parent::F_MOVE_ELEMENT_TYPE_B]));
             $twiz_move_element_b = esc_attr(trim($data[parent::F_MOVE_ELEMENT_B]));
         
@@ -220,7 +220,7 @@ class TwizImportExport extends Twiz{
             // replace section id
             $twiz_javascript = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_JAVASCRIPT]);
             $twiz_extra_js_a = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_EXTRA_JS_A]);
-            $twiz_extra_js_b = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_EXTRA_JS_B]);  
+            $twiz_extra_js_b = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_EXTRA_JS_B]);
             
             // replace section id part2
             $twiz_javascript = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_javascript);
@@ -386,7 +386,7 @@ class TwizImportExport extends Twiz{
             $where = ($section_id != '') ? " WHERE ".parent::F_SECTION_ID." = '".$section_id."'" : " WHERE ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION[$this->userid]."'";
         }
      
-        $listarray = $this->getListArray( $where ); 
+        $listarray = $this->getListArray( $where );
 
         $filedata = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         
@@ -396,7 +396,7 @@ class TwizImportExport extends Twiz{
 
               if ( $sectionname == '' ) {
               
-                  $myTwizMenu  = new TwizMenu(); 
+                  $myTwizMenu  = new TwizMenu();
                   $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($value[parent::F_SECTION_ID]));
               }
               
@@ -404,7 +404,7 @@ class TwizImportExport extends Twiz{
               
               $count_array = count($this->array_fields);
                     
-              /* loop fields array */
+              // loop fields array 
               foreach( $this->array_fields as $key ){
               
                   if( $key != parent::F_ID ){

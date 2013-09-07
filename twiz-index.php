@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.9.5.5
+Version: 1.9.5.6
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -29,12 +29,12 @@ License: GPL2
     * --- The Twiz Class ---
     ***********************/
 
-    require_once(dirname(__FILE__).'/includes/twiz.class.php'); 
-    require_once(dirname(__FILE__).'/includes/twiz.installation.class.php'); 
-    require_once(dirname(__FILE__).'/includes/twiz.importexport.class.php'); 
-    require_once(dirname(__FILE__).'/includes/twiz.library.class.php');     
-    require_once(dirname(__FILE__).'/includes/twiz.output.class.php'); 
-    require_once(dirname(__FILE__).'/twiz-ajax.php');   
+    require_once(dirname(__FILE__).'/includes/twiz.class.php');
+    require_once(dirname(__FILE__).'/includes/twiz.installation.class.php');
+    require_once(dirname(__FILE__).'/includes/twiz.importexport.class.php');
+    require_once(dirname(__FILE__).'/includes/twiz.library.class.php');
+    require_once(dirname(__FILE__).'/includes/twiz.output.class.php');
+    require_once(dirname(__FILE__).'/twiz-ajax.php');
 
     /******************
     * --- Functions ---
@@ -101,11 +101,11 @@ License: GPL2
     
         $myTwizOutput  = new TwizOutput($shortcode['id']);
         
-        return($myTwizOutput->generateOutput());        
+        return($myTwizOutput->generateOutput());
     }
     function twizReplaceShortCodeDir( $shortcode = '' ){
     
-         $upload_dir = wp_upload_dir(); 
+         $upload_dir = wp_upload_dir();
          return $upload_dir['baseurl'];
     }
         
@@ -121,7 +121,7 @@ License: GPL2
             
             $myTwizLibrary  = new TwizLibrary();
             
-            $cookie_option = get_option('twiz_cookie_js_status'); 
+            $cookie_option = get_option('twiz_cookie_js_status');
             
             if( $myTwizLibrary->admin_option[Twiz::KEY_OUTPUT] !=  '' ){
 
@@ -135,27 +135,27 @@ License: GPL2
             
             if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
 
-                wp_deregister_script( 'jquery' );  
-                wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');  
-                wp_enqueue_script( 'jquery' );  
+                wp_deregister_script( 'jquery' );
+                wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');
+                wp_enqueue_script( 'jquery' );
             }
   
             if( $cookie_option == true ){
             
-                wp_deregister_script( 'the-welcomizer-jquery-cookie' );  
-                wp_register_script( 'the-welcomizer-jquery-cookie',plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-cookie/jquery.cookie.js');  
-                wp_enqueue_script( 'the-welcomizer-jquery-cookie' );              
+                wp_deregister_script( 'the-welcomizer-jquery-cookie' );
+                wp_register_script( 'the-welcomizer-jquery-cookie',plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-cookie/jquery.cookie.js');
+                wp_enqueue_script( 'the-welcomizer-jquery-cookie' );
             }
                  
             if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
             
-                wp_deregister_script( 'the-welcomizer-css-transform' ); 
-                wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
-                wp_enqueue_script( 'the-welcomizer-css-transform' );  
+                wp_deregister_script( 'the-welcomizer-css-transform' );
+                wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');
+                wp_enqueue_script( 'the-welcomizer-css-transform' );
                 
-                wp_deregister_script( 'the-welcomizer-rotate3di' ); 
-                wp_register_script( 'the-welcomizer-rotate3di', plugin_dir_url( __FILE__ ) .'includes/jquery/rotate3di/rotate3Di.js');  
-                wp_enqueue_script( 'the-welcomizer-rotate3di' );  
+                wp_deregister_script( 'the-welcomizer-rotate3di' );
+                wp_register_script( 'the-welcomizer-rotate3di', plugin_dir_url( __FILE__ ) .'includes/jquery/rotate3di/rotate3Di.js');
+                wp_enqueue_script( 'the-welcomizer-rotate3di' );
                 
                 $css_transform_included = true;
             }
@@ -164,54 +164,54 @@ License: GPL2
                 
                 if( $css_transform_included == false ){
                 
-                    wp_deregister_script( 'the-welcomizer-css-transform' ); 
-                    wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');  
-                    wp_enqueue_script( 'the-welcomizer-css-transform' );  
+                    wp_deregister_script( 'the-welcomizer-css-transform' );
+                    wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');
+                    wp_enqueue_script( 'the-welcomizer-css-transform' );
                 } 
                 
-                wp_deregister_script( 'the-welcomizer-jquery-animate-css-rotate-scale' );  
-                wp_register_script( 'the-welcomizer-jquery-animate-css-rotate-scale', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-animate-css-rotate-scale/jquery-animate-css-rotate-scale.js');  
-                wp_enqueue_script( 'the-welcomizer-jquery-animate-css-rotate-scale' ); 
+                wp_deregister_script( 'the-welcomizer-jquery-animate-css-rotate-scale' );
+                wp_register_script( 'the-welcomizer-jquery-animate-css-rotate-scale', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-animate-css-rotate-scale/jquery-animate-css-rotate-scale.js');
+                wp_enqueue_script( 'the-welcomizer-jquery-animate-css-rotate-scale' );
 
             }
 
             if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
      
-                wp_deregister_script( 'the-welcomizer-transform-1' ); 
-                wp_deregister_script( 'the-welcomizer-transform-2' ); 
-                wp_deregister_script( 'the-welcomizer-transform-3' ); 
-                wp_deregister_script( 'the-welcomizer-transform-4' ); 
-                wp_deregister_script( 'the-welcomizer-transform-5' ); 
-                wp_deregister_script( 'the-welcomizer-transform-6' ); 
-                wp_deregister_script( 'the-welcomizer-transform-7' ); 
-                wp_register_script( 'the-welcomizer-transform-1', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.js');  
-                wp_register_script( 'the-welcomizer-transform-2', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.js');  
-                wp_register_script( 'the-welcomizer-transform-3', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.calculations.js');  
-                wp_register_script( 'the-welcomizer-transform-4', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.angle.js');  
-                wp_register_script( 'the-welcomizer-transform-5', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.animate.js');  
-                wp_register_script( 'the-welcomizer-transform-6', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.functions.js');  
-                wp_register_script( 'the-welcomizer-transform-7', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.attributes.js');  
-                wp_enqueue_script( 'the-welcomizer-transform-1' );  
-                wp_enqueue_script( 'the-welcomizer-transform-2' );  
-                wp_enqueue_script( 'the-welcomizer-transform-3' );  
-                wp_enqueue_script( 'the-welcomizer-transform-4' );  
-                wp_enqueue_script( 'the-welcomizer-transform-5' );  
-                wp_enqueue_script( 'the-welcomizer-transform-6' );  
-                wp_enqueue_script( 'the-welcomizer-transform-7' );  
+                wp_deregister_script( 'the-welcomizer-transform-1' );
+                wp_deregister_script( 'the-welcomizer-transform-2' );
+                wp_deregister_script( 'the-welcomizer-transform-3' );
+                wp_deregister_script( 'the-welcomizer-transform-4' );
+                wp_deregister_script( 'the-welcomizer-transform-5' );
+                wp_deregister_script( 'the-welcomizer-transform-6' );
+                wp_deregister_script( 'the-welcomizer-transform-7' );
+                wp_register_script( 'the-welcomizer-transform-1', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.js');
+                wp_register_script( 'the-welcomizer-transform-2', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.js');
+                wp_register_script( 'the-welcomizer-transform-3', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.calculations.js');
+                wp_register_script( 'the-welcomizer-transform-4', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.angle.js');
+                wp_register_script( 'the-welcomizer-transform-5', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.animate.js');
+                wp_register_script( 'the-welcomizer-transform-6', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.matrix.functions.js');
+                wp_register_script( 'the-welcomizer-transform-7', plugin_dir_url( __FILE__ ) .'includes/jquery/transform/jquery.transform.attributes.js');
+                wp_enqueue_script( 'the-welcomizer-transform-1' );
+                wp_enqueue_script( 'the-welcomizer-transform-2' );
+                wp_enqueue_script( 'the-welcomizer-transform-3' );
+                wp_enqueue_script( 'the-welcomizer-transform-4' );
+                wp_enqueue_script( 'the-welcomizer-transform-5' );
+                wp_enqueue_script( 'the-welcomizer-transform-6' );
+                wp_enqueue_script( 'the-welcomizer-transform-7' );
             }
 
             if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
 
-                wp_deregister_script( 'the-welcomizer-transit' );  
-                wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');  
-                wp_enqueue_script( 'the-welcomizer-transit' );  
+                wp_deregister_script( 'the-welcomizer-transit' );
+                wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');
+                wp_enqueue_script( 'the-welcomizer-transit' );
             }            
             
             if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_EASING] ==  '1' ){
 
-                wp_deregister_script( 'the-welcomizer-jquery-easing' );  
-                wp_register_script( 'the-welcomizer-jquery-easing', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-easing/jquery.easing-1.3.pack.js');  
-                wp_enqueue_script( 'the-welcomizer-jquery-easing' );  
+                wp_deregister_script( 'the-welcomizer-jquery-easing' );
+                wp_register_script( 'the-welcomizer-jquery-easing', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-easing/jquery.easing-1.3.pack.js');
+                wp_enqueue_script( 'the-welcomizer-jquery-easing' );
             }
             
             $siteurl = get_site_url().'/';
@@ -268,11 +268,11 @@ License: GPL2
         $myTwiz  = new Twiz();
         
         // Drag&Drop
-        wp_enqueue_script('twiz-jquery.ui.core.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.core.min.js'); 
-        wp_enqueue_script('twiz-jquery.ui.widget.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.widget.min.js'); 
-        wp_enqueue_script('twiz-jquery.ui.mouse.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.mouse.min.js'); 
-        wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.draggable.min.js'); 
-        wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.droppable.min.js'); 
+        wp_enqueue_script('twiz-jquery.ui.core.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.core.min.js');
+        wp_enqueue_script('twiz-jquery.ui.widget.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.widget.min.js');
+        wp_enqueue_script('twiz-jquery.ui.mouse.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.mouse.min.js');
+        wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.draggable.min.js');
+        wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.droppable.min.js');
                 
         // Enqueue default stylesheet
         wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
@@ -283,10 +283,10 @@ License: GPL2
         wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
 
         // Admin Ajax script
-        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) ); 
+        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) );
         
         // Fileuploader
-        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );   
+        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );
     }
     
     /****************
@@ -295,7 +295,7 @@ License: GPL2
 
     // register installation hooks and action
     register_activation_hook( __FILE__,  'twizInstall' );
-    register_deactivation_hook( __FILE__,  'twizUninstall' );    
+    register_deactivation_hook( __FILE__,  'twizUninstall' );
      
     if( ( is_admin() ) 
     and (!preg_match("/plugins.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
@@ -315,7 +315,7 @@ License: GPL2
         if( ( $_POST_action == 'twiz_ajax_callback' ) and ( $_POST_twiz_action != '' ) ){
         
             // Set the multi-language file, english is the standard.
-            load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+            load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' );
 
             // Ajax callback
             add_action('wp_ajax_my_action', 'twiz_ajax_callback');
@@ -326,7 +326,7 @@ License: GPL2
             if(preg_match("/the-welcomizer/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])){
                 
                 // Set the multi-language file, english is the standard.
-                load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' ); 
+                load_plugin_textdomain( 'the-welcomizer', false, dirname( plugin_basename( __FILE__ ) ).'/languages/' );
             
                 // (for the admin dashboard)
                 add_action('admin_enqueue_scripts', 'twizAdminEnqueueScripts');

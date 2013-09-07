@@ -25,8 +25,8 @@ class TwizGroup extends Twiz{
     function GetHtmlFormGroup( $id = '', $section_id = '' ){
 
         $twiz_group_name = '';
-        $twiz_group_start_delay = '';     
-        $twiz_status = '';     
+        $twiz_group_start_delay = '';
+        $twiz_status = '';
         if($id != ''){
             
             if(!$data = $this->getRow($id)){return '';}
@@ -136,13 +136,13 @@ $("#twiz_listmenu").css("display", "none");
         
         if($code = $wpdb->query($sql)){
         
-            $code = $this->CleanCopiedGroup( $groupid, $old_exportid, $new_export_id);                   
+            $code = $this->CleanCopiedGroup( $groupid, $old_exportid, $new_export_id);
         }
         
         $new_id = $this->getId(parent::F_EXPORT_ID, $new_export_id);
         
         $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$new_export_id] = 1;
-        $code = update_option('twiz_toggle', $this->toggle_option);                     
+        $code = update_option('twiz_toggle', $this->toggle_option);
 
         return $new_id;
     }
@@ -161,7 +161,7 @@ $("#twiz_listmenu").css("display", "none");
                 $oldarrayid[$value[parent::F_ID]] = $value[parent::F_EXPORT_ID];
         }
                   
-        $listarray = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$new_export_id."'");     
+        $listarray = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$new_export_id."'");
         
         foreach ( $oldarrayid as $oldvalue ){
             
@@ -186,7 +186,7 @@ $("#twiz_listmenu").css("display", "none");
         // Replace Group only exportid
         $oldarrayid = $this->getListArray("WHERE ".parent::F_ID." = '".$groupid."' ");
  
-        $listarray = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$new_export_id."'");     
+        $listarray = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$new_export_id."'");
 
         foreach ( $oldarrayid as $oldvalue ){
         
@@ -224,7 +224,7 @@ $("#twiz_listmenu").css("display", "none");
         // Unset Toggle
         $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid] = '';
         unset($this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid]);
-        $code = update_option('twiz_toggle', $this->toggle_option);   
+        $code = update_option('twiz_toggle', $this->toggle_option);
     
         return true;
     }
@@ -242,7 +242,7 @@ $("#twiz_listmenu").css("display", "none");
         
         // Set Toggle On
         $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid] = 1;
-        $code = update_option('twiz_toggle', $this->toggle_option);                     
+        $code = update_option('twiz_toggle', $this->toggle_option);
 
         $arr = $this->save( $id );
     

@@ -46,8 +46,8 @@ class TwizLibrary extends Twiz{
     function GetHtmlFormLibrary( ){
 
         $twiz_group_name = '';
-        $twiz_group_start_delay = '';     
-        $twiz_status = '';     
+        $twiz_group_start_delay = '';
+        $twiz_status = '';
 
         $action = __('Add New', 'the-welcomizer');
 
@@ -86,9 +86,9 @@ $("#twiz_lib_menu").css("display", "none");
 //<![CDATA[
 jQuery(document).ready(function($) {
     $("#twiz_add_menu").fadeOut("slow");
-    $("#twiz_add_sections").fadeOut("slow"); 
+    $("#twiz_add_sections").fadeOut("slow");
     $("#twiz_right_panel").fadeOut("slow");
-    $("#twiz_library_upload").fadeIn("slow");   
+    $("#twiz_library_upload").fadeIn("slow");
 });
 //]]>
 </script>';
@@ -187,7 +187,7 @@ jQuery(document).ready(function($) {
                     }
                 }
             }
-            $code = update_option('twiz_toggle', $twiz_toggle);      
+            $code = update_option('twiz_toggle', $twiz_toggle);
             
             if( $countlib == 0 ){
     
@@ -260,7 +260,7 @@ jQuery(document).ready(function($) {
                 }
             }
         }
-        $code = update_option('twiz_toggle', $twiz_toggle);  
+        $code = update_option('twiz_toggle', $twiz_toggle);
         $code = update_option('twiz_library', $this->array_library);
         $code = update_option('twiz_library_dir', $this->array_library_dir);
        
@@ -281,7 +281,7 @@ jQuery(document).ready(function($) {
     
                 if( @file_exists($file) ){
                 
-                    unlink($file);                  
+                    unlink($file);
                 }
   
                 $this->array_library[$key] = '';
@@ -405,7 +405,7 @@ jQuery(document).ready(function($) {
             
                 if( !isset($this->array_library[$key][parent::KEY_DIRECTORY]) ){
                 
-                    $this->array_library[$key][parent::KEY_DIRECTORY] = ''; 
+                    $this->array_library[$key][parent::KEY_DIRECTORY] = '';
                     $this->array_library[$key][parent::KEY_DIRECTORY] = $directory;
                 }
             }
@@ -473,11 +473,11 @@ jQuery(document).ready(function($) {
         if( $this->admin_option[parent::KEY_SORT_LIB_DIR] == 'original' ){
             // resort Library 
             array_multisort($array_order_dir, SORT_ASC, SORT_STRING,
-                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);    
+                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
         }else{
             // resort Library 
             array_multisort($array_order_dir, SORT_DESC, SORT_STRING,
-                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);    
+                            $array_order, SORT_ASC, SORT_NUMERIC, $this->array_library);
         
         }
         
@@ -490,7 +490,7 @@ jQuery(document).ready(function($) {
             $i = $i + 1;
         }
         
-        $code = update_option('twiz_library', $this->array_library);    
+        $code = update_option('twiz_library', $this->array_library);
         
         return true;
     }   
@@ -558,7 +558,7 @@ jQuery(document).ready(function($) {
             
                 $ibase = $i; // We keep the key
                 
-                if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1;             
+                if(!isset($value[parent::KEY_ORDER]))$value[parent::KEY_ORDER] = $this->getMax( parent::KEY_ORDER ) + 1;
                 $maxkeyorder = $this->getMax( parent::KEY_ORDER );
  
                 $neworder = ( $order == parent::LB_ORDER_UP ) ? $value[parent::KEY_ORDER] - 1 : $value[parent::KEY_ORDER] + 1;
@@ -589,7 +589,7 @@ jQuery(document).ready(function($) {
                 $ibase++;
                 $neworder--;
                 
-                break;                    
+                break;
         }
 
         if( $ibase < 1 ){ // no actions

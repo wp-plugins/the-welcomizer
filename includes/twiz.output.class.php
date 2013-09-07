@@ -19,8 +19,8 @@ class TwizOutput extends Twiz{
 
     private $listarray;
     private $generatedScript;
-    private $generatedScriptonready;    
-    private $generatedScriptonevent;    
+    private $generatedScriptonReady;
+    private $generatedScriptonEvent;
     private $newElementFormat;
     private $linebreak;
     private $tab;
@@ -64,7 +64,7 @@ class TwizOutput extends Twiz{
         $this->hardsections = get_option('twiz_hardsections');
         $this->multi_sections = get_option('twiz_multi_sections');
         $this->multi_sections = ( is_array($this->multi_sections) ) ? $this->multi_sections : array();
-        $this->upload_dir = wp_upload_dir(); 
+        $this->upload_dir = wp_upload_dir();
 
         $this->listarray = $this->getCurrentList($shortcode_id);
         
@@ -81,16 +81,16 @@ class TwizOutput extends Twiz{
             if( $this->admin_option[parent::KEY_POSITIONING_METHOD] == parent::POS_TOP_LEFT ){
             
                 $this->y = 'y';
-                $this->x = 'x';                  
+                $this->x = 'x';
                 $this->css_y = 'top';
-                $this->css_x = 'left';  
+                $this->css_x = 'left';
 
             }else{  
             
                 $this->y = 'y';
-                $this->x = 'right';   
+                $this->x = 'right';
                 $this->css_y = 'top';
-                $this->css_x = 'right';                  
+                $this->css_x = 'right';
             }    
             
         }else{
@@ -100,16 +100,16 @@ class TwizOutput extends Twiz{
             if( $this->admin_option[parent::KEY_POSITIONING_METHOD] == parent::POS_TOP_LEFT ){
                 
                 $this->y = 'top';
-                $this->x = 'left';   
+                $this->x = 'left';
                 $this->css_y = 'top';
-                $this->css_x = 'left';                   
+                $this->css_x = 'left';
 
             }else{  
             
                 $this->y = 'top';
-                $this->x = 'right';  
+                $this->x = 'right';
                 $this->css_y = 'top';
-                $this->css_x = 'right';                   
+                $this->css_x = 'right';
             }      
         }
     }
@@ -176,13 +176,13 @@ class TwizOutput extends Twiz{
                     $this->generatedScript .= 'if(twiz_repeat_'.$name.' == 0){'.$this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null; '.$this->linebreak.$this->tab.'return true;'.$this->linebreak.'} '.$this->linebreak;
                     $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) && (twiz_repeat_nbr != null)){ ';
                     $this->generatedScript .=  $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = twiz_repeat_nbr;'.$this->linebreak.'} '.$this->linebreak;
-                    $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) || (twiz_repeat_'.$name.' > 0)){ '.$this->linebreak; 
+                    $this->generatedScript .= 'if((twiz_repeat_'.$name.' == null) || (twiz_repeat_'.$name.' > 0)){ '.$this->linebreak;
    
                     $this->generatedScript .= 'if(e==undefined){var twiz_element_'.$name.' = "'. $this->newElementFormat . '";}else{var twiz_element_'.$name.' = twiz'.$this_prefix.'_this;}';
                     
                     if(($value[parent::F_OUTPUT_POS]=='b')or ($value[parent::F_OUTPUT_POS]=='')){ // before
                         
-                        $this->generatedScript .= $this->getStartingPositions($value);    
+                        $this->generatedScript .= $this->getStartingPositions($value);
                     }
                     
                     if(($value[parent::F_OUTPUT]=='b') or ($value[parent::F_OUTPUT]=='')){ // before
@@ -198,9 +198,9 @@ class TwizOutput extends Twiz{
                             
                             $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
                             
-                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);                          
+                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
                             
-                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];  
+                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];
                     }
                     
                     $hasSomething = $this->hasSomething($value);
@@ -209,7 +209,7 @@ class TwizOutput extends Twiz{
                     if( ( $hasSomething == true ) or ( $hasStartingConfigsAfter == true ) ){
                         
                         // start delay 
-                        $this->generatedScript .= $this->linebreak.$this->tab.'setTimeout(function(){'; 
+                        $this->generatedScript .= $this->linebreak.$this->tab.'setTimeout(function(){';
                     
                         if($value[parent::F_OUTPUT_POS]=='a'){ // after
                             
@@ -230,9 +230,9 @@ class TwizOutput extends Twiz{
                             
                             $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
                             
-                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);                          
+                            $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT].self::COMPRESS_LINEBREAK);
                             
-                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];   
+                            $this->generatedScript .= $value[parent::F_JAVASCRIPT];
                             
                         }
                         
@@ -283,9 +283,9 @@ class TwizOutput extends Twiz{
                             
                             $value[parent::F_EXTRA_JS_A] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_EXTRA_JS_A]);
                             
-                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);                          
+                            $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizReplay(", "$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_A]);
                             
-                            $this->generatedScript .= $value[parent::F_EXTRA_JS_A];                     
+                            $this->generatedScript .= $value[parent::F_EXTRA_JS_A];
                             
        
                             // b
@@ -354,7 +354,7 @@ class TwizOutput extends Twiz{
                             
                             $value[parent::F_EXTRA_JS_B] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_EXTRA_JS_B]);
                             
-                            $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizReplay(", $this->tab.$this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_B]);                          
+                            $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizReplay(", $this->tab.$this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_EXTRA_JS_B]);
                             
                             $this->generatedScript .= $value[parent::F_EXTRA_JS_B];
                             
@@ -407,7 +407,7 @@ class TwizOutput extends Twiz{
                     // closing functions
                     $this->generatedScript .= '}}'.self::COMPRESS_LINEBREAK;
                     
-                    $this->generatedScriptonevent .= $this->getOnEventFunction( $value, $name );
+                    $this->generatedScriptonEvent .= $this->getOnEventFunction( $value, $name );
                     
                 } // End if hasDisabledCode
                 
@@ -416,9 +416,9 @@ class TwizOutput extends Twiz{
             $this->generatedScript .= $this->generatedCookie;
             $this->generatedScript .= $this->getReplayFunctions();
             $this->generatedScript .= $this->getGroupFunctions();
-            $this->generatedScript .= $this->generatedScriptonevent;
-            $this->generatedScript .= $this->getJavaScriptOnReady();
-            $this->generatedScript .= $this->generatedScriptonready;
+            $this->generatedScript .= $this->generatedScriptonEvent;
+            $this->generatedScript .= $this->getJavaScriptonReady();
+            $this->generatedScript .= $this->generatedScriptonReady;
             $this->generatedScript .= $this->linebreak.'});</script>';
             $this->generatedScript .= $this->getStyleCSS();
             
@@ -470,22 +470,22 @@ class TwizOutput extends Twiz{
                         
                         if($value[parent::F_POSITION]!=''){
                         
-                            $generatedScript .= $this->linebreak.$this->tab.'position:'.$value[parent::F_POSITION].';'; 
+                            $generatedScript .= $this->linebreak.$this->tab.'position:'.$value[parent::F_POSITION].';';
                         }
                         
                         if($value[parent::F_ZINDEX]!=''){
                         
-                            $generatedScript .= $this->linebreak.$this->tab.'z-index:'.$value[parent::F_ZINDEX].';'; 
+                            $generatedScript .= $this->linebreak.$this->tab.'z-index:'.$value[parent::F_ZINDEX].';';
                         }
                         
                         if($value[parent::F_START_LEFT_POS]!=''){
                         
-                            $generatedScript .=  $this->linebreak.$this->tab.$this->css_x.':'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].';'; 
+                            $generatedScript .=  $this->linebreak.$this->tab.$this->css_x.':'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].';';
                         }
                         
                         if($value[parent::F_START_TOP_POS]!=''){
                         
-                            $generatedScript .= $this->linebreak.$this->tab.$this->css_y.':'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].';'; 
+                            $generatedScript .= $this->linebreak.$this->tab.$this->css_y.':'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].';';
                         }
                         
                         $generatedScript .= $this->linebreak.'}';
@@ -503,7 +503,7 @@ class TwizOutput extends Twiz{
         return $generatedScript;
     }       
       
-    private function getJavaScriptOnReady(){
+    private function getJavaScriptonReady(){
     
         $generatedScript = '';
         $this_prefix = '';
@@ -546,9 +546,9 @@ class TwizOutput extends Twiz{
                     
                     $value[parent::F_JAVASCRIPT] = str_replace(",e".$params[1]."", ",e" , $value[parent::F_JAVASCRIPT]);
                     
-                    $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);                          
+                    $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizReplay(", $this->tab."$(document).twizReplay_".$value[parent::F_SECTION_ID] .'(' , $value[parent::F_JAVASCRIPT]);
                     
-                    $generatedScript .= $value[parent::F_JAVASCRIPT]; 
+                    $generatedScript .= $value[parent::F_JAVASCRIPT];
                             
                     $generatedScript .= self::COMPRESS_LINEBREAK.$generatedCondition['close'];
                 }   
@@ -579,7 +579,7 @@ class TwizOutput extends Twiz{
                    
                 }else{  
                 
-                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this,null,e);'.$this->linebreak;                
+                   $generatedScript .= $this->tab.$this->tab.'$(document).twiz_'.$name.'(this,null,e);'.$this->linebreak;
                 }
                 
                $generatedScript .= $this->linebreak.'});'.$this->linebreak;
@@ -593,7 +593,7 @@ class TwizOutput extends Twiz{
             if( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ){
             
                 // trigger the animation if not on event
-                $this->generatedScriptonready .=  $this->linebreak.'$(document).twiz_'.$name.'($("'.$this->newElementFormat.'"),null);';
+                $this->generatedScriptonReady .=  $this->linebreak.'$(document).twiz_'.$name.'($("'.$this->newElementFormat.'"),null);';
                 
             }
         }  
@@ -664,7 +664,7 @@ class TwizOutput extends Twiz{
         }
         
         $and_multi_sections .= ( $field_key == '' ) ? ') ' : '';
-        $and_multi_sections = str_replace(",)", ")", $and_multi_sections); 
+        $and_multi_sections = str_replace(",)", ")", $and_multi_sections);
 
         return $and_multi_sections;
     }
@@ -731,7 +731,7 @@ class TwizOutput extends Twiz{
             
             if( $and_shortcode != '' ){
             
-                $listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");        
+                $listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");
                 
             }else{
             
@@ -745,7 +745,7 @@ class TwizOutput extends Twiz{
 
             if( $and_multi_sections != '' ){
             
-                $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");      
+                $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                 
             }else{
             
@@ -754,7 +754,7 @@ class TwizOutput extends Twiz{
             
             if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
 
-                $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' "); 
+                $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' ");
                 
             }else{
                 $listarray_e = array ();
@@ -769,7 +769,7 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_h_m = array();
                     }
@@ -777,7 +777,7 @@ class TwizOutput extends Twiz{
                     if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' "); 
+                        $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' ");
                     }else{
                         $listarray_h = array();
                     }
@@ -792,7 +792,7 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_allc_m = array();
                     }
@@ -802,7 +802,7 @@ class TwizOutput extends Twiz{
                     if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' "); 
+                        $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' ");
                     
                     }else{
                         $listarray_allc = array();
@@ -812,14 +812,14 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_c_m = array();
                     }
                     
                     if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
-                        $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' "); 
+                        $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' ");
                     }else{
                         $listarray_c = array();
                     }
@@ -835,7 +835,7 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
 
-                        $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_allp_m = array();
                     }
@@ -845,7 +845,7 @@ class TwizOutput extends Twiz{
                     if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' "); 
+                        $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' ");
                     }else{
                         $listarray_allp = array();
                     }
@@ -854,14 +854,14 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_p_m = array();
                     }
                     
                     if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
-                        $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");             
+                        $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");
                     }else{
                         $listarray_p = array();
                     }
@@ -877,7 +877,7 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_alla_m = array();
                     }
@@ -886,7 +886,7 @@ class TwizOutput extends Twiz{
                     
                     if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                         // get the active data list array
-                        $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");   
+                        $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");
                     }else{
                         $listarray_alla = array();
                     }
@@ -895,14 +895,14 @@ class TwizOutput extends Twiz{
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");         
+                        $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
                     }else{
                         $listarray_a_m = array();
                     }                
                     
                     if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
-                        $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");                 
+                        $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");
                     }else{
                         $listarray_a = array();
                     }
@@ -915,7 +915,7 @@ class TwizOutput extends Twiz{
                     
                     return '';
                     
-                    break;       
+                    break;
             }
         
             $this->listarray = ( is_array($this->listarray) ) ? $this->listarray : array_merge($listarray_e, $listarray_e_m);
@@ -965,7 +965,7 @@ class TwizOutput extends Twiz{
                     if(!isset($generatedScript[$groupid] )) $generatedScript[$groupid]  = '';
                     
                     $newElementFormat = $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]);
-                    $generatedScript_repeatvar[$groupid] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';                
+                    $generatedScript_repeatvar[$groupid] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';
                     $generatedScript[$groupid] .= $this->linebreak.$this->tab.'$(document).twiz_'.$name.'($("'.$newElementFormat.'"), null);';
                 }
             }
@@ -1058,22 +1058,22 @@ class TwizOutput extends Twiz{
                 
             if($value[parent::F_POSITION]!=''){
             
-                $generatedScript_pos[] =  '"position":"'.$value[parent::F_POSITION].'"'; 
+                $generatedScript_pos[] =  '"position":"'.$value[parent::F_POSITION].'"';
             }
             
             if($value[parent::F_ZINDEX]!=''){
             
-                $generatedScript_pos[] =  '"z-index":"'.$value[parent::F_ZINDEX].'"'.$this->linebreak; 
+                $generatedScript_pos[] =  '"z-index":"'.$value[parent::F_ZINDEX].'"'.$this->linebreak;
             }
             
             if($value[parent::F_START_LEFT_POS]!=''){
             
-                $generatedScript_pos[] =  '"left":"'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].'"'; 
+                $generatedScript_pos[] =  '"left":"'.$value[parent::F_START_LEFT_POS_SIGN].$value[parent::F_START_LEFT_POS].$value[parent::F_START_LEFT_POS_FORMAT].'"';
             }
             
             if($value[parent::F_START_TOP_POS]!=''){
             
-                $generatedScript_pos[] =  '"top":"'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].'"'; 
+                $generatedScript_pos[] =  '"top":"'.$value[parent::F_START_TOP_POS_SIGN].$value[parent::F_START_TOP_POS].$value[parent::F_START_TOP_POS_FORMAT].'"';
             }
             
         }
@@ -1083,7 +1083,7 @@ class TwizOutput extends Twiz{
             $generatedScript_block .= $this->linebreak.'$("'. $newElementFormat . '").css({'.implode(",", $generatedScript_pos).'});';
         }
         
-        return $generatedScript_block;  
+        return $generatedScript_block;
     
     }
 
@@ -1165,7 +1165,7 @@ class TwizOutput extends Twiz{
                 
                 return '[name='.$element.']';
                 
-                break; 
+                break;
             
             case parent::ELEMENT_TYPE_TAG:
                 
@@ -1173,7 +1173,7 @@ class TwizOutput extends Twiz{
                 
                 return ''.$element.'';
                 
-                break; 
+                break;
         }
         
         $this->stop = '';
@@ -1225,7 +1225,7 @@ class TwizOutput extends Twiz{
         
         $option_1 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
         $option_2 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2];
-        $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];           
+        $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
 
         if( $option_1 != '' ){ // cookie option is enabled
         
@@ -1271,7 +1271,7 @@ class TwizOutput extends Twiz{
             
             $option_1 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
             $option_2 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2];
-            $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];           
+            $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
       
             if( $option_1 != '' ){ // cookie option is enabled
             
@@ -1326,7 +1326,7 @@ class TwizOutput extends Twiz{
 
             $_COOKIE[$cookiename] = '';
             
-            setcookie($cookiename, '1_'.$expiration_option, $expiration_option, $arrayscope['path'],$arrayscope['domain']);  
+            setcookie($cookiename, '1_'.$expiration_option, $expiration_option, $arrayscope['path'],$arrayscope['domain']);
             
             $this->PHPCookieMax[$section_id] = false;
         
@@ -1352,7 +1352,7 @@ class TwizOutput extends Twiz{
             }
             
             $counter = $counter + 1;
-            setcookie($cookiename,  $counter.'_'.$expiration_new, $expiration_new, $arrayscope['path'],$arrayscope['domain'] );  
+            setcookie($cookiename,  $counter.'_'.$expiration_new, $expiration_new, $arrayscope['path'],$arrayscope['domain'] );
         }
         
         return '';
@@ -1410,10 +1410,10 @@ class TwizOutput extends Twiz{
     private function GetCookieScope( $section_id = '' ){
     
         $sections = $this->GetSectionArray($section_id);
-        $scope = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE];    
+        $scope = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE];
         
-        $hostname = $_SERVER['SERVER_NAME']; 
-        $hostname = str_replace('www.', '', $hostname); 
+        $hostname = $_SERVER['SERVER_NAME'];
+        $hostname = str_replace('www.', '', $hostname);
         
         $arrayscope['domain'] = $hostname;
         $arrayscope['path'] = '/';
@@ -1437,7 +1437,7 @@ class TwizOutput extends Twiz{
             
                 $expiration = 0;
                 
-                break;        
+                break;
                 
             case 'perhour':
             
@@ -1448,7 +1448,7 @@ class TwizOutput extends Twiz{
                     $expiration = $expiration / $time / 24;
                 }    
                 
-                break;        
+                break;
                 
             case 'perday':
             
@@ -1459,7 +1459,7 @@ class TwizOutput extends Twiz{
                     $expiration = $expiration / $time - 0.0000640479945;
                 }    
 
-                break;        
+                break;
                 
             case 'perweek':
             
@@ -1470,7 +1470,7 @@ class TwizOutput extends Twiz{
                     $expiration = $expiration / $time * 7 - 0.003138351625;
                 }    
 
-                break;        
+                break;
                 
             case 'permonth':
             

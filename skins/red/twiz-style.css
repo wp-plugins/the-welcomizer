@@ -35,7 +35,7 @@ div a:hover, td a:hover {
 }
 #twiz_library_master {
     width: 500px;
-    display: block; 
+    display: block;
 }
 #twiz_container {
     width: 500px;
@@ -55,8 +55,8 @@ div a:hover, td a:hover {
     width: 84%;
     min-height: 500px;
     position: absolute;
-    background: url(../../skins/red/images/twiz-logo-big.png) top right no-repeat;    
-    opacity: 0.15;    
+    background: url(../../skins/red/images/twiz-logo-big.png) top right no-repeat;
+    opacity: 0.15;
     filter: alpha(opacity=4);
     z-index: -1;
 }
@@ -66,10 +66,10 @@ div a:hover, td a:hover {
     -moz-border-radius-topright: 6px;
     -moz-border-radius-topleft: 6px;
     -webkit-border-top-right-radius: 6px;
-    -webkit-border-top-left-radius: 6px;    
-    -khtml-border-radius-topright: 6px;    
-    -khtml-border-radius-topleft: 6px;        
-    background-color: #ff4949;  
+    -webkit-border-top-left-radius: 6px;
+    -khtml-border-radius-topright: 6px;
+    -khtml-border-radius-topleft: 6px;
+    background-color: #ff4949;
     border: 1px solid #e44141;
     border-bottom: 0px;
 }
@@ -100,16 +100,16 @@ div a:hover, td a:hover {
     position: relative;
 }
 .twiz-right-panel {
-    margin: 19px 0 0 15px;   
+    margin: 19px 0 0 15px;
     color: #464646;
-    background-color: #ffffff;    
+    background-color: #ffffff;
 }
 .twiz-menu-header{
-    font-size: 12px; 
-    height: 19px;    
+    font-size: 12px;
+    height: 19px;
     padding: 5px;
     width: 98%;
-    background-color: #ff6262;     
+    background-color: #ff6262;
 }
 #twiz_menuheader_status {
     width: 40px;
@@ -132,9 +132,9 @@ div a:hover, td a:hover {
     -webkit-border-bottom-left-radius: 6px;
     -webkit-border-bottom-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;    
+    -khtml-border-radius-topright: 6px;
     -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;        
+    -khtml-border-radius-bottomright: 6px;
     border: 1px solid #e44141;
     display: none;
     float: left;
@@ -159,15 +159,15 @@ div a:hover, td a:hover {
     -webkit-border-bottom-left-radius: 6px;
     -webkit-border-bottom-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;    
+    -khtml-border-radius-topright: 6px;
     -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;  
+    -khtml-border-radius-bottomright: 6px;
     border: 1px solid #ffffff;
     width: 420px;
     height: 200px;
     padding-top: 125px;
     text-align: center;
-    background: #FFFFFF url(../../skins/red/images/twiz-big-loading.gif) center no-repeat;   
+    background: #FFFFFF url(../../skins/red/images/twiz-big-loading.gif) center no-repeat;
 }
 #twiz_head_title {
     font-size: 20px;
@@ -185,7 +185,7 @@ div a:hover, td a:hover {
 #twiz_head_logo {
     width: 95px;
     height: 80px;
-    background: url(../../skins/red/images/twiz-logo.png) center no-repeat;   
+    background: url(../../skins/red/images/twiz-logo.png) center no-repeat;
     float: left;
     display: block;
 }
@@ -222,7 +222,7 @@ div a:hover, td a:hover {
     border-bottom: 0px solid #d7d7d7;
 }
 #twiz_vertical_menu {
-  margin: 27px 0 0 15px;  
+  margin: 27px 0 0 15px;
   padding: 3px;
   max-height: 500px;
   overflow: auto;
@@ -268,7 +268,7 @@ div a:hover, td a:hover {
     padding: 5px;
 }
 .twiz-menu {
-    font-size: 12px; 
+    font-size: 12px;
     text-align: left;
     border-right: 1px solid #ff6161;
 }
@@ -295,7 +295,7 @@ div a:hover, td a:hover {
 }
 #twiz_more_menu:hover,
 #twiz_add_menu:hover {
-    font-weight: bold; 
+    font-weight: bold;
 }
 .twiz-status-menu:hover {
     cursor: pointer;
@@ -315,26 +315,26 @@ div a:hover, td a:hover {
 }
 .twiz-menu-selected {
     color: #ffffff;
-    font-weight:bold; 
-    background-color: #b52828;  
+    font-weight:bold;
+    background-color: #b52828;
 }
 #twiz_more_menu{
     float: right;
     width: 32px;
 }
 #twiz_edit_menu {
-    background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;    
+    background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;
 }
 #twiz_edit_menu:hover {
-    background: url(../../images/twiz-menu-edit-color.png) center no-repeat;  
+    background: url(../../images/twiz-menu-edit-color.png) center no-repeat;
     cursor: pointer;
     background-color: #b52828;
 }
 #twiz_delete_menu {
-    background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;    
+    background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;
 }
 #twiz_delete_menu:hover {
-    background: url(../../images/twiz-menu-delete-color.png) center no-repeat;  
+    background: url(../../images/twiz-menu-delete-color.png) center no-repeat;
     cursor: pointer;
     background-color: #b52828;
 }
@@ -354,7 +354,7 @@ div a:hover, td a:hover {
 #twiz_add_sections {
     display: none;
     width: 500px;
-    background-color: #E4E4E4; 
+    background-color: #E4E4E4;
 }   
 #twiz_add_sections a:hover {
     cursor: pointer;
@@ -364,7 +364,7 @@ div a:hover, td a:hover {
     font-size: 12px;
     display: block;
     float: left;
-    background-color: #E4E4E4; 
+    background-color: #E4E4E4;
     padding: 10px 10px 10px 10px;
 }
 #twiz_section_name,
@@ -376,7 +376,7 @@ div a:hover, td a:hover {
     display: block;
     border: 1px solid #D7D7D7;
     padding: 8px;
-    margin-bottom: 10px;    
+    margin-bottom: 10px;
 }
 #twiz_shortcode {
     width: 151px;
@@ -416,13 +416,13 @@ div a:hover, td a:hover {
     -webkit-border-bottom-left-radius: 6px;
     -webkit-border-bottom-right-radius: 6px;
     -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;       
+    -khtml-border-radius-bottomright: 6px;
     min-height: 37px;
     display: block;
     text-align: center;
     font-size: 10px;
     padding: 6px 0 0 0;
-    line-height: 0px;    
+    line-height: 0px;
 }
 .twiz-td-v-line {
     width: 1px;
@@ -557,10 +557,10 @@ div a:hover, td a:hover {
     float: left;
 }
 .twiz-arrow-lib-n {
-    background: url(../../skins/red/images/twiz-arrow-lib-n.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-lib-n.png) center no-repeat;
 }
 .twiz-arrow-lib-s {
-    background: url(../../skins/red/images/twiz-arrow-lib-s.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-lib-s.png) center no-repeat;
 }
 .twiz-arrow {
     width: 45px;
@@ -568,28 +568,28 @@ div a:hover, td a:hover {
     display: block;
 }
 .twiz-arrow-n {
-    background: url(../../skins/red/images/twiz-arrow-n.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-n.png) center no-repeat;
 }
 .twiz-arrow-ne {
-    background: url(../../skins/red/images/twiz-arrow-ne.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-ne.png) center no-repeat;
 }
 .twiz-arrow-e {
-    background: url(../../skins/red/images/twiz-arrow-e.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-e.png) center no-repeat;
 }
 .twiz-arrow-se {
-    background: url(../../skins/red/images/twiz-arrow-se.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-se.png) center no-repeat;
 }
 .twiz-arrow-s {
-    background: url(../../skins/red/images/twiz-arrow-s.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-s.png) center no-repeat;
 }
 .twiz-arrow-sw {
-    background: url(../../skins/red/images/twiz-arrow-sw.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-sw.png) center no-repeat;
 }
 .twiz-arrow-w {
-    background: url(../../skins/red/images/twiz-arrow-w.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-w.png) center no-repeat;
 }
 .twiz-arrow-nw {
-    background: url(../../skins/red/images/twiz-arrow-nw.png) center no-repeat;  
+    background: url(../../skins/red/images/twiz-arrow-nw.png) center no-repeat;
 }
 .twiz-table-js-css {
     width: 238px;
@@ -617,7 +617,7 @@ div a:hover, td a:hover {
     -webkit-border-top-left-radius: 6px;
     -webkit-border-top-right-radius: 6px;
     -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;     
+    -khtml-border-radius-topright: 6px;
 }
 .twiz-tab-selected {
     color: #ffffff;
@@ -628,7 +628,7 @@ div a:hover, td a:hover {
    color: #AAAAAA;
 }
 .twiz-table-form {
-    background-color: #ffffff;  
+    background-color: #ffffff;
     padding-top: 10px;
     padding-bottom: 12px;
 }
@@ -645,9 +645,9 @@ div a:hover, td a:hover {
     -webkit-border-bottom-left-radius: 2px;
     -webkit-border-bottom-right-radius: 2px;
     -khtml-border-radius-topleft: 2px;
-    -khtml-border-radius-topright: 2px;    
+    -khtml-border-radius-topright: 2px;
     -khtml-border-radius-bottomleft: 2px;
-    -khtml-border-radius-bottomright: 2px;        
+    -khtml-border-radius-bottomright: 2px;
     height: 5px;
     border: 0px;
     margin: 15px 0 15px 0;
@@ -834,11 +834,11 @@ div a:hover, td a:hover {
     -moz-border-radius-bottomright: 6px;
     -moz-border-radius-bottomleft: 6px;
     -webkit-border-bottom-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;    
-    -khtml-border-radius-bottomright: 6px;    
-    -khtml-border-radius-bottomleft: 6px;   
+    -webkit-border-bottom-left-radius: 6px;
+    -khtml-border-radius-bottomright: 6px;
+    -khtml-border-radius-bottomleft: 6px;
     height: 18px;
-    background-color: #ff4949;  
+    background-color: #ff4949;
     border: 1px solid #e44141;
     border-top: 0px;
     padding: 0 8px 0 8px;
@@ -905,7 +905,7 @@ div a:hover, td a:hover {
     width: 485px;
     height: 37px;
     display: block;
-    margin: 0 auto;  
+    margin: 0 auto;
 }
 #twiz_footer img{
     opacity: 0.3;

@@ -14,8 +14,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-    require_once(dirname(__FILE__).'/twiz.admin.class.php'); 
-    require_once(dirname(__FILE__).'/twiz.library.class.php');  
+    require_once(dirname(__FILE__).'/twiz.admin.class.php');
+    require_once(dirname(__FILE__).'/twiz.library.class.php');
     
 class TwizInstallation extends Twiz{
    
@@ -92,19 +92,19 @@ class TwizInstallation extends Twiz{
         
             $code = update_option('twiz_db_version', $this->dbVersion);
             $code = update_option('twiz_global_status', '1');
-            $code = update_option('twiz_cookie_js_status', false);  
+            $code = update_option('twiz_cookie_js_status', false);
             
-            $code = new TwizAdmin(); 
+            $code = new TwizAdmin();
             
             if(!isset($setting_menu[$this->userid])) $setting_menu[$this->userid] = '';
-            $setting_menu[$this->userid] = parent::DEFAULT_SECTION_HOME ; 
-            $code = update_option('twiz_setting_menu', $setting_menu);   
+            $setting_menu[$this->userid] = parent::DEFAULT_SECTION_HOME ;
+            $code = update_option('twiz_setting_menu', $setting_menu);
             
             if(!isset($bullet[$this->userid])) $bullet[$this->userid] = '';
-            $bullet[$this->userid] = parent::LB_ORDER_DOWN ; 
-            $code = update_option('twiz_bullet', $bullet);   
+            $bullet[$this->userid] = parent::LB_ORDER_DOWN ;
+            $code = update_option('twiz_bullet', $bullet);
         
-            if(!isset($twiz_order_by[$this->userid])) $twiz_order_by[$this->userid] = '';       
+            if(!isset($twiz_order_by[$this->userid])) $twiz_order_by[$this->userid] = '';
             $twiz_order_by[$this->userid] =  parent::F_ON_EVENT;
             $code = update_option('twiz_order_by',  $twiz_order_by);
             
@@ -115,7 +115,7 @@ class TwizInstallation extends Twiz{
         }else{
             
            $dbversion = get_option('twiz_db_version');
-           $array_describe = '';       
+           $array_describe = '';
            
             if( $dbversion != $this->dbVersion ){
                 
@@ -195,7 +195,7 @@ class TwizInstallation extends Twiz{
                     
                     // Select all the table
                     $sql = "SELECT * from ".$this->table;
-                    $rows = $wpdb->get_results($sql, ARRAY_A);                    
+                    $rows = $wpdb->get_results($sql, ARRAY_A);
                     
                     foreach ( $rows as $value ){
                         
@@ -280,7 +280,7 @@ class TwizInstallation extends Twiz{
                 $altersql = "ALTER TABLE ".$this->table 
                 . " MODIFY ". parent::F_START_DELAY . " varchar(100) NOT NULL default '0'," 
                 . " MODIFY ". parent::F_DURATION . " varchar(100) NOT NULL default '0'";
-                $code = $wpdb->query($altersql);  
+                $code = $wpdb->query($altersql);
                             
 
                 // from <= v 1.4.4.5 
@@ -320,13 +320,13 @@ class TwizInstallation extends Twiz{
                 
                 
                 // Bullet menu from <= v 1.5 
-                $bullet = get_option('twiz_bullet'); 
+                $bullet = get_option('twiz_bullet');
                 $bullet = ( !is_array($bullet) ) ? '' : $bullet;
                 
                 if( $bullet == '' ) {
                 
                     $bullet[$this->userid] = parent::LB_ORDER_UP ; // same setting as before
-                    $code = update_option('twiz_bullet', $bullet);      
+                    $code = update_option('twiz_bullet', $bullet);
                 
                     // Plus admin & toggle key changes from <= v 1.5 
                     if(!isset($this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD] = '';
@@ -348,7 +348,7 @@ class TwizInstallation extends Twiz{
                 }
                 
                 // from <= v 1.4.3 and <= v 1.5 
-                $twiz_order_by = get_option('twiz_order_by'); 
+                $twiz_order_by = get_option('twiz_order_by');
                 
                 $twiz_order_by_old = ( !is_array($twiz_order_by) ) ? $twiz_order_by : ''; // Migrate setting
                 $twiz_order_by = ( !is_array($twiz_order_by) ) ? '' : $twiz_order_by;
@@ -452,11 +452,11 @@ class TwizInstallation extends Twiz{
                 }
                 
                 // option cookie js 
-                $twiz_cookie_js_status = get_option('twiz_cookie_js_status'); 
+                $twiz_cookie_js_status = get_option('twiz_cookie_js_status');
                 
                 if( $twiz_cookie_js_status == '' ) {
                 
-                    $code = update_option('twiz_cookie_js_status', false); 
+                    $code = update_option('twiz_cookie_js_status', false);
                 }                
                  
                 // Set ads On
