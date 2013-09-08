@@ -853,7 +853,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.5.6';
+        $this->version    = '1.9.5.7';
         $this->cssVersion = '1-5';
         $this->dbVersion  = '3.21';
         $this->pluginUrl  = $pluginUrl;
@@ -2791,7 +2791,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         $select = '<select name="twiz_'.self::F_ON_EVENT.$extraid.'" id="twiz_'.self::F_ON_EVENT.$extraid.'" '.$extraclass.'>';
         $select .= '<option value="">'.__('(Optional)', 'the-welcomizer').'</option>';
-            
+        
+        $event = str_replace( self::EV_PREFIX_ON, "", $event );
+        
         foreach ($this->array_on_event as $value){
 
             $selected = ($event == $value) ? ' selected="selected"' : '';
