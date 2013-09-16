@@ -1435,9 +1435,9 @@ class TwizAjax extends Twiz{
     }});
   }
   function twizGetView(twiz_numid, e, twiz_view_level){
-      if( twiz_ajax_locked == false ) {
-      twiz_ajax_locked = true;
       if(twiz_view_id!="edit"){
+      if( twiz_ajax_locked == false ) {
+          twiz_ajax_locked = true;
           var twiz_right_panel = "twiz_right_panel_" + twiz_view_level;
           var twiz_from_level = "twiz_right_panel_" + (twiz_view_level - 1);
           $("#twiz_vertical_menu").hide();
@@ -1496,10 +1496,10 @@ class TwizAjax extends Twiz{
               twiz_view_id = twiz_numid;});
           }          
           return true;
-      }else{
+      }}else{
           return false;
       }
-    }}
+    }
   function twiz_TR_View_ReBind(){
     $(".twiz-list-tr").unbind("mouseenter");
     $(".twiz-list-group-tr").unbind("mouseover");

@@ -853,7 +853,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.5.8';
+        $this->version    = '1.9.5.9';
         $this->cssVersion = '1-5';
         $this->dbVersion  = '3.22';
         $this->pluginUrl  = $pluginUrl;
@@ -1018,17 +1018,13 @@ class Twiz{
         
         $ads['Scoutmob Shoppe'] = '<a href="http://www.anrdoezrs.net/sd70biroiq5BCEBF885779BBACD" target="_blank"><img src="http://www.ftjcfx.com/2i108tkocig178A7B44133577689" alt="" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Floraqueen'] = '<a href="http://www.anrdoezrs.net/rn68ox52x4KQRTQUNNKMMMPLTRT" target="_blank">
-<img src="http://www.tqlkg.com/d3106m-3sywHNOQNRKKHJJJMIQOQ" alt="" border="0" class="twiz-ads-img"/></a>';        
+        $ads['Floraqueen'] = '<a href="http://www.anrdoezrs.net/rn68ox52x4KQRTQUNNKMMMPLTRT" target="_blank"><img src="http://www.tqlkg.com/d3106m-3sywHNOQNRKKHJJJMIQOQ" alt="" border="0" class="twiz-ads-img"/></a>';        
 
-        $ads['GreaterGood'] = '<a href="http://www.tkqlhce.com/b3111tenkem178A7B44133634A92" target="_blank">
-<img src="http://www.awltovhc.com/qh105bosgmk5BCEBF88577A78ED6" alt="" border="0" class="twiz-ads-img"/></a>';       
+        $ads['GreaterGood'] = '<a href="http://www.tkqlhce.com/b3111tenkem178A7B44133634A92" target="_blank"><img src="http://www.awltovhc.com/qh105bosgmk5BCEBF88577A78ED6" alt="" border="0" class="twiz-ads-img"/></a>';       
 
-        $ads['Herbspro'] = '<a href="http://www.anrdoezrs.net/7r79r09608OUVXUYRROQPVYTXWS" target="_blank">
-<img src="http://www.awltovhc.com/ng122drvjpn8EFHEIBB8A9FIDHGC" alt="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';        
+        $ads['Herbspro'] = '<a href="http://www.anrdoezrs.net/7r79r09608OUVXUYRROQPVYTXWS" target="_blank"><img src="http://www.awltovhc.com/ng122drvjpn8EFHEIBB8A9FIDHGC" alt="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';        
 
-        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank">
-<img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" alt="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
+        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" alt="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
        
         $ok = shuffle($ads);
         
