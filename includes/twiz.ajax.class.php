@@ -383,11 +383,11 @@ class TwizAjax extends Twiz{
     }});
     $("input[name^=twiz_far_replace]").click(function(){  
         if( twiz_ajax_locked == false ) {  
-        twiz_ajax_locked = true;
         var twiz_textid = $(this).attr("id");
         var twiz_charid = twiz_textid.substring(17,twiz_textid.length);
         var twiz_far_choice = $("input[name=twiz_far_choice]:checked").val();
         if (confirm("'.__('Are you sure to replace?', 'the-welcomizer').'")) {     
+        twiz_ajax_locked = true;
         $("input[name^=twiz_far_replace]").css({"color" : "#9FD0D5 "});
         $("#twiz_far_save_img_box_" + twiz_charid).show();
         $("#twiz_far_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" />\');
@@ -868,10 +868,30 @@ class TwizAjax extends Twiz{
     }});
  } 
  var bind_twiz_Delete = function() {
+      $("#twiz_empty_list").click(function(){  
+        if( twiz_ajax_locked == false ) {  
+        var twiz_sectionok = "";
+        if (confirm("'.__('Are you sure you want to empty the list?', 'the-welcomizer').'")) {
+            twizShowMainLoadingImage();
+            twiz_ajax_locked = true;
+            $.post(ajaxurl, {
+            "action": "twiz_ajax_callback",
+            "twiz_nonce": "'.$this->nonce.'", 
+            "twiz_action": "'.parent::ACTION_EMPTY_SECTION.'",
+            "twiz_section_id": twiz_current_section_id
+            }, function(data) {                
+                twiz_ajax_locked = false;  
+                $("#qq_upload_list li").remove();
+                $("#twiz_export_url").html("");
+                $("#twiz_loading_menu").html("");
+                twizPostMenu(data);
+            }).fail(function() { twiz_ajax_locked = false;  });
+        }
+    }});
     $(".twiz-delete").click(function(){
     if( twiz_ajax_locked == false ) {  
-            twiz_ajax_locked = true;
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
+            twiz_ajax_locked = true;
             var twiz_textid = $(this).attr("name");
             var twiz_textidtemp = twiz_textid.substring(12,twiz_textid.length);
             var twiz_numid = "";
@@ -909,8 +929,8 @@ class TwizAjax extends Twiz{
     }});
     $(".twiz-group-delete").click(function(){
     if( twiz_ajax_locked == false ) {  
-        twiz_ajax_locked = true;
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
+            twiz_ajax_locked = true;
             var twiz_textid = $(this).attr("name");
             var twiz_numid = twiz_textid.substring(18,twiz_textid.length);
             var twiz_action = "'.parent::ACTION_DELETE_GROUP.'";
@@ -1616,6 +1636,7 @@ class TwizAjax extends Twiz{
     $(".twiz-edit").unbind("click");
     $(".twiz-copy").unbind("click");
     $(".twiz-delete").unbind("click");
+    $("#twiz_empty_list").unbind("click");
     $(".twiz-group-edit").unbind("click");
     $(".twiz-group-delete").unbind("click");
     $(".twiz-list-tr").unbind("draggable");
@@ -1801,10 +1822,11 @@ class TwizAjax extends Twiz{
                  "twiz_custom_logic": $("#twiz_custom_logic").val(),
                  "twiz_shortcode": $("#twiz_shortcode").val(),
                  "twiz_section_id": JSON.stringify(twiz_sectionid),
+                 "twiz_cookie_condition": $("#twiz_slc_cookie_condition").val(),
+                 "twiz_cookie_name": $("#twiz_cookie_name").val(),
                  "twiz_cookie_option_1": $("#twiz_slc_cookie_option_1").val(),
                  "twiz_cookie_option_2": $("#twiz_slc_cookie_option_2").val(),
                  "twiz_cookie_with": $("#twiz_slc_cookie_with").val(),
-                 "twiz_cookie_name": $("#twiz_cookie_name").val(),
                  "twiz_cookie_scope": $("#twiz_slc_cookie_scope").val()                 
                 }, function(data) { 
                     twizShowMainLoadingImage();
@@ -2165,6 +2187,7 @@ class TwizAjax extends Twiz{
       $(".twiz-copy").unbind("click");
       $(".twiz-group-copy").unbind("click");
       $(".twiz-delete").unbind("click");
+      $("#twiz_empty_list").unbind("click");
       $(".twiz-group-delete").unbind("click");
       bind_twiz_View();bind_twiz_Edit();bind_twiz_Copy();bind_twiz_Delete();
   }

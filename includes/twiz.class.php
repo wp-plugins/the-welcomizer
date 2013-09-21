@@ -107,6 +107,7 @@ class Twiz{
     const ACTION_SAVE_SECTION       = 'savesection';
     const ACTION_GET_MULTI_SECTION  = 'getmultisection';
     const ACTION_DELETE_SECTION     = 'deletesection';
+    const ACTION_EMPTY_SECTION     = 'emptysection';
     const ACTION_GET_FINDANDREPLACE = 'getfindandreplace';
     const ACTION_FAR_REPLACE        = 'far_replace';
     const ACTION_FAR_FIND           = 'far_find';
@@ -293,12 +294,13 @@ class Twiz{
     const KEY_DIRECTORY     = 'directory';
     const KEY_ORDER         = 'order';
     const KEY_TITLE         = 'title';
-    const KEY_COOKIE        = 'cookie';
-    const KEY_COOKIE_NAME   = 'cookie_name';
-    const KEY_COOKIE_OPTION_1 = 'cookie_option_1';
-    const KEY_COOKIE_OPTION_2 = 'cookie_option_2';
-    const KEY_COOKIE_WITH     = 'cookie_with';
-    const KEY_COOKIE_SCOPE    = 'cookie_scope';
+    const KEY_COOKIE_CONDITION = 'cookie_condition';
+    const KEY_COOKIE           = 'cookie';
+    const KEY_COOKIE_NAME      = 'cookie_name';
+    const KEY_COOKIE_OPTION_1  = 'cookie_option_1';
+    const KEY_COOKIE_OPTION_2  = 'cookie_option_2';
+    const KEY_COOKIE_WITH      = 'cookie_with';
+    const KEY_COOKIE_SCOPE     = 'cookie_scope';
     
     // Toggle constants keys
     const KEY_TOGGLE_GROUP    = 'toggle_group';
@@ -853,9 +855,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.6';
-        $this->cssVersion = '1-5';
-        $this->dbVersion  = '3.22';
+        $this->version    = '1.9.7';
+        $this->cssVersion = '1-6';
+        $this->dbVersion  = '3.3';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -1048,7 +1050,7 @@ class Twiz{
       
     private function getHtmlListMenu(){
     
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a></span></div></div>';
+        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_empty_list" class="twiz-bold twiz-red">'.__('Empty list', 'the-welcomizer').'</a></span></div></div>';
 
         return $html;
     }
@@ -1191,7 +1193,6 @@ class Twiz{
                 if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exid] == '1' ) {
                 
                     $hide = '';
-                    //$borderbggroupclass = '';
                     $toggleimg = 'minus';
                     $boldclass = ' twiz-bold';
                     
@@ -1239,7 +1240,7 @@ class Twiz{
         
             }
         }
-         
+        $rowcolor = ( $rowcolor == 'twiz-row-color-2' ) ? 'twiz-row-color-1' : 'twiz-row-color-2';
         $htmllist.= '</tbody></table>'.$closediv.$jsscript_show;
          
         return $htmllist;
@@ -2494,18 +2495,26 @@ $("textarea[name^=twiz_options]").blur(function (){
     protected function getListArray( $where = '', $orderby = '' ){ 
 
         global $wpdb;
-
-        $sql = "SELECT *,
-        (duration + duration_b) AS total_duration,(
-        SELECT LPAD(p.".self::F_EXPORT_ID.", 13, '0') 
-        FROM ".$this->table." p 
-        WHERE p.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
-        UNION
-        SELECT CONCAT(LPAD(p.".self::F_EXPORT_ID.", 13, '0'), '.', LPAD(c.".self::F_EXPORT_ID.", 13, '0')) 
-        FROM ".$this->table." p 
-        INNER JOIN ".$this->table." c ON (p.".self::F_EXPORT_ID." = c.".self::F_PARENT_ID.") 
-        WHERE c.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
-       ) AS level, IF(".self::F_ON_EVENT." = '','0','1') AS event_order, IF(".self::F_ON_EVENT." = 'Manually','0','1') AS event_order_2 from ".$this->table." t ".$where;
+         
+        $sql = "SELECT *, 
+                (".self::F_DURATION." + t.duration_x + IF(".self::F_DURATION_B." != '',".self::F_DURATION_B.",'0')) AS total_duration, 
+                   (SELECT LPAD(p.".self::F_EXPORT_ID.", 13, '0') 
+                    FROM ".$this->table." p 
+                    WHERE p.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
+                    UNION
+                    SELECT CONCAT(LPAD(p.".self::F_EXPORT_ID.", 13, '0'), '.', LPAD(c.".self::F_EXPORT_ID.", 13, '0')) 
+                    FROM ".$this->table." p 
+                    INNER JOIN ".$this->table." c ON (p.".self::F_EXPORT_ID." = c.".self::F_PARENT_ID.") 
+                    WHERE c.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
+                   ) AS level, IF(".self::F_ON_EVENT." = '','0','1') AS event_order, IF(".self::F_ON_EVENT." = 'Manually','0','1') AS event_order_2 from (SELECT *,IF((((".self::F_OPTIONS_A." != '') 
+                        or (".self::F_OPTIONS_B." != '') 
+                        or (".self::F_EXTRA_JS_A." != '')
+                        or (".self::F_EXTRA_JS_B." != '')
+                        or (".self::F_MOVE_TOP_POS_A." != '')
+                        or (".self::F_MOVE_TOP_POS_B." != '')
+                        or (".self::F_MOVE_LEFT_POS_A." != '')
+                        or (".self::F_MOVE_LEFT_POS_B." != ''))
+                        and (".self::F_DURATION_B." = '')),".self::F_DURATION.",'0') AS duration_x FROM ".$this->table." ) t ".$where;
 
         $twiz_order_by = get_option('twiz_order_by');
         $twiz_order_by = ( !is_array($twiz_order_by) ) ? '' : $twiz_order_by;
@@ -2573,8 +2582,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
         
         $rows = $wpdb->get_results($sql.$orderby, ARRAY_A);
-
+        
         return $rows;
+        
     }
 
     function getHtmlList( $section_id = '', $saved_id = '', $orderby = '', $parent_id = '', $action = '' ){ 

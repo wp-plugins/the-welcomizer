@@ -410,7 +410,7 @@ div a:hover, td a:hover {
     padding: 4px;
 }
 #twiz_far_matches {
-    width : 190px;
+    width : 130px;
 }
 #twiz_footer {
     border-radius: 0px 0px 6px 6px;
@@ -636,6 +636,7 @@ div a:hover, td a:hover {
     padding-bottom: 12px;
 }
 .twiz-table-form hr, 
+.twiz-box-menu hr,
 .twiz-table-view hr ,
 .twiz-table-view-b hr {
     border-radius: 2px 2px 2px 2px;
@@ -655,6 +656,9 @@ div a:hover, td a:hover {
     border: 0px;
     margin: 15px 0 15px 0;
     background-color: #E4E4E4;
+}
+.twiz-box-menu hr {
+    background-color: #D1D1D1;
 }
 .twiz-table-form tr {
     height: 15px;

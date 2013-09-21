@@ -157,6 +157,16 @@
             
             $htmlresponse = $myTwizMenu->deleteSectionMenu($twiz_section_id);
             
+            break;        
+            
+        case Twiz::ACTION_EMPTY_SECTION:
+        
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+        
+            $myTwizMenu  = new TwizMenu();
+            
+            $htmlresponse = $myTwizMenu->emptySectionMenu($twiz_section_id);
+            
             break;
 
         case Twiz::ACTION_GET_FINDANDREPLACE:
