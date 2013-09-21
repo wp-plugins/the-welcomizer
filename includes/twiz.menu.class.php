@@ -728,7 +728,6 @@ class TwizMenu extends Twiz{
         $select .= '<option value="">'.__('Disabled', 'the-welcomizer').'</option>';
 
         foreach ( $hardsections as $key => $value ){
-                
            
                 if( !isset( $sections[$section_id][parent::KEY_COOKIE_CONDITION] ) ){ $selected = ''; }else{
                     $selected = ($sections[$section_id][parent::KEY_COOKIE_CONDITION]  ==  $key) ? ' selected="selected"' : '';
@@ -744,6 +743,9 @@ class TwizMenu extends Twiz{
                 
                 if( !isset( $sections[$section_id][parent::KEY_COOKIE_CONDITION] ) ){ $selected = ''; }else{
                     $selected = ($sections[$section_id][parent::KEY_COOKIE_CONDITION]  ==  $key) ? ' selected="selected"' : '';
+                }                
+                if( !isset( $hardsections[$section_id][parent::KEY_COOKIE_CONDITION] ) ){ }else{
+                    $selected = ($hardsections[$section_id][parent::KEY_COOKIE_CONDITION]  ==  $key) ? ' selected="selected"' : '';
                 }
                 if( ( $section_id != $key ) 
                 and ($value[parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] != '' ) 
