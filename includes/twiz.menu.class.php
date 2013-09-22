@@ -186,6 +186,7 @@ class TwizMenu extends Twiz{
                 $this->array_sections[$array_section_id[0]] = $section;
                 
                 $code = update_option('twiz_sections', $this->array_sections);
+                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
                 $code = $this->UpdateJSCookieStatus($array_section_id[0], $cookie_option_1, $cookie_with);
                 
                 return $array_section_id[0];
@@ -261,6 +262,7 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
+                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
                 $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
@@ -332,6 +334,7 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
+                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
                 $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
@@ -403,6 +406,7 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
+                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
                 $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
@@ -425,6 +429,7 @@ class TwizMenu extends Twiz{
                                 );
               $this->array_hardsections[$section_id] = $section;
               $code = update_option('twiz_hardsections', $this->array_hardsections);
+              $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
               $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
  
               return $section_id;
@@ -432,6 +437,38 @@ class TwizMenu extends Twiz{
               break;
         }
     }    
+  
+    private function CleanCookieCondition( $section_id = '', $cookie_option_1 = ''){
+    
+        if( $cookie_option_1 == '' ){
+        
+            $hardsections = $this->array_hardsections;
+            $sections = $this->array_sections;
+
+
+            foreach ( $hardsections as $key => $value ){
+               
+               if( $hardsections[$key][parent::KEY_COOKIE_CONDITION] == $section_id ) {
+               
+                    $this->array_hardsections[$key][parent::KEY_COOKIE_CONDITION] = '';
+               }
+            }            
+
+            foreach ( $sections as $key => $value ){
+                    
+               if( $sections[$key][parent::KEY_COOKIE_CONDITION]  == $section_id ) {
+               
+                    $this->array_sections[$key][parent::KEY_COOKIE_CONDITION] = '';
+               }
+            }
+        
+            $code = update_option('twiz_sections', $this->array_sections);
+            $code = update_option('twiz_hardsections', $this->array_hardsections);
+        
+        }
+        
+        return true;
+    }
     
     private function UpdateJSCookieStatus( $section_id = '', $cookie_option_1 = '', $cookie_with = '' ){
     
@@ -1354,6 +1391,7 @@ $("#twiz_section_name").focus();';
                         $this->array_sections[$newkey] = $section; // new value
                         
                         unset($this->array_sections[$key]); // delete old format
+                        
                     }
                 }
             }
