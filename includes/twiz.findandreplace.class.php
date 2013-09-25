@@ -57,7 +57,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 });';
 
         $jsscript .= '
-$("#twiz_listmenu").css("display", "none");';
+$("[name^=twiz_listmenu]").css("display", "none");';
  
         $jsscript .= '});
  //]]>

@@ -50,7 +50,7 @@ class TwizGroup extends Twiz{
  twiz_view_id = null;';
  
         $jsscript .= '
-$("#twiz_listmenu").css("display", "none");
+$("[name^=twiz_listmenu]").css("display", "none");
 ';
 
 

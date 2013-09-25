@@ -405,7 +405,7 @@ div a:hover, td a:hover {
     display: block;
     float: left;
 }
-#twiz_listmenu,
+[name=twiz_listmenu],
 #twiz_lib_menu {
     padding: 4px;
 }

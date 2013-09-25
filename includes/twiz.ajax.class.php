@@ -85,7 +85,7 @@ class TwizAjax extends Twiz{
     $("input[name^=twiz_far_find]").unbind("click");
     $("input[name^=twiz_far_replace]").unbind("click");
     $("#twiz_findandreplace").unbind("click");
-    $("#twiz_listmenu").unbind("mouseenter");
+    $("[name=twiz_listmenu]").unbind("mouseenter");
     $("#twiz_new").unbind("click");
     $("input[name=twiz_far_choice]").unbind("click");
     $("#twiz_create_group").unbind("click");
@@ -96,11 +96,11 @@ class TwizAjax extends Twiz{
  function twiz_ListMenu_Cancel(){
         $("#twiz_far_matches").html("");
         $("#twiz_sub_container").hide();
-        $("#twiz_listmenu").css("display", "block");
+        $("[name=twiz_listmenu]").css("display", "block");
         $("#twiz_container").css("display", "block");
  } 
  var bind_twiz_ListMenu = function() {
-     $("#twiz_listmenu").mouseenter(function(){   
+     $("[name=twiz_listmenu]").mouseenter(function(){   
         twiz_reset_nav();
      });
      $("#twiz_new").click(function(){
@@ -289,7 +289,7 @@ class TwizAjax extends Twiz{
                 twiz_view_id = null;
                 twiz_array_view_id = new Array();
                 twizList_ReBind();
-                $("#twiz_listmenu").css("display", "block");
+                $("[name=twiz_listmenu]").css("display", "block");
                 $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                     switch(true){
                         case ( data.result > 1 ):
@@ -363,7 +363,7 @@ class TwizAjax extends Twiz{
                 twiz_view_id = null;
                 twiz_array_view_id = new Array();
                 twizList_ReBind();
-                $("#twiz_listmenu").css("display", "block");
+                $("[name=twiz_listmenu]").css("display", "block");
                 $("#twiz_far_matches").stop().animate({"opacity":1},0,function(){
                     switch(true){
                         case ( data.result > 1 ):
@@ -870,7 +870,6 @@ class TwizAjax extends Twiz{
  var bind_twiz_Delete = function() {
       $("#twiz_empty_list").click(function(){  
         if( twiz_ajax_locked == false ) {  
-        var twiz_sectionok = "";
         if (confirm("'.__('Are you sure you want to empty the list?', 'the-welcomizer').'")) {
             twizShowMainLoadingImage();
             twiz_ajax_locked = true;
@@ -1547,7 +1546,7 @@ class TwizAjax extends Twiz{
     $("a[name^=twiz_section_cancel]").click(function(){
         $("#twiz_sub_container").hide();
         if( $("#twiz_id").val() === undefined ){ 
-            $("#twiz_listmenu").css("display", "block");
+            $("[name=twiz_listmenu]").css("display", "block");
         }
         $("#twiz_container").css("display", "block");
     });
@@ -1555,14 +1554,14 @@ class TwizAjax extends Twiz{
         $("#twiz_sub_container").html("");
         twizGetMultiSection("", "'.parent::ACTION_NEW.'");
         $("#twiz_sub_container").show("fast");
-        $("#twiz_listmenu").css("display", "none");
+        $("[name=twiz_listmenu]").css("display", "none");
         $("#twiz_container").css("display", "none");
         twiz_view_id = null;
     });
     $("#twiz_edit_menu").click(function(){    
         $("#twiz_sub_container").html("");
         $("#twiz_sub_container").show("fast");
-        $("#twiz_listmenu").css("display", "none");
+        $("[name=twiz_listmenu]").css("display", "none");
         $("#twiz_container").css("display", "none");
         twizGetMultiSection(twiz_current_section_id, "'.parent::ACTION_EDIT.'");
         twiz_view_id = null;
@@ -1901,7 +1900,7 @@ class TwizAjax extends Twiz{
     $header.= '
     $("#twiz_library").click(function(){
         $("#twiz_sub_container").hide();
-        $("#twiz_listmenu").css("display", "none");
+        $("[name=twiz_listmenu]").css("display", "none");
         twizSwitchFooterMenu();
         twizPostLibrary();
     });
@@ -1925,7 +1924,7 @@ class TwizAjax extends Twiz{
       twiz_ajax_locked = true;
       twizShowMainLoadingImage();
       $("#twiz_sub_container").hide();
-      $("#twiz_listmenu").css("display", "none");
+      $("[name=twiz_listmenu]").css("display", "none");
       twizSwitchFooterMenu();
       $("#twiz_edit_menu").hide();
       $("#twiz_delete_menu").hide();

@@ -855,8 +855,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.7.2';
-        $this->cssVersion = '1-6';
+        $this->version    = '1.9.7.3';
+        $this->cssVersion = '1-7';
         $this->dbVersion  = '3.3';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -945,10 +945,11 @@ class Twiz{
         $html .= '<div class="twiz-clear"></div></div>';
         $html .= '<div id="twiz_sub_container"></div>';
         
-        $html .= $this->getHtmlListMenu();
+        $html .= $myTwizMenu->getHtmlListMenu();
         $html .= $this->getHtmlList();
+        $html .= $myTwizMenu->getHtmlListSubMenu();
         $html .= $this->getHtmlFooter();
-        $html .= $this->getHtmlFooterMenu();
+        $html .= $myTwizMenu->getHtmlFooterMenu();
         
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
@@ -975,19 +976,6 @@ class Twiz{
         return $header;
     }
     
-    private function getHtmlFooterMenu(){
-
-      $import = '<div id="twiz_import_container">'.__('Import', 'the-welcomizer').'</div>';
-      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div>';
-      $library_upload = '<div id="twiz_library_upload" class="twiz-display-none">'.__('Upload', 'the-welcomizer').'</div>';
-      $library = '<div id="twiz_library">'.__('Library', 'the-welcomizer').'</div>';
-      $admin = '<div id="twiz_admin">'.__('Admin', 'the-welcomizer').'</div>';
-      
-      $html = '<div id="twiz_footer_menu" class="twiz-reset-nav">'.$library_upload.$import.$export.$admin.$library.'</div><div id="twiz_export_url"></div>';
-      
-      return $html;
-    }
-    
     function getHtmlAds(){
 
         $extraspaces = '&nbsp;&nbsp;&nbsp;';
@@ -1004,7 +992,7 @@ class Twiz{
         
         $ads['mypcbackup'] = '<a href="http://www.jdoqocy.com/68104shqnhp4ABDAE77465DE7B5D" target="_blank" title="mypcbackup.com"><img src="http://www.lduhtrp.net/7r79qmqeki39AC9D66354CD6A4C" alt="" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['PetFoodDirect'] = '<a href="http://www.tkqlhce.com/tq119tenkem178A7B44132A76668" title="PetFoodDirect.com" target="_blank"><img src="http://www.awltovhc.com/6i104qmqeki39AC9D66354C9888A" alt="" border="0" class="twiz-ads-img"/></a>';
+        $ads['PetFoodDirect'] = '<a href="http://www.tkqlhce.com/tq119tenkem178A7B44132A76668" title="PetFoodDirect.com" target="_blank"><img src="http://www.awltovhc.com/6i104qmqeki39AC9D66354C9888A" title="" border="0" class="twiz-ads-img"/></a>';
         
         $ads['Order Flowers Online'] = '<a href="http://www.anrdoezrs.net/fc81lnwtnvAGHJGKDDAKIDIECK" target="_blank" title="Order Flowers Online"><img src="http://www.lduhtrp.net/3b111nswkqo9FGIFJCC9JHCHDBJ" border="0" class="twiz-ads-img"/></a>';
         
@@ -1012,21 +1000,21 @@ class Twiz{
         
         $ads['AccessoryGeeks'] = '<a href="http://www.dpbolvw.net/ka108iqzwqyDJKMJNGGDFEIIKHNE" target="_blank" title="Shop AccessoryGeeks.com!"><img src="http://www.awltovhc.com/47102snrflj4ABDAE7746599B8E5" border="0" class="twiz-ads-img"/></a>';
         
-       $ads['Swimsuitsforall'] = '<a href="http://www.jdoqocy.com/st76cy63y5LRSURVOOLNNPPOTMS" target="_blank"><img src="http://www.ftjcfx.com/3l104r6Az42OUVXUYRROQQSSRWPV" alt="" border="0" class="twiz-ads-img"/></a>';
+       $ads['Swimsuitsforall'] = '<a href="http://www.jdoqocy.com/st76cy63y5LRSURVOOLNNPPOTMS" target="_blank"><img src="http://www.ftjcfx.com/3l104r6Az42OUVXUYRROQQSSRWPV" title="" border="0" class="twiz-ads-img"/></a>';
        
-        $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" alt="Sears Canada" border="0" class="twiz-ads-img"/></a>';
+        $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" title="Sears Canada" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Lids'] = '<a href="http://www.tkqlhce.com/gf102js0ys-FLMOLPIIFHGKHMJKN" target="_blank"><img src="http://www.ftjcfx.com/ck77p59y31NTUWTXQQNPOSPURSV" alt="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
+        $ads['Lids'] = '<a href="http://www.tkqlhce.com/gf102js0ys-FLMOLPIIFHGKHMJKN" target="_blank"><img src="http://www.ftjcfx.com/ck77p59y31NTUWTXQQNPOSPURSV" title="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Scoutmob Shoppe'] = '<a href="http://www.anrdoezrs.net/sd70biroiq5BCEBF885779BBACD" target="_blank"><img src="http://www.ftjcfx.com/2i108tkocig178A7B44133577689" alt="" border="0" class="twiz-ads-img"/></a>';
+        $ads['Scoutmob Shoppe'] = '<a href="http://www.anrdoezrs.net/sd70biroiq5BCEBF885779BBACD" target="_blank"><img src="http://www.ftjcfx.com/2i108tkocig178A7B44133577689" title="" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Floraqueen'] = '<a href="http://www.anrdoezrs.net/rn68ox52x4KQRTQUNNKMMMPLTRT" target="_blank"><img src="http://www.tqlkg.com/d3106m-3sywHNOQNRKKHJJJMIQOQ" alt="" border="0" class="twiz-ads-img"/></a>';        
+        $ads['Floraqueen'] = '<a href="http://www.anrdoezrs.net/rn68ox52x4KQRTQUNNKMMMPLTRT" target="_blank"><img src="http://www.tqlkg.com/d3106m-3sywHNOQNRKKHJJJMIQOQ" title="" border="0" class="twiz-ads-img"/></a>';        
 
-        $ads['GreaterGood'] = '<a href="http://www.tkqlhce.com/b3111tenkem178A7B44133634A92" target="_blank"><img src="http://www.awltovhc.com/qh105bosgmk5BCEBF88577A78ED6" alt="" border="0" class="twiz-ads-img"/></a>';       
+        $ads['GreaterGood'] = '<a href="http://www.tkqlhce.com/b3111tenkem178A7B44133634A92" target="_blank"><img src="http://www.awltovhc.com/qh105bosgmk5BCEBF88577A78ED6" title="" border="0" class="twiz-ads-img"/></a>';       
 
-        $ads['Herbspro'] = '<a href="http://www.anrdoezrs.net/7r79r09608OUVXUYRROQPVYTXWS" target="_blank"><img src="http://www.awltovhc.com/ng122drvjpn8EFHEIBB8A9FIDHGC" alt="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';        
+        $ads['Herbspro'] = '<a href="http://www.anrdoezrs.net/7r79r09608OUVXUYRROQPVYTXWS" target="_blank"><img src="http://www.awltovhc.com/ng122drvjpn8EFHEIBB8A9FIDHGC" title="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';        
 
-        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" alt="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
+        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" title="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
        
         $ok = shuffle($ads);
         
@@ -1047,13 +1035,6 @@ class Twiz{
         
         return $html;
     }    
-      
-    private function getHtmlListMenu(){
-    
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_empty_list" class="twiz-bold twiz-red">'.__('Empty list', 'the-welcomizer').'</a></span></div></div>';
-
-        return $html;
-    }
     
     private function add_animation_link( $javascript = '', $listarray = array(), $level = 1 ){
         
@@ -1139,7 +1120,7 @@ class Twiz{
         $jsscript_show = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
-        $("#twiz_listmenu").css("display", "block");
+        $("[name^=twiz_listmenu]").css("display", "block");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
@@ -1784,7 +1765,7 @@ class Twiz{
         
         // hide element
         $jsscript_hide = '$("#twiz_far_matches").html("");
-$("#twiz_listmenu").css("display", "none");
+$("[name^=twiz_listmenu]").css("display", "none");
 $(".twiz-right-panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
 $("#twiz_import").fadeIn("fast");
@@ -2605,7 +2586,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             $container = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
-        $("#twiz_listmenu").css("display", "block");
+        $("[name^=twiz_listmenu]").css("display", "block");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
         $("#twiz_import").fadeIn("fast");
