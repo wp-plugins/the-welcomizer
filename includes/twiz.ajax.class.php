@@ -1661,6 +1661,7 @@ class TwizAjax extends Twiz{
     $(".twiz-group-edit").unbind("click");
     $(".twiz-group-delete").unbind("click");
     $(".twiz-list-tr").unbind("draggable");
+    $(".twiz-list-tr").unbind("droppable");
     $(".twiz-list-group-tr").unbind("droppable");
     $(".twiz-table-list-tr-h").unbind("droppable");
     bind_twiz_Status();bind_twiz_Copy();bind_twiz_Delete();bind_twiz_Edit();
@@ -2203,6 +2204,7 @@ class TwizAjax extends Twiz{
       $(".twiz-table-list-tr-h").unbind("droppable");
       $(".twiz-list-group-tr").unbind("droppable");
       $(".twiz-list-tr").unbind("draggable");
+      $(".twiz-list-tr").unbind("droppable");
       $(".twiz-edit").unbind("click");
       $(".twiz-group-edit").unbind("click");
       $(".twiz-copy").unbind("click");
