@@ -227,12 +227,13 @@
             
             $myTwiz  = new Twiz();
             
-            $parentid = $myTwiz->getValue($twiz_from_id, Twiz::F_PARENT_ID);
-            
-            if($save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_PARENT_ID,  $twiz_to_id )){ 
+            if( ( $twiz_from_id != '' ) and ($save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_PARENT_ID,  $twiz_to_id )) ){ 
             
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,$twiz_from_id, '', $twiz_to_id, $twiz_action);
                 
+            }else{
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,'', '', $twiz_to_id, $twiz_action);
             }
 
             break;

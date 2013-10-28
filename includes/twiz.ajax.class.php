@@ -658,12 +658,11 @@ class TwizAjax extends Twiz{
         var twiz_c = {};
         $(".twiz-list-tr").draggable({
             delay: 150,
-            containment: ".twiz-table-list",
+            containment: "#twiz_container",
             axis: "y",
             opacity: 0.9,
             revert: true,
             helper: "clone",
-            numid: "",
             distance: 10, 
             start: function(event, ui) {
                 var twiz_textid = $(this).attr("name");
@@ -688,7 +687,7 @@ class TwizAjax extends Twiz{
                     twiz_ajax_locked = true;
                     twizShowMainLoadingImage();
                     var twiz_textid = $(this).attr("name");
-                    var twiz_numid = twiz_textid.substring(19, twiz_textid.length);
+                    var twiz_numid = twiz_textid.substring(19, twiz_textid.length);  
                     $.post(ajaxurl, {
                     "action": "twiz_ajax_callback",
                     "twiz_nonce": "'.$this->nonce.'", 
@@ -707,7 +706,30 @@ class TwizAjax extends Twiz{
                     $(twiz_c.helper).remove();
                 }
             }});
-        $(".twiz-table-list-tr-h").droppable({
+        $(".twiz-list-tr").droppable({
+            drop: function() {       
+                if( twiz_ajax_locked == false ) {  
+                    twiz_ajax_locked = true;
+                    twizShowMainLoadingImage();
+                    var twiz_parentid = $(this).attr("parentid");
+                    $.post(ajaxurl, {
+                    "action": "twiz_ajax_callback",
+                    "twiz_nonce": "'.$this->nonce.'", 
+                    "twiz_action": "'.self::ACTION_DROP_ROW.'",
+                    "twiz_from_id": twiz_c.numid,
+                    "twiz_to_id": twiz_parentid,
+                    "twiz_section_id": twiz_current_section_id
+                    }, function(data) {
+                        twiz_ajax_locked = false;
+                        $("#twiz_container").html(data);
+                        twizList_ReBind();
+                        $("#twiz_loading_menu").html("");
+                    }).fail(function() { twiz_ajax_locked = false;  });
+                    $(twiz_c.tr).remove();
+                    $(twiz_c.helper).remove();
+                }
+            }});        
+            $(".twiz-table-list-tr-h").droppable({
             drop: function() {       
                 if( twiz_ajax_locked == false ) {  
                     twiz_ajax_locked = true;
