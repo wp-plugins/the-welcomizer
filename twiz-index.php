@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 1.9.7.6
+Version: 1.9.7.7
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -101,14 +101,25 @@ License: GPL2
     
         $myTwizOutput  = new TwizOutput($shortcode['id']);
         
-        return($myTwizOutput->generateOutput());
+        return( $myTwizOutput->generateOutput() );
     }
+    
     function twizReplaceShortCodeDir( $shortcode = '' ){
     
          $upload_dir = wp_upload_dir();
          return $upload_dir['baseurl'];
+    }    
+    
+    function twizCleanFeedShortcode( $content = '' ){
+
+        return preg_replace('/\[twiz(.*)\]/i', '', $content);
     }
-        
+    
+    function twizRemoveFeedShortcode(){
+ 
+        add_filter('the_content', 'twizCleanFeedShortcode');
+    }
+    
     function twizInit(){
         
         $gstatus = get_option('twiz_global_status');
@@ -127,6 +138,7 @@ License: GPL2
 
                 add_shortcode('twiz','twizReplaceShortCode');
                 add_shortcode('twiz_wp_upload_dir','twizReplaceShortCodeDir');
+                
                 add_filter('widget_text', 'do_shortcode', 11);
                 
                 // add the Frontend generated code
@@ -336,6 +348,12 @@ License: GPL2
     
     // dbversion check 
     add_action('plugins_loaded', 'twizUpdateDbCheck');
+    
+    // feed  
+    add_action('atom_head', 'twizRemoveFeedShortcode');
+    add_action('rdf_header', 'twizRemoveFeedShortcode');
+    add_action('rss_head', 'twizRemoveFeedShortcode');
+    add_action('rss2_head', 'twizRemoveFeedShortcode');     
     
     // (for the frontend)
     add_action('wp_enqueue_scripts', 'twizInit');
