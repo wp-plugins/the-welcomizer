@@ -855,7 +855,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.7.8';
+        $this->version    = '1.9.7.9';
         $this->cssVersion = '1-7';
         $this->dbVersion  = '3.3';
         $this->pluginUrl  = $pluginUrl;
@@ -2665,7 +2665,9 @@ $("textarea[name^=twiz_options]").blur(function (){
 
         foreach ( $listarray as $value ){
        
-            if( $value[self::F_TYPE] !=  self::ELEMENT_TYPE_GROUP ){
+            if( ( $value[self::F_LOCK_EVENT] == '1' ) 
+            and ( ( $value[self::F_ON_EVENT] != '') 
+            and ( $value[self::F_ON_EVENT] != 'Manually') ) ){
             
                 $functionnames = 'twiz_locked_'.$value[self::F_SECTION_ID] .'_'. str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID])).'_'.$value[self::F_EXPORT_ID].' = 0;';
                 $bold = ( $id== $value[self::F_ID] )? ' class="twiz-bold"' : '';
