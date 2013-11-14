@@ -166,7 +166,6 @@ class TwizOutput extends Twiz{
                     $name = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
 
                     $this->newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
-                    $this->newElementFormat = str_replace("'", "\'", $this->newElementFormat );
                     
                     // replace numeric entities
                     $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
@@ -259,7 +258,6 @@ class TwizOutput extends Twiz{
                             }else{ // Attach a different element.
                             
                                 $moveElementFormat_a = str_replace('"', '\"', $this->replacejElementType($value[parent::F_MOVE_ELEMENT_TYPE_A], $value[parent::F_MOVE_ELEMENT_A]));
-                                $moveElementFormat_a = str_replace("'", "\'", $moveElementFormat_a );
                             }
             
                             // animate jquery a 
@@ -314,7 +312,6 @@ class TwizOutput extends Twiz{
                             }else{ // Attach a different element.
                             
                                 $moveElementFormat_b = str_replace('"', '\"', $this->replacejElementType($value[parent::F_MOVE_ELEMENT_TYPE_B], $value[parent::F_MOVE_ELEMENT_B]));
-                                $moveElementFormat_a = str_replace("'", "\'", $moveElementFormat_a );
                             }
                             $this->generatedScript .= $this->linebreak.$this->tab.$this->tab.'$(eval($("<div />").html("'.$moveElementFormat_a.'").text())).'.$this->stop.$this->animate.'({';
 
@@ -986,7 +983,6 @@ class TwizOutput extends Twiz{
                     if(!isset($generatedScript[$groupid] )) $generatedScript[$groupid]  = '';
                     
                     $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
-                    
                     $generatedScript_repeatvar[$groupid] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';
                     $generatedScript[$groupid] .= $this->linebreak.$this->tab.'$(document).twiz_'.$name.'($(eval($("<div />").html("'.$newElementFormat.'").text())), null);';
                 }
@@ -1045,7 +1041,6 @@ class TwizOutput extends Twiz{
                 and ( $value[parent::F_ON_EVENT] == '' ) ) {
 
                     $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
-                    
                     $name = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
                     
                     $generatedScript_repeatvar[$value[parent::F_SECTION_ID]] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';
@@ -1078,11 +1073,9 @@ class TwizOutput extends Twiz{
             
                 $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
                 
-                
             }else{ // Attach a different element.
             
                 $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_START_ELEMENT_TYPE], $value[parent::F_START_ELEMENT]));
-                
             }
                 
             if($value[parent::F_POSITION]!=''){
