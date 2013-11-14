@@ -24,6 +24,9 @@ class TwizAjax extends Twiz{
     }
 
     function getAjaxHeader(){
+    $twiz_hscroll_status = get_option('twiz_hscroll_status');
+    $twiz_hscroll_status = ($twiz_hscroll_status == '') ? '1' : $twiz_hscroll_status;
+    
     $header = 'var twiz_parent_id = ""; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'"; jQuery(document).ready(function($) {
  $.ajaxSetup({ cache: false });
  var twiz_skin =  "'.$this->skin[$this->userid].'";
@@ -37,6 +40,7 @@ class TwizAjax extends Twiz{
  var twiz_group_orig_anim_link_class = "";
  var twiz_panel_offset_switch = "";
  var twiz_ajax_locked = false;
+ var twiz_hscroll_status = "'.$twiz_hscroll_status.'";
  $(document).scrollTop(0);
  $(document).scrollLeft(0);
  var twiz_import_file = new qq.FileUploader({
@@ -609,7 +613,7 @@ class TwizAjax extends Twiz{
             }).fail(function() { twiz_ajax_locked = false;  });
             break;
         default:
-             switch(twiz_numid){
+             switch(twiz_numid){             
                 case "global":
                     $(this).hide();
                     $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
@@ -625,6 +629,23 @@ class TwizAjax extends Twiz{
                         bind_twiz_Status();
                     }).fail(function() { twiz_ajax_locked = false;  });
                     break;
+                case "hscroll":
+                    $(this).hide();
+                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
+                    twiz_ajax_locked = true;
+                    $.post(ajaxurl, {
+                    "action": "twiz_ajax_callback",
+                    "twiz_nonce": "'.$this->nonce.'", 
+                    "twiz_action": "'.parent::ACTION_HSCROLL_STATUS.'"
+                    }, function(data) {
+                        data = JSON.parse(data);
+                        twiz_ajax_locked = false;
+                        $("img[name^=twiz_status_img]").unbind("click");
+                        $("#twiz_hscroll_status").html(data.html);
+                        twiz_hscroll_status = data.status;
+                        bind_twiz_Status();
+                    }).fail(function() { twiz_ajax_locked = false;  });
+                    break;                    
                 default:
                     $(this).hide();
                     $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
@@ -1530,7 +1551,7 @@ class TwizAjax extends Twiz{
               var twiz_top_pos = $("#" + twiz_from_level).position().top;
               $("#" + twiz_right_panel).css({"float":"left","position":"relative", "top":twiz_top_pos + "px"});
           }
-          if($("#" + twiz_right_panel).offset().left > twiz_panel_offset_switch){ 
+          if(($("#" + twiz_right_panel).offset().left > twiz_panel_offset_switch) && (twiz_hscroll_status == "1")){ 
               twiz_view_id = "edit";
               twiz_panel_offset_switch = $("#" + twiz_from_level).offset().left + ($(window).width() - 220);
               $("html, body").animate({ scrollLeft:  $("#" + twiz_from_level).offset().left - 100}, 2000, function(){

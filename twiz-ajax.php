@@ -471,6 +471,13 @@
             
             break;
             
+        case Twiz::ACTION_HSCROLL_STATUS:
+        
+            $myTwiz  = new Twiz();
+            $htmlresponse = $myTwiz->switchHScrollStatus();
+            
+            break;
+            
         case Twiz::ACTION_EXPORT:
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));

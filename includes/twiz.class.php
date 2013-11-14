@@ -59,6 +59,7 @@ class Twiz{
     const ELEMENT_TYPE_NAME  = 'name';
     const ELEMENT_TYPE_TAG   = 'tag';
     const ELEMENT_TYPE_GROUP = 'group';
+    const ELEMENT_TYPE_OTHER = 'other';
     
     // status constants
     const STATUS_ACTIVE   = 'active';
@@ -104,6 +105,7 @@ class Twiz{
     const ACTION_LIBRARY_STATUS = 'libstatus';
     const ACTION_UPLOAD_LIBRARY = 'uploadlib';
     const ACTION_GLOBAL_STATUS  = 'gstatus';
+    const ACTION_HSCROLL_STATUS  = 'hscrollstatus';
     const ACTION_SAVE_SECTION       = 'savesection';
     const ACTION_GET_MULTI_SECTION  = 'getmultisection';
     const ACTION_DELETE_SECTION     = 'deletesection';
@@ -532,6 +534,7 @@ class Twiz{
                                        ,self::ELEMENT_TYPE_CLASS  
                                        ,self::ELEMENT_TYPE_NAME  
                                        ,self::ELEMENT_TYPE_TAG  
+                                       ,self::ELEMENT_TYPE_OTHER 
                                        );
 
     // section constants array
@@ -855,9 +858,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.7.9';
-        $this->cssVersion = '1-7';
-        $this->dbVersion  = '3.3';
+        $this->version    = '1.9.8';
+        $this->cssVersion = '1-8';
+        $this->dbVersion  = '3.4';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -930,6 +933,7 @@ class Twiz{
     function twizIt(){
         
         $html = '<div id="twiz_plugin">';
+        $html .= $this->getHtmlHScrollStatus();
         $html .= '<div id="twiz_background"></div>';
         $html .= '<div id="twiz_master">';
         
@@ -961,7 +965,12 @@ class Twiz{
    
         return $html;
     }
-      
+    
+    private function getHtmlHScrollStatus(){
+    
+        return '<div id="twiz_hscroll_status">'.$this->getImgHScrollStatus().'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div></div>';
+    }
+    
     private function getHtmlGlobalstatus(){
     
         return '<div id="twiz_global_status">'.$this->getImgGlobalStatus().'</div>';
@@ -986,7 +995,7 @@ class Twiz{
 
         $ads['bluehost'] = '<a href="http://www.bluehost.com/track/affordable_web_hosting/" target="_blank" title="bluehost.com"><img border="0" src="'.$this->pluginUrl.'/images/ads/bh_88x31_04.gif" class="twiz-ads-img"/></a>';
         
-        $ads['watches'] = '<a href="http://www.dpbolvw.net/1h66r09608OUVXUYRROQPXSSWRU" target="_blank" title="Free Shipping on ALL orders!"><img src="http://www.lduhtrp.net/b8103kpthnl6CDFCG99687FAAE9C" border="0" class="twiz-ads-img"/></a>';
+        $ads['DiscountWatchStore'] = '<a href="http://www.dpbolvw.net/1h66r09608OUVXUYRROQPXSSWRU" target="_blank" title="Free Shipping on ALL orders! DiscountWatchStore.com"><img src="http://www.lduhtrp.net/b8103kpthnl6CDFCG99687FAAE9C" border="0" class="twiz-ads-img"/></a>';
         
         $ads['myhosting'] = '<a href="http://www.anrdoezrs.net/dc100r09608OUVXUYRROQPWSRUWY" title="myhosting.com" target="_blank"><img src="http://www.lduhtrp.net/rl82g04tzxIOPROSLLIKJQMLOQS" alt="" border="0" class="twiz-ads-img"/></a>';
         
@@ -1014,7 +1023,12 @@ class Twiz{
 
         $ads['Herbspro'] = '<a href="http://www.anrdoezrs.net/7r79r09608OUVXUYRROQPVYTXWS" target="_blank"><img src="http://www.awltovhc.com/ng122drvjpn8EFHEIBB8A9FIDHGC" title="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';        
 
-        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" title="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
+        $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" title="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';        
+        
+        $ads['Keurig Canada'] = '<a href="http://www.jdoqocy.com/2b74ft1zt0GMNPMQJJGIIMNMMPI" target="_blank"><img src="http://www.lduhtrp.net/pk97c37w1-LRSURVOOLNNRSRRUN" alt="" border="0" class="twiz-ads-img"/></a>';
+        
+        $ads['Max & Chloe'] = '<a href="http://www.jdoqocy.com/49116r09608OUVXUYRROQPUPTYQQ" target="_blank"><img src="http://www.lduhtrp.net/5o122ax0pvtEKLNKOHHEGFKFJOGG" title="Shop Max & Chloe" border="0" class="twiz-ads-img"/></a>';
+        
        
         $ok = shuffle($ads);
         
@@ -2619,6 +2633,11 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
                 $title = __('Global', 'the-welcomizer');
                 break;
+
+            case 'hscroll':
+                
+                $title = __('Horizontal Auto Scrolling', 'the-welcomizer');
+                break;
                 
             default:
                 
@@ -3584,28 +3603,6 @@ $("textarea[name^=twiz_options]").blur(function (){
             return $id;
     }
     
-    function switchGlobalStatus(){ 
-
-        $gstatus = get_option('twiz_global_status');
-        
-        $newglobalstatus = ($gstatus == '0') ? '1' : '0'; // swicth the status value
-                
-        $code = update_option('twiz_global_status', $newglobalstatus);
-    
-        $htmlstatus = ($newglobalstatus=='1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
-
-        return $htmlstatus;
-    }
-    
-    private function getImgGlobalStatus(){ 
-        
-        $gstatus = get_option('twiz_global_status');
-        
-        $htmlstatus = ($gstatus == '1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
-
-        return $htmlstatus;
-    }
-       
     private function getHtmlSkinBullets(){
            
         $dirarray = $this->getSkinsDirectory();
@@ -3628,6 +3625,52 @@ $("textarea[name^=twiz_options]").blur(function (){
 
         return $html_open.$html_img.$html_close;
     }
+    
+    private function getImgGlobalStatus(){ 
+        
+        $status = get_option('twiz_global_status');
+        
+        $htmlstatus = ($status == '1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
+
+        return $htmlstatus;
+    }
+    
+    private function getImgHScrollStatus(){ 
+        
+        $status = get_option('twiz_hscroll_status');
+        
+        $htmlstatus = ( $status == '1' ) ? $this->getHtmlImgStatus('hscroll', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('hscroll', self::STATUS_INACTIVE);
+
+        return $htmlstatus;
+    }    
+
+    function switchHScrollStatus(){ 
+
+        $status = get_option('twiz_hscroll_status');
+        
+        $newstatus = ( $status == '0' ) ? '1' : '0'; // swicth the status value
+                
+        $code = update_option('twiz_hscroll_status', $newstatus);
+    
+        $htmlstatus = ( $newstatus == '1' ) ? $this->getHtmlImgStatus('hscroll', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('hscroll', self::STATUS_INACTIVE);
+
+        $jsonarray = json_encode( array('status' => $newstatus, 'html'=> $htmlstatus.'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div>'));
+        
+        return $jsonarray;
+    }   
+    
+    function switchGlobalStatus(){ 
+
+        $status = get_option('twiz_global_status');
+        
+        $newstatus = ( $status == '0' ) ? '1' : '0'; // swicth the status value
+                
+        $code = update_option('twiz_global_status', $newstatus);
+    
+        $htmlstatus = ( $newstatus == '1' ) ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
+
+        return $htmlstatus;
+    }    
     
     function switchStatus( $id ){ 
     

@@ -92,6 +92,7 @@ class TwizInstallation extends Twiz{
         
             $code = update_option('twiz_db_version', $this->dbVersion);
             $code = update_option('twiz_global_status', '1');
+            $code = update_option('twiz_hscroll_status', '1');
             $code = update_option('twiz_cookie_js_status', false);
             
             $code = new TwizAdmin();
@@ -451,6 +452,13 @@ class TwizInstallation extends Twiz{
                     $code = $wpdb->query($altersql);
                 }
                 
+                // from <= v 1.9.8
+                $twiz_hscroll_status = get_option('twiz_hscroll_status');
+                if( $twiz_hscroll_status == '' ){
+                  
+                    $code = update_option('twiz_hscroll_status', '1');
+                }
+                
                 // option cookie js 
                 $twiz_cookie_js_status = get_option('twiz_cookie_js_status');
                 
@@ -491,6 +499,7 @@ class TwizInstallation extends Twiz{
         
         delete_option('twiz_db_version');
         delete_option('twiz_global_status');
+        delete_option('twiz_hscroll_status');
         delete_option('twiz_cookie_js_status');
         delete_option('twiz_sections');
         delete_option('twiz_multi_sections');
