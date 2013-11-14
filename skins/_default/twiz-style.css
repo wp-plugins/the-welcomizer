@@ -60,7 +60,9 @@ div a:hover, td a:hover {
 #twiz_background {
     width: 84%;
     min-height: 500px;
-    position: absolute;
+    position: fixed;
+    right: 10%;
+    top: 80px;
     background: url(../../skins/_default/images/twiz-logo-big.png) top right no-repeat;
     opacity: 0.15;
     filter: alpha(opacity=4);
@@ -237,7 +239,7 @@ div a:hover, td a:hover {
 #twiz_vertical_menu,
 #twiz_header, 
 #twiz_footer {
-    width: 498px;
+    width: 499px;
     color: #333333;
     border: 1px solid #d1d1d1;
 }
