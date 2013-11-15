@@ -125,6 +125,7 @@ class TwizImportExport extends Twiz{
         
         $newrows = ( !is_array($newrows) ) ? array() : $newrows;
          
+        // Replace export id 
         foreach( $newrows as $data ){ 
                       
             foreach( $newrows as $exportid => $newdata ){
@@ -217,20 +218,30 @@ class TwizImportExport extends Twiz{
             
             $group = '';
     
-            // replace section id
+            // replace section id group function
             $twiz_javascript = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_JAVASCRIPT]);
             $twiz_extra_js_a = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_EXTRA_JS_A]);
             $twiz_extra_js_b = str_replace("$(document).twiz_group_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_group_".$newsectionid."_", $data[parent::F_EXTRA_JS_B]);
             
-            // replace section id part2
+            // replace section id function
             $twiz_javascript = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_javascript);
             $twiz_extra_js_a = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_a);
             $twiz_extra_js_b = str_replace("$(document).twiz_".$data[parent::F_SECTION_ID]."_", "$(document).twiz_".$newsectionid."_", $twiz_extra_js_b);
             
-           // replace section id part3
+            // replace section id event
             $twiz_javascript = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_javascript);
             $twiz_extra_js_a = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_extra_js_a);
-            $twiz_extra_js_b = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_extra_js_b);
+            $twiz_extra_js_b = str_replace("twiz_event_".$data[parent::F_SECTION_ID]."_", "twiz_event_".$newsectionid."_", $twiz_extra_js_b);            
+            
+            // replace section id repeat
+            $twiz_javascript = str_replace("twiz_repeat_".$data[parent::F_SECTION_ID]."_", "twiz_repeat_".$newsectionid."_", $twiz_javascript);
+            $twiz_extra_js_a = str_replace("twiz_repeat_".$data[parent::F_SECTION_ID]."_", "twiz_repeat_".$newsectionid."_", $twiz_extra_js_a);
+            $twiz_extra_js_b = str_replace("twiz_repeat_".$data[parent::F_SECTION_ID]."_", "twiz_repeat_".$newsectionid."_", $twiz_extra_js_b);
+            
+            // replace section id locked
+            $twiz_javascript = str_replace("twiz_locked_".$data[parent::F_SECTION_ID]."_", "twiz_locked_".$newsectionid."_", $twiz_javascript);
+            $twiz_extra_js_a = str_replace("twiz_locked_".$data[parent::F_SECTION_ID]."_", "twiz_locked_".$newsectionid."_", $twiz_extra_js_a);
+            $twiz_extra_js_b = str_replace("twiz_locked_".$data[parent::F_SECTION_ID]."_", "twiz_locked_".$newsectionid."_", $twiz_extra_js_b);
             
             // default output pos for older export files. b r default, because no backward v to check
             $data[parent::F_OUTPUT] = ($data[parent::F_OUTPUT] == '')? 'b' : $data[parent::F_OUTPUT];
