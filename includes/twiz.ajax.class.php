@@ -894,7 +894,7 @@ class TwizAjax extends Twiz{
         var twiz_action = "'.parent::ACTION_COPY_GROUP.'";
         $(this).hide();
         $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action" />\');
-        $(".twiz-right-panel").fadeOut("slow");
+        $(".twiz-right-panel").fadeOut("fast");
         $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
@@ -949,7 +949,7 @@ class TwizAjax extends Twiz{
                 $(this).hide();
                 $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action" />\');
             }             
-            $(".twiz-right-panel").fadeOut("slow");
+            $(".twiz-right-panel").fadeOut("fast");
             $.post(ajaxurl, {
             "action": "twiz_ajax_callback",
             "twiz_nonce": "'.$this->nonce.'", 
@@ -978,7 +978,7 @@ class TwizAjax extends Twiz{
             var twiz_action = "'.parent::ACTION_DELETE_GROUP.'";
             $(this).hide();
             $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action" />\');
-            $(".twiz-right-panel").fadeOut("slow");
+            $(".twiz-right-panel").fadeOut("fast");
             $.post(ajaxurl, {
             "action": "twiz_ajax_callback",
             "twiz_nonce": "'.$this->nonce.'", 
@@ -1177,7 +1177,7 @@ class TwizAjax extends Twiz{
         bind_twiz_Ajax_TD();bind_twiz_TR_View();bind_twiz_Order_by();
         if(twiz_stay ==  true){
             $("#twiz_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\');
-            $("#twiz_save_img_box_" + twiz_charid).fadeOut("slow");
+            $("#twiz_save_img_box_" + twiz_charid).fadeOut("fast");
             if(twiz_charid==2){
                 $("#twiz_stay").focus();
             }
@@ -1271,7 +1271,7 @@ class TwizAjax extends Twiz{
             $("#twiz_'.parent::KEY_EXTRA_EASING.'").attr({"checked":"checked"});
         }    
         $("#twiz_admin_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\');
-        $("#twiz_admin_save_img_box_" + twiz_charid).fadeOut("slow");
+        $("#twiz_admin_save_img_box_" + twiz_charid).fadeOut("fast");
         $("[name=twiz_admin_save]").removeAttr("disabled");
         $("[name=twiz_admin_save]").css({"color" : "#ffffff"});
     }).fail(function() { twiz_ajax_locked = false;  });
@@ -1511,11 +1511,11 @@ class TwizAjax extends Twiz{
               $("#" + twiz_right_panel).remove();
               if(twiz_view_level == 1){
                   $(".twiz-right-panel").css("display", "none");
-                  $("#twiz_view_box").append(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel"></div>\');
+                  $("#twiz_view_box").append(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel twiz-corner-all"></div>\');
               }else{
-                  $("#" + twiz_from_level).after(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel"></div>\');
+                  $("#" + twiz_from_level).after(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel twiz-corner-all"></div>\');
               }          
-              $("#" + twiz_right_panel).html(\'<div\' + \' class="twiz-panel-loading"></div>\');
+              $("#" + twiz_right_panel).html(\'<div\' + \' class="twiz-panel-loading twiz-corner-all"></div>\');
               $("#" + twiz_right_panel).css("display", "block");
               $.post(ajaxurl, {
               "action": "twiz_ajax_callback",
@@ -1535,9 +1535,9 @@ class TwizAjax extends Twiz{
               $(".twiz-right-panel").css("display", "none");
               $("#" + twiz_right_panel).remove();
               if(twiz_view_level == 1){
-                  $("#twiz_view_box").append(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel">\' + twiz_array_view_id[twiz_numid + "_" + twiz_view_level] +\'</div>\');
+                  $("#twiz_view_box").append(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel twiz-corner-all">\' + twiz_array_view_id[twiz_numid + "_" + twiz_view_level] +\'</div>\');
               }else{
-                  $("#" + twiz_from_level).after(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel">\' + twiz_array_view_id[twiz_numid + "_" + twiz_view_level] +\'</div>\');
+                  $("#" + twiz_from_level).after(\'<div\' + \' id="twiz_right_panel_\' + twiz_view_level + \'" class="twiz-right-panel twiz-corner-all">\' + twiz_array_view_id[twiz_numid + "_" + twiz_view_level] +\'</div>\');
               }
               twizView_Rebind();
           }
@@ -1636,6 +1636,7 @@ class TwizAjax extends Twiz{
         twiz_current_section_id = twiz_textid.substring(10,twiz_textid.length);
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu twiz-display-none"});
         $("div[id^=twiz_vmenu_]").attr({"class" : "twiz-menu"});
+        $("#twiz_vmenu_allarticles").attr({"class" : "twiz-menu twiz-corner-bottom"});
         $("div[id^=twiz_status_menu_]").attr({"class" : "twiz-display-none"});
         $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected twiz-display-block"});
         $("#twiz_vmenu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
@@ -1650,6 +1651,7 @@ class TwizAjax extends Twiz{
         twiz_current_section_id = twiz_textid.substring(11,twiz_textid.length);
         $("div[id^=twiz_menu_]").attr({"class" : "twiz-menu twiz-display-none"});
         $("div[id^=twiz_vmenu_]").attr({"class" : "twiz-menu"});
+        $("#twiz_vmenu_allarticles").attr({"class" : "twiz-menu twiz-corner-bottom"});
         $("div[id^=twiz_status_menu_]").attr({"class" : "twiz-display-none"});
         $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected twiz-display-block"});
         $("#twiz_vmenu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected"});
@@ -1881,7 +1883,7 @@ class TwizAjax extends Twiz{
                     twizPostMenu(twiz_current_section_id);
                     $("input[id=twiz_save_section]").css({"color" : "#ffffff"});
                     $("#twiz_menu_save_img_box").html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\');
-                    $("#twiz_menu_save_img_box").fadeOut("slow");
+                    $("#twiz_menu_save_img_box").fadeOut("fast");
                 }).fail(function() { twiz_ajax_locked = false;  });
         }}});
   }  
@@ -2005,7 +2007,7 @@ class TwizAjax extends Twiz{
   }  
   function twizSwitchFooterMenu(){
       $("#twiz_export").fadeOut("fast");
-      $("#twiz_import").fadeOut("fast");
+      $("#twiz_import_container").fadeOut("fast");
       $("#qq_upload_list li").remove();
       $("#twiz_export_url").html("");
   }   
@@ -2030,6 +2032,7 @@ class TwizAjax extends Twiz{
             $("#twiz_lib_dir").val("'.__('Type a directory name.', 'the-welcomizer').'");
             $("#twiz_lib_dir").css("color", "#BC0B0B");
             twiz_validlib = false;
+            twiz_ajax_locked = false;
         }
         if(twiz_validlib == true){
             $("#twiz_lib_save_img_box").show();
@@ -2307,7 +2310,7 @@ class TwizAjax extends Twiz{
         "twiz_section_id": twiz_current_section_id
         }, function(data) {
             twiz_ajax_locked = false;
-            $("#twiz_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).fadeOut("slow");
+            $("#twiz_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).fadeOut("fast");
             $("#twiz_container").html(data);
             twiz_Action_Edit_Copy_Rebind();
             $("#twiz_container").show("slow");
@@ -2352,7 +2355,7 @@ class TwizAjax extends Twiz{
         "twiz_section_id": twiz_current_section_id
         }, function(data) {
             twiz_ajax_locked = false;
-            $("#twiz_group_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).fadeOut("slow");
+            $("#twiz_group_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).fadeOut("fast");
             $(".twiz-right-panel").fadeOut("fast");
             $("#twiz_sub_container").html(data);
             $("#twiz_sub_container").show();

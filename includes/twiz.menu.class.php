@@ -1003,7 +1003,7 @@ $("#twiz_section_name").focus();';
 
         
         // cookie option1
-        $html .= '<hr><div id="twiz_div_cookie_option_1" class="twiz-float-left">'.__('Cookie options', 'the-welcomizer').': <select id="twiz_slc_cookie_option_1">
+        $html .= '<hr class="twiz-hr twiz-corner-all"><div id="twiz_div_cookie_option_1" class="twiz-float-left">'.__('Cookie options', 'the-welcomizer').': <select id="twiz_slc_cookie_option_1">
         <option value="">'.__('Disabled', 'the-welcomizer').'</option>
         <option value="onlyonce"'.$twiz_slc_cookie_option['onlyonce'].'>'.__('Only once', 'the-welcomizer').'</option>
         <option value="onlytwice"'.$twiz_slc_cookie_option['onlytwice'].'>'.__('Only twice', 'the-welcomizer').'</option>
@@ -1034,10 +1034,10 @@ $("#twiz_section_name").focus();';
         </select></div>';       
                 
         // Display only if this cookie condition is met.
-        $html .= '<div class="twiz-clear"></div><hr><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->GetHtmlCookieConditionList( $section_id ).'</div>';
+        $html .= '<div class="twiz-clear"></div><hr class="twiz-hr twiz-corner-all"><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->GetHtmlCookieConditionList( $section_id ).'</div>';
         
          // cancel and save button
-        $html .= '<div class="twiz-clear"></div><hr><div class="twiz-text-right"><span id="twiz_menu_save_img_box" name="twiz_menu_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"/></div>';
+        $html .= '<div class="twiz-clear"></div><hr class="twiz-hr twiz-corner-all"><div class="twiz-text-right"><span id="twiz_menu_save_img_box" name="twiz_menu_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"/></div>';
         
         $html .= $choices;
         
@@ -1073,11 +1073,11 @@ $("#twiz_section_name").focus();';
    
     function getHtmlFooterMenu(){
 
-      $import = '<div id="twiz_import_container">'.__('Import', 'the-welcomizer').'</div>';
-      $export = '<div id="twiz_export">'.__('Export', 'the-welcomizer').'</div>';
-      $library_upload = '<div id="twiz_library_upload" class="twiz-display-none">'.__('Upload', 'the-welcomizer').'</div>';
-      $library = '<div id="twiz_library">'.__('Library', 'the-welcomizer').'</div>';
-      $admin = '<div id="twiz_admin">'.__('Admin', 'the-welcomizer').'</div>';
+      $import = '<div id="twiz_import_container" class="twiz-footer-menu-button twiz-corner-bottom">'.__('Import', 'the-welcomizer').'</div>';
+      $export = '<div id="twiz_export" class="twiz-footer-menu-button twiz-corner-bottom">'.__('Export', 'the-welcomizer').'</div>';
+      $library_upload = '<div id="twiz_library_upload" class="twiz-footer-menu-button twiz-corner-bottom twiz-display-none">'.__('Upload', 'the-welcomizer').'</div>';
+      $library = '<div id="twiz_library" class="twiz-footer-menu-button twiz-corner-bottom">'.__('Library', 'the-welcomizer').'</div>';
+      $admin = '<div id="twiz_admin" class="twiz-footer-menu-button twiz-corner-bottom">'.__('Admin', 'the-welcomizer').'</div>';
       
       $html = '<div id="twiz_footer_menu" class="twiz-reset-nav">'.$library_upload.$import.$export.$admin.$library.'</div><div id="twiz_export_url"></div>';
       
@@ -1141,7 +1141,7 @@ $("#twiz_section_name").focus();';
         
         $menu = '';
 
-        $header = '<div class="twiz-menu-header"><div id="twiz_menuheader_status" class="twiz-text-left twiz-float-left">'.__('Status', 'the-welcomizer').'</div>';
+        $header = '<div class="twiz-menu-header twiz-corner-top"><div id="twiz_menuheader_status" class="twiz-text-left twiz-float-left">'.__('Status', 'the-welcomizer').'</div>';
         $header .='<div id="twiz_menuheader_section" class="twiz-text-left twiz-float-left">'.__('Section', 'the-welcomizer').'';
         $header .='<div id="twiz_menuheader_type" class="twiz-text-center twiz-float-right ">'.__('Type', 'the-welcomizer').'</div></div></div>';
        
@@ -1175,7 +1175,7 @@ $("#twiz_section_name").focus();';
         
         $statusimg = '<div id="twiz_status_vmenu_'.parent::DEFAULT_SECTION_ALL_ARTICLES.'" class="twiz-status-menu">'.$this->getHtmlImgStatus( parent::DEFAULT_SECTION_ALL_ARTICLES, $hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS], 'vmenu' ).'</div>';
                 
-        $menu .= $statusimg . '<div id="twiz_vmenu_'.parent::DEFAULT_SECTION_ALL_ARTICLES.'" class="twiz-menu ">'.__('All Posts', 'the-welcomizer'). $output_type_default.'</div>';
+        $menu .= $statusimg . '<div id="twiz_vmenu_'.parent::DEFAULT_SECTION_ALL_ARTICLES.'" class="twiz-menu twiz-corner-bottom">'.__('All Posts', 'the-welcomizer'). $output_type_default.'</div>';
 
         return $menu;
     }

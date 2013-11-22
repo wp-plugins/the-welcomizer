@@ -21,6 +21,39 @@ div a, td a {
 div a:hover, td a:hover {
     cursor: pointer;
 }
+.twiz-corner-top {
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-topleft: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -khtml-border-radius-topright: 6px;
+    -khtml-border-radius-topleft: 6px;
+}
+.twiz-corner-bottom {
+    border-radius: 0px 0px 6px 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -khtml-border-radius-bottomright: 6px;
+    -khtml-border-radius-bottomleft: 6px;
+}
+.twiz-corner-all {
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -khtml-border-radius-topleft: 6px;
+    -khtml-border-radius-topright: 6px;
+    -khtml-border-radius-bottomleft: 6px;
+    -khtml-border-radius-bottomright: 6px;
+}
 #wpbody-content {
     width: 1500% !important;
 }
@@ -38,6 +71,7 @@ div a:hover, td a:hover {
     width: 500px;
     margin-bottom: 80px;
     float: left;
+    position:  relative;
 }
 #twiz_library_master {
     width: 500px;
@@ -70,25 +104,11 @@ div a:hover, td a:hover {
 }
 #twiz_global_status,
 #twiz_skin_bullet {
-    border-radius: 6px 6px 0px 0px;
-    -moz-border-radius-topright: 6px;
-    -moz-border-radius-topleft: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -khtml-border-radius-topright: 6px;
-    -khtml-border-radius-topleft: 6px;
     background-color: #8ecbe7;
     border: 1px solid #5dbae5;
     border-bottom: 0px;
 }
 #twiz_hscroll_status {
-    border-radius: 0px 0px 6px 6px;
-    -moz-border-radius-bottomright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -khtml-border-radius-bottomright: 6px;
-    -khtml-border-radius-bottomleft: 6px;
     width: 68px;
     height: 23px;
     padding: 6px 3px 0px 3px;
@@ -127,7 +147,7 @@ div a:hover, td a:hover {
     float: left;
     display: block;
     margin-left: 15px;
-    position: relative;
+    position: absolute;
 }
 .twiz-right-panel {
     margin: 19px 0 0 15px;
@@ -152,19 +172,6 @@ div a:hover, td a:hover {
 }
 #twiz_vertical_menu,
 .twiz-right-panel {
-    border-radius: 6px 6px 6px 6px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;
-    -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;
     border: 1px solid #9DD2EA;
     display: none;
     float: left;
@@ -179,19 +186,6 @@ div a:hover, td a:hover {
     clear: both;
 }
 .twiz-panel-loading {
-    border-radius: 6px 6px 6px 6px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;
-    -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;
     border: 1px solid #ffffff;
     width: 420px;
     height: 200px;
@@ -224,13 +218,6 @@ div a:hover, td a:hover {
     line-height: 12px;
 }
 #twiz_header {
-    border-radius: 6px 6px 0px 0px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;
     height: 85px;
     display: block;
     overflow: hidden;
@@ -239,7 +226,7 @@ div a:hover, td a:hover {
 #twiz_vertical_menu,
 #twiz_header, 
 #twiz_footer {
-    width: 499px;
+    width: 498.5px;
     color: #333333;
     border: 1px solid #5dbae5;
 }
@@ -390,12 +377,12 @@ div a:hover, td a:hover {
     cursor: pointer;
 }
 .twiz-box-menu {
-    width: 480px;
+    width: 495px;
     font-size: 12px;
     display: block;
     float: left;
-    background-color: #E4E4E4;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 2px 12px 2px;
+    background-color: #ffffff;
 }
 #twiz_section_name,
 #twiz_lib_dir {
@@ -409,7 +396,7 @@ div a:hover, td a:hover {
     margin-bottom: 10px;
 }
 #twiz_shortcode {
-    width: 151px;
+    width: 168px;
 }
 .twiz-shortcode-sample {
     width: 295px;
@@ -420,15 +407,15 @@ div a:hover, td a:hover {
     margin-left: 15px !important;
 }
 #twiz_slc_multi_sections {
-    width: 480px;
+    width: 495px;
     height: 355px !important;
 }
 #twiz_slc_sections,
 #twiz_custom_logic {
-    width: 480px;
+    width: 495px;
 }
 #twiz_custom_message{
-    width: 480px;
+    width: 495px;
     display: block;
     float: left;
 }
@@ -440,13 +427,6 @@ div a:hover, td a:hover {
     width : 130px;
 }
 #twiz_footer {
-    border-radius: 0px 0px 6px 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -khtml-border-radius-bottomleft: 6px;
-    -khtml-border-radius-bottomright: 6px;
     min-height: 37px;
     display: block;
     text-align: center;
@@ -480,7 +460,7 @@ div a:hover, td a:hover {
     width: 500px;
 }    
 .twiz-table-far {
-    width: 480px;
+    width: 495px;
 }
 .twiz-border-bottom {
     border-bottom: 1px #F7F7F7 solid;
@@ -646,13 +626,6 @@ div a:hover, td a:hover {
     padding: 4px 8px 4px 8px;
     margin: 0px 5px 8px 0px;
     background-color: #8ECBE7;
-    border-radius: 6px 6px 0px 0px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -khtml-border-radius-topleft: 6px;
-    -khtml-border-radius-topright: 6px;
 }
 .twiz-tab-selected {
     color: #ffffff;
@@ -667,23 +640,7 @@ div a:hover, td a:hover {
     padding-top: 10px;
     padding-bottom: 12px;
 }
-.twiz-table-form hr, 
-.twiz-box-menu hr,
-.twiz-table-view hr ,
-.twiz-table-view-b hr {
-    border-radius: 2px 2px 2px 2px;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-topright: 2px;
-    -moz-border-radius-bottomleft: 2px;
-    -moz-border-radius-bottomright: 2px;
-    -webkit-border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    -webkit-border-bottom-right-radius: 2px;
-    -khtml-border-radius-topleft: 2px;
-    -khtml-border-radius-topright: 2px;
-    -khtml-border-radius-bottomleft: 2px;
-    -khtml-border-radius-bottomright: 2px;
+.twiz-hr {
     height: 5px;
     border: 0px;
     margin: 15px 0 15px 0;
@@ -740,6 +697,7 @@ div a:hover, td a:hover {
     height: 25px;
     font-size: 12px;
     text-align: right;
+    padding: 3px;
 }
 .twiz-input-far {
     width: 160px;
@@ -861,18 +819,7 @@ div a:hover, td a:hover {
 .twiz-absolute {
     position: absolute;
 }
-#twiz_import,
-#twiz_export,
-#twiz_library, 
-#twiz_admin,
-#twiz_library_upload {
-    border-radius: 0px 0px 6px 6px;
-    -moz-border-radius-bottomright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -khtml-border-radius-bottomright: 6px;
-    -khtml-border-radius-bottomleft: 6px;
+.twiz-footer-menu-button {
     height: 18px;
     background-color: #8ecbe7;
     border: 1px solid #5dbae5;
@@ -880,12 +827,11 @@ div a:hover, td a:hover {
     padding: 0 8px 0 8px;
     font-size: 12px;
     color: #333333;
+    text-align: center;
+    min-width: 45px;
+    float: left;    
 }
-#twiz_import:hover,
-#twiz_export:hover,
-#twiz_library:hover, 
-#twiz_admin:hover, 
-#twiz_library_upload:hover {
+.twiz-footer-menu-button:hover {
     color: #ffffff;
     background-color: #2A98CB;
     cursor: pointer;
@@ -903,7 +849,7 @@ div a:hover, td a:hover {
     margin: 15px 3px 0px 0px;
     float: left;
 }
-#twiz_import,
+#twiz_import_container,
 #twiz_export,
 #twiz_library_upload {
     float: left;
@@ -913,11 +859,6 @@ div a:hover, td a:hover {
 #twiz_admin {
     float: right;
     margin-right: 8px;
-}
-#twiz_promo {
-    height: 200px;
-    display: block;
-    top: 40px;
 }
 .twiz-spacer {
     display: block;

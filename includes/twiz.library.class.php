@@ -85,10 +85,10 @@ $("#twiz_lib_menu").css("display", "none");
          $jquery = '<script>
 //<![CDATA[
 jQuery(document).ready(function($) {
-    $("#twiz_add_menu").fadeOut("slow");
-    $("#twiz_add_sections").fadeOut("slow");
-    $("#twiz_right_panel").fadeOut("slow");
-    $("#twiz_library_upload").fadeIn("slow");
+    $("#twiz_add_menu").fadeOut("fast");
+    $("#twiz_add_sections").fadeOut("fast");
+    $("#twiz_right_panel").fadeOut("fast");
+    $("#twiz_library_upload").fadeIn("fast");
 });
 //]]>
 </script>';
@@ -321,7 +321,7 @@ jQuery(document).ready(function($) {
     
     private function getHtmlLibraryMenu(){
     
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_lib_menu" id="twiz_lib_menu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-right twiz-green"></div><span><a id="twiz_link_directory" class="twiz-bold">'.__('Link a Directory', 'the-welcomizer').'</a></span></div></div>';
+        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_lib_menu" id="twiz_lib_menu"><span><a id="twiz_link_directory" class="twiz-bold">'.__('Link a Directory', 'the-welcomizer').'</a></span></div></div>';
 
         return $html;
     }

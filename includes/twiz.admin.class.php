@@ -67,12 +67,12 @@ class TwizAdmin extends Twiz{
         $jquery = '<script>
 //<![CDATA[
 jQuery(document).ready(function($) {
-    $("#twiz_add_menu").fadeOut("slow");
-    $("#twiz_library_upload").fadeOut("slow");
-    $("#twiz_import").fadeOut("slow");
-    $("#twiz_export").fadeOut("slow");
-    $("#twiz_add_sections").fadeOut("slow");
-    $("#twiz_right_panel").fadeOut("slow");
+    $("#twiz_add_menu").fadeOut("fast");
+    $("#twiz_library_upload").fadeOut("fast");
+    $("#twiz_import_container").fadeOut("fast");
+    $("#twiz_export").fadeOut("fast");
+    $("#twiz_add_sections").fadeOut("fast");
+    $("#twiz_right_panel").fadeOut("fast");
 });
 //]]>
 </script>';
@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
-        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
         
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin0'] = '';
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin1'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin1'] = '';
@@ -118,7 +118,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">'.__('More info', 'the-welcomizer').'</a></label></td></tr>';
         
-        $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr></td></tr>';
+        $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr class="twiz-hr twiz-corner-all"></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
@@ -297,7 +297,7 @@ jQuery(document).ready(function($) {
         $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-red"><label for="twiz_delete_all">'.__('(not recommended)', 'the-welcomizer').'</label></td></tr>';
         
-        $html .= '<tr><td colspan="2"><hr></td></tr>';
+        $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
 
         
         $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
