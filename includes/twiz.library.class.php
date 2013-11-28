@@ -321,7 +321,7 @@ jQuery(document).ready(function($) {
     
     private function getHtmlLibraryMenu(){
     
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_lib_menu" id="twiz_lib_menu"><span><a id="twiz_link_directory" class="twiz-bold">'.__('Link a Directory', 'the-welcomizer').'</a></span></div></div>';
+        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_lib_menu" id="twiz_lib_menu"><span><a id="twiz_link_directory" class="twiz-bold">'.__('Link Directory', 'the-welcomizer').'</a></span></div></div>';
 
         return $html;
     }

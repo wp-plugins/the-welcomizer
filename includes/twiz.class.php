@@ -858,7 +858,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.8.5';
+        $this->version    = '1.9.8.6';
         $this->cssVersion = '1-82';
         $this->dbVersion  = '3.4';
         $this->pluginUrl  = $pluginUrl;
@@ -2541,7 +2541,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_STATUS:
              
-                $orderby = " ORDER BY level, ".self::F_STATUS.", ".self::F_LAYER_ID.", ".self::F_START_DELAY.", event_order, event_order_2,".self::F_ON_EVENT."";
+                $orderby = " ORDER BY level, ".self::F_STATUS.", ".self::F_ON_EVENT.", ".self::F_LAYER_ID.", ".self::F_START_DELAY.", event_order, event_order_2,".self::F_ON_EVENT."";
                 
                 $twiz_order_by[$this->userid] = self::F_STATUS;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2550,7 +2550,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_LAYER_ID:
              
-                $orderby = " ORDER BY level, ".self::F_LAYER_ID.", ".self::F_START_DELAY.", event_order, event_order_2, ".self::F_ON_EVENT."";
+                $orderby = " ORDER BY level, ".self::F_LAYER_ID.", ".self::F_ON_EVENT.", ".self::F_START_DELAY.", event_order, event_order_2, ".self::F_ON_EVENT."";
                 
                 $twiz_order_by[$this->userid] = self::F_LAYER_ID;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2559,7 +2559,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_START_DELAY:
 
-                $orderby = " ORDER BY level, CAST(".self::F_START_DELAY." AS SIGNED), ".self::F_LAYER_ID.", event_order, event_order_2, ".self::F_ON_EVENT."";
+                $orderby = " ORDER BY level, CAST(".self::F_START_DELAY." AS SIGNED), ".self::F_ON_EVENT.", ".self::F_LAYER_ID.", event_order, event_order_2, ".self::F_ON_EVENT."";
 
                 $twiz_order_by[$this->userid] = self::F_START_DELAY;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2568,7 +2568,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_DURATION:
             
-                $orderby = " ORDER BY level, CAST(total_duration AS SIGNED), ".self::F_LAYER_ID.", event_order, event_order_2, ".self::F_ON_EVENT."";
+                $orderby = " ORDER BY level, CAST(total_duration AS SIGNED), CAST(".self::F_START_DELAY." AS SIGNED), ".self::F_LAYER_ID.", event_order, event_order_2, ".self::F_ON_EVENT."";
                 
                 $twiz_order_by[$this->userid] = self::F_DURATION;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2767,7 +2767,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
        
         // Menu
-        $html .=  '<br><div id="twiz_js_features_'.$name.'" class="twiz-js-features"><a id="twiz_jsf_code_snippets_'.$name.'" class="twiz-black">'.__('Libraries', 'the-welcomizer').'</a> | <a id="twiz_jsf_functions_'.$name.'" class="">'.__('Functions', 'the-welcomizer').'</a> | <a id="twiz_jsf_bind_'.$name.'" class="">Unbind</a> | <a id="twiz_jsf_unlock_'.$name.'" class="">Unlock</a> | <a id="twiz_jsf_stop_'.$name.'" class="">'.__('Stop', 'the-welcomizer').'</a></div>';
+        $html .=  '<br><div id="twiz_js_features_'.$name.'" class="twiz-js-features"><a id="twiz_jsf_code_snippets_'.$name.'" class="twiz-black">'.__('Examples', 'the-welcomizer').'</a> | <a id="twiz_jsf_functions_'.$name.'" class="">'.__('Functions', 'the-welcomizer').'</a> | <a id="twiz_jsf_bind_'.$name.'" class="">Unbind</a> | <a id="twiz_jsf_unlock_'.$name.'" class="">Unlock</a> | <a id="twiz_jsf_stop_'.$name.'" class="">'.__('Stop', 'the-welcomizer').'</a></div>';
         
         // js 
         $jsscript = '<script>
