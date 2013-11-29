@@ -858,7 +858,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.8.7';
+        $this->version    = '1.9.8.8';
         $this->cssVersion = '1-82';
         $this->dbVersion  = '3.4';
         $this->pluginUrl  = $pluginUrl;
@@ -1028,6 +1028,8 @@ class Twiz{
         $ads['Keurig Canada'] = '<a href="http://www.jdoqocy.com/2b74ft1zt0GMNPMQJJGIIMNMMPI" target="_blank"><img src="http://www.lduhtrp.net/pk97c37w1-LRSURVOOLNNRSRRUN" alt="" border="0" class="twiz-ads-img"/></a>';
         
         $ads['Max & Chloe'] = '<a href="http://www.jdoqocy.com/49116r09608OUVXUYRROQPUPTYQQ" target="_blank"><img src="http://www.lduhtrp.net/5o122ax0pvtEKLNKOHHEGFKFJOGG" title="Shop Max & Chloe" border="0" class="twiz-ads-img"/></a>';
+        
+        $ads['Baseball Express'] = '<a href="http://www.tkqlhce.com/c3100uoxuowBHIKHLEEBDCGEDCIC" target="_blank"><img src="http://www.lduhtrp.net/rn68h48x20MSTVSWPPMONRPONTN" title="Baseball Express - The Baseball Superstore" border="0" class="twiz-ads-img"/></a>';
         
        
         $ok = shuffle($ads);
@@ -2490,32 +2492,13 @@ $("textarea[name^=twiz_options]").blur(function (){
     protected function getListArray( $where = '', $orderby = '' ){ 
 
         global $wpdb;
-         
-        $sql = "SELECT *, 
-                (".self::F_DURATION." + t.duration_x + IF(".self::F_DURATION_B." != '',".self::F_DURATION_B.",'0')) AS total_duration, 
-                   (SELECT LPAD(p.".self::F_EXPORT_ID.", 13, '0') 
-                    FROM ".$this->table." p 
-                    WHERE p.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
-                    UNION
-                    SELECT CONCAT(LPAD(p.".self::F_EXPORT_ID.", 13, '0'), '.', LPAD(c.".self::F_EXPORT_ID.", 13, '0')) 
-                    FROM ".$this->table." p 
-                    INNER JOIN ".$this->table." c ON (p.".self::F_EXPORT_ID." = c.".self::F_PARENT_ID.") 
-                    WHERE c.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_PARENT_ID." = '' AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
-                   ) AS level, IF(".self::F_ON_EVENT." = '','0','1') AS event_order, IF(".self::F_ON_EVENT." = 'Manually','0','1') AS event_order_2 from (SELECT *,IF((((".self::F_OPTIONS_A." != '') 
-                        or (".self::F_OPTIONS_B." != '') 
-                        or (".self::F_EXTRA_JS_A." != '')
-                        or (".self::F_EXTRA_JS_B." != '')
-                        or (".self::F_MOVE_TOP_POS_A." != '')
-                        or (".self::F_MOVE_TOP_POS_B." != '')
-                        or (".self::F_MOVE_LEFT_POS_A." != '')
-                        or (".self::F_MOVE_LEFT_POS_B." != ''))
-                        and (".self::F_DURATION_B." = '')),".self::F_DURATION.",'0') AS duration_x FROM ".$this->table." ) t ".$where;
-
+        
+        $concat_orderby = "";
         $twiz_order_by = get_option('twiz_order_by');
         $twiz_order_by = ( !is_array($twiz_order_by) ) ? '' : $twiz_order_by;
         $twiz_order_by[$this->userid] = (!isset($twiz_order_by[$this->userid])) ? '' : $twiz_order_by[$this->userid];
         
-        switch($orderby){
+          switch($orderby){
         
             case '':
 
@@ -2532,7 +2515,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_ON_EVENT:
              
-                $orderby = " ORDER BY level, event_order, event_order_2, ".self::F_ON_EVENT.",".self::F_START_DELAY.", ".self::F_LAYER_ID;
+                $orderby = " ORDER BY level, event_order, event_order_2, t.".self::F_ON_EVENT.", CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), t.".self::F_LAYER_ID;
                 
                 $twiz_order_by[$this->userid] = self::F_ON_EVENT;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2541,7 +2524,8 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_STATUS:
              
-                $orderby = " ORDER BY level, ".self::F_STATUS.", event_order, event_order_2, ".self::F_ON_EVENT.", ".self::F_LAYER_ID.", ".self::F_START_DELAY."";
+                $orderby = " ORDER BY level, t.".self::F_STATUS.", CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT." , t.".self::F_LAYER_ID;
+                $concat_orderby = ", '.', c.".self::F_STATUS.""; 
                 
                 $twiz_order_by[$this->userid] = self::F_STATUS;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2550,7 +2534,9 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_LAYER_ID:
              
-                $orderby = " ORDER BY level, ".self::F_LAYER_ID.", event_order, event_order_2, ".self::F_ON_EVENT.", ".self::F_START_DELAY."";
+                $orderby = " ORDER BY level, t.".self::F_LAYER_ID.", CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT;
+                
+                $concat_orderby = ", '.', c.".self::F_LAYER_ID.", '.', c.".self::F_START_DELAY.", '.', CAST(total_duration AS SIGNED), '.', IF(c.".self::F_ON_EVENT." = '','0','1'), '.', IF(c.".self::F_ON_EVENT." = 'Manually','0','1')";
                 
                 $twiz_order_by[$this->userid] = self::F_LAYER_ID;
                 $code = update_option('twiz_order_by', $twiz_order_by);
@@ -2559,24 +2545,47 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
             case self::F_START_DELAY:
 
-                $orderby = " ORDER BY level, CAST(".self::F_START_DELAY." AS SIGNED), event_order, event_order_2, ".self::F_ON_EVENT.", ".self::F_LAYER_ID."";
+                $orderby = " ORDER BY level, CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT.", t.".self::F_LAYER_ID;
 
                 $twiz_order_by[$this->userid] = self::F_START_DELAY;
                 $code = update_option('twiz_order_by', $twiz_order_by);
                 
                 break;
                 
-            case self::F_DURATION:
+            case self::F_DURATION: 
             
-                $orderby = " ORDER BY level, CAST(total_duration AS SIGNED), CAST(".self::F_START_DELAY." AS SIGNED), event_order, event_order_2, ".self::F_ON_EVENT.", ".self::F_LAYER_ID."";
-                
+                $orderby = " ORDER BY level, CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT.", CAST(t.".self::F_START_DELAY." AS SIGNED), t.".self::F_LAYER_ID;
+
                 $twiz_order_by[$this->userid] = self::F_DURATION;
                 $code = update_option('twiz_order_by', $twiz_order_by);
 
                 break;
         }
         
-        $rows = $wpdb->get_results($sql.$orderby, ARRAY_A);
+        $sql = "SELECT *, 
+                   (".self::F_DURATION." + t.duration_x + IF(".self::F_DURATION_B." != '',".self::F_DURATION_B.",'0')) AS total_duration, 
+                   (SELECT p.".self::F_EXPORT_ID."
+                    FROM ".$this->table." p 
+                    WHERE p.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
+                    UNION
+                    SELECT CONCAT(p.".self::F_EXPORT_ID.$concat_orderby.") 
+                    FROM ".$this->table." p 
+                    INNER JOIN ".$this->table." c ON (p.".self::F_EXPORT_ID." = c.".self::F_PARENT_ID.") 
+                    WHERE c.".self::F_EXPORT_ID." = t.".self::F_EXPORT_ID." AND p.".self::F_TYPE." = '".self::ELEMENT_TYPE_GROUP."'
+                   ) AS level, 
+                   IF(".self::F_ON_EVENT." = '','0','1') AS event_order, 
+                   IF(".self::F_ON_EVENT." = 'Manually','0','1') AS event_order_2 
+                FROM (SELECT *,IF((((".self::F_OPTIONS_A." != '') 
+                        or (".self::F_OPTIONS_B." != '') 
+                        or (".self::F_EXTRA_JS_A." != '')
+                        or (".self::F_EXTRA_JS_B." != '')
+                        or (".self::F_MOVE_TOP_POS_A." != '')
+                        or (".self::F_MOVE_TOP_POS_B." != '')
+                        or (".self::F_MOVE_LEFT_POS_A." != '')
+                        or (".self::F_MOVE_LEFT_POS_B." != ''))
+                        and (".self::F_DURATION_B." = '')),".self::F_DURATION.",'0') AS duration_x FROM ".$this->table.") t " . $where . $orderby;   
+                        
+        $rows = $wpdb->get_results($sql, ARRAY_A);
         
         return $rows;
         
