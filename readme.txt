@@ -26,6 +26,11 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 3. Find the plugin under the menu Appearance. 
 4. Optional - Create and make those directories writable: /wp-content/**twiz**/**export**/
 
+To uninstall:
+
+1. Go to plugin page, click `Admin` button, click `Other settings`, check the option `Delete all when disabling the plugin`. 
+2. Go to `Installed plugins` page in WordPress admin. Find the plugin `The Welcomizer` in the list and click `Deactivate`.
+
 Enjoy!
  
 == Screenshots ==
