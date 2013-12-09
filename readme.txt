@@ -28,8 +28,8 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 
 To uninstall:
 
-1. Go to plugin page, click `Admin` button, click `Other settings`, check the option `Delete all when disabling the plugin`, click `Save`.
-2. Go to `Installed plugins` page in WordPress admin. Find the plugin `The Welcomizer` in the list and click `Deactivate`.
+1. Go to plugin page, click `Admin` button, click `Other settings`, check the option **Delete all when disabling the plugin**, click `Save`.
+2. Deactivate the plugin through the Plugins menu in WordPress..
 
 Enjoy!
  
