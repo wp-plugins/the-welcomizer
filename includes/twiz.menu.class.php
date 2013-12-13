@@ -1042,7 +1042,7 @@ $("#twiz_section_name").focus();';
         $html .= $choices;
         
          // Shortcode section box
-        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input class="twiz-shortcode-sample twiz-input-focus" id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/><div class="twiz-text-right twiz-green">'.__('Or this into a theme file.', 'the-welcomizer').'</div><input class="twiz-shortcode-sample twiz-input-focus" id="twiz_shortcode_sample_theme" value="'.htmlentities($twiz_shortcode_sample_theme).'"/></div><div class="twiz-float-left"><input class="twiz-input-focus" type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <strong>&gt;&gt;</strong></div></div>';
+        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_SHORT_CODE].': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/><div class="twiz-text-right twiz-green">'.__('Or this into a theme file.', 'the-welcomizer').'</div><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample_theme" value="'.htmlentities($twiz_shortcode_sample_theme).'"/></div><div class="twiz-float-left"><input class="twiz-input-focus" type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <strong>&gt;&gt;</strong></div></div>';
         
         // single section box
         $html .= '<div id="twiz_single_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_UNIQUE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Select to overwrite the section name.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_1" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlSingleSection($section_id).'</div>';
@@ -1059,7 +1059,7 @@ $("#twiz_section_name").focus();';
 
     function getHtmlListMenu(){
     
-        $html = '<div class="twiz-row-color-1 twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a></span></div></div>'; // keep extra closing div.
+        $html = '<div class="twiz-text-right" name="twiz_listmenu" id="twiz_listmenu"><div id="twiz_ask" class="twiz-float-left twiz-text-left twiz-blue"></div><div id="twiz_far_matches" class="twiz-float-left twiz-text-left twiz-green"></div><span><a id="twiz_new" class="twiz-bold">'.__('Add New', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_create_group" class="twiz-bold">'.__('Create Group', 'the-welcomizer').'</a> '.utf8_encode('|').' <a id="twiz_findandreplace" class="twiz-bold">'.__('Find & Replace', 'the-welcomizer').'</a></span></div></div>'; // keep extra closing div.
 
         return $html;
     }

@@ -15,6 +15,15 @@ td, textarea {
 input.button-primary, button.button-primary, a.button-primary {
     font-weight: bold !important;
 }
+.wp-admin select {
+    height: 21px !important;
+    line-height: 21px !important;
+    padding: 0 !important;
+    vertical-align: top !important;
+}
+input[type="text"] {
+    height: 21px !important;
+}
 div a, td a {
     text-decoration: none;
 }
@@ -66,6 +75,7 @@ div a:hover, td a:hover {
 #twiz_plugin {
     width: 98%;
     margin: 9px 0 15px 30px;
+    position: relative;
 }
 #twiz_master {
     width: 500px;
@@ -91,31 +101,35 @@ div a:hover, td a:hover {
     height: 20px;
     margin: 0px 1px 0 2px;
 }
+#twiz_like {
+    left: 102px;
+    position: absolute;
+}
 #twiz_background {
     width: 84%;
     min-height: 500px;
     position: fixed;
     right: 10%;
     top: 80px;
-    background: url(../../skins/yellow/images/twiz-logo-big.png) top right no-repeat;
+    background: url(../../images/twiz-logo-big.png) top right no-repeat;
     opacity: 0.15;
     filter: alpha(opacity=4);
     z-index: -1;
 }
 #twiz_global_status,
 #twiz_skin_bullet {
-    background-color: #e2dc40;
-    border: 1px solid #d8d220;
+    background-color: #333333;
+    border: 1px solid #222222;
     border-bottom: 0px;
 }
 #twiz_hscroll_status {
     width: 68px;
     height: 23px;
-    padding: 6px 3px 0px 3px;
+    padding: 9px 3px 0;
     margin: 27px 10% 0 0;
     position: absolute;     
-    background-color: #ffffff;
-    border: 1px solid #d8d220;
+    background-color: #333333;
+    border: 1px solid #222222;
     border-top: 0px;
     position:fixed;
     right:0;
@@ -159,7 +173,8 @@ div a:hover, td a:hover {
     height: 19px;
     padding: 5px;
     width: 98%;
-    background-color: #e7e367;
+    background-color: #222222;
+    color: #cccccc;
 }
 #twiz_menuheader_status {
     width: 40px;
@@ -171,8 +186,8 @@ div a:hover, td a:hover {
     width: 75px;
 }
 #twiz_vertical_menu,
-.twiz-right-panel {
-    border: 1px solid #d8d220;
+.twiz-right-panel  {
+    border: 1px solid #333333;
     display: none;
     float: left;
     z-index: 1;
@@ -194,31 +209,39 @@ div a:hover, td a:hover {
     background: #FFFFFF url(../../skins/yellow/images/twiz-big-loading.gif) center no-repeat;
 }
 #twiz_head_title {
-    font-size: 20px;
+    font: 400 18px/32px "Open Sans",sans-serif;
     line-height: 30px;
-    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-    text-shadow: 2px 2px 5px #9b9b9b;
     display: block;
+    margin-top: 20px;
 }
 #twiz_head_title a {
-    color: #333333;
+    color: #CCCCCC;
 }
 #twiz_head_title a:hover {
-    color: #000000;
+    color: #E2DC40;
 }
 #twiz_head_logo {
-    width: 95px;
+    width: 100px;
     height: 80px;
-    background: url(../../skins/yellow/images/twiz-logo.png) center no-repeat;
+    background: url(../../images/twiz-logo.png) center no-repeat;
     float: left;
     display: block;
+}
+div #twiz_head_logo:hover {
+    background: url(../../skins/yellow/images/twiz-logo.png) center no-repeat;
 }
 #twiz_head_version {
     font-size: 12px;
     line-height: 12px;
 }
+#twiz_head_version a {
+    color: #9B9717;
+}
+#twiz_head_version a:hover{
+    color: #E2DC40;
+}
 #twiz_header {
-    height: 85px;
+    height: 80px;
     display: block;
     overflow: hidden;
 }
@@ -227,8 +250,8 @@ div a:hover, td a:hover {
 #twiz_header, 
 #twiz_footer {
     width: 498.5px;
-    color: #333333;
-    border: 1px solid #d8d220;
+    color: #ffffff;
+    border: 1px solid #222222;
 }
 #twiz_menu,
 #twiz_header, 
@@ -236,7 +259,7 @@ div a:hover, td a:hover {
     display: table-cell;
 }
 #twiz_header {
-    border-bottom: 0px solid #d7d7d7;
+    border-bottom: 0px solid #222222;
 }
 #twiz_vertical_menu {
   margin: 27px 0 0 15px;
@@ -246,7 +269,6 @@ div a:hover, td a:hover {
 }
 #twiz_vertical_menu div.twiz-menu{
     float: none;
-    border-top: 1px solid #ebebeb;
 }
 #twiz_header, 
 #twiz_footer,
@@ -255,7 +277,7 @@ div a:hover, td a:hover {
 #twiz_add_menu,
 #twiz_delete_menu,
 .twiz-menu  {
-    background-color: #e2dc40;
+    background-color: #333333;
 }
 #twiz_vertical_menu{
     background-color: #ffffff;
@@ -264,10 +286,10 @@ div a:hover, td a:hover {
 #twiz_add_menu,
 #twiz_delete_menu,
 #twiz_edit_menu {
-    border-left: 1px solid #eee96c;
-    border-right: 1px solid #eee96c;
+    border-left: 1px solid #222222;
+    border-right: 1px solid #222222;
     width: 20px;
-    color: #bcb81c;
+    color: #999a9a;
     font-size: 14px;
     font-weight: normal;
     text-align: center    
@@ -286,8 +308,9 @@ div a:hover, td a:hover {
 }
 .twiz-menu {
     font-size: 12px;
+    font-weight: bold;
     text-align: left;
-    border-right: 1px solid #eee96c;
+    border-right: 1px solid #222222;
 }
 .twiz-menu:hover {
     color: #000000;
@@ -300,19 +323,17 @@ div a:hover, td a:hover {
     padding: 5px 7px 0 13px;
 }
 .twiz-output-label {
-    width: 65px;
+    width: 69px;
     float: right;
     padding: 0 5px 0 0;
     text-align: center;
-    color: blue;
+    color: #cccccc;
 }
-#twiz_more_menu,
+#twiz_more_menu, 
 #twiz_add_menu {
-    font-size: 18px;
-}
-#twiz_more_menu:hover,
-#twiz_add_menu:hover {
+    font-size: 27px;
     font-weight: bold;
+    line-height: 19px;
 }
 .twiz-status-menu:hover {
     cursor: pointer;
@@ -326,14 +347,16 @@ div a:hover, td a:hover {
 #twiz_more_menu:hover,
 #twiz_add_menu:hover,
 #twiz_delete_menu:hover {
-    color: #ffffff;
+    color: #E2DC40;
     cursor: pointer;
-    background-color: #9b9717;
+    background-color: #222222;
+
 }
-.twiz-menu-selected {
+.twiz-menu-selected,
+.twiz-menu-selected:hover {
     color: #ffffff;
-    font-weight:bold;
-    background-color: #9b9717;
+    background-color: #9B9717;
+
 }
 #twiz_more_menu{
     float: right;
@@ -345,7 +368,7 @@ div a:hover, td a:hover {
 #twiz_edit_menu:hover {
     background: url(../../images/twiz-menu-edit-color.png) center no-repeat;
     cursor: pointer;
-    background-color: #9b9717;
+    background-color: #222222;
 }
 #twiz_delete_menu {
     background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;
@@ -353,7 +376,7 @@ div a:hover, td a:hover {
 #twiz_delete_menu:hover {
     background: url(../../images/twiz-menu-delete-color.png) center no-repeat;
     cursor: pointer;
-    background-color: #9b9717;
+    background-color: #222222;
 }
 #twiz_more_menu,
 #twiz_add_menu {
@@ -364,6 +387,7 @@ div a:hover, td a:hover {
 .twiz-menu {
     float: left;
     height: 19px;
+    line-height: 19px;
 }
 #twiz_add_menu {
     float: right;
@@ -371,17 +395,17 @@ div a:hover, td a:hover {
 #twiz_add_sections {
     display: none;
     width: 500px;
-    background-color: #E4E4E4;
-}  
+    background-color: #333333;
+} 
 #twiz_add_sections a:hover {
     cursor: pointer;
 }
 .twiz-box-menu {
-    width: 495px;
+    width: 490px;
     font-size: 12px;
     display: block;
     float: left;
-    padding: 10px 2px 12px 2px;
+    padding: 10px 5px 12px 5px;
     background-color: #ffffff;
 }
 #twiz_section_name,
@@ -391,7 +415,7 @@ div a:hover, td a:hover {
 .twiz-box-fieldset {
     height: 35px;
     display: block;
-    border: 1px solid #D7D7D7;
+    border: 1px solid #333333;
     padding: 8px;
     margin-bottom: 10px;
 }
@@ -422,6 +446,7 @@ div a:hover, td a:hover {
 [name=twiz_listmenu],
 #twiz_lib_menu {
     padding: 4px;
+    background-color: #ebebeb;
 }
 #twiz_far_matches {
     width : 130px;
@@ -478,7 +503,7 @@ div a:hover, td a:hover {
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
-    background-color: #e7e367;
+    background-color: #e1e1e1;
 }    
 .twiz-table-far img:hover,
 .twiz-table-list img:hover,
@@ -505,16 +530,17 @@ div a:hover, td a:hover {
     text-align: left !important;
 }
 .twiz-row-color-1 {
-    background-color: #fbf89f;
+    background-color: #ebebeb;
 }
 .twiz-row-color-2 {
     background-color: #F7F7F7;
 }
 .twiz-row-color-3 {
-    background-color: #e7e367;
+    background-color: #e1e1e1;
 }
 .twiz-td-status {
     width: 42px;
+    padding-top: 4px;
 }
 .twiz-td-action {
     width: 79px;
@@ -541,15 +567,18 @@ div a:hover, td a:hover {
 }
 .twiz-blue {
     font-size: 11px !important;
-    color: blue;
+    color: blue !important;
 }
 .twiz-green {
-    font-size: 12px;
-    color: green;
+    font-size: 12px !important;
+    color: green !important;
+}
+a.twiz-red:hover {
+    color: #ff0000;
 }
 .twiz-red {
-    font-size: 12px;
-    color: #BC0B0B;
+    font-size: 12px !important;
+    color: #AA0000 !important;
 }
 .twiz-td-delay {
     width: 51px;
@@ -612,7 +641,7 @@ div a:hover, td a:hover {
 #twiz_tab_line{
     width: 231px;
     height: 0px;
-    border-bottom:3px solid #9B9717;
+    border-bottom:3px solid #333333;
     margin: 24px 0px 7px 0px;
     position: absolute;
 }
@@ -620,31 +649,32 @@ div a:hover, td a:hover {
     cursor: pointer;
 }
 .twiz-tab {
+    color: #cccccc;
     display: block;
     float: left;
-    border: 1px solid #E2DC40;
+    border: 1px solid #333333;
     padding: 4px 8px 4px 8px;
     margin: 0px 5px 8px 0px;
-    background-color: #E2DC40;
+    background-color: #333333;
 }
 .twiz-tab-selected {
-    color: #ffffff;
-    background-color: #9B9717;
-    font-weight: bold;
+   color: #ffffff;
+   background-color: #9B9717;
+   border: 1px solid #9B9717;
+   font-weight: bold;
 }
 .twiz-add-element {
    color: #AAAAAA;
 }
 .twiz-table-form {
     background-color: #ffffff;
-    padding-top: 10px;
-    padding-bottom: 12px;
+    padding: 10px 5px 12px 5px;
 }
 .twiz-hr {
     height: 5px;
     border: 0px;
     margin: 15px 0 15px 0;
-    background-color: #e2dc40;
+    background-color: #9B9717;
 }
 .twiz-table-form tr {
     height: 15px;
@@ -686,13 +716,13 @@ div a:hover, td a:hover {
 .twiz-td-small-left-start {
     width: 60px;
     font-size: 12px;
-}
+}                             
 #twiz_save_box_1 {
     margin: 5px 6px 0 0;
 }
 #twiz_action_box {
     width: 50px;
-}                             
+}
 .twiz-td-save {
     height: 25px;
     font-size: 12px;
@@ -764,7 +794,7 @@ div a:hover, td a:hover {
 .twiz-js-features  {
     width: 230px;
 }
-.twiz-js-features a{
+.twiz-js-features a {
     line-height: 15px;
     font-size: 11px;
 }
@@ -821,19 +851,19 @@ div a:hover, td a:hover {
 }
 .twiz-footer-menu-button {
     height: 18px;
-    background-color: #e2dc40;
-    border: 1px solid #d8d220;
+    background-color: #333333;
+    border: 1px solid #222222;
     border-top: 0px;
     padding: 0 8px 0 8px;
     font-size: 12px;
-    color: #333333;
+    color: #cccccc;
     text-align: center;
-    min-width: 45px;
-    float: left;    
+    min-width: 45px;  
+    float: left;
 }
 .twiz-footer-menu-button:hover {
-    color: #ffffff;
-    background-color: #9b9717;
+    color: #E2DC40;
+    background-color: #222222;
     cursor: pointer;
 }
 #twiz_export_url {
@@ -871,9 +901,10 @@ div a:hover, td a:hover {
     display: block;
 }
 .twiz-noborder-right {
-    border-right: 0px;
-    padding-bottom: 0px;
-    margin-top: 3px;
+    border-right: 0 none;
+    line-height: 15px;
+    margin-top: 4px;
+    padding-bottom: 0;
 }
 .twiz-italic {
     font-style: italic;
@@ -885,6 +916,6 @@ div a:hover, td a:hover {
     margin: 0 auto;
 }
 #twiz_footer img{
-    opacity: 0.3;
-    filter: alpha(opacity=30);
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }

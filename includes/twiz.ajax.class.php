@@ -579,8 +579,8 @@ class TwizAjax extends Twiz{
             case "vmenu":
             $(this).hide();
             $("#twiz_status_img_" + twiz_numid.replace("vmenu_", "menu_")).hide();
-            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
-            $("#twiz_status_img_" + twiz_numid.replace("vmenu_", "menu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
+            $("#twiz_status_img_" + twiz_numid.replace("vmenu_", "menu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
             $.post(ajaxurl, {
             "action": "twiz_ajax_callback",
             "twiz_nonce": "'.$this->nonce.'", 
@@ -597,8 +597,8 @@ class TwizAjax extends Twiz{
         case "menu_":
             $(this).hide();
             $("#twiz_status_img_" + twiz_numid.replace("menu_", "vmenu_")).hide();
-            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
-            $("#twiz_status_img_" + twiz_numid.replace("menu_", "vmenu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
+            $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
+            $("#twiz_status_img_" + twiz_numid.replace("menu_", "vmenu_")).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
             $.post(ajaxurl, {
             "action": "twiz_ajax_callback",
             "twiz_nonce": "'.$this->nonce.'", 
@@ -616,7 +616,7 @@ class TwizAjax extends Twiz{
              switch(twiz_numid){             
                 case "global":
                     $(this).hide();
-                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
+                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
                     twiz_ajax_locked = true;
                     $.post(ajaxurl, {
                     "action": "twiz_ajax_callback",
@@ -631,7 +631,7 @@ class TwizAjax extends Twiz{
                     break;
                 case "hscroll":
                     $(this).hide();
-                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif" />\');
+                    $(this).after(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save-dark.gif" class="twiz-loading-gif" />\');
                     twiz_ajax_locked = true;
                     $.post(ajaxurl, {
                     "action": "twiz_ajax_callback",
@@ -1256,11 +1256,20 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_MIN_ROLE_LEVEL.'": $("#twiz_'.parent::KEY_MIN_ROLE_LEVEL.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_ADMIN.'": $("#twiz_'.parent::KEY_MIN_ROLE_ADMIN.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'": $("#twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'").val(),
+         "twiz_'.parent::KEY_FB_LIKE.'": $("#twiz_'.parent::KEY_FB_LIKE.'").is(":checked"),
          "twiz_'.parent::KEY_FOOTER_ADS.'": $("#twiz_'.parent::KEY_FOOTER_ADS.'").is(":checked"),
          "twiz_'.parent::KEY_DELETE_ALL.'": $("#twiz_'.parent::KEY_DELETE_ALL.'").is(":checked")
     }, function(data) {
         twiz_ajax_locked = false;
         data = JSON.parse(data);
+        if(data.fb_like == "1"){
+             $("#twiz_like").html("");
+        }    
+        if(data.relike == "relike"){
+            $("#twiz_like").html(data.html);
+        }else if(data.relike == "remove"){
+            $("#twiz_like").html(data.html);
+        }        
         if(data.rebind == "rebind"){
             $("#twiz_footer").html(data.html);
             bind_twiz_ads();
@@ -1269,7 +1278,7 @@ class TwizAjax extends Twiz{
         }
         if(data.extra_easing == "1"){
             $("#twiz_'.parent::KEY_EXTRA_EASING.'").attr({"checked":"checked"});
-        }    
+        }          
         $("#twiz_admin_save_img_box_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' +  \'/images/twiz-success.gif"\' + \'/>\');
         $("#twiz_admin_save_img_box_" + twiz_charid).fadeOut("fast");
         $("[name=twiz_admin_save]").removeAttr("disabled");
@@ -2186,7 +2195,7 @@ class TwizAjax extends Twiz{
         }).fail(function() { twiz_ajax_locked = false;  });
   }}  
   function twizShowMainLoadingImage(){
-      $("#twiz_loading_menu").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" /></div>\');
+      $("#twiz_loading_menu").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11"/></div>\');
   }
   function twizGetMultiSection(twiz_section_id, twiz_action_lbl){
       if( twiz_ajax_locked == false ){
@@ -2338,35 +2347,39 @@ class TwizAjax extends Twiz{
         }
     });
     $("[name^=twiz_group_anim_link]").click(function(){
-      if( twiz_ajax_locked == false ){
+     if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
-        var twiz_textid = $(this).attr("id");
+        var twiz_toggle_status = 0;
+        var twiz_textid = $(this).attr("name");
         var twiz_charid  = twiz_textid.substring(21,twiz_textid.length).split("_");
-        var twiz_numid = twiz_charid[0];
-        var twiz_view_level = twiz_charid[1];
-        twiz_view_id = "edit";
-        $("#twiz_group_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).show();
-        $("#twiz_group_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" />\');
-        $.post(ajaxurl, {
+        var twiz_src = $("#twiz_group_img_" + twiz_charid[0]).attr("src");
+        if(twiz_src.indexOf("twiz-plus.gif") != -1){
+            $("#twiz_group_img_" + twiz_charid[0]).attr({"src" : "'.$this->pluginUrl.'" + "/images/twiz-minus.gif"});
+            $("#twiz_element_a_" + twiz_parent_id).attr("class","twiz-toggle-group");
+            $("#twiz_element_a_" + twiz_charid[0]).attr("class","twiz-toggle-group twiz-bold");
+            $("." + twiz_charid[0]).show("fast");
+            twiz_toggle_status = 1;
+            twiz_parent_id = twiz_charid[0];
+        }else{
+            $("#twiz_group_img_" + twiz_charid[0]).attr({"src" : "'.$this->pluginUrl.'" + "/images/twiz-plus.gif"});
+            $("#twiz_element_a_" + twiz_charid[0]).attr("class","twiz-toggle-group");
+            if(twiz_charid[0]==twiz_parent_id){
+            $("#twiz_element_a_" + twiz_parent_id).attr("class","twiz-toggle-group");
+            twiz_parent_id = "";
+            }
+            $("." + twiz_charid[0]).hide("fast");
+        }
+        $.post(ajaxurl, { 
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.parent::ACTION_GET_GROUP.'",
-        "twiz_group_id": twiz_numid,
-        "twiz_section_id": twiz_current_section_id
-        }, function(data) {
-            twiz_ajax_locked = false;
-            $("#twiz_group_anim_link_img_box_" + twiz_numid + "_" + twiz_view_level).fadeOut("fast");
-            $(".twiz-right-panel").fadeOut("fast");
-            $("#twiz_sub_container").html(data);
-            $("#twiz_sub_container").show();
-            $("#twiz_container").css("display", "none");
-            twiz_ListMenu_Unbind();
-            bind_twiz_ListMenu();
-            $(document).scrollTop(0);
-            $(document).scrollLeft(0);
-            $("#twiz_group_name").focus();
-        }).fail(function() { twiz_ajax_locked = false;  });
-    }});
+        "twiz_action": "'.parent::ACTION_TOGGLE.'",
+        "twiz_toggle_status": twiz_toggle_status,
+        "twiz_toggle_type": "'.parent::KEY_TOGGLE_GROUP.'",
+        "twiz_charid": twiz_charid[0]
+        }, function(data) { twiz_ajax_locked = false; }).fail(function() { twiz_ajax_locked = false;  });
+    }}
+        
+        );
     $("[name^=twiz_group_anim_link]").hover(function(){
         var twiz_textid = $(this).attr("name");
         var twiz_charid  = twiz_textid.substring(21,twiz_textid.length).split("_");
@@ -2444,7 +2457,7 @@ class TwizAjax extends Twiz{
   }});
   var bind_twiz_ads = function() {  
       $(".twiz-ads-img").hover(function (){   
-          $(this).stop().animate({opacity:1},100, function(){});
+          $(this).stop().animate({opacity:1},50, function(){});
       },function (){   
           $(this).stop().animate({opacity:0.3},50, function(){});
       });

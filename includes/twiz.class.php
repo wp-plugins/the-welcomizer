@@ -339,6 +339,9 @@ class Twiz{
     // Footer ads constant key
     const KEY_FOOTER_ADS = 'footer_ads';
     
+    // FB like constant key
+    const KEY_FB_LIKE = 'fb_like';
+
     // Deactivation constant key
     const KEY_DELETE_ALL = 'delete_all';
     
@@ -837,7 +840,8 @@ class Twiz{
                                    ,self::F_EXTRA_JS_A          
                                    ,self::F_EXTRA_JS_B           
                                    );
-
+     // fb like button
+     const IFRAME_FB_LIKE = '<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:150px;" allowTransparency="true"></iframe>';
 
     // upload import export path constant
     const IMPORT_PATH = '/twiz/';
@@ -859,9 +863,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.8.9';
-        $this->cssVersion = '1-82';
-        $this->dbVersion  = '3.4';
+        $this->version    = '1.9.9';
+        $this->cssVersion = '2';
+        $this->dbVersion  = '3.5';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -935,6 +939,11 @@ class Twiz{
         
         $html = '<div id="twiz_plugin">';
         $html .= $this->getHtmlHScrollStatus();
+        $html .= '<div id="twiz_like">';
+        if($this->admin_option[self::KEY_FB_LIKE] != 1){
+            $html.= self::IFRAME_FB_LIKE; 
+        }
+        $html.='</div>';
         $html .= '<div id="twiz_background"></div>';
         $html .= '<div id="twiz_master">';
         
@@ -959,8 +968,7 @@ class Twiz{
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
         $html .= '<div id="twiz_view_box"></div>';
-        
-        $html .= $this->preloadImages();
+      
         $html .= '</div>';
         
    
@@ -979,7 +987,7 @@ class Twiz{
     
     private function getHtmlHeader(){
         
-        $header = '<div id="twiz_header" class="twiz-reset-nav twiz-corner-top"><div id="twiz_head_logo"></div><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:150px;" allowTransparency="true"></iframe><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><div id="twiz_head_version"><a href="http://www.wordpress.org/extend/plugins/the-welcomizer/changelog/" target="_blank">v'.$this->version.'</a></div> 
+        $header = '<div id="twiz_header" class="twiz-reset-nav twiz-corner-top"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><div id="twiz_head_version"><a href="http://www.wordpress.org/extend/plugins/the-welcomizer/changelog/" target="_blank">v'.$this->version.'</a></div> 
 </div><div class="twiz-clear"></div>
     ';
         
@@ -1149,7 +1157,7 @@ class Twiz{
 </script>';
 
         $htmllist = $opendiv.'<table class="twiz-table-list" cellspacing="0"><tbody>';
-        $htmllist.= '<tr class="twiz-table-list-tr-h"><td class="twiz-td-v-line"></td><td class="twiz-td-status twiz-table-list-td-h twiz-text-center"><a id="twiz_order_by_'.self::F_STATUS.'">'.__('Status', 'the-welcomizer').'</a>'.$twiz_order_by_status.'</td><td class="twiz-table-list-td-h twiz-text-left twiz-td-element" nowrap="nowrap"><a id="twiz_order_by_'.self::F_LAYER_ID.'">'.__('Element', 'the-welcomizer').'</a>'.$twiz_order_by_element.'</td><td class="twiz-table-list-td-h twiz-text-center twiz-td-event" nowrap="nowrap"><a id="twiz_order_by_'.self::F_ON_EVENT.'">'.__('Event', 'the-welcomizer').'</a>'.$twiz_order_by_on_event.'</td><td class="twiz-table-list-td-h twiz-text-right twiz-td-delay" nowrap="nowrap"><a id="twiz_order_by_'.self::F_START_DELAY.'">'.__('Delay', 'the-welcomizer').'</a>'.$twiz_order_by_delay.'</td><td class="twiz-table-list-td-h twiz-text-right twiz-td-duration" nowrap="nowrap"><a id="twiz_order_by_'.self::F_DURATION.'">'.__('Duration', 'the-welcomizer').'</a>'.$twiz_order_by_duration.'</td><td class="twiz-table-list-td-h  twiz-td-action twiz-text-right" nowrap="nowrap">'.__('Action', 'the-welcomizer').'</td></tr>';
+        $htmllist.= '<tr class="twiz-table-list-tr-h"><td class="twiz-td-v-line"></td><td class="twiz-td-status twiz-table-list-td-h twiz-text-center" nowrap="nowrap"><a id="twiz_order_by_'.self::F_STATUS.'">'.__('Status', 'the-welcomizer').'</a>'.$twiz_order_by_status.'</td><td class="twiz-table-list-td-h twiz-text-left twiz-td-element" nowrap="nowrap"><a id="twiz_order_by_'.self::F_LAYER_ID.'">'.__('Element', 'the-welcomizer').'</a>'.$twiz_order_by_element.'</td><td class="twiz-table-list-td-h twiz-text-center twiz-td-event" nowrap="nowrap"><a id="twiz_order_by_'.self::F_ON_EVENT.'">'.__('Event', 'the-welcomizer').'</a>'.$twiz_order_by_on_event.'</td><td class="twiz-table-list-td-h twiz-text-right twiz-td-delay" nowrap="nowrap"><a id="twiz_order_by_'.self::F_START_DELAY.'">'.__('Delay', 'the-welcomizer').'</a>'.$twiz_order_by_delay.'</td><td class="twiz-table-list-td-h twiz-text-right twiz-td-duration" nowrap="nowrap"><a id="twiz_order_by_'.self::F_DURATION.'">'.__('Duration', 'the-welcomizer').'</a>'.$twiz_order_by_duration.'</td><td class="twiz-table-list-td-h  twiz-td-action twiz-text-right" nowrap="nowrap">'.__('Action', 'the-welcomizer').'</td></tr>';
         
         foreach($listarray as $value){
             
@@ -2518,6 +2526,8 @@ $("textarea[name^=twiz_options]").blur(function (){
              
                 $orderby = " ORDER BY level, event_order, event_order_2, t.".self::F_ON_EVENT.", CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), t.".self::F_LAYER_ID.", t.".self::F_TYPE;
                 
+                $concat_orderby = ", '.', c.".self::F_ON_EVENT.""; 
+                
                 $twiz_order_by[$this->userid] = self::F_ON_EVENT;
                 $code = update_option('twiz_order_by', $twiz_order_by);
    
@@ -2526,6 +2536,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             case self::F_STATUS:
              
                 $orderby = " ORDER BY level, t.".self::F_STATUS.", CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT." , t.".self::F_LAYER_ID.", t.".self::F_TYPE;
+                
                 $concat_orderby = ", '.', c.".self::F_STATUS.""; 
                 
                 $twiz_order_by[$this->userid] = self::F_STATUS;
@@ -2548,6 +2559,8 @@ $("textarea[name^=twiz_options]").blur(function (){
 
                 $orderby = " ORDER BY level, CAST(t.".self::F_START_DELAY." AS SIGNED), CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT.", t.".self::F_LAYER_ID.", t.".self::F_TYPE;
 
+                $concat_orderby = ", '.', CAST(c.".self::F_START_DELAY." AS SIGNED)"; 
+                 
                 $twiz_order_by[$this->userid] = self::F_START_DELAY;
                 $code = update_option('twiz_order_by', $twiz_order_by);
                 
@@ -2557,6 +2570,8 @@ $("textarea[name^=twiz_options]").blur(function (){
             
                 $orderby = " ORDER BY level, CAST(total_duration AS SIGNED), event_order, event_order_2, t.".self::F_ON_EVENT.", CAST(t.".self::F_START_DELAY." AS SIGNED), t.".self::F_LAYER_ID.", t.".self::F_TYPE;
 
+                $concat_orderby = ", '.', CAST(total_duration AS SIGNED)"; 
+                
                 $twiz_order_by[$this->userid] = self::F_DURATION;
                 $code = update_option('twiz_order_by', $twiz_order_by);
 
@@ -3237,40 +3252,6 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
   
         return false;
-    }
-    
-    private function preloadImages(){
-    
-    
-        $dirarray = $this->getSkinsDirectory();
-
-        sort($dirarray);
-              
-        $html = '';
-       
-        foreach( $dirarray as $value ){
-        
-            if( $this->skin[$this->userid] != self::SKIN_PATH.$value ){
-            
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-display-none"/>';
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-loading.gif" class="twiz-display-none"/>';
-            }
-        }
-     
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-delete.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-copy.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
-    
-        return $html;
     }
 
     private function updateSettingMenu( $section_id = '' ){

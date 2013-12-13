@@ -104,8 +104,8 @@ $("[name^=twiz_listmenu]").css("display", "none");';
         $choices .= '</fieldset>';
         
         $form = $choices .'<table class="twiz-table-far'.$twiz_display_far_simple.'" id="twiz_far_simple" name="twiz_far_table" cellspacing="0" cellpadding="0">
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-text-right twiz-bold twiz-menu-selected">'.__('Find', 'the-welcomizer').'</td>
-<td class="twiz-form-td-left twiz-bold twiz-menu-selected">'.__('Replace', 'the-welcomizer').'</td></tr>
+<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-text-right twiz-bold">'.__('Find', 'the-welcomizer').'</td>
+<td class="twiz-form-td-left twiz-bold">'.__('Replace', 'the-welcomizer').'</td></tr>
        
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Everywhere', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-far twiz-input-focus" id="twiz_far_everywhere_1" name="="twiz_far_everywhere_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-far twiz-input-focus" id="twiz_far_everywhere_2" name="="twiz_far_everywhere_2" type="text" value="" maxlength="50"/></td></tr>
 
@@ -113,8 +113,8 @@ $("[name^=twiz_listmenu]").css("display", "none");';
 </table>';
 
         $form .= '<table id="twiz_far_precise" name="twiz_far_table" class="twiz-table-far'.$twiz_display_far_precise.'" cellspacing="0" cellpadding="0">
-<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-text-right twiz-bold twiz-menu-selected">'.__('Find', 'the-welcomizer').'</td>
-<td class="twiz-form-td-left twiz-bold twiz-menu-selected">'.__('Replace', 'the-welcomizer').'</td></tr>
+<tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-text-right twiz-bold">'.__('Find', 'the-welcomizer').'</td>
+<td class="twiz-form-td-left twiz-bold">'.__('Replace', 'the-welcomizer').'</td></tr>
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Status', 'the-welcomizer').': <div class="twiz-float-right"><input id="twiz_'.parent::F_STATUS.'_far_1" name="twiz_'.parent::F_STATUS.'_far_1" type="checkbox" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input id="twiz_'.parent::F_STATUS.'_far_2" name="twiz_'.parent::F_STATUS.'_far_2" type="checkbox" value="" maxlength="50"/></td></tr>
 

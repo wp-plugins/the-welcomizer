@@ -151,7 +151,7 @@ class TwizOutput extends Twiz{
                 // Check for post, get, cookies.
                 $hasRestrictedCode = $this->searchRestrictedCode($value);
                 $hasOnlyCSS = $this->hasOnlyCSS($value);
-                $hasValidParendId = $this->validateParentId($value[parent::F_PARENT_ID]);
+                $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
                 
                 if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
                 or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
@@ -442,7 +442,7 @@ class TwizOutput extends Twiz{
         foreach( $this->listarray as $value ){   
 
             $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_PARENT_ID]);
+            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
@@ -530,7 +530,7 @@ class TwizOutput extends Twiz{
             $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);
                     
             $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_PARENT_ID]);
+            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
@@ -1015,7 +1015,7 @@ class TwizOutput extends Twiz{
             $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
             
             $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_PARENT_ID]);
+            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
@@ -1116,7 +1116,7 @@ class TwizOutput extends Twiz{
         foreach($this->listarray as $value){   
         
             $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_PARENT_ID]);
+            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
             
@@ -1561,13 +1561,14 @@ class TwizOutput extends Twiz{
         return $expiration;
     }    
 
-    private function validateParentId( $parentid = '' ){ 
+    private function validateParentId( $sectionid = '', $parentid = '' ){ 
     
         global $wpdb;
         
         if($parentid==''){return true;} 
     
-        $sql = "SELECT ".parent::F_EXPORT_ID." FROM ".$this->table." WHERE ".parent::F_EXPORT_ID." = '".$parentid."' 
+        $sql = "SELECT ".parent::F_EXPORT_ID." FROM ".$this->table." WHERE ".parent::F_SECTION_ID." = '".$sectionid."' 
+                AND ".parent::F_EXPORT_ID." = '".$parentid."' 
                 AND ".parent::F_TYPE." = '".parent::ELEMENT_TYPE_GROUP."'";
         $row = $wpdb->get_row($sql, ARRAY_A);
       
