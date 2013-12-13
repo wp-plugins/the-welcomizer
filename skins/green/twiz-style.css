@@ -538,6 +538,9 @@ div #twiz_head_logo:hover {
 .twiz-row-color-3 {
     background-color: #e1e1e1;
 }
+.twiz-row-color-4 {
+    background-color: #4c8412;
+}
 .twiz-td-status {
     width: 42px;
     padding-top: 4px;
@@ -641,7 +644,7 @@ a.twiz-red:hover {
 #twiz_tab_line{
     width: 231px;
     height: 0px;
-    border-bottom:3px solid #333333;
+    border-bottom:3px solid #4c8412;
     margin: 24px 0px 7px 0px;
     position: absolute;
 }
@@ -652,7 +655,7 @@ a.twiz-red:hover {
     color: #cccccc;
     display: block;
     float: left;
-    border: 1px solid #333333;
+    border: 1px solid #222222;
     padding: 4px 8px 4px 8px;
     margin: 0px 5px 8px 0px;
     background-color: #333333;

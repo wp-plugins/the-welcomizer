@@ -863,8 +863,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.9.2';
-        $this->cssVersion = '2';
+        $this->version    = '1.9.9.3';
+        $this->cssVersion = '2-1';
         $this->dbVersion  = '3.5';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1211,7 +1211,7 @@ class Twiz{
                     $boldclass = ( $parent_id == $value[self::F_EXPORT_ID] ) ? ' twiz-bold' : '';
                 }
             }
-                    $borderbggroupclass = ( $value[self::F_PARENT_ID] != '' ) ? ' twiz-row-color-3' : '';
+                    $borderbggroupclass = ( $value[self::F_PARENT_ID] != '' ) ? ' twiz-row-color-4' : '';
             
             if( $value[self::F_TYPE] != self::ELEMENT_TYPE_GROUP ){
             
