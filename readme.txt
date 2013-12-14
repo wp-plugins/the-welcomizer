@@ -28,7 +28,7 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 
 To uninstall:
 
-1. Go to plugin page, click `Admin` button, click `Other settings`, check the option **Delete all when disabling the plugin**, click `Save`.
+1. Go to plugin page, click `Admin` button, click `Removal settings`, check the option **Delete all when disabling the plugin**, click `Save`.
 2. Deactivate the plugin through the Plugins menu in WordPress, and then delete it.
 
 Enjoy!
