@@ -863,8 +863,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.9.3';
-        $this->cssVersion = '2-1';
+        $this->version    = '1.9.9.4';
+        $this->cssVersion = '2-11';
         $this->dbVersion  = '3.5';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -940,9 +940,12 @@ class Twiz{
         $html = '<div id="twiz_plugin">';
         $html .= $this->getHtmlHScrollStatus();
         $html .= '<div id="twiz_like">';
-        if($this->admin_option[self::KEY_FB_LIKE] != 1){
+        
+        if( $this->admin_option[self::KEY_FB_LIKE] != 1 ){
+        
             $html.= self::IFRAME_FB_LIKE; 
         }
+        
         $html.='</div>';
         $html .= '<div id="twiz_background"></div>';
         $html .= '<div id="twiz_master">';
@@ -2621,8 +2624,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             
             $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
                     
-        
-             // show element
+            // show element
             $container = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
@@ -3725,9 +3727,15 @@ $("textarea[name^=twiz_options]").blur(function (){
         
             if( $this->skin[$this->userid] != self::SKIN_PATH.$value ){
             
+                if( $value != self::DEFAULT_SKIN ){
+                
+                    $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-logo.png" class="twiz-display-none"/>';
+                }
+                
                 $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-display-none"/>';
                 $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
                 $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-loading.gif" class="twiz-display-none"/>';
+                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
             }
         }
      
@@ -3741,6 +3749,12 @@ $("textarea[name^=twiz_options]").blur(function (){
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
+        
+        if($this->skin[$this->userid] != self::SKIN_PATH.self::DEFAULT_SKIN){
+        
+            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-logo.png" class="twiz-display-none"/>';
+        }
+        
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';

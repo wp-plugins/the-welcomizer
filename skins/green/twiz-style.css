@@ -24,10 +24,17 @@ input.button-primary, button.button-primary, a.button-primary {
 input[type="text"] {
     height: 21px !important;
 }
+input, select {
+    margin: 1px !important;
+    padding: 3px 5px !important;
+}
+.button-primary {
+    vertical-align: baseline !important;
+}
 div a, td a {
     text-decoration: none;
 }
-div a:hover, td a:hover {
+div a, td a {
     cursor: pointer;
 }
 .twiz-corner-top {
@@ -74,7 +81,7 @@ div a:hover, td a:hover {
 }
 #twiz_plugin {
     width: 98%;
-    margin: 9px 0 15px 30px;
+    margin: 9px 0 15px 16px;
     position: relative;
 }
 #twiz_master {
@@ -126,15 +133,28 @@ div a:hover, td a:hover {
     width: 68px;
     height: 23px;
     padding: 9px 3px 0;
-    margin: 27px 10% 0 0;
-    position: absolute;     
+    margin: 27px 10% 0 0; 
     background-color: #333333;
     border: 1px solid #222222;
     border-top: 0px;
-    position:fixed;
+    position: fixed;
     right:0;
     top:0;
     z-index: 10;
+}
+@media only screen and (max-width:1282px){
+#twiz_hscroll_status {
+    margin: -14px 10% 0 0;
+    padding: 9px 3px 0;
+    position: absolute;
+    left: 4.89%;
+    top: 0;
+}
+}
+@media only screen and (max-width:782px){
+#twiz_hscroll_status {
+    margin: -14px 10% 0 0; 
+}
 }
 #twiz_global_status {
     margin: 0 0 0 233px;
@@ -144,10 +164,10 @@ div a:hover, td a:hover {
 #twiz_global_status img {
     margin: 3px;
 }
-#twiz_head_logo:hover,
-#twiz_hscroll_status img:hover,
-#twiz_global_status img:hover,
-.twiz-skins:hover {
+#twiz_head_logo,
+#twiz_hscroll_status img,
+#twiz_global_status img,
+.twiz-skins {
     cursor: pointer;
 }
 .twiz-skins {
@@ -233,7 +253,7 @@ div #twiz_head_logo:hover {
 #twiz_head_version a {
     color: #4C8412;
 }
-#twiz_head_version a:hover{
+#twiz_head_version a:hover {
     color: #92E13F;
 }
 #twiz_head_version {
@@ -335,7 +355,7 @@ div #twiz_head_logo:hover {
     font-weight: bold;
     line-height: 19px;
 }
-.twiz-status-menu:hover {
+.twiz-status-menu {
     cursor: pointer;
 }
 #twiz_option_menu  {
@@ -397,7 +417,7 @@ div #twiz_head_logo:hover {
     width: 500px;
     background-color: #333333;
 } 
-#twiz_add_sections a:hover {
+#twiz_add_sections a {
     cursor: pointer;
 }
 .twiz-box-menu {
@@ -462,18 +482,19 @@ div #twiz_head_logo:hover {
 .twiz-td-v-line {
     width: 1px;
 }
-.twiz-toggle-img,
-.twiz-toggle-img-admin  {
+.twiz-toggle-img  {
     position: absolute;
-    left: -25px;
+    left: -21px;
     top: -10px;
 }
 .twiz-toggle-img-admin {
+    position: absolute;
+    left: -25px;
     top: -2px;
 }
 .twiz-toggle-img-far {
     position: absolute;
-    left: -38px;
+    left: -28px;
     top: -2px;
 }
 .twiz-select-event-list {
@@ -498,18 +519,18 @@ div #twiz_head_logo:hover {
 .twiz-list-tr-action a {
     font-size: 11px;
 }
-.twiz-list-tr-action a:hover{
+.twiz-list-tr-action a {
     cursor: pointer;
 }
 .twiz-table-list-tr-h, 
 .twiz-table-list tr:hover {
     background-color: #e1e1e1;
 }    
-.twiz-table-far img:hover,
-.twiz-table-list img:hover,
-.twiz-table-form img:hover,
-.twiz-arrow-lib-n:hover,
-.twiz-arrow-lib-s:hover {
+.twiz-table-far img,
+.twiz-table-list img,
+.twiz-table-form img,
+.twiz-arrow-lib-n,
+.twiz-arrow-lib-s {
     cursor: pointer;
 }
 .twiz-table-list-td-h {
@@ -648,7 +669,7 @@ a.twiz-red:hover {
     margin: 24px 0px 7px 0px;
     position: absolute;
 }
-.twiz-tab:hover{
+.twiz-tab {
     cursor: pointer;
 }
 .twiz-tab {

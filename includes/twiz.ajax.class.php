@@ -1820,7 +1820,6 @@ class TwizAjax extends Twiz{
                 if(($("#twiz_shortcode").val()== "") || ($("#twiz_shortcode").val() == "' .__('Please type a short code.', 'the-welcomizer').'")){
                     $("#twiz_shortcode").attr({"value" : "' .__('Please type a short code.', 'the-welcomizer').'"});
                     $("#twiz_shortcode").css("color", "#BC0B0B");
-                    $("#twiz_loading_menu").html("");
                      twiz_validsection = false;
                 }else{
                     $("#twiz_custom_message_0").html("");
@@ -1830,7 +1829,6 @@ class TwizAjax extends Twiz{
                 twiz_sectionid[0] = $("#twiz_slc_sections").val();
                 if(twiz_sectionid[0] == ""){
                     $("#twiz_custom_message_1").html("' .__('Please choose an output option.', 'the-welcomizer').'");
-                    $("#twiz_loading_menu").html("");
                      twiz_validsection = false;
                 }else{
                     $("#twiz_custom_message_1").html("");
@@ -1844,7 +1842,6 @@ class TwizAjax extends Twiz{
                 }            
                 if(twiz_sectionid.length == 0){
                     $("#twiz_custom_message_2").html("' .__('Please select at least one option.', 'the-welcomizer').'");
-                    $("#twiz_loading_menu").html("");
                      twiz_validsection = false;
                 }else{
                     $("#twiz_custom_message_2").html("");
@@ -1853,7 +1850,6 @@ class TwizAjax extends Twiz{
             case "twiz_logic_output":
                 if($("#twiz_custom_logic").val()== ""){
                     $("#twiz_custom_message_3").html("' .__('Please type a custom logic.', 'the-welcomizer').'");
-                    $("#twiz_loading_menu").html("");
                      twiz_validsection = false;
                 }else{
                     $("#twiz_custom_message_3").html("");
