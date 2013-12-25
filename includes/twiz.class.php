@@ -863,8 +863,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.9.4';
-        $this->cssVersion = '2-11';
+        $this->version    = '1.9.9.5';
+        $this->cssVersion = '2-12';
         $this->dbVersion  = '3.5';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1743,7 +1743,7 @@ class Twiz{
  jQuery(document).ready(function($) {
 ';
  
-        $jsscript_close = '$(".twiz-tab").click(function(){
+        $jsscript = '$(".twiz-tab").click(function(){
         if(($("#twiz_tab_js").attr("class") == "twiz-display-none")
         &&($(this).html() == "'.__('jQuery', 'the-welcomizer').'")){
             $(".twiz-tab").attr({"class":"twiz-tab twiz-corner-top"});
@@ -1782,8 +1782,10 @@ class Twiz{
             }        
             $(".twiz-table-more-options").toggle(twiz_showOrHide_more_options);
         }
-    });});
- //]]>
+    });';
+    
+$jsscript_close = '});
+//]]>
 </script>';
         
         // Toggle starting config 
@@ -2290,7 +2292,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 </td></tr>
 <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
 <tr><td class="twiz-td-save" colspan="2"><span id="twiz_save_img_box_2" name="twiz_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_cancel" id="twiz_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save" id="twiz_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'"/> <label for="twiz_stay">'.__('& Stay', 'the-welcomizer').'</label>  <input type="checkbox" id="twiz_stay" name="twiz_stay" '.$twiz_stay.'> <input type="hidden" name="twiz_'.self::F_ID.'" id="twiz_'.self::F_ID.'" value="'.$id.'"/><input type="hidden" name="twiz_'.self::F_PARENT_ID.'" id="twiz_'.self::F_PARENT_ID.'" value="'.$twiz_parent_id.'"/><input type="hidden" name="twiz_'.self::F_EXPORT_ID.'" id="twiz_'.self::F_EXPORT_ID.'" value="'.$twiz_export_id.'"/></td></tr>
-</table>'.$closediv.$jsscript_open.$jsscript_arrows.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript_close;
+</table>'.$closediv.$jsscript_open.$jsscript_arrows.$jsscript_autoexpand.$toggleoptions.$jsscript_hide.$jsscript.$jsscript_close;
     
         return $htmlform;
     }

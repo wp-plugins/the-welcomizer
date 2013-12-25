@@ -27,7 +27,7 @@ class TwizAjax extends Twiz{
     $twiz_hscroll_status = get_option('twiz_hscroll_status');
     $twiz_hscroll_status = ($twiz_hscroll_status == '') ? '1' : $twiz_hscroll_status;
     
-    $header = 'var twiz_parent_id = ""; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'"; jQuery(document).ready(function($) {
+    $header = 'var twiz_parent_id = ""; var twiz_showOrHide_more_section_options = false; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'"; jQuery(document).ready(function($) {
  $.ajaxSetup({ cache: false });
  var twiz_skin =  "'.$this->skin[$this->userid].'";
  if((twiz_skin == "")||(twiz_skin == "'.parent::SKIN_PATH.'")){ twiz_skin = "'.parent::SKIN_PATH.''.parent::DEFAULT_SKIN.'";}
@@ -40,6 +40,7 @@ class TwizAjax extends Twiz{
  var twiz_group_orig_anim_link_class = "";
  var twiz_panel_offset_switch = "";
  var twiz_ajax_locked = false;
+
  var twiz_hscroll_status = "'.$twiz_hscroll_status.'";
  $(document).scrollTop(0);
  $(document).scrollLeft(0);
@@ -838,7 +839,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")){
             twiz_numid = twiz_textid.substring(12,twiz_textid.length);
-            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
         }else{
             twiz_numid = twiz_textidtemp;
             $(this).hide();
@@ -867,7 +868,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")) {
             twiz_numid = twiz_textid.substring(12,twiz_textid.length);
-            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
         }else{
             twiz_numid = twiz_textidtemp;
             $(this).hide();
@@ -943,7 +944,7 @@ class TwizAjax extends Twiz{
             }        
             if((twiz_textidtemp.substring(0,1) == "a")|| (twiz_textidtemp.substring(0,1) == "v")){
                 twiz_numid = twiz_textid.substring(14,twiz_textid.length);
-                $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+                $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
             }else{
                 twiz_numid = twiz_textidtemp;
                 $(this).hide();
@@ -1315,7 +1316,7 @@ class TwizAjax extends Twiz{
         twiz_ajax_locked = true;
         var twiz_textid = $(this).attr("name");
         var twiz_charid = twiz_textid.substring(20,twiz_textid.length);
-        $("#twiz_td_full_option_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+        $("#twiz_td_full_option_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
         $.post(ajaxurl, { 
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
@@ -1350,7 +1351,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = twiz_textid.substring(14,twiz_textid.length);
         var twiz_txtval = $("#twiz_on_event_" + twiz_numid).val();
         $("#twiz_ajax_td_edit_on_event_" + twiz_numid).hide();
-        $("#twiz_ajax_td_loading_on_event_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+        $("#twiz_ajax_td_loading_on_event_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
         $.post(ajaxurl, { 
                 "action": "twiz_ajax_callback",
                 "twiz_nonce": "'.$this->nonce.'", 
@@ -1424,7 +1425,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_edit_" + twiz_columnName + "_" + twiz_numid).hide();
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).html("");
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).hide();
-                    $("#twiz_ajax_td_loading_" + twiz_columnName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+                    $("#twiz_ajax_td_loading_" + twiz_columnName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
                     $.post(ajaxurl, { 
                     "action": "twiz_ajax_callback",
                     "twiz_nonce": "'.$this->nonce.'", 
@@ -1480,7 +1481,7 @@ class TwizAjax extends Twiz{
                 twiz_ajax_locked = true;
                 twiz_columnRealName = "on_event";
                 twiz_numid = twiz_textid.substring(26,twiz_textid.length);
-                $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+                $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
                 $("#twiz_ajax_td_val_" + twiz_columnRealName + "_" + twiz_numid).hide();
                 $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).fadeIn("fast");
                 $.post(ajaxurl, {
@@ -1809,7 +1810,14 @@ class TwizAjax extends Twiz{
         || ($("#twiz_cookie_name").val() == "")) && ($("#twiz_slc_cookie_option_1").val() != "")){
             $("#twiz_cookie_name").val("'.__('Please type a name.', 'the-welcomizer').'");
             $("#twiz_cookie_name").css("color", "#BC0B0B");
-            twiz_validsection = false;
+            $("#twiz_more_options").html("'.__('Less options', 'the-welcomizer').' &#187;");
+            twiz_showOrHide_more_section_options = true;
+            $(".twiz-section-more-options").toggle(twiz_showOrHide_more_section_options);
+            $(".twiz-tab").attr({"class":"twiz-tab twiz-corner-top"});
+            $("#twiz_tabmenu_cookie").attr({"class":"twiz-tab twiz-corner-top twiz-tab-selected"});
+            $("#twiz_tab_activation").attr({"class":"twiz-display-none"});            
+            $("#twiz_tab_cookie").attr({"class":""});
+            twiz_validsection = false;            
         }        
         $("input[name=twiz_output_choice]:radio").each(function(){
         if ($(this).attr("checked")){
@@ -1896,13 +1904,13 @@ class TwizAjax extends Twiz{
         $("div[name^=twiz_new_order_up]").click(function(){
             var twiz_textid = $(this).attr("id");
             var twiz_numid = twiz_textid.substring(18,twiz_textid.length);
-            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
             twizOrderLibrary("'.parent::LB_ORDER_UP.'", twiz_numid);
         });
         $("div[name^=twiz_new_order_down]").click(function(){
             var twiz_textid = $(this).attr("id");
             var twiz_numid = twiz_textid.substring(20, twiz_textid.length);
-            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
             twizOrderLibrary("'.parent::LB_ORDER_DOWN.'", twiz_numid);
         });
     }
@@ -1928,7 +1936,7 @@ class TwizAjax extends Twiz{
     $("#twiz_export").click(function(){
         if( twiz_ajax_locked == false ){
         twiz_ajax_locked = true;
-        $("#twiz_export_url").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" />\');
+        $("#twiz_export_url").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
         $("#qq_upload_list li").remove();
         var twiz_animid = $("#twiz_id").val();
         if(twiz_animid===undefined){

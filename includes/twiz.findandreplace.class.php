@@ -73,7 +73,7 @@ $("[name^=twiz_listmenu]").css("display", "none");';
 
         $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" name="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_1" id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_1" id="twiz_far_find_1" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_1" id="twiz_far_replace_1" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
             
-        $choices = $buttons . ' <fieldset class="twiz-box-fieldset">
+        $choices = $buttons . ' <fieldset class="twiz-box-fieldset twiz-corner-all">
 <legend>'.__('Method', 'the-welcomizer').'</legend>';
 
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] = '' ;

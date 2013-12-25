@@ -804,7 +804,9 @@ class TwizMenu extends Twiz{
         $html = '';
         $type = '';
         $choices = '';
+        $jsscript_open = '';
         $jsscript = '';
+        $jsscript_close = '';
         $jsscript_in = '';
         $twiz_custom_logic ='';
         $twiz_shortcode = '';
@@ -956,21 +958,72 @@ $("#twiz_div_cookie_condition").show();
         $twiz_shortcode_sample = ( $twiz_shortcode != '' ) ? '[twiz id="'.$twiz_shortcode.'"]' : '[twiz id="'. __('Example', 'the-welcomizer').'"]';
         $twiz_shortcode_sample_theme = ( $twiz_shortcode != '' ) ? '<?php echo do_shortcode( \'[twiz id="'.$twiz_shortcode.'"]\' ); ?>' : '<?php echo do_shortcode( \'[twiz id="'. __('Example', 'the-welcomizer').'"]\' ); ?>';
                 
-        $jsscript = '<script>
+        $jsscript_open = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) { ';
+
+        $jsscript .= '$(".twiz-more-configs").click(function(){
+            var twiz_textname = $(this).attr("name");
+            if(twiz_textname == "twiz_more_options"){
+                if ( twiz_showOrHide_more_section_options == false ) {
+                    $("#" + twiz_textname).html("'.__('Less options', 'the-welcomizer').' &#187;");
+                    twiz_showOrHide_more_section_options = true;
+                } else if ( twiz_showOrHide_more_section_options == true ) {
+                    $("#" + twiz_textname).html("'.__('More options', 'the-welcomizer').' &#187;");
+                    twiz_showOrHide_more_section_options = false;
+                }
+                $(".twiz-section-more-options").toggle(twiz_showOrHide_more_section_options);
+            }
+        });';
+    
+        $jsscript .= '$(".twiz-tab").click(function(){
+        if(($("#twiz_tab_cookie").attr("class") == "twiz-display-none")
+        &&($(this).html() == "'.__('Cookie', 'the-welcomizer').'")){
+            $(".twiz-tab").attr({"class":"twiz-tab twiz-corner-top"});
+            $(this).attr({"class":"twiz-tab twiz-corner-top twiz-tab-selected"});
+            $("#twiz_tab_cookie").attr({"class":""});
+            $("#twiz_tab_activation").attr({"class":"twiz-display-none"});
+        }else if(($("#twiz_tab_activation").attr("class") == "twiz-display-none")
+        &&($(this).html() != "'.__('Cookie', 'the-welcomizer').'")){
+            $(".twiz-tab").attr({"class":"twiz-tab twiz-corner-top"});
+            $(this).attr({"class":"twiz-tab twiz-corner-top twiz-tab-selected"});
+            $("#twiz_tab_cookie").attr({"class":"twiz-display-none"});
+            $("#twiz_tab_activation").attr({"class":""});
+        }});';
  
         $jsscript .= '$("#twiz_far_matches").html("");
 $("#twiz_section_name").focus();';
         
         $jsscript .= $jsscript_in;
-
-        $jsscript .= '});
- //]]>
+        
+$jsscript_close = '});
+//]]>
 </script>';
 
+
+        // Toggle starting config 
+        $jsscript_more_options = '$(".twiz-section-more-options").toggle();';
+        
+        if( !isset($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]) ) $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] = '';
+        if( !isset($sections[$section_id][parent::KEY_COOKIE_CONDITION]) ) $sections[$section_id][parent::KEY_COOKIE_CONDITION] = '';        
+        
+        // toggle more options by default if we have values        
+        if( ( $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] != '' )
+         or( $sections[$section_id][parent::KEY_COOKIE_CONDITION] != '' ) ){
+         
+            $jsscript .= $jsscript_more_options;
+            $lbl_more_options = __('Less options', 'the-welcomizer');
+            $jsscript_open .= 'twiz_showOrHide_more_section_options = true;';
+            
+        }else{
+        
+            $lbl_more_options = __('More options', 'the-welcomizer');
+            $jsscript_open .= 'twiz_showOrHide_more_section_options = false;';
+        }
+        
+        
         // radio menu choice
-        $choices = ' <fieldset class="twiz-box-fieldset">
+        $choices = ' <fieldset class="twiz-box-fieldset twiz-corner-all">
 <legend>'.__('Output type', 'the-welcomizer').'</legend>';
 
         if(in_array($section_id, $this->array_default_section)){
@@ -1000,10 +1053,47 @@ $("#twiz_section_name").focus();';
             $html .=  '<input class="twiz-input-focus" type="text" id="twiz_section_name" name="twiz_section_name"  value="'.$twiz_section_name.'" maxlength="255"/>';
         }
  
+        $tabselectedcookie = '';
+        $tabselectedactivation = '';
+        $tabhiddenactivation = '';
+        $tabhiddencookie = '';
+ 
+        $tabselectedcookie = (($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] != '' ) 
+                          or (($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] == '') 
+                          and ($sections[$section_id][parent::KEY_COOKIE_CONDITION]  == '' ))) ? ' twiz-tab-selected' : '';
+            
+        $tabselectedactivation = (($sections[$section_id][parent::KEY_COOKIE_CONDITION] != '' )
+                               and($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]  == '' )) ? ' twiz-tab-selected' : '';
+        
+        $tabhiddenactivation = (($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] != '' ) 
+                            or (($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] == '') 
+                            and ($sections[$section_id][parent::KEY_COOKIE_CONDITION]  == '' ))) ? 'twiz-display-none' : '';
+                          
+        $tabhiddencookie = (($sections[$section_id][parent::KEY_COOKIE_CONDITION]  != '' )
+                         and($sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] == '' )) ? 'twiz-display-none' : '';
+        
+        // More link
+        $html .= '<div class="twiz-spacer"></div><div class="twiz-float-left twiz-text-left"><a name="twiz_more_options" id="twiz_more_options" class="twiz-more-configs">'.$lbl_more_options.' &#187;</a></div>';
+        
+        // save button
+        $html .= '<div class="twiz-float-right twiz-text-right"><span id="twiz_menu_save_img_box" name="twiz_menu_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"/></div>';
+        
+        // tab menu 
+        $html .= '<div class="twiz-clear"></div><div class="twiz-section-more-options">';
+        
+        $html .= '<div id="twiz_tab_line"></div><div class="twiz-clear"></div>
+        <div id="twiz_tabmenu_cookie" class="twiz-tab twiz-corner-top'.$tabselectedcookie.'">'.__('Cookie', 'the-welcomizer').'</div><div class="twiz-tab twiz-corner-top'.$tabselectedactivation.'">'.__('Activation', 'the-welcomizer').'</div>';
+        
+        // wrapper 
+        $html .= '</div>';
+        
 
         
+        // wrapper 
+        $html .= '<div class="twiz-clear"></div><div class="twiz-section-more-options">';
+         
         // cookie option1
-        $html .= '<hr class="twiz-hr twiz-corner-all"><div id="twiz_div_cookie_option_1" class="twiz-float-left">'.__('Cookie options', 'the-welcomizer').': <select id="twiz_slc_cookie_option_1">
+        $html .= '<div id="twiz_tab_cookie" class="'.$tabhiddencookie.'"><div id="twiz_div_cookie_option_1" class="twiz-float-left">'.__('Limit', 'the-welcomizer').': <select id="twiz_slc_cookie_option_1">
         <option value="">'.__('Disabled', 'the-welcomizer').'</option>
         <option value="onlyonce"'.$twiz_slc_cookie_option['onlyonce'].'>'.__('Only once', 'the-welcomizer').'</option>
         <option value="onlytwice"'.$twiz_slc_cookie_option['onlytwice'].'>'.__('Only twice', 'the-welcomizer').'</option>
@@ -1028,16 +1118,20 @@ $("#twiz_section_name").focus();';
         </select></div>';
         
         // cookie name
-        $html .= '<div class="twiz-clear"></div><div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input class="twiz-input-focus" type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> <select id="twiz_slc_cookie_scope">
+        $html .= '<div id="twiz_div_cookie_name" class="twiz-float-left twiz-display-none">'.__('Cookie name', 'the-welcomizer').': <input class="twiz-input-focus" type="text" id="twiz_cookie_name" name="twiz_cookie_name" value="'.$twiz_cookie_name.'" maxlength="255"/> <select id="twiz_slc_cookie_scope">
         <option value="perwebsite"'.$twiz_slc_cookie_option['perwebsite'].'>'.__('per website', 'the-welcomizer').'</option>
         <option value="perdirectory"'.$twiz_slc_cookie_option['perdirectory'].'>'.__('per directory', 'the-welcomizer').'</option>
-        </select></div>';       
-                
+        </select></div>
+    </div>';       
+       
         // Display only if this cookie condition is met.
-        $html .= '<div class="twiz-clear"></div><hr class="twiz-hr twiz-corner-all"><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->GetHtmlCookieConditionList( $section_id ).'</div>';
+        $html .= '<div class="twiz-clear"></div><div id="twiz_tab_activation" class="'.$tabhiddenactivation.'"><div class="twiz-clear"></div><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->GetHtmlCookieConditionList( $section_id ).'</div></div>';
         
-         // cancel and save button
-        $html .= '<div class="twiz-clear"></div><hr class="twiz-hr twiz-corner-all"><div class="twiz-text-right"><span id="twiz_menu_save_img_box" name="twiz_menu_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_section_cancel" id="twiz_section_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_save_section" id="twiz_save_section" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$section_id.'" id="twiz_section_id" name="twiz_section_id"/></div>';
+        // wrapper 
+        $html .= '<div class="twiz-clear"></div>
+        </div>';        
+        
+        $html .= '<div class="twiz-clear"></div>';
         
         $html .= $choices;
         
@@ -1053,7 +1147,7 @@ $("#twiz_section_name").focus();';
          // Custom Logic section box
         $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input class="twiz-input-focus" type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'"/>'.__('Examples', 'the-welcomizer').':<br>is_page(32)||is_category(\'55\')||is_single(\'345\')<br>!is_page(32)&&!is_category(\'55\')&&!is_single(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a></div>';
         
-        $html .= $jsscript;
+        $html .= $jsscript_open.$jsscript.$jsscript_close;
         return $html;
     }
 
