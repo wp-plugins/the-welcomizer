@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-24 20:09-0500\n"
-"PO-Revision-Date: 2013-12-24 20:10-0500\n"
+"PO-Revision-Date: 2013-12-25 01:44-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -903,7 +903,7 @@ msgstr "avec"
 
 #: includes/twiz.menu.class.php:1121
 msgid "Cookie name"
-msgstr "Nom du cookie"
+msgstr "Nom du cookie "
 
 #: includes/twiz.menu.class.php:1122
 msgid "per website"
