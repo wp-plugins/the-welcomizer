@@ -4,6 +4,9 @@ body {
     line-height: 1.4em !important;
     min-width: 600px !important;
 }
+#wpbody, input[type="text"], textarea, select {
+    color: #000000 !important;
+}
 td, textarea, input, select {
     font-family: inherit !important;
     font-size: inherit !important;
@@ -188,7 +191,7 @@ div a, td a {
 }
 .twiz-right-panel {
     margin: 19px 0 0 15px;
-    color: #464646;
+    color: #000000;
     background-color: #ffffff;
 }
 .twiz-menu-header{
