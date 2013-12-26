@@ -5,7 +5,7 @@ body {
     min-width: 600px !important;
 }
 #wpbody, input[type="text"], textarea, select {
-    color: #000000;
+    color: #333333;
 }
 td, textarea, input, select {
     font-family: inherit !important;
