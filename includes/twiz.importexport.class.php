@@ -108,7 +108,7 @@ class TwizImportExport extends Twiz{
             
             $data[parent::F_EXPORT_ID] = ($data[parent::F_EXPORT_ID]=='')? $exportid : $data[parent::F_EXPORT_ID];
             
-            $exportidExists = $this->ExportidExists( $data[parent::F_EXPORT_ID] );
+            $exportidExists = $this->exportIdExists( $data[parent::F_EXPORT_ID] );
             
             if( !isset($data[parent::F_EXPORT_ID.'_old']) ) $data[parent::F_EXPORT_ID.'_old'] = '';
             
@@ -360,7 +360,7 @@ class TwizImportExport extends Twiz{
                 
                 $code = $wpdb->query($sql);
                 
-                $exportidExists = $this->ExportidExists( $data[parent::F_EXPORT_ID.'_old'] );
+                $exportidExists = $this->exportIdExists( $data[parent::F_EXPORT_ID.'_old'] );
 
                 if( $exportidExists == true ){
 
@@ -378,9 +378,21 @@ class TwizImportExport extends Twiz{
                 $code = $wpdb->query($sql);
             }
            
-            $code = $this->UnlockRows(3);
+            $code = $this->unlockRows(3);
  
             return true;
+    }
+    
+    private function unlockRows( $value = '' ){
+    
+        global $wpdb;
+        
+        $unlockrow = "UPDATE ".$this->table . " SET ". self::F_ROW_LOCKED. " = 0 
+                      WHERE ". self::F_ROW_LOCKED . " = ".$value."";
+                      
+        $code = $wpdb->query($unlockrow);
+        
+        return $code;
     }
     
     function export( $section_id = '', $id = '' ){
@@ -460,6 +472,23 @@ class TwizImportExport extends Twiz{
         $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'"><img name="twiz_img_download_export" id="twiz_img_download_export" src="'.$this->pluginUrl.'/images/twiz-download.png" /></a><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'<br>'. $filename .'</a>' ;
         
         return $html;
+    }
+    
+    private function exportIdExists( $exportid = '' ){ 
+    
+        global $wpdb;
+        
+        if($exportid==''){return false;}
+    
+        $sql = "SELECT ".self::F_EXPORT_ID." FROM ".$this->table." WHERE ".self::F_EXPORT_ID." = '".$exportid."'";
+        $row = $wpdb->get_row($sql, ARRAY_A);
+      
+        if($row[self::F_EXPORT_ID]!=''){
+
+            return true;
+        }
+  
+        return false;
     }
 }
 ?>

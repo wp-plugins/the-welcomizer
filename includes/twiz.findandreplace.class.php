@@ -14,6 +14,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+require_once(dirname(__FILE__).'/twiz.group.class.php');
     
 class TwizFindAndReplace extends Twiz{
   
@@ -22,8 +24,11 @@ class TwizFindAndReplace extends Twiz{
         parent::__construct();
     }
 
-    function GetHtmlFormFindAndReplace(){
+    function getHtmlFormFindAndReplace( $section_id = '' ){
     
+        $myTwizGroup  = new TwizGroup();
+        $HTMLGroupList = $myTwizGroup->getHTMLGroupList( $section_id );
+                
         $jsscript = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {';
@@ -103,7 +108,9 @@ $("[name^=twiz_listmenu]").css("display", "none");';
      
         $choices .= '</fieldset>';
         
-        $form = $choices .'<table class="twiz-table-far'.$twiz_display_far_simple.'" id="twiz_far_simple" name="twiz_far_table" cellspacing="0" cellpadding="0">
+        $grouplist = '<div>'.__('Group name', 'the-welcomizer').': '.$HTMLGroupList.'</div><div class="twiz-spacer"></div>';
+        
+        $form = $choices . $grouplist.'<table class="twiz-table-far'.$twiz_display_far_simple.'" id="twiz_far_simple" name="twiz_far_table" cellspacing="0" cellpadding="0">
 <tr class="twiz-table-list-tr-h"><td class="twiz-form-td-left twiz-text-right twiz-bold">'.__('Find', 'the-welcomizer').'</td>
 <td class="twiz-form-td-left twiz-bold">'.__('Replace', 'the-welcomizer').'</td></tr>
        
@@ -332,7 +339,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         return $html;
     }
     
-    function Find( $section_id = '' ){
+    function find( $section_id = '', $group_id = '' ){
     
         $choice = esc_attr(trim($_POST['twiz_far_choice']));
         $where = ' where ';
@@ -343,7 +350,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         switch( $choice ){
         
             case 'twiz_far_simple' :
-            
+
                 $everywhere_1 = esc_attr(trim($_POST['twiz_far_everywhere_1']));
 
                 if( $everywhere_1 != '' ){
@@ -669,14 +676,16 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                     $where = '';
                 }   
         }
-      
+    
+        $andgroupid = ( $group_id != '' )? ' and '.parent::F_PARENT_ID." = '".$group_id."'" : '';
+        
         if( $or != '' ){
         
-            $wheresql .= ") and (".parent::F_SECTION_ID." = '".$section_id."') and (".parent::F_TYPE." <> '".parent::ELEMENT_TYPE_GROUP."'))";
+            $wheresql .= ") and (".parent::F_SECTION_ID." = '".$section_id."') and (".parent::F_TYPE." <> '".parent::ELEMENT_TYPE_GROUP."')".$andgroupid.")";
         
         }else{
         
-            $wheresql = $where.parent::F_SECTION_ID." = '0'"; //empty  query, no results
+            $wheresql = $where.parent::F_SECTION_ID." = '0'"; //empty query, no results
         }
         
         $listarray = $this->getListArray( $wheresql, '' );
@@ -701,7 +710,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         
     }  
     
-    function Replace( $section_id = '' ){
+    function replace( $section_id = '', $group_id = '' ){
     
         global $wpdb;
         
@@ -710,6 +719,8 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         switch( $choice ){
         
             case 'twiz_far_simple' :
+            
+                $andgroupid = ( $group_id != '' )? ' and '.parent::F_PARENT_ID." = '".$group_id."'" : '';
             
                 $everywhere_1 = esc_attr(trim($_POST['twiz_far_everywhere_1']));
                 $everywhere_2 = esc_attr(trim($_POST['twiz_far_everywhere_2']));
@@ -757,8 +768,8 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
                    $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
                    $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'";
-                    
+                   $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'".$andgroupid;
+
                     $code = $wpdb->query($updatesql);
                     
                     return $code;
@@ -769,8 +780,9 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 break;
                 
             case 'twiz_far_precise' :
-            
-            
+                
+                $andgroupid = ( $group_id != '' )? ' and '.parent::F_PARENT_ID." = '".$group_id."'" : '';
+                
                 $twiz_status_1 = esc_attr(trim($_POST['twiz_'.parent::F_STATUS.'_far_1']));
                 $twiz_status_1 = ($twiz_status_1=='true') ? 1 : 0;
                 $twiz_event_1 = esc_attr(trim($_POST['twiz_'.parent::F_ON_EVENT.'_far_1']));
@@ -895,7 +907,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$twiz_move_left_pos_format_b_1."', '".$twiz_move_left_pos_format_b_2."')";
                 $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$twiz_options_b_1."', '".$twiz_options_b_2."')";
                 $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$twiz_js_b_2."', '".$twiz_js_b_2."')";
-                $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'";
+                $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'".$andgroupid;
                 
                 $code = $wpdb->query($updatesql);
                 

@@ -1,7 +1,4 @@
 body {
-    font-family: sans-serif !important;
-    font-size: 12px !important;
-    line-height: 1.4em !important;
     min-width: 600px !important;
 }
 #wpbody, input[type="text"], textarea, select {
@@ -19,20 +16,21 @@ input.button-primary, button.button-primary, a.button-primary {
     font-weight: bold !important;
 }
 .wp-admin select {
-    height: 21px !important;
+    height: 22px !important;
     line-height: 21px !important;
     padding: 0 !important;
     vertical-align: top !important;
 }
 input[type="text"] {
-    height: 21px !important;
+    height: 22px !important;
 }
 input, select {
     margin: 1px !important;
     padding: 3px 5px !important;
 }
 input[type="checkbox"], input[type="radio"]{
-    height: 13px !important;
+    height: 12px !important;
+    cursor: pointer;
 }
 .button-primary {
     vertical-align: baseline !important;
@@ -89,6 +87,9 @@ div a, td a {
     width: 98%;
     margin: 9px 0 15px 16px;
     position: relative;
+    font-family: sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.4em !important;    
 }
 #twiz_master {
     width: 500px;
@@ -115,8 +116,10 @@ div a, td a {
     margin: 0px 1px 0 2px;
 }
 #twiz_like {
+    width: 125px;
     left: 102px;
     position: absolute;
+    z-index: 1;
 }
 #twiz_background {
     width: 84%;

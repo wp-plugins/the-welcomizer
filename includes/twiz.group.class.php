@@ -22,11 +22,12 @@ class TwizGroup extends Twiz{
         parent::__construct();
     }
 
-    function GetHtmlFormGroup( $id = '', $section_id = '' ){
+    function getHtmlFormGroup( $id = '', $section_id = '' ){
 
         $twiz_group_name = '';
         $twiz_group_start_delay = '';
         $twiz_status = '';
+        
         if($id != ''){
             
             if(!$data = $this->getRow($id)){return '';}
@@ -71,7 +72,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         return $html;
     }
     
-    function CopyGroup( $groupid = '' ){
+    function copyGroup( $groupid = '' ){
 
         global $wpdb;
         
@@ -83,71 +84,71 @@ $("[name^=twiz_listmenu]").css("display", "none");
                        
         $sql = "INSERT INTO ".$this->table." 
                SELECT NULL
-              ,IF(".self::F_PARENT_ID." = '". $old_exportid ."','". $new_export_id ."','')
-              ,IF(".self::F_EXPORT_ID." = '". $old_exportid ."','". $new_export_id ."', md5(date_format(date_add(sysdate(), INTERVAL FLOOR( 1 + (RAND() * 998)) MICROSECOND),\"%Y%m%d%H%i%s%f\")))
-              ,".self::F_SECTION_ID."
-              ,".self::F_STATUS."
-              ,".self::F_TYPE."
-              ,".self::F_LAYER_ID."
-              ,".self::F_ON_EVENT."                  
-              ,".self::F_LOCK_EVENT."                  
-              ,".self::F_LOCK_EVENT_TYPE."                  
-              ,".self::F_START_DELAY."
-              ,".self::F_DURATION."
-              ,".self::F_DURATION_B."
-              ,".self::F_OUTPUT."
-              ,".self::F_OUTPUT_POS."
-              ,".self::F_JAVASCRIPT."
-              ,".self::F_CSS."
-              ,".self::F_START_ELEMENT_TYPE."
-              ,".self::F_START_ELEMENT."
-              ,".self::F_START_TOP_POS_SIGN."
-              ,".self::F_START_TOP_POS."
-              ,".self::F_START_TOP_POS_FORMAT."
-              ,".self::F_START_LEFT_POS_SIGN."
-              ,".self::F_START_LEFT_POS."    
-              ,".self::F_START_LEFT_POS_FORMAT."    
-              ,".self::F_POSITION."    
-              ,".self::F_ZINDEX."    
-              ,".self::F_EASING_A." 
-              ,".self::F_EASING_B." 
-              ,".self::F_MOVE_ELEMENT_TYPE_A."
-              ,".self::F_MOVE_ELEMENT_A."                   
-              ,".self::F_MOVE_TOP_POS_SIGN_A."
-              ,".self::F_MOVE_TOP_POS_A."
-              ,".self::F_MOVE_TOP_POS_FORMAT_A."
-              ,".self::F_MOVE_LEFT_POS_SIGN_A."
-              ,".self::F_MOVE_LEFT_POS_A."
-              ,".self::F_MOVE_LEFT_POS_FORMAT_A."
-              ,".self::F_MOVE_ELEMENT_TYPE_B."
-              ,".self::F_MOVE_ELEMENT_B."                  
-              ,".self::F_MOVE_TOP_POS_SIGN_B."
-              ,".self::F_MOVE_TOP_POS_B."
-              ,".self::F_MOVE_TOP_POS_FORMAT_B."
-              ,".self::F_MOVE_LEFT_POS_SIGN_B."
-              ,".self::F_MOVE_LEFT_POS_B."
-              ,".self::F_MOVE_LEFT_POS_FORMAT_B."
-              ,".self::F_OPTIONS_A."
-              ,".self::F_OPTIONS_B."
-              ,".self::F_EXTRA_JS_A."
-              ,".self::F_EXTRA_JS_B."    
+              ,IF(".parent::F_PARENT_ID." = '". $old_exportid ."','". $new_export_id ."','')
+              ,IF(".parent::F_EXPORT_ID." = '". $old_exportid ."','". $new_export_id ."', md5(date_format(date_add(sysdate(), INTERVAL FLOOR( 1 + (RAND() * 998)) MICROSECOND),\"%Y%m%d%H%i%s%f\")))
+              ,".parent::F_SECTION_ID."
+              ,".parent::F_STATUS."
+              ,".parent::F_TYPE."
+              ,".parent::F_LAYER_ID."
+              ,".parent::F_ON_EVENT."                  
+              ,".parent::F_LOCK_EVENT."                  
+              ,".parent::F_LOCK_EVENT_TYPE."                  
+              ,".parent::F_START_DELAY."
+              ,".parent::F_DURATION."
+              ,".parent::F_DURATION_B."
+              ,".parent::F_OUTPUT."
+              ,".parent::F_OUTPUT_POS."
+              ,".parent::F_JAVASCRIPT."
+              ,".parent::F_CSS."
+              ,".parent::F_START_ELEMENT_TYPE."
+              ,".parent::F_START_ELEMENT."
+              ,".parent::F_START_TOP_POS_SIGN."
+              ,".parent::F_START_TOP_POS."
+              ,".parent::F_START_TOP_POS_FORMAT."
+              ,".parent::F_START_LEFT_POS_SIGN."
+              ,".parent::F_START_LEFT_POS."    
+              ,".parent::F_START_LEFT_POS_FORMAT."    
+              ,".parent::F_POSITION."    
+              ,".parent::F_ZINDEX."    
+              ,".parent::F_EASING_A." 
+              ,".parent::F_EASING_B." 
+              ,".parent::F_MOVE_ELEMENT_TYPE_A."
+              ,".parent::F_MOVE_ELEMENT_A."                   
+              ,".parent::F_MOVE_TOP_POS_SIGN_A."
+              ,".parent::F_MOVE_TOP_POS_A."
+              ,".parent::F_MOVE_TOP_POS_FORMAT_A."
+              ,".parent::F_MOVE_LEFT_POS_SIGN_A."
+              ,".parent::F_MOVE_LEFT_POS_A."
+              ,".parent::F_MOVE_LEFT_POS_FORMAT_A."
+              ,".parent::F_MOVE_ELEMENT_TYPE_B."
+              ,".parent::F_MOVE_ELEMENT_B."                  
+              ,".parent::F_MOVE_TOP_POS_SIGN_B."
+              ,".parent::F_MOVE_TOP_POS_B."
+              ,".parent::F_MOVE_TOP_POS_FORMAT_B."
+              ,".parent::F_MOVE_LEFT_POS_SIGN_B."
+              ,".parent::F_MOVE_LEFT_POS_B."
+              ,".parent::F_MOVE_LEFT_POS_FORMAT_B."
+              ,".parent::F_OPTIONS_A."
+              ,".parent::F_OPTIONS_B."
+              ,".parent::F_EXTRA_JS_A."
+              ,".parent::F_EXTRA_JS_B."    
               ,0    
               FROM ".$this->table." WHERE ".parent::F_ID." = '".$groupid."' OR ".parent::F_PARENT_ID." = '".$old_exportid."'";
         
         if($code = $wpdb->query($sql)){
         
-            $code = $this->CleanCopiedGroup( $groupid, $old_exportid, $new_export_id);
+            $code = $this->cleanCopiedGroup( $groupid, $old_exportid, $new_export_id);
         }
         
         $new_id = $this->getId(parent::F_EXPORT_ID, $new_export_id);
         
-        $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$new_export_id] = 1;
+        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$new_export_id] = 1;
         $code = update_option('twiz_toggle', $this->toggle_option);
 
         return $new_id;
     }
     
-    private function CleanCopiedGroup( $groupid = '', $old_exportid = '', $new_export_id = '' ){
+    private function cleanCopiedGroup( $groupid = '', $old_exportid = '', $new_export_id = '' ){
         
         global $wpdb;
         
@@ -208,7 +209,29 @@ $("[name^=twiz_listmenu]").css("display", "none");
         return true;
     }
     
-    function DeleteGroup( $id = '' ){
+    function getHTMLGroupList( $section_id = '' ){
+    
+        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
+        
+        $listarray = $this->getListArray( $where, " ORDER BY ".parent::F_LAYER_ID );
+        
+        // Animations
+        $html = '<select class="twiz-slc-group" id="twiz_slc_group" name="twiz_slc_group">';
+        $html .= '<option value="">'.__('(Optional)', 'the-welcomizer').'</option>';
+
+        foreach ( $listarray as $value ){
+
+            $html .= '<option value="'.$value[parent::F_EXPORT_ID].'">'.$value[parent::F_LAYER_ID].'</option>';
+        }
+        
+        $html .= '</select>';
+
+        return $html;    
+    
+    
+    }
+    
+    function deleteGroup( $id = '' ){
     
         global $wpdb;
         
@@ -222,14 +245,14 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $code = $wpdb->query($sql);
         
         // Unset Toggle
-        $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid] = '';
-        unset($this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid]);
+        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid] = '';
+        unset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid]);
         $code = update_option('twiz_toggle', $this->toggle_option);
     
         return true;
     }
     
-    function SaveGroup( $id = '' ){
+    function saveGroup( $id = '' ){
 
         // mapping                 
         $_POST['twiz_'.parent::F_EXPORT_ID] = esc_attr(trim($_POST['twiz_group_'.parent::F_EXPORT_ID]));
@@ -241,7 +264,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $exportid = $_POST['twiz_'.parent::F_EXPORT_ID];
         
         // Set Toggle On
-        $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exportid] = 1;
+        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid] = 1;
         $code = update_option('twiz_toggle', $this->toggle_option);
 
         $arr = $this->save( $id );

@@ -279,6 +279,7 @@ class TwizAjax extends Twiz{
             "twiz_action": "'.parent::ACTION_FAR_FIND.'",
             "twiz_section_id": twiz_current_section_id,
             "twiz_far_choice": twiz_far_choice,
+            "twiz_group_id": $("#twiz_slc_group").val(),            
             "twiz_far_everywhere_1": $("#twiz_far_everywhere_1").val(),
             "twiz_far_everywhere_2": $("#twiz_far_everywhere_2").val(),         
             "twiz_nonce": "'.$this->nonce.'"
@@ -316,6 +317,7 @@ class TwizAjax extends Twiz{
             "twiz_action": "'.parent::ACTION_FAR_FIND.'",
             "twiz_section_id": twiz_current_section_id,
             "twiz_far_choice": twiz_far_choice,
+            "twiz_group_id": $("#twiz_slc_group").val(),
             "twiz_'.parent::F_STATUS.'_far_1": $("#twiz_'.parent::F_STATUS.'_far_1").is(":checked"),        
             "twiz_'.parent::F_ON_EVENT.'_far_1": $("#twiz_'.parent::F_ON_EVENT.'_far_1").val(),            
             "twiz_'.parent::F_LAYER_ID.'_far_1": $("#twiz_'.parent::F_LAYER_ID.'_far_1").val(),
@@ -403,6 +405,7 @@ class TwizAjax extends Twiz{
             "twiz_action": "'.parent::ACTION_FAR_REPLACE.'",
             "twiz_section_id": twiz_current_section_id,
             "twiz_far_choice": twiz_far_choice,
+            "twiz_group_id": $("#twiz_slc_group").val(),            
             "twiz_far_everywhere_1": $("#twiz_far_everywhere_1").val(),
             "twiz_far_everywhere_2": $("#twiz_far_everywhere_2").val(),         
             "twiz_nonce": "'.$this->nonce.'"
@@ -435,6 +438,7 @@ class TwizAjax extends Twiz{
             "twiz_action": "'.parent::ACTION_FAR_REPLACE.'",
             "twiz_section_id": twiz_current_section_id,
             "twiz_far_choice": twiz_far_choice,
+            "twiz_group_id": $("#twiz_slc_group").val(),            
             "twiz_'.parent::F_STATUS.'_far_1": $("#twiz_'.parent::F_STATUS.'_far_1").is(":checked"),        
             "twiz_'.parent::F_STATUS.'_far_2": $("#twiz_'.parent::F_STATUS.'_far_2").is(":checked"),        
             "twiz_'.parent::F_ON_EVENT.'_far_1": $("#twiz_'.parent::F_ON_EVENT.'_far_1").val(),

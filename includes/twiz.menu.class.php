@@ -186,8 +186,8 @@ class TwizMenu extends Twiz{
                 $this->array_sections[$array_section_id[0]] = $section;
                 
                 $code = update_option('twiz_sections', $this->array_sections);
-                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
-                $code = $this->UpdateJSCookieStatus($array_section_id[0], $cookie_option_1, $cookie_with);
+                $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+                $code = $this->updateJSCookieStatus($array_section_id[0], $cookie_option_1, $cookie_with);
                 
                 return $array_section_id[0];
                 
@@ -262,8 +262,8 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
-                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
-                $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
+                $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+                $code = $this->updateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
                     
@@ -334,8 +334,8 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
-                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
-                $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
+                $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+                $code = $this->updateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
                 
@@ -406,8 +406,8 @@ class TwizMenu extends Twiz{
 
                 $code = update_option('twiz_multi_sections', $this->array_multi_sections);
                 $code = update_option('twiz_sections', $this->array_sections);
-                $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
-                $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
+                $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+                $code = $this->updateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
                 
                 return $section_id;
                 
@@ -429,8 +429,8 @@ class TwizMenu extends Twiz{
                                 );
               $this->array_hardsections[$section_id] = $section;
               $code = update_option('twiz_hardsections', $this->array_hardsections);
-              $code = $this->CleanCookieCondition($section_id, $cookie_option_1);
-              $code = $this->UpdateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
+              $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+              $code = $this->updateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
  
               return $section_id;
             
@@ -438,7 +438,7 @@ class TwizMenu extends Twiz{
         }
     }    
   
-    private function CleanCookieCondition( $section_id = '', $cookie_option_1 = ''){
+    private function cleanCookieCondition( $section_id = '', $cookie_option_1 = ''){
     
         if( $cookie_option_1 == '' ){
         
@@ -470,7 +470,7 @@ class TwizMenu extends Twiz{
         return true;
     }
     
-    private function UpdateJSCookieStatus( $section_id = '', $cookie_option_1 = '', $cookie_with = '' ){
+    private function updateJSCookieStatus( $section_id = '', $cookie_option_1 = '', $cookie_with = '' ){
     
         if( ($cookie_option_1 != '')
         and(($cookie_with == 'js') or ($cookie_with == 'all')) ){
@@ -687,7 +687,7 @@ class TwizMenu extends Twiz{
         return $html;
     }
     
-    private function GetHtmlMultiSection( $section_id = '', $array_sections = array() ){
+    private function getHtmlMultiSection( $section_id = '', $array_sections = array() ){
     
         $html = '';
         $disabled = '';
@@ -755,7 +755,7 @@ class TwizMenu extends Twiz{
         return $html;
     }
     
-    private function GetHtmlCookieConditionList(  $section_id = '' ){
+    private function getHtmlCookieConditionList(  $section_id = '' ){
 
         $selected = '';
         $hardsections = $this->array_hardsections;
@@ -797,7 +797,7 @@ class TwizMenu extends Twiz{
         return $select;
     }  
     
-    function GetHtmlMultiSectionBoxes( $section_id = '', $action = '' ){
+    function getHtmlMultiSectionBoxes( $section_id = '', $action = '' ){
     
         global $wpdb;
  
@@ -1125,7 +1125,7 @@ $jsscript_close = '});
     </div>';       
        
         // Display only if this cookie condition is met.
-        $html .= '<div class="twiz-clear"></div><div id="twiz_tab_activation" class="'.$tabhiddenactivation.'"><div class="twiz-clear"></div><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->GetHtmlCookieConditionList( $section_id ).'</div></div>';
+        $html .= '<div class="twiz-clear"></div><div id="twiz_tab_activation" class="'.$tabhiddenactivation.'"><div class="twiz-clear"></div><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->getHtmlCookieConditionList( $section_id ).'</div></div>';
         
         // wrapper 
         $html .= '<div class="twiz-clear"></div>
@@ -1142,7 +1142,7 @@ $jsscript_close = '});
         $html .= '<div id="twiz_single_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_UNIQUE].': <div class="twiz-float-right twiz-text-right twiz-green">'.__('Select to overwrite the section name.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_1" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlSingleSection($section_id).'</div>';
            
         // multiple section box
-        $html .= '<div id="twiz_multiple_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_MULTIPLE].':<div class="twiz-float-right twiz-text-right twiz-green">'.__('DoubleClick to overwrite the section name.', 'the-welcomizer').'<br>'.__('Press CTRL to select multiple output choices.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_2" class="twiz-red twiz-custom-message"></div>'.$this->GetHtmlMultiSection($section_id, $array_sections).'</div>';
+        $html .= '<div id="twiz_multiple_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_MULTIPLE].':<div class="twiz-float-right twiz-text-right twiz-green">'.__('DoubleClick to overwrite the section name.', 'the-welcomizer').'<br>'.__('Press CTRL to select multiple output choices.', 'the-welcomizer').'</div><br><div id="twiz_custom_message_2" class="twiz-red twiz-custom-message"></div>'.$this->getHtmlMultiSection($section_id, $array_sections).'</div>';
 
          // Custom Logic section box
         $html .= '<div id="twiz_logic_output" class="twiz-block-ouput">'.$this->array_output[self::TYPE_CUSTOM_LOGIC].': <br><div id="twiz_custom_message_3" class="twiz-red twiz-custom-message"></div><input class="twiz-input-focus" type="text" id="twiz_custom_logic" name="twiz_custom_logic" value="'.$twiz_custom_logic.'"/>'.__('Examples', 'the-welcomizer').':<br>is_page(32)||is_category(\'55\')||is_single(\'345\')<br>!is_page(32)&&!is_category(\'55\')&&!is_single(\'345\')<br><br><a href="http://codex.wordpress.org/Conditional_Tags#Conditional_Tags_Index" target="_blank">'.__('Conditional Tags on WordPress.org', 'the-welcomizer').'</a></div>';

@@ -294,7 +294,7 @@ jQuery(document).ready(function($) {
         $html .= '<div class="twiz-float-right">'.$this->getHTMLFBlike().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
         
         // Footer Ads
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove plugin footer ads for this version', 'the-welcomizer').': ';
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin, for this release', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
         
         // Deactivation

@@ -43,7 +43,7 @@ class TwizLibrary extends Twiz{
         return $html;
     }
     
-    function GetHtmlFormLibrary( ){
+    function getHtmlFormLibrary( ){
 
         $twiz_group_name = '';
         $twiz_group_start_delay = '';

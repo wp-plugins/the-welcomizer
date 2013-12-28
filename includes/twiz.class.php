@@ -841,7 +841,7 @@ class Twiz{
                                    ,self::F_EXTRA_JS_B           
                                    );
      // fb like button
-     const IFRAME_FB_LIKE = '<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:150px;" allowTransparency="true"></iframe>';
+     const IFRAME_FB_LIKE = '<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=125&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:125px;" allowTransparency="true"></iframe>';
 
     // upload import export path constant
     const IMPORT_PATH = '/twiz/';
@@ -863,9 +863,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '1.9.9.9';
-        $this->cssVersion = '2-16';
-        $this->dbVersion  = '3.5';
+        $this->version    = '2.0';
+        $this->cssVersion = '2-2';
+        $this->dbVersion  = '3.6';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      =  wp_create_nonce('twiz-nonce');
@@ -878,12 +878,12 @@ class Twiz{
         $this->toggle_option = get_option('twiz_toggle');
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
         $this->userid = get_current_user_id(); // Used for UIsettings since v1.5
-        $ok = $this->SetUserSettings();
-        $ok = $this->SetPositioningMethod();
+        $ok = $this->setUserSettings();
+        $ok = $this->setPositioningMethod();
 
     }
     
-    private function SetPositioningMethod(){
+    private function setPositioningMethod(){
   
         if( $this->admin_option[self::KEY_POSITIONING_METHOD] == self::POS_TOP_LEFT ){
                 
@@ -899,7 +899,7 @@ class Twiz{
         return true;
     }    
     
-    private function SetUserSettings(){
+    private function setUserSettings(){
     
        // toggle, updated <= v 1.5  
        if(!isset($this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = '';
@@ -1346,18 +1346,6 @@ class Twiz{
         
         return $in_multi_array;
     } 
-
-    protected function UnlockRows( $value = '' ){
-    
-        global $wpdb;
-        
-        $unlockrow = "UPDATE ".$this->table . " SET ". self::F_ROW_LOCKED. " = 0 
-                      WHERE ". self::F_ROW_LOCKED . " = ".$value."";
-                      
-        $code = $wpdb->query($unlockrow);
-        
-        return $code;
-    }
     
     function formatDuration( $id = '', $data = null ){
         
@@ -3241,23 +3229,6 @@ $("textarea[name^=twiz_options]").blur(function (){
   
         return $value;
     }
-    
-    protected function ExportidExists( $exportid = '' ){ 
-    
-        global $wpdb;
-        
-        if($exportid==''){return false;}
-    
-        $sql = "SELECT ".self::F_EXPORT_ID." FROM ".$this->table." WHERE ".self::F_EXPORT_ID." = '".$exportid."'";
-        $row = $wpdb->get_row($sql, ARRAY_A);
-      
-        if($row[self::F_EXPORT_ID]!=''){
-
-            return true;
-        }
-  
-        return false;
-    }
 
     private function updateSettingMenu( $section_id = '' ){
     
@@ -3273,7 +3244,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         return true;
     }
     
-    private function UpdateTwizFunctions( $current_value = '', $new_value = '', $section_id = '') {
+    private function updateTwizFunctions( $current_value = '', $new_value = '', $section_id = '') {
 
         global $wpdb;
         
@@ -3574,7 +3545,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                     
             $code = $wpdb->query($sql);
 
-            $ok = $this->UpdateTwizFunctions( $current_value, $twiz_layer_id, $twiz_section_id);
+            $ok = $this->updateTwizFunctions( $current_value, $twiz_layer_id, $twiz_section_id);
             
             $result = array('id' => $id, 'result' => $ok);
 

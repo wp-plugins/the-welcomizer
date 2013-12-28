@@ -70,9 +70,9 @@
             
         case Twiz::ACTION_MENU:
         
-            $_POST['twiz_order_by'] = (!isset($_POST['twiz_order_by'])) ? '' : esc_attr($_POST['twiz_order_by']) ;
+            $_POST['twiz_order_by'] = (!isset($_POST['twiz_order_by'])) ? '' : esc_attr(trim($_POST['twiz_order_by'])) ;
             
-            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
                 
             $myTwiz  = new Twiz();
             
@@ -140,12 +140,12 @@
             // Needed for translation
             load_default_textdomain();
             
-            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
-            $twiz_action_lbl = esc_attr($_POST['twiz_action_lbl']);
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_action_lbl = esc_attr(trim($_POST['twiz_action_lbl']));
             
             $myTwizMenu  = new TwizMenu();
             
-            $htmlresponse = $myTwizMenu->GetHtmlMultiSectionBoxes($twiz_section_id, $twiz_action_lbl);
+            $htmlresponse = $myTwizMenu->getHtmlMultiSectionBoxes($twiz_section_id, $twiz_action_lbl);
             
             break;
 
@@ -174,9 +174,10 @@
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php');
 
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            
             $myTwizFindAndReplace  = new TwizFindAndReplace();
             
-            $htmlresponse = $myTwizFindAndReplace->GetHtmlFormFindAndReplace( $twiz_section_id );
+            $htmlresponse = $myTwizFindAndReplace->getHtmlFormFindAndReplace( $twiz_section_id );
             
             break;
 
@@ -185,9 +186,11 @@
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php');
             
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            
             $myTwizFindAndReplace  = new TwizFindAndReplace();
             
-            $htmlresponse = $myTwizFindAndReplace->Find( $twiz_section_id );
+            $htmlresponse = $myTwizFindAndReplace->find( $twiz_section_id, $twiz_group_id );
             
             break;
     
@@ -195,10 +198,12 @@
 
             require_once(dirname(__FILE__).'/includes/twiz.findandreplace.class.php');
             
-            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            
             $myTwizFindAndReplace  = new TwizFindAndReplace();
             
-            $htmlresponse = $myTwizFindAndReplace->Replace( $twiz_section_id );
+            $htmlresponse = $myTwizFindAndReplace->replace( $twiz_section_id, $twiz_group_id );
             
             break;
             
@@ -221,7 +226,7 @@
         
             if(!isset($_POST['twiz_from_id'])) $_POST['twiz_from_id'] = '';
             if(!isset($_POST['twiz_to_id'])) $_POST['twiz_to_id'] = '';
-            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             $twiz_from_id = esc_attr(trim($_POST['twiz_from_id']));
             $twiz_to_id = esc_attr(trim($_POST['twiz_to_id']));
             
@@ -244,10 +249,11 @@
                 
             if(!isset($_POST['twiz_group_id'])) $_POST['twiz_group_id'] = '';
             $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
-            $twiz_section_id = esc_attr($_POST['twiz_section_id']);
+            
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
             $myTwizGroup  = new TwizGroup();
             
-            $htmlresponse = $myTwizGroup->GetHtmlFormGroup( $twiz_group_id, $twiz_section_id );
+            $htmlresponse = $myTwizGroup->getHtmlFormGroup( $twiz_group_id, $twiz_section_id );
             
             break;
             
@@ -260,7 +266,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if($save = $myTwizGroup->SaveGroup( $twiz_group_id )){ 
+            if($save = $myTwizGroup->saveGroup( $twiz_group_id )){ 
 
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $save['id'], '','' , $twiz_action);
             }
@@ -278,7 +284,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if( $parentid = $myTwizGroup->CopyGroup( $twiz_group_id )){
+            if( $parentid = $myTwizGroup->copyGroup( $twiz_group_id )){
             
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $parentid, '', '', $twiz_action);
             }
@@ -294,7 +300,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if( $code = $myTwizGroup->DeleteGroup( $twiz_group_id ) ){
+            if( $code = $myTwizGroup->deleteGroup( $twiz_group_id ) ){
             
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
             }
@@ -510,7 +516,7 @@
             and(current_user_can($admin_option[Twiz::KEY_MIN_ROLE_LIBRARY]))){
             
                 $myTwizLibrary  = new TwizLibrary();
-                $htmlresponse = $myTwizLibrary->GetHtmlFormLibrary();
+                $htmlresponse = $myTwizLibrary->getHtmlFormLibrary();
             }
             
             break;
