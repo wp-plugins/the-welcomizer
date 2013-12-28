@@ -42,6 +42,7 @@ Enjoy!
 
 = 2.0 =
 
+* Added find and replace under a group.
 * Adjusted stylesheets.
 * Minor fixes.
 
