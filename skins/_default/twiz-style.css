@@ -203,6 +203,7 @@ div a, td a {
     padding: 5px;
     width: 98%;
     background-color: #e1e1e1;
+    color: #222222;
 }
 #twiz_menuheader_status {
     width: 40px;
@@ -333,9 +334,6 @@ div #twiz_head_logo:hover {
     text-align: left;
     border-right: 1px solid #ebebeb;
 }
-.twiz-menu:hover {
-    color: #000000;
-}
 .twiz-status-menu {
     width: 25px;
     height: 24px;
@@ -371,13 +369,13 @@ div #twiz_head_logo:hover {
 #twiz_more_menu:hover,
 #twiz_add_menu:hover,
 #twiz_delete_menu:hover {
-    color: #000000;
+    color: #333333;
     cursor: pointer;
     background-color: #D7D7D7;
 }
 .twiz-menu-selected,
 .twiz-menu-selected:hover {
-    color: #000000;
+    color: #333333;
     font-weight: bold;
     background-color: #D7D7D7;
 }
