@@ -62,7 +62,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $html = '<div class="twiz-box-menu"><div class="twiz-text-right twiz-float-right">'.__('Action', 'the-welcomizer').'<div class="twiz-green">'.$action.'</div></div>'.__('Status', 'the-welcomizer').': <input type="checkbox" id="twiz_group_'.parent::F_STATUS.'" name="twiz_group_'.parent::F_STATUS.'" '.$twiz_status.'/>';
 
         $html .='<br>'.__('Group name', 'the-welcomizer').': ';
-        $html .= '<input type="text" id="twiz_group_name" name="twiz_group_name"  value="'.$twiz_group_name.'" maxlength="20" class="twiz-input twiz-input-focus"/>';
+        $html .= '<input type="text" id="twiz_group_name" name="twiz_group_name"  value="'.$twiz_group_name.'" maxlength="27" class="twiz-input twiz-input-focus"/>';
 
         // cancel and save button
         $html .= '<div class="twiz-clear"></div><div class="twiz-text-right"><span id="twiz_group_save_img_box" name="twiz_group_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_group_cancel" id="twiz_group_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_group_save" id="twiz_group_save" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /><input type="hidden" value="'.$id.'" id="twiz_group_id" name="twiz_group_id"/><input type="hidden" name="twiz_group_'.parent::F_EXPORT_ID.'" id="twiz_group_'.parent::F_EXPORT_ID.'" value="'.$twiz_export_id.'"/></div>';
@@ -221,7 +221,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
 
         foreach ( $listarray as $value ){
 
-            $html .= '<option value="'.$value[parent::F_EXPORT_ID].'">'.$value[parent::F_LAYER_ID].'</option>';
+            $html .= '<option value="'.$value[parent::F_EXPORT_ID].'">'.$value[parent::F_ID].' - '.$value[parent::F_LAYER_ID].'</option>';
         }
         
         $html .= '</select>';

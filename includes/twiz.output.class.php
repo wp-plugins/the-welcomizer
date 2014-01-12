@@ -976,15 +976,20 @@ class TwizOutput extends Twiz{
                     $generatedScript_function[$groupid] = '$.fn.twiz_group_'.$name .' = function(){[STRINGTOREPLACE]'.$this->linebreak.'}'.self::COMPRESS_LINEBREAK;
 
                 }else{
-                
-                    $groupid = $value[parent::F_PARENT_ID];
                     
-                    if(!isset($generatedScript_repeatvar[$groupid] )) $generatedScript_repeatvar[$groupid]  = '';
-                    if(!isset($generatedScript[$groupid] )) $generatedScript[$groupid]  = '';
+                    $hasOnlyCSS = $this->hasOnlyCSS($value);
                     
-                    $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
-                    $generatedScript_repeatvar[$groupid] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';
-                    $generatedScript[$groupid] .= $this->linebreak.$this->tab.'$(document).twiz_'.$name.'($(eval($("<div />").html("'.$newElementFormat.'").text())), null);';
+                    if(!$hasOnlyCSS){
+                    
+                        $groupid = $value[parent::F_PARENT_ID];
+                        
+                        if(!isset($generatedScript_repeatvar[$groupid] )) $generatedScript_repeatvar[$groupid]  = '';
+                        if(!isset($generatedScript[$groupid] )) $generatedScript[$groupid]  = '';
+                        
+                        $newElementFormat = str_replace('"', '\"', $this->replacejElementType($value[parent::F_TYPE], $value[parent::F_LAYER_ID]));
+                        $generatedScript_repeatvar[$groupid] .= $this->linebreak.$this->tab.'twiz_repeat_'.$name.' = null;';
+                        $generatedScript[$groupid] .= $this->linebreak.$this->tab.'$(document).twiz_'.$name.'($(eval($("<div />").html("'.$newElementFormat.'").text())), null);';
+                    }
                 }
             }
         }
