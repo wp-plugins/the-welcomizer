@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -691,7 +691,7 @@ class TwizAjax extends Twiz{
             helper: "clone",
             distance: 10, 
             start: function(event, ui) {
-                var twiz_textid = $(this).attr("name");
+                var twiz_textid = $(this).attr("id");
                 var twiz_numid = twiz_textid.substring(13, twiz_textid.length);
                 twiz_c.numid = twiz_numid;
                 twiz_c.tr = this;
@@ -712,7 +712,7 @@ class TwizAjax extends Twiz{
                 if( twiz_ajax_locked == false ) {  
                     twiz_ajax_locked = true;
                     twizShowMainLoadingImage();
-                    var twiz_textid = $(this).attr("name");
+                    var twiz_textid = $(this).attr("id");
                     var twiz_numid = twiz_textid.substring(19, twiz_textid.length);  
                     $.post(ajaxurl, {
                     "action": "twiz_ajax_callback",
@@ -781,7 +781,7 @@ class TwizAjax extends Twiz{
      if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
         var twiz_toggle_status = 0;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_charid = twiz_textid.substring(15,twiz_textid.length);
         var twiz_src = $("#twiz_group_img_" + twiz_charid).attr("src");
         if(twiz_src.indexOf("twiz-plus.gif") != -1){
@@ -812,7 +812,7 @@ class TwizAjax extends Twiz{
     $(".twiz-group-edit").click(function(){
     if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(16,twiz_textid.length);
         twiz_view_id = "edit";
         $(this).hide();
@@ -838,7 +838,7 @@ class TwizAjax extends Twiz{
     $(".twiz-edit").click(function(){
     if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_textidtemp = twiz_textid.substring(10,twiz_textid.length);
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")){
@@ -867,7 +867,7 @@ class TwizAjax extends Twiz{
     $(".twiz-copy").click(function(){
     if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_textidtemp = twiz_textid.substring(10,twiz_textid.length);
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")) {
@@ -894,7 +894,7 @@ class TwizAjax extends Twiz{
     $(".twiz-group-copy").click(function(){
     if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(16,twiz_textid.length);
         var twiz_action = "'.parent::ACTION_COPY_GROUP.'";
         $(this).hide();
@@ -939,7 +939,7 @@ class TwizAjax extends Twiz{
     if( twiz_ajax_locked == false ) {  
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
             twiz_ajax_locked = true;
-            var twiz_textid = $(this).attr("name");
+            var twiz_textid = $(this).attr("id");
             var twiz_textidtemp = twiz_textid.substring(12,twiz_textid.length);
             var twiz_numid = "";
             var twiz_action = "'.parent::ACTION_DELETE.'";
@@ -978,7 +978,7 @@ class TwizAjax extends Twiz{
     if( twiz_ajax_locked == false ) {  
         if (confirm("'.__('Are you sure to delete?', 'the-welcomizer').'")) {
             twiz_ajax_locked = true;
-            var twiz_textid = $(this).attr("name");
+            var twiz_textid = $(this).attr("id");
             var twiz_numid = twiz_textid.substring(18,twiz_textid.length);
             var twiz_action = "'.parent::ACTION_DELETE_GROUP.'";
             $(this).hide();
@@ -1208,7 +1208,7 @@ class TwizAjax extends Twiz{
         if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
         var twiz_toggle_status = 0;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_charid = twiz_textid.substring(15,twiz_textid.length);
         var twiz_src = $("#twiz_admin_img_" + twiz_charid).attr("src");
         if(twiz_src.indexOf("twiz-plus.gif") != -1){
@@ -1582,22 +1582,39 @@ class TwizAjax extends Twiz{
     bind_twiz_TR_View();
   }      
   var bind_twiz_TR_View = function() {    
+      $("div[id^=twiz_'.parent::ACTION_ORDER_GROUP.'_up]").click(function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_numid = twiz_textid.substring(19,twiz_textid.length);
+        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
+        twizOrderList("'.parent::LB_ORDER_UP.'", twiz_numid, "'.parent::ACTION_ORDER_GROUP.'");
+    });
+    $("div[id^=twiz_'.parent::ACTION_ORDER_GROUP.'_down]").click(function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_numid = twiz_textid.substring(21, twiz_textid.length);
+        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
+        twizOrderList("'.parent::LB_ORDER_DOWN.'", twiz_numid, "'.parent::ACTION_ORDER_GROUP.'");
+    });
     $(".twiz-list-tr").mouseenter(function(e){
     if(twiz_library_active == false){
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(13, twiz_textid.length);
         var twiz_ok = twizGetView(twiz_numid, e, 1);
     }
     });
-    $(".twiz-list-group-tr").mouseover(function(){
-        var twiz_textid = $(this).attr("name");
+    $(".twiz-list-group-tr").hover(function(){
+        var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(19, twiz_textid.length);
         $("#twiz_vertical_menu").hide();
         $("#twiz_list_tr_action_" + twiz_view_id).css("visibility", "hidden");
+        $("[name=twiz_'.parent::ACTION_ORDER_GROUP.'_" + twiz_numid +"]" ).show();
         $("#twiz_list_tr_action_" + twiz_numid).css("visibility", "visible");
         $(".twiz-right-panel").css("display", "none");
         twiz_view_id = twiz_numid;
-    });
+    }, function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_numid = twiz_textid.substring(19, twiz_textid.length);    
+        $("[name=twiz_'.parent::ACTION_ORDER_GROUP.'_" + twiz_numid +"]" ).hide();
+    });   
   } 
   var bind_twiz_Menu = function() {
     $("a[name^=twiz_section_cancel]").click(function(){
@@ -1905,35 +1922,43 @@ class TwizAjax extends Twiz{
         }}});
   }  
     var bind_twiz_Library_New_Order = function() {
-        $("div[name^=twiz_new_order_up]").click(function(){
+        $("div[id^=twiz_'.parent::ACTION_ORDER_LIBRARY.'_up]").click(function(){
             var twiz_textid = $(this).attr("id");
-            var twiz_numid = twiz_textid.substring(18,twiz_textid.length);
+            var twiz_numid = twiz_textid.substring(17,twiz_textid.length);
             $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
-            twizOrderLibrary("'.parent::LB_ORDER_UP.'", twiz_numid);
+            twizOrderList("'.parent::LB_ORDER_UP.'", twiz_numid, "'.parent::ACTION_ORDER_LIBRARY.'");
         });
-        $("div[name^=twiz_new_order_down]").click(function(){
+        $("div[id^=twiz_'.parent::ACTION_ORDER_LIBRARY.'_down]").click(function(){
             var twiz_textid = $(this).attr("id");
-            var twiz_numid = twiz_textid.substring(20, twiz_textid.length);
+            var twiz_numid = twiz_textid.substring(19, twiz_textid.length);
             $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="11" />\');
-            twizOrderLibrary("'.parent::LB_ORDER_DOWN.'", twiz_numid);
+            twizOrderList("'.parent::LB_ORDER_DOWN.'", twiz_numid, "'.parent::ACTION_ORDER_LIBRARY.'");
         });
     }
-    function twizOrderLibrary(twiz_order, twiz_id){
+    function twizOrderList(twiz_order, twiz_id, twiz_action){
       if( twiz_ajax_locked == false ){
       twiz_ajax_locked = true;
       $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
-        "twiz_action": "'.parent::ACTION_ORDER_LIBRARY.'",
+        "twiz_action": twiz_action,
         "twiz_order": twiz_order,
+        "twiz_section_id": twiz_current_section_id,
         "twiz_id": twiz_id
         }, function(data) {                
             twiz_ajax_locked = false;
-            $("div[name^=twiz_new_order_up]").unbind("click");
-            $("div[name^=twiz_new_order_down]").unbind("click");
+            $("div[id^=twiz_" + twiz_action + "_up]").unbind("click");
+            $("div[id^=twiz_" + twiz_action + "_down]").unbind("click");
             $(".twiz-delete").unbind("click");
             $("#twiz_container").html(data);
-            twizLibrary_Bind();
+            switch(twiz_action){
+                case "'.parent::ACTION_ORDER_LIBRARY.'":
+                    twizLibrary_Bind();
+                    break;
+                case "'.parent::ACTION_ORDER_GROUP.'":
+                    twizList_ReBind();
+                    break;
+            }
         }).fail(function() { twiz_ajax_locked = false;  });
   }}
   var bind_twiz_FooterMenu = function() {
@@ -2078,6 +2103,17 @@ class TwizAjax extends Twiz{
     bind_twiz_Library_New_Order();
   }
   var bind_twiz_Library = function() {  
+    $("[id^=twiz_list_tr_]").hover(function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_numid = twiz_textid.substring(13, twiz_textid.length);
+        $("[name=twiz_'.parent::ACTION_ORDER_LIBRARY.'_" + twiz_numid +"]" ).show();
+
+    }, function(){
+        var twiz_textid = $(this).attr("id");
+        var twiz_numid = twiz_textid.substring(13, twiz_textid.length);    
+        $("[name=twiz_'.parent::ACTION_ORDER_LIBRARY.'_" + twiz_numid +"]" ).hide();
+    });  
+    
      $("#twiz_lib_menu").click(function(){
       if( twiz_ajax_locked == false ){
          twiz_ajax_locked = true;
@@ -2100,7 +2136,7 @@ class TwizAjax extends Twiz{
         if( twiz_ajax_locked == false ){
         twiz_ajax_locked = true;
         var twiz_toggle_status = 0;
-        var twiz_textid = $(this).attr("name");
+        var twiz_textid = $(this).attr("id");
         var twiz_charid = twiz_textid.substring(17,twiz_textid.length);
         var twiz_src = $("#twiz_library_img_" + twiz_charid).attr("src");
         if(twiz_src.indexOf("twiz-plus.gif") != -1){

@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -142,14 +142,14 @@ jQuery(document).ready(function($) {
             }
             
             $html.= '
-        <tr class="twiz-row-color-1" id="twiz_list_tr_twizlib'.$key.'"><td><div class="twiz-relative"><img id="twiz_library_img_twizlib'.$key.'" name="twiz_library_img_twizlib'.$key.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-library twiz-toggle-img"/></div></td>
-        <td class="twiz-table-list-td" colspan="2"><a id="twiz_library_e_a_twizlib'.$key.'" name="twiz_library_e_a_twizlib'.$key.'"  class="twiz-toggle-library'.$boldclass.'">'.$directory.'</a></td>   <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_twizlib'.$key.'"></td>
+        <tr class="twiz-row-color-1" id="twiz_list_tr_twizlib'.$key.'"><td><div class="twiz-relative"><img id="twiz_library_img_twizlib'.$key.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-library twiz-toggle-img"/></div></td>
+        <td class="twiz-table-list-td" colspan="2"><a id="twiz_library_e_a_twizlib'.$key.'" class="twiz-toggle-library'.$boldclass.'">'.$directory.'</a></td><td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_twizlib'.$key.'"></td>
         <td class="twiz-table-list-td twiz-text-right">';
         
             // Not for twiz dir
             if($this->default_lib_dir != $directory){
             
-                $html.= '<img width="22"  height="11" src="'.$this->pluginUrl.'/images/twiz-unlink.png" id="twiz_library_unlink_'.$key.'" name="twiz_library_unlink_'.$key.'" title="'.__('Unlink', 'the-welcomizer').'" class="twiz-library-unlink" />';
+                $html.= '<img width="22"  height="11" src="'.$this->pluginUrl.'/images/twiz-unlink.png" id="twiz_library_unlink_'.$key.'" title="'.__('Unlink', 'the-welcomizer').'" class="twiz-library-unlink" />';
             }
     
         $html.= '</td></tr>';
@@ -172,13 +172,13 @@ jQuery(document).ready(function($) {
                         $html.= '
             <tr class="twizlib'.$key.' '.$rowcolor.$hide.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$value[parent::KEY_ORDER].'&nbsp;</td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
             <td class="twiz-table-list-td"><a href="'.get_site_url().'/'.$value[parent::KEY_DIRECTORY].$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
-             <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_new_order_up_'.$value[parent::F_ID].'" id="twiz_new_order_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_new_order_down_'.$value[parent::F_ID].'" id="twiz_new_order_down_'.$value[parent::F_ID].'"></div></td>
+             <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.parent::ACTION_ORDER_LIBRARY.'_'.$value[parent::F_ID].'" id="twiz_'.parent::ACTION_ORDER_LIBRARY.'_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.parent::ACTION_ORDER_LIBRARY.'_'.$value[parent::F_ID].'" id="twiz_'.parent::ACTION_ORDER_LIBRARY.'_down_'.$value[parent::F_ID].'"></div></td>
             <td class="twiz-table-list-td twiz-text-right">';
             
                         // Only for twiz dir
                         if($this->default_lib_dir == $directory){
                         
-                            $html.= '<img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" name="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" />';
+                            $html.= '<img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" />';
                             
                         }
                         
@@ -612,6 +612,7 @@ jQuery(document).ready(function($) {
         if( !isset($array_id[$ibase]) ){
         
             $ibase = $id;
+            
         }
         
         $ok = $this->updateLibraryValue( $array_id[$ibase] , parent::KEY_ORDER, $neworder);

@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
             $boldclass = '';
         }
  
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin0" name="twiz_admin_img_twizadmin0" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin0" name="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery packages', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin0" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery packages', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
 
@@ -154,7 +154,7 @@ jQuery(document).ready(function($) {
         }
  
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin1" name="twiz_admin_img_twizadmin1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin1" name="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin1'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         // Protected
@@ -184,7 +184,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin2" name="twiz_admin_img_twizadmin2" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin2" name="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin2" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin2'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         // Number of posts displayed in lists
@@ -205,7 +205,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin3" name="twiz_admin_img_twizadmin3" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin3" name="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin3" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin3'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -228,7 +228,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin4" name="twiz_admin_img_twizadmin4" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin4" name="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin4" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin4'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -254,7 +254,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin5" name="twiz_admin_img_twizadmin5" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin5" name="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access level settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin5" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access level settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin5'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -285,7 +285,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin6" name="twiz_admin_img_twizadmin6" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin6" name="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin6" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         

@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -79,6 +79,7 @@ class TwizInstallation extends Twiz{
                 parent::F_OPTIONS_B . " text NOT NULL default '', ". 
                 parent::F_EXTRA_JS_A . " text NOT NULL default '', ". 
                 parent::F_EXTRA_JS_B . " text NOT NULL default '', " .  
+                parent::F_GROUP_ORDER . " int(5) NOT NULL default 0, " .  
                 parent::F_ROW_LOCKED . " tinyint(3) NOT NULL default 0, " .  
                 "PRIMARY KEY (". parent::F_ID . ")
                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
@@ -450,13 +451,22 @@ class TwizInstallation extends Twiz{
                     $altersql = "ALTER TABLE ".$this->table .
                     " ADD ". parent::F_DURATION_B . "  varchar(100) NOT NULL default '' after ".parent::F_DURATION."";
                     $code = $wpdb->query($altersql);
-                }
+                }         
                 
                 // from <= v 1.9.8
                 $twiz_hscroll_status = get_option('twiz_hscroll_status');
                 if( $twiz_hscroll_status == '' ){
                   
                     $code = update_option('twiz_hscroll_status', '1');
+                }
+                   
+                   
+                // from <= v 2.1
+                if( !in_array(parent::F_GROUP_ORDER, $array_describe) ){
+                
+                    $altersql = "ALTER TABLE ".$this->table .
+                    " ADD ". parent::F_GROUP_ORDER . " int(5) NOT NULL default 0 after ".parent::F_EXTRA_JS_B."";
+                    $code = $wpdb->query($altersql);
                 }
                 
                 // option cookie js 

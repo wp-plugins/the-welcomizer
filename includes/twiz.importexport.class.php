@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -175,6 +175,7 @@ class TwizImportExport extends Twiz{
             if( !isset($data[parent::F_MOVE_LEFT_POS_FORMAT_B]) ) $data[parent::F_MOVE_LEFT_POS_FORMAT_B] = '';
             if( !isset($data[parent::F_EASING_A]) ) $data[parent::F_EASING_A] = '';
             if( !isset($data[parent::F_EASING_B]) ) $data[parent::F_EASING_B] = '';
+            if( !isset($data[parent::F_GROUP_ORDER]) ) $data[parent::F_GROUP_ORDER] = '';
             
             $twiz_start_element_type = esc_attr(trim($data[parent::F_START_ELEMENT_TYPE]));
             $twiz_start_element = esc_attr(trim($data[parent::F_START_ELEMENT]));
@@ -208,6 +209,7 @@ class TwizImportExport extends Twiz{
             $twiz_start_delay = esc_attr(trim($data[parent::F_START_DELAY]));
             $twiz_duration = esc_attr(trim($data[parent::F_DURATION]));
             $twiz_duration_b = esc_attr(trim($data[parent::F_DURATION_B]));
+            $twiz_group_order = esc_attr(trim($data[parent::F_GROUP_ORDER]));
             
             $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
             $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[parent::F_ON_EVENT] !='') and ( $data[parent::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
@@ -215,6 +217,7 @@ class TwizImportExport extends Twiz{
             $twiz_lock_event_type = ( $twiz_lock_event_type == '' ) ? 'auto' : $twiz_lock_event_type;
             $twiz_start_delay = ( $twiz_start_delay == '' ) ? '0' : $twiz_start_delay;
             $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
+            $twiz_group_order = ( $twiz_group_order == '' ) ? '0' : $twiz_group_order;
             
             $group = '';
     
@@ -306,6 +309,7 @@ class TwizImportExport extends Twiz{
                  ,".parent::F_OPTIONS_B."
                  ,".parent::F_EXTRA_JS_A."
                  ,".parent::F_EXTRA_JS_B."       
+                 ,".parent::F_GROUP_ORDER."       
                  ,".parent::F_ROW_LOCKED."       
                  )VALUES('".esc_attr(trim($data[parent::F_PARENT_ID]))."'
                  ,'".esc_attr(trim($data[parent::F_EXPORT_ID]))."'
@@ -355,6 +359,7 @@ class TwizImportExport extends Twiz{
                  ,'".esc_attr(trim($data[parent::F_OPTIONS_B]))."'
                  ,'".esc_attr($twiz_extra_js_a)."'                             
                  ,'".esc_attr($twiz_extra_js_b)."'                 
+                 ,'".$twiz_group_order."'
                  ,'3'                
                  );"; // Lock
                 

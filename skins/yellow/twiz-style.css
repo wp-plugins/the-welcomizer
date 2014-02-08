@@ -625,7 +625,7 @@ a.twiz-red:hover {
 .twiz-arrow-lib {
     width: 25px;
     height: 25px;
-    display: block;
+    display: none;
     float: left;
 }
 .twiz-arrow-lib-n {

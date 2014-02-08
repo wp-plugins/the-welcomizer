@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -305,8 +305,25 @@
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
             }
             
-            break;
+            break;        
             
+        case Twiz::ACTION_ORDER_GROUP:
+
+            require_once(dirname(__FILE__).'/includes/twiz.group.class.php');
+            
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_order = esc_attr(trim($_POST['twiz_order']));
+            
+            $myTwiz  = new Twiz();
+            $myTwizGroup  = new TwizGroup();
+            
+            if( $updated = $myTwizGroup->updateGroupOrder( $twiz_id, $twiz_order, $twiz_section_id ) ){
+            
+                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
+            }
+            break;
+           
         case Twiz::ACTION_SAVE:
         
             $twiz_id = esc_attr(trim($_POST['twiz_id']));

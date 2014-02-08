@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2013  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -132,6 +132,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
               ,".parent::F_OPTIONS_B."
               ,".parent::F_EXTRA_JS_A."
               ,".parent::F_EXTRA_JS_B."    
+              ,".parent::F_GROUP_ORDER."    
               ,0    
               FROM ".$this->table." WHERE ".parent::F_ID." = '".$groupid."' OR ".parent::F_PARENT_ID." = '".$old_exportid."'";
         
@@ -212,7 +213,6 @@ $("[name^=twiz_listmenu]").css("display", "none");
     function getHTMLGroupList( $section_id = '' ){
     
         $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
-        
         $listarray = $this->getListArray( $where, " ORDER BY ".parent::F_LAYER_ID );
         
         // Animations
@@ -250,6 +250,112 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $code = update_option('twiz_toggle', $this->toggle_option);
     
         return true;
+    }
+    
+    function updateGroupOrder( $id = '', $order = '', $section_id = ''){
+           
+        $ibase = 1;
+           
+        $origorder = $this->getValue($id, parent::F_GROUP_ORDER);
+        $neworder = $origorder;
+        $exportid = $this->getValue($id, parent::F_EXPORT_ID);
+        
+        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
+        $listarray = $this->getListArray( $where, '' ); // get all the data
+
+
+         $i = 1;
+         foreach( $listarray as $key => $value ){ // initialize   
+         
+            if( $value[parent::F_GROUP_ORDER] == '0' ){
+            
+                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $i); 
+            }
+            $i++;
+        }
+        
+        // get fresh array
+        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
+        $listarray = $this->getListArray( $where, '' ); // get all the data
+        
+        $i = 1;
+        
+        foreach( $listarray as $key => $value ){ // update / set order
+
+            if( $value[parent::F_ID] == $id ){
+            
+                $ibase = $i;  
+                $neworder = $i;
+                
+                switch($order){
+
+                    case parent::LB_ORDER_UP:
+
+                        $neworder--;
+                        break;
+                        
+                    case parent::LB_ORDER_DOWN:
+                        
+                        $neworder++;
+                        break;
+                }
+                
+                $neworder = ( $neworder < 1 ) ? 1 : $neworder;
+        
+                $maxkeyorder = count($listarray);
+                
+                if( $maxkeyorder > 1 ){
+                
+                   $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
+                   
+                }else if ($maxkeyorder == 1 ){
+                
+                   $neworder = 1;
+                }
+            }
+            $i++;
+         }
+         
+         $i = 1;
+         
+         foreach( $listarray as $key => $value ){ // update / set order    
+         
+            if( $value[parent::F_GROUP_ORDER] == $neworder ){
+            
+                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $ibase); 
+                
+            }else{
+            
+                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $i); 
+            }
+            $i++;
+        }
+
+        foreach( $listarray as $key => $value ){ // switch order
+
+            if( $value[parent::F_ID] == $id ){
+            
+                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $neworder);    
+            }             
+        }
+
+        return true;
+    }
+    
+    function saveGroupValue( $exportid = '', $column = '', $value = '' ){ 
+        
+        global $wpdb;
+            
+            if( $exportid == '' ){return false;}
+            if( $column == '' ){return false;}
+        
+            $sql = "UPDATE ".$this->table." 
+                    SET ".$column." = '".$value."'                 
+                    WHERE ".parent::F_EXPORT_ID." = '".$exportid."'
+                    OR ".parent::F_PARENT_ID." = '".$exportid."';";
+            $code = $wpdb->query($sql);
+                       
+            return $exportid;
     }
     
     function saveGroup( $id = '' ){
