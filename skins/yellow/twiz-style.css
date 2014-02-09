@@ -4,6 +4,9 @@ body {
 #wpbody, input[type="text"], textarea, select {
     color: #333333;
 }
+b{
+    font-weight: bold !important;
+}
 td, textarea, input, select {
     font-family: inherit !important;
     font-size: inherit !important;
@@ -17,8 +20,9 @@ input.button-primary, button.button-primary, a.button-primary {
 }
 .wp-admin select {
     height: 22px !important;
-    line-height: 21px !important;
-    padding: 0 !important;
+    max-height: 22px !important;
+    line-height: 19px !important;
+    padding: 2px !important;
     vertical-align: top !important;
 }
 input[type="text"] {
@@ -26,10 +30,8 @@ input[type="text"] {
 }
 input, select {
     margin: 1px !important;
-    padding: 3px 5px !important;
 }
-input[type="checkbox"], input[type="radio"]{
-    height: 12px !important;
+input[type="checkbox"], input[type="radio"]{   
     cursor: pointer;
 }
 .button-primary {
@@ -462,6 +464,7 @@ div #twiz_head_logo:hover {
 #twiz_slc_multi_sections {
     width: 490px;
     height: 355px !important;
+    min-height: 355px !important;    
 }
 #twiz_slc_sections,
 #twiz_custom_logic {

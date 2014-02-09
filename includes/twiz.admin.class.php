@@ -123,17 +123,17 @@ jQuery(document).ready(function($) {
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
-        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><strong>'.__('And/Or', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('And/Or', 'the-welcomizer').'</b></td></tr>';
                 
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jquery-animate-css-rotate-scale', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
-        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('Or', 'the-welcomizer').'</b></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').' - <span class="twiz-green">'.__('(No Longer Maintained)', 'the-welcomizer').'</span>: ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
         
-        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><strong>'.__('Or', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('Or', 'the-welcomizer').'</b></td></tr>';
         
         // transition
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jQuery Transit', 'the-welcomizer').': ';
