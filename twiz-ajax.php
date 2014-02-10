@@ -231,13 +231,23 @@
             $twiz_to_id = esc_attr(trim($_POST['twiz_to_id']));
             
             $myTwiz  = new Twiz();
+            if( $twiz_from_id != '' ){
             
-            if( ( $twiz_from_id != '' ) and ($save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_PARENT_ID,  $twiz_to_id )) ){ 
-            
-                $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,$twiz_from_id, '', $twiz_to_id, $twiz_action);
+                if( $save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_PARENT_ID,  $twiz_to_id ) ){ 
+                          
+                    $parent_real_id = $myTwiz->getId(Twiz::F_EXPORT_ID, $twiz_to_id );
+                    $twiz_group_order = $myTwiz->getValue($parent_real_id, Twiz::F_GROUP_ORDER);
+                    $save = $myTwiz->saveValue( $twiz_from_id, Twiz::F_GROUP_ORDER,  $twiz_group_order );
+                
+                    $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,$twiz_from_id, '', $twiz_to_id, $twiz_action);
+                    
+                }else{
+                
+                    $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,'', '', $twiz_to_id, $twiz_action);
+                }
                 
             }else{
-            
+                
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id,'', '', $twiz_to_id, $twiz_action);
             }
 

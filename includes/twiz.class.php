@@ -868,7 +868,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.1.1';
+        $this->version    = '2.1.2';
         $this->cssVersion = '2-4';
         $this->dbVersion  = '3.7';
         $this->pluginUrl  = $pluginUrl;
@@ -3207,7 +3207,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $row;
     }
 
-    protected function getId( $column = '', $value = '' ){ 
+    function getId( $column = '', $value = '' ){ 
     
         global $wpdb;
         
