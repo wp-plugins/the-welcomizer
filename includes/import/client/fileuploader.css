@@ -21,11 +21,12 @@
 .qq-upload-list {
     list-style: none;
     font-size: 9px;
+    position: absolute;
 }
 .qq-upload-list li { 
     line-height: 9px; 
     font-size: 9px; 
-    border-top: 1px dotted #464646;
+    border-top: 0px dotted #464646;
     padding-top: 1px;
 }
 .qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-failed-text {

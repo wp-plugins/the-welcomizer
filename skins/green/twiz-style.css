@@ -39,8 +39,6 @@ input[type="checkbox"], input[type="radio"]{
 }
 div a, td a {
     text-decoration: none;
-}
-div a, td a {
     cursor: pointer;
 }
 .twiz-corner-top {
@@ -392,18 +390,18 @@ div #twiz_head_logo:hover {
 }
 #twiz_edit_menu {
     background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;
+    cursor: pointer;
 }
 #twiz_edit_menu:hover {
     background: url(../../images/twiz-menu-edit-color.png) center no-repeat;
-    cursor: pointer;
     background-color: #222222;
 }
 #twiz_delete_menu {
     background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;
+    cursor: pointer;
 }
 #twiz_delete_menu:hover {
     background: url(../../images/twiz-menu-delete-color.png) center no-repeat;
-    cursor: pointer;
     background-color: #222222;
 }
 #twiz_more_menu,
@@ -499,6 +497,11 @@ div #twiz_head_logo:hover {
     left: -21px;
     top: -10px;
 }
+.twiz-toggle-img-view  {
+    position: absolute;
+    left: -21px;
+    top: -17px;
+}
 .twiz-toggle-img-admin {
     position: absolute;
     left: -25px;
@@ -541,6 +544,7 @@ div #twiz_head_logo:hover {
 .twiz-table-far img,
 .twiz-table-list img,
 .twiz-table-form img,
+.twiz-table-view img,
 .twiz-arrow-lib-n,
 .twiz-arrow-lib-s {
     cursor: pointer;
@@ -847,16 +851,16 @@ a.twiz-red:hover {
     margin-right: 5px;
 }
 .twiz-table-view {
-    padding: 10px 10px 0px 10px;
+    padding: 16px 16px 0px 16px;
     margin: 5px;
 }
 .twiz-table-view-b {
-    padding: 0px 10px 10px 10px;
+    padding: 0px 18px 10px 18px;
     margin: 1px;
 }
 .twiz-view-td-left {
     width: 200px;
-    padding: 0px 20px 0px 2px;
+    padding: 0px;
     font-size: 13px;
 }
 .twiz-view-td-right {
@@ -901,11 +905,11 @@ a.twiz-red:hover {
     text-align: center;
     min-width: 45px;  
     float: left;
+    cursor: pointer;
 }
 .twiz-footer-menu-button:hover {
     color: #92E13F;
     background-color: #222222;
-    cursor: pointer;
 }
 #twiz_export_url {
     margin: 22px 0 0 75px;

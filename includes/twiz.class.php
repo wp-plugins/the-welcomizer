@@ -868,8 +868,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.1.2';
-        $this->cssVersion = '2-4';
+        $this->version    = '2.2';
+        $this->cssVersion = '2-41';
         $this->dbVersion  = '3.7';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1070,32 +1070,101 @@ class Twiz{
         return $html;
     }    
     
-    private function add_animation_link( $javascript = '', $listarray = array(), $level = 1 ){
+    private function addViewLinks( $javascript = '', $listarray = array(), $level = 1 ){
         
         if( $javascript == ''){return '';}
         
-        $searchstring_1 = '';
-        $searchstring_2 = '';
-        $htmllink = '';
+        $searchstring = '';
         $level++;
         
         foreach( $listarray as $value ){
-        
-            $group = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
+
+            $type = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
             
-            $searchstring_1 = "$(document).twiz".$group."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
+            // Anim & Group links
+            $searchstring = "$(document).twiz".$type."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
+
+            $javascript = $this->replaceViewLinks($type, $level, $value, $searchstring, $javascript);
             
-            $searchstring_2 = "twiz_event_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."";
+            // Bind/Unbind - Event links
+            $searchstring = "twiz_event_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."";
                        
-            $htmllink_1 = '<span id="twiz'.$group.'_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$group.'_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz'.$group.'_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring_1.'</a>';
-            
-            $htmllink_2 = '<span id="twiz_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$searchstring_2.'</a>';
-        
-            $javascript = str_replace($searchstring_1, $htmllink_1, $javascript);
-            $javascript = str_replace($searchstring_2, $htmllink_2, $javascript);
+            $javascript = $this->replaceViewLinks($type, $level, $value, $searchstring, $javascript);
         }
         
         return $javascript;
+    }
+    
+    private function replaceViewLinks($type = '', $level = '', $data = '', $searchstring = '', $javascript = ''){
+
+            if(!isset($this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]])) $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]] = '';
+            
+            if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]] == '1' ) {
+
+                $boldclass = ' twiz-bold';
+            
+            }else{
+            
+                $boldclass = '';
+            }
+ 
+            // Merge child links
+            if( $data[self::F_TYPE] == self::ELEMENT_TYPE_GROUP ){
+            
+                $html = '<a id="twiz'.$type.'_anim_link_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$searchstring.'</a>';
+            
+                $html .= $this->addGroupChildLinks($data[self::F_EXPORT_ID], $level);
+                
+            }else{
+            
+                $html = '<span id="twiz'.$type.'_anim_link_img_box_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$type.'_anim_link_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$searchstring.'</a>';            
+            }
+            
+            $javascript = str_replace($searchstring, $html, $javascript);    
+            
+            return $javascript;            
+    
+    }
+    
+    private function addGroupChildLinks( $export_id = '', $level = '' ){
+    
+        $html = '';
+        $open = '';
+        
+        // Get the list
+        $where = " WHERE ".self::F_PARENT_ID." = '".$export_id."'";
+        $listchildarray = $this->getListArray( $where ); 
+        
+        if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$export_id] == '1' ) {
+        
+            $hide = '';
+            $toggleimg = 'minus';
+            $boldclass = ' twiz-bold';
+            
+        }else{
+
+            $hide = ' twiz-display-none';
+            $toggleimg = 'plus';
+            $boldclass = '';
+        }
+        
+        //Toggle group image
+        $open .= '<div class="twiz-relative"><img name="twiz_group_img_'.$export_id.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img-view"/></div>';
+        
+        $open .= '<div class="'.$export_id.$hide.'">';
+        $close = '</div>';
+        
+        foreach ($listchildarray as $value){
+        
+            $string = "$(document).twiz_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
+            
+            $html .= '&nbsp;&nbsp;<span id="twiz_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$string.'</a><br />';
+        
+        }
+        
+        $html = ($html != '')? $open.$html.$close : '';
+        
+        return $html;
     }
     
     protected function createHtmlList( $listarray = array(), $saved_id = '', $parent_id = '', $action = '' ){ 
@@ -1251,7 +1320,7 @@ class Twiz{
                 
                  // a group
                 $htmllist.= '<tr><td class="twiz-border-bottom" colspan="7"></td></tr>
-        <tr class="twiz-list-group-tr '.$rowcolor.'" id="twiz_list_group_tr_'.$value[self::F_EXPORT_ID].'"><td class="twiz-td-v-line '.$borderbggroupclass.'"><div class="twiz-relative"><img id="twiz_group_img_'.$value[self::F_EXPORT_ID].'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img"/></div></td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-element twiz-text-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'"><a id="twiz_element_a_'.$value[self::F_EXPORT_ID].'" class="twiz-toggle-group'.$boldclass.'">'.$value[self::F_LAYER_ID].'</a></div><div class="twiz-list-tr-action" id="twiz_list_tr_action_'.$value[self::F_EXPORT_ID].'"><small>'.$rowcount.'</small></div></td><td class="twiz-td-event twiz-blue twiz-text-center">Manually</td><td class="twiz-td-delay twiz-text-right"></td><td id="twiz_ajax_td_order_'.$value[self::F_ID].'" class="twiz-td-duration twiz-text-left" nowrap="nowrap"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_up_'.$value[self::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_down_'.$value[self::F_ID].'"></div></td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><img id="twiz_group_edit_'.$value[self::F_ID].'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-group-edit"/><img id="twiz_group_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-group-copy" /><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_group_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-group-delete" /></td></tr>';
+        <tr class="twiz-list-group-tr '.$rowcolor.'" id="twiz_list_group_tr_'.$value[self::F_EXPORT_ID].'"><td class="twiz-td-v-line '.$borderbggroupclass.'"><div class="twiz-relative"><img name="twiz_group_img_'.$value[self::F_EXPORT_ID].'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img"/></div></td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-element twiz-text-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'"><a name="twiz_element_a_'.$value[self::F_EXPORT_ID].'" class="twiz-toggle-group'.$boldclass.'">'.$value[self::F_LAYER_ID].'</a></div><div class="twiz-list-tr-action" id="twiz_list_tr_action_'.$value[self::F_EXPORT_ID].'"><small>'.$rowcount.'</small></div></td><td class="twiz-td-event twiz-blue twiz-text-center">Manually</td><td class="twiz-td-delay twiz-text-right"></td><td id="twiz_ajax_td_order_'.$value[self::F_ID].'" class="twiz-td-duration twiz-text-left" nowrap="nowrap"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_up_'.$value[self::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_down_'.$value[self::F_ID].'"></div></td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><img id="twiz_group_edit_'.$value[self::F_ID].'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-group-edit"/><img id="twiz_group_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-group-copy" /><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_group_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-group-delete" /></td></tr>';
         
             }
         }
@@ -2349,9 +2418,9 @@ $("textarea[name^=twiz_options]").blur(function (){
         $where = " WHERE ".self::F_SECTION_ID." = '".$data[self::F_SECTION_ID]."'";
         $listarray = $this->getListArray($where);
         
-        $javascript = $this->add_animation_link($javascript, $listarray, $level);
-        $extra_js_a = $this->add_animation_link($extra_js_a, $listarray, $level);
-        $extra_js_b = $this->add_animation_link($extra_js_b, $listarray, $level);
+        $javascript = $this->addViewLinks($javascript, $listarray, $level);
+        $extra_js_a = $this->addViewLinks($extra_js_a, $listarray, $level);
+        $extra_js_b = $this->addViewLinks($extra_js_b, $listarray, $level);
         $on_event = $this->format_on_event($data[self::F_ON_EVENT]);
         // creates the view
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
