@@ -81,7 +81,10 @@ class TwizInstallation extends Twiz{
                 parent::F_EXTRA_JS_B . " text NOT NULL default '', " .  
                 parent::F_GROUP_ORDER . " int(5) NOT NULL default 0, " .  
                 parent::F_ROW_LOCKED . " tinyint(3) NOT NULL default 0, " .  
-                "PRIMARY KEY (". parent::F_ID . ")
+                "PRIMARY KEY (". parent::F_ID . "),
+                KEY ".parent::F_PARENT_ID." (".parent::F_PARENT_ID."),
+                KEY ".parent::F_EXPORT_ID." (".parent::F_EXPORT_ID."),
+                KEY ".parent::F_SECTION_ID." (".parent::F_SECTION_ID.")                
                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
                 
                 
@@ -468,6 +471,32 @@ class TwizInstallation extends Twiz{
                     " ADD ". parent::F_GROUP_ORDER . " int(5) NOT NULL default 0 after ".parent::F_EXTRA_JS_B."";
                     $code = $wpdb->query($altersql);
                 }
+                
+                
+                // from <= v 2.2.1
+                $indexes = "SHOW INDEXES from ".$this->table ."";
+                $indexes_rows = $wpdb->get_results($indexes, ARRAY_A);
+                
+                foreach($indexes_rows as $values){
+                
+                    $array_indexes[] = $values['Column_name'];
+                }
+                
+                if( !in_array(parent::F_PARENT_ID, $array_indexes) ){                 
+                    $altersql = "ALTER TABLE ".$this->table .
+                                "  ADD INDEX ( ".  parent::F_PARENT_ID . " )";
+                                $code = $wpdb->query($altersql);
+                }
+                if( !in_array(parent::F_EXPORT_ID, $array_indexes) ){                 
+                    $altersql = "ALTER TABLE ".$this->table .
+                                "  ADD INDEX ( ".  parent::F_EXPORT_ID . " )";
+                                $code = $wpdb->query($altersql);
+                }                
+                if( !in_array(parent::F_SECTION_ID, $array_indexes) ){                 
+                    $altersql = "ALTER TABLE ".$this->table .
+                                "  ADD INDEX ( ".  parent::F_SECTION_ID . " )";
+                                $code = $wpdb->query($altersql);
+                }    
                 
                 // option cookie js 
                 $twiz_cookie_js_status = get_option('twiz_cookie_js_status');
