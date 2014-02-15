@@ -276,7 +276,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if($save = $myTwizGroup->saveGroup( $twiz_group_id )){ 
+            if($save = $myTwizGroup->saveGroup( $twiz_group_id, $twiz_section_id )){ 
 
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $save['id'], '','' , $twiz_action);
             }
@@ -294,7 +294,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if( $parentid = $myTwizGroup->copyGroup( $twiz_group_id )){
+            if( $parentid = $myTwizGroup->copyGroup( $twiz_group_id, $twiz_section_id)){
             
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, $parentid, '', '', $twiz_action);
             }
@@ -310,7 +310,7 @@
             $myTwiz  = new Twiz();
             $myTwizGroup  = new TwizGroup();
             
-            if( $code = $myTwizGroup->deleteGroup( $twiz_group_id ) ){
+            if( $code = $myTwizGroup->deleteGroup( $twiz_group_id, $twiz_section_id ) ){
             
                 $htmlresponse = $myTwiz->getHtmlList($twiz_section_id, '', '', '', $twiz_action);
             }

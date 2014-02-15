@@ -72,7 +72,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         return $html;
     }
     
-    function copyGroup( $groupid = '' ){
+    function copyGroup( $groupid = '', $section_id = ''){
 
         global $wpdb;
         
@@ -145,6 +145,8 @@ $("[name^=twiz_listmenu]").css("display", "none");
         
         $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$new_export_id] = 1;
         $code = update_option('twiz_toggle', $this->toggle_option);
+        
+        $ok = $this->reInitializeGroupOrder( $section_id );
 
         return $new_id;
     }
@@ -231,7 +233,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
     
     }
     
-    function deleteGroup( $id = '' ){
+    function deleteGroup( $id = '', $section_id = '' ){
     
         global $wpdb;
         
@@ -249,8 +251,46 @@ $("[name^=twiz_listmenu]").css("display", "none");
         unset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid]);
         $code = update_option('twiz_toggle', $this->toggle_option);
     
+        $ok = $this->reInitializeGroupOrder( $section_id );
+            
         return true;
     }
+    
+    function initializeGroupOrder( $section_id = '' ){
+
+        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
+        $listarray = $this->getListArray( $where, '' ); // get all the data
+
+        $i = 1;
+        foreach( $listarray as $key => $value ){ // initialize   
+         
+            if( $value[parent::F_GROUP_ORDER] == '0' ){
+            
+                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $i); 
+            }
+            $i++;
+        }
+        
+        $i = ($i == 1) ? 1 : $i - 1; // 1 is min
+        
+        return $i;
+    }
+    
+    function reInitializeGroupOrder( $section_id = '' ){
+
+        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
+        $listarray = $this->getListArray( $where, '' ); // get all the data
+
+        $i = 1;
+        foreach( $listarray as $key => $value ){ // initialize   
+            
+            $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $i); 
+            
+            $i++;
+        }
+
+        return true;
+    }    
     
     function updateGroupOrder( $id = '', $order = '', $section_id = ''){
            
@@ -260,26 +300,14 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $neworder = $origorder;
         $exportid = $this->getValue($id, parent::F_EXPORT_ID);
         
-        $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
-        $listarray = $this->getListArray( $where, '' ); // get all the data
+        $maxkeyorder = $this->initializeGroupOrder( $section_id );
 
-
-         $i = 1;
-         foreach( $listarray as $key => $value ){ // initialize   
-         
-            if( $value[parent::F_GROUP_ORDER] == '0' ){
-            
-                $code = $this->saveGroupValue( $value[parent::F_EXPORT_ID], parent::F_GROUP_ORDER, $i); 
-            }
-            $i++;
-        }
-        
         // get fresh array
         $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
         $listarray = $this->getListArray( $where, '' ); // get all the data
         
         $i = 1;
-        
+
         foreach( $listarray as $key => $value ){ // update / set order
 
             if( $value[parent::F_ID] == $id ){
@@ -291,19 +319,17 @@ $("[name^=twiz_listmenu]").css("display", "none");
 
                     case parent::LB_ORDER_UP:
 
-                        $neworder--;
+                        $neworder = $neworder - 1;
                         break;
                         
                     case parent::LB_ORDER_DOWN:
                         
-                        $neworder++;
+                        $neworder = $neworder + 1;
                         break;
                 }
                 
                 $neworder = ( $neworder < 1 ) ? 1 : $neworder;
-        
-                $maxkeyorder = count($listarray);
-                
+
                 if( $maxkeyorder > 1 ){
                 
                    $neworder = ( $neworder > $maxkeyorder ) ? $maxkeyorder : $neworder;
@@ -358,7 +384,17 @@ $("[name^=twiz_listmenu]").css("display", "none");
             return $exportid;
     }
     
-    function saveGroup( $id = '' ){
+    
+    function saveGroup( $id = '', $section_id = ''){
+    
+        if ($id == '') {       
+           $ok = $this->initializeGroupOrder( $section_id );
+           $group_order = 0;
+            
+        }else{
+        
+           $group_order = $this->getValue($id, parent::F_GROUP_ORDER);
+        }
 
         // mapping                 
         $_POST['twiz_'.parent::F_EXPORT_ID] = esc_attr(trim($_POST['twiz_group_'.parent::F_EXPORT_ID]));
@@ -366,6 +402,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $_POST['twiz_'.parent::F_LAYER_ID] = esc_attr(trim($_POST['twiz_group_name']));
         $_POST['twiz_'.parent::F_TYPE] = parent::ELEMENT_TYPE_GROUP;
         $_POST['twiz_'.parent::F_ON_EVENT] = parent::EV_MANUAL;
+        $_POST['twiz_'.parent::F_GROUP_ORDER] = $group_order;
     
         $exportid = $_POST['twiz_'.parent::F_EXPORT_ID];
         
@@ -374,6 +411,11 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $code = update_option('twiz_toggle', $this->toggle_option);
 
         $arr = $this->save( $id );
+        
+        if ($id == '') {       
+       
+           $ok = $this->reInitializeGroupOrder( $section_id );
+        }        
     
         return $arr;
     }    
