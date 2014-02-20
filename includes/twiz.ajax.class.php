@@ -1187,8 +1187,8 @@ class TwizAjax extends Twiz{
         $("[class^=twiz-slc-js-features]").unbind("change");
         $(".twiz-js-features a").unbind("click");
         $("#twiz_container").html(data.html);
+        twiz_view_id = null;
         if(data.result > 0){
-            twiz_view_id = null;
             twiz_array_view_id = new Array();
         }else{ 
             twiz_unset_array_view_id(twiz_numid);
