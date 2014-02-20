@@ -1125,7 +1125,7 @@ $jsscript_close = '});
     </div>';       
        
         // Display only if this cookie condition is met.
-        $html .= '<div class="twiz-clear"></div><div id="twiz_tab_activation" class="'.$tabhiddenactivation.'"><div class="twiz-clear"></div><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this section is fulfilled', 'the-welcomizer').': '.$this->getHtmlCookieConditionList( $section_id ).'</div></div>';
+        $html .= '<div class="twiz-clear"></div><div id="twiz_tab_activation" class="'.$tabhiddenactivation.'"><div class="twiz-clear"></div><div id="twiz_div_cookie_condition" class="twiz-float-left">'.__('Activated when the cookie\'s condition<br> of this other section is fulfilled', 'the-welcomizer').': '.$this->getHtmlCookieConditionList( $section_id ).'</div></div>';
         
         // wrapper 
         $html .= '<div class="twiz-clear"></div>

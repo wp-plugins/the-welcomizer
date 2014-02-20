@@ -392,9 +392,9 @@
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
             $twiz_view_level = esc_attr(trim($_POST['twiz_view_level']));
             
-            $myTwiz  = new Twiz();
+            $myTwizView  = new TwizView();
             
-            $htmlresponse = $myTwiz->getHtmlView($twiz_id, $twiz_view_level);
+            $htmlresponse = $myTwizView->getHtmlView($twiz_id, $twiz_view_level);
             
             break;
             
@@ -709,7 +709,7 @@
             $twiz_event = esc_attr(trim($_POST['twiz_event']));
            
             $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->getHTMLEventList($twiz_event, $twiz_id, 'twiz-select-event-list');
+            $htmlresponse = $myTwiz->getHTMLEventList($twiz_event, '_'.$twiz_id, 'twiz-select-event-list');
             
             break;
     }

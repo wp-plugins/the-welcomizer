@@ -67,14 +67,17 @@ $("[name^=twiz_listmenu]").css("display", "none");';
         $jsscript .= '});
  //]]>
 </script>';
-        $eventlist1 = $this->getHtmlEventList('','far_1','');
-        $eventlist2 = $this->getHtmlEventList('','far_2','');
+        $eventlist1 = $this->getHtmlEventList('','_far_1','');
+        $eventlist2 = $this->getHtmlEventList('','_far_2','');
+        
+        $elementtypelist1 = $this->getHtmlElementTypeList('',self::F_TYPE, '_far_1' );
+        $elementtypelist2 = $this->getHtmlElementTypeList('',self::F_TYPE, '_far_2' );
         
         // easing 
-        $easing_a1 = $this->getHtmlEasingOptions('', parent::F_EASING_A, 'far_1');
-        $easing_a2 = $this->getHtmlEasingOptions('', parent::F_EASING_A, 'far_2');
-        $easing_b1 = $this->getHtmlEasingOptions('', parent::F_EASING_B, 'far_1');
-        $easing_b2 = $this->getHtmlEasingOptions('', parent::F_EASING_B, 'far_2');
+        $easing_a1 = $this->getHtmlEasingOptions('', parent::F_EASING_A, '_far_1');
+        $easing_a2 = $this->getHtmlEasingOptions('', parent::F_EASING_A, '_far_2');
+        $easing_b1 = $this->getHtmlEasingOptions('', parent::F_EASING_B, '_far_1');
+        $easing_b2 = $this->getHtmlEasingOptions('', parent::F_EASING_B, '_far_2');
 
         $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" name="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_1" id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_1" id="twiz_far_find_1" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_1" id="twiz_far_replace_1" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
             
@@ -127,6 +130,8 @@ $("[name^=twiz_listmenu]").css("display", "none");';
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Event', 'the-welcomizer').': <div class="twiz-float-right">'.$eventlist1.'</div></td>
 <td class="twiz-form-td-right twiz-text-left">'.$eventlist2.'</td></tr>
+
+<tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Element type', 'the-welcomizer').': <div class="twiz-float-right">'.$elementtypelist1.'</div></td><td class="twiz-form-td-left">'.$elementtypelist2.'</td></tr>
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Element', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-far twiz-input-focus" id="twiz_'.parent::F_LAYER_ID.'_far_1" name="twiz_'.parent::F_LAYER_ID.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-far twiz-input-focus" id="twiz_'.parent::F_LAYER_ID.'_far_2" name="twiz_'.parent::F_LAYER_ID.'_far_2" type="text" value="" maxlength="50"/></td></tr>
 
@@ -357,6 +362,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                     $wheresql .= $where. $open .parent::F_ON_EVENT." = '".$everywhere_1."'";
                     $or = ' or ';
         //          $wheresql .= $or .parent::F_STATUS." = '".$everywhere_1."'";
+                    $wheresql .= $or .parent::F_TYPE." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_LAYER_ID." LIKE '%".$everywhere_1."%'";
                     $wheresql .= $or .parent::F_START_DELAY." = '".$everywhere_1."'";
                     $wheresql .= $or .parent::F_DURATION." = '".$everywhere_1."' ";
@@ -402,6 +408,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_status = esc_attr(trim($_POST['twiz_'.parent::F_STATUS.'_far_1']));
                 $twiz_status = ($twiz_status=='true') ? 1 : 0;
                 $twiz_event = esc_attr(trim($_POST['twiz_'.parent::F_ON_EVENT.'_far_1']));
+                $twiz_type = esc_attr(trim($_POST['twiz_'.parent::F_TYPE.'_far_1']));
                 $twiz_layer_id = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_1']));
                 $twiz_start_delay = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_1']));
                 $twiz_duration = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_1']));
@@ -453,6 +460,12 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                     $open = '';
                     $where = '';
                 }
+                if( $twiz_type != '' ){
+                    $wheresql.=  $where.$or.$open.parent::F_TYPE." = '".$twiz_type."'";
+                    $or = ' or ';
+                    $open = '';
+                    $where = '';
+                }                
                 if( $twiz_layer_id != '' ){
                     $wheresql.=  $where.$or.$open.parent::F_LAYER_ID." LIKE '%".$twiz_layer_id."%'";
                     $or = ' or ';
@@ -731,6 +744,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 
                    $updatesql .=  parent::F_ON_EVENT . " = replace(". parent::F_ON_EVENT . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " , ". parent::F_STATUS . " = replace(". parent::F_STATUS . ", '".$everywhere_1."', '".$everywhere_2."')";
+                   $updatesql .= " ,". parent::F_TYPE . " = replace(". parent::F_TYPE . ", '".$everywhere_1."', '".$everywhere_2."')";
                    $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$everywhere_1."', '".$everywhere_2."')";
                    $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$everywhere_1."', '".$everywhere_2."')";
                    $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$everywhere_1."', '".$everywhere_2."')";
@@ -786,6 +800,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_status_1 = esc_attr(trim($_POST['twiz_'.parent::F_STATUS.'_far_1']));
                 $twiz_status_1 = ($twiz_status_1=='true') ? 1 : 0;
                 $twiz_event_1 = esc_attr(trim($_POST['twiz_'.parent::F_ON_EVENT.'_far_1']));
+                $twiz_type_1 = esc_attr(trim($_POST['twiz_'.parent::F_TYPE.'_far_1']));
                 $twiz_layer_id_1 = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_1']));
                 $twiz_start_delay_1 = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_1']));
                 $twiz_duration_1 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_1']));
@@ -828,6 +843,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $twiz_status_2 = esc_attr(trim($_POST['twiz_'.parent::F_STATUS.'_far_2']));
                 $twiz_status_2 = ($twiz_status_2=='true') ? 1 : 0;
                 $twiz_event_2 = esc_attr(trim($_POST['twiz_'.parent::F_ON_EVENT.'_far_2']));
+                $twiz_type_2 = esc_attr(trim($_POST['twiz_'.parent::F_TYPE.'_far_2']));
                 $twiz_layer_id_2 = esc_attr(trim($_POST['twiz_'.parent::F_LAYER_ID.'_far_2']));
                 $twiz_start_delay_2 = esc_attr(trim($_POST['twiz_'.parent::F_START_DELAY.'_far_2']));
                 $twiz_duration_2 = esc_attr(trim($_POST['twiz_'.parent::F_DURATION.'_far_2']));
@@ -870,6 +886,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
 
                 $updatesql .=  parent::F_ON_EVENT . " = replace(". parent::F_ON_EVENT . ", '".$twiz_event_1."', '".$twiz_event_2."')";
                 $updatesql .= " , ". parent::F_STATUS . " = replace(". parent::F_STATUS . ", '".$twiz_status_1."', '".$twiz_status_2."')";
+                $updatesql .= " ,". parent::F_TYPE . " = replace(". parent::F_TYPE . ", '".$twiz_type_1."', '".$twiz_type_2."')";
                 $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$twiz_layer_id_1."', '".$twiz_layer_id_2."')";
                 $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$twiz_start_delay_1."', '".$twiz_start_delay_2."')";
                 $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$twiz_duration_1."', '".$twiz_duration_2."')";

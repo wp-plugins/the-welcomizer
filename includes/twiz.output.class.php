@@ -65,8 +65,6 @@ class TwizOutput extends Twiz{
         $this->hardsections = get_option('twiz_hardsections');
         $this->multi_sections = get_option('twiz_multi_sections');
         $this->multi_sections = ( is_array($this->multi_sections) ) ? $this->multi_sections : array();
-        $this->upload_dir = wp_upload_dir();
-
         $this->listarray = $this->getCurrentList($shortcode_id);
         
         if( $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1' ){
@@ -170,6 +168,9 @@ class TwizOutput extends Twiz{
                     // replace numeric entities
                     $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
                     
+                    // replace twiz shortcode
+                    $value[parent::F_JAVASCRIPT] = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $value[parent::F_JAVASCRIPT] );
+                    
                     // replace this
                     $value[parent::F_JAVASCRIPT] = str_replace("(this)", "(twiz".$this_prefix."_this)" , $value[parent::F_JAVASCRIPT]);
                     $value[parent::F_EXTRA_JS_A] = str_replace("(this)", "(twiz".$this_prefix."_this)" , $value[parent::F_EXTRA_JS_A]);
@@ -246,7 +247,7 @@ class TwizOutput extends Twiz{
                     
                         // replace numeric entities   
                         $value[parent::F_OPTIONS_A] = $this->replaceNumericEntities($value[parent::F_OPTIONS_A]);
-
+                                            
                         $hasMovements = $this->hasMovements($value);
                         
                         if( $hasMovements == true ){
@@ -273,10 +274,13 @@ class TwizOutput extends Twiz{
                             
                             $this->generatedScript .= $this->linebreak.$this->tab.'},'.$value[parent::F_DURATION].',"'.$value[parent::F_EASING_A].'", function(){ ';
                             $value[parent::F_EXTRA_JS_A] = ($value[parent::F_EXTRA_JS_A] != '') ? $this->linebreak.$value[parent::F_EXTRA_JS_A].self::COMPRESS_LINEBREAK : '';
+                            
                             // replace numeric entities
                             $value[parent::F_EXTRA_JS_A] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_A]);
+                            
+                            // replace twiz shortcode
+                            $value[parent::F_EXTRA_JS_A] = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $value[parent::F_EXTRA_JS_A] );                                 
                 
-
                             // Replace parameters
                             $pattern = "/twizRepeat\((.*?)\)/";
                             preg_match($pattern, $value[parent::F_EXTRA_JS_A], $params);
@@ -302,7 +306,7 @@ class TwizOutput extends Twiz{
                             $value[parent::F_OPTIONS_B] = str_replace(self::COMPRESS_LINEBREAK, $this->linebreak.$this->tab.$this->tab."," , $value[parent::F_OPTIONS_B]);
                             
                             // replace numeric entities              
-                            $value[parent::F_OPTIONS_B] = $this->replaceNumericEntities($value[parent::F_OPTIONS_B]);
+                            $value[parent::F_OPTIONS_B] = $this->replaceNumericEntities($value[parent::F_OPTIONS_B]);                             
                             
                             // animate jquery b
                             if($value[parent::F_MOVE_ELEMENT_B] == ''){
@@ -336,6 +340,9 @@ class TwizOutput extends Twiz{
                    
                             // replace numeric entities
                             $value[parent::F_EXTRA_JS_B] = $this->replaceNumericEntities($value[parent::F_EXTRA_JS_B]);
+                            
+                            // replace twiz shortcode
+                            $value[parent::F_EXTRA_JS_B] = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $value[parent::F_EXTRA_JS_B] );                               
                             
                             if( ( $value[parent::F_LOCK_EVENT] == '1' ) 
                             and ( ( $value[parent::F_LOCK_EVENT_TYPE] == 'auto') 
@@ -450,8 +457,11 @@ class TwizOutput extends Twiz{
             }else{
 
                 if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
-                 
-                    $generatedScript .= $this->linebreak.$this->replaceNumericEntities($value[parent::F_CSS]);
+                    
+                    $cssval = $this->linebreak.$this->replaceNumericEntities($value[parent::F_CSS]);
+                    
+                    $generatedScript .= $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $cssval );   
+                      
                     $looped = 1;
                 }
             
@@ -548,6 +558,9 @@ class TwizOutput extends Twiz{
                     // replace numeric entities
                     $value[parent::F_JAVASCRIPT] = $this->replaceNumericEntities($value[parent::F_JAVASCRIPT]);
                     $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$value[parent::F_JAVASCRIPT] : '';
+                    
+                    // replace twiz shortcode
+                    $value[parent::F_JAVASCRIPT] = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $value[parent::F_JAVASCRIPT] );   
                     
                     // Replace parameters
                     $pattern = "/twizRepeat\((.*?)\)/";
@@ -963,7 +976,7 @@ class TwizOutput extends Twiz{
             or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
             // Nothing to do
             }else if( (( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) or ( $value[parent::F_PARENT_ID] != '' ))
-            and (( $value[parent::F_ON_EVENT] == '' ) or ( $value[parent::F_ON_EVENT] == parent::EV_MANUAL )) ){
+            and  ( $value[parent::F_ON_EVENT] == parent::EV_MANUAL ) ){
                 
                 $name = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
                 
@@ -1226,9 +1239,7 @@ class TwizOutput extends Twiz{
         $value = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $value);
         $value = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $value);
         $newvalue = strtr($value, $trans_tbl);
-        
-        $newvalue = str_replace(parent::SC_WP_UPLOAD_DIR, $this->upload_dir['baseurl'],  $newvalue);
-        
+
         return $newvalue;
     }
     

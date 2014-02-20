@@ -26,6 +26,7 @@ class Twiz{
     public $cssVersion;
     public $pluginUrl;
     public $pluginDir;
+    public $uploadDir;
     public $toggle_option;
     public $admin_option;
     protected $table;
@@ -848,6 +849,7 @@ class Twiz{
      // fb like button
      const IFRAME_FB_LIKE = '<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=125&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:125px;" allowTransparency="true"></iframe>';
 
+             
     // upload import export path constant
     const IMPORT_PATH = '/twiz/';
     const EXPORT_PATH = 'export/';
@@ -868,8 +870,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.2.2';
-        $this->cssVersion = '2-41';
+        $this->version    = '2.3';
+        $this->cssVersion = '2-42';
         $this->dbVersion  = '3.7.1';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -883,6 +885,7 @@ class Twiz{
         $this->toggle_option = get_option('twiz_toggle');
         $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
         $this->userid = get_current_user_id(); // Used for UIsettings since v1.5
+        $this->uploadDir = wp_upload_dir();
         $ok = $this->setUserSettings();
         $ok = $this->setPositioningMethod();
 
@@ -963,7 +966,7 @@ class Twiz{
         $html .= '<div><div id="twiz_menu" class="twiz-reset-nav"><div id="twiz_ajax_menu">'.$myTwizMenu->getHtmlMenu().'</div>';
         $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu">&gt;&gt;</div>';
         $html .= '<div id="twiz_add_menu">+</div></div>';
-        $html .= '<div id="twiz_loading_menu"></div>';
+        $html .= '<div id="twiz_loading_menu"><div class="twiz-menu twiz-noborder-right"><img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" width="44" height="11"/></div></div>';
         $html .= '<div class="twiz-clear"></div></div>';
         $html .= '<div id="twiz_sub_container"></div>';
         
@@ -975,7 +978,7 @@ class Twiz{
         
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
-        $html .= '<div id="twiz_view_box"></div>';
+        $html .= '<div id="twiz_view_box"></div><div id="twiz_view_image"></div>';
               
         $html .= $this->preloadImages();
         $html .= '</div>';
@@ -1070,103 +1073,6 @@ class Twiz{
         return $html;
     }    
     
-    private function addViewLinks( $javascript = '', $listarray = array(), $level = 1 ){
-        
-        if( $javascript == ''){return '';}
-        
-        $searchstring = '';
-        $level++;
-        
-        foreach( $listarray as $value ){
-
-            $type = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
-            
-            // Anim & Group links
-            $searchstring = "$(document).twiz".$type."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
-
-            $javascript = $this->replaceViewLinks($type, $level, $value, $searchstring, $javascript);
-            
-            // Bind/Unbind - Event links
-            $searchstring = "twiz_event_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."";
-                       
-            $javascript = $this->replaceViewLinks($type, $level, $value, $searchstring, $javascript);
-        }
-        
-        return $javascript;
-    }
-    
-    private function replaceViewLinks($type = '', $level = '', $data = '', $searchstring = '', $javascript = ''){
-
-            if(!isset($this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]])) $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]] = '';
-            
-            if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$data[self::F_EXPORT_ID]] == '1' ) {
-
-                $boldclass = ' twiz-bold';
-            
-            }else{
-            
-                $boldclass = '';
-            }
- 
-            // Merge child links
-            if( $data[self::F_TYPE] == self::ELEMENT_TYPE_GROUP ){
-            
-                $html = '<a id="twiz'.$type.'_anim_link_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$searchstring.'</a>';
-            
-                $html .= $this->addGroupChildLinks($data[self::F_EXPORT_ID], $level);
-                
-            }else{
-            
-                $html = '<span id="twiz'.$type.'_anim_link_img_box_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$type.'_anim_link_'.$data[self::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$searchstring.'</a>';            
-            }
-            
-            $javascript = str_replace($searchstring, $html, $javascript);    
-            
-            return $javascript;            
-    
-    }
-    
-    private function addGroupChildLinks( $export_id = '', $level = '' ){
-    
-        $html = '';
-        $open = '';
-        
-        // Get the list
-        $where = " WHERE ".self::F_PARENT_ID." = '".$export_id."'";
-        $listchildarray = $this->getListArray( $where ); 
-        
-        if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$export_id] == '1' ) {
-        
-            $hide = '';
-            $toggleimg = 'minus';
-            $boldclass = ' twiz-bold';
-            
-        }else{
-
-            $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
-            $boldclass = '';
-        }
-        
-        //Toggle group image
-        $open .= '<div class="twiz-relative"><img name="twiz_group_img_'.$export_id.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img-view"/></div>';
-        
-        $open .= '<div class="'.$export_id.$hide.'">';
-        $close = '</div>';
-        
-        foreach ($listchildarray as $value){
-        
-            $string = "$(document).twiz_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
-            
-            $html .= '&nbsp;&nbsp;<span id="twiz_anim_link_img_box_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[self::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[self::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$string.'</a><br />';
-        
-        }
-        
-        $html = ($html != '')? $open.$html.$close : '';
-        
-        return $html;
-    }
-    
     protected function createHtmlList( $listarray = array(), $saved_id = '', $parent_id = '', $action = '' ){ 
 
         if( count($listarray) == 0 ){return false;}
@@ -1223,6 +1129,7 @@ class Twiz{
         $jsscript_show = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
+        $("#twiz_loading_menu").html("");
         $("[name^=twiz_listmenu]").css("display", "block");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
@@ -1601,8 +1508,8 @@ class Twiz{
     
         return false;
     }
-    
-    private function getDirectionalImage( $data = '', $ab = ''){
+        
+    function getDirectionalImage( $data = '', $ab = ''){
     
         if($data==''){return '';}
         if($ab==''){return '';}
@@ -1781,7 +1688,7 @@ class Twiz{
         $data = '';
         $opendiv = '';
         $closediv = '';
-        $hideimport = '';
+        $showexport = '';
         $toggleoptions = '';
         if(!isset($_POST['twiz_action'])) $_POST['twiz_action'] = '';
         if(!isset($_POST['twiz_stay'])) $_POST['twiz_stay'] = '';
@@ -1791,13 +1698,10 @@ class Twiz{
             
             if(!$data = $this->getRow($id)){return false;}
             
-            if( $action == self::ACTION_COPY ){
+            if( $action != self::ACTION_COPY ){
             
-                $hideimport = '$("#twiz_export").fadeOut("fast");';
+                $showexport = '$("#twiz_export").fadeIn("fast");';
             }
-        }else{
-        
-            $hideimport = '$("#twiz_export").fadeOut("fast");';
         }
         
         $jsscript_open = '<script>
@@ -1861,10 +1765,7 @@ $jsscript_close = '});
 $("[name^=twiz_listmenu]").css("display", "none");
 $(".twiz-right-panel").fadeOut("fast");
 $("#twiz_add_menu").fadeIn("fast");
-$("#twiz_import_container").fadeIn("fast");
-$("#qq_upload_list li").remove();
-$("#twiz_export_url").html("");
-        '.$hideimport;
+        '.$showexport;
          
         // Text Area auto expand
         $jsscript_autoexpand = '
@@ -2197,8 +2098,8 @@ $("textarea[name^=twiz_options]").blur(function (){
         $element_type_list_move_b = $this->getHtmlElementTypeList($data[self::F_MOVE_ELEMENT_TYPE_B], self::F_MOVE_ELEMENT_TYPE_B);
         
         // easing
-        $easing_a = $this->getHtmlEasingOptions($data[self::F_EASING_A], self::F_EASING_A);
-        $easing_b = $this->getHtmlEasingOptions($data[self::F_EASING_B], self::F_EASING_B);
+        $easing_a = $this->getHtmlEasingOptions($data[self::F_EASING_A], self::F_EASING_A, '');
+        $easing_b = $this->getHtmlEasingOptions($data[self::F_EASING_B], self::F_EASING_B, '');
         
         $twiz_parent_id = ($parent_id != '') ? $parent_id : $data[self::F_PARENT_ID];
         
@@ -2369,211 +2270,30 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $htmlform;
     }
 
-    function getHtmlView( $id, $level = 0 ){ 
+    function getOutputEasingLabel( $type = '' ){
+    
+        switch($type){
         
-        $data = '';
-        
-        if($id != ''){
-            if(!$data = $this->getRow($id)){return false;}
-        }
-
-        $hasMovements = $this->hasMovements($data);
-        $hasStartingConfigs = $this->hasStartingConfigs($data);
-        
-
-        $start_top_pos = ($data[self::F_START_TOP_POS]!='') ? $data[self::F_START_TOP_POS_SIGN].$data[self::F_START_TOP_POS].' '.$data[self::F_START_TOP_POS_FORMAT] : '';
-        $start_left_pos = ($data[self::F_START_LEFT_POS]!='') ? $data[self::F_START_LEFT_POS_SIGN].$data[self::F_START_LEFT_POS].' '.$data[self::F_START_LEFT_POS_FORMAT] : '';
-        $move_top_pos_a = ($data[self::F_MOVE_TOP_POS_A]!='') ? $data[self::F_MOVE_TOP_POS_SIGN_A].$data[self::F_MOVE_TOP_POS_A].' '.$data[self::F_MOVE_TOP_POS_FORMAT_A] : '';
-        $move_left_pos_a = ($data[self::F_MOVE_LEFT_POS_A]!='') ? $data[self::F_MOVE_LEFT_POS_SIGN_A].$data[self::F_MOVE_LEFT_POS_A].' '.$data[self::F_MOVE_LEFT_POS_FORMAT_A] : '';
-        $move_top_pos_b = ($data[self::F_MOVE_TOP_POS_B]!='') ? $data[self::F_MOVE_TOP_POS_SIGN_B].$data[self::F_MOVE_TOP_POS_B].' '.$data[self::F_MOVE_TOP_POS_FORMAT_B] : '';
-        $move_left_pos_b = ($data[self::F_MOVE_LEFT_POS_B]!='') ? $data[self::F_MOVE_LEFT_POS_SIGN_B].$data[self::F_MOVE_LEFT_POS_B].' '.$data[self::F_MOVE_LEFT_POS_FORMAT_B] : '';
-        
-        $titleclass = ($data[self::F_STATUS]=='1') ? 'twiz-status-green' : 'twiz-status-red';
-        $event_locked = (($data[self::F_LOCK_EVENT]=='1') and ( ( $data[self::F_ON_EVENT] !='') and ( $data[self::F_ON_EVENT] !='Manually') and ( $data[self::F_LOCK_EVENT_TYPE] == 'auto') ) )  ? __('Automatic unlock', 'the-welcomizer') : '';
-        $event_locked .= (($data[self::F_LOCK_EVENT]=='1') and ( ( $data[self::F_ON_EVENT] !='') and ( $data[self::F_ON_EVENT] !='Manually') and ( $data[self::F_LOCK_EVENT_TYPE] == 'manu') ) )  ? __('Manual unlock', 'the-welcomizer') : '';
-        $imagemove_a = $this->getDirectionalImage($data, 'a');
-        $imagemove_b = $this->getDirectionalImage($data, 'b');
-        $elementype = ($data[self::F_TYPE] == '') ? self::ELEMENT_TYPE_ID : $data[self::F_TYPE];
-        
-        $element_start = ($data[self::F_START_ELEMENT] != '') ? '<span class="'.$titleclass.'">'.$data[self::F_START_ELEMENT_TYPE].'</span> = '.$data[self::F_START_ELEMENT]: '';
-        $element_move_a = ($data[self::F_MOVE_ELEMENT_A] != '') ? '<span class="'.$titleclass.'">'.$data[self::F_MOVE_ELEMENT_TYPE_A].'</span> = '.$data[self::F_MOVE_ELEMENT_A]: '';
-        $element_move_b = ($data[self::F_MOVE_ELEMENT_B] != '') ?'<span class="'.$titleclass.'">'.$data[self::F_MOVE_ELEMENT_TYPE_B].'</span> = '.$data[self::F_MOVE_ELEMENT_B]: '';
-        
-        $output_starting_pos = $this->getOutputLabel($data[self::F_OUTPUT_POS]);
-        $output_javascript = $this->getOutputLabel($data[self::F_OUTPUT]);
-        
-        $easing_a = $this->getOutputEasingLabel($data[self::F_EASING_A]);
-        $easing_b = $this->getOutputEasingLabel($data[self::F_EASING_B]);
-        
-        $javascript = str_replace("\n", "<br>", $data[self::F_JAVASCRIPT]);
-        $css = str_replace("\n", "<br>", $data[self::F_CSS]);
-        $extra_js_a = str_replace("\n", "<br>", $data[self::F_EXTRA_JS_A]);
-        $extra_js_b = str_replace("\n", "<br>", $data[self::F_EXTRA_JS_B]);
-        
-        $javascript = str_replace(" ", "&nbsp;", $javascript);
-        $css = str_replace(" ", "&nbsp;", $css);
-        $extra_js_a = str_replace(" ", "&nbsp;", $extra_js_a);
-        $extra_js_b = str_replace(" ", "&nbsp;", $extra_js_b);
-             
-        $where = " WHERE ".self::F_SECTION_ID." = '".$data[self::F_SECTION_ID]."'";
-        $listarray = $this->getListArray($where);
-        
-        $javascript = $this->addViewLinks($javascript, $listarray, $level);
-        $extra_js_a = $this->addViewLinks($extra_js_a, $listarray, $level);
-        $extra_js_b = $this->addViewLinks($extra_js_b, $listarray, $level);
-        $on_event = $this->format_on_event($data[self::F_ON_EVENT]);
-        // creates the view
-        $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[self::F_LAYER_ID].'
-        </td><td class="twiz-view-td-right" nowrap="nowrap"><div class="twiz-list-tr-action" name="twiz_view_tr_action_'.$level.'" id="twiz_view_tr_action_'.$level.'" ><a id="twiz_edit_v_'.$data[self::F_ID].'" name="twiz_edit_v_'.$data[self::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_v_'.$data[self::F_ID].'" name="twiz_copy_v_'.$data[self::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_v_'.$data[self::F_ID].'" name="twiz_delete_v_'.$data[self::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></div>';
-        
-        if( ($hasStartingConfigs) 
-        or ($data[self::F_CSS] != '') 
-        or ((!$hasStartingConfigs) and (!$hasMovements) ) ) {
-        
-            $hidetop = '';
+            case 'swing':
             
-        }else{
-        
-            $hidetop = '1';
-        }
-              
-        $htmlview .='</td></tr>';
-        
-        if(!($onlycss = $this->hasOnlyCSS($data))){
-
-            $htmlview .='<tr><td class="twiz-view-td-left" valign="top" ><div class="twiz-blue">'.$on_event.'</div><div class="twiz-add-element">'.$event_locked.'</div></td><td class="twiz-view-td-right" nowrap="nowrap"><table><tr><td>'.__('Delay', 'the-welcomizer').':</td><td>'.$data[self::F_START_DELAY].' <small>ms</small></td></tr>';
+                return ''.__('swing', 'the-welcomizer').'';
+                
+                break;
+                
+            case 'linear':
             
-            if($hasMovements){
+                return ''.__('linear', 'the-welcomizer').'';
+                
+                break;
+                
+            default:
             
-                $htmlview .='<tr><td>'.__('Duration', 'the-welcomizer').':</td><td>'.$this->formatDuration($data[self::F_ID], $data).'</td></tr>';
-            }
-            
-            $htmlview .= '</table></td></tr>';
+                return $type;
+                
+                break;
         }
         
-        if($hidetop == ''){
-        
-            $htmlview .='<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr><tr>';
-
-            if ( ($element_start != '')
-            or ( $start_top_pos != '' )
-            or ( $start_left_pos != '' )
-            or ( $data[self::F_POSITION] != '' )
-            or ( $data[self::F_ZINDEX] != '' ) ){
-        
-                $colspan2 = '';
-                $htmlview .='<td class="twiz-view-td-left" valign="top"><table>
-             <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Starting Positions', 'the-welcomizer').'</b>
-             <div class="twiz-green">'.$output_starting_pos.'</div><div class="twiz-spacer"></div></td></tr>';
-         
-                $htmlview .= ($element_start != '') ? '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_start.'</td></tr>' : '';
-                
-                $htmlview .= ( $start_top_pos != '' ) ? '<tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.$this->label_y.':</td><td>'.$start_top_pos.'</td></tr>' : '';
-                
-                $htmlview .= ( $start_left_pos != '' ) ? '<tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.$this->label_x.':</td><td>'.$start_left_pos.'</td></tr>' : '';
-                
-                $htmlview .= ( $data[self::F_POSITION] != '' ) ? '<tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('Position', 'the-welcomizer').':</td><td>'.' '.$data[self::F_POSITION].'</td></tr>' : '';
-                
-                $htmlview .= ( $data[self::F_ZINDEX] != '' ) ? '<tr><td class="twiz-view-td-small-left" nowrap="nowrap">'.__('z-index', 'the-welcomizer').':</td><td>'.' '.$data[self::F_ZINDEX].'</td></tr>' : '';
-                    
-                $htmlview .= '</table></td>';
-            
-            }else{
-            
-                $colspan2 = ' colspan="2"';
-            }
-        
-            $htmlview .='
-    <td valign="top"'.$colspan2.'>
-    <table>';
-            
-            $htmlview .= ( $javascript != '' ) ? '<tr><td class="twiz-caption"  nowrap="nowrap"><b>'.__('jQuery', 'the-welcomizer').'</b><div class="twiz-green">'.$output_javascript.'</div><div class="twiz-spacer"></div></td></tr><tr><td nowrap="nowrap">'.$javascript.'</td></tr><tr><td><div class="twiz-spacer"></div></td></tr>' : '';
-
-            $htmlview .= ( $css != '' ) ? '<tr><td class="twiz-caption" nowrap="nowrap"><b>'.__('Extra CSS', 'the-welcomizer').'</b><div class="twiz-spacer"></div></td></tr>
-    <tr><td nowrap="nowrap">'.$css.'</td></tr>' : '';
-            
-            $htmlview .= '
-</table>    
-</td>
-</tr></table>';
-        }
-    
-       if ( ( $element_move_b != '' )
-            or ( $data[self::F_MOVE_LEFT_POS_B] != '' ) 
-            or ( $data[self::F_MOVE_TOP_POS_B] != '' )
-            or ( $data[self::F_OPTIONS_B] != '' )
-            or ( $extra_js_b != '' ) ){
-             
-             $colspan2 = '';
-             
-       }else{
-        
-            $colspan2 = ' colspan="2"';
-       }
-    
-        if( $hasMovements ) {
-
-            $htmlview .= '<table class="twiz-table-view-b" cellspacing="0" cellpadding="0">
-        <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
-<tr><td class="twiz-view-td-left" valign="top"'.$colspan2.'>
-<table>
-    <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b>
-    <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>';
-    
-             
-            $htmlview .= ($element_move_a != '') ? '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_move_a.'</td></tr>' : '';
-            
-            $htmlview .= (($data[self::F_MOVE_TOP_POS_A]!='') or ($data[self::F_MOVE_LEFT_POS_A]!='')) ? '<tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.$this->label_y.':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_a .'</td><td rowspan="2" align="center" width="95">'.$imagemove_a.'</td></tr>
-        <tr><td class="twiz-view-td-small-left"  nowrap="nowrap" valign="top">'.$this->label_x.':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_a .'</td></tr>' : '';
-        
-            $htmlview .= '</table><table class="twiz-view-table-more-options"><tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>';
-
-            $htmlview .= ( $data[self::F_OPTIONS_A] != '' ) ? '<tr><td nowrap="nowrap">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_A]).'</td></tr>' : '';
-
-            $htmlview .= '<tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>';
-
-            $htmlview .= ( $extra_js_a != '' ) ? '<tr><td nowrap="nowrap">'.$extra_js_a.'</td></tr>' : '';
-        
-            $htmlview .= '</table>';
-    
-            $htmlview .= '</td>
-<td valign="top">';
-
-            if ( ($element_move_b != '')
-            or ( $data[self::F_MOVE_LEFT_POS_B] != '' ) 
-            or ( $data[self::F_MOVE_TOP_POS_B] != '' )
-            or ( $data[self::F_OPTIONS_B] != '' )
-            or ( $extra_js_b != '' ) ){
-            
-                $htmlview .= '<table>
-                <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Second Move', 'the-welcomizer').'</b>
-                <div class="twiz-green">'.$easing_b.'</div><div class="twiz-spacer"></div></td></tr>';
-                
-
-                $htmlview .= ($element_move_b != '') ? '<tr><td colspan="2" class="twiz-view-td-small-left twiz-bold" nowrap="nowrap">'.$element_move_b.'</td></tr>' : '';
-                
-                
-                $htmlview .= (($data[self::F_MOVE_TOP_POS_B]!='') or ($data[self::F_MOVE_LEFT_POS_B]!='')) ? '<tr><td class="twiz-view-td-small-left" valign="top" height="20" nowrap="nowrap">'.$this->label_y.':</td><td valign="top" nowrap="nowrap">'.$move_top_pos_b.'</td><td rowspan="2" align="center" width="95">'.$imagemove_b.'</td></tr>
-    <tr><td class="twiz-view-td-small-left" nowrap="nowrap" valign="top">'.$this->label_x.':</td><td valign="top" nowrap="nowrap">'.$move_left_pos_b .'</td></tr>' : '';
-            
-                $htmlview .= '</table><table class="twiz-view-table-more-options"><tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>';
-                
-                $htmlview .= ( $data[self::F_OPTIONS_B] != '' ) ? '<tr><td nowrap="nowrap">'.str_replace("\n", "<br>",$data[self::F_OPTIONS_B]).'</td></tr>' : '';
-
-                $htmlview .= '<tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>';
-                
-                $htmlview .= ( $extra_js_b != '' ) ? '<tr><td nowrap="nowrap">'.$extra_js_b.'</td></tr>' : '';
-
-                $htmlview .= '</table>';
-            }
-                
-                $htmlview .= '</td></tr>';
-        }
-        
-        $htmlview .= '</table>';
-    
-        return $htmlview;
+        return '';
     }
 
     protected function getListArray( $where = '', $orderby = '' ){ 
@@ -2698,6 +2418,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             $container = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
+        $("#twiz_loading_menu").html("");
         $("[name^=twiz_listmenu]").css("display", "block");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
@@ -2882,10 +2603,10 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $html;
     }
     
-    private function getHtmlElementTypeList( $type = self::ELEMENT_TYPE_ID , $field = self::F_TYPE ){
+    function getHtmlElementTypeList( $type = self::ELEMENT_TYPE_ID , $field = self::F_TYPE, $suffix = ''){
         
-        $select = '<select name="twiz_'.$field.'" id="twiz_'.$field.'">';
-         
+        $select = '<select name="twiz_'.$field.$suffix.'" id="twiz_'.$field.$suffix.'">';
+        
         foreach ($this->array_element_type as $value){
 
             $selected = ($type == $value) ? ' selected="selected"' : '';
@@ -2898,13 +2619,13 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $select;
     }  
     
-    function getHtmlEventList( $event = '', $extraid = '', $extraclass = '' ){
+    function getHtmlEventList( $event = '', $suffix = '', $class = '' ){
     
         $valuelbl = '';
-        $extraid = ($extraid == '') ? '' : '_'.$extraid;
-        $extraclass = ($extraclass == '') ? '' : 'class="'.$extraclass.'"';
+
+        $class = ($class == '') ? '' : 'class="'.$class.'"';
         
-        $select = '<select name="twiz_'.self::F_ON_EVENT.$extraid.'" id="twiz_'.self::F_ON_EVENT.$extraid.'" '.$extraclass.'>';
+        $select = '<select name="twiz_'.self::F_ON_EVENT.$suffix.'" id="twiz_'.self::F_ON_EVENT.$suffix.'" '.$class.'>';
         $select .= '<option value="">'.__('(Optional)', 'the-welcomizer').'</option>';
         
         $event = str_replace( self::EV_PREFIX_ON, "", $event );
@@ -3134,7 +2855,6 @@ $("textarea[name^=twiz_options]").blur(function (){
         if( !isset($twiz_easing['swing']) ) $twiz_easing_a['swing'] = '';
         if( !isset($twiz_easing['linear']) ) $twiz_easing_a['linear'] = '';
         
-        $suffix = ($suffix == '') ? '' : '_'.$suffix;
         $twiz_easing['swing'] = ($easing_value == 'swing') ? ' selected="selected"' : '';
         $twiz_easing['linear'] = ($easing_value == 'linear') ? ' selected="selected"' : '';
 
@@ -3206,63 +2926,6 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         return $options;
     }    
-    
-    private function getOutputLabel( $type = '' ){
-    
-        switch($type){
-        
-            case 'r':
-            
-                return ''.__('onReady', 'the-welcomizer').'';
-                
-                break;
-                
-            case 'b':
-            
-                return ''.__('Before the delay', 'the-welcomizer').'';
-                
-                break;
-                
-            case 'a':
-            
-                return ''.__('After the delay', 'the-welcomizer').'';
-                
-                break;
-            case 'c':
-            
-                return ''.__('CSS Styles', 'the-welcomizer').'';
-                
-                break;
-        }
-        
-        return '';
-    }
-    
-    private function getOutputEasingLabel( $type = '' ){
-    
-        switch($type){
-        
-            case 'swing':
-            
-                return ''.__('swing', 'the-welcomizer').'';
-                
-                break;
-                
-            case 'linear':
-            
-                return ''.__('linear', 'the-welcomizer').'';
-                
-                break;
-                
-            default:
-            
-                return $type;
-                
-                break;
-        }
-        
-        return '';
-    }
     
     protected function getRow( $id = '' ){ 
     
@@ -3820,6 +3483,21 @@ $("textarea[name^=twiz_options]").blur(function (){
     
         return $html;
     }
+    
+    function replaceTwizShortCode( $shortcode = '', $string = '' ){
 
+        switch( $shortcode ){
+        
+            case self::SC_WP_UPLOAD_DIR:
+            
+                $string = str_replace( $shortcode, $this->uploadDir['baseurl'], $string );
+                
+                return $string;
+            
+            break;
+        }
+        
+        return '';
+    }
 }
 ?>

@@ -41,6 +41,15 @@ div a, td a {
     text-decoration: none;
     cursor: pointer;
 }
+#wpbody-content {
+    width: 1500% !important;
+}
+#user_info {
+    height: 31px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 11 !important;
+}
 .twiz-corner-top {
     border-radius: 6px 6px 0px 0px;
     -moz-border-radius-topright: 6px;
@@ -73,15 +82,6 @@ div a, td a {
     -khtml-border-radius-topright: 6px;
     -khtml-border-radius-bottomleft: 6px;
     -khtml-border-radius-bottomright: 6px;
-}
-#wpbody-content {
-    width: 1500% !important;
-}
-#user_info {
-    height: 31px !important;
-    overflow: hidden !important;
-    position: relative !important;
-    z-index: 11 !important;
 }
 #twiz_plugin {
     width: 98%;
@@ -578,7 +578,7 @@ div #twiz_head_logo:hover {
     padding-top: 4px;
 }
 .twiz-td-action {
-    width: 79px;
+    width: 85px;
 }
 .twiz-td-lib-action,
 .twiz-td-lib-order {
@@ -842,6 +842,12 @@ a.twiz-red:hover {
 #twiz_td_full_chooseid img,
 #twiz_td_full_chooseid a  {
     margin-right: 5px;
+}
+#twiz_view_image {
+    position: absolute;
+    top: 15px;
+    left: 3px;
+    z-index: 1;
 }
 .twiz-table-view {
     padding: 16px 16px 0px 16px;

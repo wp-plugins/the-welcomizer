@@ -215,7 +215,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
     function getHTMLGroupList( $section_id = '' ){
     
         $where = " WHERE ".parent::F_TYPE."='".parent::ELEMENT_TYPE_GROUP."' and ".parent::F_SECTION_ID." = '".$section_id."'";
-        $listarray = $this->getListArray( $where, " ORDER BY ".parent::F_LAYER_ID );
+        $listarray = $this->getListArray( $where );
         
         // Animations
         $html = '<select class="twiz-slc-group" id="twiz_slc_group" name="twiz_slc_group">';
