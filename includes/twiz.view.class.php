@@ -82,10 +82,15 @@ class TwizView extends Twiz{
 
     private function addLinkToImage( $value = '' ){
         
-        $value = preg_replace_callback('/((http:\/\/)(.*?)(\/uploads\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', 
-        function($match){  return '<a href="'.$match[0].'" class="twiz-view-image-link">'.$match[5].$match[6].'</a>';}, $value);
+        $value = preg_replace_callback('/((http:\/\/)(.*?)(\/uploads\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', 'self::callbackImageLink', $value);
 
         return $value;
+    }
+    
+    private function callbackImageLink($match = array()){
+    
+        return '<a href="'.$match[0].'" class="twiz-view-image-link">'.$match[5].$match[6].'</a>';
+        
     }
     
     private function addGroupChildLinks( $export_id = '', $level = '' ){
