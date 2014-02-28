@@ -830,6 +830,7 @@ class TwizAjax extends Twiz{
         var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(16,twiz_textid.length);
         twiz_view_id = "edit";
+        twizSwitchFooterMenu();
         $(this).hide();
         $(this).after(\'<img\' + \' id="twiz_img_group_edit" src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action" />\');
         $.post(ajaxurl, {

@@ -1,5 +1,8 @@
 <?php
-define('WP_DEBUG', false);
+
+if (defined('WP_DEBUG') && 1 != WP_DEBUG) {
+    define('WP_DEBUG', false);
+}
 
 $_SERVER['PHP_SELF'] = $PHP_SELF = '/wp-admin/'.preg_replace( '/(\?.*)?$/', '', $_SERVER["REQUEST_URI"] );
 
