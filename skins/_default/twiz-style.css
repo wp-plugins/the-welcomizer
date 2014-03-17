@@ -592,7 +592,7 @@ div #twiz_head_logo:hover {
     width: 55px;
 }
 .twiz-td-element {
-    min-width: 150px;
+    min-width: 145px;
 }
 .twiz-td-event {
     width: 70px;
@@ -616,7 +616,7 @@ a.twiz-red:hover {
     color: #AA0000 !important;
 }
 .twiz-td-delay {
-    width: 51px;
+    width: 52px;
 }
 .twiz-td-delay input {
     width: 55px;
