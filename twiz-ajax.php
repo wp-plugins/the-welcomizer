@@ -514,11 +514,12 @@
         case Twiz::ACTION_EXPORT:
         
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
         
             $myTwiz  = new Twiz();
             $TwizImportExport  = new TwizImportExport();
-            $htmlresponse = $TwizImportExport->export($twiz_section_id, $twiz_id);
+            $htmlresponse = $TwizImportExport->export($twiz_section_id, $twiz_id, $twiz_group_id );
             
             break;
             

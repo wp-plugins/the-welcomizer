@@ -27,7 +27,7 @@ class TwizAjax extends Twiz{
     $twiz_hscroll_status = get_option('twiz_hscroll_status');
     $twiz_hscroll_status = ($twiz_hscroll_status == '') ? '1' : $twiz_hscroll_status;
     
-    $header = 'var twiz_parent_id = ""; var twiz_showOrHide_more_section_options = false; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'"; jQuery(document).ready(function($) {
+    $header = 'var twiz_parent_id = ""; var twiz_showOrHide_more_section_options = false; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'";var twiz_current_group_id = ""; jQuery(document).ready(function($) {
  $.ajaxSetup({ cache: false });
  var twiz_skin =  "'.$this->skin[$this->userid].'";
  if((twiz_skin == "")||(twiz_skin == "'.parent::SKIN_PATH.'")){ twiz_skin = "'.parent::SKIN_PATH.''.parent::DEFAULT_SKIN.'";}
@@ -52,10 +52,10 @@ class TwizAjax extends Twiz{
     allowedExtensions: ["'.parent::EXT_TWZ.'", "'.parent::EXT_TWIZ.'", "'.parent::EXT_XML.'"],
     sizeLimit: '.parent::IMPORT_MAX_SIZE.', // max size   
     minSizeLimit: 1, // min size
-    onSubmit: function (){ $("#twiz_export_url").html(""); twiz_import_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id }); },
-    onComplete: function (){ twizPostMenu(twiz_current_section_id);},
+    onSubmit: function (){ $("#twiz_export_url").html(""); twiz_import_file.setParams({action: "twiz_ajax_callback", twiz_nonce: "'.$this->nonce.'", twiz_action: "'.parent::ACTION_IMPORT.'", twiz_section_id: twiz_current_section_id, twiz_group_id: twiz_current_group_id }); },
+    onComplete: function (){ twiz_current_group_id = ""; twizPostMenu(twiz_current_section_id); },
     messages: {
-        typeError: "'.__('{file} has invalid extension. Only {extensions} are allowed.', 'the-welcomizer').'",
+        typeError: "'.__('{file} has invalid extension. Only ', 'the-welcomizer').parent::EXT_TWIZ.','.parent::EXT_XML.__(' are allowed.', 'the-welcomizer').'",
         sizeError: "'.__('{file} is too large, maximum file size is {sizeLimit}.', 'the-welcomizer').'",
         minSizeError: "'.__('{file} is too small, minimum file size is {minSizeLimit}.', 'the-welcomizer').'",
         emptyError: "'.__('{file} is empty, please select files again without it.', 'the-welcomizer').'",
@@ -156,6 +156,7 @@ class TwizAjax extends Twiz{
             }).fail(function(){ twizUnLockedAction(); });
     }else{twizLockedAction();}});
     $("a[name=twiz_group_cancel]").click(function(){
+        twiz_current_group_id = "";
         twiz_ListMenu_Cancel();
     });
     $("#twiz_group_name").click(function(){
@@ -188,6 +189,7 @@ class TwizAjax extends Twiz{
             "twiz_group_id": $("#twiz_group_id").val(),
             "twiz_nonce": "'.$this->nonce.'"
          }, function(data) {
+                twiz_current_group_id = "";
                 twizUnLockedAction();
                 data = JSON.parse(data);
                 $("img[name^=twiz_status_img]").unbind("click");
@@ -830,7 +832,6 @@ class TwizAjax extends Twiz{
         var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(16,twiz_textid.length);
         twiz_view_id = "edit";
-        twizSwitchFooterMenu();
         $(this).hide();
         $(this).after(\'<img\' + \' id="twiz_img_group_edit" src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-save.gif" class="twiz-loading-gif-action" />\');
         $.post(ajaxurl, {
@@ -840,7 +841,8 @@ class TwizAjax extends Twiz{
         "twiz_group_id": twiz_numid,
         "twiz_section_id": twiz_current_section_id
         }, function(data) {
-            twizUnLockedAction();
+            twizUnLockedAction(); 
+            twiz_current_group_id = twiz_numid;
             $("#twiz_sub_container").html(data);
             $("#twiz_sub_container").show();
             $("#" + twiz_textid).show();
@@ -1563,7 +1565,6 @@ class TwizAjax extends Twiz{
               }).fail(function(){ twizUnLockedAction(); });
           }else{
               twizUnLockedAction();
-              $("#twiz_list_tr_action_" + twiz_numid).css("visibility", "visible");
               $(".twiz-right-panel").css("display", "none");
               $("#" + twiz_right_panel).remove();
               if(twiz_view_level == 1){
@@ -1774,6 +1775,7 @@ class TwizAjax extends Twiz{
             twizList_ReBind();
             $("#twiz_container").slideToggle("fast");
             twiz_library_active = false;
+            twiz_current_group_id = "";
         }).fail(function(){ twizUnLockedAction(); });
   }else{twizLockedAction();}}
   var bind_twiz_Save_Section = function(){
@@ -1999,6 +2001,7 @@ class TwizAjax extends Twiz{
         "twiz_nonce": "'.$this->nonce.'", 
         "twiz_action": "'.parent::ACTION_EXPORT.'",
         "twiz_section_id": twiz_current_section_id,
+        "twiz_group_id": twiz_current_group_id,
         "twiz_id": twiz_animid
         }, function(data) {
            twizUnLockedAction();

@@ -25,6 +25,8 @@ $_POST['twiz_action']     = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_
 $_GET['twiz_action']      = (!isset($_GET['twiz_action'])) ? '' : $_GET['twiz_action'];
 $_POST['twiz_section_id'] = (!isset($_POST['twiz_section_id'])) ? '' : $_POST['twiz_section_id'];
 $_GET['twiz_section_id']  = (!isset($_GET['twiz_section_id'])) ? '' : $_GET['twiz_section_id'];
+$_POST['twiz_group_id'] = (!isset($_POST['twiz_group_id'])) ? '' : $_POST['twiz_group_id'];
+$_GET['twiz_group_id']  = (!isset($_GET['twiz_group_id'])) ? '' : $_GET['twiz_group_id'];
 
 $nonce = ($_POST['twiz_nonce'] == '') ? $_GET['twiz_nonce'] : $_POST['twiz_nonce'];
 $action = ($_POST['twiz_action'] == '') ? $_GET['twiz_action'] : $_POST['twiz_action'];
@@ -198,7 +200,7 @@ class qqFileUploader extends TwizLibrary{
                                      
                     if(! $code = $this->addLibrary($library)){
 
-                        return array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
+                        return array('error' => __('File is corrupted and unreadable, the upload was cancelled.', 'the-welcomizer'));
                     }
 
                     return array('success' => true);
@@ -207,23 +209,46 @@ class qqFileUploader extends TwizLibrary{
                     
                 case parent::ACTION_IMPORT:
                 
-                    $return_array = 'w';
+                    $return_array = '';
+
+                    $_POST['twiz_section_id'] = ( $_POST['twiz_section_id'] == "" ) ? $_GET['twiz_section_id'] : '' ;
+                    $_POST['twiz_group_id'] = ( $_POST['twiz_group_id'] == "" ) ? $_GET['twiz_group_id'] : '' ;
+                     
+                    if(!isset($_POST['twiz_section_id'])){
                     
-                     // get section id 
-                     $sectionid = ($_POST['twiz_section_id']=='') ? $_GET['twiz_section_id'] : $_POST['twiz_section_id'];
+                        // delete file 
+                        if(@file_exists($uploadDirectory . $filename)) {
+                        
+                            unlink($uploadDirectory . $filename );
+                        }
+                        
+                        return array('error'=> __('Server error encountered, the import was cancelled.', 'the-welcomizer'));
+                    }
+                    
+                    // get params
+                    $sectionid = esc_attr(trim($_POST['twiz_section_id']));
+                    $groupid   = ($_POST['twiz_group_id']  != '' ) ? esc_attr(trim($_POST['twiz_group_id'])) : '';
                     
                     $TwizImportExport  = new TwizImportExport();
-                    // import list data 
-                    if( !$code = $TwizImportExport->import($sectionid)){
                     
-                        $return_array = array('error' => __('File is corrupted and unreadable, the import was cancelled.', 'the-welcomizer'));
+                    // import list data 
+                    if( !$code = $TwizImportExport->import($sectionid, $groupid)){
+                    
+                        // delete file 
+                        if(@file_exists($uploadDirectory . $filename)) {
+                        
+                            unlink($uploadDirectory . $filename );
+                        }
+                        
+                        return array('error' => __('Group found in file. Groups can not be imported into another group, the import was cancelled.', 'the-welcomizer'));
+
                     }
                     
                     if(@file_exists($uploadDirectory . $filename)) {
                     
                         unlink($uploadDirectory . $filename );
                         
-                        $return_array = array('success' => true);
+                        return array('success' => true);
                     }      
                     
                     return $return_array;
@@ -238,7 +263,7 @@ class qqFileUploader extends TwizLibrary{
             unlink($uploadDirectory . $filename );
         }
         
-        return array('error'=> __('Could not save uploaded file. The upload was cancelled, or server error encountered', 'the-welcomizer'));
+        return array('error'=> __('Could not save uploaded file or server error encountered, the upload was cancelled.', 'the-welcomizer'));
     }    
 }
 

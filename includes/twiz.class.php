@@ -870,8 +870,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.3.5';
-        $this->cssVersion = '2-43';
+        $this->version    = '2.4';
+        $this->cssVersion = '2-44';
         $this->dbVersion  = '3.7.1';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -1012,19 +1012,19 @@ class Twiz{
         
         $ads['1and1'] = '<a href="http://www.anrdoezrs.net/dp101vpyvpxCIJLIMFFCEDHFLMDJ" target="_blank" title="1and1.com"><img src="http://www.ftjcfx.com/h7104ltxlrpAGHJGKDDACBFDJKBH" border="0" class="twiz-ads-img"/></a>';
       
-        $ads['All-Battery'] = '<a href="http://www.tkqlhce.com/g8104nmvsmu9FGIFJCC9BAGADEJH" target="_blank" title="All-Battery.com"><img src="http://www.tqlkg.com/4c106jy1qwuFLMOLPIIFHGMGJKPN" border="0" class="twiz-ads-img"/></a>';
+        $ads['All-Battery'] = '<a href="http://www.kqzyfj.com/tq119cy63y5LRSURVOOLNMSMPQVS" target="_blank"><img src="http://www.tqlkg.com/2666c37w1-LRSURVOOLNMSMPQVS" title="All-Battery.com" border="0" class="twiz-ads-img"/></a>';
 
-        $ads['bluehost'] = '<a href="http://www.jdoqocy.com/mb116efolfn289B8C552436A8997" target="_blank"><img src="http://www.tqlkg.com/bt65o26v0zKQRTQUNNKMLOSQRRP" alt="Bluehost.com - $6.95 Web Hosting" border="0" class="twiz-ads-img"/></a>';
+        $ads['bluehost'] = '<a href="http://www.jdoqocy.com/mb116efolfn289B8C552436A8997" target="_blank"><img src="http://www.tqlkg.com/bt65o26v0zKQRTQUNNKMLOSQRRP" title="Bluehost.com - $6.95 Web Hosting" border="0" class="twiz-ads-img"/></a>';
         
         $ads['DiscountWatchStore'] = '<a href="http://www.dpbolvw.net/1h66r09608OUVXUYRROQPXSSWRU" target="_blank" title="Free Shipping on ALL orders! DiscountWatchStore.com"><img src="http://www.lduhtrp.net/b8103kpthnl6CDFCG99687FAAE9C" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['myhosting'] = '<a href="http://www.anrdoezrs.net/dc100r09608OUVXUYRROQPWSRUWY" title="myhosting.com" target="_blank"><img src="http://www.lduhtrp.net/rl82g04tzxIOPROSLLIKJQMLOQS" alt="" border="0" class="twiz-ads-img"/></a>';
+        $ads['myhosting'] = '<a href="http://www.anrdoezrs.net/dc100r09608OUVXUYRROQPWSRUWY" title="myhosting.com" target="_blank"><img src="http://www.lduhtrp.net/rl82g04tzxIOPROSLLIKJQMLOQS" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['mypcbackup'] = '<a href="http://www.jdoqocy.com/68104shqnhp4ABDAE77465DE7B5D" target="_blank" title="mypcbackup.com"><img src="http://www.lduhtrp.net/7r79qmqeki39AC9D66354CD6A4C" alt="" border="0" class="twiz-ads-img"/></a>';
+        $ads['mypcbackup'] = '<a href="http://www.jdoqocy.com/68104shqnhp4ABDAE77465DE7B5D" target="_blank" title="mypcbackup.com"><img src="http://www.lduhtrp.net/7r79qmqeki39AC9D66354CD6A4C" border="0" class="twiz-ads-img"/></a>';
         
         $ads['PetFoodDirect'] = '<a href="http://www.tkqlhce.com/tq119tenkem178A7B44132A76668" title="PetFoodDirect.com" target="_blank"><img src="http://www.awltovhc.com/6i104qmqeki39AC9D66354C9888A" title="" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Order Flowers Online'] = '<a href="http://www.anrdoezrs.net/fc81lnwtnvAGHJGKDDAKIDIECK" target="_blank" title="Order Flowers Online"><img src="http://www.lduhtrp.net/3b111nswkqo9FGIFJCC9JHCHDBJ" border="0" class="twiz-ads-img"/></a>';
+        $ads['1800florals'] = '<a href="http://www.anrdoezrs.net/hk98lnwtnvAGHJGKDDAKIDIECK" target="_blank"><img src="http://www.tqlkg.com/s0101g04tzxIOPROSLLISQLQMKS" title="Order Flowers Online" border="0" class="twiz-ads-img"/></a>';
         
         $ads['SuperJeweler'] = '<a href="http://www.anrdoezrs.net/9c102mu2-u1HNOQNRKKHJINJOOJK" target="_blank" title="Shop SuperJeweler - Free Shipping & Free Gift!"><img src="http://www.tqlkg.com/2t70h48x20MSTVSWPPMONSOTTOP" border="0" class="twiz-ads-img"/></a>';
         
@@ -1035,9 +1035,7 @@ class Twiz{
         $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" title="Sears Canada" border="0" class="twiz-ads-img"/></a>';
         
         $ads['Lids'] = '<a href="http://www.tkqlhce.com/gf102js0ys-FLMOLPIIFHGKHMJKN" target="_blank"><img src="http://www.ftjcfx.com/ck77p59y31NTUWTXQQNPOSPURSV" title="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['Scoutmob Shoppe'] = '<a href="http://www.anrdoezrs.net/sd70biroiq5BCEBF885779BBACD" target="_blank"><img src="http://www.ftjcfx.com/2i108tkocig178A7B44133577689" title="" border="0" class="twiz-ads-img"/></a>';
-        
+
         $ads['Floraqueen'] = '<a href="http://www.anrdoezrs.net/rn68ox52x4KQRTQUNNKMMMPLTRT" target="_blank"><img src="http://www.tqlkg.com/d3106m-3sywHNOQNRKKHJJJMIQOQ" title="" border="0" class="twiz-ads-img"/></a>';        
 
         $ads['GreaterGood'] = '<a href="http://www.tkqlhce.com/b3111tenkem178A7B44133634A92" target="_blank"><img src="http://www.awltovhc.com/qh105bosgmk5BCEBF88577A78ED6" title="" border="0" class="twiz-ads-img"/></a>';       
@@ -1046,7 +1044,7 @@ class Twiz{
 
         $ads['Gravity Defyer'] = '<a href="http://www.jdoqocy.com/5j104shqnhp4ABDAE77465BAECD5" target="_blank"><img src="http://www.ftjcfx.com/8c108fz2rxvGMNPMQJJGIHNMQOPH" title="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';        
         
-        $ads['Keurig Canada'] = '<a href="http://www.jdoqocy.com/2b74ft1zt0GMNPMQJJGIIMNMMPI" target="_blank"><img src="http://www.lduhtrp.net/pk97c37w1-LRSURVOOLNNRSRRUN" alt="" border="0" class="twiz-ads-img"/></a>';
+        $ads['Keurig Canada'] = '<a href="http://www.jdoqocy.com/2b74ft1zt0GMNPMQJJGIIMNMMPI" target="_blank"><img src="http://www.lduhtrp.net/pk97c37w1-LRSURVOOLNNRSRRUN"  border="0" class="twiz-ads-img"/></a>';
         
         $ads['Max & Chloe'] = '<a href="http://www.jdoqocy.com/49116r09608OUVXUYRROQPUPTYQQ" target="_blank"><img src="http://www.lduhtrp.net/5o122ax0pvtEKLNKOHHEGFKFJOGG" title="Shop Max & Chloe" border="0" class="twiz-ads-img"/></a>';
         
@@ -2931,7 +2929,7 @@ $("textarea[name^=twiz_options]").blur(function (){
     
         global $wpdb;
         
-        if( $id == '' ){ return false; }
+        if( $id == '' ){ return ''; }
     
         $sql = "SELECT *,( duration + duration_b ) AS total_duration FROM ".$this->table." WHERE ".self::F_ID." = '".$id."'";
         $row = $wpdb->get_row($sql, ARRAY_A);
@@ -2943,8 +2941,8 @@ $("textarea[name^=twiz_options]").blur(function (){
     
         global $wpdb;
         
-        if($value==''){return false;}
-        if($column==''){return false;}
+        if($value==''){return '';}
+        if($column==''){return '';}
         
         $column = ($column=="delay") ? self::F_START_DELAY : $column;
     
@@ -2960,8 +2958,8 @@ $("textarea[name^=twiz_options]").blur(function (){
     
         global $wpdb;
         
-        if($id==''){return false;}
-        if($column==''){return false;}
+        if($id==''){return '';}
+        if($column==''){return '';}
         
         $column = ($column=="delay") ? self::F_START_DELAY : $column;
     
