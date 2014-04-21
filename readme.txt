@@ -3,7 +3,7 @@ Contributors: sebwordpress
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.9
-Stable tag: 2.4
+Stable tag: 2.5
 License: GPLv2
 
 This Ajax powered plugin allows you to quickly animate your WordPress blog using jQuery effects.
@@ -38,6 +38,13 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.5 =
+
+* Shortcode [twiz_wp_upload_dir] for image url is replaced(in visual mode:)
+* Updated jquery included files for drag&drop in list.
+* Modified textbox validation when editing an animation, you can now paste numbers for top, left etc...
+* Added an option to promote this plugin under the admin section.
 
 = 2.4 =
 
@@ -1255,10 +1262,12 @@ Enjoy!
 
 == Upgrade Notice ==
 
+= 2.5 =
+
+* Many adjustments.
+
 = 2.4 =
 
-* Import into a group or export a group list while editing a group.
-* Fixed import bugs.
 * Minor adjustments. 
 
 = 2.3.5 =

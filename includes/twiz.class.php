@@ -340,7 +340,11 @@ class Twiz{
     const KEY_PREFERED_METHOD = 'prefered_method';
     
     // Footer ads constant key
-    const KEY_FOOTER_ADS = 'footer_ads';
+    const KEY_FOOTER_ADS = 'footer_ads';    
+    
+    // Promote this plugin constant key
+    const KEY_PROMOTE_PLUGIN = 'promote_plugin';
+    const KEY_PROMOTE_POSITION = 'promote_position';
     
     // FB like constant key
     const KEY_FB_LIKE = 'fb_like';
@@ -451,9 +455,11 @@ class Twiz{
     const TRANSIT_IN_OUT = 'in-out';
     const TRANSIT_SNAP   = 'snap';
     
-    // positioning labels constants
+    // positioning constants
     const POS_TOP_LEFT = 'Top &amp; Left';
     const POS_TOP_RIGHT = 'Top &amp; Right';
+    const POS_BOTTOM_LEFT = 'Bottom - Left';
+    const POS_BOTTOM_RIGHT = 'Bottom - Right';
     
     // short code constants
     const SC_WP_UPLOAD_DIR = '[twiz_wp_upload_dir]';
@@ -462,6 +468,7 @@ class Twiz{
     // default position constants    
     const DEFAULT_STARTING_POSITION = self::POS_RELATIVE;
     const DEFAULT_POSITIONING_METHOD = self::POS_TOP_LEFT;
+    const DEFAULT_PROMOTE_POSITION = self::POS_BOTTOM_RIGHT;
                                          
     // extra easing array
     protected $array_extra_easing = array(self::EASEINQUAD
@@ -523,7 +530,7 @@ class Twiz{
                                      ,self::POS_STATIC 
                                      );
     
-    // Positioning method array
+    // Positioning array
     protected $array_positioning_method = array(self::POS_TOP_LEFT
                                                ,self::POS_TOP_RIGHT 
                                                );
@@ -609,9 +616,9 @@ class Twiz{
 
     // jQuery jquery-animate-css-rotate-scale code snippets array
     private $array_jQuery_acrs_code_snippets = array(self::CS_ACRS_ROTATE
-                                                         ,self::CS_ACRS_SCALE
-                                                         ,self::CS_ACRS_CHAINING
-                                                         );
+                                                     ,self::CS_ACRS_SCALE
+                                                     ,self::CS_ACRS_CHAINING
+                                                     );
 
     // jQuery transform code snippets array
     private $array_jQuery_transform_code_snippets = array(self::CS_TRANSFORM_MATRIX
@@ -743,56 +750,56 @@ class Twiz{
     private $array_css_shortcode  = array(self::SC_WP_UPLOAD_DIR);
                                 
     // XML MULTI-VERSION mapping values
-    protected $array_twz_mapping = array(self::F_PARENT_ID              => 'AP'
-                                      ,self::F_EXPORT_ID                => 'AA'
-                                      ,self::F_SECTION_ID               => 'AH' 
-                                      ,self::F_STATUS                   => 'BB'
-                                      ,self::F_TYPE                     => 'BL' 
-                                      ,self::F_LAYER_ID                 => 'CC'    
-                                      ,self::F_ON_EVENT                 => 'DA'
-                                      ,self::F_LOCK_EVENT               => 'DB'
-                                      ,self::F_LOCK_EVENT_TYPE          => 'DC'
-                                      ,self::F_START_DELAY              => 'DD'
-                                      ,self::F_DURATION                 => 'EE'
-                                      ,self::F_DURATION_B               => 'EF'
-                                      ,self::F_OUTPUT                   => 'EG'
-                                      ,self::F_OUTPUT_POS               => 'EJ'
-                                      ,self::F_JAVASCRIPT               => 'EL'
-                                      ,self::F_CSS                      => 'EM'
-                                      ,self::F_START_ELEMENT_TYPE       => 'FA'
-                                      ,self::F_START_ELEMENT            => 'FB'
-                                      ,self::F_START_TOP_POS_SIGN       => 'FF'
-                                      ,self::F_START_TOP_POS            => 'GG'    
-                                      ,self::F_START_TOP_POS_FORMAT     => 'GF'  
-                                      ,self::F_START_LEFT_POS_SIGN      => 'HH'
-                                      ,self::F_START_LEFT_POS           => 'II'
-                                      ,self::F_START_LEFT_POS_FORMAT    => 'IF'
-                                      ,self::F_POSITION                 => 'JJ'
-                                      ,self::F_ZINDEX                   => 'JL'
-                                      ,self::F_EASING_A                 => 'KD'
-                                      ,self::F_EASING_B                 => 'KH'
-                                      ,self::F_MOVE_ELEMENT_TYPE_A      => 'KA'
-                                      ,self::F_MOVE_ELEMENT_A           => 'KB'
-                                      ,self::F_MOVE_TOP_POS_SIGN_A      => 'KK'    
-                                      ,self::F_MOVE_TOP_POS_A           => 'LL'
-                                      ,self::F_MOVE_TOP_POS_FORMAT_A    => 'LF'
-                                      ,self::F_MOVE_LEFT_POS_SIGN_A     => 'MM'
-                                      ,self::F_MOVE_LEFT_POS_A          => 'OO'
-                                      ,self::F_MOVE_LEFT_POS_FORMAT_A   => 'OF'
-                                      ,self::F_MOVE_ELEMENT_TYPE_B      => 'PA'
-                                      ,self::F_MOVE_ELEMENT_B           => 'PB'
-                                      ,self::F_MOVE_TOP_POS_SIGN_B      => 'PP'
-                                      ,self::F_MOVE_TOP_POS_B           => 'QQ'
-                                      ,self::F_MOVE_TOP_POS_FORMAT_B    => 'QF'
-                                      ,self::F_MOVE_LEFT_POS_SIGN_B     => 'RR'
-                                      ,self::F_MOVE_LEFT_POS_B          => 'SS'
-                                      ,self::F_MOVE_LEFT_POS_FORMAT_B   => 'SF'
-                                      ,self::F_OPTIONS_A                => 'TT'
-                                      ,self::F_OPTIONS_B                => 'UU'
-                                      ,self::F_EXTRA_JS_A               => 'VV'
-                                      ,self::F_EXTRA_JS_B               => 'WW'
-                                      ,self::F_GROUP_ORDER              => 'XX'
-                                      );
+    protected $array_twz_mapping = array(self::F_PARENT_ID                => 'AP'
+                                        ,self::F_EXPORT_ID                => 'AA'
+                                        ,self::F_SECTION_ID               => 'AH' 
+                                        ,self::F_STATUS                   => 'BB'
+                                        ,self::F_TYPE                     => 'BL' 
+                                        ,self::F_LAYER_ID                 => 'CC'    
+                                        ,self::F_ON_EVENT                 => 'DA'
+                                        ,self::F_LOCK_EVENT               => 'DB'
+                                        ,self::F_LOCK_EVENT_TYPE          => 'DC'
+                                        ,self::F_START_DELAY              => 'DD'
+                                        ,self::F_DURATION                 => 'EE'
+                                        ,self::F_DURATION_B               => 'EF'
+                                        ,self::F_OUTPUT                   => 'EG'
+                                        ,self::F_OUTPUT_POS               => 'EJ'
+                                        ,self::F_JAVASCRIPT               => 'EL'
+                                        ,self::F_CSS                      => 'EM'
+                                        ,self::F_START_ELEMENT_TYPE       => 'FA'
+                                        ,self::F_START_ELEMENT            => 'FB'
+                                        ,self::F_START_TOP_POS_SIGN       => 'FF'
+                                        ,self::F_START_TOP_POS            => 'GG'    
+                                        ,self::F_START_TOP_POS_FORMAT     => 'GF'  
+                                        ,self::F_START_LEFT_POS_SIGN      => 'HH'
+                                        ,self::F_START_LEFT_POS           => 'II'
+                                        ,self::F_START_LEFT_POS_FORMAT    => 'IF'
+                                        ,self::F_POSITION                 => 'JJ'
+                                        ,self::F_ZINDEX                   => 'JL'
+                                        ,self::F_EASING_A                 => 'KD'
+                                        ,self::F_EASING_B                 => 'KH'
+                                        ,self::F_MOVE_ELEMENT_TYPE_A      => 'KA'
+                                        ,self::F_MOVE_ELEMENT_A           => 'KB'
+                                        ,self::F_MOVE_TOP_POS_SIGN_A      => 'KK'    
+                                        ,self::F_MOVE_TOP_POS_A           => 'LL'
+                                        ,self::F_MOVE_TOP_POS_FORMAT_A    => 'LF'
+                                        ,self::F_MOVE_LEFT_POS_SIGN_A     => 'MM'
+                                        ,self::F_MOVE_LEFT_POS_A          => 'OO'
+                                        ,self::F_MOVE_LEFT_POS_FORMAT_A   => 'OF'
+                                        ,self::F_MOVE_ELEMENT_TYPE_B      => 'PA'
+                                        ,self::F_MOVE_ELEMENT_B           => 'PB'
+                                        ,self::F_MOVE_TOP_POS_SIGN_B      => 'PP'
+                                        ,self::F_MOVE_TOP_POS_B           => 'QQ'
+                                        ,self::F_MOVE_TOP_POS_FORMAT_B    => 'QF'
+                                        ,self::F_MOVE_LEFT_POS_SIGN_B     => 'RR'
+                                        ,self::F_MOVE_LEFT_POS_B          => 'SS'
+                                        ,self::F_MOVE_LEFT_POS_FORMAT_B   => 'SF'
+                                        ,self::F_OPTIONS_A                => 'TT'
+                                        ,self::F_OPTIONS_B                => 'UU'
+                                        ,self::F_EXTRA_JS_A               => 'VV'
+                                        ,self::F_EXTRA_JS_B               => 'WW'
+                                        ,self::F_GROUP_ORDER              => 'XX'
+                                        );
 
     // Fields array 
     protected $array_fields = array(self::F_ID          
@@ -870,12 +877,12 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.4';
-        $this->cssVersion = '2-44';
-        $this->dbVersion  = '3.7.1';
+        $this->version    = '2.5';
+        $this->cssVersion = '2-45';
+        $this->dbVersion  = '3.7.2';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
-        $this->nonce      =  wp_create_nonce('twiz-nonce');
+        $this->nonce      = wp_create_nonce('twiz-nonce');
         $this->table      = $wpdb->prefix .'the_welcomizer';
         $this->pluginName = __('The Welcomizer', 'the-welcomizer');
         $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
@@ -987,6 +994,36 @@ class Twiz{
         return $html;
     }
     
+    function getPromotePluginImageLink(){
+    
+        if($this->admin_option[self::KEY_PROMOTE_PLUGIN] == '1'){
+        
+            switch( $this->admin_option[self::KEY_PROMOTE_POSITION] ){
+
+                case self::POS_BOTTOM_RIGHT :
+                
+                    $position = 'right:0;bottom:0;';
+                    break;
+                    
+                case self::POS_BOTTOM_LEFT :
+                
+                    $position = 'left:0;bottom:0;';
+                    break;                
+                    
+                default:
+                
+                    $position = 'right:0;bottom:0;';
+            }
+            
+            $image_link = '<style type="text/css">#twiz-promote-plugin{opacity:0.65;filter:alpha(opacity=65);position:fixed;'.$position.'}</style>';
+            $image_link .= '<a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" title="Quickly create animations for your WordPress blog."><img src="'.$this->pluginUrl.'/images/twiz-logo.png" id="twiz-promote-plugin" width="50" height="39"/></a>';
+
+            return $image_link;
+        }
+        
+        return '';
+    }
+    
     private function getHtmlHScrollStatus(){
     
         return '<div id="twiz_hscroll_status" class="twiz-corner-bottom">'.$this->getImgHScrollStatus().'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div></div>';
@@ -1030,7 +1067,7 @@ class Twiz{
         
         $ads['AccessoryGeeks'] = '<a href="http://www.dpbolvw.net/ka108iqzwqyDJKMJNGGDFEIIKHNE" target="_blank" title="Shop AccessoryGeeks.com!"><img src="http://www.awltovhc.com/47102snrflj4ABDAE7746599B8E5" border="0" class="twiz-ads-img"/></a>';
         
-       $ads['Swimsuitsforall'] = '<a href="http://www.jdoqocy.com/st76cy63y5LRSURVOOLNNPPOTMS" target="_blank"><img src="http://www.ftjcfx.com/3l104r6Az42OUVXUYRROQQSSRWPV" title="" border="0" class="twiz-ads-img"/></a>';
+        $ads['Swimsuitsforall'] = '<a href="http://www.jdoqocy.com/st76cy63y5LRSURVOOLNNPPOTMS" target="_blank"><img src="http://www.ftjcfx.com/3l104r6Az42OUVXUYRROQQSSRWPV" title="" border="0" class="twiz-ads-img"/></a>';
        
         $ads['Sears'] = '<a href="http://www.tkqlhce.com/li122cy63y5LRSURVOOLNMSMMNQQ" target="_blank"><img src="http://www.lduhtrp.net/p298p59y31NTUWTXQQNPOUOOPSS" title="Sears Canada" border="0" class="twiz-ads-img"/></a>';
         
@@ -1048,7 +1085,15 @@ class Twiz{
         
         $ads['Max & Chloe'] = '<a href="http://www.jdoqocy.com/49116r09608OUVXUYRROQPUPTYQQ" target="_blank"><img src="http://www.lduhtrp.net/5o122ax0pvtEKLNKOHHEGFKFJOGG" title="Shop Max & Chloe" border="0" class="twiz-ads-img"/></a>';
         
-        $ads['Baseball Express'] = '<a href="http://www.tkqlhce.com/c3100uoxuowBHIKHLEEBDCGEDCIC" target="_blank"><img src="http://www.lduhtrp.net/rn68h48x20MSTVSWPPMONRPONTN" title="Baseball Express - The Baseball Superstore" border="0" class="twiz-ads-img"/></a>';
+        $ads['Baseball Express'] = '<a href="http://www.tkqlhce.com/c3100uoxuowBHIKHLEEBDCGEDCIC" target="_blank"><img src="http://www.lduhtrp.net/rn68h48x20MSTVSWPPMONRPONTN" title="Baseball Express - The Baseball Superstore" border="0" class="twiz-ads-img"/></a>';        
+        
+        $ads['ConcordSupplies'] = '<a href="http://www.anrdoezrs.net/hd108tenkem178A7B44133398378" target="_blank"><img src="http://www.tqlkg.com/il122snrflj4ABDAE774666CB6AB" title="Top Products with Low Prices at ConcordSupplies.com!" border="0" class="twiz-ads-img"/></a>';        
+        
+        $ads['Laken'] = '<a href="http://www.jdoqocy.com/j6117dlurlt8EFHEIBB8AAEFHA99" target="_blank"><img src="http://www.awltovhc.com/rd65z15u-yJPQSPTMMJLLPQSLKK" title="" border="0" class="twiz-ads-img"/></a>';  
+        
+        $ads['Market America'] = '<a href="http://www.jdoqocy.com/mm79ft1zt0GMNPMQJJGIHQHMPNJ" target="_blank"><img src="http://www.awltovhc.com/kb102wquiom7DEGDHAA798H8DGEA" title="Buy Market America Brands at Shop.com. Free Shipping on $99 Market America brand product purchase." border="0" class="twiz-ads-img"/></a>';  
+      
+        $ads['Lunarpages'] = '<a href="http://www.kqzyfj.com/5r121lnwtnvAGHJGKDDACCHHDIBG" target="_blank"><img src="http://www.lduhtrp.net/kk65r6Az42OUVXUYRROQQVVRWPU" alt="" border="0" class="twiz-ads-img"/></a>';
         
        
         $ok = shuffle($ads);

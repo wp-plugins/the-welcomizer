@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 2.4
+Version: 2.5
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise
@@ -108,6 +108,7 @@ License: GPL2
     function twizReplaceShortCodeDir( $shortcode = '' ){
     
          $upload_dir = wp_upload_dir();
+         
          return $upload_dir['baseurl'];
     }    
     
@@ -303,6 +304,22 @@ License: GPL2
         wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );
     }
     
+    function twizAdminTinymceScript( $plugin_array ){
+
+        // Tinymce shortcode Script
+        $plugin_array['thewelcomizer'] = plugin_dir_url( __FILE__ ) . 'includes/jquery/tinymce-shortcode/twiz-tinymce-shortcode.js.php';
+        
+        return $plugin_array;
+    }    
+    
+    function twizPromotePluginImageLink( ){
+    
+        $myTwiz  = new Twiz();
+        $imagelink = $myTwiz->getPromotePluginImageLink();
+        
+        echo ( $imagelink );
+    }
+    
     /****************
     * --- Actions ---
     *****************/
@@ -348,18 +365,33 @@ License: GPL2
         }
     }
     
+    if( ( is_admin() ) 
+    and ((preg_match("/post.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
+    or (preg_match("/post-new.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) ) ) {
+    
+        // (for the tinymce shortcode) -> [twiz_wp_upload_dir] -> url to image.
+		add_filter('mce_external_plugins',  'twizAdminTinymceScript');    
+                
+    }
+    
     // dbversion check 
     add_action('plugins_loaded', 'twizUpdateDbCheck');
     
-    // feed  
-    add_action('atom_head', 'twizRemoveFeedShortcode');
-    add_action('rdf_header', 'twizRemoveFeedShortcode');
-    add_action('rss_head', 'twizRemoveFeedShortcode');
-    add_action('rss2_head', 'twizRemoveFeedShortcode');     
-    
-    // (for the frontend)
-    add_action('wp_enqueue_scripts', 'twizInit');
-    
-    // Add the menu link
-    add_action('admin_menu', 'twizAddLinkAdminMenu');
+    if( is_admin() ) {
+            
+        // Add the menu link
+        add_action('admin_menu', 'twizAddLinkAdminMenu');
+        
+    }else{
+
+        // feed  
+        add_action('atom_head', 'twizRemoveFeedShortcode');
+        add_action('rdf_header', 'twizRemoveFeedShortcode');
+        add_action('rss_head', 'twizRemoveFeedShortcode');
+        add_action('rss2_head', 'twizRemoveFeedShortcode');     
+        
+        // (for the frontend)
+        add_action('wp_enqueue_scripts', 'twizInit');
+        add_action('wp_footer', 'twizPromotePluginImageLink');
+    }
 ?>

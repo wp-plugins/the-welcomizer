@@ -1224,6 +1224,17 @@ class TwizAjax extends Twiz{
       }
   }
   var bind_twiz_AdminSave = function(){
+     $(".twiz-promote-plugin").click(function(){
+        if( $("#twiz_'.parent::KEY_PROMOTE_PLUGIN.'").is(":checked") )
+        {
+            $("#twiz_label_promote_plugin").hide();
+            $("#twiz_div_promote_position").fadeIn("fast");
+        
+        }else{
+            $("#twiz_div_promote_position").hide();       
+            $("#twiz_label_promote_plugin").fadeIn("fast"); 
+        }
+     });
      $(".twiz-toggle-admin").click(function(){
         if( twiz_ajax_locked == false ) {  
         twiz_ajax_locked = true;
@@ -1281,12 +1292,14 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_MIN_ROLE_LEVEL.'": $("#twiz_'.parent::KEY_MIN_ROLE_LEVEL.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_ADMIN.'": $("#twiz_'.parent::KEY_MIN_ROLE_ADMIN.'").val(),
          "twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'": $("#twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'").val(),
-         "twiz_'.parent::KEY_FB_LIKE.'": $("#twiz_'.parent::KEY_FB_LIKE.'").is(":checked"),
+         "twiz_'.parent::KEY_PROMOTE_PLUGIN.'": $("#twiz_'.parent::KEY_PROMOTE_PLUGIN.'").is(":checked"),
+         "twiz_'.parent::KEY_PROMOTE_POSITION.'": $("#twiz_'.parent::KEY_PROMOTE_POSITION.'").val(),
          "twiz_'.parent::KEY_FOOTER_ADS.'": $("#twiz_'.parent::KEY_FOOTER_ADS.'").is(":checked"),
+         "twiz_'.parent::KEY_FB_LIKE.'": $("#twiz_'.parent::KEY_FB_LIKE.'").is(":checked"),
          "twiz_'.parent::KEY_DELETE_ALL.'": $("#twiz_'.parent::KEY_DELETE_ALL.'").is(":checked")
     }, function(data) {
         twizUnLockedAction();
-        data = JSON.parse(data);
+        data = JSON.parse(data);    
         if(data.fb_like == "1"){
              $("#twiz_like").html("");
         }    
@@ -1312,27 +1325,20 @@ class TwizAjax extends Twiz{
    }else{twizLockedAction();}});
   }
   var bind_twiz_Number_Restriction = function(){
-    $("#twiz_start_top_pos").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {return false;}});
-    $("#twiz_start_left_pos").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {return false;}});
-    $("#twiz_zindex").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
-    {if( e.which!=45 ) { return false; }}});
-    $("#twiz_move_top_pos_a").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
-    {return false;}});
-    $("#twiz_move_left_pos_a").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
-    {return false;}});
-    $("#twiz_move_top_pos_b").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
-    {return false;}});
-    $("#twiz_move_left_pos_b").keypress(function (e){
-    if( e.which!=8 && e.which!=0 && e.which!=45 && (e.which<48 || e.which>57))
-    {return false;}});
+    $("#twiz_start_top_pos").keyup(function (e){
+    this.value = this.value.replace(/[^0-9]/g,"");});
+    $("#twiz_start_left_pos").keyup(function (e){
+    this.value = this.value.replace(/[^0-9]/g,"");});
+    $("#twiz_zindex").keyup(function (e){
+    this.value = this.value.replace(/[^0-9\-]/g,"");});
+    $("#twiz_move_top_pos_a").keyup(function (e){
+    this.value = this.value.replace(/[^0-9\-]/g,"");});
+    $("#twiz_move_left_pos_a").keyup(function (e){
+    this.value = this.value.replace(/[^0-9\-]/g,"");});
+    $("#twiz_move_top_pos_b").keyup(function (e){
+    this.value = this.value.replace(/[^0-9\-]/g,"");});
+    $("#twiz_move_left_pos_b").keyup(function (e){
+    this.value = this.value.replace(/[^0-9\-]/g,"");});
   }
   var bind_twiz_Choose_Options = function(){
     $("a[name^=twiz_choose_options]").click(function(){

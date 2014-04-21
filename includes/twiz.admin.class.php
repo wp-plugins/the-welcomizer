@@ -284,26 +284,45 @@ jQuery(document).ready(function($) {
             $boldclass = '';
         }
         
+        
+        $class_div_promote = '';
+        $class_label_promote = '';
+        
+        // Display promote position list or show label instead
+        if( $this->admin_option[parent::KEY_PROMOTE_PLUGIN] == '1' ){ 
+
+            $class_label_promote = ' class="twiz-display-none"';
+            
+        }else{
+
+            $class_div_promote = ' class="twiz-display-none"';
+        }
+        
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
         $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin6" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
+        // Footer Ads
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin, for this release', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
+
         // Facebook like
         $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove facebook like button', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLFBlike().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
         
-        // Footer Ads
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin, for this release', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
-        
         // Deactivation
         $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_delete_all">'.__('(recommended for uninstall)', 'the-welcomizer').'</label></td></tr>';
-        
+      
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
 
+        // Promote this plugin
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Promote this plugin, add a link on this website', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLPromote().'</div></td><td class="twiz-form-td-right twiz-text-left"><label id="twiz_label_promote_plugin" for="twiz_promote_plugin"'.$class_label_promote.' class="twiz_promote_plugin">'.__('(into activated web pages)', 'the-welcomizer').'</label><div id="twiz_div_promote_position"'.$class_div_promote.'>'.$this->getHTMLPromotePosition().'</div></td></tr>'; 
         
+        $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
+                
         $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
@@ -382,7 +401,16 @@ jQuery(document).ready(function($) {
                  
         return $html;
     }
-   
+    
+    private function getHTMLFooterAds(){
+        
+        $twiz_footer_ads = ($this->admin_option[parent::KEY_FOOTER_ADS] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_'.parent::KEY_FOOTER_ADS.'" name="twiz_'.parent::KEY_FOOTER_ADS.'"'.$twiz_footer_ads.'/>';
+                 
+        return $html;
+    }    
+        
     private function getHTMLFBlike(){
     
         $twiz_footer_ads = ($this->admin_option[parent::KEY_FB_LIKE] == '1') ? ' checked="checked"' : '';
@@ -391,15 +419,31 @@ jQuery(document).ready(function($) {
                  
         return $html;
     }
-        
-    private function getHTMLFooterAds(){
     
-        $twiz_footer_ads = ($this->admin_option[parent::KEY_FOOTER_ADS] == '1') ? ' checked="checked"' : '';
+    private function getHTMLPromote(){
     
-        $html = '<input type="checkbox" id="twiz_'.parent::KEY_FOOTER_ADS.'" name="twiz_'.parent::KEY_FOOTER_ADS.'"'.$twiz_footer_ads.'/>';
+        $twiz_promote_plugin = ($this->admin_option[parent::KEY_PROMOTE_PLUGIN] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_'.parent::KEY_PROMOTE_PLUGIN.'" name="twiz_'.parent::KEY_PROMOTE_PLUGIN.'"'.$twiz_promote_plugin.' class="twiz-promote-plugin"/>';
                  
         return $html;
     }    
+   
+    private function getHTMLPromotePosition(){
+        
+        $select  = '<select name="twiz_'.parent::KEY_PROMOTE_POSITION.'" id="twiz_'.parent::KEY_PROMOTE_POSITION.'">';
+        
+        
+        $bottom_left = (parent::POS_BOTTOM_LEFT == $this->admin_option[parent::KEY_PROMOTE_POSITION]) ? ' selected="selected"' : '';
+        $bottom_right = (parent::POS_BOTTOM_RIGHT == $this->admin_option[parent::KEY_PROMOTE_POSITION]) ? ' selected="selected"' : '';
+            
+        $select .= '<option value="'.parent::POS_BOTTOM_LEFT.'"'.$bottom_left.'>'.__('At the bottom left', 'the-welcomizer').'</option>';
+        $select .= '<option value="'.parent::POS_BOTTOM_RIGHT.'"'.$bottom_right.'>'.__('At the bottom right', 'the-welcomizer').'</option>';
+    
+        $select .= '</select>';
+        
+        return $select;
+    }
     
     private function getHTMLNumberPostsInLists(){
         
@@ -416,6 +460,7 @@ jQuery(document).ready(function($) {
         
         return $html;
     }
+        
     
     private function getHTMLSortOrderDirectories(){
     
@@ -732,6 +777,15 @@ jQuery(document).ready(function($) {
             $this->admin_option = get_option('twiz_admin');
         }
 
+        // Footer ads
+        if( !isset($this->admin_option[parent::KEY_FOOTER_ADS]) ) $this->admin_option[parent::KEY_FOOTER_ADS] = '';
+        if( $this->admin_option[parent::KEY_FOOTER_ADS] == '' ) {
+        
+            $this->admin_option[parent::KEY_FOOTER_ADS] = '0';
+            $code = update_option('twiz_admin', $this->admin_option);
+            $this->admin_option = get_option('twiz_admin');
+        }                   
+
         // FB like
         if( !isset($this->admin_option[parent::KEY_FB_LIKE]) ) $this->admin_option[parent::KEY_FB_LIKE] = '';
         if( $this->admin_option[parent::KEY_FB_LIKE] == '' ) {
@@ -740,16 +794,7 @@ jQuery(document).ready(function($) {
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }     
-        
-        // Footer ads
-        if( !isset($this->admin_option[parent::KEY_FOOTER_ADS]) ) $this->admin_option[parent::KEY_FOOTER_ADS] = '';
-        if( $this->admin_option[parent::KEY_FOOTER_ADS] == '' ) {
-        
-            $this->admin_option[parent::KEY_FOOTER_ADS] = '0';
-            $code = update_option('twiz_admin', $this->admin_option);
-            $this->admin_option = get_option('twiz_admin');
-        }                 
-        
+                
         // Delete All
         if( !isset($this->admin_option[parent::KEY_DELETE_ALL]) ) $this->admin_option[parent::KEY_DELETE_ALL] = '';
         if( $this->admin_option[parent::KEY_DELETE_ALL] == '' ) {
@@ -758,6 +803,24 @@ jQuery(document).ready(function($) {
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
+        
+        // Promote this plugin
+        if( !isset($this->admin_option[parent::KEY_PROMOTE_PLUGIN]) ) $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = '';
+        if( $this->admin_option[parent::KEY_PROMOTE_PLUGIN] == '' ) {
+        
+            $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = '0';
+            $code = update_option('twiz_admin', $this->admin_option);
+            $this->admin_option = get_option('twiz_admin');
+        }   
+        
+        // Promote position
+        if( !isset($this->admin_option[parent::KEY_PROMOTE_POSITION]) ) $this->admin_option[parent::KEY_PROMOTE_POSITION] = '';
+        if( $this->admin_option[parent::KEY_PROMOTE_POSITION] == '' ) {
+        
+            $this->admin_option[parent::KEY_PROMOTE_POSITION] = parent::DEFAULT_PROMOTE_POSITION;
+            $code = update_option('twiz_admin', $this->admin_option);
+            $this->admin_option = get_option('twiz_admin');
+        }           
         
         // Next option
     }
@@ -781,9 +844,11 @@ jQuery(document).ready(function($) {
         $setting[parent::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LEVEL]));
         $setting[parent::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_ADMIN]));
         $setting[parent::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LIBRARY]));
-        $setting[parent::KEY_FB_LIKE] = esc_attr(trim($_POST['twiz_'.parent::KEY_FB_LIKE]));
         $setting[parent::KEY_FOOTER_ADS] = esc_attr(trim($_POST['twiz_'.parent::KEY_FOOTER_ADS]));
+        $setting[parent::KEY_FB_LIKE] = esc_attr(trim($_POST['twiz_'.parent::KEY_FB_LIKE]));
         $setting[parent::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_'.parent::KEY_DELETE_ALL]));
+        $setting[parent::KEY_PROMOTE_PLUGIN] = esc_attr(trim($_POST['twiz_'.parent::KEY_PROMOTE_PLUGIN]));
+        $setting[parent::KEY_PROMOTE_POSITION] = esc_attr(trim($_POST['twiz_'.parent::KEY_PROMOTE_POSITION]));
         
         // Add new settings right here and above...
 
@@ -848,21 +913,28 @@ jQuery(document).ready(function($) {
         
         // Min role Admin
         $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
+        
+        // Footer ads
+        $footer_ads_before = $this->admin_option[parent::KEY_FOOTER_ADS];
+        $footer_ads = ($setting[parent::KEY_FOOTER_ADS] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;
 
         // FB like
         $fb_like_before = $this->admin_option[parent::KEY_FB_LIKE];
         $fb_like = ($setting[parent::KEY_FB_LIKE] == 'true') ? '1' : '0';
         $this->admin_option[parent::KEY_FB_LIKE] = $fb_like ;
         
-        // Footer ads
-        $footer_ads_before = $this->admin_option[parent::KEY_FOOTER_ADS];
-        $footer_ads = ($setting[parent::KEY_FOOTER_ADS] == 'true') ? '1' : '0';
-        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;
-        
         // Delete All
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';
         $this->admin_option[parent::KEY_DELETE_ALL] = $delete_all ;
         
+        // Promote this plugin
+        $promote_plugin = ($setting[parent::KEY_PROMOTE_PLUGIN] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = $promote_plugin ;               
+        
+        // Promote position
+        $this->admin_option[parent::KEY_PROMOTE_POSITION] = $setting[parent::KEY_PROMOTE_POSITION];       
+
         // Update array
         $code = update_option('twiz_admin', $this->admin_option);
         

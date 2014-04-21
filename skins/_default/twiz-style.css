@@ -723,7 +723,8 @@ a.twiz-red:hover {
 }
 .twiz-admin-form-td-left {
     width: 65%;
-    padding: 3px;
+    height: 30px;
+    padding-left: 3px;
     font-size: 12px;
 }
 .twiz-form-td-left {
@@ -911,6 +912,7 @@ a.twiz-red:hover {
     background-color: #D7D7D7;
 }
 #twiz_export_url {
+    min-width: 800px;
     margin: 22px 0 0 75px;
     font-size: 12px;
     clear: both;
