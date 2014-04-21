@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-21 00:54-0500\n"
-"PO-Revision-Date: 2014-04-21 00:54-0500\n"
+"POT-Creation-Date: 2014-04-21 02:01-0500\n"
+"PO-Revision-Date: 2014-04-21 02:07-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -195,8 +195,8 @@ msgid "Promote this plugin, add a link on this website"
 msgstr "Promouvoir ce plugin, ajouter un lien sur ce site "
 
 #: includes/twiz.admin.class.php:322
-msgid "(into activated web pages)"
-msgstr "(dans les pages activés)"
+msgid "(at the bottom of web pages)"
+msgstr "(en bas des pages web)"
 
 #: includes/twiz.admin.class.php:440
 msgid "At the bottom left"
@@ -1047,6 +1047,9 @@ msgstr "Groupe trouvé dans le fichier. Les groupes ne peuvent pas être import�
 #: includes/import/server/php.php:266
 msgid "Could not save uploaded file or server error encountered, the upload was cancelled."
 msgstr "Impossible d'enregistrer le fichier ou une erreur serveur a été rencontré, le transfert a été annulé."
+
+#~ msgid "(into activated web pages)"
+#~ msgstr "(dans les pages activés)"
 
 #~ msgid "In this group"
 #~ msgstr "Dans ce groupe "

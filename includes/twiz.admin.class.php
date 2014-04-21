@@ -319,7 +319,7 @@ jQuery(document).ready(function($) {
 
         // Promote this plugin
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Promote this plugin, add a link on this website', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLPromote().'</div></td><td class="twiz-form-td-right twiz-text-left"><label id="twiz_label_promote_plugin" for="twiz_promote_plugin"'.$class_label_promote.' class="twiz_promote_plugin">'.__('(into activated web pages)', 'the-welcomizer').'</label><div id="twiz_div_promote_position"'.$class_div_promote.'>'.$this->getHTMLPromotePosition().'</div></td></tr>'; 
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLPromote().'</div></td><td class="twiz-form-td-right twiz-text-left"><label id="twiz_label_promote_plugin" for="twiz_promote_plugin"'.$class_label_promote.' class="twiz_promote_plugin">'.__('(at the bottom of web pages)', 'the-welcomizer').'</label><div id="twiz_div_promote_position"'.$class_div_promote.'>'.$this->getHTMLPromotePosition().'</div></td></tr>'; 
         
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
                 
