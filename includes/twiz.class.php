@@ -877,7 +877,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.5.1';
+        $this->version    = '2.5.2';
         $this->cssVersion = '2-45';
         $this->dbVersion  = '3.7.2';
         $this->pluginUrl  = $pluginUrl;
@@ -3504,6 +3504,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
      
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-logo.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-success.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';

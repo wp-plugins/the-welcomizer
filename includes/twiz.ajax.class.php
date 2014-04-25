@@ -1653,6 +1653,7 @@ class TwizAjax extends Twiz{
             $("#twiz_import_container").fadeIn("fast");
             $("#twiz_export").fadeIn("fast");
         }      
+        $("#twiz_ajax_menu").show();
         $("#twiz_container").css("display", "block");
     });
     $("#twiz_add_menu").click(function(){    
@@ -1754,11 +1755,12 @@ class TwizAjax extends Twiz{
     bind_twiz_Ajax_TD();twiz_TR_View_ReBind();bind_twiz_Order_by();
   }  
   function twizPostMenu(twiz_section_id, twiz_order_by){
-   if( twiz_ajax_locked == false ) {  
+   if( twiz_ajax_locked == false ) {
    twiz_ajax_locked = true;
    twizShowMainLoadingImage();
    $("#twiz_far_matches").html("");
    $("#twiz_sub_container").html("");
+   $("#twiz_ajax_menu").show();    
    $("#twiz_edit_menu").show();
    $("#twiz_delete_menu").show();
    $("#twiz_library_menu").attr({"class" : "twiz-menu twiz-display-none"});
@@ -2084,6 +2086,7 @@ class TwizAjax extends Twiz{
       $("#twiz_import_container").fadeOut("fast");
       $("#qq_upload_list li").remove();
       $("#twiz_export_url").html("");
+      $("#twiz_ajax_menu").show();
   }   
   var binb_twiz_Link_dir = function(){
      $("#twiz_lib_dir").click(function(){
@@ -2240,6 +2243,8 @@ class TwizAjax extends Twiz{
   }else{twizLockedAction();}}
   function twizGetMenu(){
       if( twiz_ajax_locked == false ){  
+      $("#twiz_ajax_menu").html("");    
+      $("#twiz_ajax_menu").show();      
       $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'",       
@@ -2251,7 +2256,7 @@ class TwizAjax extends Twiz{
                 "twiz_nonce": "'.$this->nonce.'",       
                 "twiz_action": "'.parent::ACTION_GET_VMENU.'",
                 "twiz_section_id": twiz_current_section_id
-                }, function(data){                
+                }, function(data){      
                     $("#twiz_ajax_menu").html(datamenu);
                     $("#twiz_section_cancel").unbind("click");
                     $("#twiz_add_menu").unbind("click");
@@ -2286,6 +2291,7 @@ class TwizAjax extends Twiz{
         "twiz_section_id": twiz_section_id
         }, function(data){                
             twizUnLockedAction();
+            $("#twiz_ajax_menu").hide();
             $("#twiz_section_cancel").unbind("click");
             $("#twiz_add_menu").unbind("click");
             $("#twiz_edit_menu").unbind("click");
