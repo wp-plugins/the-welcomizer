@@ -186,7 +186,7 @@ class TwizMenu extends Twiz{
                 $this->array_sections[$array_section_id[0]] = $section;
                 
                 $code = update_option('twiz_sections', $this->array_sections);
-                $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
+                $code = $this->cleanCookieCondition($array_section_id[0], $cookie_option_1);
                 $code = $this->updateJSCookieStatus($array_section_id[0], $cookie_option_1, $cookie_with);
                 
                 return $array_section_id[0];
@@ -431,7 +431,7 @@ class TwizMenu extends Twiz{
               $code = update_option('twiz_hardsections', $this->array_hardsections);
               $code = $this->cleanCookieCondition($section_id, $cookie_option_1);
               $code = $this->updateJSCookieStatus($section_id, $cookie_option_1, $cookie_with);
- 
+
               return $section_id;
             
               break;
@@ -769,6 +769,9 @@ class TwizMenu extends Twiz{
                 if( !isset( $sections[$section_id][parent::KEY_COOKIE_CONDITION] ) ){ $selected = ''; }else{
                     $selected = ($sections[$section_id][parent::KEY_COOKIE_CONDITION]  ==  $key) ? ' selected="selected"' : '';
                 }
+                if( !isset( $hardsections[$section_id][parent::KEY_COOKIE_CONDITION] ) ){ }else{
+                    $selected = ($hardsections[$section_id][parent::KEY_COOKIE_CONDITION]  ==  $key) ? ' selected="selected"' : '';
+                }                
                 if( ( $section_id != $key ) 
                 and ($value[parent::KEY_COOKIE][parent::KEY_COOKIE_NAME] != '' ) 
                 and ($value[parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1] != '' ) ) {

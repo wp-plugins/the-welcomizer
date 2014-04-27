@@ -877,7 +877,7 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.5.2';
+        $this->version    = '2.5.3';
         $this->cssVersion = '2-45';
         $this->dbVersion  = '3.7.2';
         $this->pluginUrl  = $pluginUrl;

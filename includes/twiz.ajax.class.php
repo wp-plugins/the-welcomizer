@@ -22,10 +22,42 @@ class TwizAjax extends Twiz{
         parent::__construct();
         
     }
+    
+    private function validateSectionId( $sectionid = '' ) {
+    
+        global $wpdb;
+       
+        $sectionid = esc_attr(trim( $sectionid ));
+        $sections = get_option('twiz_sections');
+        $hardsections= get_option('twiz_hardsections');
 
+        foreach ( $hardsections as $key => $value ){
+           
+           if( $key == $sectionid ) {
+           
+                return true;
+           }
+        }            
+
+        foreach ( $sections as $key => $value ){
+                
+           if( $key == $sectionid ) {
+           
+                return true;
+           }
+        }
+  
+        $this->DEFAULT_SECTION[$this->userid] = parent::DEFAULT_SECTION_HOME;
+        $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);
+        
+        return false;
+      
+    }
+    
     function getAjaxHeader(){
     $twiz_hscroll_status = get_option('twiz_hscroll_status');
     $twiz_hscroll_status = ($twiz_hscroll_status == '') ? '1' : $twiz_hscroll_status;
+    $ok = $this->validateSectionId( $this->DEFAULT_SECTION[$this->userid] );
     
     $header = 'var twiz_parent_id = ""; var twiz_showOrHide_more_section_options = false; var twiz_current_section_id = "'.$this->DEFAULT_SECTION[$this->userid].'";var twiz_current_group_id = ""; jQuery(document).ready(function($) {
  $.ajaxSetup({ cache: false });
