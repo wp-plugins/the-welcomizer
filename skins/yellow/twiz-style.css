@@ -121,6 +121,28 @@ div a, td a {
     position: absolute;
     z-index: 1;
 }
+.twiz-loading-bar {
+    width: 43px;
+    height: 19px;
+    display: block;
+    background: url(../../skins/yellow/images/twiz-loading.gif) center center no-repeat;
+}
+#twiz_edit_menu {
+    background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;
+    cursor: pointer;
+}
+#twiz_edit_menu:hover {
+    background: url(../../images/twiz-menu-edit-color.png) center no-repeat;
+    background-color: #222222;
+}
+#twiz_delete_menu {
+    background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;
+    cursor: pointer;
+}
+#twiz_delete_menu:hover {
+    background: url(../../images/twiz-menu-delete-color.png) center no-repeat;
+    background-color: #222222;
+}
 #twiz_background {
     width: 84%;
     min-height: 500px;
@@ -171,18 +193,8 @@ div a, td a {
     height: 25px;
 }
 #twiz_global_status img {
-    margin: 3px;
-}
-#twiz_head_logo,
-#twiz_hscroll_status img,
-#twiz_global_status img,
-.twiz-skins {
+    margin: 3px 0px 1px 3px;
     cursor: pointer;
-}
-.twiz-skins {
-    padding-top: 6px;
-    margin: 0 2px 0 2px;
-    vertical-align: bottom;
 }
 #twiz_skin_bullet {
     width: auto;
@@ -191,6 +203,27 @@ div a, td a {
     display: block;
     margin-left: 15px;
     position: absolute;
+}
+.twiz-skins {
+    width: 12px;
+    height: 12px;
+    margin: 6px 2px 0 2px;
+    cursor: pointer;
+}
+.twiz-skins-default {
+    background: url(../../skins/_default/twiz-bullet.png) no-repeat;
+}
+.twiz-skins-blue {
+    background: url(../../skins/blue/twiz-bullet.png) no-repeat;
+}
+.twiz-skins-green {
+    background: url(../../skins/green/twiz-bullet.png) no-repeat;
+}
+.twiz-skins-red {
+    background: url(../../skins/red/twiz-bullet.png) no-repeat;
+}
+.twiz-skins-yellow { 
+    background: url(../../skins/yellow/twiz-bullet.png) no-repeat;
 }
 .twiz-right-panel {
     margin: 19px 0 0 15px;
@@ -255,6 +288,7 @@ div a, td a {
     background: url(../../images/twiz-logo.png) center no-repeat;
     float: left;
     display: block;
+    cursor: pointer;
 }
 div #twiz_head_logo:hover {
     background: url(../../skins/yellow/images/twiz-logo.png) center no-repeat;
@@ -275,20 +309,9 @@ div #twiz_head_logo:hover {
     overflow: hidden;
 }
 #twiz_menu,
-#twiz_vertical_menu,
-#twiz_header, 
-#twiz_footer {
-    width: 498.5px;
-    color: #EEEEEE;
-    border: 1px solid #222222;
-}
-#twiz_menu,
 #twiz_header, 
 #twiz_footer {
     display: table-cell;
-}
-#twiz_header {
-    border-bottom: 0px solid #222222;
 }
 #twiz_vertical_menu {
   margin: 27px 0 0 15px;
@@ -323,8 +346,16 @@ div #twiz_head_logo:hover {
     font-weight: normal;
     text-align: center    
 }
-#twiz_more_menu{
-    border-right: 0px;
+#twiz_menu,
+#twiz_vertical_menu,
+#twiz_header, 
+#twiz_footer {
+    width: 498.5px;
+    color: #EEEEEE;
+    border: 1px solid #222222;
+}
+#twiz_header {
+    border-bottom: 0px solid #222222;
 }
 #twiz_more_menu,
 #twiz_header, 
@@ -338,7 +369,6 @@ div #twiz_head_logo:hover {
 .twiz-menu {
     font-size: 12px;
     text-align: left;
-    border-right: 1px solid #222222;
 }
 .twiz-status-menu {
     width: 25px;
@@ -375,34 +405,16 @@ div #twiz_head_logo:hover {
     color: #E2DC40;
     cursor: pointer;
     background-color: #222222;
-
 }
 .twiz-menu-selected,
 .twiz-menu-selected:hover {
     color: #ffffff;
     font-weight: bold;    
     background-color: #9B9717;
-
 }
-#twiz_more_menu{
+#twiz_more_menu {
     float: right;
     width: 32px;
-}
-#twiz_edit_menu {
-    background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;
-    cursor: pointer;
-}
-#twiz_edit_menu:hover {
-    background: url(../../images/twiz-menu-edit-color.png) center no-repeat;
-    background-color: #222222;
-}
-#twiz_delete_menu {
-    background: url(../../images/twiz-menu-delete-bw.png) center no-repeat;
-    cursor: pointer;
-}
-#twiz_delete_menu:hover {
-    background: url(../../images/twiz-menu-delete-color.png) center no-repeat;
-    background-color: #222222;
 }
 #twiz_more_menu,
 #twiz_add_menu {
@@ -562,6 +574,13 @@ div #twiz_head_logo:hover {
 }
 .twiz-text-right {
     text-align: right !important;
+}
+.twiz-text-center  .twiz-loading-bar {
+    margin: 0 auto;
+}
+.twiz-text-right .twiz-loading-bar {
+    margin-right: 0;
+    margin-left: auto;
 }
 .twiz-text-left {
     text-align: left !important;
@@ -954,10 +973,7 @@ a.twiz-red:hover {
     display: block;
 }
 .twiz-noborder-right {
-    border-right: 0 none;
-    line-height: 15px;
-    margin-top: 4px;
-    padding-bottom: 0;
+    border-right: 0 none !important;
 }
 .twiz-italic {
     font-style: italic;

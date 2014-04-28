@@ -571,9 +571,7 @@ class TwizMenu extends Twiz{
     
     
     private function getHtmlSingleSection( $section_id = '' ){
-    
-        global $wpdb;
- 
+
         $html = '';
         $select_cat = '';
         $select_page = '';
@@ -801,8 +799,6 @@ class TwizMenu extends Twiz{
     }  
     
     function getHtmlMultiSectionBoxes( $section_id = '', $action = '' ){
-    
-        global $wpdb;
  
         $html = '';
         $type = '';
@@ -1224,7 +1220,7 @@ $jsscript_close = '});
         $menu .= '<div id="twiz_library_menu" class="twiz-menu twiz-display-none">'.__('Library', 'the-welcomizer').'</div>';
 
         $menu .= '<div id="twiz_admin_menu" class="twiz-menu twiz-display-none">'.__('Admin', 'the-welcomizer').'</div>';
-        $menu .= '<div id="twiz_edit_menu"></div>';
+        $menu .= '<div id="twiz_edit_menu" class="twiz-noborder-right"></div>';
         $menu .= '<div id="twiz_delete_menu"></div>';
 
         return $menu;

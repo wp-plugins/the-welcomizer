@@ -877,8 +877,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.5.3';
-        $this->cssVersion = '2-45';
+        $this->version    = '2.5.4';
+        $this->cssVersion = '2-5';
         $this->dbVersion  = '3.7.2';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -971,9 +971,9 @@ class Twiz{
         
         $myTwizMenu = new TwizMenu();
         $html .= '<div><div id="twiz_menu" class="twiz-reset-nav"><div id="twiz_ajax_menu">'.$myTwizMenu->getHtmlMenu().'</div>';
-        $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu">&gt;&gt;</div>';
-        $html .= '<div id="twiz_add_menu">+</div></div>';
-        $html .= '<div id="twiz_loading_menu"><div class="twiz-menu twiz-noborder-right"><img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" width="44" height="11"/></div></div>';
+        $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu" class="twiz-noborder-right">&gt;&gt;</div>';
+        $html .= '<div id="twiz_add_menu" class="twiz-noborder-right">+</div></div>';
+        $html .= '<div id="twiz_loading_menu"><div class="twiz-menu twiz-noborder-right"><div class="twiz-loading-bar"></div></div></div>';
         $html .= '<div class="twiz-clear"></div></div>';
         $html .= '<div id="twiz_sub_container"></div>';
         
@@ -3378,7 +3378,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         foreach($dirarray as $value){
         
-            $html_img .='<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/twiz-bullet.png" id="twiz_skin_'.$value.'" class="twiz-skins" />';
+            $html_img .='<div id="twiz_skin_'.$value.'" class="twiz-skins twiz-skins-'.str_replace("_", "", $value).' twiz-float-left"></div>';
         }
 
         return $html_open.$html_img.$html_close;

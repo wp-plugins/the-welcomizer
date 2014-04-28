@@ -28,8 +28,6 @@
   }
     
   function twiz_ajax_callback(){
-  
-   global $wpdb;
    
     // Nonce security (number used once) 
     if(!isset($_POST['twiz_nonce'])) $_POST['twiz_nonce'] =  '';

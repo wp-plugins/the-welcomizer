@@ -24,8 +24,6 @@ class TwizAjax extends Twiz{
     }
     
     private function validateSectionId( $sectionid = '' ) {
-    
-        global $wpdb;
        
         $sectionid = esc_attr(trim( $sectionid ));
         $sections = get_option('twiz_sections');
@@ -33,7 +31,7 @@ class TwizAjax extends Twiz{
 
         foreach ( $hardsections as $key => $value ){
            
-           if( $key == $sectionid ) {
+           if( $key == $sectionid ){
            
                 return true;
            }
@@ -41,7 +39,7 @@ class TwizAjax extends Twiz{
 
         foreach ( $sections as $key => $value ){
                 
-           if( $key == $sectionid ) {
+           if( $key == $sectionid ){
            
                 return true;
            }
@@ -51,10 +49,11 @@ class TwizAjax extends Twiz{
         $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);
         
         return false;
-      
+
     }
     
     function getAjaxHeader(){
+    
     $twiz_hscroll_status = get_option('twiz_hscroll_status');
     $twiz_hscroll_status = ($twiz_hscroll_status == '') ? '1' : $twiz_hscroll_status;
     $ok = $this->validateSectionId( $this->DEFAULT_SECTION[$this->userid] );
@@ -893,7 +892,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")){
             twiz_numid = twiz_textid.substring(12,twiz_textid.length);
-            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+            $(this).parent().html(\'<div class="twiz-loading-bar"></div>\');
         }else{
             twiz_numid = twiz_textidtemp;
             $(this).hide();
@@ -923,7 +922,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = "";
         if((twiz_textidtemp.substring(0,1) == "a") || (twiz_textidtemp.substring(0,1) == "v")) {
             twiz_numid = twiz_textid.substring(12,twiz_textid.length);
-            $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+            $(this).parent().html(\'<div class="twiz-loading-bar"></div>\');
         }else{
             twiz_numid = twiz_textidtemp;
             $(this).hide();
@@ -1000,7 +999,7 @@ class TwizAjax extends Twiz{
             }        
             if((twiz_textidtemp.substring(0,1) == "a")|| (twiz_textidtemp.substring(0,1) == "v")){
                 twiz_numid = twiz_textid.substring(14,twiz_textid.length);
-                $(this).parent().html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+                $(this).parent().html(\'<div class="twiz-loading-bar"></div>\');
             }else{
                 twiz_numid = twiz_textidtemp;
                 $(this).hide();
@@ -1378,7 +1377,7 @@ class TwizAjax extends Twiz{
         twiz_ajax_locked = true;
         var twiz_textid = $(this).attr("name");
         var twiz_charid = twiz_textid.substring(20,twiz_textid.length);
-        $("#twiz_td_full_option_" + twiz_charid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+        $("#twiz_td_full_option_" + twiz_charid).html(\'<div class="twiz-loading-bar"></div>\');
         $.post(ajaxurl, { 
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
@@ -1413,7 +1412,7 @@ class TwizAjax extends Twiz{
         var twiz_numid = twiz_textid.substring(14,twiz_textid.length);
         var twiz_txtval = $("#twiz_on_event_" + twiz_numid).val();
         $("#twiz_ajax_td_edit_on_event_" + twiz_numid).hide();
-        $("#twiz_ajax_td_loading_on_event_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+        $("#twiz_ajax_td_loading_on_event_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
         $.post(ajaxurl, { 
                 "action": "twiz_ajax_callback",
                 "twiz_nonce": "'.$this->nonce.'", 
@@ -1487,7 +1486,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_ajax_td_edit_" + twiz_columnName + "_" + twiz_numid).hide();
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).html("");
                     $("#twiz_ajax_td_val_" + twiz_columnName + "_" + twiz_numid).hide();
-                    $("#twiz_ajax_td_loading_" + twiz_columnName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+                    $("#twiz_ajax_td_loading_" + twiz_columnName + "_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
                     $.post(ajaxurl, { 
                     "action": "twiz_ajax_callback",
                     "twiz_nonce": "'.$this->nonce.'", 
@@ -1543,7 +1542,7 @@ class TwizAjax extends Twiz{
                 twiz_ajax_locked = true;
                 twiz_columnRealName = "on_event";
                 twiz_numid = twiz_textid.substring(26,twiz_textid.length);
-                $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+                $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
                 $("#twiz_ajax_td_val_" + twiz_columnRealName + "_" + twiz_numid).hide();
                 $("#twiz_ajax_td_edit_" + twiz_columnRealName + "_" + twiz_numid).fadeIn("fast");
                 $.post(ajaxurl, {
@@ -1644,13 +1643,13 @@ class TwizAjax extends Twiz{
       $("div[id^=twiz_'.parent::ACTION_ORDER_GROUP.'_up]").click(function(){
         var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(19,twiz_textid.length);
-        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
         twizOrderList("'.parent::LB_ORDER_UP.'", twiz_numid, "'.parent::ACTION_ORDER_GROUP.'");
     });
     $("div[id^=twiz_'.parent::ACTION_ORDER_GROUP.'_down]").click(function(){
         var twiz_textid = $(this).attr("id");
         var twiz_numid = twiz_textid.substring(21, twiz_textid.length);
-        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+        $("#twiz_ajax_td_order_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
         twizOrderList("'.parent::LB_ORDER_DOWN.'", twiz_numid, "'.parent::ACTION_ORDER_GROUP.'");
     });
     $(".twiz-list-tr").mouseenter(function(e){
@@ -1990,13 +1989,13 @@ class TwizAjax extends Twiz{
         $("div[id^=twiz_'.parent::ACTION_ORDER_LIBRARY.'_up]").click(function(){
             var twiz_textid = $(this).attr("id");
             var twiz_numid = twiz_textid.substring(17,twiz_textid.length);
-            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+            $("#twiz_list_td_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
             twizOrderList("'.parent::LB_ORDER_UP.'", twiz_numid, "'.parent::ACTION_ORDER_LIBRARY.'");
         });
         $("div[id^=twiz_'.parent::ACTION_ORDER_LIBRARY.'_down]").click(function(){
             var twiz_textid = $(this).attr("id");
             var twiz_numid = twiz_textid.substring(19, twiz_textid.length);
-            $("#twiz_list_td_" + twiz_numid).html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+            $("#twiz_list_td_" + twiz_numid).html(\'<div class="twiz-loading-bar"></div>\');
             twizOrderList("'.parent::LB_ORDER_DOWN.'", twiz_numid, "'.parent::ACTION_ORDER_LIBRARY.'");
         });
     }
@@ -2030,7 +2029,7 @@ class TwizAjax extends Twiz{
     $("#twiz_export").click(function(){
         if( twiz_ajax_locked == false ){
         twiz_ajax_locked = true;
-        $("#twiz_export_url").html(\'<img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12" />\');
+        $("#twiz_export_url").html(\'<div class="twiz-loading-bar"></div>\');
         $("#qq_upload_list li").remove();
         var twiz_animid = $("#twiz_id").val();
         if(twiz_animid===undefined){
@@ -2308,7 +2307,7 @@ class TwizAjax extends Twiz{
         }).fail(function(){ twizUnLockedAction(); });
   }else{twizLockedAction();}}  
   function twizShowMainLoadingImage(){
-      $("#twiz_loading_menu").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><img\' + \' src="'.$this->pluginUrl.'\' + twiz_skin + \'/images/twiz-loading.gif" width="44" height="12"/></div>\');
+      $("#twiz_loading_menu").html(\'<div\' + \' class="twiz-menu twiz-noborder-right"><div class="twiz-loading-bar"></div></div>\');
       return true;
   }
   function twizGetMultiSection(twiz_section_id, twiz_action_lbl){

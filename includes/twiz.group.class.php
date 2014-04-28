@@ -372,16 +372,16 @@ $("[name^=twiz_listmenu]").css("display", "none");
         
         global $wpdb;
             
-            if( $exportid == '' ){return false;}
-            if( $column == '' ){return false;}
-        
-            $sql = "UPDATE ".$this->table." 
-                    SET ".$column." = '".$value."'                 
-                    WHERE ".parent::F_EXPORT_ID." = '".$exportid."'
-                    OR ".parent::F_PARENT_ID." = '".$exportid."';";
-            $code = $wpdb->query($sql);
-                       
-            return $exportid;
+        if( $exportid == '' ){return false;}
+        if( $column == '' ){return false;}
+    
+        $sql = "UPDATE ".$this->table." 
+                SET ".$column." = '".$value."'                 
+                WHERE ".parent::F_EXPORT_ID." = '".$exportid."'
+                OR ".parent::F_PARENT_ID." = '".$exportid."';";
+        $code = $wpdb->query($sql);
+                   
+        return $exportid;
     }
     
     

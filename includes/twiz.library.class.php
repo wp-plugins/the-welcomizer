@@ -496,8 +496,6 @@ jQuery(document).ready(function($) {
     }   
     
     function switchLibraryStatus( $id = '' ){ 
-    
-        global $wpdb;
         
         if( $id=='' ){return false;}
     
