@@ -142,17 +142,17 @@ $("[name^=twiz_listmenu]").css("display", "none");';
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] == '1' ){
 
         $hide = '';
-        $toggleimg = 'minus';
+        $toggleimg = 'twiz-minus';
         $boldclass = ' twiz-bold';
 
     }else{
 
         $hide = ' twiz-display-none';
-        $toggleimg = 'plus';
+        $toggleimg = 'twiz-plus';
         $boldclass = '';
     }
         
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar0" name="twiz_far_img_twizfar0" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar0" name="twiz_far_e_a_twizfar0" class="twiz-toggle-far'.$boldclass.'">'.__('Starting Positions', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar0" name="twiz_far_img_twizfar0" class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div><a id="twiz_far_e_a_twizfar0" name="twiz_far_e_a_twizfar0" class="twiz-toggle-far'.$boldclass.'">'.__('Starting Positions', 'the-welcomizer').'</a></td></tr>
 <tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT_POS.'_far_1" id="twiz_'.parent::F_OUTPUT_POS.'_far_1">
         <option value=""></option>
         <option value="c">'.__('CSS Styles', 'the-welcomizer').'</option> 
@@ -206,17 +206,17 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] == '1' ){
 
         $hide = '';
-        $toggleimg = 'minus';
+        $toggleimg = 'twiz-minus';
         $boldclass = ' twiz-bold';
 
     }else{
 
         $hide = ' twiz-display-none';
-        $toggleimg = 'plus';
+        $toggleimg = 'twiz-plus';
         $boldclass = '';
     }
                 
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar1" name="twiz_far_img_twizfar1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar1" name="twiz_far_e_a_twizfar1" class="twiz-toggle-far '.$boldclass.'">'.__('jQuery', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar1" name="twiz_far_img_twizfar1"  class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div><a id="twiz_far_e_a_twizfar1" name="twiz_far_e_a_twizfar1" class="twiz-toggle-far '.$boldclass.'">'.__('jQuery', 'the-welcomizer').'</a></td></tr>
 
 <tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('Output', 'the-welcomizer').': <div class="twiz-float-right"><select name="twiz_'.parent::F_OUTPUT.'_far_1" id="twiz_'.parent::F_OUTPUT.'_far_1">
         <option value=""></option>
@@ -235,33 +235,33 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'] == '1' ){
 
         $hide = '';
-        $toggleimg = 'minus';
+        $toggleimg = 'twiz-minus';
         $boldclass = ' twiz-bold';
 
     }else{
 
         $hide = ' twiz-display-none';
-        $toggleimg = 'plus';
+        $toggleimg = 'twiz-plus';
         $boldclass = '';
     }
                 
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar12" name="twiz_far_img_twizfar12" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar12" name="twiz_far_e_a_twizfar12" class="twiz-toggle-far '.$boldclass.'">'.__('Extra CSS', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar12" name="twiz_far_img_twizfar12" class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div><a id="twiz_far_e_a_twizfar12" name="twiz_far_e_a_twizfar12" class="twiz-toggle-far '.$boldclass.'">'.__('Extra CSS', 'the-welcomizer').'</a></td></tr>
 <tr class="twiz-row-color-2 twizfar12'.$hide.'"><td class="twiz-form-td-left">'.__('Extra CSS', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzzz twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_1" name="twiz_'.parent::F_CSS.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP=OFF class="twiz-input-far twiz-input-large twiz-input-large-zzzzzzz twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_2" name="twiz_'.parent::F_CSS.'_far_2" type="text" ></textarea></div></td></tr>';
                 
     if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
 
         $hide = '';
-        $toggleimg = 'minus';
+        $toggleimg = 'twiz-minus';
         $boldclass = ' twiz-bold';
 
     }else{
 
         $hide = ' twiz-display-none';
-        $toggleimg = 'plus';
+        $toggleimg = 'twiz-plus';
         $boldclass = '';
     }
     
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar2" name="twiz_far_img_twizfar2" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar2" name="twiz_far_e_a_twizfar2" class="twiz-toggle-far'.$boldclass.'">'.__('First Move', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar2" name="twiz_far_img_twizfar2" class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div></div><a id="twiz_far_e_a_twizfar2" name="twiz_far_e_a_twizfar2" class="twiz-toggle-far'.$boldclass.'">'.__('First Move', 'the-welcomizer').'</a></td></tr>
 
 <tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_a1.'</div></td><td class="twiz-form-td-left">'.$easing_a2.'</td></tr>
 
@@ -294,17 +294,17 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] == '1' ){
 
         $hide = '';
-        $toggleimg = 'minus';
+        $toggleimg = 'twiz-minus';
         $boldclass = ' twiz-bold';
 
     }else{
 
         $hide = ' twiz-display-none';
-        $toggleimg = 'plus';
+        $toggleimg = 'twiz-plus';
         $boldclass = '';
     }
     
-$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><img id="twiz_far_img_twizfar3" name="twiz_far_img_twizfar3" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-far twiz-toggle-img-far"/></div><a id="twiz_far_e_a_twizfar3" name="twiz_far_e_a_twizfar3" class="twiz-toggle-far'.$boldclass.'">'.__('Second Move', 'the-welcomizer').'</a></td></tr>
+$form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar3" name="twiz_far_img_twizfar3" class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div><a id="twiz_far_e_a_twizfar3" name="twiz_far_e_a_twizfar3" class="twiz-toggle-far'.$boldclass.'">'.__('Second Move', 'the-welcomizer').'</a></td></tr>
 
 <tr class="twiz-row-color-2 twizfar3'.$hide.'"><td class="twiz-form-td-left">'.__('Easing', 'the-welcomizer').': <div class="twiz-float-right">'.$easing_b1.'</div></td><td class="twiz-form-td-left">'.$easing_b2.'</td></tr>
 

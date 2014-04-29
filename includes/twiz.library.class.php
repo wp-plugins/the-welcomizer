@@ -131,25 +131,25 @@ jQuery(document).ready(function($) {
             or ( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] == '1' ) ) {
            
                 $hide = '';
-                $toggleimg = 'minus';
+                $toggleimg = 'twiz-minus';
                 $boldclass = ' twiz-bold';
                 
             }else{
 
                 $hide = ' twiz-display-none';
-                $toggleimg = 'plus';
+                $toggleimg = 'twiz-plus';
                 $boldclass = '';
             }
             
             $html.= '
-        <tr class="twiz-row-color-1" id="twiz_list_tr_twizlib'.$key.'"><td><div class="twiz-relative"><img id="twiz_library_img_twizlib'.$key.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-library twiz-toggle-img"/></div></td>
+        <tr class="twiz-row-color-1" id="twiz_list_tr_twizlib'.$key.'"><td><div class="twiz-relative"><div id="twiz_library_img_twizlib'.$key.'" class="twiz-toggle-library twiz-toggle-img '.$toggleimg.'"></div></div></td>
         <td class="twiz-table-list-td" colspan="2"><a id="twiz_library_e_a_twizlib'.$key.'" class="twiz-toggle-library'.$boldclass.'">'.$directory.'</a></td><td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_twizlib'.$key.'"></td>
         <td class="twiz-table-list-td twiz-text-right">';
         
             // Not for twiz dir
             if($this->default_lib_dir != $directory){
             
-                $html.= '<img width="22"  height="11" src="'.$this->pluginUrl.'/images/twiz-unlink.png" id="twiz_library_unlink_'.$key.'" title="'.__('Unlink', 'the-welcomizer').'" class="twiz-library-unlink" />';
+                $html.= '<div id="twiz_library_unlink_'.$key.'" title="'.__('Unlink', 'the-welcomizer').'" class="twiz-library-unlink twiz-unlink"></div>';
             }
     
         $html.= '</td></tr>';
@@ -170,7 +170,7 @@ jQuery(document).ready(function($) {
                         $statushtmlimg = ($value[parent::F_STATUS]=='1') ? $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_ACTIVE, 'library') : $this->getHtmlImgStatus($value[parent::F_ID], parent::STATUS_INACTIVE, 'library');
                                 
                         $html.= '
-            <tr class="twizlib'.$key.' '.$rowcolor.$hide.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$value[parent::KEY_ORDER].'&nbsp;</td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
+            <tr class="twiz-list-tr twizlib'.$key.' '.$rowcolor.$hide.'" id="twiz_list_tr_'.$value[parent::F_ID].'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$value[parent::KEY_ORDER].'&nbsp;</td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_library_'.$value[parent::F_ID].'">'.$statushtmlimg.'</td>
             <td class="twiz-table-list-td"><a href="'.get_site_url().'/'.$value[parent::KEY_DIRECTORY].$value[parent::KEY_FILENAME].'" target="_blank">'.$value[parent::KEY_FILENAME].'</a></td>
              <td class="twiz-table-list-td twiz-text-center" id="twiz_list_td_'.$value[parent::F_ID].'"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.parent::ACTION_ORDER_LIBRARY.'_'.$value[parent::F_ID].'" id="twiz_'.parent::ACTION_ORDER_LIBRARY.'_up_'.$value[parent::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.parent::ACTION_ORDER_LIBRARY.'_'.$value[parent::F_ID].'" id="twiz_'.parent::ACTION_ORDER_LIBRARY.'_down_'.$value[parent::F_ID].'"></div></td>
             <td class="twiz-table-list-td twiz-text-right">';
@@ -178,7 +178,7 @@ jQuery(document).ready(function($) {
                         // Only for twiz dir
                         if($this->default_lib_dir == $directory){
                         
-                            $html.= '<img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" />';
+                            $html.= '<div id="twiz_delete_'.$value[parent::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete twiz-delete-img"></div>';
                             
                         }
                         

@@ -99,18 +99,18 @@ class TwizView extends Twiz{
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$export_id] == '1' ) {
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
         //Toggle group image
-        $open .= '<div class="twiz-relative"><img name="twiz_group_img_'.$export_id.'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img-view"/></div>';
+        $open .= '<div class="twiz-relative"><div id="twiz_group_img_'.$export_id.'" class="twiz-toggle-group twiz-toggle-img-view '.$toggleimg.'"></div></div>';
         
         $open .= '<div class="'.$export_id.$hide.'">';
         $close = '</div>';

@@ -111,9 +111,9 @@ div a, td a {
     margin: 0px 1px;
 }
 .twiz-loading-gif-action {
-    width: 20px;
-    height: 20px;
-    margin: 0px 1px 0 2px;
+    width: 26px;
+    height: 23px;
+    float: right;
 }
 #twiz_like {
     width: 125px;
@@ -126,6 +126,88 @@ div a, td a {
     height: 19px;
     display: block;
     background: url(../../skins/_default/images/twiz-loading.gif) center center no-repeat;
+    background-size: 43px 11px;
+}
+.twiz-toggle-img,
+.twiz-toggle-img-view,
+.twiz-toggle-img-admin,
+.twiz-toggle-img-far {
+    width: 18px;
+    height: 18px;
+    display: block;
+    cursor: pointer;
+}
+.twiz-status  {
+    width: 20px;
+    height: 20px;
+    display: block;
+    cursor: pointer;    
+    margin: 0 auto;       
+}
+#twiz_status_img_global { 
+    margin: 3px 0 0 3px;
+}
+#twiz_status_img_hscroll { 
+    margin: 0;
+    float: left;
+}
+.twiz-active {
+    background: url(../../images/twiz-active.png) no-repeat;
+    background-size: 20px 20px;
+}
+.twiz-inactive {
+    background: url(../../images/twiz-inactive.png) no-repeat;
+    background-size: 20px 20px;    
+}
+.twiz-edit-img {
+    width: 25px;
+    height: 23px;
+    background: url(../../images/twiz-edit.gif) no-repeat;
+    background-size: 25px 23px;    
+    float: right;
+    cursor: pointer;
+    display: block;
+    margin-right: 3px;
+}
+.twiz-copy-img {
+    width: 23px;
+    height: 23px;
+    background: url(../../images/twiz-copy.png) no-repeat;
+    background-size: 22px 23px; 
+    float: right;    
+    cursor: pointer;
+    display: block;
+    margin-right: 3px;
+}
+.twiz-delete-img {
+    width: 23px;
+    height: 23px;
+    background: url(../../images/twiz-delete.gif) no-repeat;
+    background-size: 20px 23px;   
+    float: right; 
+    cursor: pointer;
+    display: block;
+    margin-right: 3px;
+}
+.twiz-save-dark {
+    background: url(../../skins/_default/images/twiz-save-dark.gif) no-repeat;
+    background-size: 20px 20px;    
+}
+.twiz-save {
+    background: url(../../skins/_default/images/twiz-save.gif) no-repeat;
+    background-size: 16px 16px;    
+}
+.twiz-save-bigger {
+    background: url(../../skins/_default/images/twiz-save.gif) center center no-repeat;
+    background-size: 20px 20px;    
+}
+.twiz-plus {
+    background: url(../../images/twiz-plus.gif) no-repeat;
+    background-size: 18px 18px;
+}
+.twiz-minus {
+    background: url(../../images/twiz-minus.gif) no-repeat;
+    background-size: 18px 18px;    
 }
 #twiz_edit_menu {
     background: url(../../images/twiz-menu-edit-bw.png) center no-repeat;
@@ -531,7 +613,11 @@ div #twiz_head_logo:hover {
 .twiz-table-form,
 .twiz-list-tr {
     width: 500px;
-}    
+}
+.twiz-list-tr {
+    height: 38px;
+    min-height: 38px;
+}
 .twiz-table-far {
     width: 490px;
 }
@@ -861,7 +947,10 @@ a.twiz-red:hover {
     font-size: 11px;
 }
 .twiz-loading-gif-save {
-    padding-right: 3px;
+    width: 20px;
+    height: 20px;
+    padding-bottom: 3px;
+    padding-left: 19px;   
 }
 #twiz_td_full_chooseid img,
 #twiz_td_full_chooseid a  {
@@ -984,4 +1073,20 @@ a.twiz-red:hover {
 #twiz_footer img{
     opacity: 0.4;
     filter: alpha(opacity=40);
+}
+.twiz-unlink { 
+    width: 22px;
+    height: 16px;
+    display: block;
+    cursor: pointer;
+    float: right;
+    margin-right: 6px;
+}
+.twiz-library-unlink {
+    background: url(../../images/twiz-unlink.png) no-repeat;
+    background-size: 22px 11px;  
+}
+.twiz-success {
+    background: url(../../images/twiz-success.gif) no-repeat;
+    background-size: 16px 16px;    
 }

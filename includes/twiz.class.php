@@ -877,9 +877,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.5.4';
-        $this->cssVersion = '2-5';
-        $this->dbVersion  = '3.7.2';
+        $this->version    = '2.6';
+        $this->cssVersion = '2-6';
+        $this->dbVersion  = '3.7.3';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      = wp_create_nonce('twiz-nonce');
@@ -971,8 +971,8 @@ class Twiz{
         
         $myTwizMenu = new TwizMenu();
         $html .= '<div><div id="twiz_menu" class="twiz-reset-nav"><div id="twiz_ajax_menu">'.$myTwizMenu->getHtmlMenu().'</div>';
-        $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu" class="twiz-noborder-right">&gt;&gt;</div>';
-        $html .= '<div id="twiz_add_menu" class="twiz-noborder-right">+</div></div>';
+        $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu" class="twiz-noborder-right" title="'.__('Browse all sections', 'the-welcomizer').'">&gt;&gt;</div>';
+        $html .= '<div id="twiz_add_menu" class="twiz-noborder-right" title="'.__('Create a new section', 'the-welcomizer').'">+</div></div>';
         $html .= '<div id="twiz_loading_menu"><div class="twiz-menu twiz-noborder-right"><div class="twiz-loading-bar"></div></div></div>';
         $html .= '<div class="twiz-clear"></div></div>';
         $html .= '<div id="twiz_sub_container"></div>';
@@ -987,7 +987,6 @@ class Twiz{
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
         $html .= '<div id="twiz_view_box"></div><div id="twiz_view_image"></div>';
               
-        $html .= $this->preloadImages();
         $html .= '</div>';
         
    
@@ -1227,14 +1226,14 @@ class Twiz{
                 if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exid] == '1' ) {
                 
                     $hide = '';
-                    $toggleimg = 'minus';
+                    $toggleimg = 'twiz-minus';
                     $boldclass = ' twiz-bold';
                     
                 }else{
     
                     $hide = ( $value[self::F_PARENT_ID] != '' ) ? ' twiz-display-none' : '';
                     $hide = ( $parent_id == $value[self::F_PARENT_ID] ) ? '' : $hide;
-                    $toggleimg = ( $parent_id == $value[self::F_EXPORT_ID] ) ? 'minus' : 'plus';
+                    $toggleimg = ( $parent_id == $value[self::F_EXPORT_ID] ) ? 'twiz-minus' : 'twiz-plus';
                     $boldclass = ( $parent_id == $value[self::F_EXPORT_ID] ) ? ' twiz-bold' : '';
                 }
             }
@@ -1257,7 +1256,7 @@ class Twiz{
             $htmllist.= $duration;
         }
         
-        $htmllist.= '</td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><img id="twiz_edit_'.$value[self::F_ID].'"  title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-edit" /><img id="twiz_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-copy" /><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete" /></td></tr>';
+        $htmllist.= '</td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><div id="twiz_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete twiz-delete-img"></div><div id="twiz_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" class="twiz-copy twiz-copy-img"></div><div id="twiz_edit_'.$value[self::F_ID].'" title="'.__('Edit', 'the-welcomizer').'" class="twiz-edit twiz-edit-img"></div></td></tr>';
         
             }else{
              
@@ -1270,7 +1269,7 @@ class Twiz{
                 
                  // a group
                 $htmllist.= '<tr><td class="twiz-border-bottom" colspan="7"></td></tr>
-        <tr class="twiz-list-group-tr '.$rowcolor.'" id="twiz_list_group_tr_'.$value[self::F_EXPORT_ID].'"><td class="twiz-td-v-line '.$borderbggroupclass.'"><div class="twiz-relative"><img name="twiz_group_img_'.$value[self::F_EXPORT_ID].'" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-group twiz-toggle-img"/></div></td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-element twiz-text-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'"><a name="twiz_element_a_'.$value[self::F_EXPORT_ID].'" class="twiz-toggle-group'.$boldclass.'">'.$value[self::F_LAYER_ID].'</a></div><div class="twiz-list-tr-action" id="twiz_list_tr_action_'.$value[self::F_EXPORT_ID].'"><small>'.$rowcount.'</small></div></td><td class="twiz-td-event twiz-blue twiz-text-center">Manually</td><td class="twiz-td-delay twiz-text-right"></td><td id="twiz_ajax_td_order_'.$value[self::F_ID].'" class="twiz-td-duration twiz-text-left" nowrap="nowrap"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_up_'.$value[self::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_down_'.$value[self::F_ID].'"></div></td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><img id="twiz_group_edit_'.$value[self::F_ID].'" title="'.__('Edit', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-edit.gif" height="25" class="twiz-group-edit"/><img id="twiz_group_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" src="'.$this->pluginUrl.'/images/twiz-copy.png" height="25" class="twiz-group-copy" /><img height="25" src="'.$this->pluginUrl.'/images/twiz-delete.gif" id="twiz_group_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-group-delete" /></td></tr>';
+        <tr class="twiz-list-group-tr '.$rowcolor.'" id="twiz_list_group_tr_'.$value[self::F_EXPORT_ID].'"><td class="twiz-td-v-line '.$borderbggroupclass.'"><div class="twiz-relative"><div id="twiz_group_img_'.$value[self::F_EXPORT_ID].'" class="twiz-toggle-group twiz-toggle-img '.$toggleimg.'"></div></div></td><td class="twiz-td-status twiz-text-center" id="twiz_td_status_'.$value[self::F_ID].'">'.$statushtmlimg.'</td><td class="twiz-td-element twiz-text-left"><div id="twiz_list_div_element_'.$value[self::F_ID].'"><a id="twiz_element_a_'.$value[self::F_EXPORT_ID].'" class="twiz-toggle-group'.$boldclass.'">'.$value[self::F_LAYER_ID].'</a></div><div class="twiz-list-tr-action" id="twiz_list_tr_action_'.$value[self::F_EXPORT_ID].'"><small>'.$rowcount.'</small></div></td><td class="twiz-td-event twiz-blue twiz-text-center">Manually</td><td class="twiz-td-delay twiz-text-right"></td><td id="twiz_ajax_td_order_'.$value[self::F_ID].'" class="twiz-td-duration twiz-text-left" nowrap="nowrap"><div class="twiz-arrow-lib twiz-arrow-lib-n" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_up_'.$value[self::F_ID].'"></div><div class="twiz-arrow-lib twiz-arrow-lib-s" name="twiz_'.self::ACTION_ORDER_GROUP.'_'.$value[self::F_EXPORT_ID].'" id="twiz_'.self::ACTION_ORDER_GROUP.'_down_'.$value[self::F_ID].'"></div></td><td class="twiz-td-action twiz-text-right" nowrap="nowrap"><div id="twiz_group_delete_'.$value[self::F_ID].'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-group-delete twiz-delete-img"></div><div id="twiz_group_copy_'.$value[self::F_ID].'" title="'.__('Copy', 'the-welcomizer').'" class="twiz-group-copy twiz-copy-img"></div><div id="twiz_group_edit_'.$value[self::F_ID].'" title="'.__('Edit', 'the-welcomizer').'" class="twiz-group-edit twiz-edit-img"></div></td></tr>';
         
             }
         }
@@ -2514,7 +2513,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 }
         }
  
-        return '<img src="'.$this->pluginUrl.'/images/twiz-'.$status.'.png" id="twiz_status_img_'.$prefix.$id.'" name="twiz_status_img_'.$prefix.$id.'" title="'.$title.'" />';
+        return '<div id="twiz_status_img_'.$prefix.$id.'" class="twiz-status twiz-'.$status.'" title="'.$title.'"></div>';
 
     }
     
@@ -3476,56 +3475,6 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
         
         return $htmlstatus;
-    }
-       
-    private function preloadImages(){
-    
-    
-        $dirarray = $this->getSkinsDirectory();
-
-        sort($dirarray);
-              
-        $html = '';
-       
-        foreach( $dirarray as $value ){
-        
-            if( $this->skin[$this->userid] != self::SKIN_PATH.$value ){
-            
-                if( $value != self::DEFAULT_SKIN ){
-                
-                    $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-logo.png" class="twiz-display-none"/>';
-                }
-                
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-display-none"/>';
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-loading.gif" class="twiz-display-none"/>';
-                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
-            }
-        }
-     
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-logo.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-success.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-delete.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-copy.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
-        
-        if($this->skin[$this->userid] != self::SKIN_PATH.self::DEFAULT_SKIN){
-        
-            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-logo.png" class="twiz-display-none"/>';
-        }
-        
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
-    
-        return $html;
     }
     
     function replaceTwizShortCode( $shortcode = '', $string = '' ){

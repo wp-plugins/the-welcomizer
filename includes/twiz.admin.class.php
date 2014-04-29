@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
         
         // default jquery registration
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
         
@@ -96,17 +96,17 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin0'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
  
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin0" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery packages', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin0" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery packages', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
 
@@ -143,18 +143,18 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin1'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
  
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin1" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin1" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin1'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         // Protected
@@ -173,18 +173,18 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin2'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin2" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin2" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin2'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         // Number of posts displayed in lists
@@ -194,18 +194,18 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin3'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin3" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin3" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin3'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -217,18 +217,18 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin4'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin4" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin4" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin4'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -243,18 +243,18 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin5'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin5" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access level settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin5" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access level settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin5'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -274,13 +274,13 @@ jQuery(document).ready(function($) {
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin6'] == '1' ){
         
             $hide = '';
-            $toggleimg = 'minus';
+            $toggleimg = 'twiz-minus';
             $boldclass = ' twiz-bold';
             
         }else{
 
             $hide = ' twiz-display-none';
-            $toggleimg = 'plus';
+            $toggleimg = 'twiz-plus';
             $boldclass = '';
         }
         
@@ -299,7 +299,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><img id="twiz_admin_img_twizadmin6" src="'.$this->pluginUrl.'/images/twiz-'.$toggleimg.'.gif" width="18" height="18" class="twiz-toggle-admin twiz-toggle-img-admin"/></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin6" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -323,7 +323,7 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
                 
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2"  name="twiz_admin_save_img_box" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  

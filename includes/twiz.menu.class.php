@@ -1220,8 +1220,8 @@ $jsscript_close = '});
         $menu .= '<div id="twiz_library_menu" class="twiz-menu twiz-display-none">'.__('Library', 'the-welcomizer').'</div>';
 
         $menu .= '<div id="twiz_admin_menu" class="twiz-menu twiz-display-none">'.__('Admin', 'the-welcomizer').'</div>';
-        $menu .= '<div id="twiz_edit_menu" class="twiz-noborder-right"></div>';
-        $menu .= '<div id="twiz_delete_menu"></div>';
+        $menu .= '<div id="twiz_edit_menu" class="twiz-noborder-right" title="'.__('Edit this section', 'the-welcomizer').'"></div>';
+        $menu .= '<div id="twiz_delete_menu" title="'.__('Delete this section', 'the-welcomizer').'"></div>';
 
         return $menu;
     }
