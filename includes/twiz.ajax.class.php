@@ -827,7 +827,7 @@ class TwizAjax extends Twiz{
         var twiz_src = $("[id^=twiz_group_img_" + twiz_charid + "]").attr("class");
         if(twiz_src.indexOf("twiz-plus") != -1){
             $("[id^=twiz_group_img_" + twiz_charid + "]").removeClass("twiz-plus").addClass("twiz-minus");
-            $("[id^=twiz_element_a_" + twiz_charid + "]").attr("class","twiz-toggle-group");
+            $("[id^=twiz_element_a_" + twiz_parent_id + "]").attr("class","twiz-toggle-group");
             $("[id^=twiz_element_a_" + twiz_charid + "]").attr("class","twiz-toggle-group twiz-bold");
             $("." + twiz_charid).show("fast");
             twiz_toggle_status = 1;
@@ -2462,7 +2462,7 @@ class TwizAjax extends Twiz{
         var twiz_src = $("[id^=twiz_group_img_" + twiz_charid[0] + "]").attr("class");
         if(twiz_src.indexOf("twiz-plus") != -1){
             $("[id^=twiz_group_img_" + twiz_charid[0] + "]").removeClass("twiz-plus").addClass("twiz-minus");
-            $("[id^=twiz_element_a_" + twiz_charid[0] + "]").attr("class","twiz-toggle-group");
+            $("[id^=twiz_element_a_" + twiz_parent_id + "]").attr("class","twiz-toggle-group");
             $("[id^=twiz_element_a_" + twiz_charid[0] + "]").attr("class","twiz-toggle-group twiz-bold");
             $("[name^=twiz_group_anim_link_" + twiz_charid[0] + "_" + twiz_charid[1] +"]").attr("class","twiz-toggle-group twiz-bold");
             $("." + twiz_charid[0]).show("fast");
