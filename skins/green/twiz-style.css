@@ -1041,7 +1041,6 @@ a.twiz-red:hover {
 }
 #twiz_export_url a {
     margin: 15px 3px 0px 0px;
-    float: left;
 }
 #twiz_import_container,
 #twiz_export,
@@ -1092,8 +1091,14 @@ a.twiz-red:hover {
     background: url(../../images/twiz-unlink.png) no-repeat;
     background-size: 22px 11px;  
 }
-}
 .twiz-success {
     background: url(../../images/twiz-success.gif) no-repeat;
     background-size: 16px 16px;    
+}
+#twiz_img_download_export {
+    width: 135px;
+    height: 20px;
+    text-align: left;
+    padding-left: 22px;
+    background: url(../../images/twiz-download.png) center left no-repeat;
 }

@@ -877,8 +877,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.6.2';
-        $this->cssVersion = '2-6-2';
+        $this->version    = '2.6.3';
+        $this->cssVersion = '2-6-3';
         $this->dbVersion  = '3.7.3';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -986,7 +986,8 @@ class Twiz{
         $html .= '</div>';
         $html .= '<div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">'.$myTwizMenu->getHtmlVerticalMenu().'</div>';
         $html .= '<div id="twiz_view_box"></div><div id="twiz_view_image"></div>';
-              
+
+        $html .= $this->preloadImages();        
         $html .= '</div>';
         
    
@@ -2497,7 +2498,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 
             case 'hscroll':
                 
-                $title = __('Horizontal Auto Scrolling', 'the-welcomizer');
+                $title = __('Horizontal auto scrolling', 'the-welcomizer');
                 break;
                 
             default:
@@ -3475,6 +3476,58 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
         
         return $htmlstatus;
+    }
+    
+    private function preloadImages(){
+    
+    
+        $dirarray = $this->getSkinsDirectory();
+
+        sort($dirarray);
+              
+        $html = '';
+       
+        foreach( $dirarray as $value ){
+        
+            if( $this->skin[$this->userid] != self::SKIN_PATH.$value ){
+            
+                if( $value != self::DEFAULT_SKIN ){
+                
+                    $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-logo.png" class="twiz-display-none"/>';
+                }
+                
+                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-display-none"/>';
+                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
+                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-loading.gif" class="twiz-display-none"/>';
+                $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
+            }
+        }
+     
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-logo.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-success.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-plus.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-minus.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-delete.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-copy.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
+        
+        if($this->skin[$this->userid] != self::SKIN_PATH.self::DEFAULT_SKIN){
+        
+            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-logo.png" class="twiz-display-none"/>';
+        }
+        
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
+    
+        return $html;
     }
     
     function replaceTwizShortCode( $shortcode = '', $string = '' ){
