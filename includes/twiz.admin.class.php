@@ -69,7 +69,7 @@ class TwizAdmin extends Twiz{
 jQuery(document).ready(function($) {
     $("#twiz_add_menu").fadeOut("fast");
     $("#twiz_library_upload").fadeOut("fast");
-    $("#twiz_import_container").fadeOut("fast");
+    $("#twiz_import").fadeOut("fast");
     $("#twiz_export").fadeOut("fast");
     $("#twiz_add_sections").fadeOut("fast");
     $("#twiz_right_panel").fadeOut("fast");

@@ -29,6 +29,7 @@ class TwizOutput extends Twiz{
     private $hardsections;
     private $multi_sections;
     private $shortcode_id;
+    private $shortcode_HTML;
     private $animate;
     private $stop;
     private $y;
@@ -117,14 +118,32 @@ class TwizOutput extends Twiz{
                 
         $this_prefix = '';
         
-        // no data, no output
-        if( count($this->listarray) == 0 ){ return ''; }
         
         if( $this->shortcode_id != '' ){
         
-            $this_prefix = '_'.$this->listarray[0][parent::F_SECTION_ID];
+            $section_id = $this->getSectionIdByShortCode($this->shortcode_id);
+            
+            if( $section_id != '' ){
+            
+                $this_prefix = '_'.$section_id;
+                
+                $sections = $this->getSectionArray($section_id);        
+                
+                // Set shorcode html for output, outside the loop.
+                $this->shortcode_HTML = htmlspecialchars_decode($sections[$section_id][parent::KEY_SHORTCODE_HTML]);
+                
+                // replace all wp registered shortcodes.
+                //$this->shortcode_HTML = apply_filters('the_content', $this->shortcode_HTML);
+                 
+                // replace shortcode [twiz_wp_upload_dir]
+                $this->shortcode_HTML = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $this->shortcode_HTML);
+            }
         }
+        
+        // no data, no more output, only shortcode HMTL
+        if( count($this->listarray) == 0 ){ return $this->shortcode_HTML; } 
 
+        
         if( $this->outputStatus == '1' ){
        
             // script header 
@@ -433,6 +452,7 @@ class TwizOutput extends Twiz{
             $this->generatedScript .= $this->generatedScriptonReady;
             $this->generatedScript .= $this->linebreak.'});</script>';
             $this->generatedScript .= $this->getStyleCSS();
+            $this->generatedScript .= $this->shortcode_HTML;
             $this->generatedScript = str_replace( '[GLOBAL_JS]', $this->global_js, $this->generatedScript ); 
         }
         
@@ -732,11 +752,13 @@ class TwizOutput extends Twiz{
     private function getSectionIdByShortCode( $shortcode_id = '' ){
     
         foreach( $this->multi_sections as $key => $value){
-        
+
             list( $type, $id ) = preg_split('/_/', $key);
             
-            if(($type == 'sc')
-            and($value == $shortcode_id)){ // short code
+            if( ( $type == 'sc' )
+            and ( $value == $shortcode_id )
+            and ( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE )
+            ){ // short code
                 
                 return $key;
             }        
@@ -1137,7 +1159,7 @@ class TwizOutput extends Twiz{
             $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
-            
+           
             // This line must be inside the first output loop
             if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]]) ){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
             if( !isset($this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}

@@ -612,6 +612,9 @@ div #twiz_head_logo:hover {
 .twiz-select-event-list {
     width: 55px;
 }
+.twiz-element {
+    height: 16px;
+}
 .twiz-table-list,
 .twiz-table-form,
 .twiz-list-tr {
@@ -668,8 +671,7 @@ div #twiz_head_logo:hover {
     margin: 0 auto;
 }
 .twiz-text-right .twiz-loading-bar {
-    margin-right: 0;
-    margin-left: auto;
+    margin: 0 0 0 auto;
 }
 .twiz-text-left {
     text-align: left !important;
@@ -693,6 +695,15 @@ div #twiz_head_logo:hover {
 .twiz-td-action {
     width: 85px;
 }
+.twiz-td-ifs-action {
+    width: 30px;
+}
+.twiz-td-ifs-filter{
+    width: 254px;
+}
+.twiz-td-ifs-filter input {
+    width: 150px;
+}
 .twiz-td-lib-action,
 .twiz-td-lib-order {
     width: 50px;
@@ -702,7 +713,7 @@ div #twiz_head_logo:hover {
 }
 .twiz-td-duration,
 .twiz-td-duration input {
-    width: 55px;
+    width: 50px;
 }
 .twiz-td-element {
     min-width: 143px;
@@ -728,14 +739,9 @@ a.twiz-red:hover {
     font-size: 12px !important;
     color: #AA0000 !important;
 }
-.twiz-td-delay {
-    width: 52px;
-}
+.twiz-td-delay,
 .twiz-td-delay input {
-    width: 55px;
-}
-.twiz_ajax_td_edit {
-    display: none;
+    width: 50px;
 }
 .twiz-arrow-lib {
     width: 25px;
@@ -885,6 +891,10 @@ a.twiz-red:hover {
 .twiz-input-far {
     width: 160px;
 }
+.twiz-input-html {
+    width: 489px;
+    height: 90px; 
+}
 .twiz-input {
     width: 230px;
 }
@@ -1025,6 +1035,24 @@ a.twiz-red:hover {
     float: left;
     cursor: pointer;
 }
+#twiz_import_menu,
+#twiz_footer_library_menu  {
+    top: -51px;
+    left: 0px;
+    width: 99px;
+    height: 48px;    
+    border: 1px solid #222222;
+    background-color: #222222;     
+}
+#twiz_import_menu > div,
+#twiz_footer_library_menu > div{
+    padding: 3px;
+}
+#twiz_import_menu div,
+#twiz_footer_library_menu div {
+    width: 92px;
+    text-align: left;
+}
 .twiz-footer-menu-button:hover {
     color: #2ea2cc;
     background-color: #222222;
@@ -1042,7 +1070,7 @@ a.twiz-red:hover {
 #twiz_export_url a {
     margin: 15px 3px 0px 0px;
 }
-#twiz_import_container,
+#twiz_import,
 #twiz_export,
 #twiz_library_upload {
     float: left;
@@ -1062,6 +1090,9 @@ a.twiz-red:hover {
 }
 .twiz-display-block {
     display: block;
+}
+.twiz-cursor {
+    cursor: pointer;
 }
 .twiz-noborder-right {
     border-right: 0 none !important;

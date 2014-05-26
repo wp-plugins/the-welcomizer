@@ -515,7 +515,6 @@
             $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
             $twiz_id = esc_attr(trim($_POST['twiz_id']));
         
-            $myTwiz  = new Twiz();
             $TwizImportExport  = new TwizImportExport();
             $htmlresponse = $TwizImportExport->export($twiz_section_id, $twiz_id, $twiz_group_id );
             
@@ -709,6 +708,40 @@
            
             $myTwiz  = new Twiz();
             $htmlresponse = $myTwiz->getHTMLEventList($twiz_event, '_'.$twiz_id, 'twiz-select-event-list');
+            
+            break;  
+            
+        case Twiz::ACTION_GET_EXPORT_FILE_LIST:
+           
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));            
+            $twiz_filter = esc_attr(trim($_POST['twiz_filter']));            
+        
+            $TwizImportExport  = new TwizImportExport();
+            $htmlresponse = $TwizImportExport->getHTMLExportFileList( $twiz_section_id,  $twiz_filter);
+            
+            break;
+            
+        case Twiz::ACTION_DELETE_EXPORT_FILE:
+           
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));            
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_filter = esc_attr(trim($_POST['twiz_filter']));            
+            
+            $TwizImportExport  = new TwizImportExport();
+            
+            $htmlresponse = $TwizImportExport->deleteExportFile( $twiz_id, $twiz_section_id, $twiz_filter);
+            
+            break;            
+            
+        case Twiz::ACTION_IMPORT_FROM_SERVER:
+            
+            $twiz_id = esc_attr(trim($_POST['twiz_id']));
+            $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
+            $twiz_group_id = esc_attr(trim($_POST['twiz_group_id']));
+            
+            $TwizImportExport  = new TwizImportExport();
+            
+            $htmlresponse = $TwizImportExport->importFromTheServer($twiz_id, $twiz_section_id, $twiz_group_id, $twiz_action);
             
             break;
     }

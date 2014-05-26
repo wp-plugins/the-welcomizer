@@ -3,7 +3,7 @@ Contributors: sebwordpress
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.6.3
+Stable tag: 2.7
 License: GPLv2
 
 This Ajax powered plugin allows you to quickly animate your WordPress blog using jQuery effects.
@@ -38,6 +38,13 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.7 =
+
+* Added an option to import from the server.
+* Added an optional HTML textbox to output type short code.
+* Various bug fixes, output bug included.
+* Modified and optimized UI.
 
 = 2.6.3 =
 
@@ -1295,689 +1302,693 @@ Enjoy!
 
 == Upgrade Notice ==
 
+= 2.7 =
+
+Many adjustments, new features. 
+
 = 2.6.3 =
 
-* Minor UI adjustments.
+Minor UI adjustments.
 
 = 2.6.2 =
 
-* Fixed bold on selected group in list.
+Fixed bold on selected group in list.
 
 = 2.6.1 =
 
-* Fixed bold on selected group in list.
+Fixed bold on selected group in list.
 
 = 2.6 =
 
-* Transformed plugin images to background css images.
+Transformed plugin images to background css images.
 
 = 2.5.4 =
 
-* Minor UI optimization.
+Minor UI optimization.
 
 = 2.5.3 =
 
-* Fixed 2 major bugs.
+Fixed 2 major bugs.
 
 = 2.5.2 =
 
-* Minor UI adjustments. 
+Minor UI adjustments. 
 
 = 2.5.1 =
 
-* Modified label.
+Modified label.
 
 = 2.5 =
 
-* Many adjustments.
+Many adjustments.
 
 = 2.4 =
 
-* Minor adjustments. 
+Minor adjustments. 
 
 = 2.3.5 =
 
-* Minor adjustments. 
+Minor adjustments. 
 
 = 2.3.4 =
 
-* Fixed notice error.
+Fixed notice error.
 
 = 2.3.3 =
 
-* Fixed Parse error bug.
+Fixed Parse error bug.
 
 = 2.3.2 =
 
-* Fixed Parse error bug.
+Fixed Parse error bug.
 
 = 2.3.1 =
 
-* Fixed bug.
+Fixed bug.
 
 = 2.3 =
 
-* Many adjustments.
+Many adjustments.
 
 = 2.2.2 =
 
-* Fixed group order on actions.
+Fixed group order on actions.
 
 = 2.2.1 =
 
-* Added indexes to db.
+Added indexes to db.
 
 = 2.2 =
 
-* Modified the view, added group toggle.
+Modified the view, added group toggle.
 
 = 2.1.2 =
 
-* Fixed drop row under group.
+Fixed drop row under group.
 
 = 2.1.1 =
 
-* Reestablished UI css compatibility with common browsers.
+Reestablished UI css compatibility with common browsers.
 
 = 2.1 =
 
-* Added the ability to `reorder` created Groups in list.
+Added the ability to `reorder` created Groups in list.
 
 = 2.0.2 =
 
-* Fixed Group output bug.
+Fixed Group output bug.
 
 = 2.0.1 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 2.0 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.9 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.8 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.7 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.6 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.5 =
 
-* Modified layout.
+Modified layout.
 
 = 1.9.9.4 =
 
-* Corrected stylesheets.
+Corrected stylesheets.
 
 = 1.9.9.3 =
 
-* Adjusted stylesheets.
+Adjusted stylesheets.
 
 = 1.9.9.2 =
 
-* Modified image preload.
+Modified image preload.
 
 = 1.9.9.1 =
 
-* Put back images preload.
+Put back images preload.
 
 = 1.9.9 =
 
-* Modified stylesheets
+Modified stylesheets
 
 = 1.9.8.9 =
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.9.8.8 =
 
-* Adjusted order in list.
+Adjusted order in list.
 
 = 1.9.8.7 =
 
-* Adjusted order in list.
+Adjusted order in list.
 
 = 1.9.8.6 =
 
-* Adjusted order in list.
+Adjusted order in list.
 
 = 1.9.8.5 =
 
-* Optimized style sheets.
+Optimized style sheets.
 
 = 1.9.8.4 =
 
-* Fixed variable replacement while importing a twiz file.
+Fixed variable replacement while importing a twiz file.
 
 = 1.9.8.3 =
 
-* Minor layout adjustment.
+Minor layout adjustment.
 
 = 1.9.8.2 =
 
-* Fixed new element type.
+Fixed new element type.
 
 = 1.9.8.1 =
 
-* Fixed new element type.
+Fixed new element type.
 
 = 1.9.8 =
 
-* Added new features. 
+Added new features. 
 
 = 1.9.7.9 =
 
-* Applied a filter onto the Unlock dropdown list.
+Applied a filter onto the Unlock dropdown list.
 
 = 1.9.7.8 =
 
-* Fixed URL short code for images in feed.
+Fixed URL short code for images in feed.
 
 = 1.9.7.7 =
 
-* Cleaned short code in feed.
+Cleaned short code in feed.
 
 = 1.9.7.6 =
 
-* Fixed drag&drop in list.
+Fixed drag&drop in list.
 
 = 1.9.7.5 =
 
-* Fixed drag&drop in list.
+Fixed drag&drop in list.
 
 = 1.9.7.4 =
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.9.7.3 =
 
-* Modified menu layout.
+Modified menu layout.
 
 = 1.9.7.2 =
 
-* Fixed pre-selected section when cookie is disabled.
+Fixed pre-selected section when cookie is disabled.
 
 = 1.9.7.1 =
 
-* Fixed selected section on default sections.
+Fixed selected section on default sections.
 
 = 1.9.7 =
 
-* Implemented Seth Godin’s idea.
+Implemented Seth Godin’s idea.
 
 = 1.9.6 =
 
-* Modified some labels.
+Modified some labels.
 
 = 1.9.5.9 =
 
-* Fixed twizGetView.
+Fixed twizGetView.
 
 = 1.9.5.8 =
 
-* Fixed ajax in list.
+Fixed ajax in list.
 
 = 1.9.5.7 =
 
-* Fixed Event list in list.
+Fixed Event list in list.
 
 = 1.9.5.6 =
 
-* Adjusted some UI labels.
+Adjusted some UI labels.
 
 = 1.9.5.5 =
 
-* Fixed binding in list.
+Fixed binding in list.
 
 = 1.9.5.4 =
 
-* Minor fixes.
+Minor fixes.
 
 = 1.9.5.3 =
 
-* Fixed dynamic arrows.
+Fixed dynamic arrows.
 
 = 1.9.5.1 =
 
-* Fixed arrows.
+Fixed arrows.
 
 = 1.9.5 = 
 
-* Added a new optional positioning method.
+Added a new optional positioning method.
 
 = 1.9.4 = 
 
-* Added optional duration.
+Added optional duration.
 
 = 1.9.3.1 = 
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.9.3 =
 
-* Minor fixes and adjustement.
+Minor fixes and adjustement.
 
 = 1.9.2.2 = 
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.9.2.1 = 
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.9.2 = 
 
-* Fixed the view synchronization.
+Fixed the view synchronization.
 
 = 1.9.1.1 = 
 
-* Fixed duration format.
+Fixed duration format.
 
 = 1.9.1 = 
 
-* Various UI improvements.
+Various UI improvements.
 
 = 1.9 = 
 
-* Added infinite depth on views. 
+Added infinite depth on views. 
 
 = 1.8.8 = 
 
-* Added CSS Styles to Starting Positions.
+Added CSS Styles to Starting Positions.
 
 = 1.8.7.2 = 
 
-* Fixed Output bug concerning events.
+Fixed Output bug concerning events.
 
 = 1.8.7.1 = 
 
-* Layout adjustment.
+Layout adjustment.
 
 = 1.8.7 = 
 
-* Minor fixes.
+Minor fixes.
 
 = 1.8.6 = 
 
-* Major fixes.
+Major fixes.
 
 = 1.8.5.3 = 
 
-* Fixed copy group feature.
+Fixed copy group feature.
 
 = 1.8.5.2 = 
 
-* Layout adjustment.
+Layout adjustment.
 
 = 1.8.5.1 = 
 
-* Modified the view.
+Modified the view.
 
 = 1.8.5 = 
 
-* Fixed min-height of the right panel.
+Fixed min-height of the right panel.
 
 = 1.8.4 = 
 
-* Fixed Extra JavaScript inside the right panel.
+Fixed Extra JavaScript inside the right panel.
 
 = 1.8.3 = 
 
-* Minor fixes.
+Minor fixes.
 
 = 1.8.2 = 
 
-* Fixed Undefined index in find and replace.
+Fixed Undefined index in find and replace.
 
 = 1.8.1 =
 
-* Fixes.
+Fixes.
 
 = 1.8 = 
 
-* Added the possibility to add CSS styles in each animation.
+Added the possibility to add CSS styles in each animation.
 
 = 1.7.1 = 
 
-* Fixed the position by default under Starting Positions.
+Fixed the position by default under Starting Positions.
 
 = 1.7 = 
 
-* Major update.
+Major update.
 
 = 1.6.1 = 
 
-* Fixed comments within the JavaScript text box.
+Fixed comments within the JavaScript text box.
 
 = 1.6 = 
 
-* Added loading gif. Minor fixes.
+Added loading gif. Minor fixes.
 
 = 1.5.9 = 
 
-* Cleaned the potential mess of the previous bug.
+Cleaned the potential mess of the previous bug.
 
 = 1.5.8 = 
 
-* Fixed twiz_parent_id bug.
+Fixed twiz_parent_id bug.
 
 = 1.5.7 = 
 
-* Fixed update. 
+Fixed update. 
 
 = 1.5.6 = 
 
-* Updated jQuery transform.. 
+Updated jQuery transform.. 
 
 = 1.5.5 = 
 
-* Small fix for update to jQuery Transit. 
+Small fix for update to jQuery Transit. 
 
 = 1.5.4 = 
 
-* Fixed Option Display extra easing in lists.
+Fixed Option Display extra easing in lists.
 
 = 1.5.3 = 
 
-* Updated jQuery Transit.
+Updated jQuery Transit.
 
 = 1.5.2 = 
 
-* Updated rotate3Di.js to v0.9.2.
+Updated rotate3Di.js to v0.9.2.
 
 = 1.5.1 = 
 
-* Added a missing translation.
+Added a missing translation.
 
 = 1.5 = 
 
-* Added the ability to create smart groups.
+Added the ability to create smart groups.
 
 = 1.4.9.1 = 
 
-* Fixed returned message from find and replace.
+Fixed returned message from find and replace.
 
 = 1.4.9 = 
 
-* Added a find and replace.
+Added a find and replace.
 
 = 1.4.8.6 = 
 
-* Fixed bugs.
+Fixed bugs.
 
 = 1.4.8.5 = 
 
-* Fixed a translation string, and minor adjusments.
+Fixed a translation string, and minor adjusments.
 
 = 1.4.8.4 = 
 
-* Fixed bugs, added Unlock variables.
+Fixed bugs, added Unlock variables.
 
 = 1.4.8.3 = 
 
-* Fixed PHP cookie 
+Fixed PHP cookie 
 
 = 1.4.8.2 = 
 
-* Revised the cookie options.
+Revised the cookie options.
 
 = 1.4.8.1 = 
 
-* Fixed JScookie: per hour, per day etc...
+Fixed JScookie: per hour, per day etc...
 
 = 1.4.8 = 
 
-* Added element type tag, and added cookie options.
+Added element type tag, and added cookie options.
 
 = 1.4.7 = 
 
-* Mega update.
+Mega update.
 
 = 1.4.6.1 = 
 
-* Fixed z-index of textareas.
+Fixed z-index of textareas.
 
 = 1.4.6 = 
 
-* Major update. 
+Major update. 
 
 = 1.4.5.3 = 
 
-* Available events only, for binding lists.
+Available events only, for binding lists.
 
 = 1.4.5.2 = 
 
-* Bug fixes.
+Bug fixes.
 
 = 1.4.5.1 = 
 
-* Added a Save & Stay option.
+Added a Save & Stay option.
 
 = 1.4.5 = 
 
-* Added new features, and bug fixes.
+Added new features, and bug fixes.
 
 = 1.4.4.7 = 
 
-* Fixed default values in the list.
+Fixed default values in the list.
 
 = 1.4.4.6 = 
 
-* Current object for event animations, and new installation procedure.
+Current object for event animations, and new installation procedure.
 
 = 1.4.4.5 = 
 
-* Fixed new names inside the right panel.
+Fixed new names inside the right panel.
 
 = 1.4.4.4 = 
 
-* Added Support for multiple element names.
+Added Support for multiple element names.
 
 = 1.4.4.3 = 
 
-* Fixed a compatibility issue.
+Fixed a compatibility issue.
 
 = 1.4.4.2 = 
 
-* Various minor adjustments.
+Various minor adjustments.
 
 = 1.4.4.1 = 
 
-* Fixed a string replacement within Twiz functions.
+Fixed a string replacement within Twiz functions.
 
 = 1.4.4 = 
 
-* Added Short code to output choices.
+Added Short code to output choices.
 
 = 1.4.3 =
 
-* Major update. 
+Major update. 
 
 = 1.4.2.1 = 
 
-* Removed auto-draft items from lists.
+Removed auto-draft items from lists.
 
 = 1.4.2 = 
 
-* Added unpublished pages & articles to lists.
+Added unpublished pages & articles to lists.
 
 = 1.4.1 = 
 
-* Added preloading of twiz-loading.gif.
+Added preloading of twiz-loading.gif.
 
 = 1.4 =
 
-* Optimizations.
+Optimizations.
 
 = 1.3.9.9 = 
 
-* Fixed event bug.
+Fixed event bug.
 
 = 1.3.9.8 = 
 
-* Added features.
+Added features.
 
 = 1.3.9.7 = 
 
-* Turned some images into css background.
+Turned some images into css background.
 
 = 1.3.9.6 = 
 
-* Fixes and stabilization.
+Fixes and stabilization.
 
 = 1.3.9.5 = 
 
-* Fixes, and plugin skins.
+Fixes, and plugin skins.
 
 = 1.3.9.4 = 
 
-* Added the ability to create custom menu.
+Added the ability to create custom menu.
 
 = 1.3.9.3 = 
 
-* Output optimizations, added a new parameter to the function repeat.
+Output optimizations, added a new parameter to the function repeat.
 
 = 1.3.9.2 = 
 
-* Fixed `Home` activation button display.
+Fixed `Home` activation button display.
 
 = 1.3.9.1 = 
 
-* Added Admin option.
+Added Admin option.
 
 = 1.3.9 =
 
-* Added features, and fixed bug.
+Added features, and fixed bug.
 
 = 1.3.8.9 =
 
-* Added a vertical alignment to the right panel.
+Added a vertical alignment to the right panel.
 
 = 1.3.8.8 =
 
-* Layout fixes.
+Layout fixes.
 
 = 1.3.8.7 =
 
-* Bug fixes.
+Bug fixes.
 
 = 1.3.8.6 =
 
-* Added a vertical menu. Bug fixes.
+Added a vertical menu. Bug fixes.
 
 = 1.3.8.5 =
 
-* Added many features. Layout fixes.
+Added many features. Layout fixes.
 
 = 1.3.8.4 =
 
-* Fixes.
+Fixes.
 
 = 1.3.8.3 =
 
-* Added `Output code compression` option.
+Added `Output code compression` option.
 
 = 1.3.8.2 =
 
-* Rewritten the output code.
+Rewritten the output code.
 
 = 1.3.8.1 =
 
-* Fixes.
+Fixes.
 
 = 1.3.8 =
 
-* Added Output hook choices, and `empty` for Top and Left.
+Added Output hook choices, and `empty` for Top and Left.
 
 = 1.3.7.9 =
 
-* Added px, %, em, in.
+Added px, %, em, in.
 
 = 1.3.7.8 =
 
-* Bug fixes.
+Bug fixes.
 
 = 1.3.7.7 =
 
-* Bug fixes.
+Bug fixes.
 
 = 1.3.7.6 =
 
-* Hotfix.
+Hotfix.
 
 = 1.3.7.5 =
 
-* Layout fixes. Minor fixes.
+Layout fixes. Minor fixes.
 
 = 1.3.7.4 =
 
-* Simplified right panel, and the ability to easily call animations.
+Simplified right panel, and the ability to easily call animations.
 
 = 1.3.7.3 =
 
-* Added the ability to choose a post when creating menus.
+Added the ability to choose a post when creating menus.
 
 = 1.3.7.2 =
 
-* Fixed conflict with upload media manager in post page.
+Fixed conflict with upload media manager in post page.
 
 = 1.3.7.1 =
 
-* Fixed wp-minify incompatibility(new).
+Fixed wp-minify incompatibility(new).
 
 = 1.3.7 =
 
-* Major update.
+Major update.
 
 = 1.3.6.9 =
 
-* Optimized output code.
+Optimized output code.
 
 = 1.3.6.8 =
 
-* Correction, only JS can be switched after or before.
+Correction, only JS can be switched after or before.
 
 = 1.3.6.7 =
 
-* Output small configs before the JavaScript.
+Output small configs before the JavaScript.
 
 = 1.3.6.6 =
 
-* The editing panel is simplified and more flexible.
+The editing panel is simplified and more flexible.
 
 = 1.3.6.5 =
 
-* Fixed navigation import menu, and default action label.
+Fixed navigation import menu, and default action label.
 
 = 1.3.6.4 =
 
-* Added support for $(this). inside the textbox `JavaScript Before`.
+Added support for $(this). inside the textbox `JavaScript Before`.
 
 = 1.3.6.3 =
 
-* All menu buttons are now visible when editing.
+All menu buttons are now visible when editing.
 
 = 1.3.6.2 =
 
-* Added the layout of the admin button. Minor fixes.
+Added the layout of the admin button. Minor fixes.
 
 = 1.3.6.1 =
 
-* ID, NAME and CLASS are supported.
+ID, NAME and CLASS are supported.
 
 = 1.3.6 =
 
-* Fixed Everywhere, Everywhere.
+Fixed Everywhere, Everywhere.
 
 = 1.3.5.9 =
 
@@ -1985,211 +1996,211 @@ New features. (Everywhere / All Categories / All Pages)
 
 = 1.3.5.8 =
 
-* Major update and fixes.
+Major update and fixes.
 
 = 1.3.5.7 = 
 
-* Added Trigger animation by event. And fixes.
+Added Trigger animation by event. And fixes.
 
 = 1.3.5.6 = 
 
-* Added `Copy` action, list ordered by `Delay` and `Element Id`.
+Added `Copy` action, list ordered by `Delay` and `Element Id`.
 
 = 1.3.5.5 = 
 
-* .twz and .xml are supported for import. 
+.twz and .xml are supported for import. 
 
 = 1.3.5.4 = 
 
-* The Library files are now enqueued in the configured order.
+The Library files are now enqueued in the configured order.
 
 = 1.3.5.3 = 
 
-* Major update, new features.
+Major update, new features.
 
 = 1.3.5.2 = 
 
-* Added Repeat function.
+Added Repeat function.
 
 = 1.3.5.1 =
 
-* Major and minor fixes...
+Major and minor fixes...
 
 = 1.3.5 = 
 
-* Fixed delete section menu.
+Fixed delete section menu.
 
 = 1.3.4.9 = 
 
-* Fixed notice and warning messages.
+Fixed notice and warning messages.
 
 = 1.3.4.8 =
 
-* Added Replay function.
+Added Replay function.
 
 = 1.3.4.7 =
 
-* Bug fixes.
+Bug fixes.
 
 = 1.3.4.6 =
  
-* Added a JavaScript File Manager. Bug fixes. Adjustments.
+Added a JavaScript File Manager. Bug fixes. Adjustments.
 
 = 1.3.4.5 =
  
-* Fixed table reinitialization.
+Fixed table reinitialization.
 
 = 1.3.4.4 =
 
-* Added a delete section button. Fixed export multilingual filename.
+Added a delete section button. Fixed export multilingual filename.
 
 = 1.3.4.3 =
  
-* Major fixes.
+Major fixes.
 
 = 1.3.4.2 =
 
-* Fully compatible with IE9, Minor Fixes.
+Fully compatible with IE9, Minor Fixes.
 
 = 1.3.4.1 =
 
-* Minor adjustments.
+Minor adjustments.
 
 = 1.3.4 =
 
-* Fixed display code.
+Fixed display code.
 
 = 1.3.3.9 =
 
-* Optimized code. New constants. Fixed Import-Export.
+Optimized code. New constants. Fixed Import-Export.
 
 = 1.3.3.8 =
 
-* Modified fileuploader stylesheet.
+Modified fileuploader stylesheet.
 
 = 1.3.3.7 =
 
-* Enqueued fileuploader stylesheet.
+Enqueued fileuploader stylesheet.
 
 = 1.3.3.6 =
 
-* Added Import file feature. Major changes.
+Added Import file feature. Major changes.
 
 = 1.3.3.5 =
 
-* Added compatibility with IE8...
+Added compatibility with IE8...
 
 = 1.3.3.4 =
 
-* Fixed the visibility of the add section menu.
+Fixed the visibility of the add section menu.
 
 = 1.3.3.3 =
 
-* Fixed export file.
+Fixed export file.
 
 = 1.3.3.2 =
 
-* Added a new feature to export a list. 
+Added a new feature to export a list. 
 
 = 1.3.3.1 =
 
-* Added Spanish translation. Minor changes.
+Added Spanish translation. Minor changes.
 
 = 1.3.3 =
 
-* Fixed bug (Internet Explorer).
+Fixed bug (Internet Explorer).
 
 = 1.3.2.9 =
 
-* Added dynamic arrows to the editing panel.
+Added dynamic arrows to the editing panel.
 
 = 1.3.2.8 =
 
-* Modified the size of the arrows.
+Modified the size of the arrows.
 
 = 1.3.2.7 =
 
-* Fixed hidden datapreview panel. Added arrows.
+Fixed hidden datapreview panel. Added arrows.
 
 = 1.3.2.6 =
 
-* Fixed unresolved sections.
+Fixed unresolved sections.
 
 = 1.3.2.5 =
 
-* Added validation, and modified Installation.
+Added validation, and modified Installation.
 
 = 1.3.2.4 =
 
-* Fixed Installation.
+Fixed Installation.
 
 = 1.3.2.3 =
 
-* This is the update we've all been waiting for.
+This is the update we've all been waiting for.
 
 = 1.3.2.2 =
 
-* Minor fixes and adjustments.
+Minor fixes and adjustments.
 
 = 1.3.2.1 =
 
-* Fixed notice and warning messages.
+Fixed notice and warning messages.
 
 = 1.3.2 =
 
-* Fixed Call to undefined function file_get_html(). 
+Fixed Call to undefined function file_get_html(). 
 
 = 1.3.1.9 =
 
-* Fixed Missing arguments.
+Fixed Missing arguments.
 
 = 1.3.1.8 =
 
-* Added Ajax editable 'Duration' column. Layout adjustments, improvements.
+Added Ajax editable 'Duration' column. Layout adjustments, improvements.
 
 = 1.3.1.7 =
 
-* Fixed Enlarged layout.
+Fixed Enlarged layout.
 
 = 1.3.1.6 =
 
-* Enlarged layout.
+Enlarged layout.
 
 = 1.3.1.5 =
 
-* Improved security using Nonces.
+Improved security using Nonces.
 
 = 1.3.1.4 =
 
-* Fixed the validation for the delay textbox.(after cancel), minor fixes.
+Fixed the validation for the delay textbox.(after cancel), minor fixes.
 
 = 1.3.1.3 =
 
-* Fixed the display of the right panel after addnew. 
+Fixed the display of the right panel after addnew. 
 
 = 1.3.1.2 =
 
-* Disabled submit button on form submit. Minor fixes.
+Disabled submit button on form submit. Minor fixes.
 
 = 1.3.1.1 =
 
-* Added validation for the delay textbox.
+Added validation for the delay textbox.
 
 = 1.3.1 =
 
-* Added Ajax editable 'Delay' column. + Major fixes.
+Added Ajax editable 'Delay' column. + Major fixes.
 
 = 1.3.0 =
 
-* Major fixes. More options. Critical update.
+Major fixes. More options. Critical update.
 
 = 1.2.9 =
 
-* Optimized stylesheet. (twiz-style.css)
+Optimized stylesheet. (twiz-style.css)
 
 = 1.2.8 =
 
-* Enqueued stylesheet. (twiz-style.css)
+Enqueued stylesheet. (twiz-style.css)
 
 = 1.2.7 =
 

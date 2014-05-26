@@ -23,6 +23,8 @@
     font-size: 9px;
     position: absolute;
     text-align: left;
+    top: 63px;
+    width: 490px;    
 }
 .qq-upload-list li { 
     line-height: 9px; 

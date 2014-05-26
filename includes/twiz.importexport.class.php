@@ -15,21 +15,30 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-    require_once(dirname(__FILE__).'/twiz.menu.class.php');
+require_once(dirname(__FILE__).'/twiz.menu.class.php');
     
 
 class TwizImportExport extends Twiz{
-   
+
+    private $import_dir_abspath;
+    private $export_dir;
+    private $export_dir_url;
+    private $export_dir_abspath;
                                        
     function __construct(){
     
         parent::__construct();
+        
+        $this->import_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH;
+        $this->export_dir = str_replace(ABSPATH,"", WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH);
+        $this->export_dir_url =  WP_CONTENT_URL . parent::IMPORT_PATH . parent::EXPORT_PATH;
+        $this->export_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH ;
     }
     
     private function containsGroup( $filename = '' ){
     
         // full file path 
-        $file = WP_CONTENT_DIR . parent::IMPORT_PATH . $filename;
+        $file = $this->import_dir_abspath . $filename;
 
         if ( @file_exists($file) ) {
         
@@ -68,7 +77,7 @@ class TwizImportExport extends Twiz{
         $parentid = $exportid;
         $grouporder = $this->getValue($groupid, parent::F_GROUP_ORDER); // to import under a group
 
-        $filearray = $this->getFileDirectory(array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), WP_CONTENT_DIR.parent::IMPORT_PATH);
+        $filearray = $this->getFileDirectory(array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), $this->import_dir_abspath);
         
         foreach( $filearray as $filename ){
             
@@ -82,7 +91,7 @@ class TwizImportExport extends Twiz{
                 }
             }
             
-            if( $code = $this->importData( $filename, $sectionid, $parentid, $grouporder) ){
+            if( $code = $this->importData( $this->import_dir_abspath . $filename, $sectionid, $parentid, $grouporder) ){
  
                 return true;
             }
@@ -91,14 +100,60 @@ class TwizImportExport extends Twiz{
         return true;
     }
     
-    function importData( $filename = '', $sectionid = parent::DEFAULT_SECTION_HOME, $parentid = '', $grouporder = 0 ){
+    function importFromTheServer( $id = '', $sectionid = '', $groupid = '', $action = '' ){
+    
+        $error = '';
+        $exportid = $this->getValue( $groupid, parent::F_EXPORT_ID ); // to import under a group
+        $parentid = $exportid;
+        $grouporder = $this->getValue($groupid, parent::F_GROUP_ORDER); // to import under a group
         
-        // full file path 
-        $file = WP_CONTENT_DIR . parent::IMPORT_PATH . $filename;
+        $filename =  $this->getFileNamebyID( $id );
+        
+        if( $code = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder)){
+
+            $htmlresponse = $this->getHtmlList($sectionid, '', '', $parentid , $action);
+            
+        }else{
+        
+            $error = __('An error occured, please try again.', 'the-welcomizer');
+            $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
+        }
+        
+        
+        $error_code = ( $error != '' ) ? 'true' : 'false';
+        $htmlresponse = ( $error != '' ) ? '<div class="twiz-red twiz-text-center">' . $error .'</div>' . $htmlresponse : $htmlresponse;
+        
+        $jsonlistarray = json_encode( array('filename' => $filename, 'html'=> $htmlresponse, 'error' => ($error_code) )); // Exclude groups from results.
+            
+        return $jsonlistarray;
+    }
+    
+    private function getFileNamebyID( $id = '' ){
+        
+        if( $id == ''){ return ''; }
+        
+        // get all export files
+        $export_file_array = $this->getFileDirectory( array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), $this->export_dir_abspath );
+        
+        // Loop files
+        foreach( $export_file_array as $filename ){
+            
+            if ( md5($filename) == $id ) {
+            
+                return $filename;
+            }
+        }
+        
+        return '';
+    }
+    
+    function importData( $filepath = '', $sectionid = parent::DEFAULT_SECTION_HOME, $parentid = '', $grouporder = 0 ){
+        
         $rows = '';
-        if ( @file_exists($file) ) {
         
-            if( $twz = @simplexml_load_file($file) ){
+        if ( @file_exists($filepath) ) {
+        
+            if( $twz = @simplexml_load_file($filepath) ){
 
                // flip array mapping value to match 
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
@@ -135,7 +190,7 @@ class TwizImportExport extends Twiz{
                     }
                 }
                 // imported      
-                return  true;
+                return true;
             }
         }
         
@@ -485,6 +540,7 @@ class TwizImportExport extends Twiz{
     function export( $section_id = '', $id = '', $groupid = ''){
   
         $error = '';
+        $filedata = '';
         $myTwizMenu  = new TwizMenu();
         $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($section_id));
         
@@ -513,9 +569,9 @@ class TwizImportExport extends Twiz{
       
         $listarray = $this->getListArray( $where );
 
-        $filedata = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $filedataBegin = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         
-        $filedata .= '<TWIZ>'."\n";
+        $filedataBegin .= '<TWIZ>'."\n";
 
         foreach( $listarray as $value ){
 
@@ -542,39 +598,44 @@ class TwizImportExport extends Twiz{
               $filedata .= '</ROW>'."\n";
               $id = ($id == '') ? '' : $id.'_'.sanitize_title_with_dashes($value[parent::F_LAYER_ID]);
         }
-
-        $filedata .= '</TWIZ>'."\n";
         
-        $sectionname = ($sectionname == '') ? $section_id.$id : $sectionname.$id;
+        if( $filedata != '' ){
         
-        $sectionname =  str_replace( parent::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
-       
-        $filename = urldecode($sectionname).'-'.date('Ymd-His').'.'.parent::EXT_TWIZ;
-        $filepath = parent::IMPORT_PATH.parent::EXPORT_PATH;
-        $filepathdir = WP_CONTENT_DIR.$filepath;
-        $filefullpathdir = $filepathdir.$filename;
-        $filefullpathurl = WP_CONTENT_URL.$filepath.$filename;
- 
-        if (is_writable($filepathdir)) {
+            $filedata = $filedataBegin.$filedata .'</TWIZ>'."\n";
+            
+            $sectionname = ($sectionname == '') ? $section_id.$id : $sectionname.$id;
+            
+            $sectionname =  str_replace( parent::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
+           
+            $filename = urldecode($sectionname).'-'.date('Ymd-His').'.'.parent::EXT_TWIZ;
+            $filefullpathdir = $this->export_dir_abspath.$filename;
+            $filefullpathurl = $this->export_dir_url .$filename;
+     
+            if (is_writable($this->export_dir_abspath)) {
 
-            if (!$handle = fopen($filefullpathdir, 'w')) {
-                $error =  __("Cannot open file", 'the-welcomizer').' ('.$filename.')';
-                exit;
+                if (!$handle = fopen($filefullpathdir, 'w')) {
+                    $error =  __("Cannot open file", 'the-welcomizer').' ('.$filename.')';
+                    exit;
+                }
+
+                if (fwrite($handle, $filedata) === FALSE) {
+                    $error = __("Cannot write to file", 'the-welcomizer').' ('.$filename.')';
+                    exit;
+                }
+
+                fclose($handle);
+
+            } else {
+            
+               $error =  __("You must first create those directories<br>and make them writable", 'the-welcomizer').':<br>'.$this->export_path_message;
             }
-
-            if (fwrite($handle, $filedata) === FALSE) {
-                $error = __("Cannot write to file", 'the-welcomizer').' ('.$filename.')';
-                exit;
-            }
-
-            fclose($handle);
-
-        } else {
-           $error =  __("You must first create those directories<br>and make them writable", 'the-welcomizer').':<br>'.$this->export_path_message;
+            
+        }else{
+        
+            $error = __("Nothing to export.");
         }
         
-        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export"><a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'.__('Download file', 'the-welcomizer').'</a></div> <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>' ;
-        
+        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>' ;
         return $html;
     }
     
@@ -593,6 +654,107 @@ class TwizImportExport extends Twiz{
         }
   
         return false;
+    }
+    
+    function getHTMLExportFileList( $sectionid = '', $filter = '' ){
+    
+        if( $sectionid == '' ) { return ''; }
+    
+        $myTwizMenu = new TwizMenu();
+        $sectionname = $myTwizMenu->getSectionName( $sectionid );
+        
+        $filter = ( $filter == '' ) ? sanitize_title_with_dashes ( $sectionname ) : $filter;
+        $lbl_filter = ( $filter == 'twiz_filter_none' ) ? __('none', 'the-welcomizer') : $filter;
+        $filter = ( $filter == 'twiz_filter_none' ) ? '' : $filter; // all sections
+        
+        $rowcolor = '';
+        
+        // get all export files
+        $export_file_array = $this->getFileDirectory( array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), $this->export_dir_abspath );
+        
+        // rsort($export_file_array);
+        
+        // set toggle
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT] = '';
+        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] = '';
+        
+         // Set Toggle On
+        if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] == '' ) { 
+        
+            $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] == '1'; 
+        }
+         
+        if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] == '1' ) {
+       
+            $hide = '';
+            $toggleimg = 'twiz-minus';
+            $boldclass = ' twiz-bold';
+            
+        }else{
+
+            $hide = ' twiz-display-none';
+            $toggleimg = 'twiz-plus';
+            $boldclass = '';
+        }
+
+        $html = '<table class="twiz-table-list" cellspacing="0">';
+
+        $html .= '
+<tr class="twiz-table-list-tr-h"><td class="twiz-td-v-line"></td><td class="twiz-table-list-td-h twiz-text-left">'.__('Filename', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-ifs-filter twiz-text-left"><span class="twiz-float-left">'.__('Filter', 'the-welcomizer').':&nbsp;</span><div id="twiz_ajax_td_val_ifs_filter" title="'.__('Edit', 'the-welcomizer').'"><a id="twiz_ajax_td_a_ifs_filter">'.$lbl_filter.'</a></div><div id="twiz_ajax_td_loading_ifs_filter"></div><div id="twiz_ajax_td_edit_ifs_filter" class="twiz-display-none"><input class="twiz-input-focus" type="text" name="twiz_input_ifs_filter" id="twiz_input_ifs_filter" value="'.$filter.'" maxlength="100"/></div></td><td class="twiz-table-list-td-h twiz-td-ifs-action twiz-text-right">'.__('Action', 'the-welcomizer').'</td></tr>';
+         
+        $html.= '
+<tr class="twiz-row-color-1"><td><div class="twiz-relative"><div id="twiz_export_img_twizexp0" class="twiz-toggle-export twiz-toggle-img '.$toggleimg.'"></div></div></td>
+
+<td class="twiz-table-list-td" colspan="3"><a id="twiz_export_a_e_twizexp0" class="twiz-toggle-export'.$boldclass.'">'.$this->export_dir.'</a> <div class="twiz-blue twiz-float-right">'.__('Click filename to import', 'the-welcomizer').'</div></td></tr>';
+        
+        $rowid = 1;
+        
+        // Loop files
+        foreach( $export_file_array as $filename ){
+            
+            $fileid = md5($filename);
+            
+            if(preg_match("/".$filter."/i", $filename)){
+            
+                $rowcolor = ( $rowcolor == 'twiz-row-color-2' ) ? 'twiz-row-color-1' : 'twiz-row-color-2';
+                
+                $html .= '
+    <tr class="twiz-list-tr twizexp0 '.$rowcolor.$hide.'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$rowid.'</td><td class="twiz-table-list-td" colspan="2">&nbsp;<a id="twiz_import_from_server_'.$fileid.'" title="'.__('Import', 'the-welcomizer').'" class="twiz-import-from-server">'.$filename.'</a></td> <td class="twiz-table-list-td twiz-text-right"><div id="twiz_delete_'.$fileid.'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete-export twiz-delete-img"></div></td>';
+                
+                $rowid++;
+            
+            }
+        }
+        
+        if( $rowid == 1 ){
+
+            $html .= '
+<tr class="twizexp0'.$hide.' twiz-row-color-2"><td></td>
+<td class="twiz-table-list-td twiz-text-center twiz-blue" colspan="4">'. __('No results found.', 'the-welcomizer').'</td>   
+</tr>';
+        }
+            
+        $html .= '</table>';
+
+        return $html;
+    }
+    
+    function deleteExportFile( $id = '', $sectionid = '', $filter = '' ) { 
+    
+        $filename =  $this->export_dir_abspath . $this->getFileNamebyID( $id );
+        
+        if($filename != ''){
+        
+            if(@file_exists( $filename )) {
+             
+                unlink( $filename );
+            }
+        }
+       
+        $htmlresponse = $this->getHTMLExportFileList( $sectionid, $filter );
+        
+        return $htmlresponse;
+        
     }
 }
 ?>

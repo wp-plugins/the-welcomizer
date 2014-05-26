@@ -207,7 +207,7 @@ class qqFileUploader extends TwizLibrary{
                      
                     break;
                     
-                case parent::ACTION_IMPORT:
+                case parent::ACTION_IMPORT_FROM_COMPUTER:
                 
                     $return_array = '';
 
@@ -276,7 +276,7 @@ class qqFileUploader extends TwizLibrary{
             
             break;
             
-        case Twiz::ACTION_IMPORT:
+        case Twiz::ACTION_IMPORT_FROM_COMPUTER:
         
             $allowedExtensions = array(Twiz::EXT_TWZ, Twiz::EXT_TWIZ, Twiz::EXT_XML);
             

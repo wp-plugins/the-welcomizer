@@ -71,7 +71,7 @@ class TwizView extends Twiz{
                 
             }else{
             
-                $html = '<span id="twiz'.$type.'_anim_link_img_box_'.$data[parent::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz'.$type.'_anim_link_'.$data[parent::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[parent::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$textstring.'</a>';            
+                $html = '<span id="twiz'.$type.'_anim_link_img_box_'.$data[parent::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_img_box" class="twiz-loading-gif"></span><a title="'.__('Edit', 'the-welcomizer').'" id="twiz'.$type.'_anim_link_'.$data[parent::F_ID].'_'.$level.'" name="twiz'.$type.'_anim_link_'.$data[parent::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link'.$boldclass.'">'.$textstring.'</a>';            
             }
             
             $string = str_replace($searchstring, $html, $string);    
