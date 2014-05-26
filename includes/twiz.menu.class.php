@@ -169,7 +169,7 @@ class TwizMenu extends Twiz{
                 }
                 
                 if((!in_array($current_section_id, $this->array_hardsections)) 
-                and ($current_section_id != "")){
+                and ($current_section_id != "") and ($current_section_id != $array_section_id[0] )){
                     
                     // Replace all section_id.
                     $updatesql = "UPDATE ".$this->table . " SET
@@ -242,10 +242,8 @@ class TwizMenu extends Twiz{
                     $section_id = $newprefix;
                 }
                 
-                
-                if((!in_array($current_section_id, $this->array_default_section))
-                or (in_array($$array_section_id[0], $this->array_default_section))
-                and ($current_section_id != "")){
+                if(($current_section_id != "")
+                and ($current_section_id != $section_id )){
            
                     // Replace all section_id.
                     $updatesql = "UPDATE ".$this->table . " SET
@@ -316,9 +314,8 @@ class TwizMenu extends Twiz{
                     $section_id = $newprefix;
                 }
  
-                if((!in_array($current_section_id, $this->array_default_section))
-                or (in_array($$array_section_id[0], $this->array_default_section))
-                and ($current_section_id != "")){
+                if(($current_section_id != "")
+                and ($current_section_id != $section_id )){
            
                     // Replace all section_id.
                     $updatesql = "UPDATE ".$this->table . " SET
@@ -389,9 +386,8 @@ class TwizMenu extends Twiz{
                     $section_id = $newprefix;
                 }
  
-                if((!in_array($current_section_id, $this->array_default_section))
-                or (in_array($$array_section_id[0], $this->array_default_section))
-                and ($current_section_id != "")){
+                if(($current_section_id != "")
+                and ($current_section_id != $section_id )){
            
                     // Replace all section_id.
                     $updatesql = "UPDATE ".$this->table . " SET

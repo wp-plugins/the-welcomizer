@@ -2111,11 +2111,17 @@ class TwizAjax extends Twiz{
             twizHideMainLoadingImage();
             $("#twiz_container").html(data.html);
             $("#twiz_container").toggle();
-            if(data.error == "false"){
-                $("#qq_upload_list").html("<li>" + data.filename + "</li>");
-                $("#twiz_import_menu").attr("style", "");
-                $("#twiz_import_menu").toggle();
+            switch(true){
+                case (data.error == ""):
+                    $("#qq_upload_list").html("<li>" + data.filename + "</li>"); 
+                    break;
+                case (data.error != ""):
+                    alert(data.error);
+                    twiz_current_group_id = "";
+                break;
             }
+            $("#twiz_import_menu").attr("style", "");
+            $("#twiz_import_menu").toggle();
             twizList_ReBind();
         }).fail(function(){ twizUnLockedAction(); });
     }else{twizLockedAction();}});    

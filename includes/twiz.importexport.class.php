@@ -35,10 +35,7 @@ class TwizImportExport extends Twiz{
         $this->export_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH ;
     }
     
-    private function containsGroup( $filename = '' ){
-    
-        // full file path 
-        $file = $this->import_dir_abspath . $filename;
+    private function containsGroup( $file = '' ){
 
         if ( @file_exists($file) ) {
         
@@ -83,7 +80,7 @@ class TwizImportExport extends Twiz{
             
             if( $groupid != '' ){
             
-                $containsGroup = $this->containsGroup( $filename );
+                $containsGroup = $this->containsGroup( $this->import_dir_abspath . $filename );
                 
                 if( $containsGroup ){
                 
@@ -103,27 +100,38 @@ class TwizImportExport extends Twiz{
     function importFromTheServer( $id = '', $sectionid = '', $groupid = '', $action = '' ){
     
         $error = '';
+        $htmlresponse = '';
         $exportid = $this->getValue( $groupid, parent::F_EXPORT_ID ); // to import under a group
         $parentid = $exportid;
         $grouporder = $this->getValue($groupid, parent::F_GROUP_ORDER); // to import under a group
         
         $filename =  $this->getFileNamebyID( $id );
         
-        if( $code = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder)){
-
-            $htmlresponse = $this->getHtmlList($sectionid, '', '', $parentid , $action);
+        if( $groupid != '' ){
+        
+            $containsGroup = $this->containsGroup(  $this->export_dir_abspath . $filename );
             
-        }else{
+            if( $containsGroup ){
+            
+                $error = __('Group found in file. Groups can not be imported into another group, the import was cancelled.', 'the-welcomizer');
+                $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
+            }
+        }  
+            
+        if( $error == '' ){
         
-            $error = __('An error occured, please try again.', 'the-welcomizer');
-            $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
+            if( $code = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder)){
+
+                $htmlresponse = $this->getHtmlList($sectionid, '', '', $parentid , $action);
+                
+            }else{
+            
+                $error = __('An error occured, please try again.', 'the-welcomizer');
+                $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
+            }
         }
-        
-        
-        $error_code = ( $error != '' ) ? 'true' : 'false';
-        $htmlresponse = ( $error != '' ) ? '<div class="twiz-red twiz-text-center">' . $error .'</div>' . $htmlresponse : $htmlresponse;
-        
-        $jsonlistarray = json_encode( array('filename' => $filename, 'html'=> $htmlresponse, 'error' => ($error_code) )); // Exclude groups from results.
+
+        $jsonlistarray = json_encode( array('filename' => $filename, 'html'=> $htmlresponse, 'error' => $error )); 
             
         return $jsonlistarray;
     }
@@ -632,7 +640,7 @@ class TwizImportExport extends Twiz{
             
         }else{
         
-            $error = __("Nothing to export.");
+            $error = __("Nothing to export.", 'the-welcomizer');
         }
         
         $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>' ;
