@@ -672,7 +672,7 @@ class TwizImportExport extends Twiz{
         // get all export files
         $export_file_array = $this->getFileDirectory( array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), $this->export_dir_abspath );
         
-        // rsort($export_file_array);
+        sort($export_file_array);
         
         // set toggle
         if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT] = '';
