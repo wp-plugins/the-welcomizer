@@ -529,6 +529,8 @@ class TwizMenu extends Twiz{
         $sql = "DELETE from ".$this->table." where ".parent::F_SECTION_ID." = '".$section_id."';";
         $code = $wpdb->query($sql);
         
+        $twiz_export_filter = get_option('twiz_export_filter');
+        
         // Hard sections are not deleted
         if( !in_array($section_id, $this->array_default_section) ){
             
@@ -551,7 +553,13 @@ class TwizMenu extends Twiz{
                     unset($this->array_multi_sections[$key]);
                 }
             }            
-            
+       
+            // Unset export filter
+            if( isset($twiz_export_filter[$this->userid][$section_id]) ){
+
+                unset($twiz_export_filter[$this->userid][$section_id]);
+            }       
+            $code = update_option('twiz_export_filter', $twiz_export_filter);  
             $code = update_option('twiz_sections', $this->array_sections);
             $code = update_option('twiz_multi_sections', $this->array_multi_sections);
 
@@ -1007,7 +1015,7 @@ textarea = new Object();
 textarea.expand = function(textbox){
     twizsizeOrig(textbox);
     textbox.style.height = (textbox.scrollHeight + 20) + "px";
-    textbox.style.width = (textbox.scrollWidth + 25) + "px";
+    textbox.style.width = (textbox.scrollWidth + 40) + "px";
 } 
 function twizsizeOrig(textbox){
     $(textbox).css({"z-index":10, "width": "489px","height": "90px"});

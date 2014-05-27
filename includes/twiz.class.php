@@ -233,9 +233,7 @@ class Twiz{
     const CS_TRANSIT_SKEWX       = '$(\'#sampleid\').css({ skewX: \'10deg\' });';
     const CS_TRANSIT_SKEWY       = '$(\'#sampleid\').css({ skewY: \'10deg\' });';
     const CS_TRANSIT_TRANSITION  = '$(\'#sampleid\').transition({ opacity: 0.1, scale: 0.5, 1000, \'in\', function() { });';
-    
-    
-    
+
     // jquery Rotate3Di code snippet constants 
     const CS_ROTATE3DI = '$(\'#sampleid\').rotate3Di(\'+=180\', 2000);';
     
@@ -292,7 +290,6 @@ class Twiz{
     const F_GROUP_ORDER            = 'group_order';
     const F_ROW_LOCKED             = 'row_locked';
  
- 
     // Field UI constants keys
     const KEY_USER_ID      = 'userid';
     const KEY_BULLET_POS   = 'bulletpos';
@@ -337,6 +334,9 @@ class Twiz{
     const KEY_MIN_ROLE_LEVEL   = 'min_role_level';
     const KEY_MIN_ROLE_ADMIN   = 'min_role_admin';
     const KEY_MIN_ROLE_LIBRARY = 'min_role_library';
+    
+    // the_content filter constant key
+    const KEY_THE_CONTENT_FILTER = 'the_content_filter';    
     
     // Output protected constant key
     const KEY_OUTPUT_PROTECTED = 'output_protected';
@@ -883,9 +883,9 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.7.2';
-        $this->cssVersion = '2-7-2';
-        $this->dbVersion  = '3.7.4';
+        $this->version    = '2.7.3';
+        $this->cssVersion = '2-7-3';
+        $this->dbVersion  = '3.7.5';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
         $this->nonce      = wp_create_nonce('twiz-nonce');
@@ -1822,12 +1822,12 @@ textarea = new Object();
 textarea.expand = function(textbox){
     twizsizeOrig(textbox);
     textbox.style.height = (textbox.scrollHeight + 20) + "px";
-    textbox.style.width = (textbox.scrollWidth + 25) + "px";
+    textbox.style.width = (textbox.scrollWidth + 40) + "px";
 } 
 textarea.expandcss = function(textbox){
     twizsizeOrigCss(textbox);
     textbox.style.height = (textbox.scrollHeight + 20) + "px";
-    textbox.style.width = (textbox.scrollWidth + 25) + "px";
+    textbox.style.width = (textbox.scrollWidth + 40) + "px";
 } 
 function twizsizeOrig(textbox){
     $(textbox).css({"z-index":10, "width": "230px","height": "50px"});

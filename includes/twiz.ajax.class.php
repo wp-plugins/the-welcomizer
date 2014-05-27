@@ -1323,6 +1323,7 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_REGISTER_JQUERY_EASING.'": $("#twiz_'.parent::KEY_REGISTER_JQUERY_EASING.'").is(":checked"),
          "twiz_'.parent::KEY_OUTPUT_COMPRESSION.'": $("#twiz_'.parent::KEY_OUTPUT_COMPRESSION.'").is(":checked"),
          "twiz_'.parent::KEY_OUTPUT.'": $("#twiz_'.parent::KEY_OUTPUT.'").val(),
+         "twiz_'.parent::KEY_THE_CONTENT_FILTER.'": $("#twiz_'.parent::KEY_THE_CONTENT_FILTER.'").is(":checked"),
          "twiz_'.parent::KEY_OUTPUT_PROTECTED.'": $("#twiz_'.parent::KEY_OUTPUT_PROTECTED.'").is(":checked"),
          "twiz_'.parent::KEY_EXTRA_EASING.'": $("#twiz_'.parent::KEY_EXTRA_EASING.'").is(":checked"),
          "twiz_'.parent::KEY_NUMBER_POSTS.'": $("#twiz_'.parent::KEY_NUMBER_POSTS.'").val(),
@@ -1340,19 +1341,16 @@ class TwizAjax extends Twiz{
     }, function(data) {
         twizUnLockedAction();
         data = JSON.parse(data);    
-        if(data.fb_like == "1"){
-             $("#twiz_like").html("");
-        }    
         if(data.relike == "relike"){
-            $("#twiz_like").html(data.html);
+            $("#twiz_like").html(data.htmllike);
         }else if(data.relike == "remove"){
-            $("#twiz_like").html(data.html);
+            $("#twiz_like").html("");
         }        
         if(data.rebind == "rebind"){
-            $("#twiz_footer").html(data.html);
+            $("#twiz_footer").html(data.htmlads);
             bind_twiz_ads();
         }else if(data.rebind == "remove"){
-            $("#twiz_footer").html(data.html);
+            $("#twiz_footer").html("");
         }
         if(data.extra_easing == "1"){
             $("#twiz_'.parent::KEY_EXTRA_EASING.'").attr({"checked":"checked"});
@@ -2021,11 +2019,11 @@ class TwizAjax extends Twiz{
   }else{twizLockedAction();}}
   var bind_twiz_Import_From_Server = function(){
       $("#twiz_input_ifs_filter").keypress(function (e){
-        var twiz_filter = "";
+        var twiz_export_filter = "";
         if($("#twiz_input_ifs_filter").val() == ""){
-          twiz_filter = "twiz_filter_none";
+          twiz_export_filter = "twiz_export_filter_none";
         }else{
-          twiz_filter =  $("#twiz_input_ifs_filter").val();
+          twiz_export_filter =  $("#twiz_input_ifs_filter").val();
         }
         switch(e.keyCode){
             case 27:
@@ -2041,7 +2039,7 @@ class TwizAjax extends Twiz{
                     "twiz_nonce": "'.$this->nonce.'", 
                     "twiz_action": "'.parent::ACTION_GET_EXPORT_FILE_LIST.'",
                     "twiz_section_id": twiz_current_section_id,
-                    "twiz_filter": twiz_filter
+                    "twiz_export_filter": twiz_export_filter
                     }, function(data) {
                         twizUnLockedAction();
                         twizHideMainLoadingImage();
@@ -2068,11 +2066,11 @@ class TwizAjax extends Twiz{
         $(this).attr("class","twiz-save-bigger twiz-loading-gif-action");
         var twiz_textid = $(this).attr("id");
         var twiz_id = twiz_textid.substring(12,twiz_textid.length);       
-        var twiz_filter = "";
+        var twiz_export_filter = "";
         if($("#twiz_input_ifs_filter").val() == ""){
-          twiz_filter = "twiz_filter_none";
+          twiz_export_filter = "twiz_export_filter_none";
         }else{
-          twiz_filter =  $("#twiz_input_ifs_filter").val();
+          twiz_export_filter =  $("#twiz_input_ifs_filter").val();
         }        
         $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
@@ -2080,7 +2078,7 @@ class TwizAjax extends Twiz{
         "twiz_action": "'.parent::ACTION_DELETE_EXPORT_FILE.'",
         "twiz_section_id": twiz_current_section_id,
         "twiz_id": twiz_id,        
-        "twiz_filter": twiz_filter
+        "twiz_export_filter": twiz_export_filter
         }, function(data) {
             twizUnLockedAction();
             if(data!=""){
@@ -2168,7 +2166,7 @@ class TwizAjax extends Twiz{
         "twiz_nonce": "'.$this->nonce.'", 
         "twiz_action": "'.parent::ACTION_GET_EXPORT_FILE_LIST.'",
         "twiz_section_id": twiz_current_section_id,
-        "twiz_filter": "",
+        "twiz_export_filter": "",
         }, function(data) {
             twizUnLockedAction(); 
             twizHideMainLoadingImage();

@@ -132,19 +132,23 @@ class TwizOutput extends Twiz{
                 // Set shorcode html for output, outside the loop.
                 $this->shortcode_HTML = htmlspecialchars_decode($sections[$section_id][parent::KEY_SHORTCODE_HTML]);
                 
-                // replace all wp registered shortcodes.
-                //$this->shortcode_HTML = apply_filters('the_content', $this->shortcode_HTML);
-                 
-                // replace shortcode [twiz_wp_upload_dir]
-                $this->shortcode_HTML = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $this->shortcode_HTML);
+                if( $this->admin_option[parent::KEY_THE_CONTENT_FILTER] == '1' ){
+                    
+                    // replace all wp registered shortcodes and more...
+                    $this->shortcode_HTML = apply_filters('the_content', $this->shortcode_HTML);
+                    
+                }else{
+                
+                    // replace shortcode [twiz_wp_upload_dir], and that's it.
+                    $this->shortcode_HTML = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $this->shortcode_HTML);
+                }
             }
         }
-        
-        // no data, no more output, only shortcode HMTL
-        if( count($this->listarray) == 0 ){ return $this->shortcode_HTML; } 
-
-        
+      
         if( $this->outputStatus == '1' ){
+        
+            // no data, no more output, only shortcode HMTL
+            if( count($this->listarray) == 0 ){ return $this->shortcode_HTML; } 
        
             // script header 
             $this->generatedScript .="<!-- ".$this->pluginName." ".$this->version." -->".self::COMPRESS_LINEBREAK;

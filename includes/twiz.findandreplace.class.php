@@ -39,7 +39,7 @@ textarea = new Object();
 textarea.expand = function(textbox){
     twizsizeOrig(textbox);
     textbox.style.height = (textbox.scrollHeight + 20) + "px";
-    textbox.style.width = (textbox.scrollWidth + 25) + "px";
+    textbox.style.width = (textbox.scrollWidth + 40) + "px";
 } 
 function twizsizeOrig(textbox){
     $(textbox).css({"z-index":10, "height":"50px", "width" : "160px"});

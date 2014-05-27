@@ -894,6 +894,7 @@ a.twiz-red:hover {
 .twiz-input-html {
     width: 489px;
     height: 90px; 
+    max-height: 375px;    
 }
 .twiz-input {
     width: 230px;
@@ -918,7 +919,7 @@ a.twiz-red:hover {
     margin-bottom: 13px;
 }
 .twiz-wrap-input-large-css{
-    height: 93px;
+    height: 93px;  
     position: relative;
     margin-bottom: 13px;
 }
@@ -927,10 +928,12 @@ a.twiz-red:hover {
 }
 .twiz-input-large {
     height: 50px;
+    max-height: 375px;    
     position: absolute;
 }
 .twiz-input-large-css {
     height: 93px;
+    max-height: 375px;    
     position: absolute;
 }
 .twiz-input-focus:focus {

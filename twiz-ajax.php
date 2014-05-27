@@ -714,10 +714,10 @@
         case Twiz::ACTION_GET_EXPORT_FILE_LIST:
            
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));            
-            $twiz_filter = esc_attr(trim($_POST['twiz_filter']));            
+            $twiz_export_filter = esc_attr(trim($_POST['twiz_export_filter']));            
         
             $TwizImportExport  = new TwizImportExport();
-            $htmlresponse = $TwizImportExport->getHTMLExportFileList( $twiz_section_id,  $twiz_filter);
+            $htmlresponse = $TwizImportExport->getHTMLExportFileList( $twiz_section_id,  $twiz_export_filter);
             
             break;
             
@@ -725,11 +725,11 @@
            
             $twiz_id = esc_attr(trim($_POST['twiz_id']));            
             $twiz_section_id = esc_attr(trim($_POST['twiz_section_id']));
-            $twiz_filter = esc_attr(trim($_POST['twiz_filter']));            
+            $twiz_export_filter = esc_attr(trim($_POST['twiz_export_filter']));            
             
             $TwizImportExport  = new TwizImportExport();
             
-            $htmlresponse = $TwizImportExport->deleteExportFile( $twiz_id, $twiz_section_id, $twiz_filter);
+            $htmlresponse = $TwizImportExport->deleteExportFile( $twiz_id, $twiz_section_id, $twiz_export_filter);
             
             break;            
             

@@ -551,6 +551,7 @@ class TwizInstallation extends Twiz{
         delete_option('twiz_order_by');     // v1.5+ converted per user
         delete_option('twiz_bullet');       // v1.5+ converted per user
         delete_option('twiz_toggle');       // v1.5+ converted per user
+        delete_option('twiz_export_filter');// per user, per section
         
         return true;
     }    

@@ -157,13 +157,18 @@ jQuery(document).ready(function($) {
         $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin1" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin1'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
+        
+        // the_content filter
+        $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Apply WP filter \'the_content\' to HTML', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLContentFilter().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_THE_CONTENT_FILTER.'"></label></td></tr>';
+                
         // Protected
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Disable \'ajax, post, and cookie\'', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_output_protected">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_PROTECTED.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output compress
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_output_compression">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_COMPRESSION.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output code hook
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
@@ -611,6 +616,15 @@ jQuery(document).ready(function($) {
         return $select;
     }   
     
+    private function getHTMLContentFilter(){
+    
+        $twiz_the_content_filter = ($this->admin_option[parent::KEY_THE_CONTENT_FILTER] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_'.parent::KEY_THE_CONTENT_FILTER.'" name="twiz_'.parent::KEY_THE_CONTENT_FILTER.'"'.$twiz_the_content_filter.'/>';
+                 
+        return $html;
+    }
+    
     private function getHTMLOutputProtected(){
     
         $twiz_output_protected = ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1') ? ' checked="checked"' : '';
@@ -768,6 +782,15 @@ jQuery(document).ready(function($) {
             $this->admin_option = get_option('twiz_admin');
         }
         
+        // the_content filter
+        if( !isset($this->admin_option[parent::KEY_THE_CONTENT_FILTER]) ) $this->admin_option[parent::KEY_THE_CONTENT_FILTER] = '';
+        if( $this->admin_option[parent::KEY_THE_CONTENT_FILTER] == '' ) {
+        
+            $this->admin_option[parent::KEY_THE_CONTENT_FILTER] =  '0';
+            $code = update_option('twiz_admin', $this->admin_option);
+            $this->admin_option = get_option('twiz_admin');
+        }
+        
         // Output Protected
         if( !isset($this->admin_option[parent::KEY_OUTPUT_PROTECTED]) ) $this->admin_option[parent::KEY_OUTPUT_PROTECTED] = '';
         if( $this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '' ) {
@@ -835,6 +858,7 @@ jQuery(document).ready(function($) {
         $setting[parent::KEY_REGISTER_JQUERY_EASING] = esc_attr(trim($_POST['twiz_'.parent::KEY_REGISTER_JQUERY_EASING]));
         $setting[parent::KEY_OUTPUT_COMPRESSION] = esc_attr(trim($_POST['twiz_'.parent::KEY_OUTPUT_COMPRESSION]));
         $setting[parent::KEY_OUTPUT] = esc_attr(trim($_POST['twiz_'.parent::KEY_OUTPUT]));
+        $setting[parent::KEY_THE_CONTENT_FILTER] = esc_attr(trim($_POST['twiz_'.parent::KEY_THE_CONTENT_FILTER]));
         $setting[parent::KEY_OUTPUT_PROTECTED] = esc_attr(trim($_POST['twiz_'.parent::KEY_OUTPUT_PROTECTED]));
         $setting[parent::KEY_EXTRA_EASING] = esc_attr(trim($_POST['twiz_'.parent::KEY_EXTRA_EASING]));
         $setting[parent::KEY_NUMBER_POSTS] = esc_attr(trim($_POST['twiz_'.parent::KEY_NUMBER_POSTS]));
@@ -882,6 +906,10 @@ jQuery(document).ready(function($) {
         
         // Output setting
         $this->admin_option[parent::KEY_OUTPUT] = $setting[parent::KEY_OUTPUT];
+        
+        // The_content filter
+        $the_content_filter = ($setting[parent::KEY_THE_CONTENT_FILTER] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_THE_CONTENT_FILTER] = $the_content_filter;        
         
         // Output Protected
         $output_protected = ($setting[parent::KEY_OUTPUT_PROTECTED] == 'true') ? '1' : '0';
@@ -940,29 +968,20 @@ jQuery(document).ready(function($) {
         
         $relike = '';
         $rebind = '';
-        $htmlresponse = '';
+        $htmladsresponse = '';
+        $htmllikeresponse = '';
         
         // fb like
         if(( $fb_like == '1' ) 
         and ( $fb_like_before == '0' ) ){    
-        
-            $htmlresponse = '<script>
- //<![CDATA[
- jQuery(document).ready(function($) {';
- 
-            $htmlresponse .= '
-$("#twiz_like").html("");
-';
-            $htmlresponse .= '});
- //]]>
-</script>';
+    
             $relike = 'remove';
         }
         
         if(( $fb_like == '0' ) 
         and ( $fb_like_before == '1' ) ){
         
-           $htmlresponse = parent::IFRAME_FB_LIKE; ;
+           $htmllikeresponse = parent::IFRAME_FB_LIKE; ;
            $relike = 'relike';
         }        
         
@@ -970,27 +989,17 @@ $("#twiz_like").html("");
         if(( $footer_ads == '1' ) 
         and ( $footer_ads_before == '0' ) ){    
         
-            $htmlresponse = '<script>
- //<![CDATA[
- jQuery(document).ready(function($) {';
- 
-            $htmlresponse .= '
-$("#twiz_footer").html("");
-';
-            $htmlresponse .= '});
- //]]>
-</script>';
             $rebind = 'remove';
         }
         
         if(( $footer_ads == '0' ) 
         and ( $footer_ads_before == '1' ) ){
         
-           $htmlresponse = $this->getHtmlAds();
+           $htmladsresponse = $this->getHtmlAds();
            $rebind = 'rebind';
         }
         
-        $json = json_encode( array('fb_like' => $fb_like,'relike' => $relike, 'extra_easing' => $extra_easing, 'rebind' => $rebind, 'html' =>  $htmlresponse));
+        $json = json_encode( array('relike' => $relike, 'extra_easing' => $extra_easing, 'rebind' => $rebind, 'htmlads' =>  $htmladsresponse,'htmllike' =>  $htmllikeresponse));
 
         return $json;
     }    
