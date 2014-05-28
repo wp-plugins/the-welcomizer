@@ -1052,7 +1052,6 @@ class TwizOutput extends Twiz{
         $generatedScript = '';
         $generatedScript_function = array();
         $generatedScript_repeatvar = '';
-
         
         foreach( $this->listarray as $value ){
 
@@ -1060,11 +1059,13 @@ class TwizOutput extends Twiz{
             
             $hasRestrictedCode = $this->searchRestrictedCode($value);
             $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
+            $hasOnlyCSS = $this->hasOnlyCSS($value);
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
             or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP )
+            or($hasOnlyCSS)){ // skip
             // Nothing to do
             }else if($hasValidParendId == true){  
             
@@ -1163,13 +1164,14 @@ class TwizOutput extends Twiz{
             $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
 
             $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
-           
+            $hasOnlyCSS = $this->hasOnlyCSS($value);
+            
             // This line must be inside the first output loop
             if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]]) ){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
             if( !isset($this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) or ($hasOnlyCSS == true) ){ // skip 
             // Nothing to do
             }else if($hasValidParendId == true){  
             
