@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 2.7.4
+Version: 2.7.5
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
 Author: S&#233;bastien Laframboise

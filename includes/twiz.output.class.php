@@ -1171,7 +1171,7 @@ class TwizOutput extends Twiz{
             if( !isset($this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}
 
             if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) or ($hasOnlyCSS == true) ){ // skip 
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip 
             // Nothing to do
             }else if($hasValidParendId == true){  
             
