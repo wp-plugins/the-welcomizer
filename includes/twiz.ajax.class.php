@@ -1843,6 +1843,7 @@ class TwizAjax extends Twiz{
     $("input[name=twiz_output_choice]").click(function(){
         var twiz_blockid = $(this).val();
         $(".twiz-custom-message").html("");
+        $("#twiz_shortcode").val("");
         $(".twiz-block-ouput").hide();
         $("#" + twiz_blockid).show();
     });
@@ -1911,9 +1912,7 @@ class TwizAjax extends Twiz{
                     $("#twiz_shortcode").attr({"value" : "' .__('Please type a short code ID.', 'the-welcomizer').'"});
                     $("#twiz_shortcode").css("color", "#BC0B0B");
                      twiz_validsection = false;
-                }else{
-                    $("#twiz_custom_message_0").html("");
-                }              
+                }           
                 break;
             case "twiz_single_output":
                 twiz_sectionid[0] = $("#twiz_slc_sections").val();
