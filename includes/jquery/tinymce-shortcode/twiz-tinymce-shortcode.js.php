@@ -37,26 +37,23 @@ class TwizTinymceShortcode {
                         if(e.action === "mceInsertContent"){ 
                             tinyMCE.activeEditor.setContent(t._do_shortcode(tinyMCE.activeEditor.getContent()));
                         }
-                    });
-                    editor.on("PostProcess", function(e) { if(e.get){ e.content = t._rollback(e.content);}});                    
+                    });               
                 }
-                ,_do_shortcode : function(content){ return content.replace(/src=\"\[twiz_wp_upload_dir\]/g, function(){ return "src=\"'.$upload_dir.'";});}
-                ,_rollback : function(content){ return content.replace(/src=\"'.str_replace("/","\/",($upload_dir)).'/g, function(){ return "src=\"[twiz_wp_upload_dir]";});}
+                ,_do_shortcode : function(content){ return content.replace(/\[twiz_wp_upload_dir\]/g, function(){ return "'.$upload_dir.'";});}
             });   
         tinymce.PluginManager.add("thewelcomizer", tinymce.plugins.thewelcomizer);})();
     }else{   
         (function(){ tinymce.create("tinymce.plugins.thewelcomizer", {
-                init : function(editor){ var t = this;
-                editor.onBeforeSetContent.add(function(editor, o){ o.content = t._do_shortcode(o.content);});
-                editor.onExecCommand.add(function(editor, action){ 
-                    if(action === "mceInsertContent"){ 
-                        tinyMCE.activeEditor.setContent(t._do_shortcode(tinyMCE.activeEditor.getContent()));
-                    }
-                });
-                editor.onPostProcess.add(function(editor, o){ if(o.get){ o.content = t._rollback(o.content);}});}
-            ,_do_shortcode : function(content){ return content.replace(/src=\"\[twiz_wp_upload_dir\]/g, function(){ return "src=\"'.$upload_dir.'";});}
-            ,_rollback : function(content){ return content.replace(/src=\"'.str_replace("/","\/",($upload_dir)).'/g, function(){ return "src=\"[twiz_wp_upload_dir]";});}
-            
+                init : function(editor){ 
+                    var t = this;
+                    editor.onBeforeSetContent.add(function(editor, o){ o.content = t._do_shortcode(o.content);});
+                    editor.onExecCommand.add(function(editor, action){ 
+                        if(action === "mceInsertContent"){ 
+                            tinyMCE.activeEditor.setContent(t._do_shortcode(tinyMCE.activeEditor.getContent()));
+                        }
+                    });
+                }
+                ,_do_shortcode : function(content){ return content.replace(/\[twiz_wp_upload_dir\]/g, function(){ return "'.$upload_dir.'";});}
         }); 
         tinymce.PluginManager.add("thewelcomizer", tinymce.plugins.thewelcomizer);})();
     }';
