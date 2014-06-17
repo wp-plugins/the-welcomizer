@@ -1843,7 +1843,6 @@ class TwizAjax extends Twiz{
     $("input[name=twiz_output_choice]").click(function(){
         var twiz_blockid = $(this).val();
         $(".twiz-custom-message").html("");
-        $("#twiz_shortcode").val("");
         $(".twiz-block-ouput").hide();
         $("#" + twiz_blockid).show();
     });
