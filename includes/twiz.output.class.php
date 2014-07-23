@@ -1264,8 +1264,9 @@ class TwizOutput extends Twiz{
         $trans_tbl = array_flip($trans_tbl);
             
         // replace numeric entities
-        $value = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $value);
-        $value = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $value);
+        $value = preg_replace_callback('~&#x(0*[0-9a-f]{2,5});{0,1}~i', create_function ('$matches', 'return chr(hexdec($matches[1]));'), $value);
+        $value = preg_replace_callback('~&#([0-9]{2,4});{0,1}~', create_function ('$matches', 'return chr($matches[1]);'), $value);
+        
         $newvalue = strtr($value, $trans_tbl);
 
         return $newvalue;
