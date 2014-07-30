@@ -3,18 +3,20 @@ Contributors: sebwordpress
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.7.9.1
+Stable tag: 2.7.9.2
 License: GPLv2
 
-This Ajax powered plugin allows you to quickly animate your WordPress blog using jQuery effects.
+This plugin allows you to quickly animate your WordPress blog.
 
 == Description ==
 
-Quickly create animations for your WordPress blog using jQuery effects.
+Quickly create animations for your WordPress blog.
     
+**NOT READY FOR A MULTISITE INSTALLATION**
+
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
-[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Basic examples
+The login page is temporarily **UNDER MAINTENANCE** :-(
 
 ∞
 
@@ -23,11 +25,12 @@ Designed for webmasters, marketing consultants, web designers and bloggers.
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the Plugins menu in WordPress.
 3. Find the plugin under the menu Appearance. 
-4. Optional - Create and make those directories writable: /wp-content/**twiz**/**export**/
 
 To uninstall:
 
-1. Go to plugin page, click `Admin` button, click `Removal settings`, check the option **Delete all when disabling the plugin**, click `Save`.
+1. Go to plugin page, click `Admin` button, click `Removal settings`
+2. check the option **Delete all settings when disabling the plugin**
+3. check the option **Delete created directories when disabling the plugin** If you don't need them anymore.
 2. Deactivate the plugin through the Plugins menu in WordPress, and then delete it.
 
 Enjoy!
@@ -38,6 +41,31 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.7.9.2 =
+
+* Hidden the + and - drop down when the Transit jQuery library is selected.
+* Added Privacy questions before accessing the plugin.
+* Added a link to the plug-in on the admin bar.
+* Added trailing slash verification to link directory.
+* Maintained compatibility with WordPress version 3.1+.
+* Fixed Uncategorized category, and non-existent pages or posts.
+* Added verification of broken links to images within the view.
+* Added download links to twiz files into the export file listing.
+* Added the ability to Export All sections in one click + backup file.
+* Added Settings link beside the activate/deactivate links on the plugins page.
+* Added an option into admin section to remove created directories when disabling the plugin.
+* Added visibility options in section creation.
+* Added a Save & Stay checkbox in section creation.
+* Adjusted UI a little bit here and there.
+* Cleaned unused toggle options upon deleting a section, and clean obsolete ones.
+* Created the necessary directories during installation or updates, if non-existent.
+* Fixed a bug with copy group.
+* Modified TwizGroup->copyGroup(), redirect to copy group form.
+* Optimized loops in TwizOutput class.
+* Kept in memory the menu settings that are inactive(shortcode ID, custom logic).
+* Reviewed the labels and terms used.
+* Shortened new unique numbers(export_id, parent_id).
 
 = 2.7.9.1 =
 
@@ -1346,6 +1374,9 @@ Enjoy!
 
 == Upgrade Notice ==
 
+= 2.7.9.2 =
+
+* New features, bug fixes.
 = 2.7.9.1 =
 
 * Replaced deprecated preg_replace /e with preg_replace_callback.

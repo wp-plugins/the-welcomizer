@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -25,12 +25,54 @@ class TwizInstallation extends Twiz{
         parent::__construct();
     }
   
-    function proceed(){
+    // create directories if not exists
+    private function createDirectories(){
+    
+        if (defined("FS_CHMOD_DIR")) {
+    
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH) ){
+            
+                mkdir(WP_CONTENT_DIR. parent::IMPORT_PATH, FS_CHMOD_DIR);
+                chmod(WP_CONTENT_DIR. parent::IMPORT_PATH, FS_CHMOD_DIR);
+            }
+            
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH) ){        
+            
+                mkdir(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH, FS_CHMOD_DIR);
+                chmod(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH, FS_CHMOD_DIR);
+            }
+            
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH . parent::BACKUP_PATH) ){        
+            
+                mkdir(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH, FS_CHMOD_DIR);
+                chmod(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH, FS_CHMOD_DIR);
+            }            
+            
+        }else{
+        
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH) ){
+            
+                wp_mkdir_p(WP_CONTENT_DIR. parent::IMPORT_PATH);
+            }
+            
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH) ){
+            
+                wp_mkdir_p(WP_CONTENT_DIR. parent::IMPORT_PATH . parent::EXPORT_PATH);
+            }
+            
+            if( !@file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH . parent::BACKUP_PATH) ){
+            
+                wp_mkdir_p(WP_CONTENT_DIR. parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH);
+            }            
+        }
+    }  
+    
+    function install(){
     
     global $wpdb;
 
         $sql = "CREATE TABLE ".$this->table." (". 
-                parent::F_ID . " int NOT NULL AUTO_INCREMENT, ". 
+                parent::F_ID . " bigint(20) NOT NULL AUTO_INCREMENT, ". 
                 parent::F_PARENT_ID . " varchar(13) NOT NULL default '', ". 
                 parent::F_EXPORT_ID . " varchar(13) NOT NULL default '', ". 
                 parent::F_SECTION_ID . " varchar(22) NOT NULL default '".parent::DEFAULT_SECTION_HOME."', ". 
@@ -90,6 +132,8 @@ class TwizInstallation extends Twiz{
                 
         if ( $wpdb->get_var( "show tables like '".$this->table."'" ) != $this->table ) {
 
+            // create directories on install if non-existent).
+            $ok = $this->createDirectories();    
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         
             dbDelta($sql);
@@ -97,9 +141,11 @@ class TwizInstallation extends Twiz{
             $code = update_option('twiz_db_version', $this->dbVersion);
             $code = update_option('twiz_global_status', '1');
             $code = update_option('twiz_hscroll_status', '1');
-            $code = update_option('twiz_cookie_js_status', false);
+            $code = update_option('twiz_cookie_js_status', false);      
+            $code = update_option('twiz_privacy_question_answered', false);
             
             $code = new TwizAdmin();
+            $code = new TwizMenu();
             
             if(!isset($setting_menu[$this->userid])) $setting_menu[$this->userid] = '';
             $setting_menu[$this->userid] = parent::DEFAULT_SECTION_HOME ;
@@ -117,8 +163,10 @@ class TwizInstallation extends Twiz{
             $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD] = 'twiz_far_simple';
             $code = update_option('twiz_toggle',  $this->toggle_option);
             
-        }else{
-            
+        }else{ // UPDATE TO NEW VERSION
+
+            // create directories on update(if non-existent).
+            $ok = $this->createDirectories();    
            $dbversion = get_option('twiz_db_version');
            $array_describe = '';
            
@@ -208,8 +256,7 @@ class TwizInstallation extends Twiz{
                         usleep(100000);
                         
                         // a simple uniq id
-                        $exportid = uniqid();
-                        
+                        $exportid = $this->getUniqid();
                         // array temp
                         if( !isset($array_ids[$value[parent::F_ID]]) ) $array_ids[$value[parent::F_ID]] = '' ;
                         $array_ids[$value[parent::F_ID]] = $exportid;
@@ -472,8 +519,39 @@ class TwizInstallation extends Twiz{
                     $code = $wpdb->query($altersql);
                 }
                 
+                // from <= v 2.7.9.2 - clean unused group toggle options
+                $update_toggle = false;
+                $twiz_toggle = get_option('twiz_toggle');
+                    
+                if(!isset($twiz_toggle[$this->userid][parent::KEY_TOGGLE_GROUP])) $twiz_toggle[$this->userid][parent::KEY_TOGGLE_GROUP] = '';
+                $groupArray = ( !is_array($twiz_toggle[$this->userid][parent::KEY_TOGGLE_GROUP]) )? array() : $twiz_toggle[$this->userid][parent::KEY_TOGGLE_GROUP];
+                foreach( $groupArray as $key => $value ){
+   
+                        $exportidExists = $this->exportIdExists( $key );
+                        
+                        if( $exportidExists == false ){
+                        
+                            unset($twiz_toggle[$this->userid][parent::KEY_TOGGLE_GROUP][$key]);
+                            $update_toggle = true;
+                        }
+                }
+                if( $update_toggle == true ){
+                    
+                    $code = update_option('twiz_toggle', $twiz_toggle);              
+                }
+
+                // Privacy settings
+                $twiz_privacy_question_answered = get_option('twiz_privacy_question_answered');
+                   
+                if( $twiz_privacy_question_answered == '' ){
                 
-                // from <= v 2.2.1
+                    $altersql = "ALTER TABLE ".$this->table 
+                    . " MODIFY ". parent::F_ID . " bigint(20) NOT NULL AUTO_INCREMENT";
+                    $code = $wpdb->query($altersql);
+                
+                    $code = update_option('twiz_privacy_question_answered', false);
+                }
+                
                 $indexes = "SHOW INDEXES from ".$this->table ."";
                 $indexes_rows = $wpdb->get_results($indexes, ARRAY_A);
                 
@@ -505,10 +583,6 @@ class TwizInstallation extends Twiz{
                 
                     $code = update_option('twiz_cookie_js_status', false);
                 }                
-                 
-                // Set ads On
-                if(!isset($this->admin_option[parent::KEY_FOOTER_ADS])) $this->admin_option[parent::KEY_FOOTER_ADS] = '';
-                $this->admin_option[parent::KEY_FOOTER_ADS] = '0';
                 $code = update_option('twiz_admin', $this->admin_option);
                  
                 // Admin Settings
@@ -526,33 +600,89 @@ class TwizInstallation extends Twiz{
         return true;
     }
     
+    // Remove directory andor file
+    private function RemoveDirectoryAndOrFile( $directory = '' ){
+    
+        foreach(glob($directory . '/*') as $file) {
+
+            if( is_dir($file) ){
+            
+                $this->RemoveDirectoryAndOrFile($file);
+                
+            }else{
+            
+                @unlink($file);
+            }
+        }
+        
+        if( substr($directory,-1) == "/" ) {
+        
+            $directory = substr($directory,0,-1);
+            
+        }         
+        
+        @rmdir($directory);
+        
+        return true;
+    }
+    
+
+    // remove created directories
+    private function removeCreatedDirectories(){
+    
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH) ){
+        
+            $ok = $this->RemoveDirectoryAndOrFile(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH);
+        }
+        
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH) ){
+        
+            $ok = $this->RemoveDirectoryAndOrFile(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH);
+        }
+        
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH) ){        
+        
+            $ok = $this->RemoveDirectoryAndOrFile(WP_CONTENT_DIR. parent::IMPORT_PATH);
+        }
+    }
+    
     function uninstall(){
     
         global $wpdb;
 
-        if ($wpdb->get_var( "SHOW TABLES LIKE '".$this->table."'" ) == $this->table) {
+        $this->admin_option = get_option('twiz_admin');
         
-            $sql = "DROP TABLE ". $this->table;
-            $wpdb->query($sql);
+        if( $this->admin_option[parent::KEY_DELETE_ALL] == '1' ) {
+        
+            if ($wpdb->get_var( "SHOW TABLES LIKE '".$this->table."'" ) == $this->table) {
+            
+                $sql = "DROP TABLE ". $this->table;
+                $wpdb->query($sql);
+            }
+            
+            delete_option('twiz_privacy_question_answered');
+            delete_option('twiz_db_version');
+            delete_option('twiz_global_status');
+            delete_option('twiz_hscroll_status');
+            delete_option('twiz_cookie_js_status');
+            delete_option('twiz_sections');
+            delete_option('twiz_multi_sections');
+            delete_option('twiz_hardsections');
+            delete_option('twiz_library');
+            delete_option('twiz_library_dir');
+            delete_option('twiz_admin');
+            delete_option('twiz_setting_menu'); // v1.5+ converted per user
+            delete_option('twiz_skin');         // v1.5+ converted per user
+            delete_option('twiz_order_by');     // v1.5+ converted per user
+            delete_option('twiz_bullet');       // v1.5+ converted per user
+            delete_option('twiz_toggle');       // v1.5+ converted per user
+            delete_option('twiz_export_filter');// per user, per section
         }
         
-        delete_option('twiz_db_version');
-        delete_option('twiz_global_status');
-        delete_option('twiz_hscroll_status');
-        delete_option('twiz_cookie_js_status');
-        delete_option('twiz_sections');
-        delete_option('twiz_multi_sections');
-        delete_option('twiz_hardsections');
-        delete_option('twiz_library');
-        delete_option('twiz_library_dir');
-        delete_option('twiz_admin');
-        delete_option('twiz_setting_menu'); // v1.5+ converted per user
-        delete_option('twiz_skin');         // v1.5+ converted per user
-        delete_option('twiz_order_by');     // v1.5+ converted per user
-        delete_option('twiz_bullet');       // v1.5+ converted per user
-        delete_option('twiz_toggle');       // v1.5+ converted per user
-        delete_option('twiz_export_filter');// per user, per section
+        if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '1' ) {        
         
+            $ok = $this->removeCreatedDirectories();
+        }
         return true;
     }    
 }

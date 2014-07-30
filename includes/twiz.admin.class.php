@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -23,19 +23,26 @@ class TwizAdmin extends Twiz{
                                  );
     
     // role equivalence array 
-    private $array_role_conversion = array ("administrator" => 'activate_plugins'
-                                           ,"editor"        => 'moderate_comments'
-                                           ,"author"        => 'edit_published_posts'
-                                           ,"contributor"   => 'edit_posts'
-                                           ,"subscriber"    => 'read'
-                                           );
+    private $array_role_conversion; // see __construct()
     
+    private $array_admin_only;
+        
     // Number of posts to display 
     private $array_number_posts;
                                        
     function __construct(){
     
         parent::__construct();
+        
+        // http://codex.wordpress.org/Roles_and_Capabilities
+        $this->array_role_conversion = array('manage_options'       => __('Administrator', 'the-welcomizer') 
+                                            ,'moderate_comments'    => __('Editor', 'the-welcomizer')
+                                            ,'edit_published_posts' => __('Author', 'the-welcomizer')
+                                            ,'edit_posts'           => __('Contributor', 'the-welcomizer') 
+                                            ,'read'                 => __('Subscriber', 'the-welcomizer')
+                                            ); 
+                                            
+        $this->array_admin_only = array('manage_options' =>__('Administrator'));
         
         // Number of posts to display 
         $this->array_number_posts = array ('1'   => '1'
@@ -71,7 +78,6 @@ jQuery(document).ready(function($) {
     $("#twiz_library_upload").fadeOut("fast");
     $("#twiz_import").fadeOut("fast");
     $("#twiz_export").fadeOut("fast");
-    $("#twiz_add_sections").fadeOut("fast");
     $("#twiz_right_panel").fadeOut("fast");
 });
 //]]>
@@ -80,8 +86,9 @@ jQuery(document).ready(function($) {
         $html = '<table class="twiz-table-form" cellspacing="0" cellpadding="0">';
         
         // default jquery registration
-        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Register jQuery default library', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td colspan="2" class="twiz-admin-form-td-left"><b>'.__('Basic Setting', 'the-welcomizer').'</b></td></tr>';
+        $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Include the jQuery default library on the front-end', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRegister().'</div></td><td class="twiz-form-td-right"><span id="twiz_admin_save_img_box_1" class="twiz-loading-gif-save"></span> <a id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_1" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
         
@@ -106,40 +113,39 @@ jQuery(document).ready(function($) {
             $boldclass = '';
         }
  
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin0" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery packages', 'the-welcomizer').'</strong></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin0" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin0" class="twiz-toggle-admin'.$boldclass.'">'.__('Built-in jQuery Packages', 'the-welcomizer').'</strong></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
 
         // jquery.easing
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jQuery Easing', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryEasing().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
         
          // extra easing
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Display extra easing in lists', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-text-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">'.__('More info', 'the-welcomizer').'</a></label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryExtraEasing().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing"><a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">'.__('More info', 'the-welcomizer').'</a></label></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td> <td><hr class="twiz-hr twiz-corner-all"></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('rotate3Di', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryRotate3Di().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><a href="https://github.com/zachstronaut/rotate3Di" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_rotate3di">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('And/Or', 'the-welcomizer').'</b></td></tr>';
                 
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jquery-animate-css-rotate-scale', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
-        
-        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('Or', 'the-welcomizer').'</b></td></tr>';
-        
-        $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').' - <span class="twiz-green">'.__('(No Longer Maintained)', 'the-welcomizer').'</span>: ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryanimatecssrotatescale().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><a href="https://github.com/zachstronaut/jquery-animate-css-rotate-scale" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_animatecssrotatescale">'.__('(ignored by IE < 9)', 'the-welcomizer').'</label></td></tr>';
         
         $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('Or', 'the-welcomizer').'</b></td></tr>';
         
         // transition
         $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('jQuery Transit', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-text-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit"></label></td></tr>';
-
-
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQueryTransit().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><a href="https://github.com/rstacruz/jquery.transit" target="_blank">'.__('More info', 'the-welcomizer').'</a> <label for="twiz_register_jquery_transit"></label></td></tr>';
+        
+        $html .= '<tr class="twizadmin0'.$hide.'"><td></td><td><b>'.__('Or', 'the-welcomizer').'</b></td></tr>';
+        
+        $html .= '<tr class="twizadmin0'.$hide.'"><td class="twiz-admin-form-td-left">'.__('transform', 'the-welcomizer').' - <span class="twiz-green">'.__('(No Longer Maintained)', 'the-welcomizer').'</span>: ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLjQuerytransform().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><a href="https://github.com/heygrady/transform/" target="_blank">'.__('More info', 'the-welcomizer').'</a></td></tr>';
+        
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin1'] == '1' ){
         
             $hide = '';
@@ -154,21 +160,21 @@ jQuery(document).ready(function($) {
         }
  
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin1" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output code settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin1" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin1" class="twiz-toggle-admin'.$boldclass.'">'.__('Output Settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin1'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
         // the_content filter
-        $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Apply WP filter \'the_content\' to HTML', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLContentFilter().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_THE_CONTENT_FILTER.'"></label></td></tr>';
+        $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Replace all WP shortcodes within the HTML', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLContentFilter().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_THE_CONTENT_FILTER.'"></label></td></tr>';
                 
         // Protected
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Disable \'ajax, post, and cookie\'', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_PROTECTED.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputProtected().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_PROTECTED.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output compress
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Compress Output code', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_COMPRESSION.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLOutputCompression().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left twiz-green"><label for="twiz_'.parent::KEY_OUTPUT_COMPRESSION.'">'.__('(recommended)', 'the-welcomizer').'</label></td></tr>';
         
         // Output code hook
         $html .= '<tr class="twizadmin1'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Output code hooked to', 'the-welcomizer').': ';
@@ -189,7 +195,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin2" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin2" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin2" class="twiz-toggle-admin'.$boldclass.'">'.__('Menu Settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin2'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         // Number of posts displayed in lists
@@ -210,14 +216,14 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin3" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin3" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin3" class="twiz-toggle-admin'.$boldclass.'">'.__('Library Setting', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin3'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
         // Sort order for directories
         $html .= '<tr class="twizadmin3'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Sort order for directories', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLSortOrderDirectories().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
-        
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLSortOrderDirectories().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"></td></tr>';
+
         
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin4'] == '1' ){
         
@@ -233,7 +239,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin4" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin4" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin4" class="twiz-toggle-admin'.$boldclass.'">'.__('Edition Settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin4'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -244,7 +250,7 @@ jQuery(document).ready(function($) {
         // Positioning method
         $html .= '<tr class="twizadmin4'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Positioning method', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLPositioningMethod().'</div></td><td class="twiz-form-td-right"></td></tr>';
-                    
+                      
         if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_ADMIN]['twizadmin5'] == '1' ){
         
             $hide = '';
@@ -259,7 +265,7 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin5" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access level settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin5" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin5" class="twiz-toggle-admin'.$boldclass.'">'.__('Access Level Settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin5'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
@@ -304,31 +310,51 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin6" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal settings', 'the-welcomizer').'</a></td></tr>';
+        $html .= '<tr><td colspan="2"><div class="twiz-relative"><div id="twiz_admin_img_twizadmin6" class="twiz-toggle-admin twiz-toggle-img-admin '.$toggleimg.'"></div></div><a id="twiz_admin_e_a_twizadmin6" class="twiz-toggle-admin'.$boldclass.'">'.__('Removal Settings', 'the-welcomizer').'</a></td></tr>';
         
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
         // Footer Ads
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin, for this release', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_'.parent::KEY_FOOTER_ADS.'"></label></td></tr>';
 
         // Facebook like
         $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove facebook like button', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLFBlike().'</div></td><td class="twiz-form-td-right twiz-text-left"></td></tr>';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLFBlike().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_'.parent::KEY_FB_LIKE.'"></label></td></tr>';
         
         // Deactivation
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Delete all when disabling the plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-text-left twiz-green"><label for="twiz_delete_all">'.__('(recommended for uninstall)', 'the-welcomizer').'</label></td></tr>';
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left twiz-red">'.__('Delete all settings when disabling the plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLDeleteAll().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left twiz-green"><label for="twiz_delete_all">'.__('(for uninstall)', 'the-welcomizer').'</label></td></tr>';
       
+        // Remove created directories
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left twiz-red">'.__('Delete created directories when disabling the plugin', 'the-welcomizer').': ';
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLRemoveCreatedDirectories().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left twiz-green"><label for="twiz_remove_created_directories">'.__('(for uninstall)', 'the-welcomizer').'</label></td></tr>';
+        
+        $created_dir = '';
+        
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH) ){
+         
+            $created_dir = WP_CONTENT_DIR. '<b>'. parent::IMPORT_PATH .'</b>';
+        }
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH) ){
+         
+            $created_dir = WP_CONTENT_DIR. '<b>'.parent::IMPORT_PATH. parent::EXPORT_PATH.'</b>';
+        }       
+        if( @file_exists(WP_CONTENT_DIR. parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH) ){
+         
+            $created_dir = WP_CONTENT_DIR. '<b>'.parent::IMPORT_PATH. parent::EXPORT_PATH. parent::BACKUP_PATH.'</b>';
+        }
+                
+        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left twiz-form-small twiz-blue" colspan="2">'.$created_dir.'</td></tr>';
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
 
         // Promote this plugin
         $html .= '<tr><td class="twiz-admin-form-td-left">'.__('Promote this plugin, add a link on this website', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLPromote().'</div></td><td class="twiz-form-td-right twiz-text-left"><label id="twiz_label_promote_plugin" for="twiz_promote_plugin"'.$class_label_promote.' class="twiz_promote_plugin">'.__('(at the bottom of web pages)', 'the-welcomizer').'</label><div id="twiz_div_promote_position"'.$class_div_promote.'>'.$this->getHTMLPromotePosition().'</div></td></tr>'; 
+        $html .= '<div class="twiz-float-right">'.$this->getHTMLPromote().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label id="twiz_label_promote_plugin" for="twiz_promote_plugin"'.$class_label_promote.' class="twiz_promote_plugin">'.__('(at the bottom of web pages)', 'the-welcomizer').'</label><div id="twiz_div_promote_position"'.$class_div_promote.'>'.$this->getHTMLPromotePosition().'</div></td></tr>'; 
         
         $html .= '<tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>';
                 
-        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2" class="twiz-loading-gif-save"></span> <a name="twiz_cancel" id="twiz_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
+        $html .= '<tr><td class="twiz-td-save" colspan="2"><span id="twiz_admin_save_img_box_2" class="twiz-loading-gif-save"></span> <a id="twiz_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_admin_save" id="twiz_admin_save_2" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></td></tr>';
         
         $html.= '</table>'.$jquery;
                  
@@ -403,6 +429,15 @@ jQuery(document).ready(function($) {
         $twiz_delete_all = ($this->admin_option[parent::KEY_DELETE_ALL] == '1') ? ' checked="checked"' : '';
     
         $html = '<input type="checkbox" id="twiz_'.parent::KEY_DELETE_ALL.'" name="twiz_'.parent::KEY_DELETE_ALL.'"'.$twiz_delete_all.'/>';
+                 
+        return $html;
+    }
+    
+    private function getHTMLRemoveCreatedDirectories(){
+    
+        $twiz_remove_created_directories = ($this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '1') ? ' checked="checked"' : '';
+    
+        $html = '<input type="checkbox" id="twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES.'" name="twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES.'"'.$twiz_remove_created_directories.'/>';
                  
         return $html;
     }
@@ -514,25 +549,39 @@ jQuery(document).ready(function($) {
         return $html;
     }
     
-    private function getHTMLMinRoleLevel(){
-    
-        global $wp_roles;
+        private function getHTMLSelectOptions( $option_key = '', $admin_only = true){
+
+
+        $html = '';
         
-        $roles = apply_filters('wp_role_listing', $wp_roles);
-        
-        $html  = '<select name="twiz_'.parent::KEY_MIN_ROLE_LEVEL.'" id="twiz_'.parent::KEY_MIN_ROLE_LEVEL.'">';
-        
-        foreach( $roles->role_names as $key => $rolename ) {
-        
-            if( $key != 'subscriber' ){            
-            
-                $strkey =  strtr($key, $this->array_role_conversion);
-            
-                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_LEVEL]) ? ' selected="selected"' : '';
-                
-                $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
-            }
+
+        if($admin_only ==  true ){
+           
+
+           $temp_array = array_intersect_assoc( $this->array_admin_only, $this->array_role_conversion );
+           $this->array_role_conversion = $temp_array;
         }
+
+        foreach( $this->array_role_conversion as $wprole => $role_label ) {
+            
+
+            if( $wprole != 'read' ){
+            
+                $selected = ($wprole == $this->admin_option[$option_key]) ? ' selected="selected"' : '';
+                $html .= '<option value="'.$wprole.'"'.$selected.'>'.__($role_label, 'the-welcomizer').'</option>'; 
+            }
+        }    
+
+
+
+        return $html;
+    }
+    
+    private function getHTMLMinRoleLevel(){
+  
+        $html  = '<select name="twiz_'.parent::KEY_MIN_ROLE_LEVEL.'" id="twiz_'.parent::KEY_MIN_ROLE_LEVEL.'">';
+
+        $html .= $this->getHTMLSelectOptions(parent::KEY_MIN_ROLE_LEVEL, false);
     
         $html .= '</select>';
         
@@ -541,24 +590,9 @@ jQuery(document).ready(function($) {
 
     private function getHTMLMinRoleAdmin(){
     
-        global $wp_roles;
-        
-        $roles = apply_filters('wp_role_listing', $wp_roles);
-        
         $html  = '<select name="twiz_'.parent::KEY_MIN_ROLE_ADMIN.'" id="twiz_'.parent::KEY_MIN_ROLE_ADMIN.'">';
-        
-        foreach( $roles->role_names as $key => $rolename ) {
-           
-           if( $key != 'subscriber' ){
-           
-                $strkey =  strtr($key, $this->array_role_conversion);
-            
-                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_ADMIN]) ? ' selected="selected"' : '';
-                
-                $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
-            }
-            
-        }
+
+        $html .= $this->getHTMLSelectOptions(parent::KEY_MIN_ROLE_ADMIN, true);
     
         $html .= '</select>';
         
@@ -567,23 +601,9 @@ jQuery(document).ready(function($) {
     
     private function getHTMLMinRoleLibrary(){
     
-        global $wp_roles;
-        
-        $roles = apply_filters('wp_role_listing', $wp_roles);
-        
         $html  = '<select name="twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'" id="twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'">';
-        
-        foreach( $roles->role_names as $key => $rolename ) {
-        
-            if( $key != 'subscriber' ){
-           
-                $strkey =  strtr($key, $this->array_role_conversion);
-            
-                $selected = ($strkey == $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY]) ? ' selected="selected"' : '';
-                
-                $html .= '<option value="'.$strkey.'"'.$selected.'>'._x($rolename, 'User role').'</option>';
-            }
-        }
+
+        $html .= $this->getHTMLSelectOptions(parent::KEY_MIN_ROLE_LIBRARY, true);
     
         $html .= '</select>';
         
@@ -642,7 +662,7 @@ jQuery(document).ready(function($) {
         if( !isset($this->admin_option[parent::KEY_REGISTER_JQUERY]) ) $this->admin_option[parent::KEY_REGISTER_JQUERY] = '';
         if( $this->admin_option[parent::KEY_REGISTER_JQUERY] == '' ) {
         
-            $this->admin_option[parent::KEY_REGISTER_JQUERY] = '1'; // Activated by default
+            $this->admin_option[parent::KEY_REGISTER_JQUERY] = '0'; // deactivated by default
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
@@ -759,7 +779,7 @@ jQuery(document).ready(function($) {
         if( !isset($this->admin_option[parent::KEY_MIN_ROLE_LEVEL]) ) $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = '';
         if( $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] == '' ) {
         
-            $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = $this->DEFAULT_MIN_ROLE_LEVEL;
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
@@ -768,7 +788,7 @@ jQuery(document).ready(function($) {
         if( !isset($this->admin_option[parent::KEY_MIN_ROLE_LIBRARY]) ) $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = '';
         if( $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] == '' ) {
         
-            $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = $this->DEFAULT_MIN_ROLE_LEVEL;
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
@@ -777,7 +797,7 @@ jQuery(document).ready(function($) {
         if( !isset($this->admin_option[parent::KEY_MIN_ROLE_ADMIN]) ) $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = '';
         if( $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] == '' ) {
         
-            $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = parent::DEFAULT_MIN_ROLE_LEVEL;
+            $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $this->DEFAULT_MIN_ROLE_LEVEL;
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
@@ -826,7 +846,22 @@ jQuery(document).ready(function($) {
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
+        // Remove Created Directories
+        if( !isset($this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES]) ) $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '';
+        if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '' ){
         
+            $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '0';
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+            
+                $code = update_option('twiz_admin', $this->admin_option);
+                $this->admin_option = get_option('twiz_admin');
+                
+            }else{
+            
+                $code = update_site_option('twiz_admin', $this->admin_option);
+                $this->admin_option = get_site_option('twiz_admin');            
+            }
+        }
         // Promote this plugin
         if( !isset($this->admin_option[parent::KEY_PROMOTE_PLUGIN]) ) $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = '';
         if( $this->admin_option[parent::KEY_PROMOTE_PLUGIN] == '' ) {
@@ -846,6 +881,38 @@ jQuery(document).ready(function($) {
         }           
         
         // Next option
+    }
+    function SavePrivacyQuestion( $twiz_fb = '', $twiz_ads = '', $twiz_jquery = '' ){
+        
+        $jquery = '<script>
+//<![CDATA[
+jQuery(document).ready(function($) {
+    location.reload();
+});
+//]]>
+</script>';
+        
+        if( ( $twiz_fb == '') or ( $twiz_ads == '' ) ) {
+        
+            return $jquery;
+        }
+
+        // FB like
+        $fb_like = ($twiz_fb == 'true') ? '0' : '1';
+        $this->admin_option[parent::KEY_FB_LIKE] = $fb_like;
+        
+        // Footer ads
+        $footer_ads = ($twiz_ads  == 'true') ? '0' : '1';
+        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;
+        
+        // Register jQuery on the front end
+        $twiz_jquery = ($twiz_jquery == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_REGISTER_JQUERY] = $twiz_jquery ;        
+
+        $code = update_option('twiz_admin', $this->admin_option);
+        $code = update_option('twiz_privacy_question_answered', true);
+
+       return $jquery;
     }
     
     function saveAdmin(){
@@ -871,6 +938,7 @@ jQuery(document).ready(function($) {
         $setting[parent::KEY_FOOTER_ADS] = esc_attr(trim($_POST['twiz_'.parent::KEY_FOOTER_ADS]));
         $setting[parent::KEY_FB_LIKE] = esc_attr(trim($_POST['twiz_'.parent::KEY_FB_LIKE]));
         $setting[parent::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_'.parent::KEY_DELETE_ALL]));
+        $setting[parent::KEY_REMOVE_CREATED_DIRECTORIES] = esc_attr(trim($_POST['twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES]));
         $setting[parent::KEY_PROMOTE_PLUGIN] = esc_attr(trim($_POST['twiz_'.parent::KEY_PROMOTE_PLUGIN]));
         $setting[parent::KEY_PROMOTE_POSITION] = esc_attr(trim($_POST['twiz_'.parent::KEY_PROMOTE_POSITION]));
         
@@ -934,13 +1002,19 @@ jQuery(document).ready(function($) {
         $this->admin_option[parent::KEY_POSITIONING_METHOD] = $setting[parent::KEY_POSITIONING_METHOD];
         
         // Min role Level
-        $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
+        if(current_user_can($setting[parent::KEY_MIN_ROLE_LEVEL])){
+            $this->admin_option[parent::KEY_MIN_ROLE_LEVEL] = $setting[parent::KEY_MIN_ROLE_LEVEL];
+        }
         
         // Min role Library
-        $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = $setting[parent::KEY_MIN_ROLE_LIBRARY];
+        if(current_user_can($setting[parent::KEY_MIN_ROLE_LIBRARY])){        
+            $this->admin_option[parent::KEY_MIN_ROLE_LIBRARY] = $setting[parent::KEY_MIN_ROLE_LIBRARY];
+        }
         
         // Min role Admin
-        $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
+        if(current_user_can($setting[parent::KEY_MIN_ROLE_ADMIN])){                
+            $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
+        }
         
         // Footer ads
         $footer_ads_before = $this->admin_option[parent::KEY_FOOTER_ADS];
@@ -956,6 +1030,10 @@ jQuery(document).ready(function($) {
         $delete_all = ($setting[parent::KEY_DELETE_ALL] == 'true') ? '1' : '0';
         $this->admin_option[parent::KEY_DELETE_ALL] = $delete_all ;
         
+        // Remove created directories
+        $remove_created_directories = ($setting[parent::KEY_REMOVE_CREATED_DIRECTORIES] == 'true') ? '1' : '0';
+        $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = $remove_created_directories ;        
+      
         // Promote this plugin
         $promote_plugin = ($setting[parent::KEY_PROMOTE_PLUGIN] == 'true') ? '1' : '0';
         $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = $promote_plugin ;               
@@ -970,6 +1048,7 @@ jQuery(document).ready(function($) {
         $rebind = '';
         $htmladsresponse = '';
         $htmllikeresponse = '';
+        $debug = '';
         
         // fb like
         if(( $fb_like == '1' ) 
@@ -999,7 +1078,10 @@ jQuery(document).ready(function($) {
            $rebind = 'rebind';
         }
         
-        $json = json_encode( array('relike' => $relike, 'extra_easing' => $extra_easing, 'rebind' => $rebind, 'htmlads' =>  $htmladsresponse,'htmllike' =>  $htmllikeresponse));
+        // Debug alert()
+        $debug =  '';
+            
+        $json = json_encode( array('debug' => $debug, 'restore_active' => $this->override_network_settings,'relike' => $relike, 'rebind' => $rebind, 'htmlads' =>  $htmladsresponse,'htmllike' =>  $htmllikeresponse));
 
         return $json;
     }    

@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -21,18 +21,22 @@ require_once(dirname(__FILE__).'/twiz.menu.class.php');
 class TwizImportExport extends Twiz{
 
     private $import_dir_abspath;
-    private $export_dir;
+    private $export_dir_label;
     private $export_dir_url;
     private $export_dir_abspath;
+    private $backup_dir_url;
+    private $backup_dir_abspath;
                                        
     function __construct(){
     
         parent::__construct();
         
         $this->import_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH;
-        $this->export_dir = str_replace(ABSPATH,"", WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH);
+        $this->export_dir_label = str_replace(ABSPATH,"", WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH);
         $this->export_dir_url =  WP_CONTENT_URL . parent::IMPORT_PATH . parent::EXPORT_PATH;
-        $this->export_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH ;
+        $this->export_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH;
+        $this->backup_dir_url =  WP_CONTENT_URL . parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH;
+        $this->backup_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH;
     }
     
     private function containsGroup( $file = '' ){
@@ -46,19 +50,22 @@ class TwizImportExport extends Twiz{
                
                 // loop xml entities               
                 foreach( $twz->children() as $twzrow ){ 
-
-                    foreach( $twzrow->children() as $twzfield ){
+                
+                    if($twzrow->getName() == 'ROW'){
                     
-                        $fieldname = '';
+                        foreach( $twzrow->children() as $twzfield ){
                         
-                        // get the real name of the field 
-                        $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_mapping );
-                        
-                        $fieldvalue = $twzfield;
-                        
-                        if(( $fieldname == parent::F_TYPE ) and ( $fieldvalue == parent::ELEMENT_TYPE_GROUP)){                        
+                            $fieldname = '';
+                            
+                            // get the real name of the field 
+                            $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_mapping );
+                            
+                            $fieldvalue = $twzfield;
+                            
+                            if(( $fieldname == parent::F_TYPE ) and ( $fieldvalue == parent::ELEMENT_TYPE_GROUP)){                        
 
-                            return true;
+                                return true;
+                            }
                         }
                     }
                 }
@@ -68,7 +75,7 @@ class TwizImportExport extends Twiz{
         return false;
     }
     
-    function import( $sectionid = parent::DEFAULT_SECTION_HOME , $groupid = '' ){
+    function import( $sectionid = '' , $groupid = '' ){
     
         $exportid = $this->getValue( $groupid, parent::F_EXPORT_ID ); // to import under a group
         $parentid = $exportid;
@@ -120,9 +127,9 @@ class TwizImportExport extends Twiz{
             
         if( $error == '' ){
         
-            if( $code = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder)){
-
-                $htmlresponse = $this->getHtmlList($sectionid, '', '', $parentid , $action);
+            if( $imported_sectionid = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder) ){
+            
+                $htmlresponse = $this->getHtmlList($imported_sectionid, '', '', $parentid , $action);
                 
             }else{
             
@@ -131,7 +138,7 @@ class TwizImportExport extends Twiz{
             }
         }
 
-        $jsonlistarray = json_encode( array('filename' => $filename, 'html'=> $htmlresponse, 'error' => $error )); 
+        $jsonlistarray = json_encode( array('sectionid' => $sectionid, 'newsectionid' => $imported_sectionid, 'filename' => $filename, 'html'=> $htmlresponse, 'error' => $error ) ); 
             
         return $jsonlistarray;
     }
@@ -155,57 +162,73 @@ class TwizImportExport extends Twiz{
         return '';
     }
     
-    function importData( $filepath = '', $sectionid = parent::DEFAULT_SECTION_HOME, $parentid = '', $grouporder = 0 ){
+    function importData( $filepath = '', $sectionid = '', $parentid = '', $grouporder = 0 ){
         
         $rows = '';
+        $section = '';
         
         if ( @file_exists($filepath) ){
-        
+            
             if( $twz = @simplexml_load_file($filepath) ){
 
                // flip array mapping value to match 
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
+               $reverse_array_twz_section_mapping = array_flip($this->array_twz_section_mapping);
                
                 // loop xml entities               
                 foreach( $twz->children() as $twzrow ){ 
-                
-                    $row = array();
-                    $row[parent::F_SECTION_ID] = $sectionid;
-                    
-                    foreach( $twzrow->children() as $twzfield ){
-                    
-                        $fieldname = '';
-                        $fieldvalue = '';
-                        
-                        // get the real name of the field 
-                        $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_mapping );
 
-                        if( $fieldname != "" ){                        
+                    switch( $twzrow->getName() ){
+                            
+                        case 'ROW':
 
-                            $fieldvalue = $twzfield;
+                            $row = array();
+                            $row[parent::F_SECTION_ID] = $sectionid;
+                            
+                            foreach( $twzrow->children() as $twzfield ){
+                            
+                                $fieldname = '';
+                                $fieldvalue = '';
+                                
+                                // get the real name of the field 
+                                $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_mapping );
 
-                            // build record array 
-                            $row[$fieldname] = $fieldvalue;
-                        }
+                                if( $fieldname != "" ){           
+                                
+
+
+
+
+                                    $row[$fieldname] = esc_attr(trim($twzfield)); 
+                                }
+                            }
+                            // building record array 
+                            $rows[] = $row;
+                            
+                            break;
                     }
-                    $rows[] = $row;
                 }
-                if(count($rows > 0 )){
-                    // insert row  
+                
+                if(!is_array($rows)){$rows = array();}
+
+                if( count( $rows > 0 ) ){
+
+                    // insert rows
                     if( !$code = $this->importInsert( $rows, $sectionid, $parentid, $grouporder ) ){
                         
                         return false;
                     }
                 }
+                
                 // imported      
-                return true;
+                return $sectionid;
             }
         }
         
         return false;
     }
     
-    private function importInsert( $rows = array(), $newsectionid = parent::DEFAULT_SECTION_HOME, $parentid = '', $grouporder = 0 ){
+    private function importInsert( $rows = array(), $newsectionid = '', $parentid = '', $grouporder = 0 ){
         
         global $wpdb;
         
@@ -219,9 +242,9 @@ class TwizImportExport extends Twiz{
             
             if( !isset($data[parent::F_EXPORT_ID]) ) $data[parent::F_EXPORT_ID] = '';
             
-            usleep(500);
+            usleep(10);
             
-            $exportid = uniqid();
+            $exportid = $this->getUniqid();
             
             $data[parent::F_EXPORT_ID] = ($data[parent::F_EXPORT_ID]=='')? $exportid : $data[parent::F_EXPORT_ID];
             
@@ -270,9 +293,9 @@ class TwizImportExport extends Twiz{
         foreach( $rows as $data ){
         
             // Fields 
-            if( !isset($data[parent::F_SECTION_ID]) ) $data[parent::F_SECTION_ID] = '';
-            if( !isset($data[parent::F_EXPORT_ID]) ) $data[parent::F_EXPORT_ID] = '';
             if( !isset($data[parent::F_PARENT_ID]) ) $data[parent::F_PARENT_ID] = '';
+            if( !isset($data[parent::F_EXPORT_ID]) ) $data[parent::F_EXPORT_ID] = '';
+            if( !isset($data[parent::F_SECTION_ID]) ) $data[parent::F_SECTION_ID] = '';
             if( !isset($data[parent::F_STATUS]) ) $data[parent::F_STATUS] = '';
             if( !isset($data[parent::F_LAYER_ID]) ) $data[parent::F_LAYER_ID] = '';
             if( !isset($data[parent::F_TYPE]) ) $data[parent::F_TYPE] = '';
@@ -320,20 +343,12 @@ class TwizImportExport extends Twiz{
             if( !isset($data[parent::F_EXTRA_JS_B]) ) $data[parent::F_EXTRA_JS_B] = '';
             if( !isset($data[parent::F_GROUP_ORDER]) ) $data[parent::F_GROUP_ORDER] = '';
             
-
-            $twiz_start_element_type = esc_attr(trim($data[parent::F_START_ELEMENT_TYPE]));
-            $twiz_start_element = esc_attr(trim($data[parent::F_START_ELEMENT]));
-            $twiz_move_element_type_a = esc_attr(trim($data[parent::F_MOVE_ELEMENT_TYPE_A]));
-            $twiz_move_element_a = esc_attr(trim($data[parent::F_MOVE_ELEMENT_A]));
-            $twiz_move_element_type_b = esc_attr(trim($data[parent::F_MOVE_ELEMENT_TYPE_B]));
-            $twiz_move_element_b = esc_attr(trim($data[parent::F_MOVE_ELEMENT_B]));
-        
-            $twiz_move_top_pos_a  = esc_attr(trim($data[parent::F_MOVE_TOP_POS_A]));
-            $twiz_move_left_pos_a = esc_attr(trim($data[parent::F_MOVE_LEFT_POS_A]));
-            $twiz_move_top_pos_b  = esc_attr(trim($data[parent::F_MOVE_TOP_POS_B]));
-            $twiz_move_left_pos_b = esc_attr(trim($data[parent::F_MOVE_LEFT_POS_B]));
-            $twiz_start_top_pos   = esc_attr(trim($data[parent::F_START_TOP_POS]));
-            $twiz_start_left_pos  = esc_attr(trim($data[parent::F_START_LEFT_POS]));
+            $twiz_move_top_pos_a  = $data[parent::F_MOVE_TOP_POS_A];
+            $twiz_move_left_pos_a = $data[parent::F_MOVE_LEFT_POS_A];
+            $twiz_move_top_pos_b  = $data[parent::F_MOVE_TOP_POS_B];
+            $twiz_move_left_pos_b = $data[parent::F_MOVE_LEFT_POS_B];
+            $twiz_start_top_pos   = $data[parent::F_START_TOP_POS];
+            $twiz_start_left_pos  = $data[parent::F_START_LEFT_POS];
             
             $twiz_move_top_pos_a  = ($twiz_move_top_pos_a=='') ? 'NULL' : $twiz_move_top_pos_a;
             $twiz_move_left_pos_a = ($twiz_move_left_pos_a=='') ? 'NULL' : $twiz_move_left_pos_a;
@@ -347,14 +362,14 @@ class TwizImportExport extends Twiz{
             $twiz_extra_js_a = str_replace("\\", "\\\\" , $data[parent::F_EXTRA_JS_A]);
             $twiz_extra_js_b = str_replace("\\", "\\\\" , $data[parent::F_EXTRA_JS_B]);
             
-            $twiz_status = esc_attr(trim($data[parent::F_STATUS]));
-            $twiz_lock_event = esc_attr(trim($data[parent::F_LOCK_EVENT]));
-            $twiz_lock_event_type = esc_attr(trim($data[parent::F_LOCK_EVENT_TYPE]));
-            $twiz_start_delay = esc_attr(trim($data[parent::F_START_DELAY]));
-            $twiz_duration = esc_attr(trim($data[parent::F_DURATION]));
-            $twiz_duration_b = esc_attr(trim($data[parent::F_DURATION_B]));
-            $twiz_group_order = esc_attr(trim($data[parent::F_GROUP_ORDER]));
+            $twiz_status = $data[parent::F_STATUS];
+            $twiz_lock_event = $data[parent::F_LOCK_EVENT];
+            $twiz_lock_event_type = $data[parent::F_LOCK_EVENT_TYPE];
+            $twiz_start_delay = $data[parent::F_START_DELAY];
+            $twiz_duration = $data[parent::F_DURATION];
             
+            $twiz_group_order = $data[parent::F_GROUP_ORDER];
+           
             $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
             $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[parent::F_ON_EVENT] !='') and ( $data[parent::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
             $twiz_lock_event = ( $twiz_lock_event == '' ) ? '0' : $twiz_lock_event;
@@ -363,7 +378,7 @@ class TwizImportExport extends Twiz{
             $twiz_duration = ( $twiz_duration == '' ) ? '0' : $twiz_duration;
             $twiz_group_order = ( $twiz_group_order == '' ) ? '0' : $twiz_group_order;
             
-            $twiz_parent_id = ( $parentid == "" ) ? esc_attr(trim($data[parent::F_PARENT_ID])) : $parentid; // to import under a group
+            $twiz_parent_id = ( $parentid == "" ) ? $data[parent::F_PARENT_ID] : $parentid; // to import under a group
             $twiz_group_order = ( $grouporder != "" ) ? $grouporder : $twiz_group_order; // to import under a group
     
             // replace section id group function
@@ -457,53 +472,53 @@ class TwizImportExport extends Twiz{
                  ,".parent::F_GROUP_ORDER."       
                  ,".parent::F_ROW_LOCKED."       
                  )VALUES('".$twiz_parent_id."'
-                 ,'".esc_attr(trim($data[parent::F_EXPORT_ID]))."'
+                 ,'".$data[parent::F_EXPORT_ID]."'
                  ,'".$newsectionid."'
                  ,'".$twiz_status."'
-                 ,'".esc_attr(trim($data[parent::F_TYPE]))."'
-                 ,'".esc_attr(trim($data[parent::F_LAYER_ID]))."'
-                 ,'".esc_attr(trim($data[parent::F_ON_EVENT]))."'             
+                 ,'".$data[parent::F_TYPE]."'
+                 ,'".$data[parent::F_LAYER_ID]."'
+                 ,'".$data[parent::F_ON_EVENT]."'             
                  ,'".$twiz_lock_event."'             
                  ,'".$twiz_lock_event_type."'             
                  ,'".$twiz_start_delay."'
                  ,'".$twiz_duration."'
-                 ,'".$twiz_duration_b."'
-                 ,'".esc_attr(trim($data[parent::F_OUTPUT]))."'
-                 ,'".esc_attr(trim($data[parent::F_OUTPUT_POS]))."'
-                 ,'".esc_attr($twiz_javascript)."'   
-                 ,'".esc_attr($twiz_css)."'   
-                 ,'".$twiz_start_element_type."'
-                 ,'".$twiz_start_element."'                 
-                 ,'".esc_attr(trim($data[parent::F_START_TOP_POS_SIGN]))."'    
+                 ,'".$data[parent::F_DURATION_B]."'
+                 ,'".$data[parent::F_OUTPUT]."'
+                 ,'".$data[parent::F_OUTPUT_POS]."'
+                 ,'".$twiz_javascript."'   
+                 ,'".$twiz_css."'   
+                 ,'".$data[parent::F_START_ELEMENT_TYPE]."'
+                 ,'".$data[parent::F_START_ELEMENT]."'                 
+                 ,'".$data[parent::F_START_TOP_POS_SIGN]."'    
                  ,".$twiz_start_top_pos."
-                 ,'".esc_attr(trim($data[parent::F_START_TOP_POS_FORMAT]))."'   
-                 ,'".esc_attr(trim($data[parent::F_START_LEFT_POS_SIGN]))."'    
+                 ,'".$data[parent::F_START_TOP_POS_FORMAT]."'   
+                 ,'".$data[parent::F_START_LEFT_POS_SIGN]."'    
                  ,".$twiz_start_left_pos."
-                 ,'".esc_attr(trim($data[parent::F_START_LEFT_POS_FORMAT]))."'    
-                 ,'".esc_attr(trim($data[parent::F_POSITION]))."'
-                 ,'".esc_attr(trim($data[parent::F_ZINDEX]))."'                      
-                 ,'".esc_attr(trim($data[parent::F_EASING_A]))."'  
-                 ,'".esc_attr(trim($data[parent::F_EASING_B]))."'    
-                 ,'".$twiz_move_element_type_a."'
-                 ,'".$twiz_move_element_a."'                  
-                 ,'".esc_attr(trim($data[parent::F_MOVE_TOP_POS_SIGN_A]))."'    
+                 ,'".$data[parent::F_START_LEFT_POS_FORMAT]."'    
+                 ,'".$data[parent::F_POSITION]."'
+                 ,'".$data[parent::F_ZINDEX]."'                      
+                 ,'".$data[parent::F_EASING_A]."'  
+                 ,'".$data[parent::F_EASING_B]."'    
+                 ,'".$data[parent::F_MOVE_ELEMENT_TYPE_A]."'
+                 ,'".$data[parent::F_MOVE_ELEMENT_A]."'                  
+                 ,'".$data[parent::F_MOVE_TOP_POS_SIGN_A]."'    
                  ,".$twiz_move_top_pos_a."
-                 ,'".esc_attr(trim($data[parent::F_MOVE_TOP_POS_FORMAT_A]))."'    
-                 ,'".esc_attr(trim($data[parent::F_MOVE_LEFT_POS_SIGN_A]))."'    
+                 ,'".$data[parent::F_MOVE_TOP_POS_FORMAT_A]."'    
+                 ,'".$data[parent::F_MOVE_LEFT_POS_SIGN_A]."'    
                  ,".$twiz_move_left_pos_a."
-                 ,'".esc_attr(trim($data[parent::F_MOVE_LEFT_POS_FORMAT_A]))."'    
-                 ,'".$twiz_move_element_type_b."'
-                 ,'".$twiz_move_element_b."'                  
-                 ,'".esc_attr(trim($data[parent::F_MOVE_TOP_POS_SIGN_B]))."'                     
+                 ,'".$data[parent::F_MOVE_LEFT_POS_FORMAT_A]."'    
+                 ,'".$data[parent::F_MOVE_ELEMENT_TYPE_B]."'
+                 ,'".$data[parent::F_MOVE_ELEMENT_B]."'                  
+                 ,'".$data[parent::F_MOVE_TOP_POS_SIGN_B]."'                     
                  ,".$twiz_move_top_pos_b."
-                 ,'".esc_attr(trim($data[parent::F_MOVE_TOP_POS_FORMAT_B]))."'                     
-                 ,'".esc_attr(trim($data[parent::F_MOVE_LEFT_POS_SIGN_B]))."'    
+                 ,'".$data[parent::F_MOVE_TOP_POS_FORMAT_B]."'                     
+                 ,'".$data[parent::F_MOVE_LEFT_POS_SIGN_B]."'    
                  ,".$twiz_move_left_pos_b."
-                 ,'".esc_attr(trim($data[parent::F_MOVE_LEFT_POS_FORMAT_B]))."'    
-                 ,'".esc_attr(trim($data[parent::F_OPTIONS_A]))."'                             
-                 ,'".esc_attr(trim($data[parent::F_OPTIONS_B]))."'
-                 ,'".esc_attr($twiz_extra_js_a)."'                             
-                 ,'".esc_attr($twiz_extra_js_b)."'                 
+                 ,'".$data[parent::F_MOVE_LEFT_POS_FORMAT_B]."'    
+                 ,'".$data[parent::F_OPTIONS_A]."'                             
+                 ,'".$data[parent::F_OPTIONS_B]."'
+                 ,'".$twiz_extra_js_a."'                             
+                 ,'".$twiz_extra_js_b."'                 
                  ,'".$twiz_group_order."'
                  ,'3'                
                  );"; // Lock
@@ -545,10 +560,93 @@ class TwizImportExport extends Twiz{
         return $code;
     }
     
-    function export( $section_id = '', $id = '', $groupid = ''){
+    function exportAll(){
+    
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $sections       = get_option('twiz_sections');
+            $hardsections   = get_option('twiz_hardsections');
+            
+        }else{
+        
+            $sections       = get_site_option('twiz_sections');
+            $hardsections   = get_site_option('twiz_hardsections');
+        }    
+        
+
+        if(!is_array($sections)){ $sections = array();}
+        
+        $all_links = '';
+        $zipfile = '';
+        
+        if (is_writable($this->backup_dir_abspath)){
+        
+            if($this->BLOG_ID == ''){
+            
+                $blogid_string = '';
+
+            }else{
+
+                $blogid_string = $this->BLOG_ID.'-';
+            }
+            
+            $zipfilename = $blogid_string.'twiz-'.date('Ymd-His').'.zip';
+            
+            $the_zip = new ZipArchive();
+            $status = $the_zip->open($this->backup_dir_abspath.$zipfilename, ZipArchive::CREATE  | ZipArchive::OVERWRITE);
+            
+        }else{
+        
+            $status = true;
+        }
+        
+        if ( $status === true ) {
+        
+            foreach($sections as $key => $value){
+
+                $link_array = $this->export($key, '', '', true);
+                $all_links .= $link_array['htmllink'];
+                
+                if( @file_exists($link_array['filename_abspath']) 
+                and (is_writable($this->backup_dir_abspath)) ){
+                
+                    $the_zip->addFile($link_array['filename_abspath'], $link_array['filename']);
+                }
+            }
+
+            // default sections
+            foreach($hardsections as $key => $value){
+            
+                $link_array = $this->export($key, '', '', true);
+                $all_links .= $link_array['htmllink'];
+                
+                if( @file_exists($link_array['filename_abspath']) 
+                and (is_writable($this->backup_dir_abspath)) ){
+                
+                    $the_zip->addFile($link_array['filename_abspath'], $link_array['filename']);
+                }
+            }       
+            if (is_writable($this->backup_dir_abspath)){
+                // close the zip
+                $the_zip->close();
+            }
+            if (( is_writable($this->backup_dir_abspath)) 
+            and( @file_exists($this->backup_dir_abspath.$zipfilename))){
+            
+                $zipfile= '<p>'.__('Backup file', 'the-welcomizer').': <a href="'.$this->backup_dir_url.$zipfilename.'" class="twiz-bold">'.$zipfilename.'</a></p>';
+            }
+            
+            $all_links = $zipfile.'<ul><li>'.$all_links.'</li></ul>';
+        }
+        
+        return  $all_links;
+    }
+    
+    function export( $section_id = '', $id = '', $groupid = '', $onlylink = false){
   
         $error = '';
         $filedata = '';
+        $type = '';
         $myTwizMenu  = new TwizMenu();
         $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($section_id));
         
@@ -584,11 +682,9 @@ class TwizImportExport extends Twiz{
         foreach( $listarray as $value ){
 
               $filedata .= '<ROW>'."\n";
-              
-              $count_array = count($this->array_fields);
-                    
+                                  
               // loop fields array 
-              foreach( $this->array_fields as $key ){
+              foreach( $this->array_twz_mapping as $key => $notused){
               
                   if( $key != parent::F_ID ){
                   
@@ -616,12 +712,11 @@ class TwizImportExport extends Twiz{
             $sectionname =  str_replace( parent::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
            
             $filename = urldecode($sectionname).'-'.date('Ymd-His').'.'.parent::EXT_TWIZ;
-            $filefullpathdir = $this->export_dir_abspath.$filename;
-            $filefullpathurl = $this->export_dir_url .$filename;
-     
+            $filename_abspath = $this->export_dir_abspath.$filename;
+            $filename_url = $this->export_dir_url .$filename;
             if (is_writable($this->export_dir_abspath)){
 
-                if (!$handle = fopen($filefullpathdir, 'w')){
+                if (!$handle = fopen($filename_abspath, 'w')){
                     $error =  __("Cannot open file", 'the-welcomizer').' ('.$filename.')';
                     exit;
                 }
@@ -643,35 +738,31 @@ class TwizImportExport extends Twiz{
             $error = __("Nothing to export.", 'the-welcomizer');
         }
         
-        $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filefullpathurl.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>' ;
+        if( $onlylink == true ){
         
-        return $html;
-    }
-    
-    private function exportIdExists( $exportid = '' ){ 
-    
-        global $wpdb;
-        
-        if($exportid==''){return false;}
-    
-        $sql = "SELECT ".self::F_EXPORT_ID." FROM ".$this->table." WHERE ".self::F_EXPORT_ID." = '".$exportid."'";
-        $row = $wpdb->get_row($sql, ARRAY_A);
-      
-        if($row[self::F_EXPORT_ID]!=''){
 
-            return true;
+            $html = ($error!='')? array('htmllink' => '<li class="twiz-red">' . $error .'</li>', 'filename_abspath' => '', 'filename' => '') : array('htmllink' => '<li><a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a></li>', 'filename_abspath' => $filename_abspath, 'filename' => $filename);
+            
+
+
+        }else{
+
+
+            $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>';
+            
+
         }
-  
-        return false;
+
+
+        return $html;
     }
     
     function getHTMLExportFileList( $sectionid = '', $filter = '' ){
     
-        if( $sectionid == '' ){ return ''; }
+        if( $sectionid == '' ){ $sectionid = __('Add New', 'the-welcomizer'); }
     
         $rowcolor = '';
         $myTwizMenu = new TwizMenu();
-        $sectionname = $myTwizMenu->getSectionName( $sectionid );
         $twiz_export_filter = get_option('twiz_export_filter');
         
         // set twiz_export_filter array
@@ -713,12 +804,12 @@ class TwizImportExport extends Twiz{
         $html = '<table class="twiz-table-list" cellspacing="0">';
 
         $html .= '
-<tr class="twiz-table-list-tr-h"><td class="twiz-td-v-line"></td><td class="twiz-table-list-td-h twiz-text-left">'.__('Filename', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-ifs-filter twiz-text-left"><span class="twiz-float-left">'.__('Filter', 'the-welcomizer').':&nbsp;</span><div id="twiz_ajax_td_val_ifs_filter" title="'.__('Edit', 'the-welcomizer').'"><a id="twiz_ajax_td_a_ifs_filter">'.$lbl_filter.'</a></div><div id="twiz_ajax_td_loading_ifs_filter"></div><div id="twiz_ajax_td_edit_ifs_filter" class="twiz-display-none"><input class="twiz-input-focus" type="text" name="twiz_input_ifs_filter" id="twiz_input_ifs_filter" value="'.$filter.'" maxlength="100"/></div></td><td class="twiz-table-list-td-h twiz-td-ifs-action twiz-text-right">'.__('Action', 'the-welcomizer').'</td></tr>';
+<tr class="twiz-table-list-tr-h"><td class="twiz-td-v-line"></td><td class="twiz-table-list-td-h twiz-text-left">'.__('Filename', 'the-welcomizer').'</td><td class="twiz-table-list-td-h twiz-td-ifs-filter twiz-text-left"><span class="twiz-float-left">'.__('Filter', 'the-welcomizer').':&nbsp;</span><div id="twiz_ajax_td_val_ifs_filter" title="'.__('Edit', 'the-welcomizer').'"><a id="twiz_ajax_td_a_ifs_filter">'.$lbl_filter.'</a></div><div id="twiz_ajax_td_loading_ifs_filter"></div><div id="twiz_ajax_td_edit_ifs_filter" class="twiz-display-none"><input class="twiz-input-focus" type="text" name="twiz_input_ifs_filter" id="twiz_input_ifs_filter" value="'.$filter.'" maxlength="100"/></div></td><td class="twiz-table-list-td-h twiz-td-ifs-action twiz-text-right twiz-td-lib-action">'.__('Action', 'the-welcomizer').'</td></tr>';
          
         $html.= '
 <tr class="twiz-row-color-1"><td><div class="twiz-relative"><div id="twiz_export_img_twizexp0" class="twiz-toggle-export twiz-toggle-img '.$toggleimg.'"></div></div></td>
 
-<td class="twiz-table-list-td" colspan="3"><a id="twiz_export_a_e_twizexp0" class="twiz-toggle-export'.$boldclass.'">'.$this->export_dir.'</a> <div class="twiz-blue twiz-float-right">'.__('Click filename to import', 'the-welcomizer').'</div></td></tr>';
+<td class="twiz-table-list-td" colspan="3"><a id="twiz_export_a_e_twizexp0" class="twiz-toggle-export'.$boldclass.'">'.$this->export_dir_label.'</a> <div class="twiz-blue twiz-float-right">'.__('Click filename to import', 'the-welcomizer').'</div></td></tr>';
         
         $rowid = 1;
         
@@ -732,7 +823,7 @@ class TwizImportExport extends Twiz{
                 $rowcolor = ( $rowcolor == 'twiz-row-color-2' ) ? 'twiz-row-color-1' : 'twiz-row-color-2';
                 
                 $html .= '
-    <tr class="twiz-list-tr twizexp0 '.$rowcolor.$hide.'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$rowid.'</td><td class="twiz-table-list-td" colspan="2">&nbsp;<a id="twiz_import_from_server_'.$fileid.'" title="'.__('Import', 'the-welcomizer').'" class="twiz-import-from-server">'.$filename.'</a></td> <td class="twiz-table-list-td twiz-text-right"><div id="twiz_delete_'.$fileid.'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete-export twiz-delete-img"></div></td>';
+    <tr class="twiz-list-tr twizexp0 '.$rowcolor.$hide.'" id="twiz_list_tr_'.$fileid.'"><td class="twiz-td-v-line twiz-row-color-3">&nbsp;'.$rowid.'</td><td class="twiz-table-list-td" colspan="2">&nbsp;<a id="twiz_import_from_server_'.$fileid.'" title="'.__('Import this file', 'the-welcomizer').'" class="twiz-import-from-server">'.$filename.'</a></td> <td class="twiz-table-list-td twiz-text-right"><a class="twiz-arrow-lib-s twiz-arrow-lib" href="'.$this->export_dir_url.$filename.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" id="twiz_download_'.$fileid.'" target="_blank"></a> <div id="twiz_delete_'.$fileid.'" title="'.__('Delete', 'the-welcomizer').'" class="twiz-delete-export twiz-delete-img"></div></td>';
                 
                 $rowid++;
             }
@@ -759,7 +850,7 @@ class TwizImportExport extends Twiz{
         
             if(@file_exists( $filename )){
              
-                unlink( $filename );
+                @unlink( $filename );
             }
         }
        

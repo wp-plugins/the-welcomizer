@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -25,9 +25,10 @@ class TwizOutput extends Twiz{
     private $linebreak;
     private $tab;
     private $outputStatus;
-    private $sections;
-    private $hardsections;
-    private $multi_sections;
+    private $sections = array();
+    private $the_sections = array();
+    private $hardsections = array();
+    private $multi_sections = array();
     private $shortcode_id;
     private $shortcode_HTML;
     private $animate;
@@ -42,6 +43,10 @@ class TwizOutput extends Twiz{
     private $array_cookie;
     private $cookieLooped = array();
     private $CookieMaxjQueryValidation = array();
+    private $visibility_validation = array();
+    private $hasRestrictedCode = array();
+    private $hasOnlyCSS = array();
+    private $hasValidParendId = array();
     
     const COMPRESS_LINEBREAK = "\n";
     const COMPRESS_TAB = "\t";
@@ -114,6 +119,52 @@ class TwizOutput extends Twiz{
         }
     }
     
+    private function validateVisibilitySetting( $visibility = '' ){
+    
+        if($visibility == ''){ return false;}
+          
+        switch( $visibility ){
+        
+            case parent::VISIBILITY_EVERYONE:
+            
+                return true;
+                
+                break;
+            
+            case parent::VISIBILITY_VISITORS:
+            
+                if ( !is_user_logged_in() ){
+                    
+                    return true;
+                    
+                }else{
+                
+                    return false;
+                }
+                
+                break;
+            
+            case parent::VISIBILITY_MEMBERS:
+            
+                if ( is_user_logged_in() ){
+                    
+                    return true;
+                    
+                }else{
+                
+                    return false;
+                }
+                
+                break;
+            
+            default: 
+            
+                return false;
+        }
+        
+        return false;
+    }    
+    
     function generateOutput(){
                 
         $this_prefix = '';
@@ -129,18 +180,26 @@ class TwizOutput extends Twiz{
                 
                 $sections = $this->getSectionArray($section_id);        
                 
-                // Set shorcode html for output, outside the loop.
-                $this->shortcode_HTML = htmlspecialchars_decode($sections[$section_id][parent::KEY_SHORTCODE_HTML]);
+                $this->visibility_validation[$section_id] = $this->validateVisibilitySetting( $sections[$section_id][parent::KEY_VISIBILITY] );
+                if( $this->visibility_validation[$section_id] == true ){
                 
-                if( $this->admin_option[parent::KEY_THE_CONTENT_FILTER] == '1' ){
+                    // Set shorcode html for output, outside the loop.
+                    $this->shortcode_HTML = htmlspecialchars_decode($sections[$section_id][parent::KEY_SHORTCODE_HTML]);
                     
-                    // replace all wp registered shortcodes and more...
-                    $this->shortcode_HTML = apply_filters('the_content', $this->shortcode_HTML);
+                    if( $this->admin_option[parent::KEY_THE_CONTENT_FILTER] == '1' ){
+                        
+                        // replace all wp registered shortcodes.
+                        $this->shortcode_HTML = do_shortcode($this->shortcode_HTML);
+                        
+                    }else{
                     
-                }else{
+                        // replace shortcode [twiz_wp_upload_dir], and that's it.
+                        $this->shortcode_HTML = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $this->shortcode_HTML);
+                    }
+                    
+                } else {
                 
-                    // replace shortcode [twiz_wp_upload_dir], and that's it.
-                    $this->shortcode_HTML = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $this->shortcode_HTML);
+                    $this->shortcode_HTML = '';
                 }
             }
         }
@@ -149,14 +208,15 @@ class TwizOutput extends Twiz{
         
             // no data, no more output, only shortcode HMTL
             if( count($this->listarray) == 0 ){ return $this->shortcode_HTML; } 
-       
-            // script header 
-            $this->generatedScript .="<!-- ".$this->pluginName." ".$this->version." -->".self::COMPRESS_LINEBREAK;
-            
-            $this->generatedScript .= '<script type="text/javascript">[GLOBAL_JS]'.$this->linebreak.'jQuery(document).ready(function($){
+                  
+            $this->generatedScript .= self::COMPRESS_LINEBREAK.'<script type="text/javascript">[GLOBAL_JS]'.$this->linebreak.'jQuery(document).ready(function($){
 '.$this->linebreak;
 
-            $this->generatedScript .= $this->getStartingPositionsOnReady(); // Also set twiz_repeat and twiz_locked global variables. And also PHPCookieMax.
+            // Also set twiz_repeat and twiz_locked global variables.
+            // And set setPHPCookieMax.
+            // And set $this->visibility_validation 
+            $this->generatedScript .= $this->getStartingPositionsOnReady(); 
+                  
                         
             // this used by javasccript before.
             $this->generatedScript .= 'var twiz'.$this_prefix.'_this = "";';
@@ -167,20 +227,14 @@ class TwizOutput extends Twiz{
             // generates the code
             foreach($this->listarray as $value){
                                
-                $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);
-                
-                // Check for post, get, cookies.
-                $hasRestrictedCode = $this->searchRestrictedCode($value);
-                $hasOnlyCSS = $this->hasOnlyCSS($value);
-                $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
-                
-                if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+                if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
                 or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
-                or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == false ) ) // cookie condition true
-                or ( $hasOnlyCSS  == true ) // Nothing but CSS Styles 
-                or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+                or ( ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == false ) ) // cookie condition true
+                or ( $this->hasOnlyCSS[$value[parent::F_ID]] == true ) // Nothing but CSS Styles 
+                or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
+                or ( $value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP ) ) {
                 // Nothing to do
-                }else if($hasValidParendId == true){                
+                }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
 
                     $has_active = '';
                    
@@ -471,16 +525,13 @@ class TwizOutput extends Twiz{
         
         // generates the code
         foreach( $this->listarray as $value ){   
-
-            $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
-
-            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+            if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) // skip group
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) ){ // skip group
             // Nothing to do
             }else{
 
-                if( ( $hasValidParendId == true )and( $value[parent::F_CSS] != '' ) ){    
+                if( ( $this->hasValidParendId[$value[parent::F_ID]] == true )and( $value[parent::F_CSS] != '' ) ){    
                     
                     $cssval = $this->linebreak.$this->replaceNumericEntities($value[parent::F_CSS]);
                     
@@ -489,7 +540,7 @@ class TwizOutput extends Twiz{
                     $looped = 1;
                 }
             
-                if( ( $hasValidParendId == true )and( $value[parent::F_OUTPUT_POS] == 'c' ) ){ 
+                if( ( $this->hasValidParendId[$value[parent::F_ID]] == true )and( $value[parent::F_OUTPUT_POS] == 'c' ) ){ 
                 
                     if(($value[parent::F_POSITION]!='') 
                     or ($value[parent::F_ZINDEX]!='') 
@@ -560,18 +611,13 @@ class TwizOutput extends Twiz{
                     
         // generates the code
         foreach( $this->listarray as $value ){   
-
-            $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);
-                    
-            $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
-
-            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+            if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
-            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
+            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
             // Nothing to do
-            }else if($hasValidParendId == true){    
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){     
              
                 if( $value[parent::F_OUTPUT] == 'r' ){ // onready 
                     
@@ -643,7 +689,7 @@ class TwizOutput extends Twiz{
         } else{
         
             if( ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false )
-            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
+            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
             
                 // trigger the animation if not on event
                 $this->generatedScriptonReady .=  $generatedCondition['open'].$this->linebreak.'$(document).twiz_'.$name.'($(eval($("<div />").html("'.$this->newElementFormat.'").text())),null);'.$generatedCondition['close'];
@@ -660,6 +706,7 @@ class TwizOutput extends Twiz{
         $and_multi_sections = '';
         $field_key = parent::F_SECTION_ID.' IN(';
         
+        $this->multi_sections = (!is_array($this->multi_sections)) ? array() : $this->multi_sections;
         foreach($this->multi_sections as $key => $value){
         
             if( is_array($value) ){ // multi output
@@ -993,13 +1040,11 @@ class TwizOutput extends Twiz{
         $groupid = '';
         
         foreach( $this->listarray as $value ){
-        
-            $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
-            $hasRestrictedCode = $this->searchRestrictedCode($value);
-                
-            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+                        
+            if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true )  // cookie condition true
-            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
+            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
             // Nothing to do
             }else if( (( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) or ( $value[parent::F_PARENT_ID] != '' ))
             and  ( $value[parent::F_ON_EVENT] == parent::EV_MANUAL ) ){
@@ -1054,20 +1099,14 @@ class TwizOutput extends Twiz{
         $generatedScript_repeatvar = '';
         
         foreach( $this->listarray as $value ){
-
-            $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
-            
-            $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
-            $hasOnlyCSS = $this->hasOnlyCSS($value);
-
-            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+            if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
-            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
+            or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP )
-            or($hasOnlyCSS)){ // skip
+            or($this->hasOnlyCSS[$value[parent::F_ID]]) 
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) ){ // skip
             // Nothing to do
-            }else if($hasValidParendId == true){  
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
             
                 // Excluding only repeated animations that are running forever.(manually called are not verified)
                 $pos = strpos($value[parent::F_JAVASCRIPT], "$(document).twizRepeat()");
@@ -1160,20 +1199,21 @@ class TwizOutput extends Twiz{
         
         foreach($this->listarray as $value){   
         
-            $hasRestrictedCode = $this->searchRestrictedCode($value);
-            $hasValidParendId = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
-
-            $sections = $this->getSectionArray($value[parent::F_SECTION_ID]);        
-            $hasOnlyCSS = $this->hasOnlyCSS($value);
+            // IMPORTANT -> Those lines MUST be inside the first output loop, this is the first output loop.
+            $this->the_sections[$value[parent::F_SECTION_ID]] = $this->getSectionArray($value[parent::F_SECTION_ID]);
+            $this->visibility_validation[$value[parent::F_SECTION_ID]] = $this->validateVisibilitySetting(  $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_VISIBILITY] );
+            $this->hasRestrictedCode[$value[parent::F_ID]] = $this->searchRestrictedCode($value);
+            $this->hasValidParendId[$value[parent::F_ID]] = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
+            $this->hasOnlyCSS[$value[parent::F_ID]] = $this->searchOnlyCSS($value);
+            if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]])){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
+            if( !isset($this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}
             
-            // This line must be inside the first output loop
-            if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]]) ){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
-            if( !isset($this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}
-
-            if( ( ($hasRestrictedCode) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip 
+            if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) 
+            or ( $this->hasOnlyCSS[$value[parent::F_ID]]  == true ) // Nothing but CSS Styles 
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] ==  false ) ){ // skip site
             // Nothing to do
-            }else if($hasValidParendId == true){  
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){    
             
                 // Generates and validates cookie
                 $this->generatedCookie .= $this->generateCookies($value[parent::F_SECTION_ID]);
@@ -1182,7 +1222,7 @@ class TwizOutput extends Twiz{
                 $this->PHPCookieMax[$value[parent::F_SECTION_ID]] = ($this->PHPCookieMax[$value[parent::F_SECTION_ID]] == '') ? false : $this->PHPCookieMax[$value[parent::F_SECTION_ID]];
                 
                 if( ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == false ) 
-                or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$sections[$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){            
+                or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){
                 
                     $generatedCondition = $this->generateJSCookieCondition($value[parent::F_SECTION_ID]);
                     $name = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
@@ -1198,7 +1238,6 @@ class TwizOutput extends Twiz{
                     if( $value[parent::F_OUTPUT_POS] == 'r' ){ // onready
                     
                         $generatedScript_pos .= $generatedCondition['open'].$this->getStartingPositions($value).$generatedCondition['close'];
-                    
                     }    
                 }  
             }
@@ -1296,16 +1335,14 @@ class TwizOutput extends Twiz{
 
         $this->cookieLooped[] = $section_id;
         
-        $sections = $this->getSectionArray($section_id);
-        
-        $cookie_name = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
-        $cookie_condition = $sections[$section_id][parent::KEY_COOKIE_CONDITION];
-        $option_1 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
-        $option_2 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2];
-        $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
+        $cookie_name =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
+        $cookie_condition =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE_CONDITION];
+        $option_1 =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
+        $option_2 =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2];
+        $with =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
       
-            if( ( ( $option_1 != '' ) and (  $cookie_name != '' ) ) 
-            or ( $cookie_condition != '') ){ // cookie option is enabled
+        if( ( ( $option_1 != '' ) and (  $cookie_name != '' ) ) 
+        or ( $cookie_condition != '') ){ // cookie option is enabled
         
             switch($with){ // cookie type
                     
@@ -1360,13 +1397,11 @@ class TwizOutput extends Twiz{
         }else{
              
             $this->cookieLooped[] = $section_id;
-            
-            $sections = $this->getSectionArray($section_id);
-                    
-            $cookie_name = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
-            $cookie_condition = $sections[$section_id][parent::KEY_COOKIE_CONDITION];            
-            $with = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
-            $option_1 = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
+                              
+            $cookie_name =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
+            $cookie_condition =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE_CONDITION];            
+            $with =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
+            $option_1 =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1];
       
             if( ( $option_1 != '' ) and (  $cookie_name != '' ) ){ // cookie option is enabled
             
@@ -1374,13 +1409,13 @@ class TwizOutput extends Twiz{
                 
                     case 'php';
                     
-                        $phpcookie = $this->getPHPCookie($section_id, $sections);
+                        $phpcookie = $this->getPHPCookie($section_id);
                         
                         break;
                         
                     case 'js';
                     
-                        $jscookie = $this->getJSCookie($section_id, $sections);
+                        $jscookie = $this->getJSCookie($section_id);
                         
                         return $jscookie;
                         
@@ -1388,11 +1423,11 @@ class TwizOutput extends Twiz{
                         
                     case 'all':
                     
-                        $phpcookie = $this->getPHPCookie($section_id, $sections);
+                        $phpcookie = $this->getPHPCookie($section_id);
                         
                         if( $this->PHPCookieMax[$section_id] == false ){
                         
-                            $jscookie = $this->getJSCookie($section_id, $sections);
+                            $jscookie = $this->getJSCookie($section_id);
                             
                             return $jscookie;
                         }
@@ -1410,13 +1445,13 @@ class TwizOutput extends Twiz{
         return '';
     }
     
-    private function getPHPCookie( $section_id = '', $sections = array() ) {
+    private function getPHPCookie( $section_id = '' ) {
     
-        $cookieprefix = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
+        $cookieprefix =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
 
         $cookiename = 'twiz_cookie_php_'.$section_id.'_'.sanitize_title_with_dashes($cookieprefix);
         
-        $expiration_option = $this->formatCookieExpiration( $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2], 'php' );
+        $expiration_option = $this->formatCookieExpiration(  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2], 'php' );
         
         $arrayscope = $this->getCookieScope( $section_id );
         
@@ -1437,9 +1472,8 @@ class TwizOutput extends Twiz{
             // Calculates the time diff and substracts it.
             $expiration_diff = $expiration_option - $expiration_old;
             $expiration_new = $expiration_old - $expiration_diff ;
-            
-        
-            $cookie_max_val = $this->array_cookieval[$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]];
+                    
+            $cookie_max_val = $this->array_cookieval[$this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]];
             
             // validate counter
             if( $counter < $cookie_max_val ){
@@ -1460,10 +1494,10 @@ class TwizOutput extends Twiz{
         return '';
     }
     
-    private function getJSCookie( $section_id = '', $sections = array() ){
+    private function getJSCookie( $section_id = '' ){
             
 
-        $cookiename = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
+        $cookiename =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
         $arrayscope = $this->getCookieScope( $section_id );
               
         if( $cookiename == '' ){
@@ -1472,7 +1506,7 @@ class TwizOutput extends Twiz{
         }
         
         $jscookie = 'var twiz_'.$section_id.'_cookiename = "twiz_cookie_js_'.$section_id.'_'.sanitize_title_with_dashes($cookiename).'";'.$this->linebreak;
-        $jscookie .= 'var twiz_'.$section_id.'_cookie_expiration_option = '.$this->formatCookieExpiration( $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2], 'js' ).';'.$this->linebreak;
+        $jscookie .= 'var twiz_'.$section_id.'_cookie_expiration_option = '.$this->formatCookieExpiration(  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2], 'js' ).';'.$this->linebreak;
        
         $this->global_js .= $this->linebreak.'var twiz_'.$section_id.'_cookie_Max = false; ';
 
@@ -1485,7 +1519,7 @@ class TwizOutput extends Twiz{
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_old = twiz_'.$section_id.'_cookie_value[1];'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_diff = twiz_'.$section_id.'_cookie_expiration_option - twiz_'.$section_id.'_cookie_expiration_old;'.$this->linebreak;
         $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_expiration_new = twiz_'.$section_id.'_cookie_expiration_old - twiz_'.$section_id.'_cookie_expiration_diff;'.$this->linebreak;
-        $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_option_1 = '.$this->array_cookieval[$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]].';'.$this->linebreak;
+        $jscookie .= $this->tab.'var twiz_'.$section_id.'_cookie_option_1 = '.$this->array_cookieval[ $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]].';'.$this->linebreak;
         
         $jscookie .= $this->tab.'if(twiz_'.$section_id.'_cookie_counter < twiz_'.$section_id.'_cookie_option_1){'.$this->linebreak;
         $jscookie .= $this->tab.$this->tab.'twiz_'.$section_id.'_cookie_Max = false;'.$this->linebreak;
@@ -1506,7 +1540,7 @@ class TwizOutput extends Twiz{
     
         if( in_array($section_id, $this->array_default_section) ){
         
-            $sections = $this->hardsections;
+            $sections = $this->hardsections; // default sections
         }else{
         
             $sections = $this->sections;
@@ -1517,8 +1551,7 @@ class TwizOutput extends Twiz{
     
     private function getCookieScope( $section_id = '' ){
     
-        $sections = $this->getSectionArray($section_id);
-        $scope = $sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE];
+        $scope = $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE];
         
         $hostname = $_SERVER['SERVER_NAME'];
         $hostname = str_replace('www.', '', $hostname);

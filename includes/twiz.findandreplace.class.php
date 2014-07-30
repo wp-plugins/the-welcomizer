@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -79,7 +79,7 @@ $("[name^=twiz_listmenu]").css("display", "none");';
         $easing_b1 = $this->getHtmlEasingOptions('', parent::F_EASING_B, '_far_1');
         $easing_b2 = $this->getHtmlEasingOptions('', parent::F_EASING_B, '_far_2');
 
-        $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" name="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_1" id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_1" id="twiz_far_find_1" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_1" id="twiz_far_replace_1" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
+        $buttons = '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_1" class="twiz-loading-gif-save"></span><a id="twiz_far_cancel_1">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find" id="twiz_far_find_1" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace" id="twiz_far_replace_1" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
             
         $choices = $buttons . ' <fieldset class="twiz-box-fieldset twiz-corner-all">
 <legend>'.__('Method', 'the-welcomizer').'</legend>';
@@ -337,7 +337,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
 <tr><td colspan="2">&nbsp;</td></tr>
 </table>';
 
-    $form .= '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_2" name="twiz_far_save_img_box_2" class="twiz-loading-gif-save"></span><a name="twiz_far_cancel_2" id="twiz_far_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find_2" id="twiz_far_find_2" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace_2" id="twiz_far_replace_2" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
+        $form .= '<div class="twiz-clear"></div><div class="twiz-text-right twiz-td-save"> <span id="twiz_far_save_img_box_2" class="twiz-loading-gif-save"></span><a id="twiz_far_cancel_2">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_far_find" id="twiz_far_find_2" class="button-primary" value="'.__('Find', 'the-welcomizer').'"/> <input type="button" name="twiz_far_replace" id="twiz_far_replace_2" class="button-primary" value="'.__('Replace', 'the-welcomizer').'"/></div>';
 
         $html = '<div class="twiz-box-menu">'.$form.'</div>'.$jsscript;
        

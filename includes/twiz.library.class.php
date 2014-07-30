@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -70,7 +70,7 @@ $("#twiz_lib_menu").css("display", "none");
         $html .= '<input type="text" id="twiz_lib_dir" name="twiz_lib_dir"  value="" maxlength="50" class="twiz-input-focus"/><br><br>'.__('Example', 'the-welcomizer').':<br><span class="twiz-green">wp-includes/js/jquery/ui/</span>';
 
         // cancel and save button
-        $html .= '<div class="twiz-text-right twiz-float-right"><span id="twiz_lib_save_img_box" name="twiz_lib_save_img_box" class="twiz-loading-gif-save"></span><a name="twiz_lib_cancel" id="twiz_lib_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_lib_save" id="twiz_lib_save" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></div>';
+        $html .= '<div class="twiz-text-right"><span id="twiz_lib_save_img_box" name="twiz_lib_save_img_box" class="twiz-loading-gif-save"></span><a  id="twiz_lib_cancel">'.__('Cancel', 'the-welcomizer').'</a> <input type="button" name="twiz_lib_save" id="twiz_lib_save" class="button-primary" value="'.__('Save', 'the-welcomizer').'" /></div>';
         
         $html .= '</div>'.$jsscript;
         
@@ -86,7 +86,6 @@ $("#twiz_lib_menu").css("display", "none");
 //<![CDATA[
 jQuery(document).ready(function($) {
     $("#twiz_add_menu").fadeOut("fast");
-    $("#twiz_add_sections").fadeOut("fast");
     $("#twiz_right_panel").fadeOut("fast");
     $("#twiz_library_upload").fadeIn("fast");
 });
@@ -219,7 +218,12 @@ jQuery(document).ready(function($) {
     function linkLibraryDir ( $directory = '' ){
         
         if( $directory == '' ){return false;}
-                
+        
+        if( substr($directory, -1) !== '/' ){
+        
+            $directory = $directory.'/';
+        }
+        
         $this->array_library_dir[] = ltrim($directory, "/");
         
         $code = update_option('twiz_library_dir', $this->array_library_dir);
@@ -281,7 +285,7 @@ jQuery(document).ready(function($) {
     
                 if( @file_exists($file) ){
                 
-                    unlink($file);
+                    @unlink($file);
                 }
   
                 $this->array_library[$key] = '';

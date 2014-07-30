@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 2.7.9.1
+Version: 2.7.9.2
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
-Description: This plugin allows you to animate your blog using jQuery effects. (100% AJAX) + .js/.css Includer.
+Description: This plugin allows you to quickly animate your blog.
 Author: S&#233;bastien Laframboise
-Author URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
+Author URI: http://www.sebastien-laframboise.com
 License: GPL2
 */
 
-/*  Copyright 2014  Sébastien Laframboise  (email:wordpress@sebastien-laframboise.com)
+/*  Copyright 2014  Sébastien Laframboise
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -25,6 +25,13 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
+    if ( is_multisite() ) {
+        
+        if(!function_exists('wp_get_current_user'))
+        require_once(ABSPATH . "wp-includes/pluggable.php"); 
+        wp_cookie_constants();
+    }
     /***********************
     * --- The Twiz Class ---
     ***********************/
@@ -43,112 +50,104 @@ License: GPL2
   
     
     // Create the necessary for the installation
+    if(!function_exists('twizInstall')){    
     function twizInstall() {
-        
+
         $TwizInstallation  = new TwizInstallation();
-        $ok = $TwizInstallation->proceed();
-    }
-    
+        $ok = $TwizInstallation->install();
+    }}
     // uninstall the plugin, drop table etc... 
+    if(!function_exists('twizUninstall')){    
     function twizUninstall() {
     
         $array_admin = get_option('twiz_admin');
-        
-        // Check admin option
-        if( $array_admin[Twiz::KEY_DELETE_ALL] == '1' ) {
-        
-            $TwizInstallation  = new TwizInstallation();
-            $ok = $TwizInstallation->uninstall();
-        }
-    }
 
+        $TwizInstallation  = new TwizInstallation();
+        $ok = $TwizInstallation->uninstall();
+        
+    }}
     // Database version check 
+    if(!function_exists('twizUpdateDbCheck')){       
     function twizUpdateDbCheck() {
     
         $TwizInstallation  = new TwizInstallation();
-       
+
         $dbversion = get_option('twiz_db_version');
 
         if( $dbversion  != $TwizInstallation->dbVersion ){
         
-            $ok = $TwizInstallation->proceed();
+            $ok = $TwizInstallation->install();
         }
-    }
-    
-    // Add a menu link under theme menu.
-    function twizAddLinkAdminMenu() {
-    
-        $array_admin = get_option('twiz_admin'); // get min access level
-
-        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), $array_admin[Twiz::KEY_MIN_ROLE_LEVEL], 'the-welcomizer', 'twizDisplayMainPage');
-    }
-        
+    }}
     // Admin page
+    if(!function_exists('twizDisplayMainPage')){   
     function twizDisplayMainPage() {     
     
         $myTwiz = new Twiz();
+
         echo($myTwiz->twizIt());
-    }
-    
+    }}
     // GenerateOutput code
+    if(!function_exists('twizGenerateOutput')){
     function twizGenerateOutput() {
     
         $myTwizOutput  = new TwizOutput();
+
         echo($myTwizOutput->generateOutput());
-    }
-    
+    }}
     // do short code
+    if(!function_exists('twizReplaceShortCode')){
     function twizReplaceShortCode( $shortcode = '' ){
     
         $myTwizOutput  = new TwizOutput($shortcode['id']);
         
         return( $myTwizOutput->generateOutput() );
-    }
-    
+    }}
+    if(!function_exists('twizReplaceShortCodeDir')){
     function twizReplaceShortCodeDir( $shortcode = '' ){
     
          $upload_dir = wp_upload_dir();
          
          return $upload_dir['baseurl'];
-    }    
-    
+    }}
+    if(!function_exists('twizCleanFeedShortcodeID')){
     function twizCleanFeedShortcodeID( $content = '' ){
 
         return preg_replace('/\[twiz (.*)\]/i', '', $content);
-    }
-    
+    }}
+    if(!function_exists('twizRemoveFeedShortcode')){
     function twizRemoveFeedShortcode(){
     
         add_shortcode('twiz_wp_upload_dir','twizReplaceShortCodeDir');
         add_filter('the_content', 'twizCleanFeedShortcodeID');
-    }
-    
+    }}
+    if(!function_exists('twizInit')){
     function twizInit(){
         
-        $gstatus = get_option('twiz_global_status');
+        $myTwiz = new Twiz();
+        
         $css_transform_included = false;
         
-        if (( !is_admin() ) and ( $gstatus == '1' ) 
+        if (( !is_admin() ) and ( $myTwiz->global_status == '1' ) 
         and (!preg_match("/wp-admin/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
         and (!preg_match("/wp-login/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]))
         ) {
-            
             $myTwizLibrary  = new TwizLibrary();
-            
+                       
             $cookie_option = get_option('twiz_cookie_js_status');
             
-            if( $myTwizLibrary->admin_option[Twiz::KEY_OUTPUT] !=  '' ){
-       
+            if( $myTwiz->admin_option[Twiz::KEY_OUTPUT] !=  '' ){
+
                 add_shortcode('twiz','twizReplaceShortCode');
                 add_shortcode('twiz_wp_upload_dir','twizReplaceShortCodeDir');
                 
                 add_filter('widget_text', 'do_shortcode', 11);
                 
                 // add the Frontend generated code
-                add_filter($myTwizLibrary->admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
+                add_filter($myTwiz->admin_option[Twiz::KEY_OUTPUT], 'twizGenerateOutput');
             }
             
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY] ==  '1' ){
 
                 wp_deregister_script( 'jquery' );
                 wp_register_script( 'jquery', includes_url().'js/jquery/jquery.js');
@@ -162,7 +161,7 @@ License: GPL2
                 wp_enqueue_script( 'the-welcomizer-jquery-cookie' );
             }
                  
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY_ROTATE3DI] ==  '1' ){
             
                 wp_deregister_script( 'the-welcomizer-css-transform' );
                 wp_register_script( 'the-welcomizer-css-transform', plugin_dir_url( __FILE__ ) .'includes/jquery/css-transform/jquery-css-transform.js');
@@ -175,7 +174,7 @@ License: GPL2
                 $css_transform_included = true;
             }
             
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY_ANIMATECSSROTATESCALE] ==  '1' ){   
                 
                 if( $css_transform_included == false ){
                 
@@ -190,7 +189,7 @@ License: GPL2
 
             }
 
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSFORM] ==  '1' ){
      
                 wp_deregister_script( 'the-welcomizer-transform-1' );
                 wp_deregister_script( 'the-welcomizer-transform-2' );
@@ -215,14 +214,14 @@ License: GPL2
                 wp_enqueue_script( 'the-welcomizer-transform-7' );
             }
 
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY_TRANSIT] ==  '1' ){
 
                 wp_deregister_script( 'the-welcomizer-transit' );
                 wp_register_script( 'the-welcomizer-transit', plugin_dir_url( __FILE__ ) .'includes/jquery/transit/jquery.transit.min.js');
                 wp_enqueue_script( 'the-welcomizer-transit' );
             }            
             
-            if( $myTwizLibrary->admin_option[Twiz::KEY_REGISTER_JQUERY_EASING] ==  '1' ){
+            if( $myTwiz->admin_option[Twiz::KEY_REGISTER_JQUERY_EASING] ==  '1' ){
 
                 wp_deregister_script( 'the-welcomizer-jquery-easing' );
                 wp_register_script( 'the-welcomizer-jquery-easing', plugin_dir_url( __FILE__ ) .'includes/jquery/jquery-easing/jquery.easing-1.3.pack.js');
@@ -231,7 +230,7 @@ License: GPL2
             
             $siteurl = get_site_url().'/';
 
-            if($myTwizLibrary->admin_option[Twiz::KEY_SORT_LIB_DIR] == 'reversed' ){
+            if($myTwiz->admin_option[Twiz::KEY_SORT_LIB_DIR] == 'reversed' ){
             
                $library_dir_array = array_reverse($myTwizLibrary->array_library_dir, true);
                
@@ -245,7 +244,8 @@ License: GPL2
                 foreach( $myTwizLibrary->array_library as $key => $value ){
                 
                     if( ( $value[Twiz::F_STATUS] == "1" ) 
-                    and ( $value[Twiz::KEY_DIRECTORY] == $directory )){
+                    and ( $value[Twiz::KEY_DIRECTORY] == $directory )
+                    and ( $myTwiz->privacy_question_answered == true ) ){
                     
                         $file = $directory.$value[Twiz::KEY_FILENAME];
                         
@@ -276,49 +276,82 @@ License: GPL2
                 }
             }
         }
-    }
-    
+    }}
+    if(!function_exists('twizAdminEnqueueScripts')){
     function twizAdminEnqueueScripts(){
                
         $myTwiz  = new Twiz();
+       
+        if( $myTwiz->privacy_question_answered == true ){
         
-        // Drag&Drop
-        wp_enqueue_script('twiz-jquery.ui.core.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.core.min.js');
-        wp_enqueue_script('twiz-jquery.ui.widget.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.widget.min.js');
-        wp_enqueue_script('twiz-jquery.ui.mouse.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.mouse.min.js');
-        wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.draggable.min.js');
-        wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.droppable.min.js');
-                
+            // Drag&Drop
+            wp_enqueue_script('twiz-jquery.ui.core.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.core.min.js');
+            wp_enqueue_script('twiz-jquery.ui.widget.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.widget.min.js');
+            wp_enqueue_script('twiz-jquery.ui.mouse.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.mouse.min.js');
+            wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.draggable.min.js');
+            wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/jquery.ui.droppable.min.js');
+                    
+            // Admin Ajax script
+            wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) );
+            
+            // Fileuploader
+            wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );            
+            wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+        }
+        
         // Enqueue default stylesheet
         wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a-'.Twiz::DEFAULT_SKIN, plugins_url(Twiz::SKIN_PATH.Twiz::DEFAULT_SKIN.'/twiz-style.css', __FILE__ ));
  
         // Current skin
         wp_enqueue_style('twiz-'.$myTwiz->cssVersion.'-a', plugins_url($myTwiz->skin[$myTwiz->userid].'/twiz-style.css', __FILE__ ));
-        
-        wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
-
-        // Admin Ajax script
-        wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) );
-        
-        // Fileuploader
-        wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );
-    }
-    
+    }}
+    if(!function_exists('twizAdminTinymceScript')){
     function twizAdminTinymceScript( $plugin_array ){
 
         // Tinymce shortcode Script
         $plugin_array['thewelcomizer'] = plugin_dir_url( __FILE__ ) . 'includes/jquery/tinymce-shortcode/twiz-tinymce-shortcode.js.php';
         
         return $plugin_array;
-    }    
+    }}
     
+    if(!function_exists('twizPromotePluginImageLink')){
     function twizPromotePluginImageLink( ){
     
         $myTwiz  = new Twiz();
         $imagelink = $myTwiz->getPromotePluginImageLink();
         
         echo ( $imagelink );
-    }
+    }}
+    if(!function_exists('twizAddPluginActionLink')){
+    function twizAddPluginActionLink( $links = array() ){	
+
+        $new_link = '<a href="'.admin_url().'themes.php?page=the-welcomizer">'.__('Settings').'</a>';
+        array_unshift($links, $new_link);
+
+        return $links;
+    }}
+    // Add a menu link under theme menu.
+    if(!function_exists('twizAddLinkAdminMenu')){     
+    function twizAddLinkAdminMenu(){
+    
+        $myTwiz = new Twiz();
+
+        add_theme_page(__('The Welcomizer', 'the-welcomizer'), __('The Welcomizer', 'the-welcomizer'), $myTwiz->admin_option[Twiz::KEY_MIN_ROLE_LEVEL], 'the-welcomizer', 'twizDisplayMainPage');
+
+    }}
+    // Add a menu link to admin bar.
+    function twizAddLinkAdminToolbarMenu( $admin_bar ){
+    
+        $myTwiz = new Twiz();
+
+        if( current_user_can( $myTwiz->admin_option[Twiz::KEY_MIN_ROLE_LEVEL] ) ){
+        
+            $admin_bar->add_menu( array('id'    => 'the-welcomizer'
+                                       ,'title' => __('The Welcomizer', 'the-welcomizer')
+                                       ,'href'  => admin_url().'themes.php?page=the-welcomizer'
+                                       ));
+        }
+    }        
     
     /****************
     * --- Actions ---
@@ -327,7 +360,7 @@ License: GPL2
     // register installation hooks and action
     register_activation_hook( __FILE__,  'twizInstall' );
     register_deactivation_hook( __FILE__,  'twizUninstall' );
-     
+
     if( ( is_admin() ) 
     and (!preg_match("/plugins.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
     and (!preg_match("/plugin-install.php/i", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"])) 
@@ -381,7 +414,11 @@ License: GPL2
             
         // Add the menu link
         add_action('admin_menu', 'twizAddLinkAdminMenu');
+        add_action('admin_bar_menu', 'twizAddLinkAdminToolbarMenu', 100);
         
+        // Add Action link 
+        add_filter( 'plugin_action_links_'. plugin_basename(__FILE__), 'twizAddPluginActionLink', 10, 1);
+                
     }else{
 
         // feed  

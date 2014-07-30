@@ -433,18 +433,12 @@ qq.FileUploaderBasic.prototype = {
         var message = this._options.messages[code];        
         function r(name, replacement){ message = message.replace(name, replacement); }
         
-        r('{file}', this._formatFileName(fileName));        
+        r('{file}', fileName);        
         r('{extensions}', this._options.allowedExtensions.join(', '));
         r('{sizeLimit}', this._formatSize(this._options.sizeLimit));
         r('{minSizeLimit}', this._formatSize(this._options.minSizeLimit));
         
         this._options.showMessage(message);                
-    },
-    _formatFileName: function(name){
-        if (name.length > 33){
-            name = name.slice(0, 19) + '...' + name.slice(-13);    
-        }
-        return name;
     },
     _isAllowedExtension: function(fileName){
         var ext = (-1 !== fileName.indexOf('.')) ? fileName.replace(/.*[.]/, '').toLowerCase() : '';
@@ -625,7 +619,7 @@ qq.extend(qq.FileUploader.prototype, {
         item.qqFileId = id;
 
         var fileElement = this._find(item, 'file');        
-        qq.setText(fileElement, this._formatFileName(fileName));
+        qq.setText(fileElement, fileName);
         this._find(item, 'size').style.display = 'none';        
 
         this._listElement.appendChild(item);
