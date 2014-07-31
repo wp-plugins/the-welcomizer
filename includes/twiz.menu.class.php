@@ -1410,17 +1410,13 @@ $jsscript_close = '});
         $menu_close = '';
         
         // Button Export All 
-        $export_all = '<div class="twiz-absolute twiz-float-right twiz-footer-vmenu"><div id="twiz_export_all" class="twiz-footer-menu-button twiz-corner-bottom twiz-float-right">'.__('Export All', 'the-welcomizer').'</div></div>' . '<div class="twiz-absolute twiz-clear"><div id="twiz_export_all_url"></div></div>';
+        $export_all = '<div class="twiz-relative twiz-footer-vmenu"><div id="twiz_export_all" class="twiz-footer-menu-button twiz-relative twiz-corner-bottom twiz-float-right">'.__('Export All', 'the-welcomizer').'</div></div>' . '<div class="twiz-absolute twiz-clear"><div id="twiz_export_all_url"></div></div>';
         
         // ajax container 
         if( !in_array($_POST['twiz_action'], $this->array_action_excluded) ){
         
-            $menu_open = '<div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">';
-            $menu_close .= $export_all . '</div>';
-            
-        }else{
-        
-            $menu_close .= $export_all;
+            $menu_open = '<div id="twiz_vertical_menu_box" class="twiz-display-none"><div id="twiz_vertical_menu" class="twiz-reset-nav twiz-corner-all">';
+            $menu_close .= '</div>'.$export_all.'</div>';
         }
         
         $header = '<div class="twiz-menu-header twiz-corner-top"><div id="twiz_menuheader_status" class="twiz-text-left twiz-float-left">'.__('Status', 'the-welcomizer').'</div>';
@@ -1716,7 +1712,35 @@ $jsscript_close = '});
                  
                     // set default value 
                     $this->array_sections[$key][parent::KEY_VISIBILITY] = ($this->array_sections[$key][parent::KEY_VISIBILITY] == '') ? parent::VISIBILITY_EVERYONE : $this->array_sections[$key][parent::KEY_VISIBILITY];
-                                
+
+                    // update the shortcode from $this->array_multi_section
+                    if( $this->array_sections[$key][parent::KEY_SHORTCODE] == '' ){
+                        
+                        if( !isset( $this->array_multi_sections[$key] ) ){}else{
+                        
+                            list( $type, $id ) = preg_split('/_/', $key);
+                            
+                            if( $type == 'sc' ){
+                            
+                                $this->array_sections[$key][parent::KEY_SHORTCODE] = $this->array_multi_sections[$key];
+                            }
+                        }                       
+                    }
+                    
+                    // update the custom logic from $this->array_multi_section
+                    if( $this->array_sections[$key][parent::KEY_CUSTOM_LOGIC] == '' ){
+                        
+                        if( !isset( $this->array_multi_sections[$key] ) ){}else{
+                        
+                            list( $type, $id ) = preg_split('/_/', $key);
+                            
+                            if( $type == 'cl' ){
+                            
+                                $this->array_sections[$key][parent::KEY_CUSTOM_LOGIC] = $this->array_multi_sections[$key];
+                            }
+                        }                       
+                    }     
+                    
                     if( !isset($this->array_sections[$key][parent::F_SECTION_ID]) ){ // Always update the title, this array has been cleaned already
                         
                         if( !isset($this->array_sections[$key][parent::KEY_TITLE]) ) $this->array_sections[$key][parent::KEY_TITLE] = ''; // Register the key

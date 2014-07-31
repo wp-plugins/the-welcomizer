@@ -1061,7 +1061,7 @@ class TwizOutput extends Twiz{
 
                 }else{
                     
-                    $hasOnlyCSS = $this->hasOnlyCSS($value);
+                    $hasOnlyCSS = $this->searchOnlyCSS($value);
                     
                     if(!$hasOnlyCSS){
                     

@@ -3,7 +3,7 @@ Contributors: sebwordpress
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.7.9.1
+Stable tag: 2.7.9.3
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog.
@@ -42,7 +42,7 @@ Enjoy!
 
 == Changelog ==
 
-= 2.7.9.2 =
+= 2.7.9.3 =
 
 * Hidden the + and - drop down when the Transit jQuery library is selected.
 * Added Privacy questions before accessing the plugin.
@@ -1374,9 +1374,10 @@ Enjoy!
 
 == Upgrade Notice ==
 
-= 2.7.9.2 =
+= 2.7.9.3 =
 
 * New features, bug fixes.
+
 = 2.7.9.1 =
 
 * Replaced deprecated preg_replace /e with preg_replace_callback.
