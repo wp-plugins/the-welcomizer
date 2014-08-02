@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 2.7.9.3
+Version: 2.7.9.4
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to quickly animate your blog.
 Author: S&#233;bastien Laframboise

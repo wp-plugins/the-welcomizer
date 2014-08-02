@@ -1846,6 +1846,7 @@ class TwizAjax extends Twiz{
             if($("#twiz_stay_section").is(":checked") != true){
                 $("[name=twiz_listmenu]").css("display", "block");
                 $("#twiz_import").fadeIn("fast");
+                $("#twiz_export").fadeIn("fast");
             }  
         });
   }else{twizLockedAction();}}
@@ -2037,11 +2038,10 @@ class TwizAjax extends Twiz{
                      // $("#twiz_export").show();    
                         $("#twiz_menu_save_img_box_" + twiz_charid).attr("class","twiz-success twiz-loading-gif-save");
                         $("#twiz_menu_save_img_box_" + twiz_charid).animate({ opacity: 0 });
-
                     }else{
                         twizPostMenu(twiz_current_section_id);
                         $("[name=twiz_listmenu]").css("display", "block");
-                        $("#twiz_import").fadeIn("fast");
+                        // line 1849 for buttons
                     }
                 }).fail(function(){ twizUnLockedAction(); });
         }}else{twizLockedAction();}});

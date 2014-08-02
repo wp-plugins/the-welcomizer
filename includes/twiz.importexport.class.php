@@ -195,10 +195,6 @@ class TwizImportExport extends Twiz{
 
                                 if( $fieldname != "" ){           
                                 
-
-
-
-
                                     $row[$fieldname] = esc_attr(trim($twzfield)); 
                                 }
                             }
@@ -590,7 +586,7 @@ class TwizImportExport extends Twiz{
                 $blogid_string = $this->BLOG_ID.'-';
             }
             
-            $zipfilename = $blogid_string.'twiz-'.date('Ymd-His').'.zip';
+            $zipfilename = $blogid_string.'twiz-'.date_i18n('Ymd-His').'.zip';
             
             $the_zip = new ZipArchive();
             $status = $the_zip->open($this->backup_dir_abspath.$zipfilename, ZipArchive::CREATE  | ZipArchive::OVERWRITE);
@@ -711,7 +707,7 @@ class TwizImportExport extends Twiz{
             
             $sectionname =  str_replace( parent::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
            
-            $filename = urldecode($sectionname).'-'.date('Ymd-His').'.'.parent::EXT_TWIZ;
+            $filename = urldecode($sectionname).'-'.date_i18n('Ymd-His').'.'.parent::EXT_TWIZ;
             $filename_abspath = $this->export_dir_abspath.$filename;
             $filename_url = $this->export_dir_url .$filename;
             if (is_writable($this->export_dir_abspath)){

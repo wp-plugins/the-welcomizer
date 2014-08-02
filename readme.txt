@@ -3,7 +3,7 @@ Contributors: sebwordpress
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.7.9.3
+Stable tag: 2.7.9.4
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog.
@@ -24,14 +24,14 @@ The login page is temporarily **UNDER MAINTENANCE** :-(
 
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the Plugins menu in WordPress.
-3. Find the plugin under the menu Appearance. 
+3. Find the plugin on the admin bar or under the menu Appearance.
 
 To uninstall:
 
 1. Go to plugin page, click `Admin` button, click `Removal settings`
 2. check the option **Delete all settings when disabling the plugin**
 3. check the option **Delete created directories when disabling the plugin** If you don't need them anymore.
-2. Deactivate the plugin through the Plugins menu in WordPress, and then delete it.
+4. Deactivate the plugin through the Plugins menu in WordPress, and then delete it.
 
 Enjoy!
  
@@ -41,6 +41,11 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.7.9.4 =
+
+* Fixed the export filenames to match the real time.
+* Fixed the display of the export file button.
 
 = 2.7.9.3 =
 
@@ -1374,13 +1379,17 @@ Enjoy!
 
 == Upgrade Notice ==
 
+= 2.7.9.4 =
+
+Minor bug fixes.
+
 = 2.7.9.3 =
 
-* New features, bug fixes.
+New features, bug fixes.
 
 = 2.7.9.1 =
 
-* Replaced deprecated preg_replace /e with preg_replace_callback.
+Replaced deprecated preg_replace /e with preg_replace_callback.
 
 = 2.7.9 =
 
