@@ -59,7 +59,8 @@ class TwizMenu extends Twiz{
                                     );
         
         global $wpdb;
-        $sql = "SELECT term_id as cat_ID, name as cat_name FROM ".$wpdb->terms." order by name";
+        $sql = "SELECT t.term_id as cat_ID, t.name as cat_name FROM ".$wpdb->terms." t INNER JOIN ".$wpdb->term_taxonomy." tt on tt.term_id = t.term_id where tt.taxonomy = 'category' order by name";
+        
         $resultarray = $wpdb->get_results($sql, ARRAY_A);
         $this->categories = $resultarray;
         $this->pages = $this->get_wp('page', 'order by post_title');
