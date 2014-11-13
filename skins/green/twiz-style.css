@@ -87,7 +87,7 @@ div a, td a {
     width: 98%;
     margin: 9px 0 15px 16px;
     position: relative;
-    font-family: "Open Sans",sans-serif !important;
+    font-family: sans-serif !important;
     font-size: 12px !important;
     line-height: 1.4em !important;    
 }

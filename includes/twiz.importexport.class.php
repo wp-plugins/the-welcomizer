@@ -173,7 +173,6 @@ class TwizImportExport extends Twiz{
 
                // flip array mapping value to match 
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
-               $reverse_array_twz_section_mapping = array_flip($this->array_twz_section_mapping);
                
                 // loop xml entities               
                 foreach( $twz->children() as $twzrow ){ 
