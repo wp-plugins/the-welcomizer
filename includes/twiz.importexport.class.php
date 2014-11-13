@@ -575,17 +575,8 @@ class TwizImportExport extends Twiz{
         $zipfile = '';
         
         if (is_writable($this->backup_dir_abspath)){
-        
-            if($this->BLOG_ID == ''){
-            
-                $blogid_string = '';
 
-            }else{
-
-                $blogid_string = $this->BLOG_ID.'-';
-            }
-            
-            $zipfilename = $blogid_string.'twiz-'.date_i18n('Ymd-His').'.zip';
+            $zipfilename = 'twiz-'.date_i18n('Ymd-His').'.zip';
             
             $the_zip = new ZipArchive();
             $status = $the_zip->open($this->backup_dir_abspath.$zipfilename, ZipArchive::CREATE  | ZipArchive::OVERWRITE);
