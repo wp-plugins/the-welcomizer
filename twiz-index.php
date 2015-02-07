@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: The Welcomizer
-Version: 2.7.9.7
+Version: 2.7.9.8
 Plugin URI: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer
 Description: This plugin allows you to quickly animate your blog.
 Author: S&#233;bastien Laframboise
@@ -9,7 +9,7 @@ Author URI: http://www.sebastien-laframboise.com
 License: GPL2
 */
 
-/*  Copyright 2014  Sébastien Laframboise
+/*  Copyright 2015  Sébastien Laframboise
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 

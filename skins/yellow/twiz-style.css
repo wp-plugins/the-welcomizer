@@ -1154,12 +1154,6 @@ a.twiz-red:hover {
 .twiz-italic {
     font-style: italic;
 }
-#twiz_ads {
-    width: 485px;
-    height: 37px;
-    display: block;
-    margin: 0 auto;
-}
 #twiz_footer img{
     opacity: 0.4;
     filter: alpha(opacity=40);

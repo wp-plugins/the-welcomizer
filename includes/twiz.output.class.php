@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -746,7 +746,7 @@ class TwizOutput extends Twiz{
                         }
                         break;
                         
-                    case 'sc': // short code
+                    case 'sc': // shortcode
                         
                         if( ($sectionid == $key)
                         and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
@@ -809,7 +809,7 @@ class TwizOutput extends Twiz{
             if( ( $type == 'sc' )
             and ( $value == $shortcode_id )
             and ( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE )
-            ){ // short code
+            ){ // shortcode
                 
                 return $key;
             }        

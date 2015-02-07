@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -314,10 +314,6 @@ jQuery(document).ready(function($) {
         
         $html .= '<tr class="twizadmin6'.$hide.'"><td colspan="2">&nbsp;</td></tr>';
         
-        // Footer Ads
-        $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove ads of the plugin', 'the-welcomizer').': ';
-        $html .= '<div class="twiz-float-right">'.$this->getHTMLFooterAds().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_'.parent::KEY_FOOTER_ADS.'"></label></td></tr>';
-
         // Facebook like
         $html .= '<tr class="twizadmin6'.$hide.'"><td class="twiz-admin-form-td-left">'.__('Remove facebook like button', 'the-welcomizer').': ';
         $html .= '<div class="twiz-float-right">'.$this->getHTMLFBlike().'</div></td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_'.parent::KEY_FB_LIKE.'"></label></td></tr>';
@@ -441,21 +437,12 @@ jQuery(document).ready(function($) {
                  
         return $html;
     }
-    
-    private function getHTMLFooterAds(){
-        
-        $twiz_footer_ads = ($this->admin_option[parent::KEY_FOOTER_ADS] == '1') ? ' checked="checked"' : '';
-    
-        $html = '<input type="checkbox" id="twiz_'.parent::KEY_FOOTER_ADS.'" name="twiz_'.parent::KEY_FOOTER_ADS.'"'.$twiz_footer_ads.'/>';
-                 
-        return $html;
-    }    
         
     private function getHTMLFBlike(){
     
-        $twiz_footer_ads = ($this->admin_option[parent::KEY_FB_LIKE] == '1') ? ' checked="checked"' : '';
+        $twiz_fb_like = ($this->admin_option[parent::KEY_FB_LIKE] == '1') ? ' checked="checked"' : '';
     
-        $html = '<input type="checkbox" id="twiz_'.parent::KEY_FB_LIKE.'" name="twiz_'.parent::KEY_FB_LIKE.'"'.$twiz_footer_ads.'/>';
+        $html = '<input type="checkbox" id="twiz_'.parent::KEY_FB_LIKE.'" name="twiz_'.parent::KEY_FB_LIKE.'"'.$twiz_fb_like.'/>';
                  
         return $html;
     }
@@ -820,15 +807,6 @@ jQuery(document).ready(function($) {
             $this->admin_option = get_option('twiz_admin');
         }
 
-        // Footer ads
-        if( !isset($this->admin_option[parent::KEY_FOOTER_ADS]) ) $this->admin_option[parent::KEY_FOOTER_ADS] = '';
-        if( $this->admin_option[parent::KEY_FOOTER_ADS] == '' ) {
-        
-            $this->admin_option[parent::KEY_FOOTER_ADS] = '0';
-            $code = update_option('twiz_admin', $this->admin_option);
-            $this->admin_option = get_option('twiz_admin');
-        }                   
-
         // FB like
         if( !isset($this->admin_option[parent::KEY_FB_LIKE]) ) $this->admin_option[parent::KEY_FB_LIKE] = '';
         if( $this->admin_option[parent::KEY_FB_LIKE] == '' ) {
@@ -846,22 +824,18 @@ jQuery(document).ready(function($) {
             $code = update_option('twiz_admin', $this->admin_option);
             $this->admin_option = get_option('twiz_admin');
         }
+        
         // Remove Created Directories
         if( !isset($this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES]) ) $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '';
         if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '' ){
         
             $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '0';
-            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
             
-                $code = update_option('twiz_admin', $this->admin_option);
-                $this->admin_option = get_option('twiz_admin');
+            $code = update_option('twiz_admin', $this->admin_option);
+            $this->admin_option = get_option('twiz_admin');
                 
-            }else{
-            
-                $code = update_site_option('twiz_admin', $this->admin_option);
-                $this->admin_option = get_site_option('twiz_admin');            
-            }
         }
+        
         // Promote this plugin
         if( !isset($this->admin_option[parent::KEY_PROMOTE_PLUGIN]) ) $this->admin_option[parent::KEY_PROMOTE_PLUGIN] = '';
         if( $this->admin_option[parent::KEY_PROMOTE_PLUGIN] == '' ) {
@@ -882,7 +856,7 @@ jQuery(document).ready(function($) {
         
         // Next option
     }
-    function SavePrivacyQuestion( $twiz_fb = '', $twiz_ads = '', $twiz_jquery = '' ){
+    function SavePrivacyQuestion( $twiz_fb = '', $twiz_jquery = '' ){
         
         $jquery = '<script>
 //<![CDATA[
@@ -892,7 +866,7 @@ jQuery(document).ready(function($) {
 //]]>
 </script>';
         
-        if( ( $twiz_fb == '') or ( $twiz_ads == '' ) ) {
+        if( $twiz_fb == '' ){
         
             return $jquery;
         }
@@ -901,9 +875,6 @@ jQuery(document).ready(function($) {
         $fb_like = ($twiz_fb == 'true') ? '0' : '1';
         $this->admin_option[parent::KEY_FB_LIKE] = $fb_like;
         
-        // Footer ads
-        $footer_ads = ($twiz_ads  == 'true') ? '0' : '1';
-        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;
         
         // Register jQuery on the front end
         $twiz_jquery = ($twiz_jquery == 'true') ? '1' : '0';
@@ -935,7 +906,6 @@ jQuery(document).ready(function($) {
         $setting[parent::KEY_MIN_ROLE_LEVEL] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LEVEL]));
         $setting[parent::KEY_MIN_ROLE_ADMIN] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_ADMIN]));
         $setting[parent::KEY_MIN_ROLE_LIBRARY] = esc_attr(trim($_POST['twiz_'.parent::KEY_MIN_ROLE_LIBRARY]));
-        $setting[parent::KEY_FOOTER_ADS] = esc_attr(trim($_POST['twiz_'.parent::KEY_FOOTER_ADS]));
         $setting[parent::KEY_FB_LIKE] = esc_attr(trim($_POST['twiz_'.parent::KEY_FB_LIKE]));
         $setting[parent::KEY_DELETE_ALL] = esc_attr(trim($_POST['twiz_'.parent::KEY_DELETE_ALL]));
         $setting[parent::KEY_REMOVE_CREATED_DIRECTORIES] = esc_attr(trim($_POST['twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES]));
@@ -1015,12 +985,7 @@ jQuery(document).ready(function($) {
         if(current_user_can($setting[parent::KEY_MIN_ROLE_ADMIN])){                
             $this->admin_option[parent::KEY_MIN_ROLE_ADMIN] = $setting[parent::KEY_MIN_ROLE_ADMIN];
         }
-        
-        // Footer ads
-        $footer_ads_before = $this->admin_option[parent::KEY_FOOTER_ADS];
-        $footer_ads = ($setting[parent::KEY_FOOTER_ADS] == 'true') ? '1' : '0';
-        $this->admin_option[parent::KEY_FOOTER_ADS] = $footer_ads ;
-
+ 
         // FB like
         $fb_like_before = $this->admin_option[parent::KEY_FB_LIKE];
         $fb_like = ($setting[parent::KEY_FB_LIKE] == 'true') ? '1' : '0';
@@ -1045,8 +1010,6 @@ jQuery(document).ready(function($) {
         $code = update_option('twiz_admin', $this->admin_option);
         
         $relike = '';
-        $rebind = '';
-        $htmladsresponse = '';
         $htmllikeresponse = '';
         $debug = '';
         
@@ -1063,25 +1026,11 @@ jQuery(document).ready(function($) {
            $htmllikeresponse = parent::IFRAME_FB_LIKE; ;
            $relike = 'relike';
         }        
-        
-        // footer ads
-        if(( $footer_ads == '1' ) 
-        and ( $footer_ads_before == '0' ) ){    
-        
-            $rebind = 'remove';
-        }
-        
-        if(( $footer_ads == '0' ) 
-        and ( $footer_ads_before == '1' ) ){
-        
-           $htmladsresponse = $this->getHtmlAds();
-           $rebind = 'rebind';
-        }
-        
+   
         // Debug alert()
         $debug =  '';
             
-        $json = json_encode( array('debug' => $debug, 'restore_active' => $this->override_network_settings,'relike' => $relike, 'rebind' => $rebind, 'htmlads' =>  $htmladsresponse,'htmllike' =>  $htmllikeresponse));
+        $json = json_encode( array('debug' => $debug, 'relike' => $relike,'htmllike' =>  $htmllikeresponse));
 
         return $json;
     }    

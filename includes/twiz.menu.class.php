@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -55,7 +55,7 @@ class TwizMenu extends Twiz{
                                     ,self::TYPE_MULTIPLE     => __('Multiple', 'the-welcomizer')
                                     ,self::TYPE_CUSTOM_LOGIC => __('Custom logic', 'the-welcomizer')
                                     ,self::TYPE_CUSTOM_LOGIC_SHORT => __('Logic', 'the-welcomizer')
-                                    ,self::TYPE_SHORT_CODE   => __('Short code', 'the-welcomizer')
+                                    ,self::TYPE_SHORT_CODE   => __('Shortcode', 'the-welcomizer')
                                     );
         
         global $wpdb;
@@ -888,7 +888,7 @@ class TwizMenu extends Twiz{
             
             switch($type){
             
-                case 'sc': // is short code
+                case 'sc': // is shortcode
                 
                     $twiz_output_choice_0 = ' class="twiz-bold"';
                     $jsscript_in = '$(".twiz-custom-message").html("");
@@ -1161,7 +1161,7 @@ $jsscript_close = '});
             
         }else{        
         
-            $choices .= '<input type="radio" id="twiz_output_choice_0" name="twiz_output_choice" class="twiz-output-choice" value="twiz_shortcode_output"/> <label for="twiz_output_choice_0"'.$twiz_output_choice_0.'>'.__('Short code', 'the-welcomizer').'</label> ';
+            $choices .= '<input type="radio" id="twiz_output_choice_0" name="twiz_output_choice" class="twiz-output-choice" value="twiz_shortcode_output"/> <label for="twiz_output_choice_0"'.$twiz_output_choice_0.'>'.__('Shortcode', 'the-welcomizer').'</label> ';
             $choices .= '<input type="radio" id="twiz_output_choice_1" name="twiz_output_choice" class="twiz-output-choice" value="twiz_single_output"/> <label for="twiz_output_choice_1"'.$twiz_output_choice_1.'>'.__('Unique', 'the-welcomizer').'</label> ';
             $choices .= '<input type="radio" id="twiz_output_choice_2" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_multiple_output"/> <label for="twiz_output_choice_2"'.$twiz_output_choice_2.'>'.__('Multiple', 'the-welcomizer').'</label> ';
             $choices .= '<input type="radio" id="twiz_output_choice_3" name="twiz_output_choice" class="twiz-output-choice"  value="twiz_logic_output"/> <label for="twiz_output_choice_3"'.$twiz_output_choice_3.'>'.__('Custom logic', 'the-welcomizer').'</label>';
@@ -1281,7 +1281,7 @@ $jsscript_close = '});
         $html .= $choices;
         
         // Shortcode section box
-        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.__('Short code ID', 'the-welcomizer').': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/><div class="twiz-text-right twiz-green">'.__('Or this into a theme file.', 'the-welcomizer').'</div><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample_theme" value="'.htmlentities($twiz_shortcode_sample_theme).'"/></div><div class="twiz-float-left"><input class="twiz-input-focus" type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <b>&gt;&gt;</b></div>
+        $html .= '<div id="twiz_shortcode_output" class="twiz-block-ouput">'.__('Shortcode ID', 'the-welcomizer').': <div class="twiz-float-right twiz-green">'.__('Copy and paste this into a post, page or text widget.', 'the-welcomizer').'</div><div class="twiz-float-right"><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample" value="'.htmlentities($twiz_shortcode_sample).'"/><div class="twiz-text-right twiz-green">'.__('Or this into a theme file.', 'the-welcomizer').'</div><input type="text" class="twiz-shortcode-sample twiz-input-focus twiz-blue" id="twiz_shortcode_sample_theme" value="'.htmlentities($twiz_shortcode_sample_theme).'"/></div><div class="twiz-float-left"><input class="twiz-input-focus" type="text" id="twiz_shortcode" name="twiz_shortcode" value="'.$twiz_shortcode.'" maxlength="255"/> <b>&gt;&gt;</b></div>
         <div class="twiz-clear"></div>';
         
         // Shortcode HTML
@@ -1481,7 +1481,7 @@ $jsscript_close = '});
         
         switch($type){
          
-            case 'sc': // is short code
+            case 'sc': // is shortcode
             
                 return '<div class="twiz-output-label">'.$this->array_output[self::TYPE_SHORT_CODE].'</div>';
             
@@ -1547,7 +1547,7 @@ $jsscript_close = '});
         
         switch($type){
         
-            case 'sc': // is short code
+            case 'sc': // is shortcode
             
                 $name = $this->array_sections[$key][parent::KEY_TITLE];
             

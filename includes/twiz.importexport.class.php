@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -556,18 +556,9 @@ class TwizImportExport extends Twiz{
     }
     
     function exportAll(){
-    
-        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
         
-            $sections       = get_option('twiz_sections');
-            $hardsections   = get_option('twiz_hardsections');
-            
-        }else{
-        
-            $sections       = get_site_option('twiz_sections');
-            $hardsections   = get_site_option('twiz_hardsections');
-        }    
-        
+        $sections       = get_option('twiz_sections');
+        $hardsections   = get_option('twiz_hardsections');
 
         if(!is_array($sections)){ $sections = array();}
         

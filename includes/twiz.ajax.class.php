@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -1350,9 +1350,9 @@ class TwizAjax extends Twiz{
          "twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'": $("#twiz_'.parent::KEY_MIN_ROLE_LIBRARY.'").val(),
          "twiz_'.parent::KEY_PROMOTE_PLUGIN.'": $("#twiz_'.parent::KEY_PROMOTE_PLUGIN.'").is(":checked"),
          "twiz_'.parent::KEY_PROMOTE_POSITION.'": $("#twiz_'.parent::KEY_PROMOTE_POSITION.'").val(),
-         "twiz_'.parent::KEY_FOOTER_ADS.'": $("#twiz_'.parent::KEY_FOOTER_ADS.'").is(":checked"),
          "twiz_'.parent::KEY_FB_LIKE.'": $("#twiz_'.parent::KEY_FB_LIKE.'").is(":checked"),
-         "twiz_'.parent::KEY_DELETE_ALL.'": $("#twiz_'.parent::KEY_DELETE_ALL.'").is(":checked")
+         "twiz_'.parent::KEY_DELETE_ALL.'": $("#twiz_'.parent::KEY_DELETE_ALL.'").is(":checked"),
+         "twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES.'": $("#twiz_'.parent::KEY_REMOVE_CREATED_DIRECTORIES.'").is(":checked")
     }, function(data) {
         twizUnLockedAction();
         data = JSON.parse(data);    
@@ -1363,13 +1363,7 @@ class TwizAjax extends Twiz{
             $("#twiz_like").html(data.htmllike);
         }else if(data.relike == "remove"){
             $("#twiz_like").html("");
-        }        
-        if(data.rebind == "rebind"){
-            $("#twiz_footer").html(data.htmlads);
-            bind_twiz_ads();
-        }else if(data.rebind == "remove"){
-            $("#twiz_footer").html(\'<div\' + \' class="twiz-spacer-footer"></div><a\' + \' href="http://wordpress.org/support/view/plugin-reviews/the-welcomizer" target="_blank">'.__('Show your support by giving a 5 star rating review.', 'the-welcomizer').'</a>\');
-        }       
+        }            
         $.post(ajaxurl, {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
@@ -1907,7 +1901,7 @@ class TwizAjax extends Twiz{
         }
     });
     $("#twiz_shortcode").click(function(){
-        if($("#twiz_shortcode").val() == "' .__('Please type a short code ID.', 'the-welcomizer').'"){
+        if($("#twiz_shortcode").val() == "' .__('Please type a shortcode ID.', 'the-welcomizer').'"){
             $("#twiz_shortcode").attr({"value" : ""});
             $("#twiz_shortcode").css("color", "#333333");
         }
@@ -1942,8 +1936,8 @@ class TwizAjax extends Twiz{
         }});
         switch(twiz_sectiontovalid){
             case "twiz_shortcode_output":
-                if(($("#twiz_shortcode").val()== "") || ($("#twiz_shortcode").val() == "' .__('Please type a short code ID.', 'the-welcomizer').'")){
-                    $("#twiz_shortcode").attr({"value" : "' .__('Please type a short code ID.', 'the-welcomizer').'"});
+                if(($("#twiz_shortcode").val()== "") || ($("#twiz_shortcode").val() == "' .__('Please type a shortcode ID.', 'the-welcomizer').'")){
+                    $("#twiz_shortcode").attr({"value" : "' .__('Please type a shortcode ID.', 'the-welcomizer').'"});
                     $("#twiz_shortcode").css("color", "#BC0B0B");
                      twiz_validsection = false;
                 }           
@@ -2871,35 +2865,11 @@ class TwizAjax extends Twiz{
   function twizUnLockedAction(){
      twiz_ajax_locked = false;
      $("body").css("cursor", "default");
-  }  
-  var bind_twiz_ads = function(){  
-      $(".twiz-ads-img").hover(function (){   
-          $(this).stop().animate({opacity:1},50, function(){});
-      },function (){   
-          $(this).stop().animate({opacity:0.4},50, function(){});
-      });
   }';
     
-    if($this->admin_option[self::KEY_FOOTER_ADS] != "1"){
-      
-     $header .= '
-  function twiz_ads(){
-    $.post(ajaxurl, {
-    "action": "twiz_ajax_callback",
-    "twiz_nonce": "'.$this->nonce.'", 
-    "twiz_action": "'.parent::ACTION_GET_MAIN_ADS.'"
-    }, function(data){ 
-      $("#twiz_footer").html(data);
-      bind_twiz_ads();
-    });
-  }
-  twiz_ads();';
-  }else{
-  
     $header .= '
-$("#twiz_footer").html(\'<div\' + \' class="twiz-spacer-footer"></div><a\' + \' href="http://wordpress.org/support/view/plugin-reviews/the-welcomizer" target="_blank">'.__('Show your support by giving a 5 star rating review.', 'the-welcomizer').'</a>\');';
-  }
-  
+$("#twiz_footer").html(\'<div\' + \' class="twiz-spacer-footer"></div><a\' + \' href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2QYR9JFYT8D4Y&lc=CA&item_name=The%20Welcomizer&item_number=001&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">'.__('Donate to this plugin', 'the-welcomizer').'</a>\');';
+
   $header .= '
   $("#twiz_menu_" + twiz_current_section_id).attr({"class" : "twiz-menu twiz-menu-selected twiz-display-block"});
   $("#twiz_status_menu_" + twiz_current_section_id).attr({"class" : "twiz-status-menu twiz-display-block"});

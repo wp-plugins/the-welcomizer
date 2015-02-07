@@ -3,8 +3,8 @@ Contributors: sebwordpress
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2QYR9JFYT8D4Y&lc=CA&item_name=The%20Welcomizer&item_number=001&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
 Requires at least: 3.1
-Tested up to: 4.0.1
-Stable tag: 2.7.9.7
+Tested up to: 4.1
+Stable tag: 2.7.9.8
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog.
@@ -42,6 +42,14 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.7.9.8 =
+
+* Fixed Admin notice error.
+* Fixed Delete created directories.
+* Fixed Export notice.
+* Fixed missing translation.
+* Removed plugin footer ads.
 
 = 2.7.9.7 =
 
@@ -1392,6 +1400,10 @@ Enjoy!
 * First release!
 
 == Upgrade Notice ==
+
+= 2.7.9.8 =
+
+Bug fixes.
 
 = 2.7.9.7 =
 

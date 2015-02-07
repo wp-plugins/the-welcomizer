@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -130,7 +130,6 @@ class Twiz{
     const ACTION_ADMIN          = 'admin';
     const ACTION_SAVE_ADMIN     = 'adminsave';
     const ACTION_SAVE_SKIN      = 'skinsave';
-    const ACTION_GET_MAIN_ADS   = 'getmainads';
     const ACTION_GET_EVENT_LIST = 'geteventlist';
     const ACTION_GET_GROUP      = 'getgroup';
     const ACTION_SAVE_GROUP     = 'savegroup';
@@ -350,10 +349,7 @@ class Twiz{
     
     // Find & replace method constant key
     const KEY_PREFERED_METHOD = 'prefered_method';
-    
-    // Footer ads constant key
-    const KEY_FOOTER_ADS = 'footer_ads';    
-    
+
     // Promote this plugin constant key
     const KEY_PROMOTE_PLUGIN = 'promote_plugin';
     const KEY_PROMOTE_POSITION = 'promote_position';
@@ -480,7 +476,7 @@ class Twiz{
     const POS_BOTTOM_LEFT = 'Bottom - Left';
     const POS_BOTTOM_RIGHT = 'Bottom - Right';
     
-    // short code constants
+    // shortcode constants
     const SC_WP_UPLOAD_DIR = '[twiz_wp_upload_dir]';
     
     
@@ -898,8 +894,8 @@ class Twiz{
         $pluginDir = str_replace('/includes/','',$pluginDir);
 
         // Twiz variable configuration
-        $this->version    = '2.7.9.7';
-        $this->cssVersion = '2-7-9-6';
+        $this->version    = '2.7.9.8';
+        $this->cssVersion = '2-7-9-8';
         $this->dbVersion  = '3.7.7';
         $this->pluginUrl  = $pluginUrl;
         $this->pluginDir  = $pluginDir;
@@ -981,7 +977,6 @@ class Twiz{
     function getHTMLPrivacyQuestion(){
                 
             $input_fb = '<input type="checkbox" id="twiz_privacy_'.self::KEY_FB_LIKE.'" name="twiz_privacy_'.self::KEY_FB_LIKE.'" checked="checked"/>';
-            $input_ads = '<input type="checkbox" id="twiz_privacy_'.self::KEY_FOOTER_ADS.'" name="twiz_privacy_'.self::KEY_FOOTER_ADS.'" checked="checked"/>';
             
             $twiz_register_jquery = ($this->admin_option[self::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
             $input_jquery = '<input type="checkbox" id="twiz_'.self::KEY_REGISTER_JQUERY.'" name="twiz_'.self::KEY_REGISTER_JQUERY.'"'.$twiz_register_jquery.'/>';
@@ -997,7 +992,6 @@ class Twiz{
                     <tr><td colspan="2"></td></tr>
                     <tr><td class="twiz-admin-form-td-left">'.__('Authorize facebook like button inside the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing">'.$input_fb .'</td></tr>
                     <tr><td colspan="2"></td></tr>
-                    <tr><td class="twiz-admin-form-td-left">'.__('Authorize advertisements inside the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left">'.$input_ads .'</td></tr>
                     <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
                     <tr><td colspan="2" class="twiz-admin-form-td-left"><b>'.__('Basic Setting', 'the-welcomizer').'</b></td></tr>   
                     <tr><td colspan="2"></td></tr>   
@@ -1021,7 +1015,6 @@ jQuery(document).ready(function($) {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
         "twiz_action": "'.self::ACTION_PRIVACY_SAVE.'",
-         "twiz_privacy_'.self::KEY_FOOTER_ADS.'": $("#twiz_privacy_'.self::KEY_FOOTER_ADS.'").is(":checked"),
          "twiz_privacy_'.self::KEY_FB_LIKE.'": $("#twiz_privacy_'.self::KEY_FB_LIKE.'").is(":checked"),
          "twiz_'.self::KEY_REGISTER_JQUERY.'": $("#twiz_'.self::KEY_REGISTER_JQUERY.'").is(":checked")
         }, function(data){                
@@ -1136,81 +1129,7 @@ jQuery(document).ready(function($) {
         
         return $header;
     }
-    
-    function getHtmlAds(){
 
-
-        $extraspaces = '&nbsp;&nbsp;&nbsp;';
-        
-        $ads['1and1'] = '<a href="http://www.kqzyfj.com/click-5685922-10368019" target="_blank"><img src="http://www.tqlkg.com/image-5685922-10368019" width="88" height="31" alt="www.1and1.com" border="0" class="twiz-ads-img"/></a>';
-      
-        $ads['All-Battery'] = '<a href="http://www.jdoqocy.com/click-5685922-10603496" target="_blank"><img src="http://www.awltovhc.com/image-5685922-10603496" width="88" height="31" alt="All-Battery.com" border="0" class="twiz-ads-img"/></a>';
-
-        $ads['bluehost'] = '<a href="http://www.tkqlhce.com/click-5685922-10375664" target="_blank"><img src="http://www.awltovhc.com/image-5685922-10375664" width="88" height="31" alt="Unlimited Web Hosting from Bluehost for only $6.99!" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['DiscountWatchStore'] = '<a href="http://www.anrdoezrs.net/click-5685922-10833725" target="_blank"><img src="http://www.tqlkg.com/image-5685922-10833725" width="88" height="31" alt="Free Shipping on ALL orders! DiscountWatchStore.com" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['myhosting'] = '<a href="http://www.jdoqocy.com/click-5685922-10732579" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-10732579" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['mypcbackup'] = '<a href="http://www.kqzyfj.com/click-5685922-10892608" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10892608" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['PetFoodDirect'] = '<a href="http://www.dpbolvw.net/click-5685922-10854446" target="_blank"><img src="http://www.awltovhc.com/image-5685922-10854446" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['1800florals'] = '<a href="http://www.dpbolvw.net/click-5685922-9727319" target="_blank"><img src="http://www.tqlkg.com/image-5685922-9727319" width="88" height="31" alt="Order Flowers Online" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['SuperJeweler'] = '<a href="http://www.jdoqocy.com/click-5685922-10516612" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-10516612" width="88" height="31" alt="Shop SuperJeweler - Free Shipping & Free Gift!" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['AccessoryGeeks'] = '<a href="http://www.anrdoezrs.net/click-5685922-10446390" target="_blank"><img src="http://www.tqlkg.com/image-5685922-10446390" width="88" height="31" alt="Shop AccessoryGeeks.com!" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['Swimsuitsforall'] = '<a href="http://www.dpbolvw.net/click-5685922-10423344" target="_blank"><img src="http://www.awltovhc.com/image-5685922-10423344" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-       
-        $ads['Sears'] = '<a href="http://www.jdoqocy.com/click-5685922-10600144" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10600144" width="88" height="31" alt="Sears Canada" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['Lids'] = '<a href="http://www.jdoqocy.com/click-5685922-10416347" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-10416347" width="88" height="31" alt="lids.com - the #1 destination for headwear" border="0" class="twiz-ads-img"/></a>';
-
-        $ads['Floraqueen'] = '<a href="http://www.dpbolvw.net/click-5685922-11140868" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-11140868" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';        
-
-        $ads['GreaterGood'] = '<a href="http://www.jdoqocy.com/click-5685922-11412870" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-11412870" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';       
-
-        $ads['Herbspro'] = '<a href="http://www.tkqlhce.com/click-5685922-10694873" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-10694873" width="88" height="31" alt="HerbsPro Supplement Store" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['GravityDefyer'] = '<a href="http://www.kqzyfj.com/click-5685922-10659780" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10659780" width="88" height="31" alt="Gravity Defyer " border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['Max&Chloe'] = '<a href="http://www.tkqlhce.com/click-5685922-10504911" target="_blank"><img src="http://www.awltovhc.com/image-5685922-10504911" width="88" height="31" alt="Shop Max & Chloe" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['TeamExpress'] = '<a href="http://www.kqzyfj.com/click-5685922-10640744" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10640744" width="88" height="31" alt="Baseball Express" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['ConcordSupplies'] = '<a href="http://www.tkqlhce.com/click-5685922-11176156" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-11176156" width="88" height="31" alt="Top Products with Low Prices at ConcordSupplies.com!" border="0" class="twiz-ads-img"/></a>';       
-        
-        $ads['Laken'] = '<a href="http://www.kqzyfj.com/click-5685922-11490793" target="_blank"><img src="http://www.tqlkg.com/image-5685922-11490793" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>'; 
-        
-        $ads['MarketAmerica'] = '<a href="http://www.tkqlhce.com/click-5685922-10905862" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10905862" width="88" height="31" alt="Buy Market America Brands at Shop.com. Free Shipping on $99 Market America brand product purchase." border="0" class="twiz-ads-img"/></a>'; 
-      
-        $ads['Lunarpages'] = '<a href="http://www.jdoqocy.com/click-5685922-11662705" target="_blank"><img src="http://www.tqlkg.com/image-5685922-11662705" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['KitchenAid'] = '<a href="http://www.tkqlhce.com/click-5685922-10500011" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10500011" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-                
-        $ads['OASAP'] = '<a href="http://www.anrdoezrs.net/click-5685922-11742896" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-11742896" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['ForcesofNature'] = '<a href="http://www.kqzyfj.com/click-5685922-10951368" target="_blank"><img src="http://www.lduhtrp.net/image-5685922-10951368" width="88" height="31" alt="Treat Herpes Cold Sores & Fever Blisters" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['HouseofNutriton'] = '<a href="http://www.kqzyfj.com/click-5685922-10369787" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-10369787" width="88" height="31" alt="Popular VItamins " border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['InterNations'] = '<a href="http://www.tkqlhce.com/click-5685922-11805685" target="_blank"><img src="http://www.awltovhc.com/image-5685922-11805685" width="88" height="31" alt="InterNations.org" border="0" class="twiz-ads-img"/></a>';
-        
-        $ads['ModifyWatches'] = '<a href="http://www.jdoqocy.com/click-5685922-11654650" target="_blank"><img src="http://www.ftjcfx.com/image-5685922-11654650" width="88" height="31" alt="" border="0" class="twiz-ads-img"/></a>';
-        
-       
-        $ok = shuffle($ads);
-        
-        $html = '<div id="twiz_ads">'
-            . $ads[0] . $extraspaces  
-            . $ads[1]  
-            .'</div>';
-        
-        return $html;
-    }
-    
     private function getHtmlFooter(){
 
         $html = '
@@ -2869,7 +2788,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         $select .= '</optgroup>';
         
-        $select .= '<optgroup label="'.__('Short code', 'the-welcomizer').'">';
+        $select .= '<optgroup label="'.__('Shortcode', 'the-welcomizer').'">';
             
         foreach ( $this->array_css_shortcode as $value ){
                     
@@ -2899,7 +2818,7 @@ $("textarea[name^=twiz_options]").blur(function (){
               
         $select .= '</optgroup>';
        
-        $select .= '<optgroup label="'.__('Short code', 'the-welcomizer').'">';
+        $select .= '<optgroup label="'.__('Shortcode', 'the-welcomizer').'">';
             
         foreach ( $this->array_css_shortcode as $value ){
                     

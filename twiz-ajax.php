@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2014  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
+/*  Copyright 2015  Sébastien Laframboise  (email:sebastien.laframboise@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -53,12 +53,11 @@
         case Twiz::ACTION_PRIVACY_SAVE:
 
             $twiz_fb = esc_attr(trim($_POST['twiz_privacy_'.Twiz::KEY_FB_LIKE]));
-            $twiz_ads = esc_attr(trim($_POST['twiz_privacy_'.Twiz::KEY_FOOTER_ADS]));
             $twiz_jquery = esc_attr(trim($_POST['twiz_'.Twiz::KEY_REGISTER_JQUERY]));
                     
             $TwizAdmin = new TwizAdmin();
             
-            $htmlresponse = $TwizAdmin->SavePrivacyQuestion( $twiz_fb, $twiz_ads, $twiz_jquery );
+            $htmlresponse = $TwizAdmin->SavePrivacyQuestion( $twiz_fb, $twiz_jquery );
         
         break;
     
@@ -704,26 +703,12 @@
         
             $myTwiz  = new Twiz();
 
-
-
             $bullet = get_option('twiz_bullet');
-            
-
-
-
-
 
             if(!isset($bullet[$myTwiz->userid])) $bullet[$myTwiz->userid] =  '';
             $bullet[$myTwiz->userid] = Twiz::LB_ORDER_UP;
 
-
-
             $code = update_option('twiz_bullet', $bullet);
-            
-
-
-
-
 
             break;
             
@@ -731,25 +716,12 @@
 
             $myTwiz  = new Twiz();
 
-
             $bullet = get_option('twiz_bullet');
             
-
-
-
-
-
             if(!isset($bullet[$myTwiz->userid])) $bullet[$myTwiz->userid] =  '';
             $bullet[$myTwiz->userid] = Twiz::LB_ORDER_DOWN;
 
-
-
             $code = update_option('twiz_bullet', $bullet);
-
-
-
-
-
 
             break;
                         
@@ -760,22 +732,8 @@
             
             $myTwiz->skin[$myTwiz->userid] = Twiz::SKIN_PATH.$twiz_skin;
 
-
-
             $code = update_option('twiz_skin', $myTwiz->skin);
-            
 
-
-
-
-
-            break;
-            
-        case Twiz::ACTION_GET_MAIN_ADS:
-           
-            $myTwiz  = new Twiz();
-            $htmlresponse = $myTwiz->getHtmlAds();
-            
             break;
             
         case Twiz::ACTION_GET_EVENT_LIST:
