@@ -42,7 +42,7 @@ class TwizAdmin extends Twiz{
                                             ,'read'                 => __('Subscriber', 'the-welcomizer')
                                             ); 
                                             
-        $this->array_admin_only = array('manage_options' =>__('Administrator'));
+        $this->array_admin_only = array('manage_options' =>__('Administrator', 'the-welcomizer'));
         
         // Number of posts to display 
         $this->array_number_posts = array ('1'   => '1'
