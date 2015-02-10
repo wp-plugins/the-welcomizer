@@ -17,6 +17,8 @@ Quickly create animations for your WordPress blog.
 
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
+[Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Basic examples
+
 The login page is temporarily **UNDER MAINTENANCE**
 
 ∞
