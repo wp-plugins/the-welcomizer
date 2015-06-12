@@ -572,9 +572,9 @@ div #twiz_head_logo:hover {
     margin-left: 15px !important;
 }
 #twiz_blog_id {
-    height: 60px !important;
+    height: 67px !important;
     width: 317px !important;
-    min-height: 60px !important;
+    min-height: 67px !important;
     min-width: 317px !important;
 }
 #twiz_slc_multi_sections {
@@ -986,8 +986,10 @@ a.twiz-red:hover {
     width: 230px;
 }
 .twiz-slc-easing,
-#twiz_output_pos {
-    width: 85px;
+#twiz_output_pos,
+#twiz_output {
+    width: 104px;
+    font-size: 11px !important;
     position: relative;
     top: -3px;
 }
@@ -1000,9 +1002,6 @@ a.twiz-red:hover {
 .twiz-more-configs {
     font-size: 12px;
     padding-top: 5px;
-}
-.twiz-js-features  {
-    width: 230px;
 }
 .twiz-js-features a {
     line-height: 15px;

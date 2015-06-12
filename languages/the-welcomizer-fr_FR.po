@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-12 17:13-0500\n"
-"PO-Revision-Date: 2015-06-12 17:15-0500\n"
+"PO-Revision-Date: 2015-06-12 18:36-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -760,7 +760,7 @@ msgstr "CSS Supp."
 #: includes/twiz.findandreplace.class.php:265
 #: includes/twiz.view.class.php:380
 msgid "First Move"
-msgstr "Premier déplacement"
+msgstr "Première animation"
 
 #: includes/twiz.class.php:2543
 #: includes/twiz.class.php:2578
@@ -783,7 +783,7 @@ msgstr "Extra jQuery"
 #: includes/twiz.findandreplace.class.php:308
 #: includes/twiz.view.class.php:409
 msgid "Second Move"
-msgstr "Second déplacement"
+msgstr "Seconde animation"
 
 #: includes/twiz.class.php:2585
 #: includes/twiz.menu.class.php:1581
