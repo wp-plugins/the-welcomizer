@@ -402,7 +402,7 @@ class Twiz{
     const VISIBILITY_EVERYONE = 'everyone';
     const VISIBILITY_VISITORS = 'visitors';
     const VISIBILITY_MEMBERS = 'members';
-    const VISIBILITY_ADMIN = 'admin';
+    const VISIBILITY_ADMIN = 'admins';
     
     // Output constants  
     const OUTPUT_HEADER = 'wp_head';
