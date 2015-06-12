@@ -172,7 +172,27 @@ class TwizOutput extends Twiz{
                 }
                 
                 break;
+
+            case parent::VISIBILITY_ADMIN:
             
+                if ( is_user_logged_in() ){
+                    
+                    if( current_user_can( 'manage_options' ) ){
+                    
+                        return true;
+                    
+                    }else{
+                        
+                        return false;
+                    }
+                    
+                }else{
+                
+                    return false;
+                }
+                
+                break;
+                
             default: 
             
                 return false;

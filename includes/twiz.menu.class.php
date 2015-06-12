@@ -1232,6 +1232,7 @@ $("#twiz_section_name").focus();';
         if( !isset($twiz_visibility[parent::VISIBILITY_EVERYONE]) )$twiz_visibility[parent::VISIBILITY_EVERYONE] = '';
         if( !isset($twiz_visibility[parent::VISIBILITY_VISITORS]) )$twiz_visibility[parent::VISIBILITY_VISITORS] = '';
         if( !isset($twiz_visibility[parent::VISIBILITY_MEMBERS]) )$twiz_visibility[parent::VISIBILITY_MEMBERS] = '';
+        if( !isset($twiz_visibility[parent::VISIBILITY_ADMIN]) )$twiz_visibility[parent::VISIBILITY_ADMIN] = '';
         
         if(( $section_id != "" )
         and( $action != parent::ACTION_NEW ) ){
@@ -1267,6 +1268,7 @@ $("#twiz_section_name").focus();';
             $twiz_visibility[parent::VISIBILITY_EVERYONE] = ($sections[$section_id][parent::KEY_VISIBILITY] == parent::VISIBILITY_EVERYONE) ? ' selected="selected"' : '';
             $twiz_visibility[parent::VISIBILITY_VISITORS] = ($sections[$section_id][parent::KEY_VISIBILITY] == parent::VISIBILITY_VISITORS) ? ' selected="selected"' : '';
             $twiz_visibility[parent::VISIBILITY_MEMBERS] = ($sections[$section_id][parent::KEY_VISIBILITY] == parent::VISIBILITY_MEMBERS) ? ' selected="selected"' : '';
+            $twiz_visibility[parent::VISIBILITY_ADMIN] = ($sections[$section_id][parent::KEY_VISIBILITY] == parent::VISIBILITY_ADMIN) ? ' selected="selected"' : '';
  
             $twiz_shortcode = $sections[$section_id][parent::KEY_SHORTCODE];
             $twiz_shortcode_html = $sections[$section_id][parent::KEY_SHORTCODE_HTML];
@@ -1455,6 +1457,7 @@ $jsscript_close = '});
         <option value="'.parent::VISIBILITY_EVERYONE.'"'.$twiz_visibility[parent::VISIBILITY_EVERYONE].'>'.__('Everyone', 'the-welcomizer').'</option>  
         <option value="'.parent::VISIBILITY_VISITORS.'"'.$twiz_visibility[parent::VISIBILITY_VISITORS].'>'.__('Visitors Only', 'the-welcomizer').'</option>  
         <option value="'.parent::VISIBILITY_MEMBERS.'"'.$twiz_visibility[parent::VISIBILITY_MEMBERS].'>'.__('Members Only', 'the-welcomizer').'</option>  
+        <option value="'.parent::VISIBILITY_ADMIN.'"'.$twiz_visibility[parent::VISIBILITY_ADMIN].'>'.__('Admins Only', 'the-welcomizer').'</option>  
         </select>'.$this->getHTMLBlogIdList( $section_id, $action ).'</div></td></tr>';
         
         // section name
