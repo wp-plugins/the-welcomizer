@@ -17,12 +17,12 @@
 require_once(dirname(__FILE__).'/twiz.compatibility.class.php');  
 require_once(dirname(__FILE__).'/twiz.admin.class.php');
 require_once(dirname(__FILE__).'/twiz.menu.class.php');
-  
+
 class Twiz{
     
     // variable declaration
     public $skin;
-    public $userid;
+    public $user_id;
     public $dbVersion;
     public $cssVersion;
     public $pluginUrl;
@@ -31,6 +31,10 @@ class Twiz{
     public $toggle_option;
     public $admin_option;
     public $global_status;
+    public $hscroll_status;
+    public $BLOG_ID;
+    public $network_activated;
+    public $override_network_settings;
     public $privacy_question_answered;
     protected $table;
     protected $nonce;
@@ -39,9 +43,19 @@ class Twiz{
     protected $DEFAULT_SECTION;
     protected $import_path_message;
     protected $export_path_message;
-       
-    // section constants 
-    const DEFAULT_SECTION_HOME           = 'home';
+    
+    // default sections
+    protected $DEFAULT_SECTION_HOME;
+    protected $DEFAULT_SECTION_EVERYWHERE;
+    protected $DEFAULT_SECTION_ALL_CATEGORIES;
+    protected $DEFAULT_SECTION_ALL_PAGES;
+    protected $DEFAULT_SECTION_ALL_ARTICLES;
+
+    // All Sites constant
+    const ALL_SITES = 'all';
+    
+    // pure section constants 
+    const DEFAULT_SECTION_HOME           = 'home'; 
     const DEFAULT_SECTION_EVERYWHERE     = 'everywhere';
     const DEFAULT_SECTION_ALL_CATEGORIES = 'allcategories';
     const DEFAULT_SECTION_ALL_PAGES      = 'allpages';
@@ -130,12 +144,14 @@ class Twiz{
     const ACTION_ADMIN          = 'admin';
     const ACTION_SAVE_ADMIN     = 'adminsave';
     const ACTION_SAVE_SKIN      = 'skinsave';
+    const ACTION_GET_MAIN_ADS   = 'getmainads';
     const ACTION_GET_EVENT_LIST = 'geteventlist';
     const ACTION_GET_GROUP      = 'getgroup';
     const ACTION_SAVE_GROUP     = 'savegroup';
     const ACTION_COPY_GROUP     = 'copygroup';
     const ACTION_DELETE_GROUP   = 'deletegroup';
     const ACTION_PRIVACY_SAVE   = 'privacysave';
+    const ACTION_GET_VAR_DUMP   = 'getvardump';
     
     // jquery common options constants 
     const JQ_TOP               = 'top: \'10px\'';
@@ -195,6 +211,8 @@ class Twiz{
     const JQ_TRANSIT_ROTATE3D  = 'rotate3d: [1, 1, 0, 45]';
     const JQ_TRANSIT_SCALE     = 'scale: 2';
     const JQ_TRANSIT_SCALE2    = 'scale: [1.5, 1.5]';
+    const JQ_TRANSIT_SCALEX     = 'scaleX: 2';
+    const JQ_TRANSIT_SCALEY     = 'scaleY: 2';
     const JQ_TRANSIT_SKEWX     = 'skewX: \'10deg\'';
     const JQ_TRANSIT_SKEWY     = 'skewY: \'10deg\'';
 
@@ -233,6 +251,8 @@ class Twiz{
     const CS_TRANSIT_ROTATE3D    = '$(\'#sampleid\').css({ rotate3d: [1, 1, 0, 45] });';
     const CS_TRANSIT_SCALE       = '$(\'#sampleid\').css({ scale: 2 });';
     const CS_TRANSIT_SCALE2      = '$(\'#sampleid\').css({ scale: [1.5, 1.5] });';
+    const CS_TRANSIT_SCALEX      = '$(\'#sampleid\').css({ scaleX: 2 });';
+    const CS_TRANSIT_SCALEY      = '$(\'#sampleid\').css({ scaleY: 2 });';
     const CS_TRANSIT_SKEWX       = '$(\'#sampleid\').css({ skewX: \'10deg\' });';
     const CS_TRANSIT_SKEWY       = '$(\'#sampleid\').css({ skewY: \'10deg\' });';
     const CS_TRANSIT_TRANSITION  = '$(\'#sampleid\').transition({ opacity: 0.1, scale: 0.5, 1000, \'in\', function() { });';
@@ -242,6 +262,7 @@ class Twiz{
     
     // table field constants 
     const F_ID                     = 'id';
+    const F_BLOG_ID                = 'blog_id';
     const F_PARENT_ID              = 'parent_id';
     const F_EXPORT_ID              = 'export_id';
     const F_SECTION_ID             = 'section_id';
@@ -312,7 +333,11 @@ class Twiz{
     const KEY_COOKIE_SCOPE     = 'cookie_scope';
     const KEY_SHORTCODE        = 'shortcode';
     const KEY_SHORTCODE_HTML   = 'shortcode_html';
+    const KEY_MULTI_SECTIONS   = 'multi_sections';
     const KEY_CUSTOM_LOGIC     = 'custom_logic';
+    
+    // VARDUMP constants key
+    const KEY_DISPLAY_VAR_DUMP   = 'display_var_dump';    
     
     // Toggle constants keys
     const KEY_TOGGLE_GROUP   = 'toggle_group';
@@ -349,7 +374,7 @@ class Twiz{
     
     // Find & replace method constant key
     const KEY_PREFERED_METHOD = 'prefered_method';
-
+    
     // Promote this plugin constant key
     const KEY_PROMOTE_PLUGIN = 'promote_plugin';
     const KEY_PROMOTE_POSITION = 'promote_position';
@@ -377,6 +402,7 @@ class Twiz{
     const VISIBILITY_EVERYONE = 'everyone';
     const VISIBILITY_VISITORS = 'visitors';
     const VISIBILITY_MEMBERS = 'members';
+    
     // Output constants  
     const OUTPUT_HEADER = 'wp_head';
     const OUTPUT_FOOTER = 'wp_footer';
@@ -462,7 +488,6 @@ class Twiz{
     const EASEOUTBOUNCE   = 'easeOutBounce';
     const EASEINOUTBOUNCE = 'easeInOutBounce';
 
-
      // transit easing constants
     const TRANSIT_EASE   = 'ease';
     const TRANSIT_IN     = 'in';
@@ -478,7 +503,6 @@ class Twiz{
     
     // shortcode constants
     const SC_WP_UPLOAD_DIR = '[twiz_wp_upload_dir]';
-    
     
     // default position constants    
     const DEFAULT_STARTING_POSITION = self::POS_RELATIVE;
@@ -519,8 +543,7 @@ class Twiz{
                                          );
 
     // transit excluded extra easing
-    protected $array_transit_excluded_extra_easing = array(self::EASEINCUBIC
-                                                          ,self::EASEINELASTIC
+    protected $array_transit_excluded_extra_easing = array(self::EASEINELASTIC
                                                           ,self::EASEOUTELASTIC
                                                           ,self::EASEINOUTELASTIC
                                                           ,self::EASEINBOUNCE
@@ -566,12 +589,8 @@ class Twiz{
                                        );
 
     // section constants array
-    protected $array_default_section = array(self::DEFAULT_SECTION_HOME    
-                                            ,self::DEFAULT_SECTION_EVERYWHERE  
-                                            ,self::DEFAULT_SECTION_ALL_CATEGORIES
-                                            ,self::DEFAULT_SECTION_ALL_PAGES 
-                                            ,self::DEFAULT_SECTION_ALL_ARTICLES 
-                                            );
+    protected $array_default_section = array(); // __contruct()
+    protected $array_default_section_noblogid = array(); // __contruct()
 
     // on event array 
     private $array_on_event = array(self::EV_MANUAL
@@ -628,6 +647,7 @@ class Twiz{
                                           ,self::ACTION_FAR_FIND
                                           ,self::ACTION_IMPORT_FROM_SERVER
                                           ,self::ACTION_GET_VMENU
+                                          ,self::ACTION_GET_VAR_DUMP
                                           );
 
     // jQuery jquery-animate-css-rotate-scale code snippets array
@@ -667,6 +687,8 @@ class Twiz{
                                                        ,self::CS_TRANSIT_ROTATE3D
                                                        ,self::CS_TRANSIT_SCALE
                                                        ,self::CS_TRANSIT_SCALE2
+                                                       ,self::CS_TRANSIT_SCALEX
+                                                       ,self::CS_TRANSIT_SCALEY
                                                        ,self::CS_TRANSIT_SKEWX
                                                        ,self::CS_TRANSIT_SKEWY
                                                        ,self::CS_TRANSIT_TRANSITION
@@ -733,6 +755,8 @@ class Twiz{
                                                  ,self::JQ_TRANSIT_ROTATE3D
                                                  ,self::JQ_TRANSIT_SCALE
                                                  ,self::JQ_TRANSIT_SCALE2
+                                                 ,self::JQ_TRANSIT_SCALEX
+                                                 ,self::JQ_TRANSIT_SCALEY
                                                  ,self::JQ_TRANSIT_SKEWX
                                                  ,self::JQ_TRANSIT_SKEWY
                                                  );
@@ -764,10 +788,30 @@ class Twiz{
                                         );
 
     private $array_css_shortcode  = array(self::SC_WP_UPLOAD_DIR);
-                                
-    // XML MULTI-VERSION mapping values
+                               
+
+    // XML MULTI-VERSION mapping values. Do not modify values.
+    protected $array_twz_section_mapping = array(self::F_SECTION_ID          => 'SAA'
+                                                ,self::F_STATUS              => 'SBA'
+                                                ,self::KEY_VISIBILITY        => 'SCA'
+                                                ,self::F_BLOG_ID             => 'SDA'
+                                                ,self::KEY_TITLE             => 'SEA' 
+                                                ,self::KEY_SHORTCODE         => 'SFA'
+                                                ,self::KEY_SHORTCODE_HTML    => 'SGA'
+                                                ,self::KEY_MULTI_SECTIONS    => 'SHA'
+                                                ,self::KEY_CUSTOM_LOGIC      => 'SIA'
+                                                ,self::KEY_COOKIE_CONDITION  => 'SJA'
+                                                ,self::KEY_COOKIE_NAME       => 'SKA'
+                                                ,self::KEY_COOKIE_OPTION_1   => 'SLA'
+                                                ,self::KEY_COOKIE_OPTION_2   => 'SMA'
+                                                ,self::KEY_COOKIE_WITH       => 'SNA'
+                                                ,self::KEY_COOKIE_SCOPE      => 'SOA'
+                                                );
+                                                
+    // XML MULTI-VERSION mapping values. Do not modify values.
     protected $array_twz_mapping = array(self::F_EXPORT_ID                => 'AA'
-                                        ,self::F_SECTION_ID               => 'AH'
+                                        ,self::F_BLOG_ID                  => 'AB'
+                                        ,self::F_SECTION_ID               => 'AH' 
                                         ,self::F_PARENT_ID                => 'AP'
                                         ,self::F_STATUS                   => 'BB'
                                         ,self::F_TYPE                     => 'BL' 
@@ -820,10 +864,11 @@ class Twiz{
     // Fields array 
     protected $array_fields = array(self::F_ID          
                                    ,self::F_EXPORT_ID 
-                                   ,self::F_SECTION_ID          
-                                   ,self::F_PARENT_ID 
+                                   ,self::F_BLOG_ID                                     
+                                   ,self::F_SECTION_ID
+                                   ,self::F_PARENT_ID
                                    ,self::F_STATUS 
-                                   ,self::F_TYPE                                   
+                                   ,self::F_TYPE        
                                    ,self::F_LAYER_ID 
                                    ,self::F_ON_EVENT   
                                    ,self::F_LOCK_EVENT                                 
@@ -872,12 +917,11 @@ class Twiz{
      // fb like button
      const IFRAME_FB_LIKE = '<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FThe-Welcomizer%2F173368186051321&amp;send=false&amp;layout=button_count&amp;width=125&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20&amp;appId=24077487353" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:125px;" allowTransparency="true"></iframe>';
 
-             
     // upload import export path constant
     const IMPORT_PATH = '/twiz/';
     const EXPORT_PATH = 'export/';
     const BACKUP_PATH = 'backup/';
-  
+
     // import max file size constant 
     const IMPORT_MAX_SIZE = '2097152';
     
@@ -885,45 +929,191 @@ class Twiz{
     
         global $wpdb;
         
-        // PLUGIN URL
-        $pluginUrl = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-        $pluginUrl = str_replace('/includes/','',$pluginUrl);
-        
-        // PLUGIN DIR
-        $pluginDir = WP_PLUGIN_DIR.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-        $pluginDir = str_replace('/includes/','',$pluginDir);
-
-        // Twiz variable configuration
-        $this->version    = '2.7.9.9';
-        $this->cssVersion = '2-7-9-9';
-        $this->dbVersion  = '3.7.7';
-        $this->pluginUrl  = $pluginUrl;
-        $this->pluginDir  = $pluginDir;
-        $this->nonce      = wp_create_nonce('twiz-nonce');
-        $this->table      = $wpdb->prefix .'the_welcomizer';
-        $this->pluginName = __('The Welcomizer', 'the-welcomizer');
-        $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
-        $this->export_path_message = '/wp-content'.self::IMPORT_PATH.self::EXPORT_PATH;
-        
-        // Debug reset
-        // $code = update_option('twiz_privacy_question_answered', false);
-        // $code = update_site_option('twiz_privacy_question_answered', false);
-
-        $this->DEFAULT_MIN_ROLE_LEVEL = 'manage_options'; 
-        $this->skin = get_option('twiz_skin');
-        $this->admin_option = get_option('twiz_admin');
-        $this->toggle_option = get_option('twiz_toggle');
-        $this->DEFAULT_SECTION = get_option('twiz_setting_menu');
-        $this->global_status = get_option('twiz_global_status');
-        $this->privacy_question_answered = get_option('twiz_privacy_question_answered');
-        $this->userid = get_current_user_id(); // Used for UIsettings since v1.5
+        $this->dbVersion  = 'v2.8';
+        $this->table      = $wpdb->base_prefix .'the_welcomizer';
+        $this->BLOG_ID = get_current_blog_id();
+        $this->user_id = get_current_user_id(); 
         $this->uploadDir = wp_upload_dir();
-        $ok = $this->setUserSettings();
-        $ok = $this->setPositioningMethod();
+        
+        $this->override_network_settings = get_option('twiz_override_network_settings'); //  Main switch between get_option and get_site_option
+        $ok = $this->setDefaultSectionArrayValues();
+        
+        if( ( $this->user_id == '' ) or ($this->user_id == '0' ) ){ // for the front-end or installation only
+
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                $this->admin_option = get_option('twiz_admin');
+                $this->global_status = get_option('twiz_global_status');
+                $this->override_network_settings = $this->override_network_settings ; 
+                
+            }else{
+            
+                $this->admin_option = get_site_option('twiz_admin');
+                $this->global_status = get_site_option('twiz_global_status');    
+                $this->override_network_settings = '0';                
+            }
+                
+        }else{ // for the wp admin.
+
+            // PLUGIN URL
+            $pluginUrl = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+            $pluginUrl = str_replace('/includes/','',$pluginUrl);
+            
+            // PLUGIN DIR
+            $pluginDir = WP_PLUGIN_DIR.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+            $pluginDir = str_replace('/includes/','',$pluginDir);
+
+            // Twiz variable configuration
+            $this->version    = '2.8'; 
+            $this->cssVersion = '2-8';
+            $this->pluginUrl  = $pluginUrl;
+            $this->pluginDir  = $pluginDir;
+            $this->nonce      = wp_create_nonce('twiz-nonce');
+            $this->pluginName = __('The Welcomizer', 'the-welcomizer');
+            $this->import_path_message = '/wp-content'.self::IMPORT_PATH;
+            $this->export_path_message = '/wp-content'.self::IMPORT_PATH.self::EXPORT_PATH;
+            
+            // options - user settings - default section.
+            $ok = $this->setOptions();
+            $ok = $this->setUserSettings();
+        }
+    }
+        
+    protected function setOptions(){
+    
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $this->network_activated = get_option('twiz_network_activated');
+            $this->DEFAULT_MIN_ROLE_LEVEL = 'manage_options'; 
+            $this->skin = get_option('twiz_skin');
+            $this->hscroll_status = get_option('twiz_hscroll_status');
+            $this->admin_option = get_option('twiz_admin');
+            $this->toggle_option = get_option('twiz_toggle');
+            $this->DEFAULT_SECTION = get_option('twiz_setting_menu'); 
+            $this->global_status = get_option('twiz_global_status');
+            $this->privacy_question_answered = get_option('twiz_privacy_question_answered');
+            
+        }else{
+        
+            $this->network_activated = get_site_option('twiz_network_activated');
+            $this->DEFAULT_MIN_ROLE_LEVEL = 'manage_network'; 
+            $this->skin = get_site_option('twiz_skin');
+            $this->hscroll_status = get_site_option('twiz_hscroll_status');
+            $this->admin_option = get_site_option('twiz_admin');
+            $this->toggle_option = get_site_option('twiz_toggle');
+            $this->DEFAULT_SECTION = get_site_option('twiz_setting_menu'); 
+            $this->global_status = get_site_option('twiz_global_status');            
+            $this->privacy_question_answered = get_site_option('twiz_privacy_question_answered');
+
+        }
+        
+        return true;
     }
     
-    private function setPositioningMethod(){
-  
+    protected function setUserSettings(){
+
+        // Set DEFAULT_SECTION v2.8
+        if(!isset($this->DEFAULT_SECTION[$this->user_id])){
+
+            $this->DEFAULT_SECTION[$this->user_id] = '';
+            $this->DEFAULT_SECTION[$this->user_id] = $this->DEFAULT_SECTION_HOME;
+       
+        }
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);       
+            
+        }else{
+        
+            $code = update_site_option('twiz_setting_menu', $this->DEFAULT_SECTION);    
+        }  
+        
+        // Skin
+        if(!isset($this->skin[$this->user_id])) $this->skin[$this->user_id] = '';
+        if( $this->skin[$this->user_id] == '' ) {
+        
+            $this->skin[$this->user_id] =  self::SKIN_PATH . self::DEFAULT_SKIN; 
+             
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+            
+                $code = update_option('twiz_skin', $this->skin);    
+                
+            }else{
+            
+                $code = update_site_option('twiz_skin', $this->skin);   
+            }              
+        }
+              
+        // hscroll_status
+        if(!isset($this->hscroll_status[$this->user_id])) $this->hscroll_status[$this->user_id] = '';
+        if( $this->hscroll_status[$this->user_id] == '' ) {
+        
+            $this->hscroll_status[$this->user_id] =  '1'; 
+             
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+            
+                $code = update_option('twiz_hscroll_status', $this->hscroll_status);    
+                
+            }else{
+            
+                $code = update_site_option('twiz_hscroll_status', $this->hscroll_status);   
+            }              
+        }          
+        return true;
+    }    
+    
+    private function setDefaultSectionArrayValues(){
+
+            if( ( !is_multisite() ) or ( $this->override_network_settings  == '1' ) ){
+                
+                if( !is_multisite() ){
+                
+                    $this->DEFAULT_SECTION_HOME = self::DEFAULT_SECTION_HOME; 
+                    $this->DEFAULT_SECTION_EVERYWHERE = self::DEFAULT_SECTION_EVERYWHERE;
+                    $this->DEFAULT_SECTION_ALL_CATEGORIES = self::DEFAULT_SECTION_ALL_CATEGORIES;
+                    $this->DEFAULT_SECTION_ALL_PAGES = self::DEFAULT_SECTION_ALL_PAGES;
+                    $this->DEFAULT_SECTION_ALL_ARTICLES = self::DEFAULT_SECTION_ALL_ARTICLES; // allposts
+                    
+                }elseif( $this->override_network_settings == '1'){
+                
+                    $this->DEFAULT_SECTION_HOME = self::DEFAULT_SECTION_HOME.'_'.$this->BLOG_ID; 
+                    $this->DEFAULT_SECTION_EVERYWHERE = self::DEFAULT_SECTION_EVERYWHERE.'_'.$this->BLOG_ID;
+                    $this->DEFAULT_SECTION_ALL_CATEGORIES = self::DEFAULT_SECTION_ALL_CATEGORIES.'_'.$this->BLOG_ID;
+                    $this->DEFAULT_SECTION_ALL_PAGES = self::DEFAULT_SECTION_ALL_PAGES.'_'.$this->BLOG_ID;
+                    $this->DEFAULT_SECTION_ALL_ARTICLES = self::DEFAULT_SECTION_ALL_ARTICLES.'_'.$this->BLOG_ID; // allposts
+
+                }
+                
+            }else{ // single site
+
+                $this->DEFAULT_SECTION_HOME = self::DEFAULT_SECTION_HOME;
+                $this->DEFAULT_SECTION_EVERYWHERE = self::DEFAULT_SECTION_EVERYWHERE;
+                $this->DEFAULT_SECTION_ALL_CATEGORIES = self::DEFAULT_SECTION_ALL_CATEGORIES;
+                $this->DEFAULT_SECTION_ALL_PAGES = self::DEFAULT_SECTION_ALL_PAGES;
+                $this->DEFAULT_SECTION_ALL_ARTICLES = self::DEFAULT_SECTION_ALL_ARTICLES; // allposts
+            }
+             
+            // section constants array
+            $this->array_default_section = array($this->DEFAULT_SECTION_HOME    
+                                                ,$this->DEFAULT_SECTION_EVERYWHERE  
+                                                ,$this->DEFAULT_SECTION_ALL_CATEGORIES
+                                                ,$this->DEFAULT_SECTION_ALL_PAGES 
+                                                ,$this->DEFAULT_SECTION_ALL_ARTICLES 
+                                                );
+                                                
+            $this->array_default_section_noblogid = array(self::DEFAULT_SECTION_HOME    
+                                                ,self::DEFAULT_SECTION_EVERYWHERE  
+                                                ,self::DEFAULT_SECTION_ALL_CATEGORIES
+                                                ,self::DEFAULT_SECTION_ALL_PAGES 
+                                                ,self::DEFAULT_SECTION_ALL_ARTICLES 
+                                                );  
+        return true;
+    }
+   
+    protected function setPositioningMethod(){
+    
+        if( !isset($this->admin_option[self::KEY_POSITIONING_METHOD]) ) $this->admin_option[self::KEY_POSITIONING_METHOD] = '';
+ 
         if( $this->admin_option[self::KEY_POSITIONING_METHOD] == self::POS_TOP_LEFT ){
                 
             $this->label_y = __('Top', 'the-welcomizer');
@@ -938,70 +1128,41 @@ class Twiz{
         return true;
     }    
     
-    private function setUserSettings(){
-    
-       // toggle, updated <= v 1.5  
-       if(!isset($this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = '';
-       
-       if( $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] == '' ) {
-       
-            $this->toggle_option[$this->userid][self::KEY_PREFERED_METHOD] = 'twiz_far_simple';
-            $code = update_option('twiz_toggle', $this->toggle_option);
-        }
-            
-        // Selected menu, updated <= v 1.5  
-        $twiz_setting_menu_old = ( !is_array($this->DEFAULT_SECTION) ) ? $this->DEFAULT_SECTION : ''; // Migrate setting
-        $this->DEFAULT_SECTION = ( !is_array($this->DEFAULT_SECTION) ) ? '' : $this->DEFAULT_SECTION;
-        if(!isset($this->DEFAULT_SECTION[$this->userid])) $this->DEFAULT_SECTION[$this->userid] = '';
-        
-        if( $this->DEFAULT_SECTION[$this->userid] == '' ) {
-        
-            $this->DEFAULT_SECTION[$this->userid] = ($twiz_setting_menu_old != '') ? $twiz_setting_menu_old : self::DEFAULT_SECTION_HOME;
-            $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);
-        }
-        
-        // Skin, updated <= v 1.5  
-        $skin_old_format = ( !is_array($this->skin) ) ? $this->skin : ''; // migrate setting <= v1.5
-        $this->skin = ( !is_array($this->skin) ) ? '' : $this->skin;
-        $this->skin[$this->userid] = (!isset($this->skin[$this->userid]) ) ? '' : $this->skin[$this->userid] ;
-        
-        if(( $this->skin[$this->userid] == '' ) or ( $this->skin[$this->userid] == self::SKIN_PATH ) ) {
-        
-            $this->skin[$this->userid] = ( $skin_old_format != '' ) ? $skin_old_format : self::SKIN_PATH.self::DEFAULT_SKIN; // migrate setting <= v1.5  
-            $code = update_option('twiz_skin', $this->skin);
-        }
-        
-        return true;
-    }
-
     function getHTMLPrivacyQuestion(){
-                
-            $input_fb = '<input type="checkbox" id="twiz_privacy_'.self::KEY_FB_LIKE.'" name="twiz_privacy_'.self::KEY_FB_LIKE.'" checked="checked"/>';
+    
+            $checked = ' checked="checked"';
+            $input_jquery = '<input type="checkbox" id="twiz_privacy_'.self::KEY_REGISTER_JQUERY.'" name="twiz_privacy_'.self::KEY_REGISTER_JQUERY.'"'.$checked.'/>';
+            $input_fb = '<input type="checkbox" id="twiz_privacy_'.self::KEY_FB_LIKE.'" name="twiz_privacy_'.self::KEY_FB_LIKE.'"'.$checked.'/>';
+            $input_delete_all = '<input type="checkbox" id="twiz_privacy_'.self::KEY_DELETE_ALL.'" name="twiz_privacy_'.self::KEY_DELETE_ALL.'"/>';
+            $input_remove_created_directories = '<input type="checkbox" id="twiz_privacy_'.self::KEY_REMOVE_CREATED_DIRECTORIES.'" name="twiz_privacy_'.self::KEY_REMOVE_CREATED_DIRECTORIES.'"/>';
             
-            $twiz_register_jquery = ($this->admin_option[self::KEY_REGISTER_JQUERY] == '1') ? ' checked="checked"' : '';
-            $input_jquery = '<input type="checkbox" id="twiz_'.self::KEY_REGISTER_JQUERY.'" name="twiz_'.self::KEY_REGISTER_JQUERY.'"'.$twiz_register_jquery.'/>';
-        
             $html = '<div id="twiz_background"></div>
             <div id="twiz_master">
-                <div id="twiz_header" class="twiz-reset-nav twiz-corner-top">
-                    <span id="twiz_head_title">'.__('Your Privacy is important to Me.', 'the-welcomizer').'</span>
-                    <span id="twiz_head_version">'.__('Please answer these questions before continuing.', 'the-welcomizer').'</span>
+                <div id="twiz_header" class="twiz-reset-nav twiz-corner-top"><div id="twiz_head_logo"></div>
+                    <span id="twiz_head_title">'.__('Plugin Installation Setup', 'the-welcomizer').'</span>
+                    <span id="twiz_head_version">'.__('Please answer these questions to continue.', 'the-welcomizer').'</span>
                 </div>
                 <div>
                     <table class="twiz-table-form" cellspacing="0" cellpadding="0">
-                    <tr><td colspan="2"></td></tr>
-                    <tr><td class="twiz-admin-form-td-left">'.__('Authorize facebook like button inside the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing">'.$input_fb .'</td></tr>
-                    <tr><td colspan="2"></td></tr>
-                    <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
                     <tr><td colspan="2" class="twiz-admin-form-td-left"><b>'.__('Basic Setting', 'the-welcomizer').'</b></td></tr>   
                     <tr><td colspan="2"></td></tr>   
                     <tr><td class="twiz-admin-form-td-left">'.__('Include the jQuery default library on the front-end', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left">'.$input_jquery.'</td></tr>
                     <tr><td colspan="2"></td></tr>                    
+                    <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
+                    <tr><td colspan="2" class="twiz-admin-form-td-left"><b>'.__('Privacy Setting', 'the-welcomizer').'</b></td></tr>   
+                    <tr><td colspan="2"></td></tr>   
+                    <tr><td class="twiz-admin-form-td-left">'.__('Authorize facebook like button inside the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing">'.$input_fb .'</td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>          
+                    <tr><td colspan="2" class="twiz-admin-form-td-left"><b>'.__('Removal Settings', 'the-welcomizer').'</b></td></tr>   
+                    <tr><td colspan="2"></td></tr>   
+                    <tr><td class="twiz-admin-form-td-left">'.__('Delete all settings when disabling the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing">'.$input_delete_all .'</td></tr>                    
+                    <tr><td class="twiz-admin-form-td-left">'.__('Delete created directories when disabling the plugin', 'the-welcomizer').':</td><td class="twiz-form-td-right twiz-form-small twiz-text-left"><label for="twiz_extra_easing">'.$input_remove_created_directories .'</td></tr>
+                    <tr><td colspan="2"></td></tr>
                     <tr><td class="twiz-td-save" colspan="2"><span id="twiz_privacy_save_img_box" class="twiz-loading-gif-save"></span><input type="button" name="twiz_privacy_save" id="twiz_privacy_save" class="button-primary" value="'.__('Continue', 'the-welcomizer').'"/></td></tr>
                     </table>
                 </div>
-                
-                <div class="twiz-clear"></div><div id="twiz_footer" class="twiz-reset-nav twiz-corner-bottom"><div class="twiz-spacer-footer"></div>'.__('You will be able to access these settings anytime under the Admin section.', 'the-welcomizer').'</div>
+                <div class="twiz-clear"></div><div id="twiz_footer" class="twiz-reset-nav twiz-corner-bottom twiz-green"><div class="twiz-spacer-footer"></div>'.__('You will be able to access these settings anytime under the Admin section.', 'the-welcomizer').'</div>
             </div>';
             
         $jquery = '<script>
@@ -1015,8 +1176,10 @@ jQuery(document).ready(function($) {
         "action": "twiz_ajax_callback",
         "twiz_nonce": "'.$this->nonce.'", 
         "twiz_action": "'.self::ACTION_PRIVACY_SAVE.'",
+         "twiz_privacy_'.self::KEY_REGISTER_JQUERY.'": $("#twiz_privacy_'.self::KEY_REGISTER_JQUERY.'").is(":checked"),
          "twiz_privacy_'.self::KEY_FB_LIKE.'": $("#twiz_privacy_'.self::KEY_FB_LIKE.'").is(":checked"),
-         "twiz_'.self::KEY_REGISTER_JQUERY.'": $("#twiz_'.self::KEY_REGISTER_JQUERY.'").is(":checked")
+         "twiz_privacy_'.self::KEY_DELETE_ALL.'": $("#twiz_privacy_'.self::KEY_DELETE_ALL.'").is(":checked"),
+         "twiz_privacy_'.self::KEY_REMOVE_CREATED_DIRECTORIES.'": $("#twiz_privacy_'.self::KEY_REMOVE_CREATED_DIRECTORIES.'").is(":checked")
         }, function(data){                
             $("#twiz_master").html(data);
         }).fail(function(){ alert("'.__('An error occured, please try again.', 'the-welcomizer').'"); });
@@ -1027,6 +1190,7 @@ jQuery(document).ready(function($) {
 
         return $html.$jquery;
     }
+
     function twizIt(){
 
         $html = '<div id="twiz_plugin">';
@@ -1046,13 +1210,20 @@ jQuery(document).ready(function($) {
             $html .= '<div id="twiz_master">';
             
             $html .= $this->getHtmlSkinBullets();
-            $html .= $this->getHtmlGlobalstatus();
+            $html .= $this->getHtmlGlobalStatus();
+            
+            if( is_multisite() ){
+            
+                $html .= $this->getHtmlNetworkStatus();
+            }
+            
             $html .= $this->getHtmlHeader();
             
             $myTwizMenu = new TwizMenu();
+            
             $html .= '<div><div id="twiz_menu" class="twiz-reset-nav"><div id="twiz_ajax_menu">'.$myTwizMenu->getHtmlMenu().'</div>';
-            $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu" class="twiz-noborder-right" title="'.__('Browse all sections', 'the-welcomizer').'">&gt;&gt;</div>';
-            $html .= '<div id="twiz_add_menu" class="twiz-noborder-right" title="'.__('Create a new section', 'the-welcomizer').'">+</div></div>';
+            $html .= '<div id="twiz_option_menu"><div id="twiz_more_menu" class="twiz-noborder-right twiz-icon-menu" title="'.__('Browse all sections', 'the-welcomizer').'"></div>';
+            $html .= '<div id="twiz_add_menu" class="twiz-noborder-right twiz-icon-plus" title="'.__('Create a new section', 'the-welcomizer').'"></div></div>';
             $html .= '<div id="twiz_loading_menu"><div class="twiz-menu twiz-noborder-right"><div class="twiz-loading-bar"></div></div></div>';
             $html .= '<div class="twiz-clear"></div></div>';
             $html .= '<div id="twiz_sub_container"></div>';
@@ -1063,8 +1234,8 @@ jQuery(document).ready(function($) {
             $html .= $this->getHtmlFooter();
             $html .= $myTwizMenu->getHtmlFooterMenu();
             
-            $html .= '</div>';
-
+            $html .= '</div>';         
+            $html .= '<div id="twiz_var_dump" title="'.__('Click to Refresh', 'the-welcomizer').'">'.$myTwizMenu->getVarDump().'</div>';
             $html .= $myTwizMenu->getHtmlVerticalMenu();
             $html .= '<div id="twiz_view_box"></div><div id="twiz_view_image"></div>';
 
@@ -1076,14 +1247,13 @@ jQuery(document).ready(function($) {
         }
         
         $html .= '</div>';
-        
-   
+
         return $html;
     }
     
     function getPromotePluginImageLink(){
     
-        if($this->admin_option[self::KEY_PROMOTE_PLUGIN] == '1'){
+        if( $this->admin_option[self::KEY_PROMOTE_PLUGIN] == '1' ){
         
             switch( $this->admin_option[self::KEY_PROMOTE_POSITION] ){
 
@@ -1116,14 +1286,20 @@ jQuery(document).ready(function($) {
         return '<div id="twiz_hscroll_status" class="twiz-corner-bottom">'.$this->getImgHScrollStatus().'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div></div>';
     }
     
-    private function getHtmlGlobalstatus(){
+    private function getHtmlGlobalStatus(){
     
         return '<div id="twiz_global_status" class="twiz-corner-top">'.$this->getImgGlobalStatus().'</div>';
     }
     
+    private function getHtmlNetworkStatus(){
+    
+        return '<div id="twiz_network_status" class="twiz-icon-network" title="'.__('Connected to the network','the-welcomizer').'"></div>';
+    }    
+    
+    
     private function getHtmlHeader(){
         
-        $header = '<div id="twiz_header" class="twiz-reset-nav twiz-corner-top"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><div id="twiz_head_version"><a href="'.$this->pluginUrl.'/readme.txt" target="_blank">'.__('Version', 'the-welcomizer').' '.$this->version.'</a></div> 
+        $header = '<div id="twiz_header" class="twiz-reset-nav twiz-corner-top"><div id="twiz_head_logo"></div><span id="twiz_head_title"><a href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.$this->pluginName.'</a></span><div id="twiz_head_version"><a href="'.$this->pluginUrl.'/readme.txt" target="_blank">'.__('Version', 'the-welcomizer').' '.$this->version.'</a></div>
 </div><div class="twiz-clear"></div>
     ';
         
@@ -1140,6 +1316,41 @@ jQuery(document).ready(function($) {
         return $html;
     }    
     
+    protected function getSectionBlogId( $section_id = ''){
+    
+        $myTwizMenu = new TwizMenu();
+
+        if( in_array($section_id, $myTwizMenu->array_default_section) ){
+        
+            $sections = $myTwizMenu->array_hardsections; // default sections
+            
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                $blogid_array = array($this->BLOG_ID); 
+            
+            }else{
+            
+                $blogid_array = $sections[$section_id][self::F_BLOG_ID];            
+            }
+            
+        }else{
+        
+            $sections = $myTwizMenu->array_sections;
+            
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                $blogid_array = array($this->BLOG_ID); 
+            
+            }else{
+            
+                $blogid_array = $sections[$section_id][self::F_BLOG_ID];            
+            }
+        }
+  
+     
+        return $blogid_array;  
+    }
+    
     protected function createHtmlList( $listarray = array(), $saved_id = '', $parent_id = '', $action = '' ){ 
 
         if( count($listarray) == 0 ){return false;}
@@ -1149,13 +1360,22 @@ jQuery(document).ready(function($) {
         $closediv = '';
         $rowcolor = '';
         $saveeffect = '';
-        $twiz_order_by = get_option('twiz_order_by');
-        $twiz_order_by[$this->userid] = (!isset($twiz_order_by[$this->userid])) ? '' : $twiz_order_by[$this->userid];
-        $twiz_order_by_status = ($twiz_order_by[$this->userid] == self::F_STATUS)? $bullet : '' ;
-        $twiz_order_by_on_event = ($twiz_order_by[$this->userid] == self::F_ON_EVENT)? $bullet : '' ;
-        $twiz_order_by_element = ($twiz_order_by[$this->userid] == self::F_LAYER_ID)? $bullet : '' ;
-        $twiz_order_by_delay = ($twiz_order_by[$this->userid] == self::F_START_DELAY)? $bullet : '' ;
-        $twiz_order_by_duration = ($twiz_order_by[$this->userid] == self::F_DURATION)? $bullet : '' ;
+        
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $twiz_order_by = get_option('twiz_order_by');      
+            
+        }else{
+        
+            $twiz_order_by = get_site_option('twiz_order_by');   
+        }         
+
+        $twiz_order_by[$this->user_id] = (!isset($twiz_order_by[$this->user_id])) ? '' : $twiz_order_by[$this->user_id];
+        $twiz_order_by_status = ($twiz_order_by[$this->user_id] == self::F_STATUS)? $bullet : '' ;
+        $twiz_order_by_on_event = ($twiz_order_by[$this->user_id] == self::F_ON_EVENT)? $bullet : '' ;
+        $twiz_order_by_element = ($twiz_order_by[$this->user_id] == self::F_LAYER_ID)? $bullet : '' ;
+        $twiz_order_by_delay = ($twiz_order_by[$this->user_id] == self::F_START_DELAY)? $bullet : '' ;
+        $twiz_order_by_duration = ($twiz_order_by[$this->user_id] == self::F_DURATION)? $bullet : '' ;
         
         $_POST['twiz_action'] = (!isset($_POST['twiz_action'])) ? '' : $_POST['twiz_action'];
         
@@ -1193,13 +1413,13 @@ jQuery(document).ready(function($) {
         }
         
         // show element
-        // $("#twiz_export").fadeIn("fast");
         $jsscript_show = '<script>
  //<![CDATA[
  jQuery(document).ready(function($) {
         $("#twiz_loading_menu").html("");
         $(".twiz-status-menu").css("visibility","visible");
         $("#twiz_add_menu").fadeIn("fast");
+        $("#twiz_export").fadeIn("fast");
         twiz_parent_id = "'.$parent_id.'";
 '.$saveeffect.'     
 });
@@ -1243,10 +1463,10 @@ jQuery(document).ready(function($) {
                 
                 $exid = ( $exid == '' ) ? 'can' :$exid;
             
-               if(!isset($this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exid])) $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exid] = '';
+               if(!isset($this->toggle_option[$this->user_id][self::KEY_TOGGLE_GROUP][$exid])) $this->toggle_option[$this->user_id][self::KEY_TOGGLE_GROUP][$exid] = '';
                 
    
-                if( $this->toggle_option[$this->userid][self::KEY_TOGGLE_GROUP][$exid] == '1' ) {
+                if( $this->toggle_option[$this->user_id][self::KEY_TOGGLE_GROUP][$exid] == '1' ) {
                 
                     $hide = '';
                     $toggleimg = 'twiz-minus';
@@ -1445,7 +1665,7 @@ jQuery(document).ready(function($) {
         if ( $handle = @opendir($this->pluginDir .self::SKIN_PATH ) ) {
         
             while ( false !== ( $file = readdir($handle) ) ) {
-            
+
                 if ( $file != "." && $file != ".." && $file != "index.html" ) {
                 
                     $dirarray[] = $file;
@@ -1473,10 +1693,10 @@ jQuery(document).ready(function($) {
                if( !isset($pathinfo['extension']) ) $pathinfo['extension'] = '' ;
                $ext = $pathinfo['extension'];
         
-                if ( ( $file != "." && $file != ".." ) && (in_array(strtolower($ext), $extensions) ) ) {
+               if ( ( $file != "." && $file != ".." ) && (in_array(strtolower($ext), $extensions) ) ) {
                 
-                    $filearray[] = $file;
-                }
+                   $filearray[] = $file;
+               }
             }
             
             closedir($handle);
@@ -1571,7 +1791,7 @@ jQuery(document).ready(function($) {
     
         return false;
     }
-        
+
     function exportIdExists( $exportid = '' ){ 
     
         global $wpdb;
@@ -1771,12 +1991,15 @@ jQuery(document).ready(function($) {
         $showexport = '';
         $toggleoptions = '';
         $lbl_action = '';
+        $twiz_blog_id = '';
+        
         if(!isset($_POST['twiz_action'])) $_POST['twiz_action'] = '';
         if(!isset($_POST['twiz_stay'])) $_POST['twiz_stay'] = '';
         $twiz_stay = esc_attr(trim($_POST['twiz_stay']));
                 
-        switch( $action ){
+        $ok = $this->setPositioningMethod();
         
+        switch( $action ){
             case self::ACTION_NEW:
             
                     $lbl_action = __('Add New', 'the-welcomizer');
@@ -1788,7 +2011,6 @@ jQuery(document).ready(function($) {
                     $lbl_action = __('Edit', 'the-welcomizer');
                     if(!$data = $this->getRow($id)){return false;}
                     $showexport = '$("#twiz_export").fadeIn("fast");';
-
                 break;
                 
             case self::ACTION_COPY:
@@ -2206,7 +2428,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         $show_add_move_element_a = ($data[self::F_MOVE_ELEMENT_A] == '')? '' : ' class="twiz-display-none"';
         $show_add_move_element_b = ($data[self::F_MOVE_ELEMENT_B] == '')? '' : ' class="twiz-display-none"';
         
-        if( $data[self::F_DURATION_B] == '' ) {
+        if( $data[self::F_DURATION_B] == '' ){
         
             $hide_duration_b = 'twiz-display-none';
             $show_more_duration = '';
@@ -2318,7 +2540,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         $htmlform .= '<input class="twiz-input twiz-input-small twiz-input-focus" id="twiz_'.self::F_MOVE_LEFT_POS_A.'" name="twiz_'.self::F_MOVE_LEFT_POS_A.'" type="text" value="'.$data[self::F_MOVE_LEFT_POS_A].'" maxlength="5"/> '.$this->getHtmlFormatList(self::F_MOVE_LEFT_POS_FORMAT_A, $data[self::F_MOVE_LEFT_POS_FORMAT_A]).'</td></tr><tr><td></td><td colspan="2"><a id="twiz_more_options_a"  class="twiz-more-configs">'.$lbl_more_options.' &#187;</a></td></tr></table>
             <table class="twiz-table-more-options">
                 <tr><td><hr class="twiz-hr twiz-corner-all"></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input twiz-input-large twiz-input-focus" id="twiz_'.self::F_OPTIONS_A.'" name="twiz_'.self::F_OPTIONS_A.'" type="text" >'.$data[self::F_OPTIONS_A].'</textarea></div></td></tr>
-                <tr><td id="twiz_td_full_option_a" class="twiz-td-picklist twiz-float-left"><a id="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
+                <tr><td id="twiz_td_full_option_a" class="twiz-td-picklist twiz-float-left"><a id="twiz_choose_options_a">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>      
                 <tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>        
                 <tr><td class="twiz-caption">'.__('Extra jQuery', 'the-welcomizer').'</td></tr><tr><td ><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input twiz-input-large twiz-input-focus" id="twiz_'.self::F_EXTRA_JS_A.'" name="twiz_'.self::F_EXTRA_JS_A.'" type="text">'.$data[self::F_EXTRA_JS_A].'</textarea></div>'.$this->getHtmlJSFeatures($id, 'javascript_a', $section_id).'</td></tr>
         </table>
@@ -2353,7 +2575,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         </table>
         <table class="twiz-table-more-options">
             <tr><td><hr class="twiz-hr twiz-corner-all"></td></tr><tr><td class="twiz-caption">'.__('Personalized options', 'the-welcomizer').'</td></tr><tr><td><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input twiz-input-large twiz-input-focus" id="twiz_'.self::F_OPTIONS_B.'" name="twiz_'.self::F_OPTIONS_B.'" type="text">'.$data[self::F_OPTIONS_B].'</textarea></div></td></tr>
-            <tr><td id="twiz_td_full_option_b" class="twiz-td-picklist twiz-float-left"><a id="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>
+            <tr><td id="twiz_td_full_option_b" class="twiz-td-picklist twiz-float-left"><a id="twiz_choose_options_b">'.__('Pick from List', 'the-welcomizer').' &#187;</a></td></tr>     
             <tr><td><hr class="twiz-hr twiz-corner-all"></td></tr>
             <tr><td class="twiz-caption">'.__('Extra jQuery', 'the-welcomizer').'</td></tr><tr><td ><div class="twiz-wrap-input-large"><textarea onclick="textarea.expand(this)" rows="1" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input twiz-input-large twiz-input-focus" id="twiz_'.self::F_EXTRA_JS_B.'" name="twiz_'.self::F_EXTRA_JS_B.'" type="text" value="">'.$data[self::F_EXTRA_JS_B].'</textarea></div>'.$this->getHtmlJSFeatures($id, 'javascript_b', $section_id).'</td></tr>
         </table>
@@ -2396,21 +2618,34 @@ $("textarea[name^=twiz_options]").blur(function (){
         global $wpdb;
         
         $concat_orderby = "";
-        $twiz_order_by = get_option('twiz_order_by');
-        $twiz_order_by = ( !is_array($twiz_order_by) ) ? '' : $twiz_order_by;
-        $twiz_order_by[$this->userid] = (!isset($twiz_order_by[$this->userid])) ? '' : $twiz_order_by[$this->userid];
+
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $twiz_order_by = get_option('twiz_order_by');    
+            
+        }else{
+        
+            $twiz_order_by = get_site_option('twiz_order_by');  
+
+        }
+        if( ( $this->user_id != '' ) and ( $this->user_id != 0 ) ){  // from front-end
+        
+            if(!isset($twiz_order_by[$this->user_id])){ $twiz_order_by[$this->user_id] = ''; }
+            if($twiz_order_by[$this->user_id] == ''){ $twiz_order_by[$this->user_id] = self::F_ON_EVENT; }
+        
+        }
         
           switch($orderby){
         
             case '':
 
-                if( $twiz_order_by[$this->userid] != '' ){
+                if( ( $this->user_id != '' ) and ( $this->user_id != 0 ) ){ // not for front-end visitors
                 
-                    return $this->getListArray( $where , $twiz_order_by[$this->userid]);
+                    return $this->getListArray( $where , $twiz_order_by[$this->user_id]);
                     
                 }else{
                 
-                    return $this->getListArray( $where , self::F_ON_EVENT);
+                    return $this->getListArray( $where , self::F_ON_EVENT); // << for front-end
                 }
                 
                 break;
@@ -2421,9 +2656,17 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
                 $concat_orderby = ", '.', c.".self::F_ON_EVENT.""; 
                 
-                $twiz_order_by[$this->userid] = self::F_ON_EVENT;
-                $code = update_option('twiz_order_by', $twiz_order_by);
-   
+                $twiz_order_by[$this->user_id] = self::F_ON_EVENT;
+                
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+                
+                    $code = update_option('twiz_order_by', $twiz_order_by);     
+                    
+                }else{
+                
+                    $code = update_site_option('twiz_order_by', $twiz_order_by);
+                }                     
+
                 break;
                 
             case self::F_STATUS:
@@ -2432,8 +2675,16 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
                 $concat_orderby = ", '.', c.".self::F_STATUS.""; 
                 
-                $twiz_order_by[$this->userid] = self::F_STATUS;
-                $code = update_option('twiz_order_by', $twiz_order_by);
+                $twiz_order_by[$this->user_id] = self::F_STATUS;
+                
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+                
+                    $code = update_option('twiz_order_by', $twiz_order_by);     
+                    
+                }else{
+                
+                    $code = update_site_option('twiz_order_by', $twiz_order_by);
+                }    
                 
                 break;
                 
@@ -2443,8 +2694,16 @@ $("textarea[name^=twiz_options]").blur(function (){
                 
                 $concat_orderby = ", '.', c.".self::F_LAYER_ID.", '.', c.".self::F_TYPE.", '.', c.".self::F_START_DELAY.", '.', CAST(total_duration AS SIGNED), '.', IF(c.".self::F_ON_EVENT." = '','0','1'), '.', IF(c.".self::F_ON_EVENT." = 'Manually','0','1')";
                 
-                $twiz_order_by[$this->userid] = self::F_LAYER_ID;
-                $code = update_option('twiz_order_by', $twiz_order_by);
+                $twiz_order_by[$this->user_id] = self::F_LAYER_ID;
+                
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+                
+                    $code = update_option('twiz_order_by', $twiz_order_by);     
+                    
+                }else{
+                
+                    $code = update_site_option('twiz_order_by', $twiz_order_by);
+                }    
                 
                 break;
                 
@@ -2454,8 +2713,16 @@ $("textarea[name^=twiz_options]").blur(function (){
 
                $concat_orderby = ", '.', '0'"; 
                  
-                $twiz_order_by[$this->userid] = self::F_START_DELAY;
-                $code = update_option('twiz_order_by', $twiz_order_by);
+                $twiz_order_by[$this->user_id] = self::F_START_DELAY;
+                
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+                
+                    $code = update_option('twiz_order_by', $twiz_order_by);     
+                    
+                }else{
+                
+                    $code = update_site_option('twiz_order_by', $twiz_order_by);
+                }    
                 
                 break;
                 
@@ -2465,8 +2732,16 @@ $("textarea[name^=twiz_options]").blur(function (){
 
                 $concat_orderby = ", '.', '0'"; 
                 
-                $twiz_order_by[$this->userid] = self::F_DURATION;
-                $code = update_option('twiz_order_by', $twiz_order_by);
+                $twiz_order_by[$this->user_id] = self::F_DURATION;
+                
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+                
+                    $code = update_option('twiz_order_by', $twiz_order_by);     
+                    
+                }else{
+                
+                    $code = update_site_option('twiz_order_by', $twiz_order_by);
+                }    
 
                 break;
         }
@@ -2491,15 +2766,14 @@ $("textarea[name^=twiz_options]").blur(function (){
                         and (".self::F_DURATION_B." = '')),".self::F_DURATION.",'0') AS duration_x FROM ".$this->table.") t " . $where . $orderby;   
                        
         $rows = $wpdb->get_results($sql, ARRAY_A);
-        
-        return $rows;
-        
-    }
 
+        return $rows;
+    }
+    
     function getHtmlList( $section_id = '', $saved_id = '', $orderby = '', $parent_id = '', $action = '' ){ 
     
         $container = '';
-        $section_id = ( $section_id == '' ) ? $this->DEFAULT_SECTION[$this->userid] : $section_id;
+        $section_id = ( $section_id == '' ) ? $this->DEFAULT_SECTION[$this->user_id] : $section_id;
         $code = $this->updateSettingMenu( $section_id );
         
         // from the menu 
@@ -2548,7 +2822,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 
             case 'hscroll':
                 
-                $title = __('Horizontal auto scrolling', 'the-welcomizer');
+                $title = __('Automatic horizontal scrolling', 'the-welcomizer');
                 break;
                 
             default:
@@ -3048,7 +3322,7 @@ $("textarea[name^=twiz_options]").blur(function (){
   
         return $id;
     }
-    
+
     function getUniqid(){
 
         $uniqid = substr( md5( uniqid( mt_rand(), true ) ) , 0, 6 );
@@ -3082,12 +3356,20 @@ $("textarea[name^=twiz_options]").blur(function (){
     
         if( $section_id == '' ){
         
-            $section_id = self::DEFAULT_SECTION_HOME;
+            // DEFAULT_SECTION INIT
+            $section_id = $this->DEFAULT_SECTION_HOME;
         }
         
-        $this->DEFAULT_SECTION[$this->userid] = $section_id;
-        
-        $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);
+        $this->DEFAULT_SECTION[$this->user_id] = $section_id;
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $code = update_option('twiz_setting_menu', $this->DEFAULT_SECTION);
+            
+        }else{
+
+            $code = update_site_option('twiz_setting_menu', $this->DEFAULT_SECTION);
+    
+        }         
         
         return true;
     }
@@ -3130,6 +3412,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
             $action = self::ACTION_EDIT;
         }
+        
         $_POST['twiz_'.self::F_EXPORT_ID] = (!isset($_POST['twiz_'.self::F_EXPORT_ID])) ? '' : $_POST['twiz_'.self::F_EXPORT_ID];
         $_POST['twiz_'.self::F_PARENT_ID] = (!isset($_POST['twiz_'.self::F_PARENT_ID])) ? '' : $_POST['twiz_'.self::F_PARENT_ID];
         $_POST['twiz_'.self::F_STATUS] = (!isset($_POST['twiz_'.self::F_STATUS])) ? '' : $_POST['twiz_'.self::F_STATUS];
@@ -3190,7 +3473,10 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         $twiz_parent_id = esc_attr(trim($_POST['twiz_'.self::F_PARENT_ID]));
         $twiz_section_id = esc_attr(trim($_POST['twiz_'.self::F_SECTION_ID]));
-         
+
+        $twiz_blog_id = str_replace("\"", "", json_encode( $this->getSectionBlogId( $twiz_section_id ) )); // not from post
+        $twiz_blog_id = str_replace("'", "", $twiz_blog_id);
+        
         $twiz_type = esc_attr(trim($_POST['twiz_'.self::F_TYPE]));
         
         $twiz_layer_id = esc_attr(trim($_POST['twiz_'.self::F_LAYER_ID]));
@@ -3204,17 +3490,18 @@ $("textarea[name^=twiz_options]").blur(function (){
         $twiz_move_element_b = esc_attr(trim($_POST['twiz_'.self::F_MOVE_ELEMENT_B]));
         
         $twiz_start_top_pos   = esc_attr(trim($_POST['twiz_'.self::F_START_TOP_POS]));
-        $twiz_start_left_pos  = esc_attr(trim($_POST['twiz_'.self::F_START_LEFT_POS]));        
+        $twiz_start_left_pos  = esc_attr(trim($_POST['twiz_'.self::F_START_LEFT_POS]));
         $twiz_move_top_pos_a  = esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_A]));
         $twiz_move_left_pos_a = esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_A]));
         $twiz_move_top_pos_b  = esc_attr(trim($_POST['twiz_'.self::F_MOVE_TOP_POS_B]));
         $twiz_move_left_pos_b = esc_attr(trim($_POST['twiz_'.self::F_MOVE_LEFT_POS_B]));
-        $twiz_start_top_pos   = ($twiz_start_top_pos=='') ? 'NULL' : $twiz_start_top_pos;
-        $twiz_start_left_pos  = ($twiz_start_left_pos=='') ? 'NULL' : $twiz_start_left_pos;        
-        $twiz_move_top_pos_a  = ($twiz_move_top_pos_a=='') ? 'NULL' : $twiz_move_top_pos_a;
-        $twiz_move_left_pos_a = ($twiz_move_left_pos_a=='') ? 'NULL' : $twiz_move_left_pos_a;
-        $twiz_move_top_pos_b  = ($twiz_move_top_pos_b=='') ? 'NULL' : $twiz_move_top_pos_b;
-        $twiz_move_left_pos_b = ($twiz_move_left_pos_b=='') ? 'NULL' : $twiz_move_left_pos_b;
+        
+        $twiz_start_top_pos   = ( $twiz_start_top_pos == '' ) ? 'NULL' : $twiz_start_top_pos;
+        $twiz_start_left_pos  = ( $twiz_start_left_pos == '' ) ? 'NULL' : $twiz_start_left_pos;
+        $twiz_move_top_pos_a  = ( $twiz_move_top_pos_a == '' ) ? 'NULL' : $twiz_move_top_pos_a;
+        $twiz_move_left_pos_a = ( $twiz_move_left_pos_a == '' ) ? 'NULL' : $twiz_move_left_pos_a;
+        $twiz_move_top_pos_b  = ( $twiz_move_top_pos_b == '' ) ? 'NULL' : $twiz_move_top_pos_b;
+        $twiz_move_left_pos_b = ( $twiz_move_left_pos_b == '' ) ? 'NULL' : $twiz_move_left_pos_b;
         
         $twiz_options_a = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_A]));
         $twiz_options_b = esc_attr(trim($_POST['twiz_'.self::F_OPTIONS_B]));
@@ -3242,6 +3529,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             $sql = "INSERT INTO ".$this->table." 
                   (".self::F_PARENT_ID."
                   ,".self::F_EXPORT_ID."
+                  ,".self::F_BLOG_ID."
                   ,".self::F_SECTION_ID."
                   ,".self::F_STATUS."
                   ,".self::F_TYPE."
@@ -3291,6 +3579,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                   ,".self::F_GROUP_ORDER."         
                   )VALUES('".$twiz_parent_id."'
                   ,'".$twiz_export_id."'
+                  ,'".$twiz_blog_id."'
                   ,'".$twiz_section_id."'
                   ,'".$twiz_status."'
                   ,'".$twiz_type."'
@@ -3354,6 +3643,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             $sql = "UPDATE ".$this->table." 
                   SET ".self::F_PARENT_ID." = '".$twiz_parent_id."'
                  ,".self::F_EXPORT_ID." = '".$twiz_export_id."'
+                 ,".self::F_BLOG_ID." = '".$twiz_blog_id."'
                  ,".self::F_SECTION_ID." = '".$twiz_section_id."'
                  ,".self::F_STATUS." = '".$twiz_status."'
                  ,".self::F_TYPE."  = '".$twiz_type."' 
@@ -3433,13 +3723,28 @@ $("textarea[name^=twiz_options]").blur(function (){
     private function getHtmlSkinBullets(){
            
         $dirarray = $this->getSkinsDirectory();
-       
-        $bullet = get_option('twiz_bullet');
-        $bullet[$this->userid] = (!isset($bullet[$this->userid])) ? '' : $bullet[$this->userid];
+
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $bullet = get_option('twiz_bullet');
+            
+        }else{
+
+            $bullet = get_site_option('twiz_bullet');
+        }         
         
-        $style = ( $bullet[$this->userid] == self::LB_ORDER_UP ) ? ' style="top:0px;z-index:1;"' : ' style="top:22px;z-index:-1;"';
+        $bullet[$this->user_id] = (!isset($bullet[$this->user_id])) ? '' : $bullet[$this->user_id];
         
-        $html_open = '<div id="twiz_skin_bullet"'.$style.' class="twiz-corner-top">';
+        if( $bullet[$this->user_id] == self::LB_ORDER_UP ){
+
+            $class = 'twiz-skin-bullet-up';
+            
+        }else{
+        
+            $class = 'twiz-skin-bullet-down';
+        }
+        
+        $html_open = '<div id="twiz_skin_bullet" class="twiz-corner-top '.$class.'">';
         $html_img = '';
         $html_close = '</div>';
         
@@ -3453,48 +3758,54 @@ $("textarea[name^=twiz_options]").blur(function (){
         return $html_open.$html_img.$html_close;
     }
     
-    private function getImgGlobalStatus(){ 
+    protected function getImgGlobalStatus(){ 
         
-        $status = get_option('twiz_global_status');
-        
-        $htmlstatus = ($status == '1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
+        $htmlstatus = ($this->global_status == '1') ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
 
         return $htmlstatus;
     }
     
-    private function getImgHScrollStatus(){ 
-        
-        $status = get_option('twiz_hscroll_status');
-        
-        $htmlstatus = ( $status == '1' ) ? $this->getHtmlImgStatus('hscroll', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('hscroll', self::STATUS_INACTIVE);
+    protected function getImgHScrollStatus(){ 
+    
+        $htmlstatus = ( $this->hscroll_status[$this->user_id] == '1' ) ? $this->getHtmlImgStatus('hscroll', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('hscroll', self::STATUS_INACTIVE);
 
         return $htmlstatus;
     }    
 
     function switchHScrollStatus(){ 
 
-        $status = get_option('twiz_hscroll_status');
+        $this->hscroll_status[$this->user_id] = ( $this->hscroll_status[$this->user_id] == '0' ) ? '1' : '0'; // swicth the status value
         
-        $newstatus = ( $status == '0' ) ? '1' : '0'; // swicth the status value
-                
-        $code = update_option('twiz_hscroll_status', $newstatus);
-    
-        $htmlstatus = ( $newstatus == '1' ) ? $this->getHtmlImgStatus('hscroll', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('hscroll', self::STATUS_INACTIVE);
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
 
-        $jsonarray = json_encode( array('status' => $newstatus, 'html'=> $htmlstatus.'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div>'));
+            $code = update_option('twiz_hscroll_status', $this->hscroll_status);
+
+        }else{
+
+            $code = update_site_option('twiz_hscroll_status', $this->hscroll_status);
+        }                 
+    
+        $htmlstatus =  $this->getImgHScrollStatus();
+
+        $jsonarray = json_encode( array('status' => $this->hscroll_status[$this->user_id], 'html'=> $htmlstatus.'<div class="twiz-arrow twiz-arrow-e twiz-hscroll-arrow"></div>'));
         
         return $jsonarray;
     }   
     
     function switchGlobalStatus(){ 
 
-        $status = get_option('twiz_global_status');
-        
-        $newstatus = ( $status == '0' ) ? '1' : '0'; // swicth the status value
-                
-        $code = update_option('twiz_global_status', $newstatus);
+        $this->global_status = ( $this->global_status == '0' ) ? '1' : '0'; // swicth the status value
+
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $code = update_option('twiz_global_status', $this->global_status );
+            
+        }else{
+
+            $code = update_site_option('twiz_global_status', $this->global_status );
+        } 
     
-        $htmlstatus = ( $newstatus == '1' ) ? $this->getHtmlImgStatus('global', self::STATUS_ACTIVE) : $this->getHtmlImgStatus('global', self::STATUS_INACTIVE);
+        $htmlstatus =  $this->getImgGlobalStatus();
 
         return $htmlstatus;
     }    
@@ -3508,10 +3819,13 @@ $("textarea[name^=twiz_options]").blur(function (){
         $value = $this->getRow($id);
    
         if($value[self::F_STATUS]=='1') {
+        
             $newstatus = '0';
             $newcomment1 = '';
             $newcomment2 = '// ';
+            
         }else{ 
+        
             $newcomment1 = '// ';
             $newcomment2 =  '';
             $newstatus = '1';
@@ -3523,8 +3837,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                 WHERE ".self::F_ID." = '".$id."'";
 
         $code = $wpdb->query($sql);
-        
-        
+
         $group = ($value[self::F_TYPE] == self::ELEMENT_TYPE_GROUP) ? '_'.self::ELEMENT_TYPE_GROUP : '';
             
         $searchstring = "$(document).twiz".$group."_".$value[self::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[self::F_LAYER_ID]))."_".$value[self::F_EXPORT_ID]."();";
@@ -3538,13 +3851,40 @@ $("textarea[name^=twiz_options]").blur(function (){
                     
         if($code){
         
-            $htmlstatus = ($newstatus=='1') ? $this->getHtmlImgStatus($id, self::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
+            
+            if($newstatus=='1'){
+            
+                $newclassname = 'twiz-status-green';
+                $searchclass = 'twiz-status-red';
+                $htmlstatus = $this->getHtmlImgStatus($id, self::STATUS_ACTIVE);
+                
+            }else{
+            
+                $newclassname = 'twiz-status-red';
+                $searchclass = 'twiz-status-green';
+                $htmlstatus = $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
+            }
+            
         }else{ 
         
-            $htmlstatus = ($value[self::F_STATUS]=='1') ? $this->getHtmlImgStatus($id, self::STATUS_ACTIVE) : $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
+            
+            if($value[self::F_STATUS]=='1'){ 
+            
+                $newclassname = 'twiz-status-green';
+                $searchclass = 'twiz-status-red';
+                $htmlstatus = $this->getHtmlImgStatus($id, self::STATUS_ACTIVE);
+                
+            }else{ 
+            
+                $newclassname = 'twiz-status-red';
+                $searchclass = 'twiz-status-green';
+                $htmlstatus = $this->getHtmlImgStatus($id, self::STATUS_INACTIVE);
+            }
         }
-        
-        return $htmlstatus;
+
+        $json = json_encode( array('html' => $htmlstatus, 'searchclass' => $searchclass , 'newclassname' => $newclassname ));
+
+        return $json;
     }
     
     private function preloadImages(){
@@ -3558,7 +3898,7 @@ $("textarea[name^=twiz_options]").blur(function (){
        
         foreach( $dirarray as $value ){
         
-            if( $this->skin[$this->userid] != self::SKIN_PATH.$value ){
+            if( $this->skin[$this->user_id] != self::SKIN_PATH.$value ){
             
                 if( $value != self::DEFAULT_SKIN ){
                 
@@ -3581,20 +3921,16 @@ $("textarea[name^=twiz_options]").blur(function (){
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-edit.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-delete.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-copy.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-edit-color.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-bw.png" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-menu-delete-color.png" class="twiz-display-none"/>';
         
-        if($this->skin[$this->userid] != self::SKIN_PATH.self::DEFAULT_SKIN){
+        if($this->skin[$this->user_id] != self::SKIN_PATH.self::DEFAULT_SKIN){
         
-            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-logo.png" class="twiz-display-none"/>';
+            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-logo.png" class="twiz-display-none"/>';
         }
         
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-loading.gif" class="twiz-display-none"/>';
-        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->userid].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-save.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-save-dark.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-loading.gif" class="twiz-display-none"/>';
+        $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-big-loading.gif" class="twiz-display-none"/>';
     
         return $html;
     }
@@ -3604,7 +3940,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         switch( $shortcode ){
         
             case self::SC_WP_UPLOAD_DIR:
-            
+                
                 $string = str_replace( $shortcode, $this->uploadDir['baseurl'], $string );
                 
                 return $string;
@@ -3613,6 +3949,94 @@ $("textarea[name^=twiz_options]").blur(function (){
         }
         
         return '';
+    }
+    
+    function getAllBlogIds(){
+                
+        $blog_array = array();
+        // Backward compatibility to v3.2
+        $myCompatibility = new TwizCompatibility();
+        
+        // Backward compatibility to v3.2
+        $sites_array = $myCompatibility->wp_wp_get_sites();       
+        
+        foreach( $sites_array as $key => $value ){
+        
+            $blog_array[$key]['id'] = $sites_array[$key]['blog_id'];
+            $blog_array[$key]['path'] = $sites_array[$key]['path'];
+        }            
+        
+        return  $blog_array;
+    } 
+    
+    function matchDefaultSection( $section_id = '' ){
+        
+        foreach($this->array_default_section_noblogid as $value){
+        
+            if( preg_match("/".$value."/i",$section_id ) ){
+            
+                return true;
+            }
+        }
+        return false;
+    }    
+    
+    function setConfigurationSettings( $network_activation = '', $privacy_question_answered  = false ){
+
+            if( ( $network_activation == '1' ) and ($this->override_network_settings !='1' ) ){
+
+
+                $code = update_site_option('twiz_db_version', $this->dbVersion); 
+                $code = update_site_option('twiz_global_status', '1'); 
+                $code = update_site_option('twiz_cookie_js_status', false); 
+                $code = update_site_option('twiz_network_activated', '1'); 
+                $code = update_site_option('twiz_privacy_question_answered', $privacy_question_answered); 
+
+                $code = update_site_option('twiz_toggle', array()); 
+                $code = update_site_option('twiz_order_by',array()); 
+                $code = update_site_option('twiz_skin', array());  
+                $code = update_site_option('twiz_bullet', array());                         
+                $code = update_site_option('twiz_setting_menu', array());      
+                $code = update_site_option('twiz_hscroll_status', array()); 
+                $code = update_option('twiz_override_network_settings',  '0');
+
+            }else{
+
+                    if( is_multisite() ) {
+                    
+                        $code = update_option('twiz_override_network_settings',  '1');
+                        
+                    }else{
+                    
+                        $code = update_option('twiz_override_network_settings',  '0');
+                    }  
+                    
+                if( is_multisite() ) {
+
+                    $code = update_site_option('twiz_db_version', $this->dbVersion); 
+
+                }
+               
+                $code = update_option('twiz_db_version', $this->dbVersion); 
+                $code = update_option('twiz_global_status', '1'); 
+                $code = update_option('twiz_cookie_js_status', false); 
+                
+                $blog_network_activated = get_option('twiz_network_activated');
+                if($blog_network_activated == ''){ $code = update_option('twiz_network_activated', '0'); }
+                
+                $code = update_option('twiz_privacy_question_answered', $privacy_question_answered); 
+                $code = update_option('twiz_toggle', array()); 
+                $code = update_option('twiz_order_by',array()); 
+                $code = update_option('twiz_skin', array());  
+                $code = update_option('twiz_bullet', array());                         
+                $code = update_option('twiz_setting_menu', array());      
+                $code = update_option('twiz_hscroll_status', array()); 
+            }
+        
+            $code = new TwizAdmin();// Default settings
+            $code = new TwizMenu(); // Menu reformating
+                   
+            return true;
     }
 }
 ?>

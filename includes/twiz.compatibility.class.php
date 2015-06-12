@@ -15,14 +15,15 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// Backward compatibility to v3.1
-// Missing functions for v3.1
+// Backward compatibility to v3.2
+// Missing functions for v3.2
+
 class TwizCompatibility{
 
     function __construct(){}
 
-    // Backward compatibility to v3.1
-    // /wp-includes/functions.php
+    // /wp-includes/functions.php 
+    // Since: WordPress 3.7.0
     function wp_is_main_network( $network_id = null ) {
     
         global $wpdb;
@@ -53,20 +54,20 @@ class TwizCompatibility{
         return $network_id === $primary_network_id;
     }    
     
-    // Backward compatibility to v3.1
     // /wp-includes/ms-blogs.php
+    // Since: WordPress 3.5.0
     function wp_ms_is_switched() { 
     
         return ! empty( $GLOBALS['_wp_switched_stack'] );
     }    
     
-    // Backward compatibility to v3.1
     // /wp-includes/ms-functions.php
+    // Since: WordPress 3.7.0
     function wp_wp_get_sites( $args = array() ) {
     
         global $wpdb;
          
-        if ( wp_is_large_network() )
+        if ( $this->wp_wp_is_large_network() )
             return array();
          
         $defaults = array(
@@ -115,5 +116,17 @@ class TwizCompatibility{
          
         return $site_results;
     }  
+    // Since: WordPress 3.3.0    
+    // /wp-includes/ms-functions.php
+    private function wp_wp_is_large_network( $using = 'sites' ) {
+        if ( 'users' == $using ) {
+            $count = get_user_count();
 
+            return apply_filters( 'wp_is_large_network', $count > 10000, 'users', $count );
+        }
+     
+        $count = get_blog_count();
+        /** This filter is documented in wp-includes/ms-functions.php */
+        return apply_filters( 'wp_is_large_network', $count > 10000, 'sites', $count );
+    }
 }?>

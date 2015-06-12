@@ -231,8 +231,40 @@ class qqFileUploader extends TwizLibrary{
                     
                     $TwizImportExport  = new TwizImportExport();
                     
+                    if( $groupid != '' ){ // import under a group
+                    
+                        $containsGroup = $TwizImportExport->containsGroup(  $TwizImportExport->import_dir_abspath . $filename );
+                        
+                        if( $containsGroup ){
+                        
+                            // delete file 
+                            if(@file_exists($uploadDirectory . $filename)) {
+                            
+                                unlink($uploadDirectory . $filename );
+                            }
+                        
+                             return array('error' => __('Group found in file. Groups can not be imported into another group, the import was cancelled.', 'the-welcomizer'));
+                        }
+                    }  
+                    
+                    if( $sectionid == '' ){ // Add new section
+                    
+                        $isEmptySection = $TwizImportExport->isEmptySection(  $TwizImportExport->import_dir_abspath . $filename );
+                        
+                        if( $isEmptySection ){
+                        
+                            // delete file 
+                            if(@file_exists($uploadDirectory . $filename)) {
+                            
+                                unlink($uploadDirectory . $filename );
+                            }                        
+                        
+                            return array('error' =>  __('No section tag found in file. Section can not be created, the import was cancelled.', 'the-welcomizer'));
+                        }
+                    }     
+                    
                     // import list data 
-                    if( !$code = $TwizImportExport->import($sectionid, $groupid)){
+                    if( !$sectionarray = $TwizImportExport->import($sectionid, $groupid)){
                     
                         // delete file 
                         if(@file_exists($uploadDirectory . $filename)) {
@@ -240,15 +272,14 @@ class qqFileUploader extends TwizLibrary{
                             unlink($uploadDirectory . $filename );
                         }
                         
-                        return array('error' => __('Group found in file. Groups can not be imported into another group, the import was cancelled.', 'the-welcomizer'));
-
+                        return array('error' => __('Server error encountered, the import was cancelled.', 'the-welcomizer'));
                     }
                     
                     if(@file_exists($uploadDirectory . $filename)) {
                     
                         unlink($uploadDirectory . $filename );
                         
-                        return array('success' => true);
+                        return array('success' => true, 'section_id' => $sectionarray['section_id'], 'isnewsection' => $sectionarray['isnewsection']) ;
                     }      
                     
                     return $return_array;

@@ -111,23 +111,29 @@ jQuery(document).ready(function($) {
         
            $library_dir_array = $this->array_library_dir;
         }
-         
-        $twiz_toggle = get_option('twiz_toggle');
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $twiz_toggle = get_option('twiz_toggle');
+            
+        }else{
+
+            $twiz_toggle = get_site_option('twiz_toggle');
+        }          
         
         foreach( $library_dir_array  as $key => $directory ){
            
-            if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY] = '';
+            if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_LIBRARY])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_LIBRARY] = '';
             
-            if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
+            if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
      
             if ( $dir  == $directory ) {
                 // Set Toggle On
-                $twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = 1;
+                $twiz_toggle[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = 1;
                 $this->toggle_option = $twiz_toggle;
             }
             
             if( ( $countdir == 1 ) 
-            or ( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] == '1' ) ) {
+            or ( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] == '1' ) ) {
            
                 $hide = '';
                 $toggleimg = 'twiz-minus';
@@ -186,7 +192,15 @@ jQuery(document).ready(function($) {
                     }
                 }
             }
-            $code = update_option('twiz_toggle', $twiz_toggle);
+            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                $code = update_option('twiz_toggle', $twiz_toggle);
+                
+            }else{
+
+                $code = update_site_option('twiz_toggle', $twiz_toggle);
+        
+            }             
             
             if( $countlib == 0 ){
     
@@ -209,7 +223,15 @@ jQuery(document).ready(function($) {
                 
         $this->array_library[] = $lib;
         
-        $code = update_option('twiz_library', $this->array_library);
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $code = update_option('twiz_library', $this->array_library);
+            
+        }else{
+
+            $code = update_site_option('twiz_library', $this->array_library);
+    
+        }         
         
         return $code;
 
@@ -218,7 +240,7 @@ jQuery(document).ready(function($) {
     function linkLibraryDir ( $directory = '' ){
         
         if( $directory == '' ){return false;}
-        
+
         if( substr($directory, -1) !== '/' ){
         
             $directory = $directory.'/';
@@ -226,7 +248,16 @@ jQuery(document).ready(function($) {
         
         $this->array_library_dir[] = ltrim($directory, "/");
         
-        $code = update_option('twiz_library_dir', $this->array_library_dir);
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $code = update_option('twiz_library_dir', $this->array_library_dir);
+            
+        }else{
+
+            $code = update_site_option('twiz_library_dir', $this->array_library_dir);
+    
+        }         
+        
         $code = $this->loadLibrary(); // reload library
         $id = count($this->array_library_dir) - 1;
  
@@ -247,9 +278,16 @@ jQuery(document).ready(function($) {
                 unset($this->array_library_dir[$key]);
                 
                 // Unset Toggle
-                $twiz_toggle = get_option('twiz_toggle');
-                $twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
-                unset($twiz_toggle[$this->userid][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key]);
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                    $twiz_toggle = get_option('twiz_toggle');
+                    
+                }else{
+
+                    $twiz_toggle = get_site_option('twiz_toggle');
+                }                 
+                $twiz_toggle[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key] = '';
+                unset($twiz_toggle[$this->user_id][parent::KEY_TOGGLE_LIBRARY]['twizlib'.$key]);
                 $this->toggle_option = $twiz_toggle;
                 
                         
@@ -264,9 +302,19 @@ jQuery(document).ready(function($) {
                 }
             }
         }
-        $code = update_option('twiz_toggle', $twiz_toggle);
-        $code = update_option('twiz_library', $this->array_library);
-        $code = update_option('twiz_library_dir', $this->array_library_dir);
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_toggle', $twiz_toggle);
+            $code = update_option('twiz_library', $this->array_library);
+            $code = update_option('twiz_library_dir', $this->array_library_dir);
+            
+        }else{
+        
+            $code = update_site_option('twiz_toggle', $twiz_toggle);
+            $code = update_site_option('twiz_library', $this->array_library);
+            $code = update_site_option('twiz_library_dir', $this->array_library_dir);
+        }         
+
        
         $ok = $this->rebuildOrderKeys();
         
@@ -291,8 +339,14 @@ jQuery(document).ready(function($) {
                 $this->array_library[$key] = '';
                 
                 unset($this->array_library[$key]);
-                
-                $code = update_option('twiz_library', $this->array_library);
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                    $code = update_option('twiz_library', $this->array_library);
+                    
+                }else{
+
+                    $code = update_site_option('twiz_library', $this->array_library);
+                }                 
                 
                 $ok = $this->rebuildOrderKeys();
                 
@@ -374,9 +428,17 @@ jQuery(document).ready(function($) {
     
     private function loadLibrary(){
     
-        $this->array_library = get_option('twiz_library');
-        $this->array_library_dir = get_option('twiz_library_dir');
-            
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $this->array_library = get_option('twiz_library');
+            $this->array_library_dir = get_option('twiz_library_dir');
+
+        }else{
+        
+            $this->array_library = get_site_option('twiz_library');
+            $this->array_library_dir = get_site_option('twiz_library_dir');
+        } 
+
         if( !is_array($this->array_library) ){
         
             $arraylib = array();
@@ -457,8 +519,15 @@ jQuery(document).ready(function($) {
                     $this->array_library[$key] = '';
                     
                     unset($this->array_library[$key]); // unlink arraykey
-                    
-                    $code = update_option('twiz_library', $this->array_library);
+                    if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                        $code = update_option('twiz_library', $this->array_library);
+                        
+                    }else{
+
+                        $code = update_site_option('twiz_library', $this->array_library);
+                
+                    }                     
                 }
             }
             
@@ -493,8 +562,14 @@ jQuery(document).ready(function($) {
             $this->array_library[$key][parent::KEY_ORDER] = $i;
             $i = $i + 1;
         }
-        
-        $code = update_option('twiz_library', $this->array_library);
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+            $code = update_option('twiz_library', $this->array_library);
+            
+        }else{
+
+            $code = update_site_option('twiz_library', $this->array_library);
+        }         
         
         return true;
     }   
@@ -532,8 +607,14 @@ jQuery(document).ready(function($) {
             if( $value[parent::F_ID] == $id ){
        
                 $this->array_library[$key][$field] = $newvalue;
-                
-                $code = update_option('twiz_library', $this->array_library);
+                if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+
+                    $code = update_option('twiz_library', $this->array_library);
+                    
+                }else{
+
+                    $code = update_site_option('twiz_library', $this->array_library);
+                }                 
                 
                 return $code;
             }

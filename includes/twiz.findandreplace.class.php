@@ -84,25 +84,26 @@ $("[name^=twiz_listmenu]").css("display", "none");';
         $choices = $buttons . ' <fieldset class="twiz-box-fieldset twiz-corner-all">
 <legend>'.__('Method', 'the-welcomizer').'</legend>';
 
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] = '' ;
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] = '' ;
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'] = '' ;
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] = '' ;
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] = '' ;
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar0'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar0'] = '' ;
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar1'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar1'] = '' ;
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar12'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar12'] = '' ;
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar2'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar2'] = '' ;
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar3'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar3'] = '' ;
                 
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD])) $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD] = '';
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_PREFERED_METHOD])) $this->toggle_option[$this->user_id][parent::KEY_PREFERED_METHOD] = '';
          
-        if('twiz_far_simple' == $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD]) { 
-            $twiz_far_simple =  ' checked="checked"';
-            $twiz_far_precise =  '';
-            $twiz_display_far_simple = '';
-            $twiz_display_far_precise = ' twiz-display-none';
-        }
-        if('twiz_far_precise' == $this->toggle_option[$this->userid][parent::KEY_PREFERED_METHOD]) { 
+        if('twiz_far_precise' == $this->toggle_option[$this->user_id][parent::KEY_PREFERED_METHOD]) { 
             $twiz_far_precise =  ' checked="checked"';
             $twiz_far_simple =  '';
             $twiz_display_far_precise = '';
             $twiz_display_far_simple = ' twiz-display-none';
+            
+        }else{ //'twiz_far_simple'
+        
+            $twiz_far_simple =  ' checked="checked"';
+            $twiz_far_precise =  '';
+            $twiz_display_far_simple = '';
+            $twiz_display_far_precise = ' twiz-display-none';
         }
 
         $choices .= '<input type="radio" id="twiz_far_choice_0" name="twiz_far_choice" class="twiz-output-choice" value="twiz_far_simple"'.$twiz_far_simple.'/> <label for="twiz_far_choice_0">'.__('Simple', 'the-welcomizer').'</label> ';
@@ -139,7 +140,7 @@ $("[name^=twiz_listmenu]").css("display", "none");';
 
 <tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_1" name="twiz_'.parent::F_DURATION.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION.'_far_2" name="twiz_'.parent::F_DURATION.'_far_2" type="text" value="" maxlength="50"/></td></tr><tr class="twiz-row-color-2"><td class="twiz-form-td-left">'.__('Second duration', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION_B.'_far_1" name="twiz_'.parent::F_DURATION_B.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_DURATION_B.'_far_2" name="twiz_'.parent::F_DURATION_B.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
 
-    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar0'] == '1' ){
+    if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar0'] == '1' ){
 
         $hide = '';
         $toggleimg = 'twiz-minus';
@@ -203,7 +204,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         
 <tr class="twiz-row-color-2 twizfar0'.$hide.'"><td class="twiz-form-td-left">'.__('z-index', 'the-welcomizer').': <div class="twiz-float-right"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_1" name="twiz_'.parent::F_ZINDEX.'_far_1" type="text" value="" maxlength="50"/></div></td><td class="twiz-form-td-left"><input class="twiz-input-small-d twiz-input-focus" id="twiz_'.parent::F_ZINDEX.'_far_2" name="twiz_'.parent::F_ZINDEX.'_far_2" type="text" value="" maxlength="50"/></td></tr>';
 
-    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar1'] == '1' ){
+    if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar1'] == '1' ){
 
         $hide = '';
         $toggleimg = 'twiz-minus';
@@ -232,7 +233,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
         
 <tr class="twiz-row-color-2 twizfar1'.$hide.'"><td class="twiz-form-td-left">'.__('jQuery', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_1" name="twiz_'.parent::F_JAVASCRIPT.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_JAVASCRIPT.'_far_2" name="twiz_'.parent::F_JAVASCRIPT.'_far_2" type="text" ></textarea></div></td></tr>';
 
-    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar12'] == '1' ){
+    if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar12'] == '1' ){
 
         $hide = '';
         $toggleimg = 'twiz-minus';
@@ -248,7 +249,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
 $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-bottom" colspan="2"><div class="twiz-relative"><div id="twiz_far_img_twizfar12" name="twiz_far_img_twizfar12" class="twiz-toggle-far twiz-toggle-img-far '.$toggleimg.'"></div></div><a id="twiz_far_e_a_twizfar12" name="twiz_far_e_a_twizfar12" class="twiz-toggle-far '.$boldclass.'">'.__('Extra CSS', 'the-welcomizer').'</a></td></tr>
 <tr class="twiz-row-color-2 twizfar12'.$hide.'"><td class="twiz-form-td-left">'.__('Extra CSS', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_1" name="twiz_'.parent::F_CSS.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_CSS.'_far_2" name="twiz_'.parent::F_CSS.'_far_2" type="text" ></textarea></div></td></tr>';
                 
-    if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
+    if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar2'] == '1' ){
 
         $hide = '';
         $toggleimg = 'twiz-minus';
@@ -291,7 +292,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 
 <tr class="twiz-row-color-2 twizfar2'.$hide.'"><td class="twiz-form-td-left">'.__('Extra jQuery', 'the-welcomizer').': <div class="twiz-float-right"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_1" name="twiz_'.parent::F_EXTRA_JS_A.'_far_1" type="text" ></textarea></div></div></td><td class="twiz-form-td-left"><div class="twiz-wrap-input-large twiz-wrap-input-large-far"><textarea onclick="textarea.expand(this)" rows="1" rows="3" onkeyup="textarea.expand(this)" WRAP="OFF" class="twiz-input-far twiz-input-large twiz-input-focus" id="twiz_'.parent::F_EXTRA_JS_A.'_far_2" name="twiz_'.parent::F_EXTRA_JS_A.'_far_2" type="text" ></textarea></div></td></tr>';
 
-   if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_FAR]['twizfar3'] == '1' ){
+   if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_FAR]['twizfar3'] == '1' ){
 
         $hide = '';
         $toggleimg = 'twiz-minus';
@@ -742,55 +743,57 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 
                 if( $everywhere_1 != '' ){
                 
-                   $updatesql .=  parent::F_ON_EVENT . " = replace(". parent::F_ON_EVENT . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .=  parent::F_ON_EVENT . " = replace(". parent::F_ON_EVENT . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " , ". parent::F_STATUS . " = replace(". parent::F_STATUS . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_TYPE . " = replace(". parent::F_TYPE . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_DURATION_B . " = replace(". parent::F_DURATION_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_OUTPUT_POS . " = replace(". parent::F_OUTPUT_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_ELEMENT . " = replace(". parent::F_START_ELEMENT . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_TYPE . " = replace(". parent::F_TYPE . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_LAYER_ID . " = replace(". parent::F_LAYER_ID . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_DELAY . " = replace(". parent::F_START_DELAY . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_DURATION . " = replace(". parent::F_DURATION . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_DURATION_B . " = replace(". parent::F_DURATION_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_OUTPUT_POS . " = replace(". parent::F_OUTPUT_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_ELEMENT . " = replace(". parent::F_START_ELEMENT . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_START_TOP_POS_SIGN . " = replace(". parent::F_START_TOP_POS_SIGN . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_TOP_POS . " = replace(". parent::F_START_TOP_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_TOP_POS_FORMAT . " = replace(". parent::F_START_TOP_POS_FORMAT . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_TOP_POS . " = replace(". parent::F_START_TOP_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_TOP_POS_FORMAT . " = replace(". parent::F_START_TOP_POS_FORMAT . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_START_LEFT_POS_SIGN . " = replace(". parent::F_START_LEFT_POS_SIGN . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_LEFT_POS . " = replace(". parent::F_START_LEFT_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_START_LEFT_POS_FORMAT . " = replace(". parent::F_START_LEFT_POS_FORMAT. ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_POSITION . " = replace(". parent::F_POSITION . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_ZINDEX . " = replace(". parent::F_ZINDEX . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_OUTPUT . " = replace(". parent::F_OUTPUT . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_JAVASCRIPT . " = replace(". parent::F_JAVASCRIPT . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_CSS . " = replace(". parent::F_CSS . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_EASING_A . " = replace(". parent::F_EASING_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_ELEMENT_A . " = replace(". parent::F_MOVE_ELEMENT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_LEFT_POS . " = replace(". parent::F_START_LEFT_POS . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_START_LEFT_POS_FORMAT . " = replace(". parent::F_START_LEFT_POS_FORMAT. ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_POSITION . " = replace(". parent::F_POSITION . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_ZINDEX . " = replace(". parent::F_ZINDEX . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_OUTPUT . " = replace(". parent::F_OUTPUT . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_JAVASCRIPT . " = replace(". parent::F_JAVASCRIPT . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_CSS . " = replace(". parent::F_CSS . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_EASING_A . " = replace(". parent::F_EASING_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_ELEMENT_A . " = replace(". parent::F_MOVE_ELEMENT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_MOVE_TOP_POS_SIGN_A . " = replace(". parent::F_MOVE_TOP_POS_SIGN_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_TOP_POS_A . " = replace(". parent::F_MOVE_TOP_POS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_TOP_POS_FORMAT_A . " = replace(". parent::F_MOVE_TOP_POS_FORMAT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_TOP_POS_A . " = replace(". parent::F_MOVE_TOP_POS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_TOP_POS_FORMAT_A . " = replace(". parent::F_MOVE_TOP_POS_FORMAT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_SIGN_A . " = replace(". parent::F_MOVE_LEFT_POS_SIGN_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_A . " = replace(". parent::F_MOVE_LEFT_POS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_A . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_OPTIONS_A . " = replace(". parent::F_OPTIONS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_EXTRA_JS_A . " = replace(". parent::F_EXTRA_JS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_EASING_B . " = replace(". parent::F_EASING_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_ELEMENT_B . " = replace(". parent::F_MOVE_ELEMENT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_A . " = replace(". parent::F_MOVE_LEFT_POS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_A . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_OPTIONS_A . " = replace(". parent::F_OPTIONS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_EXTRA_JS_A . " = replace(". parent::F_EXTRA_JS_A . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_EASING_B . " = replace(". parent::F_EASING_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_ELEMENT_B . " = replace(". parent::F_MOVE_ELEMENT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_MOVE_TOP_POS_SIGN_B . " = replace(". parent::F_MOVE_TOP_POS_SIGN_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_TOP_POS_B . " = replace(". parent::F_MOVE_TOP_POS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_TOP_POS_FORMAT_B . " = replace(". parent::F_MOVE_TOP_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_TOP_POS_B . " = replace(". parent::F_MOVE_TOP_POS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_TOP_POS_FORMAT_B . " = replace(". parent::F_MOVE_TOP_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
                 //   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_SIGN_B . " = replace(". parent::F_MOVE_LEFT_POS_SIGN_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_B . " = replace(". parent::F_MOVE_LEFT_POS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
-                   $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'".$andgroupid;
-
+                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_B . " = replace(". parent::F_MOVE_LEFT_POS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_MOVE_LEFT_POS_FORMAT_B . " = replace(". parent::F_MOVE_LEFT_POS_FORMAT_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$everywhere_1."', '".$everywhere_2."')";
+                    $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'".$andgroupid;
+          
                     $code = $wpdb->query($updatesql);
                     
                     return $code;
+                    
                 }else{
                 
                    return 0;
                 }
+                
                 break;
                 
             case 'twiz_far_precise' :
@@ -925,7 +928,7 @@ $form .= '<tr class="twiz-row-color-1"><td class="twiz-form-td-left twiz-border-
                 $updatesql .= " ,". parent::F_OPTIONS_B . " = replace(". parent::F_OPTIONS_B . ", '".$twiz_options_b_1."', '".$twiz_options_b_2."')";
                 $updatesql .= " ,". parent::F_EXTRA_JS_B . " = replace(". parent::F_EXTRA_JS_B . ", '".$twiz_js_b_2."', '".$twiz_js_b_2."')";
                 $updatesql .= " WHERE ". parent::F_SECTION_ID ." = '".$section_id."' and ".parent::F_TYPE." <> 'group'".$andgroupid;
-                
+ 
                 $code = $wpdb->query($updatesql);
                 
                 return $code;

@@ -18,14 +18,15 @@
 require_once(dirname(__FILE__).'/twiz.compatibility.class.php');  
 
 class TwizView extends Twiz{
-                       
+       
     function __construct( ){
     
         parent::__construct();
+        
     }    
     
     private function addViewLinks( $string = '', $listarray = array(), $level = 1 ){
-        
+                      
         if( $string == ''){return '';}
         
         $searchstring = '';
@@ -50,9 +51,9 @@ class TwizView extends Twiz{
     
     private function replaceViewLinks($type = '', $level = '', $data = '', $searchstring = '', $string = ''){
 
-            if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]] = '';
+            if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]] = '';
             
-            if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]] == '1' ) {
+            if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$data[parent::F_EXPORT_ID]] == '1' ) {
 
                 $boldclass = ' twiz-bold';
             
@@ -83,17 +84,14 @@ class TwizView extends Twiz{
     // return broken links error message foreach links within the extra css textbox
     private function getHTMLBrokenLinksMessage($extra_css = ''){
     
-
         $error_message = '';
         $upload_abs = wp_upload_dir();
-        
 
         $dom_document = new DOMDocument();
         @$dom_document->loadHTML('<html><body>'.$extra_css.'</body></html>');
         $xml = simplexml_import_dom( $dom_document );
         $links = $xml->xpath('//a'); 
         
-
         foreach ($links as $a_attr) {
         
             if( !@file_exists( $upload_abs['basedir'].'/'.$a_attr[0] ) ){
@@ -108,35 +106,55 @@ class TwizView extends Twiz{
     
    private function addLinkToImage( $extra_css = '' ){ 
         
-         // Backward compatibility to v3.1
+         $extra_css_t = '';
+         $verify = '1';
+         
+         // Backward compatibility to v3.2
          $myCompatibility = new TwizCompatibility();
                 
          // See wp_upload_dir(), for backward compatibility useful link -> http://hookr.io/functions/wp_upload_dir/
-         // My previous attempt in my v2.8-alpha-20140715 would have missed uploads/x/, and get_option( 'uploads_use_yearmonth_folders' ) must be added.
+         // get_option( 'uploads_use_yearmonth_folders' ) must be added.
         if( is_multisite() && !( $myCompatibility->wp_is_main_network() && is_main_site() && defined('MULTISITE') ) ){ // Backward compatibility to v3.1
          
             if( !get_site_option('ms_files_rewriting') ){
             
                 if( defined('MULTISITE') ){
-                    
+
                     // uploads/sites/x/
-                    $extra_css = preg_replace('/((http:\/\/)(.*?)(\/sites\/)(.*?\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\6\\7</a>', $extra_css);
+                    $extra_css_t = preg_replace('/((http:\/\/)(.*?)(\/sites\/)(.*?\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\6\\7</a>', $extra_css);
                     
                 }else{
                 
                     // uploads/x/
-                    $extra_css = preg_replace('/((http:\/\/)(.*?)(\/uploads\/)(.*?\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\6\\7</a>', $extra_css);
+                    $extra_css_t = preg_replace('/((http:\/\/)(.*?)(\/uploads\/)(.*?\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\6\\7</a>', $extra_css);
                 }
             
             }// elseif does not work here...
             // blogs.dir/x/files/
             if( defined('UPLOADS') && !$myCompatibility->wp_ms_is_switched() ){ // Backward compatibility to v3.1
 
-                $extra_css = preg_replace('/((http:\/\/)(.*?)(\/files\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\5\\6</a>', $extra_css);
+                $extra_css_t = preg_replace('/((http:\/\/)(.*?)(\/files\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\5\\6</a>', $extra_css);
             }
-         
-        }else{
+
+            // other url
+            if( $extra_css_t == $extra_css ){
             
+                // uploads/
+                $extra_css_t = preg_replace('/((http:\/\/)(.*?)(\/uploads\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\5\\6</a>', $extra_css);
+            }
+            
+            // external url
+             if( $extra_css_t == $extra_css ){
+            
+                // uploads/
+                $extra_css_t = preg_replace('/((http:\/\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\2\\3\\4</a>', $extra_css);
+                $verify = ''; // do not verify broken link
+                
+            }
+             $extra_css = $extra_css_t;
+             
+        }else{
+        
             // uploads/
             $extra_css = preg_replace('/((http:\/\/)(.*?)(\/uploads\/)(.*?)(.png|.jpg|.jpeg|.gif))/i', '<a href="\\0" class="twiz-view-image-link">\\5\\6</a>', $extra_css);
         }
@@ -146,14 +164,18 @@ class TwizView extends Twiz{
         
             $extra_css = str_replace('http', 'https', $extra_css );
         }
-        
-        // Verifying broken links to images
-        $error_message = $this->getHTMLBrokenLinksMessage( $extra_css );
 
-        return $extra_css.$error_message;
+        if($verify == '1'){
+            
+            // Verifying broken links to images
+            $error_message = $this->getHTMLBrokenLinksMessage( $extra_css );
+            $extra_css.= $error_message;
+        }
+
+        return $extra_css;
     }
     
-
+    
     private function addGroupChildLinks( $export_id = '', $level = '' ){
     
         $html = '';
@@ -163,7 +185,7 @@ class TwizView extends Twiz{
         $where = " WHERE ".parent::F_PARENT_ID." = '".$export_id."' and ".parent::F_ON_EVENT." = '".parent::EV_MANUAL."'";
         $listchildarray = $this->getListArray( $where ); 
         
-        if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$export_id] == '1' ) {
+        if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$export_id] == '1' ) {
         
             $hide = '';
             $toggleimg = 'twiz-minus';
@@ -186,8 +208,8 @@ class TwizView extends Twiz{
         
             $string = "$(document).twiz_".$value[parent::F_SECTION_ID]."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID]."();";
             
-            $html .= '&nbsp;&nbsp;<span id="twiz_anim_link_img_box_'.$value[parent::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[parent::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[parent::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$string.'</a><br>';        
-
+            $html .= '&nbsp;&nbsp;<span id="twiz_anim_link_img_box_'.$value[parent::F_ID].'_'.$level.'" name="twiz_anim_link_img_box" class="twiz-loading-gif"></span><a id="twiz_anim_link_'.$value[parent::F_ID].'_'.$level.'" name="twiz_anim_link_'.$value[parent::F_EXPORT_ID].'_'.$level.'" class="twiz-anim-link">'.$string.'</a><br>';
+        
         }
         
         $html = ($html != '')? $open.$html.$close : $open.$close;
@@ -203,6 +225,7 @@ class TwizView extends Twiz{
             if(!$data = $this->getRow($id)){return false;}
         }
 
+        $ok = $this->setPositioningMethod();
         $hasMovements = $this->hasMovements($data);
         $hasStartingConfigs = $this->hasStartingConfigs($data);
         
@@ -252,7 +275,7 @@ class TwizView extends Twiz{
      // shortcode
      // $javascript = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $javascript ); // It takes too much time, and it is useless
      // $extra_js_a = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $extra_js_a ); // It takes too much time, and it is useless
-     // $extra_js_b = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $extra_js_b ); // It takes too much time, and it is useless 
+     // $extra_js_b = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $extra_js_b ); // It takes too much time, and it is useless
         $extra_css = $this->replaceTwizShortCode( parent::SC_WP_UPLOAD_DIR, $extra_css ); 
         
         $extra_css = $this->addLinkToImage( $extra_css );
@@ -260,7 +283,7 @@ class TwizView extends Twiz{
         $on_event = $this->format_on_event($data[parent::F_ON_EVENT]);
         // creates the view
         $htmlview = '<table class="twiz-table-view" cellspacing="0" cellpadding="0">
-        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span class="'.$titleclass.'">'.$elementype.'</span> = '.$data[parent::F_LAYER_ID].'
+        <tr><td class="twiz-view-td-left twiz-bold" valign="top"><span id="twiz_view_span_element_'.$data[parent::F_ID].'" class="'.$titleclass.'">'.$elementype.'</span> = '.$data[parent::F_LAYER_ID].' 
         </td><td class="twiz-view-td-right" nowrap="nowrap"><div class="twiz-list-tr-action" name="twiz_view_tr_action_'.$level.'" id="twiz_view_tr_action_'.$level.'" ><a id="twiz_edit_v_'.$data[parent::F_ID].'" name="twiz_edit_v_'.$data[parent::F_ID].'" class="twiz-edit">'.__('Edit', 'the-welcomizer').'</a> | <a id="twiz_copy_v_'.$data[parent::F_ID].'" name="twiz_copy_v_'.$data[parent::F_ID].'" class="twiz-copy">'.__('Copy', 'the-welcomizer').'</a> | <a id="twiz_delete_v_'.$data[parent::F_ID].'" name="twiz_delete_v_'.$data[parent::F_ID].'" class="twiz-red twiz-delete">'.__('Delete', 'the-welcomizer').'</a></div></div>';
         
         if( ($hasStartingConfigs) 

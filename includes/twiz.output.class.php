@@ -18,6 +18,7 @@
 class TwizOutput extends Twiz{
 
     private $listarray;
+    private $sqlwhereblogid;
     private $generatedScript;
     private $generatedScriptonReady;
     private $generatedScriptonEvent;
@@ -65,13 +66,28 @@ class TwizOutput extends Twiz{
     
         parent::__construct();
         
-        $this->shortcode_id = $shortcode_id;
-        $this->outputStatus = get_option('twiz_global_status');
-        $this->sections = get_option('twiz_sections');
-        $this->hardsections = get_option('twiz_hardsections');
-        $this->multi_sections = get_option('twiz_multi_sections');
-        $this->multi_sections = ( is_array($this->multi_sections) ) ? $this->multi_sections : array();
-        $this->listarray = $this->getCurrentList($shortcode_id);
+        $this->shortcode_id   = $shortcode_id;
+        
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $this->outputStatus   = get_option('twiz_global_status');
+            $this->sections       = get_option('twiz_sections');
+            $this->hardsections   = get_option('twiz_hardsections');
+            $this->multi_sections = get_option('twiz_multi_sections');
+            
+        }else{
+            $this->outputStatus   = get_site_option('twiz_global_status');
+            $this->sections       = get_site_option('twiz_sections');
+            $this->hardsections   = get_site_option('twiz_hardsections');
+            $this->multi_sections = get_site_option('twiz_multi_sections');
+        }         
+
+        $this->listarray      = $this->getCurrentList($shortcode_id); // With or without $shortcode_id
+        
+        if( is_multisite() ){
+        
+            $this->sqlwhereblogid .= " AND IF(t.". parent::F_BLOG_ID." <> '[all]', FIND_IN_SET('".$this->BLOG_ID."',  replace(replace(t.". parent::F_BLOG_ID.", '[', ''), ']', '')) > 0, t.". parent::F_BLOG_ID." = '[all]')";
+        }
         
         if( $this->admin_option[parent::KEY_OUTPUT_COMPRESSION] != '1' ){
         
@@ -163,13 +179,12 @@ class TwizOutput extends Twiz{
         }
         
         return false;
-    }    
+    }
     
     function generateOutput(){
                 
         $this_prefix = '';
-        
-        
+            
         if( $this->shortcode_id != '' ){
         
             $section_id = $this->getSectionIdByShortCode($this->shortcode_id);
@@ -178,10 +193,12 @@ class TwizOutput extends Twiz{
             
                 $this_prefix = '_'.$section_id;
                 
-                $sections = $this->getSectionArray($section_id);        
+                $sections = $this->getSectionArray($section_id);     
                 
                 $this->visibility_validation[$section_id] = $this->validateVisibilitySetting( $sections[$section_id][parent::KEY_VISIBILITY] );
-                if( $this->visibility_validation[$section_id] == true ){
+  
+                if( ( $this->visibility_validation[$section_id] == true ) 
+                and ( ( in_array( $this->BLOG_ID , $sections[$section_id][parent::F_BLOG_ID]) ) or ( in_array(parent::ALL_SITES, $sections[$section_id][parent::F_BLOG_ID]) ) ) ){
                 
                     // Set shorcode html for output, outside the loop.
                     $this->shortcode_HTML = htmlspecialchars_decode($sections[$section_id][parent::KEY_SHORTCODE_HTML]);
@@ -205,10 +222,10 @@ class TwizOutput extends Twiz{
         }
       
         if( $this->outputStatus == '1' ){
-        
+
             // no data, no more output, only shortcode HMTL
             if( count($this->listarray) == 0 ){ return $this->shortcode_HTML; } 
-                  
+            
             $this->generatedScript .= self::COMPRESS_LINEBREAK.'<script type="text/javascript">[GLOBAL_JS]'.$this->linebreak.'jQuery(document).ready(function($){
 '.$this->linebreak;
 
@@ -216,23 +233,25 @@ class TwizOutput extends Twiz{
             // And set setPHPCookieMax.
             // And set $this->visibility_validation 
             $this->generatedScript .= $this->getStartingPositionsOnReady(); 
-                  
                         
             // this used by javasccript before.
             $this->generatedScript .= 'var twiz'.$this_prefix.'_this = "";';
             
             $this->cookieLooped = array();
-            
+
                     
             // generates the code
-            foreach($this->listarray as $value){
-                               
+            foreach( $this->listarray as $value ){
+            
+                $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+
                 if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
                 or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
                 or ( ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == false ) ) // cookie condition true
                 or ( $this->hasOnlyCSS[$value[parent::F_ID]] == true ) // Nothing but CSS Styles 
                 or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
-                or ( $value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP ) ) {
+                or ( $value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP )
+                or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){
                 // Nothing to do
                 }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
 
@@ -274,7 +293,7 @@ class TwizOutput extends Twiz{
                             $pattern = "/twizRepeat\((.*?)\)/";
                             preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
                             if (!isset($params[1])){$params[1] = '';}
-                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                            if ( $params[1] == '' ){ $params[1] = 'null'; }
                 
                             // js     
                             $value[parent::F_JAVASCRIPT] = ($value[parent::F_JAVASCRIPT] != '') ? $this->linebreak.$this->tab.str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]) : '';
@@ -306,7 +325,7 @@ class TwizOutput extends Twiz{
                             $pattern = "/twizRepeat\((.*?)\)/";
                             preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
                             if (!isset($params[1])){$params[1] = '';}
-                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                            if ( $params[1] == '' ){ $params[1] = 'null'; }
                 
                             // js     
                             $value[parent::F_JAVASCRIPT] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]);
@@ -362,7 +381,7 @@ class TwizOutput extends Twiz{
                             $pattern = "/twizRepeat\((.*?)\)/";
                             preg_match($pattern, $value[parent::F_EXTRA_JS_A], $params);
                             if (!isset($params[1])){$params[1] = '';}
-                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                            if ( $params[1] == '' ){ $params[1] = 'null'; }
                 
                             // extra js a    
                             $value[parent::F_EXTRA_JS_A] = str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_EXTRA_JS_A]);
@@ -436,7 +455,7 @@ class TwizOutput extends Twiz{
                             $pattern = "/twizRepeat\((.*?)\)/";
                             preg_match($pattern, $value[parent::F_EXTRA_JS_B], $params);
                             if (!isset($params[1])){$params[1] = '';}
-                            if ( $params[1] == '' ) { $params[1] = 'null'; }
+                            if ( $params[1] == '' ){ $params[1] = 'null'; }
                 
                             // extra js b    
                             $value[parent::F_EXTRA_JS_B] = str_replace("$(document).twizRepeat(", $this->tab.$this->tab."$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_EXTRA_JS_B]);
@@ -499,7 +518,7 @@ class TwizOutput extends Twiz{
                     $this->generatedScriptonEvent .= $this->getOnEventFunction( $value, $name );
                     
                 } // End if hasDisabledCode
-                
+                        
             } // End loop
             
             $this->generatedScript .= $this->generatedCookie;
@@ -525,9 +544,13 @@ class TwizOutput extends Twiz{
         
         // generates the code
         foreach( $this->listarray as $value ){   
+        
+            $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+
             if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) // skip group
-            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) ){ // skip group
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false )
+            or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){ 
             // Nothing to do
             }else{
 
@@ -611,13 +634,17 @@ class TwizOutput extends Twiz{
                     
         // generates the code
         foreach( $this->listarray as $value ){   
+
+            $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+            
             if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
             or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
             or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
-            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) ){ // skip group
+            or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) // skip group
+            or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){ // skip site
             // Nothing to do
-            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){     
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
              
                 if( $value[parent::F_OUTPUT] == 'r' ){ // onready 
                     
@@ -636,7 +663,7 @@ class TwizOutput extends Twiz{
                     $pattern = "/twizRepeat\((.*?)\)/";
                     preg_match($pattern, $value[parent::F_JAVASCRIPT], $params);
                     if (!isset($params[1])){$params[1] = '';}
-                    if ( $params[1] == '' ) { $params[1] = 'null'; }
+                    if ( $params[1] == '' ){ $params[1] = 'null'; }
 
                     // js     
                     $value[parent::F_JAVASCRIPT] = $generatedCondition['open'].str_replace("$(document).twizRepeat(", "$(document).twiz_".$name.'(twiz'.$this_prefix.'_this,'.$params[1].',e', $value[parent::F_JAVASCRIPT]);
@@ -700,18 +727,19 @@ class TwizOutput extends Twiz{
         return $generatedScript;
     }
     
-    private function generateSQLMultiSections( $sectionid = '', $shortcode_id = ''){
+    private function generateSQL( $sectionid = '', $shortcode_id = ''){
         
         $comma = ',';
         $and_multi_sections = '';
         $field_key = parent::F_SECTION_ID.' IN(';
         
         $this->multi_sections = (!is_array($this->multi_sections)) ? array() : $this->multi_sections;
-        foreach($this->multi_sections as $key => $value){
+
+        foreach( $this->multi_sections as $key => $value ){
         
             if( is_array($value) ){ // multi output
 
-                foreach($value as $key_val => $value_val){
+                foreach( $value as $key_val => $value_val ){
                 
                     if( !isset($this->sections[$key]) ){$this->sections[$key][parent::F_STATUS] = '';}
                     
@@ -724,20 +752,25 @@ class TwizOutput extends Twiz{
                     }
                 }
                 
-            }else{ 
-            
+            }
+        } 
+
+        $this->sections = (!is_array($this->sections)) ? array() : $this->sections;
+        
+        foreach( $this->sections as $key => $value ){   
+        
                 list( $type, $id ) = preg_split('/_/', $key);
                 
-                switch ($type){
+                switch( $type ){
                 
                     case 'cl'; // custom logic
 
                         if( ( $shortcode_id == '' )
-                        and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
+                        and ($value[parent::F_STATUS] == parent::STATUS_ACTIVE) ){
                         
-                            $islogic = $this->evaluateCustomLogic($value);
+                            $islogic = $this->evaluateCustomLogic($value[parent::KEY_CUSTOM_LOGIC]);
                         
-                            if($islogic){
+                            if( $islogic ){
                         
                                 $and_multi_sections .= $field_key."'".$key."'".$comma;
                                 $field_key = '';
@@ -749,7 +782,7 @@ class TwizOutput extends Twiz{
                     case 'sc': // shortcode
                         
                         if( ($sectionid == $key)
-                        and ($this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE) ){
+                        and ($value[parent::F_STATUS] == parent::STATUS_ACTIVE) ){
                        
                             if( $shortcode_id != '' ){                        
 
@@ -761,7 +794,6 @@ class TwizOutput extends Twiz{
                         break;
                 }
             }
-        }
         
         $and_multi_sections .= ( $field_key == '' ) ? ') ' : '';
         $and_multi_sections = str_replace(",)", ")", $and_multi_sections);
@@ -802,24 +834,26 @@ class TwizOutput extends Twiz{
     
     private function getSectionIdByShortCode( $shortcode_id = '' ){
     
-        foreach( $this->multi_sections as $key => $value){
+        if( !is_array($this->sections) ){$this->sections = array();}
+        
+        foreach( $this->sections as $key => $value ){
 
             list( $type, $id ) = preg_split('/_/', $key);
             
             if( ( $type == 'sc' )
-            and ( $value == $shortcode_id )
+            and ( $value[parent::KEY_SHORTCODE] == $shortcode_id )
             and ( $this->sections[$key][parent::F_STATUS] == parent::STATUS_ACTIVE )
-            ){ // shortcode
+            ){ // found match, return section_id
                 
                 return $key;
-            }        
+            }      
         }
     }
     
     private function getCurrentList( $shortcode_id = '' ){
     
         global $post;
-                   
+                  
         wp_reset_query(); // fix is_home() due to a custom query.
         
         $and_multi_sections = '';
@@ -829,11 +863,12 @@ class TwizOutput extends Twiz{
         if( $shortcode_id != '' ){
         
             $section_id = $this->getSectionIdByShortCode($shortcode_id);
-            $and_shortcode = $this->generateSQLMultiSections($section_id, $shortcode_id);
+
+            $and_shortcode = $this->generateSQL($section_id, $shortcode_id);
             
             if( $and_shortcode != '' ){
             
-                $listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ");
+                $listarray_sc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_shortcode." ".$this->sqlwhereblogid);
                 
             }else{
             
@@ -843,22 +878,23 @@ class TwizOutput extends Twiz{
         
         if( $shortcode_id == '' ){
         
-            $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_EVERYWHERE);
+            $and_multi_sections = $this->generateSQL($this->DEFAULT_SECTION_EVERYWHERE);
 
             if( $and_multi_sections != '' ){
             
-                $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                $listarray_e_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
                 
             }else{
             
                 $listarray_e_m = array();
             }
             
-            if($this->hardsections[parent::DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
+            if($this->hardsections[$this->DEFAULT_SECTION_EVERYWHERE][parent::F_STATUS] == parent::STATUS_ACTIVE){
 
-                $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_EVERYWHERE."' ");
+                $listarray_e = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_EVERYWHERE."' ".$this->sqlwhereblogid);
                 
             }else{
+            
                 $listarray_e = array ();
             }
 
@@ -867,20 +903,24 @@ class TwizOutput extends Twiz{
 
                 case ( is_home() || is_front_page() ):
 
-                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_HOME);
+                    $and_multi_sections = $this->generateSQL($this->DEFAULT_SECTION_HOME);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_h_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_h_m = array();
                     }
             
-                    if($this->hardsections[parent::DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    if($this->hardsections[$this->DEFAULT_SECTION_HOME][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_HOME."' ");
+                        $listarray_h = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_HOME."' ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_h = array();
                     }
        
@@ -890,39 +930,46 @@ class TwizOutput extends Twiz{
                     
                 case is_category():
 
-                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_CATEGORIES);
+                    $and_multi_sections = $this->generateSQL($this->DEFAULT_SECTION_ALL_CATEGORIES);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_allc_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_allc_m = array();
                     }
                     
                     $category_id = 'c_'.get_query_var('cat');
                     
-                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    if($this->hardsections[$this->DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_CATEGORIES."' ");
+                        $listarray_allc = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_ALL_CATEGORIES."' ".$this->sqlwhereblogid);
                     
                     }else{
+                    
                         $listarray_allc = array();
                     }
                     
-                    $and_multi_sections = $this->generateSQLMultiSections($category_id);
+                    $and_multi_sections = $this->generateSQL($category_id);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_c_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_c_m = array();
                     }
                     
                     if( !isset($this->sections[$category_id]) ) $this->sections[$category_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$category_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                
-                        $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' ");
+                    
+                        $listarray_c = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$category_id."' ".$this->sqlwhereblogid);
                     }else{
+                    
                         $listarray_c = array();
                     }
                     
@@ -933,38 +980,47 @@ class TwizOutput extends Twiz{
                     
                 case is_page():
 
-                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_PAGES);
+                    $and_multi_sections = $this->generateSQL($this->DEFAULT_SECTION_ALL_PAGES);
                     
                     if( $and_multi_sections != '' ){
 
-                        $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_allp_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_allp_m = array();
                     }
                     
                     $page_id = 'p_'.$post->ID;
                     
-                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    if($this->hardsections[$this->DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
-                        $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_PAGES."' ");
+                        $listarray_allp = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_ALL_PAGES."' ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_allp = array();
                     }
 
-                    $and_multi_sections = $this->generateSQLMultiSections($page_id);
+                    $and_multi_sections = $this->generateSQL($page_id);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_p_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_p_m = array();
                     }
                     
                     if( !isset($this->sections[$page_id]) ) $this->sections[$page_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$page_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                 
-                        $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ");
+                    
+                        $listarray_p = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$page_id."' ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_p = array();
                     }
                     
@@ -975,42 +1031,52 @@ class TwizOutput extends Twiz{
 
                 case is_single(): 
 
-                    $and_multi_sections = $this->generateSQLMultiSections(parent::DEFAULT_SECTION_ALL_ARTICLES);
+                    $and_multi_sections = $this->generateSQL($this->DEFAULT_SECTION_ALL_ARTICLES);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_alla_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_alla_m = array();
                     }
                     
                     $post_id = 'a_'.$post->ID;
                     
-                    if($this->hardsections[parent::DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    if($this->hardsections[$this->DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                         // get the active data list array
-                        $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".parent::DEFAULT_SECTION_ALL_ARTICLES."' ");
+                        $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_ALL_ARTICLES."' ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_alla = array();
                     }
                     
-                    $and_multi_sections = $this->generateSQLMultiSections($post_id);
+                    $and_multi_sections = $this->generateSQL($post_id);
                     
                     if( $and_multi_sections != '' ){
                     
-                        $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ");
+                        $listarray_a_m = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".$and_multi_sections." ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_a_m = array();
                     }                
                     
                     if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
-                        $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ");
+                    
+                        $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ".$this->sqlwhereblogid);
+                        
                     }else{
+                    
                         $listarray_a = array();
                     }
                     
                     $listarray_T = array_merge($listarray_e, $listarray_e_m, $listarray_a, $listarray_a_m);
                     $this->listarray = array_merge($listarray_T, $listarray_alla, $listarray_alla_m);
+                    
                     break;
                     
                 case is_feed(): 
@@ -1040,10 +1106,13 @@ class TwizOutput extends Twiz{
         $groupid = '';
         
         foreach( $this->listarray as $value ){
-                        
+        
+            $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+
             if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true )  // cookie condition true
             or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
+            or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) 
             or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) ){ // cookie condition true
             // Nothing to do
             }else if( (( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) or ( $value[parent::F_PARENT_ID] != '' ))
@@ -1060,7 +1129,7 @@ class TwizOutput extends Twiz{
                     $generatedScript_function[$groupid] = '$.fn.twiz_group_'.$name .' = function(){[STRINGTOREPLACE]'.$this->linebreak.'}'.self::COMPRESS_LINEBREAK;
 
                 }else{
-                    
+
                     $hasOnlyCSS = $this->searchOnlyCSS($value);
                     
                     if(!$hasOnlyCSS){
@@ -1099,14 +1168,18 @@ class TwizOutput extends Twiz{
         $generatedScript_repeatvar = '';
         
         foreach( $this->listarray as $value ){
+        
+            $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+            
             if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] == true ) // cookie condition true
             or (( $this->PHPCookieMax[$value[parent::F_SECTION_ID]] != true ) and ( $this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] == true ) ) // cookie condition true
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP )
             or($this->hasOnlyCSS[$value[parent::F_ID]]) 
-            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) ){ // skip
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false )
+            or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){ // skip
             // Nothing to do
-            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){  
             
                 // Excluding only repeated animations that are running forever.(manually called are not verified)
                 $pos = strpos($value[parent::F_JAVASCRIPT], "$(document).twizRepeat()");
@@ -1197,23 +1270,27 @@ class TwizOutput extends Twiz{
         
         $generatedScript_pos = '';
         
-        foreach($this->listarray as $value){   
-        
+        foreach( $this->listarray as $value ){        
+
             // IMPORTANT -> Those lines MUST be inside the first output loop, this is the first output loop.
             $this->the_sections[$value[parent::F_SECTION_ID]] = $this->getSectionArray($value[parent::F_SECTION_ID]);
             $this->visibility_validation[$value[parent::F_SECTION_ID]] = $this->validateVisibilitySetting(  $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_VISIBILITY] );
             $this->hasRestrictedCode[$value[parent::F_ID]] = $this->searchRestrictedCode($value);
             $this->hasValidParendId[$value[parent::F_ID]] = $this->validateParentId($value[parent::F_SECTION_ID], $value[parent::F_PARENT_ID]);
             $this->hasOnlyCSS[$value[parent::F_ID]] = $this->searchOnlyCSS($value);
+            
             if( !isset($this->PHPCookieMax[$value[parent::F_SECTION_ID]])){$this->PHPCookieMax[$value[parent::F_SECTION_ID]] = '';}
             if( !isset($this->PHPCookieMax[$this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]]) ){$this->PHPCookieMax[ $this->the_sections[$value[parent::F_SECTION_ID]][$value[parent::F_SECTION_ID]][parent::KEY_COOKIE_CONDITION]] = '';}
             
+            $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
+
             if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
             or ( $value[parent::F_TYPE] ==  parent::ELEMENT_TYPE_GROUP ) 
             or ( $this->hasOnlyCSS[$value[parent::F_ID]]  == true ) // Nothing but CSS Styles 
-            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] ==  false ) ){ // skip site
+            or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] ==  false ) 
+            or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){ // skip site
             // Nothing to do
-            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){    
+            }else if($this->hasValidParendId[$value[parent::F_ID]] == true){  
             
                 // Generates and validates cookie
                 $this->generatedCookie .= $this->generateCookies($value[parent::F_SECTION_ID]);
@@ -1316,7 +1393,7 @@ class TwizOutput extends Twiz{
         foreach( $this->array_restricted as $string ){
 
             foreach( $this->array_fields as $field ){
-                    
+           
                 if( preg_match($string, $value[$field] ) ) {
                 
                    return true;
@@ -1343,12 +1420,12 @@ class TwizOutput extends Twiz{
       
         if( ( ( $option_1 != '' ) and (  $cookie_name != '' ) ) 
         or ( $cookie_condition != '') ){ // cookie option is enabled
-        
+    
             switch($with){ // cookie type
                     
                 case 'js';
                     
-                    if( $cookie_condition == '' ) {
+                    if( $cookie_condition == '' ){
                     
                         $generatedCondition['open'] = 'if(twiz_'.$section_id.'_cookie_Max != true){ ';
                         $generatedCondition['close'] = $this->linebreak.'}';
@@ -1365,7 +1442,7 @@ class TwizOutput extends Twiz{
                     
                 case 'all':
                 
-                    if( $cookie_condition == '' ) {
+                    if( $cookie_condition == '' ){
                     
                         $generatedCondition['open'] = 'if(twiz_'.$section_id.'_cookie_Max != true){ ';
                         $generatedCondition['close'] = $this->linebreak.'}';
@@ -1397,7 +1474,9 @@ class TwizOutput extends Twiz{
         }else{
              
             $this->cookieLooped[] = $section_id;
-                              
+            
+            
+                    
             $cookie_name =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME];
             $cookie_condition =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE_CONDITION];            
             $with =  $this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH];
@@ -1472,7 +1551,7 @@ class TwizOutput extends Twiz{
             // Calculates the time diff and substracts it.
             $expiration_diff = $expiration_option - $expiration_old;
             $expiration_new = $expiration_old - $expiration_diff ;
-                    
+            
             $cookie_max_val = $this->array_cookieval[$this->the_sections[$section_id][$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1]];
             
             // validate counter
@@ -1541,6 +1620,7 @@ class TwizOutput extends Twiz{
         if( in_array($section_id, $this->array_default_section) ){
         
             $sections = $this->hardsections; // default sections
+            
         }else{
         
             $sections = $this->sections;

@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/twiz.menu.class.php');
 
 class TwizImportExport extends Twiz{
 
-    private $import_dir_abspath;
+    public $import_dir_abspath;
     private $export_dir_label;
     private $export_dir_url;
     private $export_dir_abspath;
@@ -30,16 +30,25 @@ class TwizImportExport extends Twiz{
     function __construct(){
     
         parent::__construct();
+
+        if( !is_multisite() ){
+        
+            $wp_content_url =  WP_CONTENT_URL;
+            
+        }else{
+        
+            $wp_content_url =  network_site_url( '/' ).'wp-content'; 
+        }
         
         $this->import_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH;
         $this->export_dir_label = str_replace(ABSPATH,"", WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH);
-        $this->export_dir_url =  WP_CONTENT_URL . parent::IMPORT_PATH . parent::EXPORT_PATH;
+        $this->export_dir_url = $wp_content_url . parent::IMPORT_PATH . parent::EXPORT_PATH;
         $this->export_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH;
-        $this->backup_dir_url =  WP_CONTENT_URL . parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH;
+        $this->backup_dir_url = $wp_content_url . parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH;
         $this->backup_dir_abspath =  WP_CONTENT_DIR . parent::IMPORT_PATH . parent::EXPORT_PATH . parent::BACKUP_PATH;
     }
     
-    private function containsGroup( $file = '' ){
+    function containsGroup( $file = '' ){
 
         if ( @file_exists($file) ){
         
@@ -75,6 +84,34 @@ class TwizImportExport extends Twiz{
         return false;
     }
     
+    function isEmptySection( $file = '' ){
+
+        $isEmptySection = true;
+
+        if ( @file_exists($file) ){
+        
+            if( $twz = @simplexml_load_file($file) ){
+
+               // flip array mapping value to match 
+               $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
+               
+                // loop xml entities               
+                foreach( $twz->children() as $twzrow ){ 
+                
+                    if($twzrow->getName() == 'SECTION'){
+                    
+                        foreach( $twzrow->children() as $twzfield ){
+                        
+                            $isEmptySection = false;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $isEmptySection;
+    }
+    
     function import( $sectionid = '' , $groupid = '' ){
     
         $exportid = $this->getValue( $groupid, parent::F_EXPORT_ID ); // to import under a group
@@ -85,19 +122,13 @@ class TwizImportExport extends Twiz{
         
         foreach( $filearray as $filename ){
             
-            if( $groupid != '' ){
-            
-                $containsGroup = $this->containsGroup( $this->import_dir_abspath . $filename );
-                
-                if( $containsGroup ){
-                
-                    return false;
-                }
-            }
-            
-            if( $code = $this->importData( $this->import_dir_abspath . $filename, $sectionid, $parentid, $grouporder) ){
+            if( $sectionarray = $this->importData( $this->import_dir_abspath . $filename, $sectionid, $parentid, $grouporder) ){
  
-                return true;
+                return $sectionarray;
+                
+            }else{
+            
+                return false;
             }
         }
         
@@ -114,7 +145,7 @@ class TwizImportExport extends Twiz{
         
         $filename =  $this->getFileNamebyID( $id );
         
-        if( $groupid != '' ){
+        if( $groupid != '' ){ // import under a group
         
             $containsGroup = $this->containsGroup(  $this->export_dir_abspath . $filename );
             
@@ -124,12 +155,23 @@ class TwizImportExport extends Twiz{
                 $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
             }
         }  
+        
+        if( $sectionid == '' ){ // Add new section
+        
+            $isEmptySection = $this->isEmptySection(  $this->export_dir_abspath . $filename );
             
+            if( $isEmptySection ){
+            
+                $error = __('No section tag found in file. Section can not be created, the import was cancelled.', 'the-welcomizer');
+                $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
+            }
+        }              
+        
         if( $error == '' ){
         
-            if( $imported_sectionid = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder) ){
+            if( $imported_section = $this->importData($this->export_dir_abspath.$filename, $sectionid, $parentid, $grouporder) ){
             
-                $htmlresponse = $this->getHtmlList($imported_sectionid, '', '', $parentid , $action);
+                $htmlresponse = $this->getHtmlList($imported_section['section_id'], '', '', $parentid , $action);
                 
             }else{
             
@@ -137,8 +179,10 @@ class TwizImportExport extends Twiz{
                 $htmlresponse = $this->getHtmlList($sectionid, '', '', '' , $action);
             }
         }
+        
+        if( !isset( $imported_section['section_id'] ) ){ $imported_section['section_id'] = ''; }
 
-        $jsonlistarray = json_encode( array('sectionid' => $sectionid, 'newsectionid' => $imported_sectionid, 'filename' => $filename, 'html'=> $htmlresponse, 'error' => $error ) ); 
+        $jsonlistarray = json_encode( array('sectionid' => $sectionid, 'newsectionid' => $imported_section['section_id'], 'filename' => $filename, 'html'=> $htmlresponse, 'error' => $error ) ); 
             
         return $jsonlistarray;
     }
@@ -166,6 +210,9 @@ class TwizImportExport extends Twiz{
         
         $rows = '';
         $section = '';
+        $site = '';
+        $isnewsection = '';
+        $siteurl = '';
         
         if ( @file_exists($filepath) ){
             
@@ -173,11 +220,166 @@ class TwizImportExport extends Twiz{
 
                // flip array mapping value to match 
                $reverse_array_twz_mapping = array_flip($this->array_twz_mapping);
+               $reverse_array_twz_section_mapping = array_flip($this->array_twz_section_mapping);
                
                 // loop xml entities               
                 foreach( $twz->children() as $twzrow ){ 
 
                     switch( $twzrow->getName() ){
+                    
+                        case 'URL':
+                        
+                            $siteurl = trim($twzrow);
+                            
+                            break;
+                            
+                        case 'SECTION':
+                        
+                            if( $sectionid == '' ){ // Add new section
+
+                                $isnewsection = 1;
+                            
+                                foreach( $twzrow->children() as $twzfield ){
+                                
+                                    $fieldname = '';
+                                    $fieldvalue = '';
+                                    
+                                    // get the real name of the field 
+                                    $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_section_mapping );
+
+                                    switch( $fieldname ){
+                                        
+                                        case parent::F_BLOG_ID: 
+                                        
+                                            if( ( $siteurl == get_site_url() ) 
+                                            or ( ( $this->override_network_settings != '1' ) 
+                                            and( ( preg_match("[".$siteurl."]i", get_site_url())) 
+                                            or( preg_match("[".get_site_url()."]i", $siteurl) ) ) )
+                                            ){
+                                            
+                                                $section[$fieldname] = esc_attr(trim($twzfield));
+                                                
+                                            }else{ // from another website
+                                            
+                                                $section[$fieldname] = json_encode(array($this->BLOG_ID)); 
+                                            }
+                                            
+                                            break;
+                                            
+                                        case parent::KEY_TITLE: 
+                                            
+                                            $section[$fieldname] = esc_attr(trim($twzfield)); 
+                                            $section[$fieldname] = __($section[$fieldname], 'the-welcomizer'); // translates hardsections
+                                            
+                                            break;
+                                            
+                                        case parent::KEY_SHORTCODE: 
+                                            
+                                            $section[$fieldname] = esc_attr(trim($twzfield)); 
+                                            
+                                            if( $section[$fieldname] == "" ){ // use the title as shortcode
+                                            
+                                                $section[$fieldname] = $section[parent::KEY_TITLE];
+                                            }
+                                            
+                                            break;
+
+                                        case parent::KEY_MULTI_SECTIONS: 
+                                            
+                                            if( ( $siteurl == get_site_url() ) 
+                                            or ( ( $this->override_network_settings != '1' ) 
+                                            and( ( preg_match("[".$siteurl."]i", get_site_url())) 
+                                            or( preg_match("[".get_site_url()."]i", $siteurl) ) ) )
+                                            ){
+                                            
+                                                // rebuild array quotes.
+                                                $twzfield = str_replace(',', '","', esc_attr(trim($twzfield)));
+                                                $twzfield = str_replace('[', '["', $twzfield);
+                                                $twzfield = str_replace(']', '"]', $twzfield);
+                                                $section[$fieldname] = json_decode($twzfield); 
+                                                
+                                            }else{ // from another website
+                                            
+                                                $section[$fieldname] = array();
+                                            }
+                                            
+                                            break;
+                                            
+                                        default:          
+                                        
+                                            if( $fieldname != "" ){  
+                                            
+                                                $section[$fieldname] = esc_attr(trim($twzfield)); 
+                                            }
+                                            
+                                            break;
+                                    }
+                                }
+                                 
+                                if( ( $siteurl == get_site_url() ) 
+                                or ( ( $this->override_network_settings != '1' ) 
+                                and( ( preg_match("[".$siteurl."]i", get_site_url())) 
+                                or( preg_match("[".get_site_url()."]i", $siteurl) ) ) )
+                                ){}else{// from another website
+                                
+                                    if( true == $this->matchDefaultSection( $section[parent::F_SECTION_ID] )  ){
+                                    
+                                        $type = 'default';
+                                        
+                                    }else{
+                                    
+                                        list($type, $id ) = preg_split('/_/', $section[parent::F_SECTION_ID]);
+                                    }
+                                    
+                                    if( $type != 'cl' ){// all type custom logic excluded
+                                    
+                                        $section[parent::F_SECTION_ID.'_orig'] = 'sc_1'; // convert default section into shortcode
+                                        $section[parent::F_SECTION_ID] = '';
+                                        $section[parent::KEY_MULTI_SECTIONS] = array();
+                                    }
+                                }
+                                
+                                if(!is_array($section)){$section = array();}
+
+                                if( count( $section > 0 ) ){
+                        
+                                    $myTwizMenu  = new TwizMenu();
+
+                                    if( ( !isset( $myTwizMenu->array_hardsections[$section[parent::F_SECTION_ID]] ) ) 
+                                    and ( !isset( $myTwizMenu->array_sections[$section[parent::F_SECTION_ID]] ) ) ){
+
+                                        $section[parent::F_SECTION_ID.'_orig'] = $section[parent::F_SECTION_ID]; // _orig is used later to get the type
+                                        
+                                        // is default section
+                                        if( true == $this->matchDefaultSection( $section[parent::F_SECTION_ID] ) ){
+                                        
+                                            $section[parent::F_SECTION_ID.'_orig'] = 'sc_1'; // convert default section into shortcode
+                                            $section[parent::F_SECTION_ID] = '';  // Empty for add new 
+                                        }
+                                        
+                                        $sectionid = $myTwizMenu->saveSectionMenu( $section[parent::KEY_MULTI_SECTIONS], $section );
+                                       // print_r($section);
+                                    }else{// this section already exists, make new. reset sectionid
+                                    
+                                        $section[parent::F_SECTION_ID.'_orig'] = $section[parent::F_SECTION_ID]; 
+                                    
+                                        // is default section
+                                        if( true == $this->matchDefaultSection( $section[parent::F_SECTION_ID] ) ){
+                                        
+                                            $section[parent::F_SECTION_ID.'_orig'] = 'sc_1'; // convert default section into shortcode
+                                            $section[parent::F_SECTION_ID] = '';  // Empty for add new
+ 
+                                        }else{
+                                        
+                                            $section[parent::F_SECTION_ID] = '';
+                                        }
+                                        
+                                        $sectionid = $myTwizMenu->saveSectionMenu( $section[parent::KEY_MULTI_SECTIONS], $section );
+                                    }
+                                }
+                            }
+  
+                            break;
                             
                         case 'ROW':
 
@@ -191,10 +393,23 @@ class TwizImportExport extends Twiz{
                                 
                                 // get the real name of the field 
                                 $fieldname = strtr( $twzfield->getName(), $reverse_array_twz_mapping );
-
-                                if( $fieldname != "" ){           
+            
+                                if($fieldname != ""){
                                 
-                                    $row[$fieldname] = esc_attr(trim($twzfield)); 
+                                    switch( $fieldname ){
+                                    
+                                        case parent::F_BLOG_ID:
+                                            
+                                            $row[$fieldname] = esc_attr(trim($twzfield));
+                                        
+                                            break;
+                                            
+                                        default:                                       
+                                        
+                                            $row[$fieldname] = esc_attr(trim($twzfield)); 
+                                                
+                                            break;
+                                    }
                                 }
                             }
                             // building record array 
@@ -207,32 +422,31 @@ class TwizImportExport extends Twiz{
                 if(!is_array($rows)){$rows = array();}
 
                 if( count( $rows > 0 ) ){
-
+                    
                     // insert rows
-                    if( !$code = $this->importInsert( $rows, $sectionid, $parentid, $grouporder ) ){
+                    if( !$code = $this->importInsert( $rows, $sectionid, $parentid, $grouporder, $siteurl ) ){
                         
                         return false;
                     }
                 }
                 
                 // imported      
-                return $sectionid;
+                return array('section_id' => $sectionid, 'isnewsection' => $isnewsection);
             }
         }
         
         return false;
     }
     
-    private function importInsert( $rows = array(), $newsectionid = '', $parentid = '', $grouporder = 0 ){
+    private function importInsert( $rows = array(), $newsectionid = '', $parentid = '', $grouporder = 0, $siteurl = '' ){
         
         global $wpdb;
         
         $newrows = '';
         $tempdata = '';
         $updatesql = '';
-        
+
         $rows = (!is_array($rows))? array() : $rows;
-        
         foreach( $rows as $data ){
             
             if( !isset($data[parent::F_EXPORT_ID]) ) $data[parent::F_EXPORT_ID] = '';
@@ -290,6 +504,7 @@ class TwizImportExport extends Twiz{
             // Fields 
             if( !isset($data[parent::F_PARENT_ID]) ) $data[parent::F_PARENT_ID] = '';
             if( !isset($data[parent::F_EXPORT_ID]) ) $data[parent::F_EXPORT_ID] = '';
+            if( !isset($data[parent::F_BLOG_ID]) ) $data[parent::F_BLOG_ID] = '';
             if( !isset($data[parent::F_SECTION_ID]) ) $data[parent::F_SECTION_ID] = '';
             if( !isset($data[parent::F_STATUS]) ) $data[parent::F_STATUS] = '';
             if( !isset($data[parent::F_LAYER_ID]) ) $data[parent::F_LAYER_ID] = '';
@@ -337,7 +552,7 @@ class TwizImportExport extends Twiz{
             if( !isset($data[parent::F_OPTIONS_B]) ) $data[parent::F_OPTIONS_B] = '';
             if( !isset($data[parent::F_EXTRA_JS_B]) ) $data[parent::F_EXTRA_JS_B] = '';
             if( !isset($data[parent::F_GROUP_ORDER]) ) $data[parent::F_GROUP_ORDER] = '';
-            
+        
             $twiz_move_top_pos_a  = $data[parent::F_MOVE_TOP_POS_A];
             $twiz_move_left_pos_a = $data[parent::F_MOVE_LEFT_POS_A];
             $twiz_move_top_pos_b  = $data[parent::F_MOVE_TOP_POS_B];
@@ -362,9 +577,20 @@ class TwizImportExport extends Twiz{
             $twiz_lock_event_type = $data[parent::F_LOCK_EVENT_TYPE];
             $twiz_start_delay = $data[parent::F_START_DELAY];
             $twiz_duration = $data[parent::F_DURATION];
-            
             $twiz_group_order = $data[parent::F_GROUP_ORDER];
-           
+            $twiz_blog_id = $data[parent::F_BLOG_ID];
+            
+            if( $siteurl != get_site_url() ){ // from another website or older versions
+            
+                $twiz_blog_id = json_encode( array($this->BLOG_ID) ); // set current blog id.
+                
+            }else{
+            
+                $twiz_blog_id = ( $twiz_blog_id == '' ) ? json_encode( array($this->BLOG_ID) ) : $twiz_blog_id;
+            }
+            $search = array("\"","'");
+            $twiz_blog_id =  str_replace($search , "", $twiz_blog_id);
+            
             $twiz_status = ( $twiz_status == '' ) ? '0' : $twiz_status;
             $twiz_lock_event = ( ( $twiz_lock_event == '' ) and ( ( $data[parent::F_ON_EVENT] !='') and ( $data[parent::F_ON_EVENT] !='Manually') ) ) ? '1' : $twiz_lock_event; // old format locked by default
             $twiz_lock_event = ( $twiz_lock_event == '' ) ? '0' : $twiz_lock_event;
@@ -418,6 +644,7 @@ class TwizImportExport extends Twiz{
             $sql = "INSERT INTO ".$this->table." 
                  (".parent::F_PARENT_ID."
                  ,".parent::F_EXPORT_ID."
+                 ,".parent::F_BLOG_ID."
                  ,".parent::F_SECTION_ID."
                  ,".parent::F_STATUS."
                  ,".parent::F_TYPE."
@@ -468,6 +695,7 @@ class TwizImportExport extends Twiz{
                  ,".parent::F_ROW_LOCKED."       
                  )VALUES('".$twiz_parent_id."'
                  ,'".$data[parent::F_EXPORT_ID]."'
+                 ,'".$twiz_blog_id."'
                  ,'".$newsectionid."'
                  ,'".$twiz_status."'
                  ,'".$data[parent::F_TYPE]."'
@@ -556,9 +784,20 @@ class TwizImportExport extends Twiz{
     }
     
     function exportAll(){
+    
+        $blogid_string = '';
         
-        $sections       = get_option('twiz_sections');
-        $hardsections   = get_option('twiz_hardsections');
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $sections       = get_option('twiz_sections');
+            $hardsections   = get_option('twiz_hardsections');
+            
+        }else{
+        
+            $sections       = get_site_option('twiz_sections');
+            $hardsections   = get_site_option('twiz_hardsections');
+        }    
+        
 
         if(!is_array($sections)){ $sections = array();}
         
@@ -566,8 +805,13 @@ class TwizImportExport extends Twiz{
         $zipfile = '';
         
         if (is_writable($this->backup_dir_abspath)){
+        
+            if( is_multisite() ){
 
-            $zipfilename = 'twiz-'.date_i18n('Ymd-His').'.zip';
+                $blogid_string = $this->BLOG_ID.'-';
+            }
+            
+            $zipfilename = $blogid_string.'twiz-'.date_i18n('Ymd-His').'.zip';
             
             $the_zip = new ZipArchive();
             $status = $the_zip->open($this->backup_dir_abspath.$zipfilename, ZipArchive::CREATE  | ZipArchive::OVERWRITE);
@@ -624,9 +868,11 @@ class TwizImportExport extends Twiz{
         $error = '';
         $filedata = '';
         $type = '';
+        $blogid_string = '';
         $myTwizMenu  = new TwizMenu();
-        $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($section_id));
         
+        $sectionname = sanitize_title_with_dashes($myTwizMenu->getSectionName($section_id));
+        //die($sectionname );
         if( $id != '' ){
         
            $where = " WHERE ".parent::F_ID." = '".$id."'";
@@ -635,7 +881,7 @@ class TwizImportExport extends Twiz{
         }else{
         
         
-            $where = ($section_id != '') ? " WHERE ".parent::F_SECTION_ID." = '".$section_id."'" : " WHERE ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION[$this->userid]."'";
+            $where = ($section_id != '') ? " WHERE ".parent::F_SECTION_ID." = '".$section_id."'" : " WHERE ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION[$this->user_id]."'";
             
             if( $groupid != '' ){
             
@@ -648,20 +894,61 @@ class TwizImportExport extends Twiz{
             }
             
         }
-
-      
+                          
         $listarray = $this->getListArray( $where );
 
         $filedataBegin = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         
         $filedataBegin .= '<TWIZ>'."\n";
+        $filedataBegin .= '<URL>'.get_site_url().'</URL>'."\n";
+        
+        if(in_array($section_id, $this->array_default_section)){ // export default section as shortcode
+            
+            $sections = $myTwizMenu->array_hardsections;
+            $type = 'default';
+                
+        }else{
+        
+            $sections = $myTwizMenu->array_sections;
+            list( $type, $unused ) = preg_split('/_/', $section_id);
+        }
+        if( !isset( $myTwizMenu->array_multi_sections[$section_id] ) ){
+            
+            $multi_sections = array();
+            
+        }else{
+        
+            $multi_sections = $myTwizMenu->array_multi_sections[$section_id];
+        }
+        $search = array("\"","'");
+        $twiz_blog_id =  str_replace($search , "", json_encode( $sections[$section_id][parent::F_BLOG_ID] ));
+        $multi_sections = str_replace($search , "", json_encode( $multi_sections ) );
+        
+        // Section infos
+        $filedataBegin .= '<SECTION>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::F_SECTION_ID].'>'.$section_id.'</'.$this->array_twz_section_mapping[parent::F_SECTION_ID].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::F_STATUS].'>'.$sections[$section_id][parent::F_STATUS].'</'.$this->array_twz_section_mapping[parent::F_STATUS].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_VISIBILITY].'>'.$sections[$section_id][parent::KEY_VISIBILITY].'</'.$this->array_twz_section_mapping[parent::KEY_VISIBILITY].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::F_BLOG_ID].'>'.$twiz_blog_id.'</'.$this->array_twz_section_mapping[parent::F_BLOG_ID].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_TITLE].'>'.$sections[$section_id][parent::KEY_TITLE].'</'.$this->array_twz_section_mapping[parent::KEY_TITLE].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_SHORTCODE].'>'.$sections[$section_id][parent::KEY_SHORTCODE].'</'.$this->array_twz_section_mapping[parent::KEY_SHORTCODE].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_SHORTCODE_HTML].'>'.$sections[$section_id][parent::KEY_SHORTCODE_HTML].'</'.$this->array_twz_section_mapping[parent::KEY_SHORTCODE_HTML].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_MULTI_SECTIONS].'>'.$multi_sections.'</'.$this->array_twz_section_mapping[parent::KEY_MULTI_SECTIONS].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_CUSTOM_LOGIC].'>'.$sections[$section_id][parent::KEY_CUSTOM_LOGIC].'</'.$this->array_twz_section_mapping[parent::KEY_CUSTOM_LOGIC].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_CONDITION].'>'.$sections[$section_id][parent::KEY_COOKIE_CONDITION].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_CONDITION].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_NAME].'>'.$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_NAME].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_NAME].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_OPTION_1].'>'.$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_1].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_OPTION_1].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_OPTION_2].'>'.$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_OPTION_2].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_OPTION_2].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_WITH].'>'.$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_WITH].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_WITH].'>'."\n";
+        $filedataBegin .= '<'.$this->array_twz_section_mapping[parent::KEY_COOKIE_SCOPE].'>'.$sections[$section_id][parent::KEY_COOKIE][parent::KEY_COOKIE_SCOPE].'</'.$this->array_twz_section_mapping[parent::KEY_COOKIE_SCOPE].'>'."\n";
+        $filedataBegin .= '</SECTION>'."\n";
 
+        
         foreach( $listarray as $value ){
 
-              $filedata .= '<ROW>'."\n";
-                                  
-              // loop fields array 
-              foreach( $this->array_twz_mapping as $key => $notused){
+            $filedata .= '<ROW>'."\n";
+            // loop fields array 
+            foreach( $this->array_twz_mapping as $key => $notused){
               
                   if( $key != parent::F_ID ){
                   
@@ -680,17 +967,25 @@ class TwizImportExport extends Twiz{
               $id = ($id == '') ? '' : $id.'_'.sanitize_title_with_dashes($value[parent::F_LAYER_ID]);
         }
         
-        if( $filedata != '' ){
+        if(( $filedata != '' ) 
+        or(!in_array($section_id, $this->array_default_section))){
         
             $filedata = $filedataBegin.$filedata .'</TWIZ>'."\n";
             
             $sectionname = ($sectionname == '') ? $section_id.$id : $sectionname.$id;
             
-            $sectionname =  str_replace( parent::DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
-           
-            $filename = urldecode($sectionname).'-'.date_i18n('Ymd-His').'.'.parent::EXT_TWIZ;
+            $sectionname =  str_replace( $this->DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
+            
+            if( is_multisite() ){
+
+                $blogid_string = $this->BLOG_ID.'-';
+            }
+
+            $filename = $blogid_string.$sectionname.'-'.date_i18n('Ymd-His').'.'.parent::EXT_TWIZ;
+
             $filename_abspath = $this->export_dir_abspath.$filename;
-            $filename_url = $this->export_dir_url .$filename;
+            $filename_url = $this->export_dir_url.urlencode($filename);
+     
             if (is_writable($this->export_dir_abspath)){
 
                 if (!$handle = fopen($filename_abspath, 'w')){
@@ -717,41 +1012,51 @@ class TwizImportExport extends Twiz{
         
         if( $onlylink == true ){
         
-
-            $html = ($error!='')? array('htmllink' => '<li class="twiz-red">' . $error .'</li>', 'filename_abspath' => '', 'filename' => '') : array('htmllink' => '<li><a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a></li>', 'filename_abspath' => $filename_abspath, 'filename' => $filename);
+            $html = ($error!='')? array('htmllink' => '<li class="twiz-red">' . $error .'</li>', 'filename_abspath' => '', 'filename' => '') : array('htmllink' => '<li><a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. urldecode($filename) .'</a></li>', 'filename_abspath' => $filename_abspath, 'filename' => $filename);
             
-
-
         }else{
 
-
-            $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. $filename .'</a>';
+            $html = ($error!='')? '<div class="twiz-red">' . $error .'</div>' : ' <div id="twiz_img_download_export">'.__('Download file', 'the-welcomizer').'</div> <a href="'.$filename_url.'" title="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'" alt="'.__('Right-click, Save Target As/Save Link As', 'the-welcomizer').'">'. urldecode($filename) .'</a>';
             
-
         }
-
 
         return $html;
     }
-    
+
     function getHTMLExportFileList( $sectionid = '', $filter = '' ){
     
         if( $sectionid == '' ){ $sectionid = __('Add New', 'the-welcomizer'); }
     
         $rowcolor = '';
         $myTwizMenu = new TwizMenu();
-        $twiz_export_filter = get_option('twiz_export_filter');
         
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $twiz_export_filter = get_option('twiz_export_filter');     
+            
+        }else{
+        
+            $twiz_export_filter = get_site_option('twiz_export_filter');
+        } 
+
         // set twiz_export_filter array
-        if(!isset($twiz_export_filter[$this->userid][$sectionid])) $twiz_export_filter[$this->userid][$sectionid] = '';
+        if(!isset($twiz_export_filter[$this->user_id][$sectionid])) $twiz_export_filter[$this->user_id][$sectionid] = '';
          
         // set filter and label
-        $filter = ( $twiz_export_filter[$this->userid][$sectionid] == '' ) ? 'twiz_export_filter_none' : $filter;
-        $filter = ( $filter == '' ) ? $twiz_export_filter[$this->userid][$sectionid] : $filter ;
+        $filter = ( $twiz_export_filter[$this->user_id][$sectionid] == '' ) ? 'twiz_export_filter_none' : $filter;
+        $filter = ( $filter == '' ) ? $twiz_export_filter[$this->user_id][$sectionid] : $filter ;
         $lbl_filter = ( $filter == 'twiz_export_filter_none' ) ? __('none', 'the-welcomizer') : $filter;        
-        $twiz_export_filter[$this->userid][$sectionid] = $filter;
+        $twiz_export_filter[$this->user_id][$sectionid] = $filter;
         $filter = ( $filter == 'twiz_export_filter_none' ) ? '' : $filter; 
-        $code = update_option('twiz_export_filter',$twiz_export_filter);       
+        
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_export_filter',$twiz_export_filter);    
+            
+        }else{
+        
+            $code = update_site_option('twiz_export_filter',$twiz_export_filter);
+        }         
             
         // get all export files
         $export_file_array = $this->getFileDirectory( array(parent::EXT_TWZ, parent::EXT_TWIZ, parent::EXT_XML), $this->export_dir_abspath );
@@ -759,13 +1064,13 @@ class TwizImportExport extends Twiz{
         sort($export_file_array);
         
         // set toggle
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT] = '';
-        if(!isset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'])) $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] = '';
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT] = '';
+        if(!isset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT]['twizexp0'])) $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT]['twizexp0'] = '';
         
         // Set Toggle On
-        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] = '1'; 
+        $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT]['twizexp0'] = '1'; 
          
-        if( $this->toggle_option[$this->userid][parent::KEY_TOGGLE_EXPORT]['twizexp0'] == '1' ){
+        if( $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_EXPORT]['twizexp0'] == '1' ){
        
             $hide = '';
             $toggleimg = 'twiz-minus';

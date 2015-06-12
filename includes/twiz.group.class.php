@@ -21,7 +21,7 @@ class TwizGroup extends Twiz{
     
         parent::__construct();
     }
-
+    
     function getHtmlFormGroup( $id = '', $section_id = '', $action = parent::ACTION_NEW ){
 
         $twiz_group_name = '';
@@ -49,7 +49,7 @@ class TwizGroup extends Twiz{
                     $twiz_group_start_delay = $data[parent::F_START_DELAY];
                     $twiz_export_id = $data[parent::F_EXPORT_ID];
                     $twiz_status = ( $data[parent::F_STATUS] == '1' ) ? ' checked="checked"' : '';  
-
+                    
                 break;
                 
             case parent::ACTION_COPY:
@@ -64,7 +64,7 @@ class TwizGroup extends Twiz{
             
                 break;
             
-        }     
+        }   
     
             $jsscript = '<script>
  //<![CDATA[
@@ -74,7 +74,6 @@ class TwizGroup extends Twiz{
         $jsscript .= '
 $("[name^=twiz_listmenu]").css("display", "none");
 ';
-
 
         $jsscript .= '});
  //]]>
@@ -104,7 +103,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         return $rows;
     }
     
-   function copyGroup( $groupid = '', $section_id = '' ){
+    function copyGroup( $groupid = '', $section_id = '' ){
 
         global $wpdb;
         
@@ -130,6 +129,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
             
             $group_data[parent::F_PARENT_ID] = ($value[parent::F_PARENT_ID] == $old_exportid) ? $new_export_id : '';
             $group_data[parent::F_EXPORT_ID] = ($value[parent::F_EXPORT_ID] == $old_exportid) ? $new_export_id : $this->getUniqid();
+            $group_data[parent::F_BLOG_ID] = $value[parent::F_BLOG_ID];
             $group_data[parent::F_SECTION_ID] = $value[parent::F_SECTION_ID];
             $group_data[parent::F_STATUS] = ($value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP) ?  $twiz_group_status : $value[parent::F_STATUS] ; // From The Group Form or field.
             $group_data[parent::F_TYPE] = $value[parent::F_TYPE];
@@ -182,6 +182,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $sql = "INSERT INTO ".$this->table." 
               (".parent::F_PARENT_ID."
               ,".parent::F_EXPORT_ID."
+              ,".parent::F_BLOG_ID."
               ,".parent::F_SECTION_ID."
               ,".parent::F_STATUS."
               ,".parent::F_TYPE."
@@ -228,9 +229,10 @@ $("[name^=twiz_listmenu]").css("display", "none");
               ,".parent::F_OPTIONS_B."
               ,".parent::F_EXTRA_JS_A."
               ,".parent::F_EXTRA_JS_B."    
-              ,".parent::F_GROUP_ORDER."
+              ,".parent::F_GROUP_ORDER."    
               )VALUES('".$group_data[parent::F_PARENT_ID]."' 
               ,'".$group_data[parent::F_EXPORT_ID]."' 
+              ,'".$group_data[parent::F_BLOG_ID]."' 
               ,'".$group_data[parent::F_SECTION_ID]."'
               ,'".$group_data[parent::F_STATUS]."' 
               ,'".$group_data[parent::F_TYPE]."' 
@@ -285,13 +287,21 @@ $("[name^=twiz_listmenu]").css("display", "none");
         
              
         $code = $this->cleanCopiedGroup( $groupid, $old_exportid, $new_export_id);      
-
+        
         $new_id = $this->getId(parent::F_EXPORT_ID, $new_export_id);
         
-        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$new_export_id] = 1;
+        $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$new_export_id] = 1;
         
-        $code = update_option('twiz_toggle', $this->toggle_option);
-
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_toggle', $this->toggle_option);
+            
+        }else{
+        
+            $code = update_site_option('twiz_toggle', $this->toggle_option);
+        }            
+        
+        
         $ok = $this->reInitializeGroupOrder( $section_id );
 
         return $new_id;
@@ -309,7 +319,6 @@ $("[name^=twiz_listmenu]").css("display", "none");
         
         // get old rows infos.
         $old_list_value = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$old_exportid."'");
-
 
         // get news rows infos.     
         $new_list_value = $this->getListArray("WHERE ".parent::F_PARENT_ID." = '".$new_export_id."'");
@@ -337,7 +346,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
                 $code = $wpdb->query($updatesql);
             }                
         }
-
+        
         // = = = = = = = = = = = = = = = = =   
         // Replace new Group only exportid =
         // = = = = = = = = = = = = = = = = =
@@ -401,8 +410,16 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $sql = "DELETE FROM ".$this->table." WHERE ".parent::F_ID." = '".$id."' OR ".parent::F_PARENT_ID." = '".$exportid."';";
         $code = $wpdb->query($sql);
         
-        unset($this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid]);
-        $code = update_option('twiz_toggle', $this->toggle_option);
+        unset($this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$exportid]);
+        
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_toggle', $this->toggle_option);
+            
+        }else{
+        
+            $code = update_site_option('twiz_toggle', $this->toggle_option);
+        }    
     
         $ok = $this->reInitializeGroupOrder( $section_id );
             
@@ -541,6 +558,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
     function saveGroup( $id = '', $section_id = ''){
     
         if ($id == '') {       
+        
            $ok = $this->initializeGroupOrder( $section_id );
            $group_order = 0;
             
@@ -551,6 +569,7 @@ $("[name^=twiz_listmenu]").css("display", "none");
 
         // mapping                 
         $_POST['twiz_'.parent::F_EXPORT_ID] = esc_attr(trim($_POST['twiz_group_'.parent::F_EXPORT_ID]));
+        $_POST['twiz_'.parent::F_BLOG_ID] = json_encode( $this->getSectionBlogId( $section_id ) );
         $_POST['twiz_'.parent::F_STATUS] = esc_attr(trim($_POST['twiz_group_'.parent::F_STATUS]));
         $_POST['twiz_'.parent::F_LAYER_ID] = esc_attr(trim($_POST['twiz_group_name']));
         $_POST['twiz_'.parent::F_TYPE] = parent::ELEMENT_TYPE_GROUP;
@@ -560,8 +579,16 @@ $("[name^=twiz_listmenu]").css("display", "none");
         $exportid = $_POST['twiz_'.parent::F_EXPORT_ID];
         
         // Set Toggle On
-        $this->toggle_option[$this->userid][parent::KEY_TOGGLE_GROUP][$exportid] = 1;
-        $code = update_option('twiz_toggle', $this->toggle_option);
+        $this->toggle_option[$this->user_id][parent::KEY_TOGGLE_GROUP][$exportid] = 1;
+        
+        if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
+        
+            $code = update_option('twiz_toggle', $this->toggle_option);
+            
+        }else{
+        
+            $code = update_site_option('twiz_toggle', $this->toggle_option);
+        }    
 
         $arr = $this->save( $id );
         
