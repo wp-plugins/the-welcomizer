@@ -768,7 +768,6 @@ a.twiz-red:hover {
     color: red !important;
 }
 .twiz-red {
-    font-size: 12px !important;
     color: #AA0000 !important;
 }
 .twiz-td-delay,
@@ -1052,7 +1051,7 @@ a.twiz-red:hover {
     font-size: 13px;
 }
 .twiz-status-red {
-    color: #BC0B0B;
+    color: #aa0000;
     font-size: 13px;
 }
 .twiz-float-left {
