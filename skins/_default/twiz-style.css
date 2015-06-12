@@ -984,9 +984,13 @@ a.twiz-red:hover {
 .twiz-slc-js-features {
     width: 230px;
 }
-.twiz-slc-easing,
 #twiz_output_pos,
 #twiz_output {
+    font-size: 11px !important;
+    position: relative;
+    top: -3px;
+}
+.twiz-slc-easing {
     width: 104px;
     font-size: 11px !important;
     position: relative;
