@@ -173,7 +173,7 @@ class TwizOutput extends Twiz{
                 
                 break;
 
-            case parent::VISIBILITY_ADMIN:
+            case parent::VISIBILITY_ADMINS:
             
                 if ( is_user_logged_in() ){
                     
