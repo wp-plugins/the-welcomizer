@@ -392,10 +392,6 @@ div a, td a {
     display: block;
     cursor: pointer;    
 }
-div #twiz_head_logo:hover {
-    background: url(../../skins/_default/images/twiz-logo-big.png) center no-repeat;
-    background-size: 109px 85px;    
-}
 #twiz_head_version {
     font-size: 12px;
     line-height: 12px;
