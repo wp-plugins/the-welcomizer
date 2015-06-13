@@ -3903,7 +3903,7 @@ $("textarea[name^=twiz_options]").blur(function (){
             
                 if( $value != self::DEFAULT_SKIN ){
                 
-                    $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-logo.png" class="twiz-display-none"/>';
+                    $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-logo-big.png" class="twiz-display-none"/>';
                 }
                 
                 $html .= '<img src="'.$this->pluginUrl.self::SKIN_PATH.$value.'/images/twiz-save.gif" class="twiz-display-none"/>';
@@ -3913,7 +3913,6 @@ $("textarea[name^=twiz_options]").blur(function (){
             }
         }
      
-        $html .='<img src="'.$this->pluginUrl.'/images/twiz-logo.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-success.gif" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-download.png" class="twiz-display-none"/>';
         $html .='<img src="'.$this->pluginUrl.'/images/twiz-inactive.png" class="twiz-display-none"/>';
@@ -3925,7 +3924,7 @@ $("textarea[name^=twiz_options]").blur(function (){
         
         if($this->skin[$this->user_id] != self::SKIN_PATH.self::DEFAULT_SKIN){
         
-            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-logo.png" class="twiz-display-none"/>';
+            $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-logo-big.png" class="twiz-display-none"/>';
         }
         
         $html .='<img src="'.$this->pluginUrl.$this->skin[$this->user_id].'/images/twiz-save.gif" class="twiz-display-none"/>';

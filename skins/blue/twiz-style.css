@@ -240,7 +240,7 @@ div a, td a {
     position: fixed;
     right: 10%;
     top: 80px;
-    background: url(../../images/twiz-logo-big.png) top right no-repeat;
+    background: url(../../skins/_default/images/twiz-logo-big.png) top right no-repeat;
     opacity: 0.15;
     filter: alpha(opacity=4);
     z-index: -1;
@@ -386,13 +386,15 @@ div a, td a {
 #twiz_head_logo {
     width: 100px;
     height: 80px;
-    background: url(../../images/twiz-logo.png) center no-repeat;
+    background: url(../../skins/_default/images/twiz-logo-big.png) center no-repeat;
+    background-size: 109px 85px;
     float: left;
     display: block;
     cursor: pointer;    
 }
 div #twiz_head_logo:hover {
-    background: url(../../skins/blue/images/twiz-logo.png) center no-repeat;
+    background: url(../../skins/blue/images/twiz-logo-big.png) center no-repeat;
+    background-size: 109px 85px;    
 }
 #twiz_head_version {
     font-size: 12px;
