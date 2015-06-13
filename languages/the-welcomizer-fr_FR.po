@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-12 17:13-0500\n"
-"PO-Revision-Date: 2015-06-12 18:36-0500\n"
+"POT-Creation-Date: 2015-06-12 20:01-0500\n"
+"PO-Revision-Date: 2015-06-12 20:02-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -757,9 +757,8 @@ msgid "Extra CSS"
 msgstr "CSS Supp."
 
 #: includes/twiz.class.php:2517
-#: includes/twiz.findandreplace.class.php:265
 #: includes/twiz.view.class.php:380
-msgid "First Move"
+msgid "First Animation"
 msgstr "Première animation"
 
 #: includes/twiz.class.php:2543
@@ -780,10 +779,9 @@ msgid "Extra jQuery"
 msgstr "Extra jQuery"
 
 #: includes/twiz.class.php:2551
-#: includes/twiz.findandreplace.class.php:308
 #: includes/twiz.view.class.php:409
-msgid "Second Move"
-msgstr "Seconde animation"
+msgid "Second Animation"
+msgstr "Seconde animation "
 
 #: includes/twiz.class.php:2585
 #: includes/twiz.menu.class.php:1581
@@ -896,6 +894,10 @@ msgstr "Seconde durée "
 msgid "Output"
 msgstr "Sortie "
 
+#: includes/twiz.findandreplace.class.php:265
+msgid "First Move"
+msgstr "Première animation"
+
 #: includes/twiz.findandreplace.class.php:267
 #: includes/twiz.findandreplace.class.php:310
 msgid "Easing"
@@ -905,6 +907,10 @@ msgstr "Easing "
 #: includes/twiz.findandreplace.class.php:334
 msgid "Options"
 msgstr "Options "
+
+#: includes/twiz.findandreplace.class.php:308
+msgid "Second Move"
+msgstr "Seconde animation"
 
 #: includes/twiz.importexport.class.php:154
 #: includes/import/server/php.php:246
@@ -1455,9 +1461,6 @@ msgstr "Impossible d'enregistrer le fichier ou une erreur serveur a été rencon
 
 #~ msgid "e.g."
 #~ msgstr "Ex."
-
-#~ msgid "All animations"
-#~ msgstr "Liste des animations"
 
 #~ msgid "Fewer suggestions"
 #~ msgstr "Moins de suggestions"

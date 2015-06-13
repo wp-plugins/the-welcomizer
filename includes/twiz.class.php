@@ -2514,7 +2514,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
 <tr><td valign="top">
         <table>
-            <tr><td class="twiz-caption" colspan="3"><b>'.__('First Move', 'the-welcomizer').'</b> '.$easing_a.'</td></tr>
+            <tr><td class="twiz-caption" colspan="3"><b>'.__('First Animation', 'the-welcomizer').'</b> '.$easing_a.'</td></tr>
 <tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_A.'"'.$show_add_move_element_a.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_A.'" id="twiz_add_'.self::F_MOVE_ELEMENT_A.'" class="twiz-add-element">'.__('Assign a different element', 'the-welcomizer').' &#187;</a></td></tr>              
 <tr id="twiz_tr_'.self::F_MOVE_ELEMENT_A.'"'.$hide_move_element_a.'><td class="twiz-td-move-e" colspan="3" nowrap="nowrap">'.$element_type_list_move_a.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_A.'" name="twiz_'.self::F_MOVE_ELEMENT_A.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_A].'" maxlength="50"/></td></tr>            
             <tr><td class="twiz-td-small-left" nowrap="nowrap">'.$this->label_y.':</td><td nowrap="nowrap">
@@ -2548,7 +2548,7 @@ $("textarea[name^=twiz_options]").blur(function (){
 </td>
 <td valign="top">    
     <table>
-        <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Move', 'the-welcomizer').'</b> '.$easing_b.'</td></tr>
+        <tr><td class="twiz-caption" colspan="3"><b>'.__('Second Animation', 'the-welcomizer').'</b> '.$easing_b.'</td></tr>
         <tr id="twiz_tr_add_'.self::F_MOVE_ELEMENT_B.'"'.$show_add_move_element_b.'><td colspan="3" nowrap="nowrap"><a name="twiz_add_'.self::F_MOVE_ELEMENT_B.'" id="twiz_add_'.self::F_MOVE_ELEMENT_B.'" class="twiz-add-element">'.__('Assign a different element', 'the-welcomizer').' &#187;</a></td></tr>   
         <tr id="twiz_tr_'.self::F_MOVE_ELEMENT_B.'"'.$hide_move_element_b.'><td class="twiz-td-move-e"  colspan="3" nowrap="nowrap">'.$element_type_list_move_b.' <input class="twiz-input-e twiz-input-focus" id="twiz_'.self::F_MOVE_ELEMENT_B.'" name="twiz_'.self::F_MOVE_ELEMENT_B.'" type="text" value="'.$data[self::F_MOVE_ELEMENT_B].'" maxlength="50"/></td></tr>          
         <tr><td class="twiz-td-small-left" nowrap="nowrap">'.$this->label_y.':</td><td nowrap="nowrap">

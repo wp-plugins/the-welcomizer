@@ -377,7 +377,7 @@ class TwizView extends Twiz{
         <tr><td colspan="2"><hr class="twiz-hr twiz-corner-all"></td></tr>
 <tr><td class="twiz-view-td-left" valign="top"'.$colspan2.'>
 <table>
-    <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Move', 'the-welcomizer').'</b>
+    <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('First Animation', 'the-welcomizer').'</b>
     <div class="twiz-green">'.$easing_a.'</div><div class="twiz-spacer"></div></td></tr>';
     
              
@@ -406,7 +406,7 @@ class TwizView extends Twiz{
             or ( $extra_js_b != '' ) ){
             
                 $htmlview .= '<table>
-                <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Second Move', 'the-welcomizer').'</b>
+                <tr><td class="twiz-caption" colspan="3" nowrap="nowrap"><b>'.__('Second Animation', 'the-welcomizer').'</b>
                 <div class="twiz-green">'.$easing_b.'</div><div class="twiz-spacer"></div></td></tr>';
                 
 

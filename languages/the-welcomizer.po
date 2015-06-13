@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Welcomizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-12 17:13-0500\n"
-"PO-Revision-Date: 2015-06-12 17:13-0500\n"
+"POT-Creation-Date: 2015-06-12 20:01-0500\n"
+"PO-Revision-Date: 2015-06-12 20:01-0500\n"
 "Last-Translator: Sébastien Laframboise <wordpress@sebastien-laframboise.com>\n"
 "Language-Team: Sébastien Laframboise| sebastien-laframboise.com\n"
 "MIME-Version: 1.0\n"
@@ -756,9 +756,8 @@ msgid "Extra CSS"
 msgstr ""
 
 #: includes/twiz.class.php:2517
-#: includes/twiz.findandreplace.class.php:265
 #: includes/twiz.view.class.php:380
-msgid "First Move"
+msgid "First Animation"
 msgstr ""
 
 #: includes/twiz.class.php:2543
@@ -779,9 +778,8 @@ msgid "Extra jQuery"
 msgstr ""
 
 #: includes/twiz.class.php:2551
-#: includes/twiz.findandreplace.class.php:308
 #: includes/twiz.view.class.php:409
-msgid "Second Move"
+msgid "Second Animation"
 msgstr ""
 
 #: includes/twiz.class.php:2585
@@ -895,6 +893,10 @@ msgstr ""
 msgid "Output"
 msgstr ""
 
+#: includes/twiz.findandreplace.class.php:265
+msgid "First Move"
+msgstr ""
+
 #: includes/twiz.findandreplace.class.php:267
 #: includes/twiz.findandreplace.class.php:310
 msgid "Easing"
@@ -903,6 +905,10 @@ msgstr ""
 #: includes/twiz.findandreplace.class.php:291
 #: includes/twiz.findandreplace.class.php:334
 msgid "Options"
+msgstr ""
+
+#: includes/twiz.findandreplace.class.php:308
+msgid "Second Move"
 msgstr ""
 
 #: includes/twiz.importexport.class.php:154
