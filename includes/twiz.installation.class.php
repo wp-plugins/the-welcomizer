@@ -158,11 +158,10 @@ class TwizInstallation extends Twiz{
             $ok = $this->setConfigurationSettings( $network_activation, false );   
      
         }else{ // UPDATE TO NEW VERSION, or install new separatly
-               
+        
             $is_overriding_network_settings = get_option('twiz_override_network_settings');
 
             if( ( is_multisite() ) and ( $network_activation  == '' ) ){ // blog activated separately on network         
-
                 
                 $twiz_privacy_question_answered = get_option('twiz_privacy_question_answered');
                 $twiz_network_activated = get_option('twiz_network_activated');
@@ -175,7 +174,7 @@ class TwizInstallation extends Twiz{
                 if($twiz_network_activated == ''){ $code = update_option('twiz_network_activated', '0'); }
                
             }else if( is_multisite() and ( $network_activation  == '1' ) ){  // network activated after blog activated separately on network 
-     
+            
                 $is_overriding_network_settings = ($is_overriding_network_settings == '') ? '0' : $is_overriding_network_settings ;
                 $twiz_privacy_question_answered = get_site_option('twiz_privacy_question_answered');
                 if($twiz_privacy_question_answered == ''){$code = update_site_option('twiz_privacy_question_answered', false);}
@@ -728,6 +727,10 @@ class TwizInstallation extends Twiz{
             $admin_option =  get_option('twiz_admin');
         }
         
+        if( !isset($this->admin_option[parent::KEY_DELETE_ALL] ) ) { $this->admin_option[parent::KEY_DELETE_ALL] = ''; }
+        if( !isset($admin_option[parent::KEY_DELETE_ALL] ) ) { $admin_option[parent::KEY_DELETE_ALL] = ''; }
+        if( $this->admin_option[parent::KEY_DELETE_ALL] == '' ) { $this->admin_option[parent::KEY_DELETE_ALL] = '1'; }
+        if( $admin_option[parent::KEY_DELETE_ALL] == '' ) { $admin_option[parent::KEY_DELETE_ALL] = '1'; }
        
         if( ( $this->admin_option[parent::KEY_DELETE_ALL] == '1' ) or ( $admin_option[parent::KEY_DELETE_ALL] == '1' ) ){
         
@@ -740,6 +743,9 @@ class TwizInstallation extends Twiz{
                     $wpdb->query($sql);
                     $reset_stored_request = $wpdb->get_var( "show tables like '".$this->table."'" );                       
                 }
+                
+                if( !isset($this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] ) ) { $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = ''; }
+                if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '' ) { $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '1'; }    
                 
                 // remove directories
                 if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '1' ){        

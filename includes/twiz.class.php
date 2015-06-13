@@ -937,8 +937,14 @@ class Twiz{
         $this->uploadDir = wp_upload_dir();
         
         $this->override_network_settings = get_option('twiz_override_network_settings'); //  Main switch between get_option and get_site_option
-        $ok = $this->setDefaultSectionArrayValues();
+
+        if( $this->override_network_settings == '' ) {
         
+            $this->override_network_settings = '0';
+        }
+        
+        $ok = $this->setDefaultSectionArrayValues();
+
         if( ( $this->user_id == '' ) or ($this->user_id == '0' ) ){ // for the front-end or installation only
 
             if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
@@ -1168,7 +1174,16 @@ class Twiz{
             
         $jquery = '<script>
 //<![CDATA[
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {';
+
+
+        if( ( $this->admin_option[self::KEY_DISPLAY_VAR_DUMP] == true ) or ( TWIZ_FORCE_VARDUMP ==  true ) ){
+        
+         $jquery .= '
+         $("#twiz_var_dump").css({"display":"block","height":$(window).height()-65, "width":$(window).width()-720});';
+         
+        }
+        $jquery .= '
         $.ajaxSetup({ cache: false });
         $("#twiz_privacy_save").click(function(){
              $("#twiz_privacy_save_img_box").show();
@@ -1189,6 +1204,11 @@ jQuery(document).ready(function($) {
 //]]>
 </script>';
 
+        if( ( $this->admin_option[self::KEY_DISPLAY_VAR_DUMP] == true ) or ( TWIZ_FORCE_VARDUMP ==  true ) ){
+        
+            $myTwizMenu = new TwizMenu();
+            $html .= '<div id="twiz_var_dump" title="'.__('Click to Refresh', 'the-welcomizer').'">'.$myTwizMenu->getVarDump().'</div>';
+        }
         return $html.$jquery;
     }
 
@@ -4005,7 +4025,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                     if( is_multisite() ) {
                     
                         $code = update_option('twiz_override_network_settings',  '1');
-                        
+ 
                     }else{
                     
                         $code = update_option('twiz_override_network_settings',  '0');

@@ -107,11 +107,15 @@ License: GPL2
             
         }else{
         
-            if( !is_multisite() ){  // On network activation, twizInstall is called a first time with no params. 
+            if ( ! function_exists( 'is_plugin_active_for_network' ) ){ require_once( ABSPATH . '/wp-admin/includes/plugin.php' ); }
+             
+            // On network activation, twizInstall is called a first time with no params. 
+            if ( ( !is_multisite() ) or( is_plugin_active_for_network( plugin_dir_url( __FILE__ ) ) ) ) {  
 
                 $TwizInstallation  = new TwizInstallation();
                 $ok = $TwizInstallation->install( $network_activation );
             }
+
         }            
         
         // LOG ACTIVATION ERRORS
@@ -120,6 +124,8 @@ License: GPL2
             file_put_contents(ABSPATH. 'wp-content/uploads/the-welcomizer-activation-error.log', ob_get_contents());
         }
     }}
+    
+ 
     // uninstall the plugin, drop table etc... 
     if(!function_exists('twizUninstall')){
     function twizUninstall( $network_deactivation = '' ){

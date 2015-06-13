@@ -743,16 +743,7 @@ jQuery(document).ready(function($) {
         if( $this->override_network_settings == '' ){
         
             $this->override_network_settings = '0'; 
-            
-            if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
-            
-                $code = update_option('twiz_override_network_settings', $this->override_network_settings);
-                $this->override_network_settings = get_option('twiz_override_network_settings');
-                
-            }else{
-            
-                $this->override_network_settings = '0'; 
-            }
+            $code = update_option('twiz_override_network_settings', $this->override_network_settings);
         }
         
         // Register jQuery
