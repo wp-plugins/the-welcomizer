@@ -76,7 +76,9 @@ License: GPL2
     // Create the necessary for the installation
     if(!function_exists('twizInstall')){
     function twizInstall( $network_activation = ''){ 
-
+    
+        global $wpdb;
+        
         if( is_multisite() ){ // v3.2 version supported (no params $network_activation)
         
             $network=isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:"";
@@ -99,23 +101,15 @@ License: GPL2
 
                 switch_to_blog($blog['id']);
                 $code = update_option('twiz_network_activated', '1'); // Switch On the networkfeature for all
+                $ok = $TwizInstallation->install( $network_activation );               
                 $result = activate_plugin('the-welcomizer/twiz-index.php');                    
                 restore_current_blog();
             }
         
-            $ok = $TwizInstallation->install( $network_activation );               
-            
         }else{
-        
-            if ( ! function_exists( 'is_plugin_active_for_network' ) ){ require_once( ABSPATH . '/wp-admin/includes/plugin.php' ); }
-             
-            // On network activation, twizInstall is called a first time with no params. 
-            if ( ( !is_multisite() ) or( is_plugin_active_for_network( 'the-welcomizer/twiz-index.php' ) ) ) {  
 
-                $TwizInstallation  = new TwizInstallation();
-                $ok = $TwizInstallation->install( $network_activation );
-            }
-
+                $TwizInstallation = new TwizInstallation();
+                $ok = $TwizInstallation->install( $network_activation );                    
         }            
         
         // LOG ACTIVATION ERRORS

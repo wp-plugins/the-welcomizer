@@ -133,18 +133,6 @@ class TwizInstallation extends Twiz{
              
              $current_table = $wpdb->get_var( "show tables like '".$this->table."'" );
              
-             if( is_multisite() ){ // Rename the table if installed on multisite event if it was not supported before v.8, who knows.
-             
-                $old_table_version = $wpdb->get_var( "show tables like '".$wpdb->prefix .'the_welcomizer'."'" );
-                
-                if( $old_table_version == $wpdb->prefix .'the_welcomizer' ){ // rename the table.
-                
-                    $altersql = "RENAME TABLE ".$old_table_version. " TO ". $this->table . "";
-                    $code = $wpdb->query($altersql);
-                 
-                    $current_table = $this->table;              
-                }
-             }
              
         if ( $current_table != $this->table ){ // new install
 
@@ -156,7 +144,7 @@ class TwizInstallation extends Twiz{
             dbDelta($sql); 
             
             $ok = $this->setConfigurationSettings( $network_activation, false );   
-     
+            
         }else{ // UPDATE TO NEW VERSION, or install new separatly
         
             $is_overriding_network_settings = get_option('twiz_override_network_settings');
@@ -166,6 +154,7 @@ class TwizInstallation extends Twiz{
                 $twiz_privacy_question_answered = get_option('twiz_privacy_question_answered');
                 $twiz_network_activated = get_option('twiz_network_activated');
                 if($twiz_privacy_question_answered == ''){ $code = update_option('twiz_privacy_question_answered', false); }
+                
                 if($is_overriding_network_settings == ''){ 
                 
                     $is_overriding_network_settings = '1';
@@ -733,6 +722,7 @@ class TwizInstallation extends Twiz{
         
         if( !isset($this->admin_option[parent::KEY_DELETE_ALL] ) ) { $this->admin_option[parent::KEY_DELETE_ALL] = ''; }
         if( !isset($admin_option[parent::KEY_DELETE_ALL] ) ) { $admin_option[parent::KEY_DELETE_ALL] = ''; }
+        
         if( $this->admin_option[parent::KEY_DELETE_ALL] == '' ) { $this->admin_option[parent::KEY_DELETE_ALL] = '1'; }
         if( $admin_option[parent::KEY_DELETE_ALL] == '' ) { $admin_option[parent::KEY_DELETE_ALL] = '1'; }
        
@@ -788,7 +778,9 @@ class TwizInstallation extends Twiz{
                     $wpdb->query($sql);
                     $reset_stored_request = $wpdb->get_var( "show tables like '".$this->table."'" ); 
                 }     
-
+                
+                if( !isset($this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] ) ) { $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = ''; }
+                if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '' ) { $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] = '1'; }    
                 // remove directories
                 if( $this->admin_option[parent::KEY_REMOVE_CREATED_DIRECTORIES] == '1' ){        
                 

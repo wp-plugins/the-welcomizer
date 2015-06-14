@@ -78,7 +78,7 @@ class TwizMenu extends Twiz{
     }
     
     function getVarDump( $twiz_action = '' ){
-         
+                 global $wpdb;
         $output = '';
         
         if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
@@ -107,6 +107,8 @@ class TwizMenu extends Twiz{
             $output .= '<div class="twiz-float-right"><span class="twiz-bold">Time</span>: <span class="twiz-green">'.date_i18n('H:i:s').'</span></div>';
             
             $output .= '<br><span class="twiz-bold twiz-blue">$this->version</span> = <span class="">'.$this->version.'</span>';
+            $output .= '<br><span class="twiz-bold twiz-blue">$this->version</span> = <span class="">'.$wpdb->base_prefix.'</span>';
+            $output .= '<br><span class="twiz-bold twiz-blue">$this->version</span> = <span class="">'.$wpdb->prefix.'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->cssVersion</span> = <span class="">'.$this->cssVersion.'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->dbVersion</span> = <span class="">'.$this->dbVersion.'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->table</span> = <span class="">'.$this->table.'</span>';
