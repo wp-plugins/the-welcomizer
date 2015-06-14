@@ -36,7 +36,7 @@ class Twiz{
     public $network_activated;
     public $override_network_settings;
     public $privacy_question_answered;
-    public $table;
+    protected $table;
     protected $nonce;
     protected $version;
     protected $pluginName;
