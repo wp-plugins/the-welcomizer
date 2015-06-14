@@ -935,6 +935,10 @@ class Twiz{
         $this->BLOG_ID = get_current_blog_id();
         $this->user_id = get_current_user_id(); 
         $this->uploadDir = wp_upload_dir();
+
+        // PLUGIN URL
+        $pluginUrl = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+        $pluginUrl = str_replace('/includes/','',$pluginUrl);           
         $this->pluginUrl  = $pluginUrl;
         
         $this->override_network_settings = get_option('twiz_override_network_settings'); //  Main switch between get_option and get_site_option
@@ -963,10 +967,6 @@ class Twiz{
                 
         }else{ // for the wp admin.
 
-            // PLUGIN URL
-            $pluginUrl = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-            $pluginUrl = str_replace('/includes/','',$pluginUrl);
-            
             // PLUGIN DIR
             $pluginDir = WP_PLUGIN_DIR.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
             $pluginDir = str_replace('/includes/','',$pluginDir);
