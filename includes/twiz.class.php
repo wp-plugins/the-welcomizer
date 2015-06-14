@@ -935,6 +935,7 @@ class Twiz{
         $this->BLOG_ID = get_current_blog_id();
         $this->user_id = get_current_user_id(); 
         $this->uploadDir = wp_upload_dir();
+        $this->pluginUrl  = $pluginUrl;
         
         $this->override_network_settings = get_option('twiz_override_network_settings'); //  Main switch between get_option and get_site_option
 
@@ -973,7 +974,6 @@ class Twiz{
             // Twiz variable configuration
             $this->version    = '2.8'; 
             $this->cssVersion = '2-8';
-            $this->pluginUrl  = $pluginUrl;
             $this->pluginDir  = $pluginDir;
             $this->nonce      = wp_create_nonce('twiz-nonce');
             $this->pluginName = __('The Welcomizer', 'the-welcomizer');

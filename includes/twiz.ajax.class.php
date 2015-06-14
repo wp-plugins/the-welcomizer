@@ -3048,7 +3048,7 @@ class TwizAjax extends Twiz{
     $header .= '
 $("#twiz_footer").html(\'<div\' + \' class="twiz-spacer-footer"></div>';
   
-    $header .= '<a\' + \' href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2QYR9JFYT8D4Y&lc=CA&item_name=The%20Welcomizer&item_number=001&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">'.__('Make a donation!', 'the-welcomizer').'</a>\');';
+    $header .= '<a\' + \' href="http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/" target="_blank">'.__('Make a donation!', 'the-welcomizer').'</a>\');';
     
   if( ( $this->admin_option[parent::KEY_DISPLAY_VAR_DUMP] == true ) or ( TWIZ_FORCE_VARDUMP ==  true ) ){
   
