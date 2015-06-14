@@ -176,9 +176,13 @@ class TwizInstallation extends Twiz{
             }else if( is_multisite() and ( $network_activation  == '1' ) ){  // network activated after blog activated separately on network 
             
                 $is_overriding_network_settings = ($is_overriding_network_settings == '') ? '0' : $is_overriding_network_settings ;
+                
                 $twiz_privacy_question_answered = get_site_option('twiz_privacy_question_answered');
                 if($twiz_privacy_question_answered == ''){$code = update_site_option('twiz_privacy_question_answered', false);}
-
+                
+                $twiz_privacy_question_answered = get_option('twiz_privacy_question_answered');
+                if($twiz_privacy_question_answered == ''){$code = update_option('twiz_privacy_question_answered', false);}
+                
                 // Do not overwrite twiz_override_network_settings, for those already single site activated. 
                 $code = update_option('twiz_override_network_settings', $is_overriding_network_settings); 
               

@@ -89,8 +89,19 @@ class TwizMenu extends Twiz{
 
             $bullet = get_site_option('twiz_bullet');
         }     
-    
-        if( ( $this->admin_option[parent::KEY_DISPLAY_VAR_DUMP] == true ) or ( TWIZ_FORCE_VARDUMP ==  true ) ){
+        
+        if( !isset( $this->admin_option[parent::KEY_DISPLAY_VAR_DUMP] ) ){
+
+            $KEY_DISPLAY_VAR_DUMP = ''; 
+            
+        }else{
+        
+            $KEY_DISPLAY_VAR_DUMP = $this->admin_option[parent::KEY_DISPLAY_VAR_DUMP];
+        }
+        
+        if( ( $KEY_DISPLAY_VAR_DUMP == true ) or ( TWIZ_FORCE_VARDUMP ==  true ) ){
+
+            if ( ! function_exists( 'is_plugin_active_for_network' ) ){ require_once( ABSPATH . '/wp-admin/includes/plugin.php' ); }
 
             $output .= '<pre>';
             $output .= '<div class="twiz-float-right"><span class="twiz-bold">Time</span>: <span class="twiz-green">'.date_i18n('H:i:s').'</span></div>';
@@ -113,7 +124,9 @@ class TwizMenu extends Twiz{
             $output .= '<br><span class="twiz-bold twiz-blue">$this->global_status</span> = <span class="">'.$this->global_status.'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->network_activated</span> = <span class="">'.$this->network_activated.'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->override_network_settings</span> = <span class="">'.$this->override_network_settings.'</span>';
+            $output .= '<br><span class="twiz-bold twiz-blue">$this->privacy_question_answered</span> = <span class="">'.$this->privacy_question_answered .'</span>';
             $output .= '<br><span class="twiz-bold twiz-blue">$this->DEFAULT_MIN_ROLE_LEVEL</span> = <span class="">'.$this->DEFAULT_MIN_ROLE_LEVEL.'</span>';
+            $output .= '<br><span class="twiz-bold twiz-blue">is_plugin_active_for_network()</span> = <span class="">'. is_plugin_active_for_network( 'the-welcomizer/twiz-index.php' ).'</span>';
 
             $output .= '<hr class="twiz-hr twiz-corner-all">';
 

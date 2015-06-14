@@ -53,14 +53,14 @@ License: GPL2
     if ( is_multisite() ){
         
         if(!function_exists('wp_get_current_user'))
-        require_once(ABSPATH . "wp-includes/pluggable.php"); 
+        require_once(ABSPATH . 'wp-includes/pluggable.php'); 
         wp_cookie_constants();
     }
     
     /***********************
     * --- The Twiz Class ---
     ***********************/
-    
+             
     require_once(dirname(__FILE__).'/includes/twiz.class.php');  
     require_once(dirname(__FILE__).'/includes/twiz.installation.class.php');
     require_once(dirname(__FILE__).'/includes/twiz.importexport.class.php');
@@ -110,7 +110,7 @@ License: GPL2
             if ( ! function_exists( 'is_plugin_active_for_network' ) ){ require_once( ABSPATH . '/wp-admin/includes/plugin.php' ); }
              
             // On network activation, twizInstall is called a first time with no params. 
-            if ( ( !is_multisite() ) or( is_plugin_active_for_network( plugin_dir_url( __FILE__ ) ) ) ) {  
+            if ( ( !is_multisite() ) or( is_plugin_active_for_network( 'the-welcomizer/twiz-index.php' ) ) ) {  
 
                 $TwizInstallation  = new TwizInstallation();
                 $ok = $TwizInstallation->install( $network_activation );
