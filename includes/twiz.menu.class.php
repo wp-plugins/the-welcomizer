@@ -1345,12 +1345,10 @@ $("#twiz_div_cookie_condition").show();
                 ';
                 break;
 
-            case parent::ACTION_IMPORT_FROM_SERVER: // on edit, and import from the server
+            case parent::ACTION_IMPORT: // from server or from computer
 
                 $stay = ''; // not stay exception
-                $jsscript .= '$("#twiz_menu_save_img_box_1").show();
-                $("#twiz_menu_save_img_box_1").attr("class","twiz-success twiz-loading-gif-save");
-                $("#twiz_menu_save_img_box_1").animate({ opacity: 0 });
+                $jsscript .= '
                 $("#twiz_shortcode_sample").select();
                 $("#twiz_shortcode_sample").animate({opacity:0}, 300, function(){$("#twiz_shortcode_sample").animate({opacity:1}, 300, function(){})});';
                 

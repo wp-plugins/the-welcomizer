@@ -411,12 +411,12 @@ License: GPL2
             wp_enqueue_script('twiz-jquery.ui.draggable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/draggable.min.js');
             wp_enqueue_script('twiz-jquery.ui.droppable.min', plugin_dir_url( __FILE__ ) .'includes/jquery/ui/droppable.min.js');
                     
-            // Admin Ajax script
-            wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) );
-            
             // Fileuploader
             wp_enqueue_script( 'twiz-file-uploader', plugin_dir_url( __FILE__ ) . 'includes/import/client/fileuploader.js', array( 'jquery' ) );            
             wp_enqueue_style('twiz-css-b', plugins_url('includes/import/client/fileuploader.css', __FILE__ ));
+            
+            // Admin Ajax script
+            wp_enqueue_script( 'twiz-ajax-request', plugin_dir_url( __FILE__ ) . 'twiz-ajax.js.php', array( 'jquery' ) );
         }
         
         // Enqueue default stylesheet

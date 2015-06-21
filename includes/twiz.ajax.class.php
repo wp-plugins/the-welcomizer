@@ -65,7 +65,7 @@ class TwizAjax extends Twiz{
         twiz_current_section_id = data.section_id;
         twizGetMenu();
         twizPostMenu(twiz_current_section_id,"","none");
-        twizGetMultiSection(twiz_current_section_id, "'.parent::ACTION_EDIT.'", "'.parent::ACTION_IMPORT_FROM_SERVER.'");
+        twizGetMultiSection(twiz_current_section_id, "'.parent::ACTION_EDIT.'", "'.parent::ACTION_IMPORT.'");
     }else{ 
         restoreTwizCurrentSectionId();
         twizPostMenu(twiz_current_section_id,"","block");
@@ -2312,7 +2312,7 @@ class TwizAjax extends Twiz{
                 twiz_last_section_id = "";
                 twiz_current_section_id = data.newsectionid; 
                 twizGetMenu();
-                twizGetMultiSection(twiz_current_section_id, "'.parent::ACTION_EDIT.'", "'.parent::ACTION_IMPORT_FROM_SERVER.'");
+                twizGetMultiSection(twiz_current_section_id, "'.parent::ACTION_EDIT.'", "'.parent::ACTION_IMPORT.'");
                 $("#twiz_sub_container").css("display", "block");              
                 twiz_view_id = null; 
                 twiz_ListMenu_Unbind();

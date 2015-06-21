@@ -116,6 +116,7 @@ class Twiz{
     const ACTION_COPY           = 'copy';
     const ACTION_DELETE         = 'delete';
     const ACTION_STATUS         = 'status';
+    const ACTION_IMPORT         = 'import';
     const ACTION_IMPORT_FROM_COMPUTER = 'importfromcomputer';
     const ACTION_IMPORT_FROM_SERVER   = 'importfromserver';
     const ACTION_EXPORT         = 'export';
