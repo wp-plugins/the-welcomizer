@@ -1,10 +1,10 @@
 ﻿=== The Welcomizer ===
 Contributors: sebwordpress
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2QYR9JFYT8D4Y&lc=CA&item_name=The%20Welcomizer&item_number=001&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+Donate link: http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/
 Tags: jquery, move, movement, simple, le welcomizeur, animation, animate, welcome, div, opacity, effects, Homepage, plugin, javascript, ajax, code, style, formatting, advertising, ads, promotions, easy, montreal, admin, wordpress, transparency, posts, Post, sidebar, images, image, page, pages, categories, category, android, blackberry, cellular, device, iphone, mobile, ipad, blog, enqueue, css, js, event, onclick, ondblclick, onmouseover, onmouseenter, onmouseout, onmousedown, onfocus, rotate, rotation, free, scale, like, bird, word, class, id, name, attribute
-Requires at least: 3.1
+Requires at least: 3.2
 Tested up to: 4.2.2
-Stable tag: 2.7.9.9
+Stable tag: 2.8
 License: GPLv2
 
 This plugin allows you to quickly animate your WordPress blog.
@@ -13,30 +13,28 @@ This plugin allows you to quickly animate your WordPress blog.
 
 Quickly create animations for your WordPress blog.
     
-**NOT READY FOR A MULTISITE INSTALLATION**
-
 Designed for webmasters, marketing consultants, web designers and bloggers.
 
 [Demo page](http://www.sebastien-laframboise.com/wordpress/plugins-wordpress/the-welcomizer/) <- Basic examples
 
-The login page is temporarily **UNDER MAINTENANCE**
+Multisite friendly.
 
 ∞
 
 == Installation ==
 
+**To install:**
+
 1. Upload `/the-welcomizer` directory and files to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the Plugins menu in WordPress.
 3. Find the plugin on the admin bar or under the menu Appearance.
 
-To uninstall:
+**To uninstall:**
 
 1. Go to plugin page, click `Admin` button, click `Removal settings`
 2. check the option **Delete all settings when disabling the plugin**
 3. check the option **Delete created directories when disabling the plugin** If you don't need them anymore.
 4. Deactivate the plugin through the Plugins menu in WordPress, and then delete it.
-
-Enjoy!
  
 == Screenshots ==
 
@@ -44,6 +42,21 @@ Enjoy!
 2. Panel when adding a new animation. 
 
 == Changelog ==
+
+= 2.8 =
+
+* Added compatibility with multisite.
+* Added the ability to Import/Export a whole section.
+* Added option `Display plugin environment variables` and constant TWIZ_FORCE_VARDUMP.
+* Added constant TWIZ_LOG_ACTIVATION -> wp-content/uploads/the-welcomizer-activation-error.log
+* Added constant TWIZ_LOG_DEACTIVATION -> wp-content/uploads/the-welcomizer-deactivation-error.log
+* Added `Admins Only` to visibility options.
+* Fixed twiz filename.
+* Various UI adjustments and bug fixes.
+* Replaced menu icons with SVG.
+* Reviewed installation code & initialization settings.
+* Resetted all UI settings.
+* Updated jQuery libraries.
 
 = 2.7.9.9 =
 
@@ -147,7 +160,7 @@ Enjoy!
 = 2.7 =
 
 * Added an option to import from the server.
-* Added an optional HTML textbox to output type short code.
+* Added an optional HTML textbox to output type shortcode.
 * Various bug fixes, output bug included.
 * Modified and optimized UI.
 
@@ -368,11 +381,11 @@ Enjoy!
 
 = 1.9.7.8 =
 
-* Fixed URL short code for images in feed.
+* Fixed URL shortcode for images in feed.
 
 = 1.9.7.7 =
 
-* Cleaned short code in feed.
+* Cleaned shortcode in feed.
 
 = 1.9.7.6 =
 
@@ -404,7 +417,7 @@ Enjoy!
 
 * Implemented Seth Godin’s idea, added cookie condition to sections.
 * Added the option `Empty list`.
-* Modified the scope of twiz_repeat_xx,twiz_locked_xx variables so they can be used inside another section that is outputted with a short code.
+* Modified the scope of twiz_repeat_xx,twiz_locked_xx variables so they can be used inside another section that is outputted with a shortcode.
 * Modified the order of the Duration column based on the real total.
 * Fixed ajax on some actions.
 * Fixed cookie feature.
@@ -463,7 +476,7 @@ Enjoy!
 = 1.9.4 = 
 
 * Added the ability to specify an optional duration.
-* Added short code [twiz_wp_upload_dir].
+* Added shortcode [twiz_wp_upload_dir].
 * Fixed quote character in Extra CSS.
 * Various UI adjustments.
 * Other minor fixes.
@@ -795,7 +808,7 @@ Enjoy!
 
 = 1.4.4 = 
 
-* Added [Short code] to the output choices.
+* Added [Shortcode] to the output choices.
 * Fixed offline status of sections with custom logic.
 * Minor fixes.
 
@@ -1407,6 +1420,10 @@ Enjoy!
 
 == Upgrade Notice ==
 
+= 2.8 =
+
+Major update and bug fixes.
+
 = 2.7.9.9 =
 
 Bug fixe.
@@ -1665,11 +1682,11 @@ Applied a filter onto the Unlock dropdown list.
 
 = 1.9.7.8 =
 
-Fixed URL short code for images in feed.
+Fixed URL shortcode for images in feed.
 
 = 1.9.7.7 =
 
-Cleaned short code in feed.
+Cleaned shortcode in feed.
 
 = 1.9.7.6 =
 
@@ -1981,7 +1998,7 @@ Fixed a string replacement within Twiz functions.
 
 = 1.4.4 = 
 
-Added Short code to output choices.
+Added Shortcode to output choices.
 
 = 1.4.3 =
 
