@@ -1,0 +1,40 @@
+@font-face {
+	font-family: 'the-welcomizer';
+	src:url('fonts/the-welcomizer.eot?9xnn2k');
+	src:url('fonts/the-welcomizer.eot?#iefix9xnn2k') format('embedded-opentype'),
+		url('fonts/the-welcomizer.ttf?9xnn2k') format('truetype'),
+		url('fonts/the-welcomizer.woff?9xnn2k') format('woff'),
+		url('fonts/the-welcomizer.svg?9xnn2k#the-welcomizer') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="twiz-icon-"], [class*=" twiz-icon-"] {
+	font-family: 'the-welcomizer';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.twiz-icon-close:before {
+	content: "\e600";
+}
+.twiz-icon-edit:before {
+	content: "\e601";
+}
+.twiz-icon-menu:before {
+	content: "\e602";
+}
+.twiz-icon-plus:before {
+	content: "\e603";
+}
+.twiz-icon-network:before {
+	content: "\e604";
+}
