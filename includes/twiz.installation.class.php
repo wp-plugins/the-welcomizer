@@ -552,10 +552,6 @@ class TwizInstallation extends Twiz{
                     $code = $wpdb->query($altersql);
                     
                     // RESET USER OPTIONS ONLY ONCE
-                    unset($this->twiz_order_by);
-                    unset($this->twiz_skin);
-                    unset($this->toggle_option);
-                    unset($this->DEFAULT_SECTION);
                     $code = update_option('twiz_toggle', array()); 
                     $code = update_option('twiz_order_by',array()); 
                     $code = update_option('twiz_skin', array());  
