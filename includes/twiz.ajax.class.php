@@ -3019,7 +3019,7 @@ class TwizAjax extends Twiz{
      $("body").css("cursor", "default");
   }
   function twizDisplayVardump(){
-     $("#twiz_var_dump").css({"display":"block","height":$(window).height()-65, "width":$(window).width()-720});     
+     $("#twiz_var_dump").css({"display":"block","height":$(window).height()-105, "width":$(window).width()-720});     
   }  
   function twizGetVardump(twiz_effect){
       if(twiz_ajax_locked == false){ 
