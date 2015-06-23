@@ -1072,6 +1072,11 @@ class TwizMenu extends Twiz{
                 break;
             }
             
+            if( $this->override_network_settings == '1' ){
+
+                $value['ID'] = $value['ID'].'_'.$this->BLOG_ID;
+            }  
+            
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
 
             if( ((in_array('a_'.$value['ID'], $array_sections))and ($type!= "ms"))
