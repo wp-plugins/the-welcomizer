@@ -2786,7 +2786,7 @@ $("textarea[name^=twiz_options]").blur(function (){
                         or (".self::F_MOVE_TOP_POS_B." != '')
                         or (".self::F_MOVE_LEFT_POS_B." != ''))
                         and (".self::F_DURATION_B." = '')),".self::F_DURATION.",'0') AS duration_x FROM ".$this->table.") t " . $where . $orderby;   
-                       
+
         $rows = $wpdb->get_results($sql, ARRAY_A);
 
         return $rows;

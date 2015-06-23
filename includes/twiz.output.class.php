@@ -262,7 +262,7 @@ class TwizOutput extends Twiz{
                     
             // generates the code
             foreach( $this->listarray as $value ){
-            
+                 
                 $value[parent::F_BLOG_ID] = json_decode( str_replace('['.parent::ALL_SITES.']', '["'.parent::ALL_SITES.'"]', $value[parent::F_BLOG_ID] ) );
 
                 if( ( ($this->hasRestrictedCode[$value[parent::F_ID]]) and ($this->admin_option[parent::KEY_OUTPUT_PROTECTED] == '1' ) ) 
@@ -271,10 +271,10 @@ class TwizOutput extends Twiz{
                 or ( $this->hasOnlyCSS[$value[parent::F_ID]] == true ) // Nothing but CSS Styles 
                 or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
                 or ( $value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP )
-                or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){
+                ){
                 // Nothing to do
                 }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
-
+   
                     $has_active = '';
                    
                     $name = $value[parent::F_SECTION_ID] ."_".str_replace("-","_",sanitize_title_with_dashes($value[parent::F_LAYER_ID]))."_".$value[parent::F_EXPORT_ID];
@@ -1080,6 +1080,7 @@ class TwizOutput extends Twiz{
                     } 
                     
                     if($this->hardsections[$this->DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
+                    
                         // get the active data list array
                         $listarray_alla = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$this->DEFAULT_SECTION_ALL_ARTICLES."' ".$this->sqlwhereblogid);
                         
@@ -1087,6 +1088,7 @@ class TwizOutput extends Twiz{
                     
                         $listarray_alla = array();
                     }
+                    
                     
                     $and_multi_sections = $this->generateSQL($post_id);
                     
@@ -1101,7 +1103,7 @@ class TwizOutput extends Twiz{
                     
                     if( !isset($this->sections[$post_id]) ) $this->sections[$post_id][parent::F_STATUS] = parent::STATUS_INACTIVE;
                     if($this->sections[$post_id][parent::F_STATUS] == parent::STATUS_ACTIVE){                   
-                    
+
                         $listarray_a = $this->getListArray(" where ".parent::F_STATUS." = 1 and ".parent::F_SECTION_ID." = '".$post_id."' ".$this->sqlwhereblogid);
                         
                     }else{
@@ -1128,7 +1130,7 @@ class TwizOutput extends Twiz{
         
             $this->listarray = $listarray_sc;
         }
-        
+
         return $this->listarray;
     }
     
