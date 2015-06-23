@@ -806,7 +806,7 @@ class TwizImportExport extends Twiz{
         
         if (is_writable($this->backup_dir_abspath)){
         
-            if( is_multisite() ){
+            if( $this->override_network_settings == '1' ){
 
                 $blogid_string = $this->BLOG_ID.'-';
             }
@@ -976,7 +976,7 @@ class TwizImportExport extends Twiz{
             
             $sectionname =  str_replace( $this->DEFAULT_SECTION_ALL_ARTICLES, 'allposts', $sectionname );
             
-            if( is_multisite() ){
+            if( $this->override_network_settings == '1' ){
 
                 $blogid_string = $this->BLOG_ID.'-';
             }

@@ -344,6 +344,14 @@ class TwizMenu extends Twiz{
                 
                     if( !isset($this->array_multi_sections[$current_section_id]) ){}else{ unset($this->array_multi_sections[$current_section_id]); }
                     if( !isset($this->array_sections[$current_section_id]) ){}else{ unset($this->array_sections[$current_section_id]);}
+                    
+                }else{
+                
+                    if( $this->override_network_settings == '1' ){
+
+                        $section_id_array[0] = $section_id_array[0].'_'.$this->BLOG_ID;
+                            
+                    }             
                 }
                 
                 if((!in_array($current_section_id, $this->array_hardsections)) 
@@ -368,6 +376,7 @@ class TwizMenu extends Twiz{
                 if( !isset($this->array_sections[$section_id_array[0]]) ) $this->array_sections[$section_id_array[0]] = '';
                 
                 $this->array_sections[$section_id_array[0]] = $section;
+                
                 if( ( !is_multisite() ) or ( $this->override_network_settings == '1' ) ){
                    
                     $code = update_option('twiz_multi_sections', $this->array_multi_sections);
@@ -418,7 +427,14 @@ class TwizMenu extends Twiz{
                 or (preg_match("/p_/i", $current_section_id))
                 or (preg_match("/a_/i", $current_section_id))){
              
-                    $new_section_id = $newprefix;
+                    if( $this->override_network_settings == '1' ){
+
+                        $new_section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $new_section_id = $newprefix;
+                    }
                 }
                
                 // Update or insert
@@ -427,8 +443,15 @@ class TwizMenu extends Twiz{
                     $section_id = ($new_section_id != "" ) ? $new_section_id : $current_section_id;
                     
                 }else{ // insert
+                
+                    if( $this->override_network_settings == '1' ){
 
-                    $section_id = $newprefix;
+                        $section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $section_id = $newprefix;
+                    }
                 }
                 
                 if(($current_section_id != "")
@@ -503,7 +526,14 @@ class TwizMenu extends Twiz{
                 or (preg_match("/p_/i", $current_section_id))
                 or (preg_match("/a_/i", $current_section_id))){
              
-                    $new_section_id = $newprefix;
+                    if( $this->override_network_settings == '1' ){
+
+                        $new_section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $new_section_id = $newprefix;
+                    }
                 }
                
                 // Update or insert
@@ -513,7 +543,14 @@ class TwizMenu extends Twiz{
                     
                 }else{ // insert
 
-                    $section_id = $newprefix;
+                    if( $this->override_network_settings == '1' ){
+
+                        $section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $section_id = $newprefix;
+                    }
                 }
  
                 if(($current_section_id != "")
@@ -585,8 +622,16 @@ class TwizMenu extends Twiz{
                 or (preg_match("/p_/i", $current_section_id))
                 or (preg_match("/a_/i", $current_section_id))){
              
-                    $new_section_id = $newprefix;
+                    if( $this->override_network_settings == '1' ){
+
+                        $new_section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $new_section_id = $newprefix;
+                    }
                 }
+                
                 // Update or insert
                 if($current_section_id != "") {  // update
 
@@ -594,7 +639,14 @@ class TwizMenu extends Twiz{
                     
                 }else{ // insert
 
-                    $section_id = $newprefix;
+                    if( $this->override_network_settings == '1' ){
+
+                        $section_id = $newprefix.'_'.$this->BLOG_ID;
+                            
+                    }else{
+                    
+                        $section_id = $newprefix;
+                    }
                 }
  
                 if(($current_section_id != "")
@@ -943,23 +995,30 @@ class TwizMenu extends Twiz{
             
             $count_array_sections = count($array_sections);
         }
-        
        
         $select = '<select name="twiz_slc_sections" id="twiz_slc_sections">';
         $select .= '<option value="">'.__('Choose the output', 'the-welcomizer').'</option>';
-         
-              
+  
         foreach( $this->categories as $value ){
         
+            if( $this->override_network_settings == '1' ){
+
+                $value['cat_ID'] = $value['cat_ID'].'_'.$this->BLOG_ID;
+            }  
+                    
             $separator_cat = '<option value=""disabled="disabled">------------------------------------------------------</option>';
             
             if(in_array('c_'.$value['cat_ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
+            
                 $selected = ' selected="selected"';
                 $select_cat .= '<option value="c_'.$value['cat_ID'].'"'.$selected .'>'.$value['cat_name'].'</option>';
+                
             }else{
+            
                 if( ((in_array('c_'.$value['cat_ID'], $array_sections)and ($type!= "ms")))
                 or ( !array_key_exists('c_'.$value['cat_ID'], $sections)) ){
+                
                      $selected = '';
                      $select_cat .= '<option value="c_'.$value['cat_ID'].'"'.$selected .'>'.$value['cat_name'].'</option>';
                 }
@@ -968,13 +1027,21 @@ class TwizMenu extends Twiz{
         
         foreach( $this->pages as $value ){
         
+            if( $this->override_network_settings == '1' ){
+
+                $value['ID'] = $value['ID'].'_'.$this->BLOG_ID;
+            }  
+            
             $separator_page = '<option value=""disabled="disabled">------------------------------------------------------</option>';
             
             if(in_array('p_'.$value['ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
+            
                 $selected = ' selected="selected"';
                 $select_page .= '<option value="p_'.$value['ID'].'"'.$selected .'>'.$value['post_title'].'</option>';
+                
             }else{
+            
                 if( ((in_array('p_'.$value['ID'], $array_sections ) and ($type!= "ms")))
                 or (!array_key_exists('p_'.$value['ID'], $sections)) ){
                      $selected = '';
@@ -985,6 +1052,11 @@ class TwizMenu extends Twiz{
     
         foreach( $this->allposts as $value ){
      
+            if( $this->override_network_settings == '1' ){
+
+                $value['ID'] = $value['ID'].'_'.$this->BLOG_ID;
+            }  
+            
             if(in_array('a_'.$value['ID'], $array_sections) 
             and (($count_array_sections==1) and ($type!= "ms"))){
 
@@ -996,8 +1068,10 @@ class TwizMenu extends Twiz{
         foreach( $this->allposts as $value ){
         
             if($i > $this->admin_option[parent::KEY_NUMBER_POSTS]){
+            
                 break;
             }
+            
             $separator_post = '<option value="" disabled="disabled">------------------------------------------------------------------------------------------------------------</option>';
 
             if( ((in_array('a_'.$value['ID'], $array_sections))and ($type!= "ms"))
@@ -1005,6 +1079,7 @@ class TwizMenu extends Twiz{
 
                 $select_post .= '<option value="a_'.$value['ID'].'">'. mysql2date('Y-m-d', $value['post_date']). ' : '.$value['post_title'].'</option>';
             }
+            
             $i++;
         }
         

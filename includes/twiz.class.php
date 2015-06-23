@@ -973,8 +973,8 @@ class Twiz{
             $pluginDir = str_replace('/includes/','',$pluginDir);
 
             // Twiz variable configuration
-            $this->version    = '2.8'; 
-            $this->cssVersion = '2-8';
+            $this->version    = '2.8.1'; 
+            $this->cssVersion = '2-8-1';
             $this->pluginDir  = $pluginDir;
             $this->nonce      = wp_create_nonce('twiz-nonce');
             $this->pluginName = __('The Welcomizer', 'the-welcomizer');
