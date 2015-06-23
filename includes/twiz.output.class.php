@@ -271,7 +271,7 @@ class TwizOutput extends Twiz{
                 or ( $this->hasOnlyCSS[$value[parent::F_ID]] == true ) // Nothing but CSS Styles 
                 or ( $this->visibility_validation[$value[parent::F_SECTION_ID]] == false ) 
                 or ( $value[parent::F_TYPE] == parent::ELEMENT_TYPE_GROUP )
-                ){
+                or ( ( !in_array( $this->BLOG_ID, $value[parent::F_BLOG_ID]) ) and ( !in_array(parent::ALL_SITES, $value[parent::F_BLOG_ID]) ) ) ){
                 // Nothing to do
                 }else if($this->hasValidParendId[$value[parent::F_ID]] == true){
    
