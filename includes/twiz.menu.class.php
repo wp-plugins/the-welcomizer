@@ -1880,7 +1880,7 @@ $jsscript_close = '});
         }
     }
     
-        private function getOutputChoiceValue( $section_id = '' ){
+    private function getOutputChoiceValue( $section_id = '' ){
 
         if( $section_id == '' ){return 'twiz_shortcode_output';}
        
