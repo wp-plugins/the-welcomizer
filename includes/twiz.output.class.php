@@ -963,6 +963,11 @@ class TwizOutput extends Twiz{
                     
                     $category_id = 'c_'.get_query_var('cat');
                     
+                    if( $this->override_network_settings == '1' ){
+
+                        $category_id  = $category_id .'_'.$this->BLOG_ID;
+                    }  
+            
                     if($this->hardsections[$this->DEFAULT_SECTION_ALL_CATEGORIES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
                         // get the active data list array
@@ -1012,6 +1017,11 @@ class TwizOutput extends Twiz{
                     }
                     
                     $page_id = 'p_'.$post->ID;
+
+                    if( $this->override_network_settings == '1' ){
+
+                        $page_id  = $page_id .'_'.$this->BLOG_ID;
+                    }  
                     
                     if($this->hardsections[$this->DEFAULT_SECTION_ALL_PAGES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                     
@@ -1063,6 +1073,11 @@ class TwizOutput extends Twiz{
                     }
                     
                     $post_id = 'a_'.$post->ID;
+
+                    if( $this->override_network_settings == '1' ){
+
+                        $post_id  = $post_id .'_'.$this->BLOG_ID;
+                    } 
                     
                     if($this->hardsections[$this->DEFAULT_SECTION_ALL_ARTICLES][parent::F_STATUS] == parent::STATUS_ACTIVE){
                         // get the active data list array
